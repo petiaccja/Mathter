@@ -19,5 +19,17 @@
     <ClInclude Include="Mathter\Vector.hpp">
       <Filter>Mathter</Filter>
     </ClInclude>
+    <ClInclude Include="Mathter\Matrix.hpp">
+      <Filter>Mathter</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathter\Simd.hpp">
+      <Filter>Mathter</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathter\Simd4f_default.hpp">
+      <Filter>Mathter</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathter\Simd4f_sse.hpp">
+      <Filter>Mathter</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

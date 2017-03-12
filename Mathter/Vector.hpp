@@ -3,6 +3,8 @@
 #include <type_traits>
 #include <iostream> // debug only
 
+#include "Simd.hpp"
+
 
 static void message(const char* str) {
 	std::cout << str << std::endl;
@@ -12,98 +14,423 @@ template <class T, int D>
 class Vector;
 
 
+//------------------------------------------------------------------------------
+// Vector data containers
+//--------------------------------------
+
+// Function they must have:
+// Assign(x, [y, [z, [w]]])
+// mul, div, add, sum - vec x vec
+// mul, div, add, sum - vec x scalar
+// spread
+// dot
+
+//------------------------------------------------------------------------------
+// Vector 2D data container
+//------------------------------------------------------------------------------
+
 template <class T, int D>
 class VectorSpec {
 public:
 	T data[D];
 };
 
+
+//------------------------------------------------------------------------------
+// Vector 2D data container
+//------------------------------------------------------------------------------
+
 template <class T>
 class VectorSpec<T, 2> {
 public:
-	VectorSpec() = default;
+	union {
+		struct {
+			T x, y;
+		};
+		T data[2];
+	};
 
+	VectorSpec() = default;
 	VectorSpec(T x, T y) {
 		this->x = x;
 		this->y = y;
-		message("Vector(a,b)");
 	}
-
-	union {
-		struct {
-			float x, y;
-		};
-		float data[2];
-	};
-
 protected:
-	void Assign(T x, T y) {
+	// Assigment
+	inline void Assign(T x, T y) {
 		this->x = x;
 		this->y = y;
-		message("Assign(a,b)");
+	}
+	inline void spread(T all) {
+		for (int i = 0; i < 2; ++i) {
+			data[i] = all;
+		}
+	}
+
+	// Vector arithmetic
+	inline void mul(const VectorSpec<T, 2>& rhs) {
+		this->x *= rhs.x;
+		this->y *= rhs.y;
+	}
+	inline void div(const VectorSpec<T, 2>& rhs) {
+		this->x /= rhs.x;
+		this->y /= rhs.y;
+	}
+	inline void add(const VectorSpec<T, 2>& rhs) {
+		this->x += rhs.x;
+		this->y += rhs.y;
+	}
+	inline void sub(const VectorSpec<T, 2>& rhs) {
+		this->x -= rhs.x;
+		this->y -= rhs.y;
+	}
+
+	// Scalar arithmetic
+	inline void mul(T rhs) {
+		this->x *= rhs;
+		this->y *= rhs;
+	}
+	inline void div(T rhs) {
+		this->x /= rhs;
+		this->y /= rhs;
+	}
+	inline void add(T rhs) {
+		this->x += rhs;
+		this->y += rhs;
+	}
+	inline void sub(T rhs) {
+		this->x -= rhs;
+		this->y -= rhs;
+	}
+
+	// Misc
+	inline float dot(const VectorSpec<T, 4>& rhs) const {
+		float sum = this->x * rhs.x;
+		sum += this->y * rhs.y;
+		return sum;
 	}
 };
+
+//------------------------------------------------------------------------------
+// Vector 3D data container
+//------------------------------------------------------------------------------
 
 template <class T>
 class VectorSpec<T, 3> {
 public:
-	VectorSpec() = default;
+	union {
+		struct {
+			T x, y, z;
+		};
+		T data[3];
+	};
 
+	VectorSpec() = default;
 	VectorSpec(T x, T y, T z = 0) {
 		this->x = x;
 		this->y = y;
 		this->z = z;
-		message("Vector(a,b,c)");
+	}
+
+	inline static Vector<T, 3> Cross(const Vector<T, 3>& lhs, const Vector<T, 3>& rhs);
+protected:
+	// Assignment
+	inline void Assign(T x, T y, T z = 0) {
+		this->x = x;
+		this->y = y;
+		this->z = z;
+	}
+	inline void spread(T all) {
+		for (int i = 0; i < 3; ++i) {
+			data[i] = all;
+		}
+	}
+
+	// Vector arithmetic
+	inline void mul(const VectorSpec<T, 3>& rhs) {
+		this->x *= rhs.x;
+		this->y *= rhs.y;
+		this->z *= rhs.z;
+	}
+	inline void div(const VectorSpec<T, 3>& rhs) {
+		this->x /= rhs.x;
+		this->y /= rhs.y;
+		this->z /= rhs.z;
+	}
+	inline void add(const VectorSpec<T, 3>& rhs) {
+		this->x += rhs.x;
+		this->y += rhs.y;
+		this->z += rhs.z;
+	}
+	inline void sub(const VectorSpec<T, 3>& rhs) {
+		this->x -= rhs.x;
+		this->y -= rhs.y;
+		this->z -= rhs.z;
+	}
+
+	// Scalar arithmetic
+	inline void mul(T rhs) {
+		this->x *= rhs;
+		this->y *= rhs;
+		this->z *= rhs;
+	}
+	inline void div(T rhs) {
+		this->x /= rhs;
+		this->y /= rhs;
+		this->z /= rhs;
+	}
+	inline void add(T rhs) {
+		this->x += rhs;
+		this->y += rhs;
+		this->z += rhs;
+	}
+	inline void sub(T rhs) {
+		this->x -= rhs;
+		this->y -= rhs;
+		this->z -= rhs;
+	}
+
+	// Misc
+	float dot(const VectorSpec<T, 4>& rhs) const {
+		float sum = this->x * rhs.x;
+		sum += this->y * rhs.y;
+		sum += this->z * rhs.z;
+		return sum;
+	}
+};
+
+
+//------------------------------------------------------------------------------
+// Vector 4D data container
+//------------------------------------------------------------------------------
+
+template <class T>
+class VectorSpec<T, 4> {
+public:
+	union {
+		struct {
+			T x, y, z, w;
+		};
+		T data[4];
+	};
+
+	VectorSpec() = default;
+	VectorSpec(T x, T y, T z = 0, T w = 0) {
+		this->x = x;
+		this->y = y;
+		this->z = z;
+		this->w = w;
+	}
+protected:
+	// Assigment
+	inline void Assign(T x, T y, T z = 0, T w = 0) {
+		this->x = x;
+		this->y = y;
+		this->z = z;
+		this->w = w;
+	}
+	inline void spread(T all) {
+		for (int i = 0; i < 4; ++i) {
+			data[i] = all;
+		}
+	}
+
+	// Vector arithmetic
+	inline void mul(const VectorSpec<T, 4>& rhs) {
+		this->x *= rhs.x;
+		this->y *= rhs.y;
+		this->z *= rhs.z;
+		this->w *= rhs.w;
+	}
+	inline void div(const VectorSpec<T, 4>& rhs) {
+		this->x /= rhs.x;
+		this->y /= rhs.y;
+		this->z /= rhs.z;
+		this->w /= rhs.w;
+	}
+	inline void add(const VectorSpec<T, 4>& rhs) {
+		this->x += rhs.x;
+		this->y += rhs.y;
+		this->z += rhs.z;
+		this->w += rhs.w;
+	}
+	inline void sub(const VectorSpec<T, 4>& rhs) {
+		this->x -= rhs.x;
+		this->y -= rhs.y;
+		this->z -= rhs.z;
+		this->w -= rhs.w;
+	}
+
+	// Scalar arithmetic
+	inline void mul(T rhs) {
+		this->x *= rhs;
+		this->y *= rhs;
+		this->z *= rhs;
+		this->w *= rhs;
+	}
+	inline void div(T rhs) {
+		this->x /= rhs;
+		this->y /= rhs;
+		this->z /= rhs;
+		this->w /= rhs;
+	}
+	inline void add(T rhs) {
+		this->x += rhs;
+		this->y += rhs;
+		this->z += rhs;
+		this->w += rhs;
+	}
+	inline void sub(T rhs) {
+		this->x -= rhs;
+		this->y -= rhs;
+		this->z -= rhs;
+		this->w -= rhs;
+	}
+
+	// Misc
+	inline float dot(const VectorSpec<T, 4>& rhs) const {
+		float sum = this->x * rhs.x;
+		sum += this->y * rhs.y;
+		sum += this->z * rhs.z;
+		sum += this->w * rhs.w;
+		return sum;
+	}
+};
+
+
+//------------------------------------------------------------------------------
+// Vector 3D FLOAT SIMD data container
+//------------------------------------------------------------------------------
+
+template <>
+class VectorSpec<float, 3> {
+public:
+	VectorSpec() = default;
+
+	VectorSpec(float x, float y, float z = 0) {
+		simd = Simd4f::set(x, y, z, 0);
 	}
 
 	union {
+		Simd4f simd;
 		struct {
 			float x, y, z;
 		};
 		float data[3];
 	};
 
-	static Vector<T, 3> Cross(const Vector<T, 3>& lhs, const Vector<T, 3>& rhs);
-
+	inline static Vector<float, 3> Cross(const Vector<float, 3>& lhs, const Vector<float, 3>& rhs);
 protected:
-	void Assign(T x, T y, T z = 0) {
-		this->x = x;
-		this->y = y;
-		this->z = z;
-		message("Assign(a,b,c)");
+	// Assignment
+	inline void Assign(float x, float y, float z = 0) {
+		simd = Simd4f::set(x, y, z, 0);
+	}
+	inline void spread(float all) {
+		simd = Simd4f::spread(all);
+	}
+
+	// Vector arithmetic
+	inline void mul(const VectorSpec<float, 3>& rhs) {
+		simd = Simd4f::mul(simd, rhs.simd);
+	}
+	inline void div(const VectorSpec<float, 3>& rhs) {
+		simd = Simd4f::div(simd, rhs.simd);
+	}
+	inline void add(const VectorSpec<float, 3>& rhs) {
+		simd = Simd4f::add(simd, rhs.simd);
+	}
+	inline void sub(const VectorSpec<float, 3>& rhs) {
+		simd = Simd4f::sub(simd, rhs.simd);
+	}
+
+	// Scalar arithmetic
+	inline void mul(float rhs) {
+		simd = Simd4f::mul(simd, rhs);
+	}
+	inline void div(float rhs) {
+		simd = Simd4f::div(simd, rhs);
+	}
+	inline void add(float rhs) {
+		simd = Simd4f::add(simd, rhs);
+	}
+	inline void sub(float rhs) {
+		simd = Simd4f::sub(simd, rhs);
+	}
+
+	// Misc
+	inline float dot(const VectorSpec<float, 3>& rhs) const {
+		return Simd4f::dot(simd, rhs.simd); // both w should be 0
 	}
 };
 
-template <class T>
-class VectorSpec<T, 4> {
+
+//------------------------------------------------------------------------------
+// Vector 4D FLOAT SIMD data container
+//------------------------------------------------------------------------------
+
+template <>
+class VectorSpec<float, 4> {
 public:
 	VectorSpec() = default;
 
-	VectorSpec(T x, T y, T z = 0, T w = 0) {
-		this->x = x;
-		this->y = y;
-		this->z = z;
-		this->w = w;
-		message("Vector(a,b,c,d)");
+	VectorSpec(float x, float y, float z = 0, float w = 0) {
+		Assign(x, y, z, w);
 	}
 
 	union {
+		Simd4f simd;
 		struct {
 			float x, y, z, w;
 		};
 		float data[4];
 	};
 protected:
-	void Assign(T x, T y, T z = 0, T w = 0) {
-		this->x = x;
-		this->y = y;
-		this->z = z;
-		this->w = w;
-		message("Assign(a,b,c,d)");
+	// Assignment
+	inline void Assign(float x, float y, float z = 0, float w = 0) {
+		simd = Simd4f::set(x, y, z, w);
+	}
+	inline void spread(float all) {
+		simd = Simd4f::spread(all);
+	}
+
+	// Vector arithmetic
+	inline void mul(const VectorSpec<float, 4>& rhs) {
+		simd = Simd4f::mul(simd, rhs.simd);
+	}
+	inline void div(const VectorSpec<float, 4>& rhs) {
+		simd = Simd4f::div(simd, rhs.simd);
+	}
+	inline void add(const VectorSpec<float, 4>& rhs) {
+		simd = Simd4f::add(simd, rhs.simd);
+	}
+	inline void sub(const VectorSpec<float, 4>& rhs) {
+		simd = Simd4f::sub(simd, rhs.simd);
+	}
+
+	// Scalar arithmetic
+	inline void mul(float rhs) {
+		simd = Simd4f::mul(simd, rhs);
+	}
+	inline void div(float rhs) {
+		simd = Simd4f::div(simd, rhs);
+	}
+	inline void add(float rhs) {
+		simd = Simd4f::add(simd, rhs);
+	}
+	inline void sub(float rhs) {
+		simd = Simd4f::sub(simd, rhs);
+	}
+
+	// Misc
+	inline float dot(const VectorSpec<float, 4>& rhs) const {
+		return Simd4f::dot(simd, rhs.simd);
 	}
 };
 
 
+//------------------------------------------------------------------------------
+// Template magic helper classes
+//------------------------------------------------------------------------------
 
 
 template <template <class> class Cond, class... T>
@@ -139,6 +466,10 @@ struct RepeatType {
 
 
 
+//------------------------------------------------------------------------------
+// General Vector class - no specializations needed
+//------------------------------------------------------------------------------
+
 template <class T, int D>
 class Vector : public VectorSpec<T, D> {
 protected:
@@ -166,7 +497,7 @@ public:
 
 	// Default ctor
 	Vector() {
-		message("Vector = default");
+		// message("Vector = default");
 	};
 
 	// Special ctor
@@ -174,15 +505,13 @@ public:
 
 	// All element same ctor
 	explicit Vector(T all) {
-		message("Vector(all)");
-		for (int i = 0; i < D; ++i) {
-			data[i] = all;
-		}
+		// message("Vector(all)");
+		VectorSpec<T, D>::spread(all);
 	}
 
 	// T array ctor
 	explicit Vector(T* data) {
-		message("Vector(a[])");
+		// message("Vector(a[])");
 		for (int i = 0; i < D; ++i) {
 			this->data[i] = data[i];
 		}
@@ -195,14 +524,14 @@ public:
 
 	// Copy constructor
 	Vector(const Vector& rhs) {
-		message("Vector(copy)");
+		// message("Vector(copy)");
 		Assign(rhs);
 	}
 
 	// Concetaneting constructor
 	template <class U, class... V, typename std::enable_if<!All<NotVector, U, V...>::value, int>::type = 0>
 	Vector(const U& rhs1, const V&... rhs2) {
-		message("Vector(concat...)");
+		// message("Vector(concat...)");
 		Assign(rhs1, rhs2...);
 	}
 
@@ -219,7 +548,7 @@ public:
 	// Assign from all scalars
 	template <class U, class... V, typename std::enable_if<All<NotVector, U, V...>::value, int>::type = 0>
 	Vector& Set(U u, V... v) {
-		message("Set(a,b,c,d...)");
+		// message("Set(a,b,c,d...)");
 		Assign(u, v...);
 		return *this;
 	}
@@ -227,11 +556,15 @@ public:
 	// Concatenating assign
 	template <class U, class... V, typename std::enable_if<!All<NotVector, U, V...>::value, int>::type = 0>
 	Vector& Set(const U& u, const V&... v) {
-		message("Set(concat...)");
+		// message("Set(concat...)");
 		Assign(u, v...);
 		return *this;
 	}
 
+	Vector& Spread(T all) {
+		VectorSpec<T, D>::spread(all);
+		return *this;
+	}
 
 	//--------------------------------------------
 	// Accessors
@@ -303,62 +636,45 @@ public:
 
 
 	// Vector assign arithmetic
-	Vector& operator*=(const Vector& rhs) {
-		for (int i = 0; i < D; ++i) {
-			data[i] *= rhs.data[i];
-		}
+	inline Vector& operator*=(const Vector& rhs) {
+		mul(rhs);
 		return *this;
 	}
 
-	Vector& operator/=(const Vector& rhs) {
-		for (int i = 0; i < D; ++i) {
-			data[i] /= rhs.data[i];
-		}
+	inline Vector& operator/=(const Vector& rhs) {
+		div(rhs);
 		return *this;
 	}
 
-	Vector& operator+=(const Vector& rhs) {
-		for (int i = 0; i < D; ++i) {
-			data[i] += rhs.data[i];
-		}
+	inline Vector& operator+=(const Vector& rhs) {
+		add(rhs);
 		return *this;
 	}
 
-	Vector& operator-=(const Vector& rhs) {
-		for (int i = 0; i < D; ++i) {
-			data[i] -= rhs.data[i];
-		}
+	inline Vector& operator-=(const Vector& rhs) {
+		sub(rhs);
 		return *this;
 	}
 
 
 	// Scalar assign arithmetic
-	Vector& operator*=(T rhs) {
-		for (int i = 0; i < D; ++i) {
-			data[i] *= rhs;
-		}
+	inline Vector& operator*=(T rhs) {
+		mul(rhs);
 		return *this;
 	}
 
-	Vector& operator/=(T rhs) {
-		T tmp = T(1) / rhs;
-		for (int i = 0; i < D; ++i) {
-			data[i] *= tmp;
-		}
+	inline Vector& operator/=(T rhs) {
+		div(rhs);
 		return *this;
 	}
 
-	Vector& operator+=(T rhs) {
-		for (int i = 0; i < D; ++i) {
-			data[i] += rhs;
-		}
+	inline Vector& operator+=(T rhs) {
+		add(rhs);
 		return *this;
 	}
 
-	Vector& operator-=(T rhs) {
-		for (int i = 0; i < D; ++i) {
-			data[i] -= rhs;
-		}
+	inline Vector& operator-=(T rhs) {
+		sub(rhs);
 		return *this;
 	}
 
@@ -380,10 +696,7 @@ public:
 
 
 	static T Dot(const Vector& lhs, const Vector& rhs) {
-		T s = lhs.data[0] * rhs.data[0];
-		for (int i = 1; i < D; ++i) {
-			s = lhs.data[i] * rhs.data[i] + s; // hope it goes MAD
-		}
+		return lhs.dot(rhs);
 	}
 
 	template <class U, typename std::enable_if<!std::is_same<T, U>::value, int>::type = 0>
@@ -460,7 +773,7 @@ protected:
 
 	// Assign from vector of same type
 	void Assign(const Vector& rhs) {
-		message("Assign(copy)");
+		// message("Assign(copy)");
 		for (int i = 0; i < D; ++i) {
 			data[i] = rhs.data[i];
 		}
@@ -478,7 +791,7 @@ protected:
 	// Concatenating assign
 	template <class Head, class... Rest, typename std::enable_if<AssignFilter<Head, Rest...>::value, int>::type = 0>
 	void Assign(const Head& head, const Rest&... rest) {
-		message("Assign(concat...)");
+		// message("Assign(concat...)");
 
 		constexpr int ArgDim = SumDimensions<Head, Rest...>::value;
 		static_assert(ArgDim == D, "The sum of dimensions of arguments must match the dimension of the vector.");
@@ -487,83 +800,101 @@ protected:
 };
 
 
-
+//------------------------------------------------------------------------------
+// External Vector function
+//------------------------------------------------------------------------------
 
 // Vector copy arithmetic
 template <class T, int D>
-Vector<T, D> operator*(Vector<T, D> lhs, const Vector<T, D>& rhs) {
-	lhs *= rhs;
-	return lhs;
+inline Vector<T, D> operator*(const Vector<T, D>& lhs, const Vector<T, D>& rhs) {
+	auto tmp = lhs;
+	tmp *= rhs;
+	return tmp;
 }
 
 template <class T, int D>
-Vector<T, D> operator/(Vector<T, D> lhs, const Vector<T, D>& rhs) {
-	lhs /= rhs;
-	return lhs;
+inline Vector<T, D> operator/(const Vector<T, D>& lhs, const Vector<T, D>& rhs) {
+	auto tmp = lhs;
+	tmp /= rhs;
+	return tmp;
 }
 
 template <class T, int D>
-Vector<T, D> operator+(Vector<T, D> lhs, const Vector<T, D>& rhs) {
-	lhs += rhs;
-	return lhs;
+inline Vector<T, D> operator+(const Vector<T, D>& lhs, const Vector<T, D>& rhs) {
+	auto tmp = lhs;
+	tmp += rhs;
+	return tmp;
 }
 
 template <class T, int D>
-Vector<T, D> operator-(Vector<T, D> lhs, const Vector<T, D>& rhs) {
-	lhs -= rhs;
-	return lhs;
+inline Vector<T, D> operator-(const Vector<T, D>& lhs, const Vector<T, D>& rhs) {
+	auto tmp = lhs;
+	tmp -= rhs;
+	return tmp;
 }
 
 
 // Scalar assign arithmetic
 template <class T, int D>
-Vector<T, D> operator*(Vector<T, D> lhs, T rhs) {
-	lhs *= rhs;
-	return lhs;
+inline Vector<T, D> operator*(const Vector<T, D>& lhs, T rhs) {
+	auto tmp = lhs;
+	tmp *= rhs;
+	return tmp;
 }
 
 template <class T, int D>
-Vector<T, D> operator/(Vector<T, D> lhs, T rhs) {
-	lhs /= rhs;
-	return lhs;
+inline Vector<T, D> operator/(const Vector<T, D>& lhs, T rhs) {
+	auto tmp = lhs;
+	tmp /= rhs;
+	return tmp;
 }
 
 template <class T, int D>
-Vector<T, D> operator+(Vector<T, D> lhs, T rhs) {
-	lhs += rhs;
-	return lhs;
+inline Vector<T, D> operator+(const Vector<T, D>& lhs, T rhs) {
+	auto tmp = lhs;
+	tmp += rhs;
+	return tmp;
 }
 
 template <class T, int D>
-Vector<T, D> operator-(Vector<T, D> lhs, T rhs) {
-	lhs -= rhs;
-	return lhs;
+inline Vector<T, D> operator-(const Vector<T, D>& lhs, T rhs) {
+	auto tmp = lhs;
+	tmp -= rhs;
+	return tmp;
 }
 
 template <class T, int D>
-Vector<T, D> operator*(T lhs, Vector<T, D> rhs) {
-	rhs *= lhs;
-	return rhs;
+inline Vector<T, D> operator*(T lhs, const Vector<T, D>& rhs) {
+	auto tmp = rhs;
+	tmp *= lhs;
+	return tmp;
 }
 
 template <class T, int D>
-Vector<T, D> operator/(T lhs, Vector<T, D> rhs) {
-	rhs /= lhs;
-	return rhs;
+inline Vector<T, D> operator/(T lhs, const Vector<T, D>& rhs) {
+	auto tmp = rhs;
+	tmp /= lhs;
+	return tmp;;
 }
 
 template <class T, int D>
-Vector<T, D> operator+(T lhs, Vector<T, D> rhs) {
-	rhs += lhs;
-	return rhs;
+inline Vector<T, D> operator+(T lhs, const Vector<T, D>& rhs) {
+	auto tmp = rhs;
+	tmp += lhs;
+	return tmp;
 }
 
 template <class T, int D>
-Vector<T, D> operator-(T lhs, Vector<T, D> rhs) {
-	rhs -= lhs;
-	return rhs;
+inline Vector<T, D> operator-(T lhs, const Vector<T, D>& rhs) {
+	auto tmp = rhs;
+	tmp -= lhs;
+	return tmp;
 }
 
+
+//------------------------------------------------------------------------------
+// Special functions
+//------------------------------------------------------------------------------
 
 template <class T>
 Vector<T, 3> VectorSpec<T, 3>::Cross(const Vector<T, 3>& lhs, const Vector<T, 3>& rhs) {
@@ -572,4 +903,11 @@ Vector<T, 3> VectorSpec<T, 3>::Cross(const Vector<T, 3>& lhs, const Vector<T, 3>
 		lhs.x * rhs.y - lhs.y * rhs.x);
 }
 
+
+// TODO: accelerate with simd
+inline Vector<float, 3> VectorSpec<float, 3>::Cross(const Vector<float, 3>& lhs, const Vector<float, 3>& rhs) {
+	return Vector<float, 3>(lhs.y * rhs.z - lhs.z * rhs.y,
+		lhs.z * rhs.x - lhs.x * rhs.z,
+		lhs.x * rhs.y - lhs.y * rhs.x);
+}
 
