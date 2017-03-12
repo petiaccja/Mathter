@@ -132,13 +132,20 @@ PUBLIC	??$distance@PBV?$Matrix@M$02$02$0A@$00@@@std@@YAHPBV?$Matrix@M$02$02$0A@$
 PUBLIC	??$?G_JU?$ratio@$00$0DLJKMKAA@@std@@_JU01@@chrono@std@@YA?AV?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@01@ABV201@0@Z ; std::chrono::operator-<__int64,std::ratio<1,1000000000>,__int64,std::ratio<1,1000000000> >
 PUBLIC	??$Assign@MV?$Vector@M$02@@$0A@@?$Vector@M$03@@IAEXABMABV?$Vector@M$02@@@Z ; Vector<float,4>::Assign<float,Vector<float,3>,0>
 PUBLIC	??$Assign@V?$Vector@M$02@@M$0A@@?$Vector@M$03@@IAEXABV?$Vector@M$02@@ABM@Z ; Vector<float,4>::Assign<Vector<float,3>,float,0>
+PUBLIC	??A?$Vector@M$02@@QBEMH@Z			; Vector<float,3>::operator[]
+PUBLIC	??A?$Vector@M$03@@QBEMH@Z			; Vector<float,4>::operator[]
+PUBLIC	?GetElement@?$MatrixData@M$03$03$0A@$00@@QBEMHHU?$integral_constant@_N$00@std@@@Z ; MatrixData<float,4,4,0,1>::GetElement
+PUBLIC	?GetElement@?$MatrixData@M$02$02$0A@$00@@QBEMHHU?$integral_constant@_N$00@std@@@Z ; MatrixData<float,3,3,0,1>::GetElement
+PUBLIC	?Assign@?$Vector@M$03@@IAEXABV1@@Z		; Vector<float,4>::Assign
+PUBLIC	?GetElement@?$MatrixData@M$03$03$0A@$00@@QBEMHH@Z ; MatrixData<float,4,4,0,1>::GetElement
+PUBLIC	?GetElement@?$MatrixData@M$02$02$0A@$00@@QBEMHH@Z ; MatrixData<float,3,3,0,1>::GetElement
 PUBLIC	?_Myend@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$02$0A@$00@@V?$allocator@V?$Matrix@M$02$02$0A@$00@@@std@@@std@@@std@@QBEABQAV?$Matrix@M$02$02$0A@$00@@XZ ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,3,0,1>,std::allocator<Matrix<float,3,3,0,1> > > >::_Myend
-PUBLIC	??X?$Vector@M$02@@QAEAAV0@ABV0@@Z		; Vector<float,3>::operator*=
-PUBLIC	??X?$Vector@M$02@@QAEAAV0@M@Z			; Vector<float,3>::operator*=
 PUBLIC	?time_since_epoch@?$time_point@Usteady_clock@chrono@std@@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@23@@chrono@std@@QBE?AV?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@23@XZ ; std::chrono::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > >::time_since_epoch
+PUBLIC	??0?$Vector@M$03@@QAE@ABV0@@Z			; Vector<float,4>::Vector<float,4>
 PUBLIC	??R?$Vector@M$03@@QBEMH@Z			; Vector<float,4>::operator()
 PUBLIC	??X?$Vector@M$03@@QAEAAV0@ABV0@@Z		; Vector<float,4>::operator*=
-PUBLIC	??X?$Vector@M$03@@QAEAAV0@M@Z			; Vector<float,4>::operator*=
+PUBLIC	??R?$Matrix@M$02$02$0A@$00@@QBEMHH@Z		; Matrix<float,3,3,0,1>::operator()
+PUBLIC	??R?$Matrix@M$03$03$0A@$00@@QBEMHH@Z		; Matrix<float,4,4,0,1>::operator()
 PUBLIC	?Width@?$MatrixData@M$03$03$0A@$00@@QBEHXZ	; MatrixData<float,4,4,0,1>::Width
 PUBLIC	?Height@?$MatrixData@M$03$03$0A@$00@@QBEHXZ	; MatrixData<float,4,4,0,1>::Height
 PUBLIC	?Width@?$MatrixData@M$02$02$0A@$00@@QBEHXZ	; MatrixData<float,3,3,0,1>::Width
@@ -146,6 +153,11 @@ PUBLIC	?Height@?$MatrixData@M$02$02$0A@$00@@QBEHXZ	; MatrixData<float,3,3,0,1>::
 PUBLIC	?size@?$vector@V?$Matrix@M$02$02$0A@$00@@V?$allocator@V?$Matrix@M$02$02$0A@$00@@@std@@@std@@QBEIXZ ; std::vector<Matrix<float,3,3,0,1>,std::allocator<Matrix<float,3,3,0,1> > >::size
 PUBLIC	?capacity@?$vector@V?$Matrix@M$02$02$0A@$00@@V?$allocator@V?$Matrix@M$02$02$0A@$00@@@std@@@std@@QBEIXZ ; std::vector<Matrix<float,3,3,0,1>,std::allocator<Matrix<float,3,3,0,1> > >::capacity
 PUBLIC	?_Calculate_growth@?$vector@V?$Matrix@M$02$02$0A@$00@@V?$allocator@V?$Matrix@M$02$02$0A@$00@@@std@@@std@@ABEII@Z ; std::vector<Matrix<float,3,3,0,1>,std::allocator<Matrix<float,3,3,0,1> > >::_Calculate_growth
+PUBLIC	??__G@YGXPAX0IIP6EPAX00@Z@Z			; `vector copy constructor iterator'
+PUBLIC	??0?$MatrixData@M$02$02$0A@$00@@QAE@$$QAV0@@Z	; MatrixData<float,3,3,0,1>::MatrixData<float,3,3,0,1>
+PUBLIC	??0?$Matrix@M$02$02$0A@$00@@QAE@$$QAV0@@Z	; Matrix<float,3,3,0,1>::Matrix<float,3,3,0,1>
+PUBLIC	??0?$MatrixData@M$03$03$0A@$00@@QAE@$$QAV0@@Z	; MatrixData<float,4,4,0,1>::MatrixData<float,4,4,0,1>
+PUBLIC	??0?$Matrix@M$03$03$0A@$00@@QAE@$$QAV0@@Z	; Matrix<float,4,4,0,1>::Matrix<float,4,4,0,1>
 PUBLIC	??$_Destroy_range@V?$allocator@V?$Matrix@M$02$02$0A@$00@@@std@@PAV?$Matrix@M$02$02$0A@$00@@@std@@YAXPAV?$Matrix@M$02$02$0A@$00@@0AAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$0A@$00@@@std@@@0@@Z ; std::_Destroy_range<std::allocator<Matrix<float,3,3,0,1> >,Matrix<float,3,3,0,1> *>
 PUBLIC	??$_Uninitialized_default_fill_n@PAV?$Matrix@M$02$02$0A@$00@@IV?$allocator@V?$Matrix@M$02$02$0A@$00@@@std@@@std@@YAPAV?$Matrix@M$02$02$0A@$00@@PAV1@IAAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$0A@$00@@@std@@@0@@Z ; std::_Uninitialized_default_fill_n<Matrix<float,3,3,0,1> *,unsigned int,std::allocator<Matrix<float,3,3,0,1> > >
 PUBLIC	??$_Pocca@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$0A@$00@@@std@@@std@@@std@@YAXAAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$0A@$00@@@std@@@0@ABU10@@Z ; std::_Pocca<std::_Wrap_alloc<std::allocator<Matrix<float,3,3,0,1> > > >
@@ -156,10 +168,9 @@ PUBLIC	??$_Assign_range@PBV?$Matrix@M$02$02$0A@$00@@@?$vector@V?$Matrix@M$02$02$
 PUBLIC	??$duration_cast@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@chrono@std@@_JU?$ratio@$00$0DLJKMKAA@@3@@chrono@std@@YA?AV?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@01@ABV201@@Z ; std::chrono::duration_cast<std::chrono::duration<__int64,std::ratio<1,1000000000> >,__int64,std::ratio<1,1000000000> >
 PUBLIC	??$?GUsteady_clock@chrono@std@@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@12@V312@@chrono@std@@YA?AV?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@01@ABV?$time_point@Usteady_clock@chrono@std@@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@23@@01@0@Z ; std::chrono::operator-<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> >,std::chrono::duration<__int64,std::ratio<1,1000000000> > >
 PUBLIC	??$?6M$02$02$0A@$00@@YAAAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AAV01@ABV?$Matrix@M$02$02$0A@$00@@@Z ; operator<<<float,3,3,0,1>
-PUBLIC	??$?DM$02@@YA?AV?$Vector@M$02@@MABV0@@Z		; operator*<float,3>
-PUBLIC	??$?DM$02@@YA?AV?$Vector@M$02@@ABV0@0@Z		; operator*<float,3>
+PUBLIC	??$?DMM$02$02$02$0A@$0A@$00$00$0A@@@YA?AV?$Matrix@M$02$02$0A@$00@@ABV0@0@Z ; operator*<float,float,3,3,3,0,0,1,1,0>
 PUBLIC	??$?6M$03$03$0A@$00@@YAAAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AAV01@ABV?$Matrix@M$03$03$0A@$00@@@Z ; operator<<<float,4,4,0,1>
-PUBLIC	??$?DM$03@@YA?AV?$Vector@M$03@@MABV0@@Z		; operator*<float,4>
+PUBLIC	??$?DMM$03$03$03$0A@$0A@$00$00$0A@@@YA?AV?$Matrix@M$03$03$0A@$00@@ABV0@0@Z ; operator*<float,float,4,4,4,0,0,1,1,0>
 PUBLIC	??$Set@MV?$Vector@M$02@@$0A@@?$Vector@M$03@@QAEAAV0@ABMABV?$Vector@M$02@@@Z ; Vector<float,4>::Set<float,Vector<float,3>,0>
 PUBLIC	??$Set@HHH$0A@@?$Vector@M$02@@QAEAAV0@HHH@Z	; Vector<float,3>::Set<int,int,int,0>
 PUBLIC	??$?0V?$Vector@M$02@@M$0A@@?$Vector@M$03@@QAE@ABV?$Vector@M$02@@ABM@Z ; Vector<float,4>::Vector<float,4><Vector<float,3>,float,0>
@@ -170,9 +181,7 @@ PUBLIC	??$endl@DU?$char_traits@D@std@@@std@@YAAAV?$basic_ostream@DU?$char_traits
 PUBLIC	??$?6U?$char_traits@D@std@@@std@@YAAAV?$basic_ostream@DU?$char_traits@D@std@@@0@AAV10@PBD@Z ; std::operator<<<std::char_traits<char> >
 PUBLIC	?max_size@?$allocator@V?$Matrix@M$02$02$0A@$00@@@std@@QBEIXZ ; std::allocator<Matrix<float,3,3,0,1> >::max_size
 PUBLIC	?max_size@?$allocator_traits@V?$allocator@V?$Matrix@M$02$02$0A@$00@@@std@@@std@@SAIABV?$allocator@V?$Matrix@M$02$02$0A@$00@@@2@@Z ; std::allocator_traits<std::allocator<Matrix<float,3,3,0,1> > >::max_size
-PUBLIC	??A?$Vector@M$02@@QBEMH@Z			; Vector<float,3>::operator[]
 PUBLIC	??A?$Vector@M$02@@QAEAAMH@Z			; Vector<float,3>::operator[]
-PUBLIC	??A?$Vector@M$03@@QBEMH@Z			; Vector<float,4>::operator[]
 PUBLIC	??A?$Vector@M$03@@QAEAAMH@Z			; Vector<float,4>::operator[]
 PUBLIC	?deallocate@?$allocator@V?$Matrix@M$02$02$0A@$00@@@std@@QAEXPAV?$Matrix@M$02$02$0A@$00@@I@Z ; std::allocator<Matrix<float,3,3,0,1> >::deallocate
 PUBLIC	?allocate@?$allocator@V?$Matrix@M$02$02$0A@$00@@@std@@QAEPAV?$Matrix@M$02$02$0A@$00@@I@Z ; std::allocator<Matrix<float,3,3,0,1> >::allocate
@@ -183,9 +192,7 @@ PUBLIC	?_Get_second@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$0
 PUBLIC	??0_Sentry_base@?$basic_ostream@DU?$char_traits@D@std@@@std@@QAE@AAV12@@Z ; std::basic_ostream<char,std::char_traits<char> >::_Sentry_base::_Sentry_base
 PUBLIC	??1_Sentry_base@?$basic_ostream@DU?$char_traits@D@std@@@std@@QAE@XZ ; std::basic_ostream<char,std::char_traits<char> >::_Sentry_base::~_Sentry_base
 PUBLIC	?GetElement@?$MatrixData@M$03$03$0A@$00@@QAEAAMHHU?$integral_constant@_N$00@std@@@Z ; MatrixData<float,4,4,0,1>::GetElement
-PUBLIC	?GetElement@?$MatrixData@M$03$03$0A@$00@@QBEMHHU?$integral_constant@_N$00@std@@@Z ; MatrixData<float,4,4,0,1>::GetElement
 PUBLIC	?GetElement@?$MatrixData@M$02$02$0A@$00@@QAEAAMHHU?$integral_constant@_N$00@std@@@Z ; MatrixData<float,3,3,0,1>::GetElement
-PUBLIC	?GetElement@?$MatrixData@M$02$02$0A@$00@@QBEMHHU?$integral_constant@_N$00@std@@@Z ; MatrixData<float,3,3,0,1>::GetElement
 PUBLIC	?max_size@?$vector@V?$Matrix@M$02$02$0A@$00@@V?$allocator@V?$Matrix@M$02$02$0A@$00@@@std@@@std@@QBEIXZ ; std::vector<Matrix<float,3,3,0,1>,std::allocator<Matrix<float,3,3,0,1> > >::max_size
 PUBLIC	?_Destroy@?$vector@V?$Matrix@M$02$02$0A@$00@@V?$allocator@V?$Matrix@M$02$02$0A@$00@@@std@@@std@@AAEXPAV?$Matrix@M$02$02$0A@$00@@0@Z ; std::vector<Matrix<float,3,3,0,1>,std::allocator<Matrix<float,3,3,0,1> > >::_Destroy
 PUBLIC	?_Xlength@?$vector@V?$Matrix@M$02$02$0A@$00@@V?$allocator@V?$Matrix@M$02$02$0A@$00@@@std@@@std@@CAXXZ ; std::vector<Matrix<float,3,3,0,1>,std::allocator<Matrix<float,3,3,0,1> > >::_Xlength
@@ -203,11 +210,8 @@ PUBLIC	??1sentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QAE@XZ ; std::basi
 PUBLIC	??Bsentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QBE_NXZ ; std::basic_ostream<char,std::char_traits<char> >::sentry::operator bool
 PUBLIC	?Assign@?$Vector@M$02@@IAEXABV1@@Z		; Vector<float,3>::Assign
 PUBLIC	?zero@?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@chrono@std@@SA?AV123@XZ ; std::chrono::duration<__int64,std::ratio<1,1000000000> >::zero
-PUBLIC	?Assign@?$Vector@M$03@@IAEXABV1@@Z		; Vector<float,4>::Assign
 PUBLIC	?GetElement@?$MatrixData@M$03$03$0A@$00@@QAEAAMHH@Z ; MatrixData<float,4,4,0,1>::GetElement
-PUBLIC	?GetElement@?$MatrixData@M$03$03$0A@$00@@QBEMHH@Z ; MatrixData<float,4,4,0,1>::GetElement
 PUBLIC	?GetElement@?$MatrixData@M$02$02$0A@$00@@QAEAAMHH@Z ; MatrixData<float,3,3,0,1>::GetElement
-PUBLIC	?GetElement@?$MatrixData@M$02$02$0A@$00@@QBEMHH@Z ; MatrixData<float,3,3,0,1>::GetElement
 PUBLIC	?_Udefault@?$vector@V?$Matrix@M$02$02$0A@$00@@V?$allocator@V?$Matrix@M$02$02$0A@$00@@@std@@@std@@AAEPAV?$Matrix@M$02$02$0A@$00@@PAV3@I@Z ; std::vector<Matrix<float,3,3,0,1>,std::allocator<Matrix<float,3,3,0,1> > >::_Udefault
 PUBLIC	?_Buy@?$vector@V?$Matrix@M$02$02$0A@$00@@V?$allocator@V?$Matrix@M$02$02$0A@$00@@@std@@@std@@AAE_NI@Z ; std::vector<Matrix<float,3,3,0,1>,std::allocator<Matrix<float,3,3,0,1> > >::_Buy
 PUBLIC	?_Tidy@?$vector@V?$Matrix@M$02$02$0A@$00@@V?$allocator@V?$Matrix@M$02$02$0A@$00@@@std@@@std@@AAEXXZ ; std::vector<Matrix<float,3,3,0,1>,std::allocator<Matrix<float,3,3,0,1> > >::_Tidy
@@ -222,19 +226,12 @@ PUBLIC	?end@?$initializer_list@V?$Matrix@M$02$02$0A@$00@@@std@@QBEPBV?$Matrix@M$
 PUBLIC	??0?$Vector@M$02@@QAE@XZ			; Vector<float,3>::Vector<float,3>
 PUBLIC	??0?$Vector@M$02@@QAE@M@Z			; Vector<float,3>::Vector<float,3>
 PUBLIC	??0?$Vector@M$02@@QAE@ABV0@@Z			; Vector<float,3>::Vector<float,3>
-PUBLIC	?Spread@?$Vector@M$02@@QAEAAV1@M@Z		; Vector<float,3>::Spread
-PUBLIC	??Y?$Vector@M$02@@QAEAAV0@ABV0@@Z		; Vector<float,3>::operator+=
 PUBLIC	?count@?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@chrono@std@@QBE_JXZ ; std::chrono::duration<__int64,std::ratio<1,1000000000> >::count
 PUBLIC	??0?$time_point@Usteady_clock@chrono@std@@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@23@@chrono@std@@QAE@XZ ; std::chrono::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > >::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > >
 PUBLIC	??0?$time_point@Usteady_clock@chrono@std@@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@23@@chrono@std@@QAE@ABV?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@12@@Z ; std::chrono::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > >::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > >
 PUBLIC	??0?$Vector@M$03@@QAE@XZ			; Vector<float,4>::Vector<float,4>
-PUBLIC	??0?$Vector@M$03@@QAE@ABV0@@Z			; Vector<float,4>::Vector<float,4>
-PUBLIC	?Spread@?$Vector@M$03@@QAEAAV1@M@Z		; Vector<float,4>::Spread
-PUBLIC	??Y?$Vector@M$03@@QAEAAV0@ABV0@@Z		; Vector<float,4>::operator+=
 PUBLIC	??R?$Matrix@M$02$02$0A@$00@@QAEAAMHH@Z		; Matrix<float,3,3,0,1>::operator()
-PUBLIC	??R?$Matrix@M$02$02$0A@$00@@QBEMHH@Z		; Matrix<float,3,3,0,1>::operator()
 PUBLIC	??R?$Matrix@M$03$03$0A@$00@@QAEAAMHH@Z		; Matrix<float,4,4,0,1>::operator()
-PUBLIC	??R?$Matrix@M$03$03$0A@$00@@QBEMHH@Z		; Matrix<float,4,4,0,1>::operator()
 PUBLIC	??0?$allocator@V?$Matrix@M$02$02$0A@$00@@@std@@QAE@XZ ; std::allocator<Matrix<float,3,3,0,1> >::allocator<Matrix<float,3,3,0,1> >
 PUBLIC	??0?$vector@V?$Matrix@M$02$02$0A@$00@@V?$allocator@V?$Matrix@M$02$02$0A@$00@@@std@@@std@@QAE@IABV?$allocator@V?$Matrix@M$02$02$0A@$00@@@1@@Z ; std::vector<Matrix<float,3,3,0,1>,std::allocator<Matrix<float,3,3,0,1> > >::vector<Matrix<float,3,3,0,1>,std::allocator<Matrix<float,3,3,0,1> > >
 PUBLIC	??1?$vector@V?$Matrix@M$02$02$0A@$00@@V?$allocator@V?$Matrix@M$02$02$0A@$00@@@std@@@std@@QAE@XZ ; std::vector<Matrix<float,3,3,0,1>,std::allocator<Matrix<float,3,3,0,1> > >::~vector<Matrix<float,3,3,0,1>,std::allocator<Matrix<float,3,3,0,1> > >
@@ -242,38 +239,28 @@ PUBLIC	??4?$vector@V?$Matrix@M$02$02$0A@$00@@V?$allocator@V?$Matrix@M$02$02$0A@$
 PUBLIC	??4?$vector@V?$Matrix@M$02$02$0A@$00@@V?$allocator@V?$Matrix@M$02$02$0A@$00@@@std@@@std@@QAEAAV01@V?$initializer_list@V?$Matrix@M$02$02$0A@$00@@@1@@Z ; std::vector<Matrix<float,3,3,0,1>,std::allocator<Matrix<float,3,3,0,1> > >::operator=
 PUBLIC	??A?$vector@V?$Matrix@M$02$02$0A@$00@@V?$allocator@V?$Matrix@M$02$02$0A@$00@@@std@@@std@@QAEAAV?$Matrix@M$02$02$0A@$00@@I@Z ; std::vector<Matrix<float,3,3,0,1>,std::allocator<Matrix<float,3,3,0,1> > >::operator[]
 PUBLIC	??0?$initializer_list@V?$Matrix@M$02$02$0A@$00@@@std@@QAE@XZ ; std::initializer_list<Matrix<float,3,3,0,1> >::initializer_list<Matrix<float,3,3,0,1> >
-PUBLIC	??__G@YGXPAX0IIP6EPAX00@Z@Z			; `vector copy constructor iterator'
 PUBLIC	??_H@YGXPAXIIP6EPAX0@Z@Z			; `vector constructor iterator'
-PUBLIC	??0?$MatrixData@M$02$02$0A@$00@@QAE@$$QAV0@@Z	; MatrixData<float,3,3,0,1>::MatrixData<float,3,3,0,1>
-PUBLIC	??0?$Matrix@M$02$02$0A@$00@@QAE@$$QAV0@@Z	; Matrix<float,3,3,0,1>::Matrix<float,3,3,0,1>
 PUBLIC	??0?$MatrixData@M$02$02$0A@$00@@QAE@XZ		; MatrixData<float,3,3,0,1>::MatrixData<float,3,3,0,1>
 PUBLIC	??0?$Matrix@M$02$02$0A@$00@@QAE@XZ		; Matrix<float,3,3,0,1>::Matrix<float,3,3,0,1>
-PUBLIC	??0?$MatrixData@M$03$03$0A@$00@@QAE@$$QAV0@@Z	; MatrixData<float,4,4,0,1>::MatrixData<float,4,4,0,1>
-PUBLIC	??0?$Matrix@M$03$03$0A@$00@@QAE@$$QAV0@@Z	; Matrix<float,4,4,0,1>::Matrix<float,4,4,0,1>
 PUBLIC	??0?$MatrixData@M$03$03$0A@$00@@QAE@XZ		; MatrixData<float,4,4,0,1>::MatrixData<float,4,4,0,1>
 PUBLIC	??0?$Matrix@M$03$03$0A@$00@@QAE@XZ		; Matrix<float,4,4,0,1>::Matrix<float,4,4,0,1>
 PUBLIC	??0?$Vector@M$03@@QAE@MMMM@Z			; Vector<float,4>::Vector<float,4>
-PUBLIC	??$?DMM$02$02$02$0A@$0A@$00$00$0A@@@YA?AV?$Matrix@M$02$02$0A@$00@@ABV0@0@Z ; operator*<float,float,3,3,3,0,0,1,1,0>
-PUBLIC	??$?DMM$03$03$03$0A@$0A@$00$00$0A@@@YA?AV?$Matrix@M$03$03$0A@$00@@ABV0@0@Z ; operator*<float,float,4,4,4,0,0,1,1,0>
 PUBLIC	_main
 PUBLIC	?now@steady_clock@chrono@std@@SA?AV?$time_point@Usteady_clock@chrono@std@@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@23@@23@XZ ; std::chrono::steady_clock::now
 PUBLIC	??0?$Vector@M$02@@QAE@MMM@Z			; Vector<float,3>::Vector<float,3>
 PUBLIC	?Cross@?$VectorSpec@M$02@@SA?AV?$Vector@M$02@@ABV2@0@Z ; VectorSpec<float,3>::Cross
-PUBLIC	?mul@?$VectorSpec@M$03@@IAEXM@Z			; VectorSpec<float,4>::mul
-PUBLIC	?add@?$VectorSpec@M$03@@IAEXABV1@@Z		; VectorSpec<float,4>::add
-PUBLIC	?mul@?$VectorSpec@M$03@@IAEXABV1@@Z		; VectorSpec<float,4>::mul
-PUBLIC	?spread@?$VectorSpec@M$03@@IAEXM@Z		; VectorSpec<float,4>::spread
-PUBLIC	?Assign@?$VectorSpec@M$03@@IAEXMMMM@Z		; VectorSpec<float,4>::Assign
+PUBLIC	?add@?$VectorSpec@M$03@@QAEXABV1@@Z		; VectorSpec<float,4>::add
+PUBLIC	?mul@?$VectorSpec@M$03@@QAEXABV1@@Z		; VectorSpec<float,4>::mul
+PUBLIC	?spread@?$VectorSpec@M$03@@QAEXM@Z		; VectorSpec<float,4>::spread
+PUBLIC	?Assign@?$VectorSpec@M$03@@QAEXMMMM@Z		; VectorSpec<float,4>::Assign
 PUBLIC	??0?$VectorSpec@M$03@@QAE@MMMM@Z		; VectorSpec<float,4>::VectorSpec<float,4>
-PUBLIC	?mul@?$VectorSpec@M$02@@IAEXM@Z			; VectorSpec<float,3>::mul
-PUBLIC	?add@?$VectorSpec@M$02@@IAEXABV1@@Z		; VectorSpec<float,3>::add
-PUBLIC	?mul@?$VectorSpec@M$02@@IAEXABV1@@Z		; VectorSpec<float,3>::mul
-PUBLIC	?spread@?$VectorSpec@M$02@@IAEXM@Z		; VectorSpec<float,3>::spread
-PUBLIC	?Assign@?$VectorSpec@M$02@@IAEXMMM@Z		; VectorSpec<float,3>::Assign
+PUBLIC	?add@?$VectorSpec@M$02@@QAEXABV1@@Z		; VectorSpec<float,3>::add
+PUBLIC	?mul@?$VectorSpec@M$02@@QAEXABV1@@Z		; VectorSpec<float,3>::mul
+PUBLIC	?spread@?$VectorSpec@M$02@@QAEXM@Z		; VectorSpec<float,3>::spread
+PUBLIC	?Assign@?$VectorSpec@M$02@@QAEXMMM@Z		; VectorSpec<float,3>::Assign
 PUBLIC	??0?$VectorSpec@M$02@@QAE@MMM@Z			; VectorSpec<float,3>::VectorSpec<float,3>
 PUBLIC	?set@Simd4f@@SA?AT1@MMMM@Z			; Simd4f::set
 PUBLIC	?spread@Simd4f@@SA?AT1@M@Z			; Simd4f::spread
-PUBLIC	?mul@Simd4f@@SA?AT1@ABT1@M@Z			; Simd4f::mul
 PUBLIC	?add@Simd4f@@SA?AT1@ABT1@0@Z			; Simd4f::add
 PUBLIC	?mul@Simd4f@@SA?AT1@ABT1@0@Z			; Simd4f::mul
 PUBLIC	?_Deallocate@std@@YAXPAXII@Z			; std::_Deallocate
@@ -859,45 +846,6 @@ $T2 = 8							; size = 4
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
 ; File d:\programming\mathter\mathter\simd4f_sse.hpp
-;	COMDAT ?mul@Simd4f@@SA?AT1@ABT1@M@Z
-_TEXT	SEGMENT
-$T3 = 8							; size = 4
-?mul@Simd4f@@SA?AT1@ABT1@M@Z PROC			; Simd4f::mul, COMDAT
-; _lhs$ = ecx
-; _rhs$ = xmm2s
-
-; 35   : 	static inline Simd4f mul(const Simd4f& lhs, float rhs) {
-
-	push	ebx
-	mov	ebx, esp
-	sub	esp, 8
-	and	esp, -8					; fffffff8H
-	add	esp, 4
-	push	ebp
-	mov	ebp, DWORD PTR [ebx+4]
-
-; 36   : 		Simd4f res;
-; 37   : 		__m128 tmp = _mm_set1_ps(rhs);
-; 38   : 		res.reg = _mm_mul_ps(lhs.reg, tmp);
-
-	mov	eax, DWORD PTR $T3[ebx]
-	movaps	xmm0, xmm2
-	shufps	xmm0, xmm0, 0
-	mulps	xmm0, XMMWORD PTR [ecx]
-	mov	DWORD PTR [esp+4], ebp
-	movups	XMMWORD PTR [eax], xmm0
-
-; 39   : 		return res;
-; 40   : 	}
-
-	pop	ebp
-	mov	esp, ebx
-	pop	ebx
-	ret	0
-?mul@Simd4f@@SA?AT1@ABT1@M@Z ENDP			; Simd4f::mul
-_TEXT	ENDS
-; Function compile flags: /Ogtp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
 ;	COMDAT ?spread@Simd4f@@SA?AT1@M@Z
 _TEXT	SEGMENT
 $T2 = 8							; size = 4
@@ -999,7 +947,7 @@ _TEXT	SEGMENT
 	unpcklps xmm2, xmm1
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 312  : 	}
+; 313  : 	}
 
 	mov	eax, ecx
 ; File d:\programming\mathter\mathter\simd4f_sse.hpp
@@ -1009,11 +957,11 @@ _TEXT	SEGMENT
 	unpcklps xmm4, xmm2
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 311  : 		simd = Simd4f::set(x, y, z, 0);
+; 312  : 		simd = Simd4f::set(x, y, z, 0);
 
 	movups	XMMWORD PTR [ecx], xmm4
 
-; 312  : 	}
+; 313  : 	}
 
 	ret	0
 ??0?$VectorSpec@M$02@@QAE@MMM@Z ENDP			; VectorSpec<float,3>::VectorSpec<float,3>
@@ -1022,9 +970,9 @@ _TEXT	ENDS
 ; File d:\programming\mathter\mathter\vector.hpp
 ; File d:\programming\mathter\mathter\simd4f_sse.hpp
 ; File d:\programming\mathter\mathter\vector.hpp
-;	COMDAT ?Assign@?$VectorSpec@M$02@@IAEXMMM@Z
+;	COMDAT ?Assign@?$VectorSpec@M$02@@QAEXMMM@Z
 _TEXT	SEGMENT
-?Assign@?$VectorSpec@M$02@@IAEXMMM@Z PROC		; VectorSpec<float,3>::Assign, COMDAT
+?Assign@?$VectorSpec@M$02@@QAEXMMM@Z PROC		; VectorSpec<float,3>::Assign, COMDAT
 ; _this$ = ecx
 ; _x$ = xmm1s
 ; _y$ = xmm2s
@@ -1041,26 +989,26 @@ _TEXT	SEGMENT
 	unpcklps xmm4, xmm2
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 326  : 		simd = Simd4f::set(x, y, z, 0);
+; 327  : 		simd = Simd4f::set(x, y, z, 0);
 
 	movups	XMMWORD PTR [ecx], xmm4
 
-; 327  : 	}
+; 328  : 	}
 
 	ret	0
-?Assign@?$VectorSpec@M$02@@IAEXMMM@Z ENDP		; VectorSpec<float,3>::Assign
+?Assign@?$VectorSpec@M$02@@QAEXMMM@Z ENDP		; VectorSpec<float,3>::Assign
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
 ; File d:\programming\mathter\mathter\vector.hpp
 ; File d:\programming\mathter\mathter\simd4f_sse.hpp
 ; File d:\programming\mathter\mathter\vector.hpp
-;	COMDAT ?spread@?$VectorSpec@M$02@@IAEXM@Z
+;	COMDAT ?spread@?$VectorSpec@M$02@@QAEXM@Z
 _TEXT	SEGMENT
-?spread@?$VectorSpec@M$02@@IAEXM@Z PROC			; VectorSpec<float,3>::spread, COMDAT
+?spread@?$VectorSpec@M$02@@QAEXM@Z PROC			; VectorSpec<float,3>::spread, COMDAT
 ; _this$ = ecx
 ; _all$ = xmm1s
 
-; 328  : 	inline void spread(float all) {
+; 329  : 	inline void spread(float all) {
 
 	movaps	xmm0, xmm1
 ; File d:\programming\mathter\mathter\simd4f_sse.hpp
@@ -1070,14 +1018,14 @@ _TEXT	SEGMENT
 	shufps	xmm0, xmm0, 0
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 329  : 		simd = Simd4f::spread(all);
+; 330  : 		simd = Simd4f::spread(all);
 
 	movups	XMMWORD PTR [ecx], xmm0
 
-; 330  : 	}
+; 331  : 	}
 
 	ret	0
-?spread@?$VectorSpec@M$02@@IAEXM@Z ENDP			; VectorSpec<float,3>::spread
+?spread@?$VectorSpec@M$02@@QAEXM@Z ENDP			; VectorSpec<float,3>::spread
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
 ; File d:\programming\mathter\mathter\vector.hpp
@@ -1085,13 +1033,13 @@ _TEXT	ENDS
 ; File d:\programming\mathter\mathter\vector.hpp
 ; File d:\programming\mathter\mathter\simd4f_sse.hpp
 ; File d:\programming\mathter\mathter\vector.hpp
-;	COMDAT ?mul@?$VectorSpec@M$02@@IAEXABV1@@Z
+;	COMDAT ?mul@?$VectorSpec@M$02@@QAEXABV1@@Z
 _TEXT	SEGMENT
 _rhs$ = 8						; size = 4
-?mul@?$VectorSpec@M$02@@IAEXABV1@@Z PROC		; VectorSpec<float,3>::mul, COMDAT
+?mul@?$VectorSpec@M$02@@QAEXABV1@@Z PROC		; VectorSpec<float,3>::mul, COMDAT
 ; _this$ = ecx
 
-; 333  : 	inline void mul(const VectorSpec<float, 3>& rhs) {
+; 334  : 	inline void mul(const VectorSpec<float, 3>& rhs) {
 
 	push	ebx
 	mov	ebx, esp
@@ -1107,7 +1055,7 @@ _rhs$ = 8						; size = 4
 	mov	eax, DWORD PTR _rhs$[ebx]
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 333  : 	inline void mul(const VectorSpec<float, 3>& rhs) {
+; 334  : 	inline void mul(const VectorSpec<float, 3>& rhs) {
 
 	mov	DWORD PTR [esp+4], ebp
 ; File d:\programming\mathter\mathter\simd4f_sse.hpp
@@ -1118,17 +1066,17 @@ _rhs$ = 8						; size = 4
 	mulps	xmm0, XMMWORD PTR [ecx]
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 334  : 		simd = Simd4f::mul(simd, rhs.simd);
+; 335  : 		simd = Simd4f::mul(simd, rhs.simd);
 
 	movups	XMMWORD PTR [ecx], xmm0
 
-; 335  : 	}
+; 336  : 	}
 
 	pop	ebp
 	mov	esp, ebx
 	pop	ebx
 	ret	4
-?mul@?$VectorSpec@M$02@@IAEXABV1@@Z ENDP		; VectorSpec<float,3>::mul
+?mul@?$VectorSpec@M$02@@QAEXABV1@@Z ENDP		; VectorSpec<float,3>::mul
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
 ; File d:\programming\mathter\mathter\vector.hpp
@@ -1136,13 +1084,13 @@ _TEXT	ENDS
 ; File d:\programming\mathter\mathter\vector.hpp
 ; File d:\programming\mathter\mathter\simd4f_sse.hpp
 ; File d:\programming\mathter\mathter\vector.hpp
-;	COMDAT ?add@?$VectorSpec@M$02@@IAEXABV1@@Z
+;	COMDAT ?add@?$VectorSpec@M$02@@QAEXABV1@@Z
 _TEXT	SEGMENT
 _rhs$ = 8						; size = 4
-?add@?$VectorSpec@M$02@@IAEXABV1@@Z PROC		; VectorSpec<float,3>::add, COMDAT
+?add@?$VectorSpec@M$02@@QAEXABV1@@Z PROC		; VectorSpec<float,3>::add, COMDAT
 ; _this$ = ecx
 
-; 339  : 	inline void add(const VectorSpec<float, 3>& rhs) {
+; 340  : 	inline void add(const VectorSpec<float, 3>& rhs) {
 
 	push	ebx
 	mov	ebx, esp
@@ -1158,7 +1106,7 @@ _rhs$ = 8						; size = 4
 	mov	eax, DWORD PTR _rhs$[ebx]
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 339  : 	inline void add(const VectorSpec<float, 3>& rhs) {
+; 340  : 	inline void add(const VectorSpec<float, 3>& rhs) {
 
 	mov	DWORD PTR [esp+4], ebp
 ; File d:\programming\mathter\mathter\simd4f_sse.hpp
@@ -1169,50 +1117,17 @@ _rhs$ = 8						; size = 4
 	addps	xmm0, XMMWORD PTR [ecx]
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 340  : 		simd = Simd4f::add(simd, rhs.simd);
+; 341  : 		simd = Simd4f::add(simd, rhs.simd);
 
 	movups	XMMWORD PTR [ecx], xmm0
 
-; 341  : 	}
+; 342  : 	}
 
 	pop	ebp
 	mov	esp, ebx
 	pop	ebx
 	ret	4
-?add@?$VectorSpec@M$02@@IAEXABV1@@Z ENDP		; VectorSpec<float,3>::add
-_TEXT	ENDS
-; Function compile flags: /Ogtp
-; File d:\programming\mathter\mathter\vector.hpp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-; File d:\programming\mathter\mathter\vector.hpp
-;	COMDAT ?mul@?$VectorSpec@M$02@@IAEXM@Z
-_TEXT	SEGMENT
-?mul@?$VectorSpec@M$02@@IAEXM@Z PROC			; VectorSpec<float,3>::mul, COMDAT
-; _this$ = ecx
-; _rhs$ = xmm1s
-
-; 347  : 	inline void mul(float rhs) {
-
-	movaps	xmm0, xmm1
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-
-; 37   : 		__m128 tmp = _mm_set1_ps(rhs);
-
-	shufps	xmm0, xmm0, 0
-
-; 38   : 		res.reg = _mm_mul_ps(lhs.reg, tmp);
-
-	mulps	xmm0, XMMWORD PTR [ecx]
-; File d:\programming\mathter\mathter\vector.hpp
-
-; 348  : 		simd = Simd4f::mul(simd, rhs);
-
-	movups	XMMWORD PTR [ecx], xmm0
-
-; 349  : 	}
-
-	ret	0
-?mul@?$VectorSpec@M$02@@IAEXM@Z ENDP			; VectorSpec<float,3>::mul
+?add@?$VectorSpec@M$02@@QAEXABV1@@Z ENDP		; VectorSpec<float,3>::add
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
 ; File d:\programming\mathter\mathter\vector.hpp
@@ -1231,7 +1146,7 @@ _w$ = 8							; size = 4
 ; _y$ = xmm2s
 ; _z$ = xmm3s
 
-; 376  : 	VectorSpec(float x, float y, float z = 0, float w = 0) {
+; 377  : 	VectorSpec(float x, float y, float z = 0, float w = 0) {
 
 	push	ebx
 	mov	ebx, esp
@@ -1247,7 +1162,7 @@ _w$ = 8							; size = 4
 	movaps	xmm4, xmm1
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 376  : 	VectorSpec(float x, float y, float z = 0, float w = 0) {
+; 377  : 	VectorSpec(float x, float y, float z = 0, float w = 0) {
 
 	mov	DWORD PTR [esp+4], ebp
 ; File d:\programming\mathter\mathter\simd4f_sse.hpp
@@ -1259,7 +1174,7 @@ _w$ = 8							; size = 4
 	unpcklps xmm4, xmm0
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 378  : 	}
+; 379  : 	}
 
 	mov	eax, ecx
 ; File d:\programming\mathter\mathter\simd4f_sse.hpp
@@ -1270,11 +1185,11 @@ _w$ = 8							; size = 4
 	unpcklps xmm4, xmm2
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 390  : 		simd = Simd4f::set(x, y, z, w);
+; 391  : 		simd = Simd4f::set(x, y, z, w);
 
 	movups	XMMWORD PTR [ecx], xmm4
 
-; 378  : 	}
+; 379  : 	}
 
 	pop	ebp
 	mov	esp, ebx
@@ -1288,16 +1203,16 @@ _TEXT	ENDS
 ; File d:\programming\mathter\mathter\vector.hpp
 ; File d:\programming\mathter\mathter\simd4f_sse.hpp
 ; File d:\programming\mathter\mathter\vector.hpp
-;	COMDAT ?Assign@?$VectorSpec@M$03@@IAEXMMMM@Z
+;	COMDAT ?Assign@?$VectorSpec@M$03@@QAEXMMMM@Z
 _TEXT	SEGMENT
 _w$ = 8							; size = 4
-?Assign@?$VectorSpec@M$03@@IAEXMMMM@Z PROC		; VectorSpec<float,4>::Assign, COMDAT
+?Assign@?$VectorSpec@M$03@@QAEXMMMM@Z PROC		; VectorSpec<float,4>::Assign, COMDAT
 ; _this$ = ecx
 ; _x$ = xmm1s
 ; _y$ = xmm2s
 ; _z$ = xmm3s
 
-; 389  : 	inline void Assign(float x, float y, float z = 0, float w = 0) {
+; 390  : 	inline void Assign(float x, float y, float z = 0, float w = 0) {
 
 	push	ebx
 	mov	ebx, esp
@@ -1313,7 +1228,7 @@ _w$ = 8							; size = 4
 	movaps	xmm4, xmm1
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 389  : 	inline void Assign(float x, float y, float z = 0, float w = 0) {
+; 390  : 	inline void Assign(float x, float y, float z = 0, float w = 0) {
 
 	mov	DWORD PTR [esp+4], ebp
 ; File d:\programming\mathter\mathter\simd4f_sse.hpp
@@ -1327,29 +1242,29 @@ _w$ = 8							; size = 4
 	unpcklps xmm4, xmm2
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 390  : 		simd = Simd4f::set(x, y, z, w);
+; 391  : 		simd = Simd4f::set(x, y, z, w);
 
 	movups	XMMWORD PTR [ecx], xmm4
 
-; 391  : 	}
+; 392  : 	}
 
 	pop	ebp
 	mov	esp, ebx
 	pop	ebx
 	ret	4
-?Assign@?$VectorSpec@M$03@@IAEXMMMM@Z ENDP		; VectorSpec<float,4>::Assign
+?Assign@?$VectorSpec@M$03@@QAEXMMMM@Z ENDP		; VectorSpec<float,4>::Assign
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
 ; File d:\programming\mathter\mathter\vector.hpp
 ; File d:\programming\mathter\mathter\simd4f_sse.hpp
 ; File d:\programming\mathter\mathter\vector.hpp
-;	COMDAT ?spread@?$VectorSpec@M$03@@IAEXM@Z
+;	COMDAT ?spread@?$VectorSpec@M$03@@QAEXM@Z
 _TEXT	SEGMENT
-?spread@?$VectorSpec@M$03@@IAEXM@Z PROC			; VectorSpec<float,4>::spread, COMDAT
+?spread@?$VectorSpec@M$03@@QAEXM@Z PROC			; VectorSpec<float,4>::spread, COMDAT
 ; _this$ = ecx
 ; _all$ = xmm1s
 
-; 392  : 	inline void spread(float all) {
+; 393  : 	inline void spread(float all) {
 
 	movaps	xmm0, xmm1
 ; File d:\programming\mathter\mathter\simd4f_sse.hpp
@@ -1359,14 +1274,14 @@ _TEXT	SEGMENT
 	shufps	xmm0, xmm0, 0
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 393  : 		simd = Simd4f::spread(all);
+; 394  : 		simd = Simd4f::spread(all);
 
 	movups	XMMWORD PTR [ecx], xmm0
 
-; 394  : 	}
+; 395  : 	}
 
 	ret	0
-?spread@?$VectorSpec@M$03@@IAEXM@Z ENDP			; VectorSpec<float,4>::spread
+?spread@?$VectorSpec@M$03@@QAEXM@Z ENDP			; VectorSpec<float,4>::spread
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
 ; File d:\programming\mathter\mathter\vector.hpp
@@ -1374,13 +1289,13 @@ _TEXT	ENDS
 ; File d:\programming\mathter\mathter\vector.hpp
 ; File d:\programming\mathter\mathter\simd4f_sse.hpp
 ; File d:\programming\mathter\mathter\vector.hpp
-;	COMDAT ?mul@?$VectorSpec@M$03@@IAEXABV1@@Z
+;	COMDAT ?mul@?$VectorSpec@M$03@@QAEXABV1@@Z
 _TEXT	SEGMENT
 _rhs$ = 8						; size = 4
-?mul@?$VectorSpec@M$03@@IAEXABV1@@Z PROC		; VectorSpec<float,4>::mul, COMDAT
+?mul@?$VectorSpec@M$03@@QAEXABV1@@Z PROC		; VectorSpec<float,4>::mul, COMDAT
 ; _this$ = ecx
 
-; 397  : 	inline void mul(const VectorSpec<float, 4>& rhs) {
+; 398  : 	inline void mul(const VectorSpec<float, 4>& rhs) {
 
 	push	ebx
 	mov	ebx, esp
@@ -1396,7 +1311,7 @@ _rhs$ = 8						; size = 4
 	mov	eax, DWORD PTR _rhs$[ebx]
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 397  : 	inline void mul(const VectorSpec<float, 4>& rhs) {
+; 398  : 	inline void mul(const VectorSpec<float, 4>& rhs) {
 
 	mov	DWORD PTR [esp+4], ebp
 ; File d:\programming\mathter\mathter\simd4f_sse.hpp
@@ -1407,17 +1322,17 @@ _rhs$ = 8						; size = 4
 	mulps	xmm0, XMMWORD PTR [ecx]
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 398  : 		simd = Simd4f::mul(simd, rhs.simd);
+; 399  : 		simd = Simd4f::mul(simd, rhs.simd);
 
 	movups	XMMWORD PTR [ecx], xmm0
 
-; 399  : 	}
+; 400  : 	}
 
 	pop	ebp
 	mov	esp, ebx
 	pop	ebx
 	ret	4
-?mul@?$VectorSpec@M$03@@IAEXABV1@@Z ENDP		; VectorSpec<float,4>::mul
+?mul@?$VectorSpec@M$03@@QAEXABV1@@Z ENDP		; VectorSpec<float,4>::mul
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
 ; File d:\programming\mathter\mathter\vector.hpp
@@ -1425,13 +1340,13 @@ _TEXT	ENDS
 ; File d:\programming\mathter\mathter\vector.hpp
 ; File d:\programming\mathter\mathter\simd4f_sse.hpp
 ; File d:\programming\mathter\mathter\vector.hpp
-;	COMDAT ?add@?$VectorSpec@M$03@@IAEXABV1@@Z
+;	COMDAT ?add@?$VectorSpec@M$03@@QAEXABV1@@Z
 _TEXT	SEGMENT
 _rhs$ = 8						; size = 4
-?add@?$VectorSpec@M$03@@IAEXABV1@@Z PROC		; VectorSpec<float,4>::add, COMDAT
+?add@?$VectorSpec@M$03@@QAEXABV1@@Z PROC		; VectorSpec<float,4>::add, COMDAT
 ; _this$ = ecx
 
-; 403  : 	inline void add(const VectorSpec<float, 4>& rhs) {
+; 404  : 	inline void add(const VectorSpec<float, 4>& rhs) {
 
 	push	ebx
 	mov	ebx, esp
@@ -1447,7 +1362,7 @@ _rhs$ = 8						; size = 4
 	mov	eax, DWORD PTR _rhs$[ebx]
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 403  : 	inline void add(const VectorSpec<float, 4>& rhs) {
+; 404  : 	inline void add(const VectorSpec<float, 4>& rhs) {
 
 	mov	DWORD PTR [esp+4], ebp
 ; File d:\programming\mathter\mathter\simd4f_sse.hpp
@@ -1458,50 +1373,17 @@ _rhs$ = 8						; size = 4
 	addps	xmm0, XMMWORD PTR [ecx]
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 404  : 		simd = Simd4f::add(simd, rhs.simd);
+; 405  : 		simd = Simd4f::add(simd, rhs.simd);
 
 	movups	XMMWORD PTR [ecx], xmm0
 
-; 405  : 	}
+; 406  : 	}
 
 	pop	ebp
 	mov	esp, ebx
 	pop	ebx
 	ret	4
-?add@?$VectorSpec@M$03@@IAEXABV1@@Z ENDP		; VectorSpec<float,4>::add
-_TEXT	ENDS
-; Function compile flags: /Ogtp
-; File d:\programming\mathter\mathter\vector.hpp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-; File d:\programming\mathter\mathter\vector.hpp
-;	COMDAT ?mul@?$VectorSpec@M$03@@IAEXM@Z
-_TEXT	SEGMENT
-?mul@?$VectorSpec@M$03@@IAEXM@Z PROC			; VectorSpec<float,4>::mul, COMDAT
-; _this$ = ecx
-; _rhs$ = xmm1s
-
-; 411  : 	inline void mul(float rhs) {
-
-	movaps	xmm0, xmm1
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-
-; 37   : 		__m128 tmp = _mm_set1_ps(rhs);
-
-	shufps	xmm0, xmm0, 0
-
-; 38   : 		res.reg = _mm_mul_ps(lhs.reg, tmp);
-
-	mulps	xmm0, XMMWORD PTR [ecx]
-; File d:\programming\mathter\mathter\vector.hpp
-
-; 412  : 		simd = Simd4f::mul(simd, rhs);
-
-	movups	XMMWORD PTR [ecx], xmm0
-
-; 413  : 	}
-
-	ret	0
-?mul@?$VectorSpec@M$03@@IAEXM@Z ENDP			; VectorSpec<float,4>::mul
+?add@?$VectorSpec@M$03@@QAEXABV1@@Z ENDP		; VectorSpec<float,4>::add
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
 ; File d:\programming\mathter\mathter\vector.hpp
@@ -1514,7 +1396,7 @@ _rhs$ = 8						; size = 4
 ; ___$ReturnUdt$ = ecx
 ; _lhs$ = edx
 
-; 908  : inline Vector<float, 3> VectorSpec<float, 3>::Cross(const Vector<float, 3>& lhs, const Vector<float, 3>& rhs) {
+; 909  : inline Vector<float, 3> VectorSpec<float, 3>::Cross(const Vector<float, 3>& lhs, const Vector<float, 3>& rhs) {
 
 	push	ebx
 	mov	ebx, esp
@@ -1524,7 +1406,7 @@ _rhs$ = 8						; size = 4
 	push	ebp
 	mov	ebp, DWORD PTR [ebx+4]
 
-; 909  : 	return Vector<float, 3>(lhs.y * rhs.z - lhs.z * rhs.y,
+; 910  : 	return Vector<float, 3>(lhs.y * rhs.z - lhs.z * rhs.y,
 
 	mov	eax, DWORD PTR _rhs$[ebx]
 	movss	xmm1, DWORD PTR [edx]
@@ -1554,13 +1436,13 @@ _rhs$ = 8						; size = 4
 	unpcklps xmm7, xmm2
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 311  : 		simd = Simd4f::set(x, y, z, 0);
+; 312  : 		simd = Simd4f::set(x, y, z, 0);
 
 	movups	XMMWORD PTR [ecx], xmm7
 
-; 910  : 		lhs.z * rhs.x - lhs.x * rhs.z,
-; 911  : 		lhs.x * rhs.y - lhs.y * rhs.x);
-; 912  : }
+; 911  : 							lhs.z * rhs.x - lhs.x * rhs.z,
+; 912  : 							lhs.x * rhs.y - lhs.y * rhs.x);
+; 913  : }
 
 	pop	ebp
 	mov	esp, ebx
@@ -1591,7 +1473,7 @@ _TEXT	SEGMENT
 	unpcklps xmm4, xmm2
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 311  : 		simd = Simd4f::set(x, y, z, 0);
+; 312  : 		simd = Simd4f::set(x, y, z, 0);
 
 	movups	XMMWORD PTR [ecx], xmm4
 	ret	0
@@ -1790,7 +1672,7 @@ _main	PROC						; COMDAT
 	push	OFFSET ??$endl@DU?$char_traits@D@std@@@std@@YAAAV?$basic_ostream@DU?$char_traits@D@std@@@0@AAV10@@Z ; std::endl<char,std::char_traits<char> >
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 398  : 		simd = Simd4f::mul(simd, rhs.simd);
+; 399  : 		simd = Simd4f::mul(simd, rhs.simd);
 
 	movaps	XMMWORD PTR _v3$[ebp], xmm0
 ; File d:\programming\mathter\main.cpp
@@ -2374,408 +2256,6 @@ __ehhandler$_main:
 text$x	ENDS
 _main	ENDP
 ; Function compile flags: /Ogtp
-; File d:\programming\mathter\mathter\matrix.hpp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-; File d:\programming\mathter\mathter\matrix.hpp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-; File d:\programming\mathter\mathter\matrix.hpp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-; File d:\programming\mathter\mathter\matrix.hpp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-; File d:\programming\mathter\mathter\vector.hpp
-; File d:\programming\mathter\mathter\matrix.hpp
-;	COMDAT ??$?DMM$03$03$03$0A@$0A@$00$00$0A@@@YA?AV?$Matrix@M$03$03$0A@$00@@ABV0@0@Z
-_TEXT	SEGMENT
-___$ReturnUdt$1$ = -8					; size = 4
-tv833 = -4						; size = 4
-_lhs$1$ = -4						; size = 4
-_rhs$ = 8						; size = 4
-??$?DMM$03$03$03$0A@$0A@$00$00$0A@@@YA?AV?$Matrix@M$03$03$0A@$00@@ABV0@0@Z PROC ; operator*<float,float,4,4,4,0,0,1,1,0>, COMDAT
-; ___$ReturnUdt$ = ecx
-; _lhs$ = edx
-
-; 153  : auto operator*(const Matrix<T, Match, Rows1, Layout1, Order1>& lhs, const Matrix<U, Columns2, Match, Layout2, Order2>& rhs) {
-
-	push	ebx
-	mov	ebx, esp
-	sub	esp, 8
-	and	esp, -8					; fffffff8H
-	add	esp, 4
-	push	ebp
-	mov	ebp, DWORD PTR [ebx+4]
-	mov	DWORD PTR [esp+4], ebp
-	mov	ebp, esp
-	sub	esp, 8
-	push	esi
-
-; 163  : 		for (int y = 0; y < Rows1; ++y) {
-
-	mov	esi, edx
-	mov	DWORD PTR _lhs$1$[ebp], edx
-	mov	edx, DWORD PTR _rhs$[ebx]
-	mov	eax, ecx
-	push	edi
-	mov	DWORD PTR ___$ReturnUdt$1$[ebp], ecx
-	sub	esi, ecx
-	mov	edi, 4
-	npad	1
-$LL4@operator:
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-
-; 69   : 		res.reg = _mm_set1_ps(value);
-
-	movss	xmm1, DWORD PTR [esi+eax]
-; File d:\programming\mathter\mathter\matrix.hpp
-
-; 163  : 		for (int y = 0; y < Rows1; ++y) {
-
-	lea	eax, DWORD PTR [eax+16]
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-
-; 13   : 		res.reg = _mm_mul_ps(lhs.reg, rhs.reg);
-
-	movups	xmm0, XMMWORD PTR [edx]
-
-; 69   : 		res.reg = _mm_set1_ps(value);
-
-	shufps	xmm1, xmm1, 0
-
-; 13   : 		res.reg = _mm_mul_ps(lhs.reg, rhs.reg);
-
-	mulps	xmm0, xmm1
-; File d:\programming\mathter\mathter\matrix.hpp
-
-; 165  : 			result.stripes[y] = scalarMultiplier * rhs.stripes[0];
-
-	movups	XMMWORD PTR [eax-16], xmm0
-	sub	edi, 1
-	jne	SHORT $LL4@operator
-
-; 166  : 		}
-; 167  : 		for (int x = 1; x < Columns2; ++x) {
-
-	mov	edi, DWORD PTR _lhs$1$[ebp]
-	add	edi, 4
-	mov	DWORD PTR tv833[ebp], 3
-	add	edx, 16					; 00000010H
-	npad	5
-$LL7@operator:
-
-; 168  : 			for (int y = 0; y < Rows1; ++y) {
-
-	mov	eax, ecx
-	mov	esi, 4
-	mov	ecx, edi
-	npad	7
-$LL10@operator:
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-
-; 69   : 		res.reg = _mm_set1_ps(value);
-
-	movss	xmm1, DWORD PTR [ecx]
-; File d:\programming\mathter\mathter\matrix.hpp
-
-; 168  : 			for (int y = 0; y < Rows1; ++y) {
-
-	add	ecx, 16					; 00000010H
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-
-; 13   : 		res.reg = _mm_mul_ps(lhs.reg, rhs.reg);
-
-	movups	xmm0, XMMWORD PTR [edx]
-
-; 69   : 		res.reg = _mm_set1_ps(value);
-
-	shufps	xmm1, xmm1, 0
-
-; 13   : 		res.reg = _mm_mul_ps(lhs.reg, rhs.reg);
-
-	mulps	xmm0, xmm1
-
-; 25   : 		res.reg = _mm_add_ps(lhs.reg, rhs.reg);
-
-	addps	xmm0, XMMWORD PTR [eax]
-; File d:\programming\mathter\mathter\vector.hpp
-
-; 404  : 		simd = Simd4f::add(simd, rhs.simd);
-
-	movups	XMMWORD PTR [eax], xmm0
-; File d:\programming\mathter\mathter\matrix.hpp
-
-; 168  : 			for (int y = 0; y < Rows1; ++y) {
-
-	add	eax, 16					; 00000010H
-	sub	esi, 1
-	jne	SHORT $LL10@operator
-
-; 166  : 		}
-; 167  : 		for (int x = 1; x < Columns2; ++x) {
-
-	mov	ecx, DWORD PTR ___$ReturnUdt$1$[ebp]
-	add	edx, 16					; 00000010H
-	add	edi, 4
-	sub	DWORD PTR tv833[ebp], 1
-	jne	SHORT $LL7@operator
-
-; 169  : 				scalarMultiplier.Spread(lhs(x, y));
-; 170  : 				result.stripes[y] += scalarMultiplier * rhs.stripes[x];
-; 171  : 			}
-; 172  : 		}
-; 173  : 	}
-; 174  : 	// With more than 4 sized vector ops, SSE spread will be used by vectors internally.
-; 175  : 	else {
-; 176  : 		ElemT scalarMultiplier;
-; 177  : 		for (int y = 0; y < Rows1; ++y) {
-; 178  : 			scalarMultiplier = lhs(0, y);
-; 179  : 			result.stripes[y] = scalarMultiplier * rhs.stripes[y];
-; 180  : 		}
-; 181  : 		for (int x = 1; x < Columns2; ++x) {
-; 182  : 			for (int y = 0; y < Rows1; ++y) {
-; 183  : 				scalarMultiplier = lhs(x, y);
-; 184  : 				result.stripes[y] += scalarMultiplier * rhs.stripes[y];
-; 185  : 			}
-; 186  : 		}
-; 187  : 	}
-; 188  : 	return result;
-; 189  : }
-
-	pop	edi
-	mov	eax, ecx
-	pop	esi
-	mov	esp, ebp
-	pop	ebp
-	mov	esp, ebx
-	pop	ebx
-	ret	0
-??$?DMM$03$03$03$0A@$0A@$00$00$0A@@@YA?AV?$Matrix@M$03$03$0A@$00@@ABV0@0@Z ENDP ; operator*<float,float,4,4,4,0,0,1,1,0>
-_TEXT	ENDS
-; Function compile flags: /Ogtp
-; File d:\programming\mathter\mathter\matrix.hpp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-; File d:\programming\mathter\mathter\matrix.hpp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-; File d:\programming\mathter\mathter\vector.hpp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-; File d:\programming\mathter\mathter\vector.hpp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-; File d:\programming\mathter\mathter\vector.hpp
-; File d:\programming\mathter\mathter\matrix.hpp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-; File d:\programming\mathter\mathter\matrix.hpp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-; File d:\programming\mathter\mathter\vector.hpp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-; File d:\programming\mathter\mathter\vector.hpp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-; File d:\programming\mathter\mathter\vector.hpp
-; File d:\programming\mathter\mathter\matrix.hpp
-;	COMDAT ??$?DMM$02$02$02$0A@$0A@$00$00$0A@@@YA?AV?$Matrix@M$02$02$0A@$00@@ABV0@0@Z
-_TEXT	SEGMENT
-$T13 = -32						; size = 16
-$T5 = -32						; size = 16
-___$ReturnUdt$1$ = -8					; size = 4
-tv812 = -4						; size = 4
-_lhs$1$ = -4						; size = 4
-_rhs$ = 8						; size = 4
-??$?DMM$02$02$02$0A@$0A@$00$00$0A@@@YA?AV?$Matrix@M$02$02$0A@$00@@ABV0@0@Z PROC ; operator*<float,float,3,3,3,0,0,1,1,0>, COMDAT
-; ___$ReturnUdt$ = ecx
-; _lhs$ = edx
-
-; 153  : auto operator*(const Matrix<T, Match, Rows1, Layout1, Order1>& lhs, const Matrix<U, Columns2, Match, Layout2, Order2>& rhs) {
-
-	push	ebx
-	mov	ebx, esp
-	sub	esp, 8
-	and	esp, -16				; fffffff0H
-	add	esp, 4
-	push	ebp
-	mov	ebp, DWORD PTR [ebx+4]
-	mov	DWORD PTR [esp+4], ebp
-	mov	ebp, esp
-	sub	esp, 40					; 00000028H
-	push	esi
-
-; 163  : 		for (int y = 0; y < Rows1; ++y) {
-
-	mov	esi, edx
-	mov	DWORD PTR _lhs$1$[ebp], edx
-	mov	edx, DWORD PTR _rhs$[ebx]
-	mov	eax, ecx
-	push	edi
-	mov	DWORD PTR ___$ReturnUdt$1$[ebp], ecx
-	sub	esi, ecx
-	mov	edi, 3
-	npad	1
-$LL4@operator:
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-
-; 69   : 		res.reg = _mm_set1_ps(value);
-
-	movss	xmm1, DWORD PTR [esi+eax]
-; File d:\programming\mathter\mathter\matrix.hpp
-
-; 163  : 		for (int y = 0; y < Rows1; ++y) {
-
-	lea	eax, DWORD PTR [eax+16]
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-
-; 69   : 		res.reg = _mm_set1_ps(value);
-
-	shufps	xmm1, xmm1, 0
-; File d:\programming\mathter\mathter\vector.hpp
-
-; 778  : 			data[i] = rhs.data[i];
-
-	movss	DWORD PTR $T5[ebp], xmm1
-	movaps	xmm0, xmm1
-	shufps	xmm0, xmm1, 85				; 00000055H
-	movss	DWORD PTR $T5[ebp+4], xmm0
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-
-; 13   : 		res.reg = _mm_mul_ps(lhs.reg, rhs.reg);
-
-	movups	xmm0, XMMWORD PTR [edx]
-; File d:\programming\mathter\mathter\vector.hpp
-
-; 778  : 			data[i] = rhs.data[i];
-
-	movss	DWORD PTR $T5[ebp+8], xmm1
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-
-; 13   : 		res.reg = _mm_mul_ps(lhs.reg, rhs.reg);
-
-	mulps	xmm0, XMMWORD PTR $T5[ebp]
-; File d:\programming\mathter\mathter\vector.hpp
-
-; 334  : 		simd = Simd4f::mul(simd, rhs.simd);
-
-	movaps	XMMWORD PTR $T5[ebp], xmm0
-; File d:\programming\mathter\mathter\matrix.hpp
-
-; 165  : 			result.stripes[y] = scalarMultiplier * rhs.stripes[0];
-
-	movups	XMMWORD PTR [eax-16], xmm0
-	sub	edi, 1
-	jne	SHORT $LL4@operator
-
-; 166  : 		}
-; 167  : 		for (int x = 1; x < Columns2; ++x) {
-
-	mov	edi, DWORD PTR _lhs$1$[ebp]
-	add	edi, 4
-	mov	DWORD PTR tv812[ebp], 2
-	add	edx, 16					; 00000010H
-$LL7@operator:
-
-; 168  : 			for (int y = 0; y < Rows1; ++y) {
-
-	mov	eax, ecx
-	mov	esi, 3
-	mov	ecx, edi
-	npad	1
-$LL10@operator:
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-
-; 69   : 		res.reg = _mm_set1_ps(value);
-
-	movss	xmm1, DWORD PTR [ecx]
-; File d:\programming\mathter\mathter\matrix.hpp
-
-; 168  : 			for (int y = 0; y < Rows1; ++y) {
-
-	add	ecx, 16					; 00000010H
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-
-; 69   : 		res.reg = _mm_set1_ps(value);
-
-	shufps	xmm1, xmm1, 0
-; File d:\programming\mathter\mathter\vector.hpp
-
-; 778  : 			data[i] = rhs.data[i];
-
-	movaps	xmm0, xmm1
-	movss	DWORD PTR $T13[ebp], xmm1
-	shufps	xmm0, xmm1, 85				; 00000055H
-	movss	DWORD PTR $T13[ebp+8], xmm1
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-
-; 13   : 		res.reg = _mm_mul_ps(lhs.reg, rhs.reg);
-
-	movups	xmm1, XMMWORD PTR [edx]
-; File d:\programming\mathter\mathter\vector.hpp
-
-; 778  : 			data[i] = rhs.data[i];
-
-	movss	DWORD PTR $T13[ebp+4], xmm0
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-
-; 13   : 		res.reg = _mm_mul_ps(lhs.reg, rhs.reg);
-
-	mulps	xmm1, XMMWORD PTR $T13[ebp]
-
-; 25   : 		res.reg = _mm_add_ps(lhs.reg, rhs.reg);
-
-	movups	xmm0, XMMWORD PTR [eax]
-	addps	xmm0, xmm1
-; File d:\programming\mathter\mathter\vector.hpp
-
-; 334  : 		simd = Simd4f::mul(simd, rhs.simd);
-
-	movaps	XMMWORD PTR $T13[ebp], xmm1
-
-; 340  : 		simd = Simd4f::add(simd, rhs.simd);
-
-	movups	XMMWORD PTR [eax], xmm0
-; File d:\programming\mathter\mathter\matrix.hpp
-
-; 168  : 			for (int y = 0; y < Rows1; ++y) {
-
-	add	eax, 16					; 00000010H
-	sub	esi, 1
-	jne	SHORT $LL10@operator
-
-; 166  : 		}
-; 167  : 		for (int x = 1; x < Columns2; ++x) {
-
-	mov	ecx, DWORD PTR ___$ReturnUdt$1$[ebp]
-	add	edx, 16					; 00000010H
-	add	edi, 4
-	sub	DWORD PTR tv812[ebp], 1
-	jne	SHORT $LL7@operator
-
-; 169  : 				scalarMultiplier.Spread(lhs(x, y));
-; 170  : 				result.stripes[y] += scalarMultiplier * rhs.stripes[x];
-; 171  : 			}
-; 172  : 		}
-; 173  : 	}
-; 174  : 	// With more than 4 sized vector ops, SSE spread will be used by vectors internally.
-; 175  : 	else {
-; 176  : 		ElemT scalarMultiplier;
-; 177  : 		for (int y = 0; y < Rows1; ++y) {
-; 178  : 			scalarMultiplier = lhs(0, y);
-; 179  : 			result.stripes[y] = scalarMultiplier * rhs.stripes[y];
-; 180  : 		}
-; 181  : 		for (int x = 1; x < Columns2; ++x) {
-; 182  : 			for (int y = 0; y < Rows1; ++y) {
-; 183  : 				scalarMultiplier = lhs(x, y);
-; 184  : 				result.stripes[y] += scalarMultiplier * rhs.stripes[y];
-; 185  : 			}
-; 186  : 		}
-; 187  : 	}
-; 188  : 	return result;
-; 189  : }
-
-	pop	edi
-	mov	eax, ecx
-	pop	esi
-	mov	esp, ebp
-	pop	ebp
-	mov	esp, ebx
-	pop	ebx
-	ret	0
-??$?DMM$02$02$02$0A@$0A@$00$00$0A@@@YA?AV?$Matrix@M$02$02$0A@$00@@ABV0@0@Z ENDP ; operator*<float,float,3,3,3,0,0,1,1,0>
-_TEXT	ENDS
-; Function compile flags: /Ogtp
 ; File d:\programming\mathter\mathter\simd4f_sse.hpp
 ; File d:\programming\mathter\mathter\vector.hpp
 ;	COMDAT ??0?$Vector@M$03@@QAE@MMMM@Z
@@ -2807,7 +2287,7 @@ ___param3$ = 8						; size = 4
 	unpcklps xmm4, xmm2
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 390  : 		simd = Simd4f::set(x, y, z, w);
+; 391  : 		simd = Simd4f::set(x, y, z, w);
 
 	movups	XMMWORD PTR [ecx], xmm4
 	pop	ebp
@@ -2835,67 +2315,6 @@ _TEXT	SEGMENT
 ??0?$MatrixData@M$03$03$0A@$00@@QAE@XZ ENDP		; MatrixData<float,4,4,0,1>::MatrixData<float,4,4,0,1>
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
-;	COMDAT ??0?$Matrix@M$03$03$0A@$00@@QAE@$$QAV0@@Z
-_TEXT	SEGMENT
-___that$ = 8						; size = 4
-??0?$Matrix@M$03$03$0A@$00@@QAE@$$QAV0@@Z PROC		; Matrix<float,4,4,0,1>::Matrix<float,4,4,0,1>, COMDAT
-; _this$ = ecx
-	push	ebp
-	mov	ebp, esp
-	push	esi
-	push	DWORD PTR ___that$[ebp]
-	mov	esi, ecx
-	call	??0?$MatrixData@M$03$03$0A@$00@@QAE@$$QAV0@@Z
-	mov	eax, esi
-	pop	esi
-	pop	ebp
-	ret	4
-??0?$Matrix@M$03$03$0A@$00@@QAE@$$QAV0@@Z ENDP		; Matrix<float,4,4,0,1>::Matrix<float,4,4,0,1>
-_TEXT	ENDS
-; Function compile flags: /Ogtp
-; File d:\programming\mathter\mathter\vector.hpp
-;	COMDAT ??0?$MatrixData@M$03$03$0A@$00@@QAE@$$QAV0@@Z
-_TEXT	SEGMENT
-___that$ = 8						; size = 4
-??0?$MatrixData@M$03$03$0A@$00@@QAE@$$QAV0@@Z PROC	; MatrixData<float,4,4,0,1>::MatrixData<float,4,4,0,1>, COMDAT
-; _this$ = ecx
-	push	ebp
-	mov	ebp, esp
-	push	ebx
-	mov	ebx, ecx
-	mov	ecx, DWORD PTR ___that$[ebp]
-	push	esi
-	push	edi
-	mov	edi, 4
-	lea	esi, DWORD PTR [ecx+12]
-	sub	ecx, ebx
-	lea	edx, DWORD PTR [ebx+8]
-	npad	8
-$LL4@MatrixData:
-
-; 778  : 			data[i] = rhs.data[i];
-
-	mov	eax, DWORD PTR [esi-12]
-	lea	esi, DWORD PTR [esi+16]
-	mov	DWORD PTR [edx-8], eax
-	lea	edx, DWORD PTR [edx+16]
-	mov	eax, DWORD PTR [esi-24]
-	mov	DWORD PTR [edx-20], eax
-	mov	eax, DWORD PTR [ecx+edx-16]
-	mov	DWORD PTR [edx-16], eax
-	mov	eax, DWORD PTR [esi-16]
-	mov	DWORD PTR [edx-12], eax
-	sub	edi, 1
-	jne	SHORT $LL4@MatrixData
-	pop	edi
-	pop	esi
-	mov	eax, ebx
-	pop	ebx
-	pop	ebp
-	ret	4
-??0?$MatrixData@M$03$03$0A@$00@@QAE@$$QAV0@@Z ENDP	; MatrixData<float,4,4,0,1>::MatrixData<float,4,4,0,1>
-_TEXT	ENDS
-; Function compile flags: /Ogtp
 ;	COMDAT ??0?$Matrix@M$02$02$0A@$00@@QAE@XZ
 _TEXT	SEGMENT
 ??0?$Matrix@M$02$02$0A@$00@@QAE@XZ PROC			; Matrix<float,3,3,0,1>::Matrix<float,3,3,0,1>, COMDAT
@@ -2912,86 +2331,6 @@ _TEXT	SEGMENT
 	mov	eax, ecx
 	ret	0
 ??0?$MatrixData@M$02$02$0A@$00@@QAE@XZ ENDP		; MatrixData<float,3,3,0,1>::MatrixData<float,3,3,0,1>
-_TEXT	ENDS
-; Function compile flags: /Ogtp
-; File d:\programming\mathter\mathter\vector.hpp
-;	COMDAT ??0?$Matrix@M$02$02$0A@$00@@QAE@$$QAV0@@Z
-_TEXT	SEGMENT
-___that$ = 8						; size = 4
-??0?$Matrix@M$02$02$0A@$00@@QAE@$$QAV0@@Z PROC		; Matrix<float,3,3,0,1>::Matrix<float,3,3,0,1>, COMDAT
-; _this$ = ecx
-	push	ebp
-	mov	ebp, esp
-	push	ebx
-	mov	ebx, ecx
-	push	esi
-	mov	esi, DWORD PTR ___that$[ebp]
-	mov	ecx, esi
-	push	edi
-	mov	edi, 3
-	lea	edx, DWORD PTR [ebx+8]
-	sub	ecx, ebx
-$LL6@Matrix:
-
-; 778  : 			data[i] = rhs.data[i];
-
-	mov	eax, DWORD PTR [esi]
-	lea	esi, DWORD PTR [esi+16]
-	mov	DWORD PTR [edx-8], eax
-	lea	edx, DWORD PTR [edx+16]
-	mov	eax, DWORD PTR [esi-12]
-	mov	DWORD PTR [edx-20], eax
-	mov	eax, DWORD PTR [ecx+edx-16]
-	mov	DWORD PTR [edx-16], eax
-	sub	edi, 1
-	jne	SHORT $LL6@Matrix
-	pop	edi
-	pop	esi
-	mov	eax, ebx
-	pop	ebx
-	pop	ebp
-	ret	4
-??0?$Matrix@M$02$02$0A@$00@@QAE@$$QAV0@@Z ENDP		; Matrix<float,3,3,0,1>::Matrix<float,3,3,0,1>
-_TEXT	ENDS
-; Function compile flags: /Ogtp
-; File d:\programming\mathter\mathter\vector.hpp
-;	COMDAT ??0?$MatrixData@M$02$02$0A@$00@@QAE@$$QAV0@@Z
-_TEXT	SEGMENT
-___that$ = 8						; size = 4
-??0?$MatrixData@M$02$02$0A@$00@@QAE@$$QAV0@@Z PROC	; MatrixData<float,3,3,0,1>::MatrixData<float,3,3,0,1>, COMDAT
-; _this$ = ecx
-	push	ebp
-	mov	ebp, esp
-	push	ebx
-	mov	ebx, ecx
-	push	esi
-	mov	esi, DWORD PTR ___that$[ebp]
-	mov	ecx, esi
-	push	edi
-	mov	edi, 3
-	lea	edx, DWORD PTR [ebx+8]
-	sub	ecx, ebx
-$LL4@MatrixData:
-
-; 778  : 			data[i] = rhs.data[i];
-
-	mov	eax, DWORD PTR [esi]
-	lea	esi, DWORD PTR [esi+16]
-	mov	DWORD PTR [edx-8], eax
-	lea	edx, DWORD PTR [edx+16]
-	mov	eax, DWORD PTR [esi-12]
-	mov	DWORD PTR [edx-20], eax
-	mov	eax, DWORD PTR [ecx+edx-16]
-	mov	DWORD PTR [edx-16], eax
-	sub	edi, 1
-	jne	SHORT $LL4@MatrixData
-	pop	edi
-	pop	esi
-	mov	eax, ebx
-	pop	ebx
-	pop	ebp
-	ret	4
-??0?$MatrixData@M$02$02$0A@$00@@QAE@$$QAV0@@Z ENDP	; MatrixData<float,3,3,0,1>::MatrixData<float,3,3,0,1>
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
 ;	COMDAT ??_H@YGXPAXIIP6EPAX0@Z@Z
@@ -3022,39 +2361,6 @@ $LL2@vector:
 	pop	ebp
 	ret	8
 ??_H@YGXPAXIIP6EPAX0@Z@Z ENDP				; `vector constructor iterator'
-_TEXT	ENDS
-; Function compile flags: /Ogtp
-;	COMDAT ??__G@YGXPAX0IIP6EPAX00@Z@Z
-_TEXT	SEGMENT
-___s$dead$ = 8						; size = 4
-___n$ = 12						; size = 4
-___f$ = 16						; size = 4
-??__G@YGXPAX0IIP6EPAX00@Z@Z PROC			; `vector copy constructor iterator', COMDAT
-; ___t$ = ecx
-; ___u$ = edx
-	push	ebp
-	mov	ebp, esp
-	push	ebx
-	push	esi
-	mov	esi, edx
-	mov	ebx, ecx
-	push	edi
-	mov	edi, DWORD PTR ___n$[ebp]
-	sub	ebx, esi
-	npad	1
-$LL2@vector:
-	push	esi
-	lea	ecx, DWORD PTR [ebx+esi]
-	call	DWORD PTR ___f$[ebp]
-	add	esi, 16					; 00000010H
-	sub	edi, 1
-	jne	SHORT $LL2@vector
-	pop	edi
-	pop	esi
-	pop	ebx
-	pop	ebp
-	ret	12					; 0000000cH
-??__G@YGXPAX0IIP6EPAX00@Z@Z ENDP			; `vector copy constructor iterator'
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
 ; File d:\program files\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.10.25017\include\initializer_list
@@ -3408,33 +2714,6 @@ _TEXT	SEGMENT
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
 ; File d:\programming\mathter\mathter\matrix.hpp
-;	COMDAT ??R?$Matrix@M$03$03$0A@$00@@QBEMHH@Z
-_TEXT	SEGMENT
-_col$ = 8						; size = 4
-_row$ = 12						; size = 4
-??R?$Matrix@M$03$03$0A@$00@@QBEMHH@Z PROC		; Matrix<float,4,4,0,1>::operator(), COMDAT
-; _this$ = ecx
-
-; 81   : 	T operator()(int col, int row) const {
-
-	push	ebp
-	mov	ebp, esp
-
-; 82   : 		return GetElement(col, row);
-
-	mov	edx, DWORD PTR _row$[ebp]
-	mov	eax, DWORD PTR _col$[ebp]
-	lea	eax, DWORD PTR [eax+edx*4]
-	movss	xmm0, DWORD PTR [ecx+eax*4]
-
-; 83   : 	}
-
-	pop	ebp
-	ret	8
-??R?$Matrix@M$03$03$0A@$00@@QBEMHH@Z ENDP		; Matrix<float,4,4,0,1>::operator()
-_TEXT	ENDS
-; Function compile flags: /Ogtp
-; File d:\programming\mathter\mathter\matrix.hpp
 ; File d:\programming\mathter\mathter\vector.hpp
 ; File d:\programming\mathter\mathter\matrix.hpp
 ;	COMDAT ??R?$Matrix@M$03$03$0A@$00@@QAEAAMHH@Z
@@ -3444,55 +2723,28 @@ _row$ = 12						; size = 4
 ??R?$Matrix@M$03$03$0A@$00@@QAEAAMHH@Z PROC		; Matrix<float,4,4,0,1>::operator(), COMDAT
 ; _this$ = ecx
 
-; 78   : 	T& operator()(int col, int row) {
+; 82   : 	T& operator()(int col, int row) {
 
 	push	ebp
 	mov	ebp, esp
 
-; 79   : 		return GetElement(col, row);
+; 83   : 		return GetElement(col, row);
 
 	mov	edx, DWORD PTR _row$[ebp]
 	mov	eax, DWORD PTR _col$[ebp]
 	lea	eax, DWORD PTR [eax+edx*4]
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 578  : 		return data[idx];
+; 579  : 		return data[idx];
 
 	lea	eax, DWORD PTR [ecx+eax*4]
 ; File d:\programming\mathter\mathter\matrix.hpp
 
-; 80   : 	}
+; 84   : 	}
 
 	pop	ebp
 	ret	8
 ??R?$Matrix@M$03$03$0A@$00@@QAEAAMHH@Z ENDP		; Matrix<float,4,4,0,1>::operator()
-_TEXT	ENDS
-; Function compile flags: /Ogtp
-; File d:\programming\mathter\mathter\matrix.hpp
-;	COMDAT ??R?$Matrix@M$02$02$0A@$00@@QBEMHH@Z
-_TEXT	SEGMENT
-_col$ = 8						; size = 4
-_row$ = 12						; size = 4
-??R?$Matrix@M$02$02$0A@$00@@QBEMHH@Z PROC		; Matrix<float,3,3,0,1>::operator(), COMDAT
-; _this$ = ecx
-
-; 81   : 	T operator()(int col, int row) const {
-
-	push	ebp
-	mov	ebp, esp
-
-; 82   : 		return GetElement(col, row);
-
-	mov	edx, DWORD PTR _row$[ebp]
-	mov	eax, DWORD PTR _col$[ebp]
-	lea	eax, DWORD PTR [eax+edx*4]
-	movss	xmm0, DWORD PTR [ecx+eax*4]
-
-; 83   : 	}
-
-	pop	ebp
-	ret	8
-??R?$Matrix@M$02$02$0A@$00@@QBEMHH@Z ENDP		; Matrix<float,3,3,0,1>::operator()
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
 ; File d:\programming\mathter\mathter\matrix.hpp
@@ -3505,158 +2757,28 @@ _row$ = 12						; size = 4
 ??R?$Matrix@M$02$02$0A@$00@@QAEAAMHH@Z PROC		; Matrix<float,3,3,0,1>::operator(), COMDAT
 ; _this$ = ecx
 
-; 78   : 	T& operator()(int col, int row) {
+; 82   : 	T& operator()(int col, int row) {
 
 	push	ebp
 	mov	ebp, esp
 
-; 79   : 		return GetElement(col, row);
+; 83   : 		return GetElement(col, row);
 
 	mov	edx, DWORD PTR _row$[ebp]
 	mov	eax, DWORD PTR _col$[ebp]
 	lea	eax, DWORD PTR [eax+edx*4]
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 578  : 		return data[idx];
+; 579  : 		return data[idx];
 
 	lea	eax, DWORD PTR [ecx+eax*4]
 ; File d:\programming\mathter\mathter\matrix.hpp
 
-; 80   : 	}
+; 84   : 	}
 
 	pop	ebp
 	ret	8
 ??R?$Matrix@M$02$02$0A@$00@@QAEAAMHH@Z ENDP		; Matrix<float,3,3,0,1>::operator()
-_TEXT	ENDS
-; Function compile flags: /Ogtp
-; File d:\programming\mathter\mathter\vector.hpp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-; File d:\programming\mathter\mathter\vector.hpp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-; File d:\programming\mathter\mathter\vector.hpp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-; File d:\programming\mathter\mathter\vector.hpp
-;	COMDAT ??Y?$Vector@M$03@@QAEAAV0@ABV0@@Z
-_TEXT	SEGMENT
-_rhs$ = 8						; size = 4
-??Y?$Vector@M$03@@QAEAAV0@ABV0@@Z PROC			; Vector<float,4>::operator+=, COMDAT
-; _this$ = ecx
-
-; 649  : 	inline Vector& operator+=(const Vector& rhs) {
-
-	push	ebx
-	mov	ebx, esp
-	sub	esp, 8
-	and	esp, -8					; fffffff8H
-	add	esp, 4
-	push	ebp
-	mov	ebp, DWORD PTR [ebx+4]
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-
-; 25   : 		res.reg = _mm_add_ps(lhs.reg, rhs.reg);
-
-	mov	eax, DWORD PTR _rhs$[ebx]
-; File d:\programming\mathter\mathter\vector.hpp
-
-; 649  : 	inline Vector& operator+=(const Vector& rhs) {
-
-	mov	DWORD PTR [esp+4], ebp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-
-; 25   : 		res.reg = _mm_add_ps(lhs.reg, rhs.reg);
-
-	movups	xmm0, XMMWORD PTR [eax]
-; File d:\programming\mathter\mathter\vector.hpp
-
-; 651  : 		return *this;
-
-	mov	eax, ecx
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-
-; 25   : 		res.reg = _mm_add_ps(lhs.reg, rhs.reg);
-
-	addps	xmm0, XMMWORD PTR [ecx]
-; File d:\programming\mathter\mathter\vector.hpp
-
-; 404  : 		simd = Simd4f::add(simd, rhs.simd);
-
-	movups	XMMWORD PTR [ecx], xmm0
-
-; 652  : 	}
-
-	pop	ebp
-	mov	esp, ebx
-	pop	ebx
-	ret	4
-??Y?$Vector@M$03@@QAEAAV0@ABV0@@Z ENDP			; Vector<float,4>::operator+=
-_TEXT	ENDS
-; Function compile flags: /Ogtp
-; File d:\programming\mathter\mathter\vector.hpp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-; File d:\programming\mathter\mathter\vector.hpp
-;	COMDAT ?Spread@?$Vector@M$03@@QAEAAV1@M@Z
-_TEXT	SEGMENT
-?Spread@?$Vector@M$03@@QAEAAV1@M@Z PROC			; Vector<float,4>::Spread, COMDAT
-; _this$ = ecx
-; _all$ = xmm1s
-
-; 564  : 	Vector& Spread(T all) {
-
-	movaps	xmm0, xmm1
-
-; 565  : 		VectorSpec<T, D>::spread(all);
-; 566  : 		return *this;
-
-	mov	eax, ecx
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-
-; 69   : 		res.reg = _mm_set1_ps(value);
-
-	shufps	xmm0, xmm0, 0
-; File d:\programming\mathter\mathter\vector.hpp
-
-; 393  : 		simd = Simd4f::spread(all);
-
-	movups	XMMWORD PTR [ecx], xmm0
-
-; 567  : 	}
-
-	ret	0
-?Spread@?$Vector@M$03@@QAEAAV1@M@Z ENDP			; Vector<float,4>::Spread
-_TEXT	ENDS
-; Function compile flags: /Ogtp
-; File d:\programming\mathter\mathter\vector.hpp
-;	COMDAT ??0?$Vector@M$03@@QAE@ABV0@@Z
-_TEXT	SEGMENT
-_rhs$ = 8						; size = 4
-??0?$Vector@M$03@@QAE@ABV0@@Z PROC			; Vector<float,4>::Vector<float,4>, COMDAT
-; _this$ = ecx
-
-; 526  : 	Vector(const Vector& rhs) {
-
-	push	ebp
-	mov	ebp, esp
-
-; 778  : 			data[i] = rhs.data[i];
-
-	mov	edx, DWORD PTR _rhs$[ebp]
-	mov	eax, DWORD PTR [edx]
-	mov	DWORD PTR [ecx], eax
-	mov	eax, DWORD PTR [edx+4]
-	mov	DWORD PTR [ecx+4], eax
-	mov	eax, DWORD PTR [edx+8]
-	mov	DWORD PTR [ecx+8], eax
-	mov	eax, DWORD PTR [edx+12]
-	mov	DWORD PTR [ecx+12], eax
-
-; 527  : 		// message("Vector(copy)");
-; 528  : 		Assign(rhs);
-; 529  : 	}
-
-	mov	eax, ecx
-	pop	ebp
-	ret	4
-??0?$Vector@M$03@@QAE@ABV0@@Z ENDP			; Vector<float,4>::Vector<float,4>
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
 ; File d:\programming\mathter\mathter\vector.hpp
@@ -3665,8 +2787,8 @@ _TEXT	SEGMENT
 ??0?$Vector@M$03@@QAE@XZ PROC				; Vector<float,4>::Vector<float,4>, COMDAT
 ; _this$ = ecx
 
-; 500  : 		// message("Vector = default");
-; 501  : 	};
+; 501  : 		// message("Vector = default");
+; 502  : 	};
 
 	mov	eax, ecx
 	ret	0
@@ -3743,114 +2865,18 @@ _TEXT	SEGMENT
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
 ; File d:\programming\mathter\mathter\vector.hpp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-; File d:\programming\mathter\mathter\vector.hpp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-; File d:\programming\mathter\mathter\vector.hpp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-; File d:\programming\mathter\mathter\vector.hpp
-;	COMDAT ??Y?$Vector@M$02@@QAEAAV0@ABV0@@Z
-_TEXT	SEGMENT
-_rhs$ = 8						; size = 4
-??Y?$Vector@M$02@@QAEAAV0@ABV0@@Z PROC			; Vector<float,3>::operator+=, COMDAT
-; _this$ = ecx
-
-; 649  : 	inline Vector& operator+=(const Vector& rhs) {
-
-	push	ebx
-	mov	ebx, esp
-	sub	esp, 8
-	and	esp, -8					; fffffff8H
-	add	esp, 4
-	push	ebp
-	mov	ebp, DWORD PTR [ebx+4]
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-
-; 25   : 		res.reg = _mm_add_ps(lhs.reg, rhs.reg);
-
-	mov	eax, DWORD PTR _rhs$[ebx]
-; File d:\programming\mathter\mathter\vector.hpp
-
-; 649  : 	inline Vector& operator+=(const Vector& rhs) {
-
-	mov	DWORD PTR [esp+4], ebp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-
-; 25   : 		res.reg = _mm_add_ps(lhs.reg, rhs.reg);
-
-	movups	xmm0, XMMWORD PTR [eax]
-; File d:\programming\mathter\mathter\vector.hpp
-
-; 651  : 		return *this;
-
-	mov	eax, ecx
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-
-; 25   : 		res.reg = _mm_add_ps(lhs.reg, rhs.reg);
-
-	addps	xmm0, XMMWORD PTR [ecx]
-; File d:\programming\mathter\mathter\vector.hpp
-
-; 340  : 		simd = Simd4f::add(simd, rhs.simd);
-
-	movups	XMMWORD PTR [ecx], xmm0
-
-; 652  : 	}
-
-	pop	ebp
-	mov	esp, ebx
-	pop	ebx
-	ret	4
-??Y?$Vector@M$02@@QAEAAV0@ABV0@@Z ENDP			; Vector<float,3>::operator+=
-_TEXT	ENDS
-; Function compile flags: /Ogtp
-; File d:\programming\mathter\mathter\vector.hpp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-; File d:\programming\mathter\mathter\vector.hpp
-;	COMDAT ?Spread@?$Vector@M$02@@QAEAAV1@M@Z
-_TEXT	SEGMENT
-?Spread@?$Vector@M$02@@QAEAAV1@M@Z PROC			; Vector<float,3>::Spread, COMDAT
-; _this$ = ecx
-; _all$ = xmm1s
-
-; 564  : 	Vector& Spread(T all) {
-
-	movaps	xmm0, xmm1
-
-; 565  : 		VectorSpec<T, D>::spread(all);
-; 566  : 		return *this;
-
-	mov	eax, ecx
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-
-; 69   : 		res.reg = _mm_set1_ps(value);
-
-	shufps	xmm0, xmm0, 0
-; File d:\programming\mathter\mathter\vector.hpp
-
-; 329  : 		simd = Simd4f::spread(all);
-
-	movups	XMMWORD PTR [ecx], xmm0
-
-; 567  : 	}
-
-	ret	0
-?Spread@?$Vector@M$02@@QAEAAV1@M@Z ENDP			; Vector<float,3>::Spread
-_TEXT	ENDS
-; Function compile flags: /Ogtp
-; File d:\programming\mathter\mathter\vector.hpp
 ;	COMDAT ??0?$Vector@M$02@@QAE@ABV0@@Z
 _TEXT	SEGMENT
 _rhs$ = 8						; size = 4
 ??0?$Vector@M$02@@QAE@ABV0@@Z PROC			; Vector<float,3>::Vector<float,3>, COMDAT
 ; _this$ = ecx
 
-; 526  : 	Vector(const Vector& rhs) {
+; 527  : 	Vector(const Vector& rhs) {
 
 	push	ebp
 	mov	ebp, esp
 
-; 778  : 			data[i] = rhs.data[i];
+; 779  : 			data[i] = rhs.data[i];
 
 	mov	edx, DWORD PTR _rhs$[ebp]
 	mov	eax, DWORD PTR [edx]
@@ -3860,9 +2886,9 @@ _rhs$ = 8						; size = 4
 	mov	eax, DWORD PTR [edx+8]
 	mov	DWORD PTR [ecx+8], eax
 
-; 527  : 		// message("Vector(copy)");
-; 528  : 		Assign(rhs);
-; 529  : 	}
+; 528  : 		// message("Vector(copy)");
+; 529  : 		Assign(rhs);
+; 530  : 	}
 
 	mov	eax, ecx
 	pop	ebp
@@ -3879,13 +2905,13 @@ _TEXT	SEGMENT
 ; _this$ = ecx
 ; _all$ = xmm1s
 
-; 507  : 	explicit Vector(T all) {
+; 508  : 	explicit Vector(T all) {
 
 	movaps	xmm0, xmm1
 
-; 508  : 		// message("Vector(all)");
-; 509  : 		VectorSpec<T, D>::spread(all);
-; 510  : 	}
+; 509  : 		// message("Vector(all)");
+; 510  : 		VectorSpec<T, D>::spread(all);
+; 511  : 	}
 
 	mov	eax, ecx
 ; File d:\programming\mathter\mathter\simd4f_sse.hpp
@@ -3895,13 +2921,13 @@ _TEXT	SEGMENT
 	shufps	xmm0, xmm0, 0
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 329  : 		simd = Simd4f::spread(all);
+; 330  : 		simd = Simd4f::spread(all);
 
 	movups	XMMWORD PTR [ecx], xmm0
 
-; 508  : 		// message("Vector(all)");
-; 509  : 		VectorSpec<T, D>::spread(all);
-; 510  : 	}
+; 509  : 		// message("Vector(all)");
+; 510  : 		VectorSpec<T, D>::spread(all);
+; 511  : 	}
 
 	ret	0
 ??0?$Vector@M$02@@QAE@M@Z ENDP				; Vector<float,3>::Vector<float,3>
@@ -3913,8 +2939,8 @@ _TEXT	SEGMENT
 ??0?$Vector@M$02@@QAE@XZ PROC				; Vector<float,3>::Vector<float,3>, COMDAT
 ; _this$ = ecx
 
-; 500  : 		// message("Vector = default");
-; 501  : 	};
+; 501  : 		// message("Vector = default");
+; 502  : 	};
 
 	mov	eax, ecx
 	ret	0
@@ -4228,33 +3254,6 @@ __Count$dead$ = 12					; size = 4
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
 ; File d:\programming\mathter\mathter\matrix.hpp
-;	COMDAT ?GetElement@?$MatrixData@M$02$02$0A@$00@@QBEMHH@Z
-_TEXT	SEGMENT
-_col$ = 8						; size = 4
-_row$ = 12						; size = 4
-?GetElement@?$MatrixData@M$02$02$0A@$00@@QBEMHH@Z PROC	; MatrixData<float,3,3,0,1>::GetElement, COMDAT
-; _this$ = ecx
-
-; 62   : 	inline T GetElement(int col, int row) const {
-
-	push	ebp
-	mov	ebp, esp
-
-; 63   : 		return GetElement(col, row, std::integral_constant<bool, Layout == eMatrixLayout::ROW_MAJOR>());
-
-	mov	edx, DWORD PTR _row$[ebp]
-	mov	eax, DWORD PTR _col$[ebp]
-	lea	eax, DWORD PTR [eax+edx*4]
-	movss	xmm0, DWORD PTR [ecx+eax*4]
-
-; 64   : 	}
-
-	pop	ebp
-	ret	8
-?GetElement@?$MatrixData@M$02$02$0A@$00@@QBEMHH@Z ENDP	; MatrixData<float,3,3,0,1>::GetElement
-_TEXT	ENDS
-; Function compile flags: /Ogtp
-; File d:\programming\mathter\mathter\matrix.hpp
 ; File d:\programming\mathter\mathter\vector.hpp
 ; File d:\programming\mathter\mathter\matrix.hpp
 ;	COMDAT ?GetElement@?$MatrixData@M$02$02$0A@$00@@QAEAAMHH@Z
@@ -4264,55 +3263,28 @@ _row$ = 12						; size = 4
 ?GetElement@?$MatrixData@M$02$02$0A@$00@@QAEAAMHH@Z PROC ; MatrixData<float,3,3,0,1>::GetElement, COMDAT
 ; _this$ = ecx
 
-; 59   : 	inline T& GetElement(int col, int row) {
+; 63   : 	inline T& GetElement(int col, int row) {
 
 	push	ebp
 	mov	ebp, esp
 
-; 60   : 		return GetElement(col, row, std::integral_constant<bool, Layout == eMatrixLayout::ROW_MAJOR>());
+; 64   : 		return GetElement(col, row, std::integral_constant<bool, Layout == eMatrixLayout::ROW_MAJOR>());
 
 	mov	edx, DWORD PTR _row$[ebp]
 	mov	eax, DWORD PTR _col$[ebp]
 	lea	eax, DWORD PTR [eax+edx*4]
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 578  : 		return data[idx];
+; 579  : 		return data[idx];
 
 	lea	eax, DWORD PTR [ecx+eax*4]
 ; File d:\programming\mathter\mathter\matrix.hpp
 
-; 61   : 	}
+; 65   : 	}
 
 	pop	ebp
 	ret	8
 ?GetElement@?$MatrixData@M$02$02$0A@$00@@QAEAAMHH@Z ENDP ; MatrixData<float,3,3,0,1>::GetElement
-_TEXT	ENDS
-; Function compile flags: /Ogtp
-; File d:\programming\mathter\mathter\matrix.hpp
-;	COMDAT ?GetElement@?$MatrixData@M$03$03$0A@$00@@QBEMHH@Z
-_TEXT	SEGMENT
-_col$ = 8						; size = 4
-_row$ = 12						; size = 4
-?GetElement@?$MatrixData@M$03$03$0A@$00@@QBEMHH@Z PROC	; MatrixData<float,4,4,0,1>::GetElement, COMDAT
-; _this$ = ecx
-
-; 62   : 	inline T GetElement(int col, int row) const {
-
-	push	ebp
-	mov	ebp, esp
-
-; 63   : 		return GetElement(col, row, std::integral_constant<bool, Layout == eMatrixLayout::ROW_MAJOR>());
-
-	mov	edx, DWORD PTR _row$[ebp]
-	mov	eax, DWORD PTR _col$[ebp]
-	lea	eax, DWORD PTR [eax+edx*4]
-	movss	xmm0, DWORD PTR [ecx+eax*4]
-
-; 64   : 	}
-
-	pop	ebp
-	ret	8
-?GetElement@?$MatrixData@M$03$03$0A@$00@@QBEMHH@Z ENDP	; MatrixData<float,4,4,0,1>::GetElement
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
 ; File d:\programming\mathter\mathter\matrix.hpp
@@ -4325,62 +3297,28 @@ _row$ = 12						; size = 4
 ?GetElement@?$MatrixData@M$03$03$0A@$00@@QAEAAMHH@Z PROC ; MatrixData<float,4,4,0,1>::GetElement, COMDAT
 ; _this$ = ecx
 
-; 59   : 	inline T& GetElement(int col, int row) {
+; 63   : 	inline T& GetElement(int col, int row) {
 
 	push	ebp
 	mov	ebp, esp
 
-; 60   : 		return GetElement(col, row, std::integral_constant<bool, Layout == eMatrixLayout::ROW_MAJOR>());
+; 64   : 		return GetElement(col, row, std::integral_constant<bool, Layout == eMatrixLayout::ROW_MAJOR>());
 
 	mov	edx, DWORD PTR _row$[ebp]
 	mov	eax, DWORD PTR _col$[ebp]
 	lea	eax, DWORD PTR [eax+edx*4]
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 578  : 		return data[idx];
+; 579  : 		return data[idx];
 
 	lea	eax, DWORD PTR [ecx+eax*4]
 ; File d:\programming\mathter\mathter\matrix.hpp
 
-; 61   : 	}
+; 65   : 	}
 
 	pop	ebp
 	ret	8
 ?GetElement@?$MatrixData@M$03$03$0A@$00@@QAEAAMHH@Z ENDP ; MatrixData<float,4,4,0,1>::GetElement
-_TEXT	ENDS
-; Function compile flags: /Ogtp
-; File d:\programming\mathter\mathter\vector.hpp
-;	COMDAT ?Assign@?$Vector@M$03@@IAEXABV1@@Z
-_TEXT	SEGMENT
-_rhs$ = 8						; size = 4
-?Assign@?$Vector@M$03@@IAEXABV1@@Z PROC			; Vector<float,4>::Assign, COMDAT
-; _this$ = ecx
-
-; 775  : 	void Assign(const Vector& rhs) {
-
-	push	ebp
-	mov	ebp, esp
-
-; 776  : 		// message("Assign(copy)");
-; 777  : 		for (int i = 0; i < D; ++i) {
-; 778  : 			data[i] = rhs.data[i];
-
-	mov	edx, DWORD PTR _rhs$[ebp]
-	mov	eax, DWORD PTR [edx]
-	mov	DWORD PTR [ecx], eax
-	mov	eax, DWORD PTR [edx+4]
-	mov	DWORD PTR [ecx+4], eax
-	mov	eax, DWORD PTR [edx+8]
-	mov	DWORD PTR [ecx+8], eax
-	mov	eax, DWORD PTR [edx+12]
-	mov	DWORD PTR [ecx+12], eax
-
-; 779  : 		}
-; 780  : 	}
-
-	pop	ebp
-	ret	4
-?Assign@?$Vector@M$03@@IAEXABV1@@Z ENDP			; Vector<float,4>::Assign
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
 ; File d:\program files\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.10.25017\include\chrono
@@ -4414,14 +3352,14 @@ _rhs$ = 8						; size = 4
 ?Assign@?$Vector@M$02@@IAEXABV1@@Z PROC			; Vector<float,3>::Assign, COMDAT
 ; _this$ = ecx
 
-; 775  : 	void Assign(const Vector& rhs) {
+; 776  : 	void Assign(const Vector& rhs) {
 
 	push	ebp
 	mov	ebp, esp
 
-; 776  : 		// message("Assign(copy)");
-; 777  : 		for (int i = 0; i < D; ++i) {
-; 778  : 			data[i] = rhs.data[i];
+; 777  : 		// message("Assign(copy)");
+; 778  : 		for (int i = 0; i < D; ++i) {
+; 779  : 			data[i] = rhs.data[i];
 
 	mov	edx, DWORD PTR _rhs$[ebp]
 	mov	eax, DWORD PTR [edx]
@@ -4431,8 +3369,8 @@ _rhs$ = 8						; size = 4
 	mov	eax, DWORD PTR [edx+8]
 	mov	DWORD PTR [ecx+8], eax
 
-; 779  : 		}
-; 780  : 	}
+; 780  : 		}
+; 781  : 	}
 
 	pop	ebp
 	ret	4
@@ -5086,34 +4024,6 @@ _TEXT	SEGMENT
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
 ; File d:\programming\mathter\mathter\matrix.hpp
-;	COMDAT ?GetElement@?$MatrixData@M$02$02$0A@$00@@QBEMHHU?$integral_constant@_N$00@std@@@Z
-_TEXT	SEGMENT
-_col$ = 8						; size = 4
-_row$ = 12						; size = 4
-___formal$ = 16						; size = 1
-?GetElement@?$MatrixData@M$02$02$0A@$00@@QBEMHHU?$integral_constant@_N$00@std@@@Z PROC ; MatrixData<float,3,3,0,1>::GetElement, COMDAT
-; _this$ = ecx
-
-; 53   : 	inline T GetElement(int col, int row, std::true_type) const {
-
-	push	ebp
-	mov	ebp, esp
-
-; 54   : 		return stripes[row][col];
-
-	mov	edx, DWORD PTR _row$[ebp]
-	mov	eax, DWORD PTR _col$[ebp]
-	lea	eax, DWORD PTR [eax+edx*4]
-	movss	xmm0, DWORD PTR [ecx+eax*4]
-
-; 55   : 	}
-
-	pop	ebp
-	ret	12					; 0000000cH
-?GetElement@?$MatrixData@M$02$02$0A@$00@@QBEMHHU?$integral_constant@_N$00@std@@@Z ENDP ; MatrixData<float,3,3,0,1>::GetElement
-_TEXT	ENDS
-; Function compile flags: /Ogtp
-; File d:\programming\mathter\mathter\matrix.hpp
 ; File d:\programming\mathter\mathter\vector.hpp
 ; File d:\programming\mathter\mathter\matrix.hpp
 ;	COMDAT ?GetElement@?$MatrixData@M$02$02$0A@$00@@QAEAAMHHU?$integral_constant@_N$00@std@@@Z
@@ -5124,56 +4034,28 @@ ___formal$ = 16						; size = 1
 ?GetElement@?$MatrixData@M$02$02$0A@$00@@QAEAAMHHU?$integral_constant@_N$00@std@@@Z PROC ; MatrixData<float,3,3,0,1>::GetElement, COMDAT
 ; _this$ = ecx
 
-; 47   : 	inline T& GetElement(int col, int row, std::true_type) {
+; 51   : 	inline T& GetElement(int col, int row, std::true_type) {
 
 	push	ebp
 	mov	ebp, esp
 
-; 48   : 		return stripes[row][col];
+; 52   : 		return stripes[row][col];
 
 	mov	edx, DWORD PTR _row$[ebp]
 	mov	eax, DWORD PTR _col$[ebp]
 	lea	eax, DWORD PTR [eax+edx*4]
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 578  : 		return data[idx];
+; 579  : 		return data[idx];
 
 	lea	eax, DWORD PTR [ecx+eax*4]
 ; File d:\programming\mathter\mathter\matrix.hpp
 
-; 49   : 	}
+; 53   : 	}
 
 	pop	ebp
 	ret	12					; 0000000cH
 ?GetElement@?$MatrixData@M$02$02$0A@$00@@QAEAAMHHU?$integral_constant@_N$00@std@@@Z ENDP ; MatrixData<float,3,3,0,1>::GetElement
-_TEXT	ENDS
-; Function compile flags: /Ogtp
-; File d:\programming\mathter\mathter\matrix.hpp
-;	COMDAT ?GetElement@?$MatrixData@M$03$03$0A@$00@@QBEMHHU?$integral_constant@_N$00@std@@@Z
-_TEXT	SEGMENT
-_col$ = 8						; size = 4
-_row$ = 12						; size = 4
-___formal$ = 16						; size = 1
-?GetElement@?$MatrixData@M$03$03$0A@$00@@QBEMHHU?$integral_constant@_N$00@std@@@Z PROC ; MatrixData<float,4,4,0,1>::GetElement, COMDAT
-; _this$ = ecx
-
-; 53   : 	inline T GetElement(int col, int row, std::true_type) const {
-
-	push	ebp
-	mov	ebp, esp
-
-; 54   : 		return stripes[row][col];
-
-	mov	edx, DWORD PTR _row$[ebp]
-	mov	eax, DWORD PTR _col$[ebp]
-	lea	eax, DWORD PTR [eax+edx*4]
-	movss	xmm0, DWORD PTR [ecx+eax*4]
-
-; 55   : 	}
-
-	pop	ebp
-	ret	12					; 0000000cH
-?GetElement@?$MatrixData@M$03$03$0A@$00@@QBEMHHU?$integral_constant@_N$00@std@@@Z ENDP ; MatrixData<float,4,4,0,1>::GetElement
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
 ; File d:\programming\mathter\mathter\matrix.hpp
@@ -5187,24 +4069,24 @@ ___formal$ = 16						; size = 1
 ?GetElement@?$MatrixData@M$03$03$0A@$00@@QAEAAMHHU?$integral_constant@_N$00@std@@@Z PROC ; MatrixData<float,4,4,0,1>::GetElement, COMDAT
 ; _this$ = ecx
 
-; 47   : 	inline T& GetElement(int col, int row, std::true_type) {
+; 51   : 	inline T& GetElement(int col, int row, std::true_type) {
 
 	push	ebp
 	mov	ebp, esp
 
-; 48   : 		return stripes[row][col];
+; 52   : 		return stripes[row][col];
 
 	mov	edx, DWORD PTR _row$[ebp]
 	mov	eax, DWORD PTR _col$[ebp]
 	lea	eax, DWORD PTR [eax+edx*4]
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 578  : 		return data[idx];
+; 579  : 		return data[idx];
 
 	lea	eax, DWORD PTR [ecx+eax*4]
 ; File d:\programming\mathter\mathter\matrix.hpp
 
-; 49   : 	}
+; 53   : 	}
 
 	pop	ebp
 	ret	12					; 0000000cH
@@ -5631,45 +4513,21 @@ _idx$ = 8						; size = 4
 ??A?$Vector@M$03@@QAEAAMH@Z PROC			; Vector<float,4>::operator[], COMDAT
 ; _this$ = ecx
 
-; 577  : 	T& operator[](int idx) {
+; 578  : 	T& operator[](int idx) {
 
 	push	ebp
 	mov	ebp, esp
 
-; 578  : 		return data[idx];
+; 579  : 		return data[idx];
 
 	mov	eax, DWORD PTR _idx$[ebp]
 	lea	eax, DWORD PTR [ecx+eax*4]
 
-; 579  : 	}
+; 580  : 	}
 
 	pop	ebp
 	ret	4
 ??A?$Vector@M$03@@QAEAAMH@Z ENDP			; Vector<float,4>::operator[]
-_TEXT	ENDS
-; Function compile flags: /Ogtp
-; File d:\programming\mathter\mathter\vector.hpp
-;	COMDAT ??A?$Vector@M$03@@QBEMH@Z
-_TEXT	SEGMENT
-_idx$ = 8						; size = 4
-??A?$Vector@M$03@@QBEMH@Z PROC				; Vector<float,4>::operator[], COMDAT
-; _this$ = ecx
-
-; 573  : 	T operator[](int idx) const {
-
-	push	ebp
-	mov	ebp, esp
-
-; 574  : 		return data[idx];
-
-	mov	eax, DWORD PTR _idx$[ebp]
-	movss	xmm0, DWORD PTR [ecx+eax*4]
-
-; 575  : 	}
-
-	pop	ebp
-	ret	4
-??A?$Vector@M$03@@QBEMH@Z ENDP				; Vector<float,4>::operator[]
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
 ; File d:\programming\mathter\mathter\vector.hpp
@@ -5679,45 +4537,21 @@ _idx$ = 8						; size = 4
 ??A?$Vector@M$02@@QAEAAMH@Z PROC			; Vector<float,3>::operator[], COMDAT
 ; _this$ = ecx
 
-; 577  : 	T& operator[](int idx) {
+; 578  : 	T& operator[](int idx) {
 
 	push	ebp
 	mov	ebp, esp
 
-; 578  : 		return data[idx];
+; 579  : 		return data[idx];
 
 	mov	eax, DWORD PTR _idx$[ebp]
 	lea	eax, DWORD PTR [ecx+eax*4]
 
-; 579  : 	}
+; 580  : 	}
 
 	pop	ebp
 	ret	4
 ??A?$Vector@M$02@@QAEAAMH@Z ENDP			; Vector<float,3>::operator[]
-_TEXT	ENDS
-; Function compile flags: /Ogtp
-; File d:\programming\mathter\mathter\vector.hpp
-;	COMDAT ??A?$Vector@M$02@@QBEMH@Z
-_TEXT	SEGMENT
-_idx$ = 8						; size = 4
-??A?$Vector@M$02@@QBEMH@Z PROC				; Vector<float,3>::operator[], COMDAT
-; _this$ = ecx
-
-; 573  : 	T operator[](int idx) const {
-
-	push	ebp
-	mov	ebp, esp
-
-; 574  : 		return data[idx];
-
-	mov	eax, DWORD PTR _idx$[ebp]
-	movss	xmm0, DWORD PTR [ecx+eax*4]
-
-; 575  : 	}
-
-	pop	ebp
-	ret	4
-??A?$Vector@M$02@@QBEMH@Z ENDP				; Vector<float,3>::operator[]
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
 ; File d:\program files\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.10.25017\include\xmemory0
@@ -6369,7 +5203,7 @@ _rhs$ = 8						; size = 4
 ; ___$ReturnUdt$ = ecx
 ; _lhs$ = edx
 
-; 809  : inline Vector<T, D> operator*(const Vector<T, D>& lhs, const Vector<T, D>& rhs) {
+; 810  : inline Vector<T, D> operator*(const Vector<T, D>& lhs, const Vector<T, D>& rhs) {
 
 	push	ebx
 	mov	ebx, esp
@@ -6379,7 +5213,7 @@ _rhs$ = 8						; size = 4
 	push	ebp
 	mov	ebp, DWORD PTR [ebx+4]
 
-; 778  : 			data[i] = rhs.data[i];
+; 779  : 			data[i] = rhs.data[i];
 
 	mov	eax, DWORD PTR [edx]
 	mov	DWORD PTR [ecx], eax
@@ -6397,7 +5231,7 @@ _rhs$ = 8						; size = 4
 	movups	xmm0, XMMWORD PTR [ecx]
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 809  : inline Vector<T, D> operator*(const Vector<T, D>& lhs, const Vector<T, D>& rhs) {
+; 810  : inline Vector<T, D> operator*(const Vector<T, D>& lhs, const Vector<T, D>& rhs) {
 
 	mov	DWORD PTR [esp+4], ebp
 ; File d:\programming\mathter\mathter\simd4f_sse.hpp
@@ -6407,15 +5241,15 @@ _rhs$ = 8						; size = 4
 	mulps	xmm0, XMMWORD PTR [eax]
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 812  : 	return tmp;
+; 813  : 	return tmp;
 
 	mov	eax, ecx
 
-; 398  : 		simd = Simd4f::mul(simd, rhs.simd);
+; 399  : 		simd = Simd4f::mul(simd, rhs.simd);
 
 	movups	XMMWORD PTR [ecx], xmm0
 
-; 813  : }
+; 814  : }
 
 	pop	ebp
 	mov	esp, ebx
@@ -6459,7 +5293,7 @@ _v$1$ = -4						; size = 4
 $LL4@operator:
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 582  : 		return data[idx];
+; 583  : 		return data[idx];
 
 	movss	xmm0, DWORD PTR [esi+edi*4]
 ; File d:\programming\mathter\main.cpp
@@ -6510,12 +5344,12 @@ _<rhs2_0>$ = 12						; size = 4
 ??$?0V?$Vector@M$02@@M$0A@@?$Vector@M$03@@QAE@ABV?$Vector@M$02@@ABM@Z PROC ; Vector<float,4>::Vector<float,4><Vector<float,3>,float,0>, COMDAT
 ; _this$ = ecx
 
-; 533  : 	Vector(const U& rhs1, const V&... rhs2) {
+; 534  : 	Vector(const U& rhs1, const V&... rhs2) {
 
 	push	ebp
 	mov	ebp, esp
 
-; 768  : 				target.data[StartIdx + i] = GetVectorElement<Head>::Get(head, i);
+; 769  : 				target.data[StartIdx + i] = GetVectorElement<Head>::Get(head, i);
 
 	mov	edx, DWORD PTR _rhs1$[ebp]
 	mov	eax, DWORD PTR [edx]
@@ -6528,9 +5362,9 @@ _<rhs2_0>$ = 12						; size = 4
 	mov	eax, DWORD PTR [eax]
 	mov	DWORD PTR [ecx+12], eax
 
-; 534  : 		// message("Vector(concat...)");
-; 535  : 		Assign(rhs1, rhs2...);
-; 536  : 	}
+; 535  : 		// message("Vector(concat...)");
+; 536  : 		Assign(rhs1, rhs2...);
+; 537  : 	}
 
 	mov	eax, ecx
 	pop	ebp
@@ -6555,15 +5389,15 @@ _<v_1>$dead$ = 16					; size = 4
 	movaps	xmm0, XMMWORD PTR __xmm@0000000040400000400000003f800000
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 553  : 		return *this;
+; 554  : 		return *this;
 
 	mov	eax, ecx
 
-; 326  : 		simd = Simd4f::set(x, y, z, 0);
+; 327  : 		simd = Simd4f::set(x, y, z, 0);
 
 	movups	XMMWORD PTR [ecx], xmm0
 
-; 554  : 	}
+; 555  : 	}
 
 	ret	12					; 0000000cH
 ??$Set@HHH$0A@@?$Vector@M$02@@QAEAAV0@HHH@Z ENDP	; Vector<float,3>::Set<int,int,int,0>
@@ -6577,12 +5411,12 @@ _<v_0>$ = 12						; size = 4
 ??$Set@MV?$Vector@M$02@@$0A@@?$Vector@M$03@@QAEAAV0@ABMABV?$Vector@M$02@@@Z PROC ; Vector<float,4>::Set<float,Vector<float,3>,0>, COMDAT
 ; _this$ = ecx
 
-; 558  : 	Vector& Set(const U& u, const V&... v) {
+; 559  : 	Vector& Set(const U& u, const V&... v) {
 
 	push	ebp
 	mov	ebp, esp
 
-; 768  : 				target.data[StartIdx + i] = GetVectorElement<Head>::Get(head, i);
+; 769  : 				target.data[StartIdx + i] = GetVectorElement<Head>::Get(head, i);
 
 	mov	eax, DWORD PTR _u$[ebp]
 	mov	edx, DWORD PTR _<v_0>$[ebp]
@@ -6595,71 +5429,177 @@ _<v_0>$ = 12						; size = 4
 	mov	eax, DWORD PTR [edx+8]
 	mov	DWORD PTR [ecx+12], eax
 
-; 559  : 		// message("Set(concat...)");
-; 560  : 		Assign(u, v...);
-; 561  : 		return *this;
+; 560  : 		// message("Set(concat...)");
+; 561  : 		Assign(u, v...);
+; 562  : 		return *this;
 
 	mov	eax, ecx
 
-; 562  : 	}
+; 563  : 	}
 
 	pop	ebp
 	ret	8
 ??$Set@MV?$Vector@M$02@@$0A@@?$Vector@M$03@@QAEAAV0@ABMABV?$Vector@M$02@@@Z ENDP ; Vector<float,4>::Set<float,Vector<float,3>,0>
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
-; File d:\programming\mathter\mathter\vector.hpp
+; File d:\programming\mathter\mathter\matrix.hpp
+; File d:\programming\mathter\mathter\simd4f_sse.hpp
+; File d:\programming\mathter\mathter\matrix.hpp
+; File d:\programming\mathter\mathter\simd4f_sse.hpp
+; File d:\programming\mathter\mathter\matrix.hpp
+; File d:\programming\mathter\mathter\simd4f_sse.hpp
+; File d:\programming\mathter\mathter\matrix.hpp
 ; File d:\programming\mathter\mathter\simd4f_sse.hpp
 ; File d:\programming\mathter\mathter\vector.hpp
-;	COMDAT ??$?DM$03@@YA?AV?$Vector@M$03@@MABV0@@Z
+; File d:\programming\mathter\mathter\matrix.hpp
+;	COMDAT ??$?DMM$03$03$03$0A@$0A@$00$00$0A@@@YA?AV?$Matrix@M$03$03$0A@$00@@ABV0@0@Z
 _TEXT	SEGMENT
-??$?DM$03@@YA?AV?$Vector@M$03@@MABV0@@Z PROC		; operator*<float,4>, COMDAT
+___$ReturnUdt$1$ = -8					; size = 4
+tv509 = -4						; size = 4
+_lhs$1$ = -4						; size = 4
+_rhs$ = 8						; size = 4
+??$?DMM$03$03$03$0A@$0A@$00$00$0A@@@YA?AV?$Matrix@M$03$03$0A@$00@@ABV0@0@Z PROC ; operator*<float,float,4,4,4,0,0,1,1,0>, COMDAT
 ; ___$ReturnUdt$ = ecx
-; _lhs$ = xmm1s
-; _rhs$ = edx
+; _lhs$ = edx
 
-; 778  : 			data[i] = rhs.data[i];
+; 109  : {
 
-	mov	eax, DWORD PTR [edx]
+	push	ebx
+	mov	ebx, esp
+	sub	esp, 8
+	and	esp, -8					; fffffff8H
+	add	esp, 4
+	push	ebp
+	mov	ebp, DWORD PTR [ebx+4]
+	mov	DWORD PTR [esp+4], ebp
+	mov	ebp, esp
+	sub	esp, 8
+	push	esi
+	mov	esi, edx
+	mov	edx, ecx
 
-; 867  : inline Vector<T, D> operator*(T lhs, const Vector<T, D>& rhs) {
+; 116  : 	for (int y = 0; y < Rows1; ++y) {
 
-	movaps	xmm0, xmm1
-
-; 778  : 			data[i] = rhs.data[i];
-
-	mov	DWORD PTR [ecx], eax
-	mov	eax, DWORD PTR [edx+4]
-	mov	DWORD PTR [ecx+4], eax
-	mov	eax, DWORD PTR [edx+8]
-	mov	DWORD PTR [ecx+8], eax
-	mov	eax, DWORD PTR [edx+12]
-	mov	DWORD PTR [ecx+12], eax
-
-; 868  : 	auto tmp = rhs;
-; 869  : 	tmp *= lhs;
-; 870  : 	return tmp;
-
-	mov	eax, ecx
+	mov	ecx, DWORD PTR _rhs$[ebx]
+	mov	eax, edx
+	push	edi
+	mov	edi, esi
+	mov	DWORD PTR _lhs$1$[ebp], esi
+	mov	DWORD PTR ___$ReturnUdt$1$[ebp], edx
+	sub	edi, edx
+	mov	esi, 4
+$LL4@operator:
 ; File d:\programming\mathter\mathter\simd4f_sse.hpp
 
-; 37   : 		__m128 tmp = _mm_set1_ps(rhs);
+; 69   : 		res.reg = _mm_set1_ps(value);
+
+	movss	xmm0, DWORD PTR [edi+eax]
+; File d:\programming\mathter\mathter\matrix.hpp
+
+; 116  : 	for (int y = 0; y < Rows1; ++y) {
+
+	lea	eax, DWORD PTR [eax+16]
+; File d:\programming\mathter\mathter\simd4f_sse.hpp
+
+; 69   : 		res.reg = _mm_set1_ps(value);
 
 	shufps	xmm0, xmm0, 0
 
-; 38   : 		res.reg = _mm_mul_ps(lhs.reg, tmp);
+; 13   : 		res.reg = _mm_mul_ps(lhs.reg, rhs.reg);
 
 	mulps	xmm0, XMMWORD PTR [ecx]
+; File d:\programming\mathter\mathter\matrix.hpp
+
+; 119  : 		static_cast<VectorSpec<ElemT, Columns2>&>(result.stripes[y]) = scalarMultiplier;
+
+	movups	XMMWORD PTR [eax-16], xmm0
+	sub	esi, 1
+	jne	SHORT $LL4@operator
+
+; 120  : 	}
+; 121  : 	for (int x = 1; x < Columns2; ++x) {
+
+	mov	edi, DWORD PTR _lhs$1$[ebp]
+	lea	esi, DWORD PTR [ecx+16]
+	add	edi, 4
+	mov	DWORD PTR tv509[ebp], 3
+	npad	5
+$LL7@operator:
+
+; 122  : 		for (int y = 0; y < Rows1; ++y) {
+
+	mov	eax, edx
+	mov	ecx, edi
+	mov	edx, 4
+	npad	7
+$LL10@operator:
+; File d:\programming\mathter\mathter\simd4f_sse.hpp
+
+; 69   : 		res.reg = _mm_set1_ps(value);
+
+	movss	xmm1, DWORD PTR [ecx]
+; File d:\programming\mathter\mathter\matrix.hpp
+
+; 122  : 		for (int y = 0; y < Rows1; ++y) {
+
+	add	ecx, 16					; 00000010H
+; File d:\programming\mathter\mathter\simd4f_sse.hpp
+
+; 25   : 		res.reg = _mm_add_ps(lhs.reg, rhs.reg);
+
+	movups	xmm0, XMMWORD PTR [eax]
+
+; 69   : 		res.reg = _mm_set1_ps(value);
+
+	shufps	xmm1, xmm1, 0
+
+; 13   : 		res.reg = _mm_mul_ps(lhs.reg, rhs.reg);
+
+	mulps	xmm1, XMMWORD PTR [esi]
+
+; 25   : 		res.reg = _mm_add_ps(lhs.reg, rhs.reg);
+
+	addps	xmm0, xmm1
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 412  : 		simd = Simd4f::mul(simd, rhs);
+; 405  : 		simd = Simd4f::add(simd, rhs.simd);
 
-	movups	XMMWORD PTR [ecx], xmm0
+	movups	XMMWORD PTR [eax], xmm0
+; File d:\programming\mathter\mathter\matrix.hpp
 
-; 871  : }
+; 122  : 		for (int y = 0; y < Rows1; ++y) {
 
+	add	eax, 16					; 00000010H
+	sub	edx, 1
+	jne	SHORT $LL10@operator
+
+; 120  : 	}
+; 121  : 	for (int x = 1; x < Columns2; ++x) {
+
+	mov	edx, DWORD PTR ___$ReturnUdt$1$[ebp]
+	add	esi, 16					; 00000010H
+	add	edi, 4
+	sub	DWORD PTR tv509[ebp], 1
+	jne	SHORT $LL7@operator
+
+; 123  : 			scalarMultiplier.spread(lhs(x, y));
+; 124  : 			scalarMultiplier.mul(rhs.stripes[x]);
+; 125  : 			static_cast<VectorSpec<ElemT, Columns2>&>(result.stripes[y]).add(scalarMultiplier);
+; 126  : 		}
+; 127  : 	}
+; 128  : 
+; 129  : 	return result;
+; 130  : }
+
+	pop	edi
+	mov	eax, edx
+	pop	esi
+	mov	esp, ebp
+	pop	ebp
+	mov	esp, ebx
+	pop	ebx
 	ret	0
-??$?DM$03@@YA?AV?$Vector@M$03@@MABV0@@Z ENDP		; operator*<float,4>
+??$?DMM$03$03$03$0A@$0A@$00$00$0A@@@YA?AV?$Matrix@M$03$03$0A@$00@@ABV0@0@Z ENDP ; operator*<float,float,4,4,4,0,0,1,1,0>
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
 ; File d:\programming\mathter\main.cpp
@@ -6704,7 +5644,7 @@ $LL4@operator:
 $LL7@operator:
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 574  : 		return data[idx];
+; 575  : 		return data[idx];
 
 	movss	xmm0, DWORD PTR [ebx]
 ; File d:\programming\mathter\main.cpp
@@ -6751,19 +5691,27 @@ $LL7@operator:
 ??$?6M$03$03$0A@$00@@YAAAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AAV01@ABV?$Matrix@M$03$03$0A@$00@@@Z ENDP ; operator<<<float,4,4,0,1>
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
-; File d:\programming\mathter\mathter\vector.hpp
+; File d:\programming\mathter\mathter\matrix.hpp
+; File d:\programming\mathter\mathter\simd4f_sse.hpp
+; File d:\programming\mathter\mathter\matrix.hpp
+; File d:\programming\mathter\mathter\simd4f_sse.hpp
+; File d:\programming\mathter\mathter\matrix.hpp
+; File d:\programming\mathter\mathter\simd4f_sse.hpp
+; File d:\programming\mathter\mathter\matrix.hpp
 ; File d:\programming\mathter\mathter\simd4f_sse.hpp
 ; File d:\programming\mathter\mathter\vector.hpp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-; File d:\programming\mathter\mathter\vector.hpp
-;	COMDAT ??$?DM$02@@YA?AV?$Vector@M$02@@ABV0@0@Z
+; File d:\programming\mathter\mathter\matrix.hpp
+;	COMDAT ??$?DMM$02$02$02$0A@$0A@$00$00$0A@@@YA?AV?$Matrix@M$02$02$0A@$00@@ABV0@0@Z
 _TEXT	SEGMENT
+___$ReturnUdt$1$ = -8					; size = 4
+tv509 = -4						; size = 4
+_lhs$1$ = -4						; size = 4
 _rhs$ = 8						; size = 4
-??$?DM$02@@YA?AV?$Vector@M$02@@ABV0@0@Z PROC		; operator*<float,3>, COMDAT
+??$?DMM$02$02$02$0A@$0A@$00$00$0A@@@YA?AV?$Matrix@M$02$02$0A@$00@@ABV0@0@Z PROC ; operator*<float,float,3,3,3,0,0,1,1,0>, COMDAT
 ; ___$ReturnUdt$ = ecx
 ; _lhs$ = edx
 
-; 809  : inline Vector<T, D> operator*(const Vector<T, D>& lhs, const Vector<T, D>& rhs) {
+; 109  : {
 
 	push	ebx
 	mov	ebx, esp
@@ -6772,100 +5720,135 @@ _rhs$ = 8						; size = 4
 	add	esp, 4
 	push	ebp
 	mov	ebp, DWORD PTR [ebx+4]
-
-; 778  : 			data[i] = rhs.data[i];
-
-	mov	eax, DWORD PTR [edx]
-	mov	DWORD PTR [ecx], eax
-	mov	eax, DWORD PTR [edx+4]
-	mov	DWORD PTR [ecx+4], eax
-	mov	eax, DWORD PTR [edx+8]
-	mov	DWORD PTR [ecx+8], eax
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-
-; 13   : 		res.reg = _mm_mul_ps(lhs.reg, rhs.reg);
-
-	mov	eax, DWORD PTR _rhs$[ebx]
-	movups	xmm0, XMMWORD PTR [ecx]
-; File d:\programming\mathter\mathter\vector.hpp
-
-; 809  : inline Vector<T, D> operator*(const Vector<T, D>& lhs, const Vector<T, D>& rhs) {
-
 	mov	DWORD PTR [esp+4], ebp
+	mov	ebp, esp
+	sub	esp, 8
+	push	esi
+	mov	esi, edx
+	mov	edx, ecx
+
+; 116  : 	for (int y = 0; y < Rows1; ++y) {
+
+	mov	ecx, DWORD PTR _rhs$[ebx]
+	mov	eax, edx
+	push	edi
+	mov	edi, esi
+	mov	DWORD PTR _lhs$1$[ebp], esi
+	mov	DWORD PTR ___$ReturnUdt$1$[ebp], edx
+	sub	edi, edx
+	mov	esi, 3
+$LL4@operator:
 ; File d:\programming\mathter\mathter\simd4f_sse.hpp
+
+; 69   : 		res.reg = _mm_set1_ps(value);
+
+	movss	xmm0, DWORD PTR [edi+eax]
+; File d:\programming\mathter\mathter\matrix.hpp
+
+; 116  : 	for (int y = 0; y < Rows1; ++y) {
+
+	lea	eax, DWORD PTR [eax+16]
+; File d:\programming\mathter\mathter\simd4f_sse.hpp
+
+; 69   : 		res.reg = _mm_set1_ps(value);
+
+	shufps	xmm0, xmm0, 0
 
 ; 13   : 		res.reg = _mm_mul_ps(lhs.reg, rhs.reg);
 
-	mulps	xmm0, XMMWORD PTR [eax]
+	mulps	xmm0, XMMWORD PTR [ecx]
+; File d:\programming\mathter\mathter\matrix.hpp
+
+; 119  : 		static_cast<VectorSpec<ElemT, Columns2>&>(result.stripes[y]) = scalarMultiplier;
+
+	movups	XMMWORD PTR [eax-16], xmm0
+	sub	esi, 1
+	jne	SHORT $LL4@operator
+
+; 120  : 	}
+; 121  : 	for (int x = 1; x < Columns2; ++x) {
+
+	mov	edi, DWORD PTR _lhs$1$[ebp]
+	lea	esi, DWORD PTR [ecx+16]
+	add	edi, 4
+	mov	DWORD PTR tv509[ebp], 2
+	npad	5
+$LL7@operator:
+
+; 122  : 		for (int y = 0; y < Rows1; ++y) {
+
+	mov	eax, edx
+	mov	ecx, edi
+	mov	edx, 3
+	npad	7
+$LL10@operator:
+; File d:\programming\mathter\mathter\simd4f_sse.hpp
+
+; 69   : 		res.reg = _mm_set1_ps(value);
+
+	movss	xmm1, DWORD PTR [ecx]
+; File d:\programming\mathter\mathter\matrix.hpp
+
+; 122  : 		for (int y = 0; y < Rows1; ++y) {
+
+	add	ecx, 16					; 00000010H
+; File d:\programming\mathter\mathter\simd4f_sse.hpp
+
+; 25   : 		res.reg = _mm_add_ps(lhs.reg, rhs.reg);
+
+	movups	xmm0, XMMWORD PTR [eax]
+
+; 69   : 		res.reg = _mm_set1_ps(value);
+
+	shufps	xmm1, xmm1, 0
+
+; 13   : 		res.reg = _mm_mul_ps(lhs.reg, rhs.reg);
+
+	mulps	xmm1, XMMWORD PTR [esi]
+
+; 25   : 		res.reg = _mm_add_ps(lhs.reg, rhs.reg);
+
+	addps	xmm0, xmm1
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 812  : 	return tmp;
+; 341  : 		simd = Simd4f::add(simd, rhs.simd);
 
-	mov	eax, ecx
+	movups	XMMWORD PTR [eax], xmm0
+; File d:\programming\mathter\mathter\matrix.hpp
 
-; 334  : 		simd = Simd4f::mul(simd, rhs.simd);
+; 122  : 		for (int y = 0; y < Rows1; ++y) {
 
-	movups	XMMWORD PTR [ecx], xmm0
+	add	eax, 16					; 00000010H
+	sub	edx, 1
+	jne	SHORT $LL10@operator
 
-; 813  : }
+; 120  : 	}
+; 121  : 	for (int x = 1; x < Columns2; ++x) {
 
+	mov	edx, DWORD PTR ___$ReturnUdt$1$[ebp]
+	add	esi, 16					; 00000010H
+	add	edi, 4
+	sub	DWORD PTR tv509[ebp], 1
+	jne	SHORT $LL7@operator
+
+; 123  : 			scalarMultiplier.spread(lhs(x, y));
+; 124  : 			scalarMultiplier.mul(rhs.stripes[x]);
+; 125  : 			static_cast<VectorSpec<ElemT, Columns2>&>(result.stripes[y]).add(scalarMultiplier);
+; 126  : 		}
+; 127  : 	}
+; 128  : 
+; 129  : 	return result;
+; 130  : }
+
+	pop	edi
+	mov	eax, edx
+	pop	esi
+	mov	esp, ebp
 	pop	ebp
 	mov	esp, ebx
 	pop	ebx
 	ret	0
-??$?DM$02@@YA?AV?$Vector@M$02@@ABV0@0@Z ENDP		; operator*<float,3>
-_TEXT	ENDS
-; Function compile flags: /Ogtp
-; File d:\programming\mathter\mathter\vector.hpp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-; File d:\programming\mathter\mathter\vector.hpp
-;	COMDAT ??$?DM$02@@YA?AV?$Vector@M$02@@MABV0@@Z
-_TEXT	SEGMENT
-??$?DM$02@@YA?AV?$Vector@M$02@@MABV0@@Z PROC		; operator*<float,3>, COMDAT
-; ___$ReturnUdt$ = ecx
-; _lhs$ = xmm1s
-; _rhs$ = edx
-
-; 778  : 			data[i] = rhs.data[i];
-
-	mov	eax, DWORD PTR [edx]
-
-; 867  : inline Vector<T, D> operator*(T lhs, const Vector<T, D>& rhs) {
-
-	movaps	xmm0, xmm1
-
-; 778  : 			data[i] = rhs.data[i];
-
-	mov	DWORD PTR [ecx], eax
-	mov	eax, DWORD PTR [edx+4]
-	mov	DWORD PTR [ecx+4], eax
-	mov	eax, DWORD PTR [edx+8]
-	mov	DWORD PTR [ecx+8], eax
-
-; 868  : 	auto tmp = rhs;
-; 869  : 	tmp *= lhs;
-; 870  : 	return tmp;
-
-	mov	eax, ecx
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-
-; 37   : 		__m128 tmp = _mm_set1_ps(rhs);
-
-	shufps	xmm0, xmm0, 0
-
-; 38   : 		res.reg = _mm_mul_ps(lhs.reg, tmp);
-
-	mulps	xmm0, XMMWORD PTR [ecx]
-; File d:\programming\mathter\mathter\vector.hpp
-
-; 348  : 		simd = Simd4f::mul(simd, rhs);
-
-	movups	XMMWORD PTR [ecx], xmm0
-
-; 871  : }
-
-	ret	0
-??$?DM$02@@YA?AV?$Vector@M$02@@MABV0@@Z ENDP		; operator*<float,3>
+??$?DMM$02$02$02$0A@$0A@$00$00$0A@@@YA?AV?$Matrix@M$02$02$0A@$00@@ABV0@0@Z ENDP ; operator*<float,float,3,3,3,0,0,1,1,0>
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
 ; File d:\programming\mathter\main.cpp
@@ -6912,7 +5895,7 @@ $LL4@operator:
 $LL7@operator:
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 574  : 		return data[idx];
+; 575  : 		return data[idx];
 
 	movss	xmm0, DWORD PTR [ebx]
 ; File d:\programming\mathter\main.cpp
@@ -7573,6 +6556,180 @@ __Al$dead$ = 8						; size = 4
 ??$_Destroy_range@V?$allocator@V?$Matrix@M$02$02$0A@$00@@@std@@PAV?$Matrix@M$02$02$0A@$00@@@std@@YAXPAV?$Matrix@M$02$02$0A@$00@@0AAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$0A@$00@@@std@@@0@@Z ENDP ; std::_Destroy_range<std::allocator<Matrix<float,3,3,0,1> >,Matrix<float,3,3,0,1> *>
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
+;	COMDAT ??0?$Matrix@M$03$03$0A@$00@@QAE@$$QAV0@@Z
+_TEXT	SEGMENT
+___that$ = 8						; size = 4
+??0?$Matrix@M$03$03$0A@$00@@QAE@$$QAV0@@Z PROC		; Matrix<float,4,4,0,1>::Matrix<float,4,4,0,1>, COMDAT
+; _this$ = ecx
+	push	ebp
+	mov	ebp, esp
+	push	esi
+	push	DWORD PTR ___that$[ebp]
+	mov	esi, ecx
+	call	??0?$MatrixData@M$03$03$0A@$00@@QAE@$$QAV0@@Z
+	mov	eax, esi
+	pop	esi
+	pop	ebp
+	ret	4
+??0?$Matrix@M$03$03$0A@$00@@QAE@$$QAV0@@Z ENDP		; Matrix<float,4,4,0,1>::Matrix<float,4,4,0,1>
+_TEXT	ENDS
+; Function compile flags: /Ogtp
+; File d:\programming\mathter\mathter\vector.hpp
+;	COMDAT ??0?$MatrixData@M$03$03$0A@$00@@QAE@$$QAV0@@Z
+_TEXT	SEGMENT
+___that$ = 8						; size = 4
+??0?$MatrixData@M$03$03$0A@$00@@QAE@$$QAV0@@Z PROC	; MatrixData<float,4,4,0,1>::MatrixData<float,4,4,0,1>, COMDAT
+; _this$ = ecx
+	push	ebp
+	mov	ebp, esp
+	push	ebx
+	mov	ebx, ecx
+	mov	ecx, DWORD PTR ___that$[ebp]
+	push	esi
+	push	edi
+	mov	edi, 4
+	lea	esi, DWORD PTR [ecx+12]
+	sub	ecx, ebx
+	lea	edx, DWORD PTR [ebx+8]
+	npad	8
+$LL4@MatrixData:
+
+; 779  : 			data[i] = rhs.data[i];
+
+	mov	eax, DWORD PTR [esi-12]
+	lea	esi, DWORD PTR [esi+16]
+	mov	DWORD PTR [edx-8], eax
+	lea	edx, DWORD PTR [edx+16]
+	mov	eax, DWORD PTR [esi-24]
+	mov	DWORD PTR [edx-20], eax
+	mov	eax, DWORD PTR [ecx+edx-16]
+	mov	DWORD PTR [edx-16], eax
+	mov	eax, DWORD PTR [esi-16]
+	mov	DWORD PTR [edx-12], eax
+	sub	edi, 1
+	jne	SHORT $LL4@MatrixData
+	pop	edi
+	pop	esi
+	mov	eax, ebx
+	pop	ebx
+	pop	ebp
+	ret	4
+??0?$MatrixData@M$03$03$0A@$00@@QAE@$$QAV0@@Z ENDP	; MatrixData<float,4,4,0,1>::MatrixData<float,4,4,0,1>
+_TEXT	ENDS
+; Function compile flags: /Ogtp
+; File d:\programming\mathter\mathter\vector.hpp
+;	COMDAT ??0?$Matrix@M$02$02$0A@$00@@QAE@$$QAV0@@Z
+_TEXT	SEGMENT
+___that$ = 8						; size = 4
+??0?$Matrix@M$02$02$0A@$00@@QAE@$$QAV0@@Z PROC		; Matrix<float,3,3,0,1>::Matrix<float,3,3,0,1>, COMDAT
+; _this$ = ecx
+	push	ebp
+	mov	ebp, esp
+	push	ebx
+	mov	ebx, ecx
+	push	esi
+	mov	esi, DWORD PTR ___that$[ebp]
+	mov	ecx, esi
+	push	edi
+	mov	edi, 3
+	lea	edx, DWORD PTR [ebx+8]
+	sub	ecx, ebx
+$LL6@Matrix:
+
+; 779  : 			data[i] = rhs.data[i];
+
+	mov	eax, DWORD PTR [esi]
+	lea	esi, DWORD PTR [esi+16]
+	mov	DWORD PTR [edx-8], eax
+	lea	edx, DWORD PTR [edx+16]
+	mov	eax, DWORD PTR [esi-12]
+	mov	DWORD PTR [edx-20], eax
+	mov	eax, DWORD PTR [ecx+edx-16]
+	mov	DWORD PTR [edx-16], eax
+	sub	edi, 1
+	jne	SHORT $LL6@Matrix
+	pop	edi
+	pop	esi
+	mov	eax, ebx
+	pop	ebx
+	pop	ebp
+	ret	4
+??0?$Matrix@M$02$02$0A@$00@@QAE@$$QAV0@@Z ENDP		; Matrix<float,3,3,0,1>::Matrix<float,3,3,0,1>
+_TEXT	ENDS
+; Function compile flags: /Ogtp
+; File d:\programming\mathter\mathter\vector.hpp
+;	COMDAT ??0?$MatrixData@M$02$02$0A@$00@@QAE@$$QAV0@@Z
+_TEXT	SEGMENT
+___that$ = 8						; size = 4
+??0?$MatrixData@M$02$02$0A@$00@@QAE@$$QAV0@@Z PROC	; MatrixData<float,3,3,0,1>::MatrixData<float,3,3,0,1>, COMDAT
+; _this$ = ecx
+	push	ebp
+	mov	ebp, esp
+	push	ebx
+	mov	ebx, ecx
+	push	esi
+	mov	esi, DWORD PTR ___that$[ebp]
+	mov	ecx, esi
+	push	edi
+	mov	edi, 3
+	lea	edx, DWORD PTR [ebx+8]
+	sub	ecx, ebx
+$LL4@MatrixData:
+
+; 779  : 			data[i] = rhs.data[i];
+
+	mov	eax, DWORD PTR [esi]
+	lea	esi, DWORD PTR [esi+16]
+	mov	DWORD PTR [edx-8], eax
+	lea	edx, DWORD PTR [edx+16]
+	mov	eax, DWORD PTR [esi-12]
+	mov	DWORD PTR [edx-20], eax
+	mov	eax, DWORD PTR [ecx+edx-16]
+	mov	DWORD PTR [edx-16], eax
+	sub	edi, 1
+	jne	SHORT $LL4@MatrixData
+	pop	edi
+	pop	esi
+	mov	eax, ebx
+	pop	ebx
+	pop	ebp
+	ret	4
+??0?$MatrixData@M$02$02$0A@$00@@QAE@$$QAV0@@Z ENDP	; MatrixData<float,3,3,0,1>::MatrixData<float,3,3,0,1>
+_TEXT	ENDS
+; Function compile flags: /Ogtp
+;	COMDAT ??__G@YGXPAX0IIP6EPAX00@Z@Z
+_TEXT	SEGMENT
+___s$dead$ = 8						; size = 4
+___n$ = 12						; size = 4
+___f$ = 16						; size = 4
+??__G@YGXPAX0IIP6EPAX00@Z@Z PROC			; `vector copy constructor iterator', COMDAT
+; ___t$ = ecx
+; ___u$ = edx
+	push	ebp
+	mov	ebp, esp
+	push	ebx
+	push	esi
+	mov	esi, edx
+	mov	ebx, ecx
+	push	edi
+	mov	edi, DWORD PTR ___n$[ebp]
+	sub	ebx, esi
+	npad	1
+$LL2@vector:
+	push	esi
+	lea	ecx, DWORD PTR [ebx+esi]
+	call	DWORD PTR ___f$[ebp]
+	add	esi, 16					; 00000010H
+	sub	edi, 1
+	jne	SHORT $LL2@vector
+	pop	edi
+	pop	esi
+	pop	ebx
+	pop	ebp
+	ret	12					; 0000000cH
+??__G@YGXPAX0IIP6EPAX00@Z@Z ENDP			; `vector copy constructor iterator'
+_TEXT	ENDS
+; Function compile flags: /Ogtp
 ; File d:\program files\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.10.25017\include\vector
 ;	COMDAT ?_Calculate_growth@?$vector@V?$Matrix@M$02$02$0A@$00@@V?$allocator@V?$Matrix@M$02$02$0A@$00@@@std@@@std@@ABEII@Z
 _TEXT	SEGMENT
@@ -7707,11 +6864,11 @@ _TEXT	SEGMENT
 ?Height@?$MatrixData@M$02$02$0A@$00@@QBEHXZ PROC	; MatrixData<float,3,3,0,1>::Height, COMDAT
 ; _this$dead$ = ecx
 
-; 37   : 		return Rows;
+; 41   : 		return Rows;
 
 	mov	eax, 3
 
-; 38   : 	}
+; 42   : 	}
 
 	ret	0
 ?Height@?$MatrixData@M$02$02$0A@$00@@QBEHXZ ENDP	; MatrixData<float,3,3,0,1>::Height
@@ -7723,11 +6880,11 @@ _TEXT	SEGMENT
 ?Width@?$MatrixData@M$02$02$0A@$00@@QBEHXZ PROC		; MatrixData<float,3,3,0,1>::Width, COMDAT
 ; _this$dead$ = ecx
 
-; 34   : 		return Columns;
+; 38   : 		return Columns;
 
 	mov	eax, 3
 
-; 35   : 	}
+; 39   : 	}
 
 	ret	0
 ?Width@?$MatrixData@M$02$02$0A@$00@@QBEHXZ ENDP		; MatrixData<float,3,3,0,1>::Width
@@ -7739,11 +6896,11 @@ _TEXT	SEGMENT
 ?Height@?$MatrixData@M$03$03$0A@$00@@QBEHXZ PROC	; MatrixData<float,4,4,0,1>::Height, COMDAT
 ; _this$dead$ = ecx
 
-; 37   : 		return Rows;
+; 41   : 		return Rows;
 
 	mov	eax, 4
 
-; 38   : 	}
+; 42   : 	}
 
 	ret	0
 ?Height@?$MatrixData@M$03$03$0A@$00@@QBEHXZ ENDP	; MatrixData<float,4,4,0,1>::Height
@@ -7755,52 +6912,68 @@ _TEXT	SEGMENT
 ?Width@?$MatrixData@M$03$03$0A@$00@@QBEHXZ PROC		; MatrixData<float,4,4,0,1>::Width, COMDAT
 ; _this$dead$ = ecx
 
-; 34   : 		return Columns;
+; 38   : 		return Columns;
 
 	mov	eax, 4
 
-; 35   : 	}
+; 39   : 	}
 
 	ret	0
 ?Width@?$MatrixData@M$03$03$0A@$00@@QBEHXZ ENDP		; MatrixData<float,4,4,0,1>::Width
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
-; File d:\programming\mathter\mathter\vector.hpp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-; File d:\programming\mathter\mathter\vector.hpp
-;	COMDAT ??X?$Vector@M$03@@QAEAAV0@M@Z
+; File d:\programming\mathter\mathter\matrix.hpp
+;	COMDAT ??R?$Matrix@M$03$03$0A@$00@@QBEMHH@Z
 _TEXT	SEGMENT
-??X?$Vector@M$03@@QAEAAV0@M@Z PROC			; Vector<float,4>::operator*=, COMDAT
+_col$ = 8						; size = 4
+_row$ = 12						; size = 4
+??R?$Matrix@M$03$03$0A@$00@@QBEMHH@Z PROC		; Matrix<float,4,4,0,1>::operator(), COMDAT
 ; _this$ = ecx
-; _rhs$ = xmm1s
 
-; 661  : 	inline Vector& operator*=(T rhs) {
+; 85   : 	T operator()(int col, int row) const {
 
-	movaps	xmm0, xmm1
+	push	ebp
+	mov	ebp, esp
 
-; 662  : 		mul(rhs);
-; 663  : 		return *this;
+; 86   : 		return GetElement(col, row);
 
-	mov	eax, ecx
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
+	mov	edx, DWORD PTR _row$[ebp]
+	mov	eax, DWORD PTR _col$[ebp]
+	lea	eax, DWORD PTR [eax+edx*4]
+	movss	xmm0, DWORD PTR [ecx+eax*4]
 
-; 37   : 		__m128 tmp = _mm_set1_ps(rhs);
+; 87   : 	}
 
-	shufps	xmm0, xmm0, 0
+	pop	ebp
+	ret	8
+??R?$Matrix@M$03$03$0A@$00@@QBEMHH@Z ENDP		; Matrix<float,4,4,0,1>::operator()
+_TEXT	ENDS
+; Function compile flags: /Ogtp
+; File d:\programming\mathter\mathter\matrix.hpp
+;	COMDAT ??R?$Matrix@M$02$02$0A@$00@@QBEMHH@Z
+_TEXT	SEGMENT
+_col$ = 8						; size = 4
+_row$ = 12						; size = 4
+??R?$Matrix@M$02$02$0A@$00@@QBEMHH@Z PROC		; Matrix<float,3,3,0,1>::operator(), COMDAT
+; _this$ = ecx
 
-; 38   : 		res.reg = _mm_mul_ps(lhs.reg, tmp);
+; 85   : 	T operator()(int col, int row) const {
 
-	mulps	xmm0, XMMWORD PTR [ecx]
-; File d:\programming\mathter\mathter\vector.hpp
+	push	ebp
+	mov	ebp, esp
 
-; 412  : 		simd = Simd4f::mul(simd, rhs);
+; 86   : 		return GetElement(col, row);
 
-	movups	XMMWORD PTR [ecx], xmm0
+	mov	edx, DWORD PTR _row$[ebp]
+	mov	eax, DWORD PTR _col$[ebp]
+	lea	eax, DWORD PTR [eax+edx*4]
+	movss	xmm0, DWORD PTR [ecx+eax*4]
 
-; 664  : 	}
+; 87   : 	}
 
-	ret	0
-??X?$Vector@M$03@@QAEAAV0@M@Z ENDP			; Vector<float,4>::operator*=
+	pop	ebp
+	ret	8
+??R?$Matrix@M$02$02$0A@$00@@QBEMHH@Z ENDP		; Matrix<float,3,3,0,1>::operator()
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
 ; File d:\programming\mathter\mathter\vector.hpp
@@ -7816,7 +6989,7 @@ _rhs$ = 8						; size = 4
 ??X?$Vector@M$03@@QAEAAV0@ABV0@@Z PROC			; Vector<float,4>::operator*=, COMDAT
 ; _this$ = ecx
 
-; 639  : 	inline Vector& operator*=(const Vector& rhs) {
+; 640  : 	inline Vector& operator*=(const Vector& rhs) {
 
 	push	ebx
 	mov	ebx, esp
@@ -7832,7 +7005,7 @@ _rhs$ = 8						; size = 4
 	mov	eax, DWORD PTR _rhs$[ebx]
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 639  : 	inline Vector& operator*=(const Vector& rhs) {
+; 640  : 	inline Vector& operator*=(const Vector& rhs) {
 
 	mov	DWORD PTR [esp+4], ebp
 ; File d:\programming\mathter\mathter\simd4f_sse.hpp
@@ -7842,7 +7015,7 @@ _rhs$ = 8						; size = 4
 	movups	xmm0, XMMWORD PTR [eax]
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 641  : 		return *this;
+; 642  : 		return *this;
 
 	mov	eax, ecx
 ; File d:\programming\mathter\mathter\simd4f_sse.hpp
@@ -7852,11 +7025,11 @@ _rhs$ = 8						; size = 4
 	mulps	xmm0, XMMWORD PTR [ecx]
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 398  : 		simd = Simd4f::mul(simd, rhs.simd);
+; 399  : 		simd = Simd4f::mul(simd, rhs.simd);
 
 	movups	XMMWORD PTR [ecx], xmm0
 
-; 642  : 	}
+; 643  : 	}
 
 	pop	ebp
 	mov	esp, ebx
@@ -7872,21 +7045,55 @@ _idx$ = 8						; size = 4
 ??R?$Vector@M$03@@QBEMH@Z PROC				; Vector<float,4>::operator(), COMDAT
 ; _this$ = ecx
 
-; 581  : 	T operator()(int idx) const {
+; 582  : 	T operator()(int idx) const {
 
 	push	ebp
 	mov	ebp, esp
 
-; 582  : 		return data[idx];
+; 583  : 		return data[idx];
 
 	mov	eax, DWORD PTR _idx$[ebp]
 	movss	xmm0, DWORD PTR [ecx+eax*4]
 
-; 583  : 	}
+; 584  : 	}
 
 	pop	ebp
 	ret	4
 ??R?$Vector@M$03@@QBEMH@Z ENDP				; Vector<float,4>::operator()
+_TEXT	ENDS
+; Function compile flags: /Ogtp
+; File d:\programming\mathter\mathter\vector.hpp
+;	COMDAT ??0?$Vector@M$03@@QAE@ABV0@@Z
+_TEXT	SEGMENT
+_rhs$ = 8						; size = 4
+??0?$Vector@M$03@@QAE@ABV0@@Z PROC			; Vector<float,4>::Vector<float,4>, COMDAT
+; _this$ = ecx
+
+; 527  : 	Vector(const Vector& rhs) {
+
+	push	ebp
+	mov	ebp, esp
+
+; 779  : 			data[i] = rhs.data[i];
+
+	mov	edx, DWORD PTR _rhs$[ebp]
+	mov	eax, DWORD PTR [edx]
+	mov	DWORD PTR [ecx], eax
+	mov	eax, DWORD PTR [edx+4]
+	mov	DWORD PTR [ecx+4], eax
+	mov	eax, DWORD PTR [edx+8]
+	mov	DWORD PTR [ecx+8], eax
+	mov	eax, DWORD PTR [edx+12]
+	mov	DWORD PTR [ecx+12], eax
+
+; 528  : 		// message("Vector(copy)");
+; 529  : 		Assign(rhs);
+; 530  : 	}
+
+	mov	eax, ecx
+	pop	ebp
+	ret	4
+??0?$Vector@M$03@@QAE@ABV0@@Z ENDP			; Vector<float,4>::Vector<float,4>
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
 ; File d:\program files\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.10.25017\include\chrono
@@ -7916,106 +7123,6 @@ ___$ReturnUdt$ = 8					; size = 4
 ?time_since_epoch@?$time_point@Usteady_clock@chrono@std@@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@23@@chrono@std@@QBE?AV?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@23@XZ ENDP ; std::chrono::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > >::time_since_epoch
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
-; File d:\programming\mathter\mathter\vector.hpp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-; File d:\programming\mathter\mathter\vector.hpp
-;	COMDAT ??X?$Vector@M$02@@QAEAAV0@M@Z
-_TEXT	SEGMENT
-??X?$Vector@M$02@@QAEAAV0@M@Z PROC			; Vector<float,3>::operator*=, COMDAT
-; _this$ = ecx
-; _rhs$ = xmm1s
-
-; 661  : 	inline Vector& operator*=(T rhs) {
-
-	movaps	xmm0, xmm1
-
-; 662  : 		mul(rhs);
-; 663  : 		return *this;
-
-	mov	eax, ecx
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-
-; 37   : 		__m128 tmp = _mm_set1_ps(rhs);
-
-	shufps	xmm0, xmm0, 0
-
-; 38   : 		res.reg = _mm_mul_ps(lhs.reg, tmp);
-
-	mulps	xmm0, XMMWORD PTR [ecx]
-; File d:\programming\mathter\mathter\vector.hpp
-
-; 348  : 		simd = Simd4f::mul(simd, rhs);
-
-	movups	XMMWORD PTR [ecx], xmm0
-
-; 664  : 	}
-
-	ret	0
-??X?$Vector@M$02@@QAEAAV0@M@Z ENDP			; Vector<float,3>::operator*=
-_TEXT	ENDS
-; Function compile flags: /Ogtp
-; File d:\programming\mathter\mathter\vector.hpp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-; File d:\programming\mathter\mathter\vector.hpp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-; File d:\programming\mathter\mathter\vector.hpp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-; File d:\programming\mathter\mathter\vector.hpp
-;	COMDAT ??X?$Vector@M$02@@QAEAAV0@ABV0@@Z
-_TEXT	SEGMENT
-_rhs$ = 8						; size = 4
-??X?$Vector@M$02@@QAEAAV0@ABV0@@Z PROC			; Vector<float,3>::operator*=, COMDAT
-; _this$ = ecx
-
-; 639  : 	inline Vector& operator*=(const Vector& rhs) {
-
-	push	ebx
-	mov	ebx, esp
-	sub	esp, 8
-	and	esp, -8					; fffffff8H
-	add	esp, 4
-	push	ebp
-	mov	ebp, DWORD PTR [ebx+4]
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-
-; 13   : 		res.reg = _mm_mul_ps(lhs.reg, rhs.reg);
-
-	mov	eax, DWORD PTR _rhs$[ebx]
-; File d:\programming\mathter\mathter\vector.hpp
-
-; 639  : 	inline Vector& operator*=(const Vector& rhs) {
-
-	mov	DWORD PTR [esp+4], ebp
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-
-; 13   : 		res.reg = _mm_mul_ps(lhs.reg, rhs.reg);
-
-	movups	xmm0, XMMWORD PTR [eax]
-; File d:\programming\mathter\mathter\vector.hpp
-
-; 641  : 		return *this;
-
-	mov	eax, ecx
-; File d:\programming\mathter\mathter\simd4f_sse.hpp
-
-; 13   : 		res.reg = _mm_mul_ps(lhs.reg, rhs.reg);
-
-	mulps	xmm0, XMMWORD PTR [ecx]
-; File d:\programming\mathter\mathter\vector.hpp
-
-; 334  : 		simd = Simd4f::mul(simd, rhs.simd);
-
-	movups	XMMWORD PTR [ecx], xmm0
-
-; 642  : 	}
-
-	pop	ebp
-	mov	esp, ebx
-	pop	ebx
-	ret	4
-??X?$Vector@M$02@@QAEAAV0@ABV0@@Z ENDP			; Vector<float,3>::operator*=
-_TEXT	ENDS
-; Function compile flags: /Ogtp
 ; File d:\program files\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.10.25017\include\vector
 ;	COMDAT ?_Myend@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$02$0A@$00@@V?$allocator@V?$Matrix@M$02$02$0A@$00@@@std@@@std@@@std@@QBEABQAV?$Matrix@M$02$02$0A@$00@@XZ
 _TEXT	SEGMENT
@@ -8032,6 +7139,198 @@ _TEXT	SEGMENT
 ?_Myend@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$02$0A@$00@@V?$allocator@V?$Matrix@M$02$02$0A@$00@@@std@@@std@@@std@@QBEABQAV?$Matrix@M$02$02$0A@$00@@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,3,0,1>,std::allocator<Matrix<float,3,3,0,1> > > >::_Myend
 _TEXT	ENDS
 ; Function compile flags: /Ogtp
+; File d:\programming\mathter\mathter\matrix.hpp
+;	COMDAT ?GetElement@?$MatrixData@M$02$02$0A@$00@@QBEMHH@Z
+_TEXT	SEGMENT
+_col$ = 8						; size = 4
+_row$ = 12						; size = 4
+?GetElement@?$MatrixData@M$02$02$0A@$00@@QBEMHH@Z PROC	; MatrixData<float,3,3,0,1>::GetElement, COMDAT
+; _this$ = ecx
+
+; 66   : 	inline T GetElement(int col, int row) const {
+
+	push	ebp
+	mov	ebp, esp
+
+; 67   : 		return GetElement(col, row, std::integral_constant<bool, Layout == eMatrixLayout::ROW_MAJOR>());
+
+	mov	edx, DWORD PTR _row$[ebp]
+	mov	eax, DWORD PTR _col$[ebp]
+	lea	eax, DWORD PTR [eax+edx*4]
+	movss	xmm0, DWORD PTR [ecx+eax*4]
+
+; 68   : 	}
+
+	pop	ebp
+	ret	8
+?GetElement@?$MatrixData@M$02$02$0A@$00@@QBEMHH@Z ENDP	; MatrixData<float,3,3,0,1>::GetElement
+_TEXT	ENDS
+; Function compile flags: /Ogtp
+; File d:\programming\mathter\mathter\matrix.hpp
+;	COMDAT ?GetElement@?$MatrixData@M$03$03$0A@$00@@QBEMHH@Z
+_TEXT	SEGMENT
+_col$ = 8						; size = 4
+_row$ = 12						; size = 4
+?GetElement@?$MatrixData@M$03$03$0A@$00@@QBEMHH@Z PROC	; MatrixData<float,4,4,0,1>::GetElement, COMDAT
+; _this$ = ecx
+
+; 66   : 	inline T GetElement(int col, int row) const {
+
+	push	ebp
+	mov	ebp, esp
+
+; 67   : 		return GetElement(col, row, std::integral_constant<bool, Layout == eMatrixLayout::ROW_MAJOR>());
+
+	mov	edx, DWORD PTR _row$[ebp]
+	mov	eax, DWORD PTR _col$[ebp]
+	lea	eax, DWORD PTR [eax+edx*4]
+	movss	xmm0, DWORD PTR [ecx+eax*4]
+
+; 68   : 	}
+
+	pop	ebp
+	ret	8
+?GetElement@?$MatrixData@M$03$03$0A@$00@@QBEMHH@Z ENDP	; MatrixData<float,4,4,0,1>::GetElement
+_TEXT	ENDS
+; Function compile flags: /Ogtp
+; File d:\programming\mathter\mathter\vector.hpp
+;	COMDAT ?Assign@?$Vector@M$03@@IAEXABV1@@Z
+_TEXT	SEGMENT
+_rhs$ = 8						; size = 4
+?Assign@?$Vector@M$03@@IAEXABV1@@Z PROC			; Vector<float,4>::Assign, COMDAT
+; _this$ = ecx
+
+; 776  : 	void Assign(const Vector& rhs) {
+
+	push	ebp
+	mov	ebp, esp
+
+; 777  : 		// message("Assign(copy)");
+; 778  : 		for (int i = 0; i < D; ++i) {
+; 779  : 			data[i] = rhs.data[i];
+
+	mov	edx, DWORD PTR _rhs$[ebp]
+	mov	eax, DWORD PTR [edx]
+	mov	DWORD PTR [ecx], eax
+	mov	eax, DWORD PTR [edx+4]
+	mov	DWORD PTR [ecx+4], eax
+	mov	eax, DWORD PTR [edx+8]
+	mov	DWORD PTR [ecx+8], eax
+	mov	eax, DWORD PTR [edx+12]
+	mov	DWORD PTR [ecx+12], eax
+
+; 780  : 		}
+; 781  : 	}
+
+	pop	ebp
+	ret	4
+?Assign@?$Vector@M$03@@IAEXABV1@@Z ENDP			; Vector<float,4>::Assign
+_TEXT	ENDS
+; Function compile flags: /Ogtp
+; File d:\programming\mathter\mathter\matrix.hpp
+;	COMDAT ?GetElement@?$MatrixData@M$02$02$0A@$00@@QBEMHHU?$integral_constant@_N$00@std@@@Z
+_TEXT	SEGMENT
+_col$ = 8						; size = 4
+_row$ = 12						; size = 4
+___formal$ = 16						; size = 1
+?GetElement@?$MatrixData@M$02$02$0A@$00@@QBEMHHU?$integral_constant@_N$00@std@@@Z PROC ; MatrixData<float,3,3,0,1>::GetElement, COMDAT
+; _this$ = ecx
+
+; 57   : 	inline T GetElement(int col, int row, std::true_type) const {
+
+	push	ebp
+	mov	ebp, esp
+
+; 58   : 		return stripes[row][col];
+
+	mov	edx, DWORD PTR _row$[ebp]
+	mov	eax, DWORD PTR _col$[ebp]
+	lea	eax, DWORD PTR [eax+edx*4]
+	movss	xmm0, DWORD PTR [ecx+eax*4]
+
+; 59   : 	}
+
+	pop	ebp
+	ret	12					; 0000000cH
+?GetElement@?$MatrixData@M$02$02$0A@$00@@QBEMHHU?$integral_constant@_N$00@std@@@Z ENDP ; MatrixData<float,3,3,0,1>::GetElement
+_TEXT	ENDS
+; Function compile flags: /Ogtp
+; File d:\programming\mathter\mathter\matrix.hpp
+;	COMDAT ?GetElement@?$MatrixData@M$03$03$0A@$00@@QBEMHHU?$integral_constant@_N$00@std@@@Z
+_TEXT	SEGMENT
+_col$ = 8						; size = 4
+_row$ = 12						; size = 4
+___formal$ = 16						; size = 1
+?GetElement@?$MatrixData@M$03$03$0A@$00@@QBEMHHU?$integral_constant@_N$00@std@@@Z PROC ; MatrixData<float,4,4,0,1>::GetElement, COMDAT
+; _this$ = ecx
+
+; 57   : 	inline T GetElement(int col, int row, std::true_type) const {
+
+	push	ebp
+	mov	ebp, esp
+
+; 58   : 		return stripes[row][col];
+
+	mov	edx, DWORD PTR _row$[ebp]
+	mov	eax, DWORD PTR _col$[ebp]
+	lea	eax, DWORD PTR [eax+edx*4]
+	movss	xmm0, DWORD PTR [ecx+eax*4]
+
+; 59   : 	}
+
+	pop	ebp
+	ret	12					; 0000000cH
+?GetElement@?$MatrixData@M$03$03$0A@$00@@QBEMHHU?$integral_constant@_N$00@std@@@Z ENDP ; MatrixData<float,4,4,0,1>::GetElement
+_TEXT	ENDS
+; Function compile flags: /Ogtp
+; File d:\programming\mathter\mathter\vector.hpp
+;	COMDAT ??A?$Vector@M$03@@QBEMH@Z
+_TEXT	SEGMENT
+_idx$ = 8						; size = 4
+??A?$Vector@M$03@@QBEMH@Z PROC				; Vector<float,4>::operator[], COMDAT
+; _this$ = ecx
+
+; 574  : 	T operator[](int idx) const {
+
+	push	ebp
+	mov	ebp, esp
+
+; 575  : 		return data[idx];
+
+	mov	eax, DWORD PTR _idx$[ebp]
+	movss	xmm0, DWORD PTR [ecx+eax*4]
+
+; 576  : 	}
+
+	pop	ebp
+	ret	4
+??A?$Vector@M$03@@QBEMH@Z ENDP				; Vector<float,4>::operator[]
+_TEXT	ENDS
+; Function compile flags: /Ogtp
+; File d:\programming\mathter\mathter\vector.hpp
+;	COMDAT ??A?$Vector@M$02@@QBEMH@Z
+_TEXT	SEGMENT
+_idx$ = 8						; size = 4
+??A?$Vector@M$02@@QBEMH@Z PROC				; Vector<float,3>::operator[], COMDAT
+; _this$ = ecx
+
+; 574  : 	T operator[](int idx) const {
+
+	push	ebp
+	mov	ebp, esp
+
+; 575  : 		return data[idx];
+
+	mov	eax, DWORD PTR _idx$[ebp]
+	movss	xmm0, DWORD PTR [ecx+eax*4]
+
+; 576  : 	}
+
+	pop	ebp
+	ret	4
+??A?$Vector@M$02@@QBEMH@Z ENDP				; Vector<float,3>::operator[]
+_TEXT	ENDS
+; Function compile flags: /Ogtp
 ; File d:\programming\mathter\mathter\vector.hpp
 ;	COMDAT ??$Assign@V?$Vector@M$02@@M$0A@@?$Vector@M$03@@IAEXABV?$Vector@M$02@@ABM@Z
 _TEXT	SEGMENT
@@ -8040,12 +7339,12 @@ _<rest_0>$ = 12						; size = 4
 ??$Assign@V?$Vector@M$02@@M$0A@@?$Vector@M$03@@IAEXABV?$Vector@M$02@@ABM@Z PROC ; Vector<float,4>::Assign<Vector<float,3>,float,0>, COMDAT
 ; _this$ = ecx
 
-; 793  : 	void Assign(const Head& head, const Rest&... rest) {
+; 794  : 	void Assign(const Head& head, const Rest&... rest) {
 
 	push	ebp
 	mov	ebp, esp
 
-; 768  : 				target.data[StartIdx + i] = GetVectorElement<Head>::Get(head, i);
+; 769  : 				target.data[StartIdx + i] = GetVectorElement<Head>::Get(head, i);
 
 	mov	edx, DWORD PTR _head$[ebp]
 	mov	eax, DWORD PTR [edx]
@@ -8058,12 +7357,12 @@ _<rest_0>$ = 12						; size = 4
 	mov	eax, DWORD PTR [eax]
 	mov	DWORD PTR [ecx+12], eax
 
-; 794  : 		// message("Assign(concat...)");
-; 795  : 
-; 796  : 		constexpr int ArgDim = SumDimensions<Head, Rest...>::value;
-; 797  : 		static_assert(ArgDim == D, "The sum of dimensions of arguments must match the dimension of the vector.");
-; 798  : 		AssignHelper<ArgDim>::Assign<0, Head, Rest...>(*this, head, rest...);
-; 799  : 	}
+; 795  : 		// message("Assign(concat...)");
+; 796  : 
+; 797  : 		constexpr int ArgDim = SumDimensions<Head, Rest...>::value;
+; 798  : 		static_assert(ArgDim == D, "The sum of dimensions of arguments must match the dimension of the vector.");
+; 799  : 		AssignHelper<ArgDim>::Assign<0, Head, Rest...>(*this, head, rest...);
+; 800  : 	}
 
 	pop	ebp
 	ret	8
@@ -8078,12 +7377,12 @@ _<rest_0>$ = 12						; size = 4
 ??$Assign@MV?$Vector@M$02@@$0A@@?$Vector@M$03@@IAEXABMABV?$Vector@M$02@@@Z PROC ; Vector<float,4>::Assign<float,Vector<float,3>,0>, COMDAT
 ; _this$ = ecx
 
-; 793  : 	void Assign(const Head& head, const Rest&... rest) {
+; 794  : 	void Assign(const Head& head, const Rest&... rest) {
 
 	push	ebp
 	mov	ebp, esp
 
-; 768  : 				target.data[StartIdx + i] = GetVectorElement<Head>::Get(head, i);
+; 769  : 				target.data[StartIdx + i] = GetVectorElement<Head>::Get(head, i);
 
 	mov	eax, DWORD PTR _head$[ebp]
 	mov	edx, DWORD PTR _<rest_0>$[ebp]
@@ -8096,12 +7395,12 @@ _<rest_0>$ = 12						; size = 4
 	mov	eax, DWORD PTR [edx+8]
 	mov	DWORD PTR [ecx+12], eax
 
-; 794  : 		// message("Assign(concat...)");
-; 795  : 
-; 796  : 		constexpr int ArgDim = SumDimensions<Head, Rest...>::value;
-; 797  : 		static_assert(ArgDim == D, "The sum of dimensions of arguments must match the dimension of the vector.");
-; 798  : 		AssignHelper<ArgDim>::Assign<0, Head, Rest...>(*this, head, rest...);
-; 799  : 	}
+; 795  : 		// message("Assign(concat...)");
+; 796  : 
+; 797  : 		constexpr int ArgDim = SumDimensions<Head, Rest...>::value;
+; 798  : 		static_assert(ArgDim == D, "The sum of dimensions of arguments must match the dimension of the vector.");
+; 799  : 		AssignHelper<ArgDim>::Assign<0, Head, Rest...>(*this, head, rest...);
+; 800  : 	}
 
 	pop	ebp
 	ret	8
@@ -8877,14 +8176,14 @@ _<rest_0>$ = 8						; size = 4
 ; _target$ = ecx
 ; _head$ = edx
 
-; 765  : 		static void Assign(Vector& target, const Head& head, const Rest&... rest) {
+; 766  : 		static void Assign(Vector& target, const Head& head, const Rest&... rest) {
 
 	push	ebp
 	mov	ebp, esp
 
-; 766  : 			constexpr int HeadDim = DimensionOf<Head>::value;
-; 767  : 			for (int i = 0; i < HeadDim; ++i) {
-; 768  : 				target.data[StartIdx + i] = GetVectorElement<Head>::Get(head, i);
+; 767  : 			constexpr int HeadDim = DimensionOf<Head>::value;
+; 768  : 			for (int i = 0; i < HeadDim; ++i) {
+; 769  : 				target.data[StartIdx + i] = GetVectorElement<Head>::Get(head, i);
 
 	mov	eax, DWORD PTR [edx]
 	mov	DWORD PTR [ecx], eax
@@ -8896,9 +8195,9 @@ _<rest_0>$ = 8						; size = 4
 	mov	eax, DWORD PTR [eax]
 	mov	DWORD PTR [ecx+12], eax
 
-; 769  : 			}
-; 770  : 			return Assign<StartIdx + HeadDim, Rest... >(target, rest...);
-; 771  : 		}
+; 770  : 			}
+; 771  : 			return Assign<StartIdx + HeadDim, Rest... >(target, rest...);
+; 772  : 		}
 
 	pop	ebp
 	ret	0
@@ -8913,14 +8212,14 @@ _<rest_0>$ = 8						; size = 4
 ; _target$ = ecx
 ; _head$ = edx
 
-; 765  : 		static void Assign(Vector& target, const Head& head, const Rest&... rest) {
+; 766  : 		static void Assign(Vector& target, const Head& head, const Rest&... rest) {
 
 	push	ebp
 	mov	ebp, esp
 
-; 766  : 			constexpr int HeadDim = DimensionOf<Head>::value;
-; 767  : 			for (int i = 0; i < HeadDim; ++i) {
-; 768  : 				target.data[StartIdx + i] = GetVectorElement<Head>::Get(head, i);
+; 767  : 			constexpr int HeadDim = DimensionOf<Head>::value;
+; 768  : 			for (int i = 0; i < HeadDim; ++i) {
+; 769  : 				target.data[StartIdx + i] = GetVectorElement<Head>::Get(head, i);
 
 	mov	eax, DWORD PTR [edx]
 	mov	edx, DWORD PTR _<rest_0>$[ebp]
@@ -8932,9 +8231,9 @@ _<rest_0>$ = 8						; size = 4
 	mov	eax, DWORD PTR [edx+8]
 	mov	DWORD PTR [ecx+12], eax
 
-; 769  : 			}
-; 770  : 			return Assign<StartIdx + HeadDim, Rest... >(target, rest...);
-; 771  : 		}
+; 770  : 			}
+; 771  : 			return Assign<StartIdx + HeadDim, Rest... >(target, rest...);
+; 772  : 		}
 
 	pop	ebp
 	ret	0
@@ -9293,7 +8592,7 @@ _TEXT	SEGMENT
 ; _u$ = ecx
 ; _idx$dead$ = edx
 
-; 751  : 		static U Get(const U& u, int idx) { return u; }
+; 752  : 		static U Get(const U& u, int idx) { return u; }
 
 	movss	xmm0, DWORD PTR [ecx]
 	ret	0
@@ -9307,7 +8606,7 @@ _TEXT	SEGMENT
 ; _u$ = ecx
 ; _idx$ = edx
 
-; 755  : 		static U Get(const Vector<U, E>& u, int idx) { return u.data[idx]; }
+; 756  : 		static U Get(const Vector<U, E>& u, int idx) { return u.data[idx]; }
 
 	movss	xmm0, DWORD PTR [ecx+edx*4]
 	ret	0
@@ -9336,16 +8635,16 @@ _TEXT	SEGMENT
 ; _target$ = ecx
 ; _head$ = edx
 
-; 766  : 			constexpr int HeadDim = DimensionOf<Head>::value;
-; 767  : 			for (int i = 0; i < HeadDim; ++i) {
-; 768  : 				target.data[StartIdx + i] = GetVectorElement<Head>::Get(head, i);
+; 767  : 			constexpr int HeadDim = DimensionOf<Head>::value;
+; 768  : 			for (int i = 0; i < HeadDim; ++i) {
+; 769  : 				target.data[StartIdx + i] = GetVectorElement<Head>::Get(head, i);
 
 	mov	eax, DWORD PTR [edx]
 	mov	DWORD PTR [ecx+12], eax
 
-; 769  : 			}
-; 770  : 			return Assign<StartIdx + HeadDim, Rest... >(target, rest...);
-; 771  : 		}
+; 770  : 			}
+; 771  : 			return Assign<StartIdx + HeadDim, Rest... >(target, rest...);
+; 772  : 		}
 
 	ret	0
 ??$Assign@$02M$$V@?$AssignHelper@$03@?$Vector@M$03@@SAXAAV1@ABM@Z ENDP ; Vector<float,4>::AssignHelper<4>::Assign<3,float>
@@ -9358,9 +8657,9 @@ _TEXT	SEGMENT
 ; _target$ = ecx
 ; _head$ = edx
 
-; 766  : 			constexpr int HeadDim = DimensionOf<Head>::value;
-; 767  : 			for (int i = 0; i < HeadDim; ++i) {
-; 768  : 				target.data[StartIdx + i] = GetVectorElement<Head>::Get(head, i);
+; 767  : 			constexpr int HeadDim = DimensionOf<Head>::value;
+; 768  : 			for (int i = 0; i < HeadDim; ++i) {
+; 769  : 				target.data[StartIdx + i] = GetVectorElement<Head>::Get(head, i);
 
 	mov	eax, DWORD PTR [edx]
 	mov	DWORD PTR [ecx+4], eax
@@ -9369,9 +8668,9 @@ _TEXT	SEGMENT
 	mov	eax, DWORD PTR [edx+8]
 	mov	DWORD PTR [ecx+12], eax
 
-; 769  : 			}
-; 770  : 			return Assign<StartIdx + HeadDim, Rest... >(target, rest...);
-; 771  : 		}
+; 770  : 			}
+; 771  : 			return Assign<StartIdx + HeadDim, Rest... >(target, rest...);
+; 772  : 		}
 
 	ret	0
 ??$Assign@$00V?$Vector@M$02@@$$V@?$AssignHelper@$03@?$Vector@M$03@@SAXAAV1@ABV?$Vector@M$02@@@Z ENDP ; Vector<float,4>::AssignHelper<4>::Assign<1,Vector<float,3> >
@@ -9444,7 +8743,7 @@ $LL4@Uninitiali:
 $LL37@Uninitiali:
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 778  : 			data[i] = rhs.data[i];
+; 779  : 			data[i] = rhs.data[i];
 
 	mov	eax, DWORD PTR [edx]
 	lea	edx, DWORD PTR [edx+16]
@@ -9753,7 +9052,7 @@ _TEXT	SEGMENT
 ??$Assign@$03@?$AssignHelper@$03@?$Vector@M$03@@SAXAAV1@@Z PROC ; Vector<float,4>::AssignHelper<4>::Assign<4>, COMDAT
 ; _target$dead$ = ecx
 
-; 762  : 		static void Assign(Vector& target) {}
+; 763  : 		static void Assign(Vector& target) {}
 
 	ret	0
 ??$Assign@$03@?$AssignHelper@$03@?$Vector@M$03@@SAXAAV1@@Z ENDP ; Vector<float,4>::AssignHelper<4>::Assign<4>
@@ -9790,7 +9089,7 @@ _<_Args_0>$ = 12					; size = 4
 $LL25@construct:
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 778  : 			data[i] = rhs.data[i];
+; 779  : 			data[i] = rhs.data[i];
 
 	mov	eax, DWORD PTR [edx]
 	lea	edx, DWORD PTR [edx+16]
@@ -9865,7 +9164,7 @@ $LL4@Uninitiali:
 $LL37@Uninitiali:
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 778  : 			data[i] = rhs.data[i];
+; 779  : 			data[i] = rhs.data[i];
 
 	mov	eax, DWORD PTR [edx]
 	lea	edx, DWORD PTR [edx+16]
@@ -10033,7 +9332,7 @@ _<_Args_0>$ = 8						; size = 4
 $LL20@construct:
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 778  : 			data[i] = rhs.data[i];
+; 779  : 			data[i] = rhs.data[i];
 
 	mov	eax, DWORD PTR [esi]
 	lea	esi, DWORD PTR [esi+16]
@@ -10088,7 +9387,7 @@ _<_Args_0>$ = 12					; size = 4
 $LL25@construct:
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 778  : 			data[i] = rhs.data[i];
+; 779  : 			data[i] = rhs.data[i];
 
 	mov	eax, DWORD PTR [edx]
 	lea	edx, DWORD PTR [edx+16]
@@ -10143,7 +9442,7 @@ _<_Args_0>$ = 12					; size = 4
 $LL16@construct:
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 778  : 			data[i] = rhs.data[i];
+; 779  : 			data[i] = rhs.data[i];
 
 	mov	eax, DWORD PTR [edx]
 	lea	edx, DWORD PTR [edx+16]
@@ -10214,7 +9513,7 @@ _<_Args_0>$ = 8						; size = 4
 $LL20@construct:
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 778  : 			data[i] = rhs.data[i];
+; 779  : 			data[i] = rhs.data[i];
 
 	mov	eax, DWORD PTR [esi]
 	lea	esi, DWORD PTR [esi+16]
@@ -10257,7 +9556,7 @@ ___that$ = 8						; size = 4
 	sub	ecx, ebx
 $LL6@Matrix:
 
-; 778  : 			data[i] = rhs.data[i];
+; 779  : 			data[i] = rhs.data[i];
 
 	mov	eax, DWORD PTR [esi]
 	lea	esi, DWORD PTR [esi+16]
@@ -10297,7 +9596,7 @@ ___that$ = 8						; size = 4
 	sub	ecx, ebx
 $LL4@MatrixData:
 
-; 778  : 			data[i] = rhs.data[i];
+; 779  : 			data[i] = rhs.data[i];
 
 	mov	eax, DWORD PTR [esi]
 	lea	esi, DWORD PTR [esi+16]
@@ -10349,7 +9648,7 @@ _<_Args_0>$ = 12					; size = 4
 $LL16@construct:
 ; File d:\programming\mathter\mathter\vector.hpp
 
-; 778  : 			data[i] = rhs.data[i];
+; 779  : 			data[i] = rhs.data[i];
 
 	mov	eax, DWORD PTR [edx]
 	lea	edx, DWORD PTR [edx+16]

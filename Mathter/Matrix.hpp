@@ -5,6 +5,8 @@
 
 #include "Vector.hpp"
 
+
+
 enum class eMatrixLayout {
 	ROW_MAJOR,
 	COLUMN_MAJOR,
@@ -14,6 +16,10 @@ enum class eMatrixOrder {
 	PRECEDE_VECTOR,
 	FOLLOW_VECTOR,
 };
+
+template <class T, class U>
+using MatMulElemT = decltype(T() * U() + T() + U());
+
 
 template <class T, int Columns, int Rows, eMatrixLayout Layout = eMatrixLayout::ROW_MAJOR, eMatrixOrder Order = eMatrixOrder::FOLLOW_VECTOR>
 class Matrix;
@@ -89,7 +95,6 @@ private:
 };
 
 
-
 template <class T,
 		class U, int Match,
 		int Rows1,
@@ -99,40 +104,27 @@ template <class T,
 		eMatrixOrder Order1,
 		eMatrixOrder Order2,
 		typename std::enable_if<Layout1 == eMatrixLayout::ROW_MAJOR && Layout2 == eMatrixLayout::ROW_MAJOR && Columns2 <= 4, int>::type = 0>
-auto operator*(const Matrix<T, Match, Rows1, Layout1, Order1>& lhs, const Matrix<U, Columns2, Match, Layout2, Order2>& rhs) {
+auto operator*(const Matrix<T, Match, Rows1, Layout1, Order1>& lhs, const Matrix<U, Columns2, Match, Layout2, Order2>& rhs)
+-> Matrix<MatMulElemT<T, U>, Columns2, Rows1, eMatrixLayout::ROW_MAJOR, Order1>
+{
 	using ElemT = decltype(T() * U() + T() + U());
 	using ResultT = Matrix<ElemT, Columns2, Rows1, eMatrixLayout::ROW_MAJOR, Order1>;
-	using LeftT = Matrix<T, Match, Rows1, eMatrixLayout::ROW_MAJOR, Order1>;
-	using RightT = Matrix<T, Columns2, Match, eMatrixLayout::ROW_MAJOR, Order2>;
 
 	ResultT result;
-	// With less than 4 sized vector ops, try to use SSE spread externally.
-	if (Columns2 <= 4) {
-		Vector<ElemT, Columns2> scalarMultiplier;
+
+	VectorSpec<ElemT, Columns2> scalarMultiplier;
+	for (int y = 0; y < Rows1; ++y) {
+		scalarMultiplier.spread(lhs(0, y));
+		scalarMultiplier.mul(rhs.stripes[0]);
+		static_cast<VectorSpec<ElemT, Columns2>&>(result.stripes[y]) = scalarMultiplier;
+	}
+	for (int x = 1; x < Columns2; ++x) {
 		for (int y = 0; y < Rows1; ++y) {
-			scalarMultiplier.Spread(lhs(0, y));
-			result.stripes[y] = scalarMultiplier * rhs.stripes[0];
-		}
-		for (int x = 1; x < Columns2; ++x) {
-			for (int y = 0; y < Rows1; ++y) {
-				scalarMultiplier.Spread(lhs(x, y));
-				result.stripes[y] += scalarMultiplier * rhs.stripes[x];
-			}
+			scalarMultiplier.spread(lhs(x, y));
+			scalarMultiplier.mul(rhs.stripes[x]);
+			static_cast<VectorSpec<ElemT, Columns2>&>(result.stripes[y]).add(scalarMultiplier);
 		}
 	}
-	// With more than 4 sized vector ops, SSE spread will be used by vectors internally.
-	else {
-		ElemT scalarMultiplier;
-		for (int y = 0; y < Rows1; ++y) {
-			scalarMultiplier = lhs(0, y);
-			result.stripes[y] = scalarMultiplier * rhs.stripes[y];
-		}
-		for (int x = 1; x < Columns2; ++x) {
-			for (int y = 0; y < Rows1; ++y) {
-				scalarMultiplier = lhs(x, y);
-				result.stripes[y] += scalarMultiplier * rhs.stripes[y];
-			}
-		}
-	}
+
 	return result;
 }

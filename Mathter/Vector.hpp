@@ -10,6 +10,7 @@ static void message(const char* str) {
 	std::cout << str << std::endl;
 }
 
+
 template <class T, int D>
 class Vector;
 
@@ -320,7 +321,7 @@ public:
 	};
 
 	inline static Vector<float, 3> Cross(const Vector<float, 3>& lhs, const Vector<float, 3>& rhs);
-protected:
+public:
 	// Assignment
 	inline void Assign(float x, float y, float z = 0) {
 		simd = Simd4f::set(x, y, z, 0);
@@ -384,7 +385,7 @@ public:
 		};
 		float data[4];
 	};
-protected:
+public:
 	// Assignment
 	inline void Assign(float x, float y, float z = 0, float w = 0) {
 		simd = Simd4f::set(x, y, z, w);
@@ -899,15 +900,15 @@ inline Vector<T, D> operator-(T lhs, const Vector<T, D>& rhs) {
 template <class T>
 Vector<T, 3> VectorSpec<T, 3>::Cross(const Vector<T, 3>& lhs, const Vector<T, 3>& rhs) {
 	return Vector<T, 3>(lhs.y * rhs.z - lhs.z * rhs.y,
-		lhs.z * rhs.x - lhs.x * rhs.z,
-		lhs.x * rhs.y - lhs.y * rhs.x);
+						lhs.z * rhs.x - lhs.x * rhs.z,
+						lhs.x * rhs.y - lhs.y * rhs.x);
 }
 
 
 // TODO: accelerate with simd
 inline Vector<float, 3> VectorSpec<float, 3>::Cross(const Vector<float, 3>& lhs, const Vector<float, 3>& rhs) {
 	return Vector<float, 3>(lhs.y * rhs.z - lhs.z * rhs.y,
-		lhs.z * rhs.x - lhs.x * rhs.z,
-		lhs.x * rhs.y - lhs.y * rhs.x);
+							lhs.z * rhs.x - lhs.x * rhs.z,
+							lhs.x * rhs.y - lhs.y * rhs.x);
 }
 
