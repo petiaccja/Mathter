@@ -11,8 +11,32 @@ static void message(const char* str) {
 }
 
 
+//------------------------------------------------------------------------------
+// Pre-declarations
+//------------------------------------------------------------------------------
+
+// Vector
+
 template <class T, int D>
 class Vector;
+
+
+// Matrix
+
+enum class eMatrixOrder {
+	PRECEDE_VECTOR,
+	FOLLOW_VECTOR,
+};
+
+template <class T, class U>
+using MatMulElemT = decltype(T() * U() + T() + U());
+
+template <class T, int Columns, int Rows, eMatrixOrder Order = eMatrixOrder::FOLLOW_VECTOR>
+class Matrix;
+
+template <class T, class U, int Match, int Rows1, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, class V, class>
+auto operator*(const Matrix<T, Match, Rows1, Order1>& lhs, const Matrix<U, Columns2, Match, Order2>& rhs)
+->Matrix<V, Columns2, Rows1, Order1>;
 
 
 //------------------------------------------------------------------------------
@@ -32,8 +56,73 @@ class Vector;
 
 template <class T, int D>
 class VectorSpec {
+	template <class T, class U, int Match, int Rows1, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, class V, class>
+	friend auto operator*(const Matrix<T, Match, Rows1, Order1>& lhs, const Matrix<U, Columns2, Match, Order2>& rhs)
+		->Matrix<V, Columns2, Rows1, Order1>;
 public:
 	T data[D];
+
+	VectorSpec() = default;
+protected:
+	// Assigment
+	inline void Assign(std::false_type) {} // not in overload resultion, useless
+	inline void spread(T all) {
+		for (int i = 0; i < D; ++i) {
+			data[i] = all;
+		}
+	}
+
+	// Vector arithmetic
+	inline void mul(const VectorSpec& rhs) {
+		for (int i = 0; i < D; ++i) {
+			data[i] *= rhs.data[i];
+		}
+	}
+	inline void div(const VectorSpec& rhs) {
+		for (int i = 0; i < D; ++i) {
+			data[i] /= rhs.data[i];
+		};
+	}
+	inline void add(const VectorSpec& rhs) {
+		for (int i = 0; i < D; ++i) {
+			data[i] += rhs.data[i];
+		}
+	}
+	inline void sub(const VectorSpec& rhs) {
+		for (int i = 0; i < D; ++i) {
+			data[i] -= rhs.data[i];
+		}
+	}
+
+	// Scalar arithmetic
+	inline void mul(T rhs) {
+		for (int i = 0; i < D; ++i) {
+			data[i] *= rhs;
+		}
+	}
+	inline void div(T rhs) {
+		T rcprhs = T(1) / rhs;
+		for (int i = 0; i < D; ++i) {
+			data[i] *= rcprhs;
+		}
+	}
+	inline void add(T rhs) {
+		for (int i = 0; i < D; ++i) {
+			data[i] += rhs;
+		}
+	}
+	inline void sub(T rhs) {
+		for (int i = 0; i < D; ++i) {
+			data[i] -= rhs;
+		}
+	}
+
+	// Misc
+	inline float dot(const VectorSpec& rhs) const {
+		float sum = this->x * rhs.x;
+		sum += this->y * rhs.y;
+		return sum;
+	}
 };
 
 
@@ -43,6 +132,9 @@ public:
 
 template <class T>
 class VectorSpec<T, 2> {
+	template <class T, class U, int Match, int Rows1, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, class V, class>
+	friend auto operator*(const Matrix<T, Match, Rows1, Order1>& lhs, const Matrix<U, Columns2, Match, Order2>& rhs)
+		->Matrix<V, Columns2, Rows1, Order1>;
 public:
 	union {
 		struct {
@@ -105,7 +197,7 @@ protected:
 	}
 
 	// Misc
-	inline float dot(const VectorSpec<T, 4>& rhs) const {
+	inline float dot(const VectorSpec<T, 2>& rhs) const {
 		float sum = this->x * rhs.x;
 		sum += this->y * rhs.y;
 		return sum;
@@ -118,6 +210,9 @@ protected:
 
 template <class T>
 class VectorSpec<T, 3> {
+	template <class T, class U, int Match, int Rows1, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, class V, class>
+	friend auto operator*(const Matrix<T, Match, Rows1, Order1>& lhs, const Matrix<U, Columns2, Match, Order2>& rhs)
+		->Matrix<V, Columns2, Rows1, Order1>;
 public:
 	union {
 		struct {
@@ -207,6 +302,9 @@ protected:
 
 template <class T>
 class VectorSpec<T, 4> {
+	template <class T, class U, int Match, int Rows1, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, class V, class>
+	friend auto operator*(const Matrix<T, Match, Rows1, Order1>& lhs, const Matrix<U, Columns2, Match, Order2>& rhs)
+		->Matrix<V, Columns2, Rows1, Order1>;
 public:
 	union {
 		struct {
@@ -305,6 +403,9 @@ protected:
 
 template <>
 class VectorSpec<float, 3> {
+	template <class T, class U, int Match, int Rows1, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, class V, class>
+	friend auto operator*(const Matrix<T, Match, Rows1, Order1>& lhs, const Matrix<U, Columns2, Match, Order2>& rhs)
+		->Matrix<V, Columns2, Rows1, Order1>;
 public:
 	VectorSpec() = default;
 
@@ -321,7 +422,7 @@ public:
 	};
 
 	inline static Vector<float, 3> Cross(const Vector<float, 3>& lhs, const Vector<float, 3>& rhs);
-public:
+protected:
 	// Assignment
 	inline void Assign(float x, float y, float z = 0) {
 		simd = Simd4f::set(x, y, z, 0);
@@ -371,6 +472,9 @@ public:
 
 template <>
 class VectorSpec<float, 4> {
+	template <class T, class U, int Match, int Rows1, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, class V, class>
+	friend auto operator*(const Matrix<T, Match, Rows1, Order1>& lhs, const Matrix<U, Columns2, Match, Order2>& rhs)
+		->Matrix<V, Columns2, Rows1, Order1>;
 public:
 	VectorSpec() = default;
 
@@ -385,7 +489,7 @@ public:
 		};
 		float data[4];
 	};
-public:
+protected:
 	// Assignment
 	inline void Assign(float x, float y, float z = 0, float w = 0) {
 		simd = Simd4f::set(x, y, z, w);
@@ -448,6 +552,20 @@ struct All<Cond> {
 };
 
 
+template <template <class> class Cond, class... T>
+struct Any;
+
+template <template <class> class Cond, class Head, class... Rest>
+struct Any<Cond, Head, Rest...> {
+	static constexpr bool value = Cond<Head>::value || All<Cond, Rest...>::value;
+};
+
+template <template <class> class Cond>
+struct Any<Cond> {
+	static constexpr bool value = false;
+};
+
+
 
 template <class... T>
 struct TypeList {};
@@ -466,6 +584,20 @@ struct RepeatType {
 };
 
 
+// Decide if type is Vector
+template <class Arg>
+struct IsVector {
+	static constexpr bool value = false;
+};
+template <class Ta, int Da>
+struct IsVector<Vector<Ta, Da>> {
+	static constexpr bool value = true;
+};
+template <class Arg>
+struct NotVector {
+	static constexpr bool value = !IsVector<Arg>::value;
+};
+
 
 //------------------------------------------------------------------------------
 // General Vector class - no specializations needed
@@ -473,21 +605,6 @@ struct RepeatType {
 
 template <class T, int D>
 class Vector : public VectorSpec<T, D> {
-protected:
-	// Decide if type is Vector
-	template <class Arg>
-	struct IsVector {
-		static constexpr bool value = false;
-	};
-	template <class Ta, int Da>
-	struct IsVector<Vector<Ta, Da>> {
-		static constexpr bool value = true;
-	};
-	template <class Arg>
-	struct NotVector {
-		static constexpr bool value = !IsVector<Arg>::value;
-	};
-
 protected:
 	using VectorSpec<T, D>::Assign;
 
@@ -529,8 +646,13 @@ public:
 		Assign(rhs);
 	}
 
+	// Contruct from all scalars
+	//template <class U, class... V, typename std::enable_if<All<NotVector, U, V...>::value, int>::type = 0>
+	//Vector(U&& )
+
+
 	// Concetaneting constructor
-	template <class U, class... V, typename std::enable_if<!All<NotVector, U, V...>::value, int>::type = 0>
+	template <class U, class... V, typename std::enable_if<Any<IsVector, U, V...>::value, int>::type = 0>
 	Vector(const U& rhs1, const V&... rhs2) {
 		// message("Vector(concat...)");
 		Assign(rhs1, rhs2...);
@@ -555,7 +677,7 @@ public:
 	}
 
 	// Concatenating assign
-	template <class U, class... V, typename std::enable_if<!All<NotVector, U, V...>::value, int>::type = 0>
+	template <class U, class... V, typename std::enable_if<Any<IsVector, U, V...>::value, int>::type = 0>
 	Vector& Set(const U& u, const V&... v) {
 		// message("Set(concat...)");
 		Assign(u, v...);
@@ -783,10 +905,10 @@ protected:
 	// Filter for concatenating assign
 	template <class... Args>
 	struct AssignFilter {
-		static constexpr bool value = !(
-			std::is_same<TypeList<Args...>, TypeList<Vector>>::value ||
-			All<NotVector, Args...>::value
-			);
+		// value is true if general assign is allowed
+		static constexpr bool value = 
+			!std::is_same<TypeList<typename std::decay<Args>::type...>, TypeList<Vector>>::value // Args != Vector
+			&& (!All<NotVector, Args...>::value || D > 4); // not scalars only || D > 4
 	};
 
 	// Concatenating assign

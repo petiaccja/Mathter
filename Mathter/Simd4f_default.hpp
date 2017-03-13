@@ -1,6 +1,8 @@
 #pragma once
 
 
+
+
 union Simd4f {
 	float v[4];
 

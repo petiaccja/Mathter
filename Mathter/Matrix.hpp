@@ -12,20 +12,9 @@ enum class eMatrixLayout {
 	COLUMN_MAJOR,
 };
 
-enum class eMatrixOrder {
-	PRECEDE_VECTOR,
-	FOLLOW_VECTOR,
-};
-
-template <class T, class U>
-using MatMulElemT = decltype(T() * U() + T() + U());
 
 
-template <class T, int Columns, int Rows, eMatrixLayout Layout = eMatrixLayout::ROW_MAJOR, eMatrixOrder Order = eMatrixOrder::FOLLOW_VECTOR>
-class Matrix;
-
-
-template <class T, int Columns, int Rows, eMatrixLayout Layout = eMatrixLayout::ROW_MAJOR, eMatrixOrder Order = eMatrixOrder::FOLLOW_VECTOR>
+template <class T, int Columns, int Rows, eMatrixOrder Order = eMatrixOrder::FOLLOW_VECTOR>
 class MatrixData {
 public:
 	constexpr int ColumnCount() const {
@@ -42,38 +31,95 @@ public:
 	}
 public:
 	// Rows equal height, Columns equal width, row-major has column-sized stripes
-	static constexpr int StripeDim = Layout == eMatrixLayout::ROW_MAJOR ? Columns : Rows;
-	static constexpr int StripeCount = Layout == eMatrixLayout::ROW_MAJOR ? Rows : Columns;
+	static constexpr int StripeDim = Columns;
+	static constexpr int StripeCount = Rows;
 
 	Vector<T, StripeDim> stripes[StripeCount];
 
 	// Get element
-	inline T& GetElement(int col, int row, std::true_type) {
-		return stripes[row][col];
-	}
-	inline T& GetElement(int col, int row, std::false_type) {
-		return stripes[col][row];
-	}
-	inline T GetElement(int col, int row, std::true_type) const {
-		return stripes[row][col];
-	}
-	inline T GetElement(int col, int row, std::false_type) const {
-		return stripes[col][row];
-	}
 	inline T& GetElement(int col, int row) {
-		return GetElement(col, row, std::integral_constant<bool, Layout == eMatrixLayout::ROW_MAJOR>());
+		return stripes[row][col];
 	}
+
 	inline T GetElement(int col, int row) const {
-		return GetElement(col, row, std::integral_constant<bool, Layout == eMatrixLayout::ROW_MAJOR>());
+		return stripes[row][col];
 	}
 };
 
 
-template <class T, int Columns, int Rows, eMatrixLayout Layout = eMatrixLayout::ROW_MAJOR, eMatrixOrder Order = eMatrixOrder::FOLLOW_VECTOR>
-class Matrix : public MatrixData<T, Columns, Rows, Layout, Order> {
+template <class T, int Columns, int Rows, eMatrixOrder Order, bool Square = (Columns == Rows)>
+class MatrixOps;
+
+template <class T, int Columns, int Rows, eMatrixOrder Order>
+class MatrixOps<T, Columns, Rows, Order, false> : public MatrixData<T, Columns, Rows, Order> {
 protected:
-	using MatrixData<T, Columns, Rows, Layout, Order>::GetElement;
+
+};
+
+template <class T, int Dim, eMatrixOrder Order>
+class MatrixOps<T, Dim, Dim, Order, true> : public MatrixOps<T, Dim, Dim, Order, false> {
+	using MyMatrixT = Matrix<T, Dim, Dim, Order>;
+protected:
+	template <class T2, eMatrixOrder Order2>
+	MyMatrixT& operator*=(const Matrix<T2, Dim, Dim, Order2>& rhs) {
+		auto& thisMat = static_cast<MyMatrixT&>(*this);
+		thisMat = operator*<T, T2, Dim, Dim, Dim, Order, Order2, T>(thisMat, rhs);
+		return thisMat;
+	}
+
+	float Trace() const;
+	float Determinant() const;
+	MyMatrixT& Transpose();
+	MyMatrixT& Invert();
+	MyMatrixT Inverted() const;
+};
+
+
+template <class T, class U, int Columns, int Rows, eMatrixOrder Order1, eMatrixOrder Order2, class V = decltype(T() + U())>
+Matrix<U, Columns, Rows, Order1> operator+(const Matrix<T, Columns, Rows, Order1>&, const Matrix<U, Columns, Rows, Order2>&);
+
+template <class T, class U, int Columns, int Rows, eMatrixOrder Order1, eMatrixOrder Order2, class V = decltype(T() + U())>
+Matrix<U, Columns, Rows, Order1> operator-(const Matrix<T, Columns, Rows, Order1>&, const Matrix<U, Columns, Rows, Order2>&);
+
+
+
+template <class T>
+struct IsMatrix {
+	static constexpr bool value = false;
+};
+
+template <class T, int Columns, int Rows, eMatrixOrder Order>
+struct IsMatrix<Matrix<T, Columns, Rows, Order>> {
+	static constexpr bool value = true;
+};
+
+template <class T>
+struct NotMatrix {
+	static constexpr bool value = !IsMatrix<T>::value;
+};
+
+
+template <class T>
+struct IsScalar {
+	static constexpr bool value = !IsMatrix<T>::value && !IsVector<T>::value;
+};
+
+
+
+template <class T, int Columns, int Rows, eMatrixOrder Order>
+class Matrix : public MatrixOps<T, Columns, Rows, Order> {
+protected:
+	using MatrixData<T, Columns, Rows, Order>::GetElement;
 public:
+	//--------------------------------------------
+	// Constructors
+	//--------------------------------------------
+
+	Matrix() = default;
+	
+	template <class... Args, typename std::enable_if<All<IsScalar, Args...>::value, int>::type = 0>
+	Matrix(Args... args);
+
 
 	//--------------------------------------------
 	// Accessors
@@ -90,41 +136,64 @@ public:
 	// Arithmetic
 	//--------------------------------------------
 
+	template <class T, class U, eMatrixOrder Order2, class V>
+	friend Matrix<U, Columns, Rows, Order> operator+(const Matrix<T, Columns, Rows, Order>&, const Matrix<U, Columns, Rows, Order2>&);
+
+	template <class T, class U, eMatrixOrder Order2, class V>
+	friend Matrix<U, Columns, Rows, Order> operator-(const Matrix<T, Columns, Rows, Order>&, const Matrix<U, Columns, Rows, Order2>&);
+
+
+	//--------------------------------------------
+	// Matrix functions
+	//--------------------------------------------
+	Matrix<T, Rows, Columns, Order> Transposed() const;
+
+
 private:
 
 };
 
 
-template <class T,
-		class U, int Match,
-		int Rows1,
-		int Columns2,
-		eMatrixLayout Layout1,
-		eMatrixLayout Layout2,
-		eMatrixOrder Order1,
-		eMatrixOrder Order2,
-		typename std::enable_if<Layout1 == eMatrixLayout::ROW_MAJOR && Layout2 == eMatrixLayout::ROW_MAJOR && Columns2 <= 4, int>::type = 0>
-auto operator*(const Matrix<T, Match, Rows1, Layout1, Order1>& lhs, const Matrix<U, Columns2, Match, Layout2, Order2>& rhs)
--> Matrix<MatMulElemT<T, U>, Columns2, Rows1, eMatrixLayout::ROW_MAJOR, Order1>
+template <class T, class U, int Match, int Rows1, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, class V = MatMulElemT<T,U>, class = void>
+auto operator*(const Matrix<T, Match, Rows1, Order1>& lhs, const Matrix<U, Columns2, Match, Order2>& rhs)
+-> Matrix<V, Columns2, Rows1, Order1>
 {
-	using ElemT = decltype(T() * U() + T() + U());
-	using ResultT = Matrix<ElemT, Columns2, Rows1, eMatrixLayout::ROW_MAJOR, Order1>;
+	using ResultT = Matrix<V, Columns2, Rows1, Order1>;
 
 	ResultT result;
 
-	VectorSpec<ElemT, Columns2> scalarMultiplier;
+	VectorSpec<V, Columns2> scalarMultiplier;
 	for (int y = 0; y < Rows1; ++y) {
-		scalarMultiplier.spread(lhs(0, y));
-		scalarMultiplier.mul(rhs.stripes[0]);
-		static_cast<VectorSpec<ElemT, Columns2>&>(result.stripes[y]) = scalarMultiplier;
+		scalarMultiplier = rhs.stripes[0];
+		scalarMultiplier.mul(lhs(0, y));
+		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
 	}
-	for (int x = 1; x < Columns2; ++x) {
+	for (int x = 1; x < Match; ++x) {
 		for (int y = 0; y < Rows1; ++y) {
-			scalarMultiplier.spread(lhs(x, y));
-			scalarMultiplier.mul(rhs.stripes[x]);
-			static_cast<VectorSpec<ElemT, Columns2>&>(result.stripes[y]).add(scalarMultiplier);
+			scalarMultiplier = rhs.stripes[x];
+			scalarMultiplier.mul(lhs(x, y));
+			static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]).add(scalarMultiplier);
 		}
 	}
 
+	return result;
+}
+
+
+template <class T, class U, int Columns, int Rows, eMatrixOrder Order1, eMatrixOrder Order2, class V = decltype(T() + U())>
+Matrix<U, Columns, Rows, Order1> operator+(const Matrix<T, Columns, Rows, Order1>& lhs, const Matrix<U, Columns, Rows, Order2>& rhs) {
+	Matrix<U, Columns, Rows, Order1> result;
+	for (int i = 0; i < Rows; ++i) {
+		result.stripes[i] = lhs.stripes[i] + rhs.stripes[i];
+	}
+	return result;
+}
+
+template <class T, class U, int Columns, int Rows, eMatrixOrder Order1, eMatrixOrder Order2, class V = decltype(T() + U())>
+Matrix<U, Columns, Rows, Order1> operator-(const Matrix<T, Columns, Rows, Order1>& lhs, const Matrix<U, Columns, Rows, Order2>& rhs) {
+	Matrix<U, Columns, Rows, Order1> result;
+	for (int i = 0; i < Rows; ++i) {
+		result.stripes[i] = lhs.stripes[i] - rhs.stripes[i];
+	}
 	return result;
 }
