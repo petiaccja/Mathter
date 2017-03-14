@@ -5,7 +5,9 @@
 #include <chrono>
 #include <vector>
 #include <random>
+
 using namespace std;
+using namespace mathter;
 
 
 template <class T, int Columns, int Rows, eMatrixOrder Order>
@@ -154,18 +156,18 @@ int main() {
 
 
 	// correct test mat4x4
-	Matrix4x4 mat1;
-	Matrix4x4 mat2;
-
-	mat1(0, 0) = 1;		mat1(1, 0) = 2;		mat1(2, 0) = 3;		mat1(3, 0) = 3;
-	mat1(0, 1) = 4;		mat1(1, 1) = 5;		mat1(2, 1) = 6;		mat1(3, 1) = 6;
-	mat1(0, 2) = 7;		mat1(1, 2) = 8;		mat1(2, 2) = 9;		mat1(3, 2) = 9;
-	mat1(0, 3) = 7;		mat1(1, 3) = 8;		mat1(2, 3) = 9;		mat1(3, 3) = 9;
-
-	mat2(0, 0) = 5;		mat2(1, 0) = 4;		mat2(2, 0) = 3;		mat2(3, 0) = 3;
-	mat2(0, 1) = 6;		mat2(1, 1) = 5;		mat2(2, 1) = 4;		mat2(3, 1) = 4;
-	mat2(0, 2) = 7;		mat2(1, 2) = 6;		mat2(2, 2) = 5;		mat2(3, 2) = 5;
-	mat2(0, 3) = 7;		mat2(1, 3) = 6;		mat2(2, 3) = 5;		mat2(3, 3) = 5;
+	Matrix4x4 mat1 = {
+		1,2,3,3,
+		4,5,6,6,
+		7,8,9,9,
+		7,8,9,9
+	};
+	Matrix4x4 mat2 = {
+		5,4,3,3,
+		6,5,4,4,
+		7,6,5,5,
+		7,6,5,5
+	};
 
 	cout << mat1 * mat2 << endl;
 	cout << mat1 + mat2 << endl;

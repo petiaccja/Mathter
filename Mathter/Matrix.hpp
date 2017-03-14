@@ -5,6 +5,7 @@
 
 #include "Vector.hpp"
 
+namespace mathter {
 
 
 enum class eMatrixLayout {
@@ -96,8 +97,11 @@ public:
 
 	Matrix() = default;
 
-	template <class... Args, typename std::enable_if<All<IsScalar, Args...>::value, int>::type = 0>
-	Matrix(Args... args);
+	template <class H, class... Args, class = std::enable_if<impl::All<impl::IsScalar, Args...>::value, int>::type>
+	Matrix(H h, Args... args) {
+		static_assert(1 + sizeof...(Args) == Columns*Rows, "All elements of matrix have to be initialized.");
+		Assign<0, 0>(h, args...);
+	}
 
 
 	//--------------------------------------------
@@ -150,9 +154,19 @@ public:
 		}
 	}
 
+protected:
+	//--------------------------------------------
+	// Helpers
+	//--------------------------------------------
 
-private:
+	template <int x, int y, class Head, class... Args>
+	void Assign(Head head, Args... args) {
+		(*this)(x, y) = head;
+		Assign<((x + 1) % Columns), ((x != Columns - 1) ? y : (y + 1))>(args...);
+	}
 
+	template <int, int>
+	void Assign() {}
 };
 
 
@@ -233,3 +247,6 @@ auto MatrixOps<T, Dim, Dim, Order, true>::Inverted() const -> MyMatrixT {
 	auto copy = return static_cast<MyMatrixT&>(*this);
 	return copy.Invert();
 }
+
+
+} // namespace mathter

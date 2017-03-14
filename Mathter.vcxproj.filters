@@ -9,6 +9,9 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
+    <Filter Include="VSNatvis">
+      <UniqueIdentifier>{1ca05e65-3c90-4833-9184-5dbdd5dbbeb6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -31,5 +34,10 @@
     <ClInclude Include="Mathter\Simd4f_sse.hpp">
       <Filter>Mathter</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="Mathter\Mathter.natvis">
+      <Filter>VSNatvis</Filter>
+    </Natvis>
   </ItemGroup>
 </Project>

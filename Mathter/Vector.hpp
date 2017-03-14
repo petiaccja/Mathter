@@ -6,10 +6,7 @@
 #include "Simd.hpp"
 
 
-static void message(const char* str) {
-	std::cout << str << std::endl;
-}
-
+namespace mathter {
 
 //------------------------------------------------------------------------------
 // Pre-declarations
@@ -376,7 +373,7 @@ class VectorSpec<float, 3> {
 		->Matrix<V, Columns2, Rows1, Order1>;
 public:
 	VectorSpec() = default;
-	
+
 	union {
 		Simd4f simd;
 		struct {
@@ -491,6 +488,7 @@ protected:
 // Template magic helper classes
 //------------------------------------------------------------------------------
 
+namespace impl {
 
 template <template <class> class Cond, class... T>
 struct All;
@@ -596,6 +594,8 @@ struct SumDimensions<> {
 	static constexpr int value = 0;
 };
 
+} // namespace impl
+
 
 //------------------------------------------------------------------------------
 // General Vector class - no specializations needed
@@ -609,22 +609,16 @@ public:
 	//--------------------------------------------
 
 	// Default ctor
-	Vector() {
-		// message("Vector = default");
-	};
+	Vector() = default;
 
-	// Special ctor
-	using VectorSpec::VectorSpec;
 
 	// All element same ctor
 	explicit Vector(T all) {
-		// message("Vector(all)");
 		VectorSpec<T, D>::spread(all);
 	}
 
 	// T array ctor
 	explicit Vector(T* data) {
-		// message("Vector(a[])");
 		for (int i = 0; i < D; ++i) {
 			this->data[i] = data[i];
 		}
@@ -635,32 +629,34 @@ public:
 	// Copy, assignment, set
 	//--------------------------------------------
 
+	// NOTE: somehow msvc 2015 is buggy and cannot compile sizeof... checks for ctors as in Set
+
 	// Scalar concat constructor
-	template <class... Scalars, typename std::enable_if<(sizeof...(Scalars) > 0) && All<IsScalar, Scalars...>::value, int>::type = 0>
-	Vector(Scalars... scalars) {
-		static_assert(SumDimensions<Scalars...>::value <= D, "Arguments exceed vector dimension.");
-		Assign(0, scalars...);
+	template <class H1, class H2, class... Scalars, typename std::enable_if<impl::All<impl::IsScalar, H1, H2, Scalars...>::value, int>::type = 0>
+	Vector(H1 h1, H2 h2, Scalars... scalars) {
+		static_assert(impl::SumDimensions<Scalars...>::value <= D, "Arguments exceed vector dimension.");
+		Assign(0, h1, h2, scalars...);
 	}
 
 	// Generalized concat constructor
-	template <class... Mixed, typename std::enable_if<(sizeof...(Mixed) > 0) && Any<IsVector, Mixed...>::value, int>::type = 0>
-	Vector(const Mixed&... mixed) {
-		static_assert(SumDimensions<Mixed...>::value <= D, "Arguments exceed vector dimension.");
+	template <class H1, class... Mixed, typename std::enable_if<impl::Any<impl::IsVector, H1, Mixed...>::value, int>::type = 0>
+	Vector(const H1& h1, const Mixed&... mixed) {
+		static_assert(impl::SumDimensions<Mixed...>::value <= D, "Arguments exceed vector dimension.");
 		Assign(0, mixed...);
 	}
 
 	// Scalar concat set
-	template <class... Scalars, typename std::enable_if<(sizeof...(Scalars) > 0) && All<IsScalar, Scalars...>::value, int>::type = 0>
+	template <class... Scalars, typename std::enable_if<(sizeof...(Scalars) > 1) && impl::All<impl::IsScalar, Scalars...>::value, int>::type = 0>
 	Vector& Set(Scalars... scalars) {
-		static_assert(SumDimensions<Scalars...>::value <= D, "Arguments exceed vector dimension.");
+		static_assert(impl::SumDimensions<Scalars...>::value <= D, "Arguments exceed vector dimension.");
 		Assign(0, scalars...);
 		return *this;
 	}
 
 	// Generalized concat set
-	template <class... Mixed, typename std::enable_if<(sizeof...(Mixed) > 0) && Any<IsVector, Mixed...>::value, int>::type = 0>
+	template <class... Mixed, typename std::enable_if<(sizeof...(Mixed) > 0) && impl::Any<impl::IsVector, Mixed...>::value, int>::type = 0>
 	Vector& Set(const Mixed&... mixed) {
-		static_assert(SumDimensions<Mixed...>::value <= D, "Arguments exceed vector dimension.");
+		static_assert(impl::SumDimensions<Mixed...>::value <= D, "Arguments exceed vector dimension.");
 		Assign(0, mixed...);
 		return *this;
 	}
@@ -838,16 +834,16 @@ protected:
 
 	// Assign
 	// Scalar concat assign
-	template <class Head, class... Scalars, typename std::enable_if<All<IsScalar, Head, Scalars...>::value, int>::type = 0>
+	template <class Head, class... Scalars, typename std::enable_if<impl::All<impl::IsScalar, Head, Scalars...>::value, int>::type = 0>
 	void Assign(int idx, Head head, Scalars... scalars) {
 		data[idx] = head;
 		Assign(idx + 1, scalars...);
 	}
 
 	// Generalized concat assign
-	template <class Head, class... Mixed, typename std::enable_if<Any<IsVector, Head, Mixed...>::value, int>::type = 0>
+	template <class Head, class... Mixed, typename std::enable_if<impl::Any<impl::IsVector, Head, Mixed...>::value, int>::type = 0>
 	void Assign(int idx, const Head& head, const Mixed&... mixed) {
-		for (int i = 0; i < DimensionOf<Head>::value; ++i) {
+		for (int i = 0; i < impl::DimensionOf<Head>::value; ++i) {
 			data[idx] = GetVectorElement<Head>::Get(head, i);
 			++idx;
 		}
@@ -856,7 +852,7 @@ protected:
 
 	// Assign terminator, fill stuff with zeros
 	void Assign(int idx) {
-		for (idx = 0; idx < D; idx++) {
+		for (; idx < D; idx++) {
 			data[idx] = T(0);
 		}
 	}
@@ -973,3 +969,6 @@ inline Vector<float, 3> VectorSpec<float, 3>::Cross(const Vector<float, 3>& lhs,
 							lhs.z * rhs.x - lhs.x * rhs.z,
 							lhs.x * rhs.y - lhs.y * rhs.x);
 }
+
+
+} // namespace mathter
