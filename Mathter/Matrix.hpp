@@ -83,28 +83,6 @@ Matrix<U, Columns, Rows, Order1> operator-(const Matrix<T, Columns, Rows, Order1
 
 
 
-template <class T>
-struct IsMatrix {
-	static constexpr bool value = false;
-};
-
-template <class T, int Columns, int Rows, eMatrixOrder Order>
-struct IsMatrix<Matrix<T, Columns, Rows, Order>> {
-	static constexpr bool value = true;
-};
-
-template <class T>
-struct NotMatrix {
-	static constexpr bool value = !IsMatrix<T>::value;
-};
-
-
-template <class T>
-struct IsScalar {
-	static constexpr bool value = !IsMatrix<T>::value && !IsVector<T>::value;
-};
-
-
 
 template <class T, int Columns, int Rows, eMatrixOrder Order>
 class Matrix : public MatrixOps<T, Columns, Rows, Order> {
@@ -180,7 +158,7 @@ auto operator*(const Matrix<T, Match, Rows1, Order1>& lhs, const Matrix<U, Colum
 }
 
 
-template <class T, class U, int Columns, int Rows, eMatrixOrder Order1, eMatrixOrder Order2, class V = decltype(T() + U())>
+template <class T, class U, int Columns, int Rows, eMatrixOrder Order1, eMatrixOrder Order2, class V>
 Matrix<U, Columns, Rows, Order1> operator+(const Matrix<T, Columns, Rows, Order1>& lhs, const Matrix<U, Columns, Rows, Order2>& rhs) {
 	Matrix<U, Columns, Rows, Order1> result;
 	for (int i = 0; i < Rows; ++i) {
@@ -189,7 +167,7 @@ Matrix<U, Columns, Rows, Order1> operator+(const Matrix<T, Columns, Rows, Order1
 	return result;
 }
 
-template <class T, class U, int Columns, int Rows, eMatrixOrder Order1, eMatrixOrder Order2, class V = decltype(T() + U())>
+template <class T, class U, int Columns, int Rows, eMatrixOrder Order1, eMatrixOrder Order2, class V>
 Matrix<U, Columns, Rows, Order1> operator-(const Matrix<T, Columns, Rows, Order1>& lhs, const Matrix<U, Columns, Rows, Order2>& rhs) {
 	Matrix<U, Columns, Rows, Order1> result;
 	for (int i = 0; i < Rows; ++i) {

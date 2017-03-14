@@ -64,8 +64,7 @@ public:
 
 	VectorSpec() = default;
 protected:
-	// Assigment
-	inline void Assign(std::false_type) {} // not in overload resultion, useless
+	// Assignment
 	inline void spread(T all) {
 		for (int i = 0; i < D; ++i) {
 			data[i] = all;
@@ -144,16 +143,8 @@ public:
 	};
 
 	VectorSpec() = default;
-	VectorSpec(T x, T y) {
-		this->x = x;
-		this->y = y;
-	}
 protected:
-	// Assigment
-	inline void Assign(T x, T y) {
-		this->x = x;
-		this->y = y;
-	}
+	// Assignment
 	inline void spread(T all) {
 		for (int i = 0; i < 2; ++i) {
 			data[i] = all;
@@ -222,20 +213,10 @@ public:
 	};
 
 	VectorSpec() = default;
-	VectorSpec(T x, T y, T z = 0) {
-		this->x = x;
-		this->y = y;
-		this->z = z;
-	}
 
 	inline static Vector<T, 3> Cross(const Vector<T, 3>& lhs, const Vector<T, 3>& rhs);
 protected:
 	// Assignment
-	inline void Assign(T x, T y, T z = 0) {
-		this->x = x;
-		this->y = y;
-		this->z = z;
-	}
 	inline void spread(T all) {
 		for (int i = 0; i < 3; ++i) {
 			data[i] = all;
@@ -314,20 +295,8 @@ public:
 	};
 
 	VectorSpec() = default;
-	VectorSpec(T x, T y, T z = 0, T w = 0) {
-		this->x = x;
-		this->y = y;
-		this->z = z;
-		this->w = w;
-	}
 protected:
 	// Assigment
-	inline void Assign(T x, T y, T z = 0, T w = 0) {
-		this->x = x;
-		this->y = y;
-		this->z = z;
-		this->w = w;
-	}
 	inline void spread(T all) {
 		for (int i = 0; i < 4; ++i) {
 			data[i] = all;
@@ -408,11 +377,7 @@ class VectorSpec<float, 3> {
 		->Matrix<V, Columns2, Rows1, Order1>;
 public:
 	VectorSpec() = default;
-
-	VectorSpec(float x, float y, float z = 0) {
-		simd = Simd4f::set(x, y, z, 0);
-	}
-
+	
 	union {
 		Simd4f simd;
 		struct {
@@ -424,9 +389,6 @@ public:
 	inline static Vector<float, 3> Cross(const Vector<float, 3>& lhs, const Vector<float, 3>& rhs);
 protected:
 	// Assignment
-	inline void Assign(float x, float y, float z = 0) {
-		simd = Simd4f::set(x, y, z, 0);
-	}
 	inline void spread(float all) {
 		simd = Simd4f::spread(all);
 	}
@@ -478,10 +440,6 @@ class VectorSpec<float, 4> {
 public:
 	VectorSpec() = default;
 
-	VectorSpec(float x, float y, float z = 0, float w = 0) {
-		Assign(x, y, z, w);
-	}
-
 	union {
 		Simd4f simd;
 		struct {
@@ -491,9 +449,6 @@ public:
 	};
 protected:
 	// Assignment
-	inline void Assign(float x, float y, float z = 0, float w = 0) {
-		simd = Simd4f::set(x, y, z, w);
-	}
 	inline void spread(float all) {
 		simd = Simd4f::spread(all);
 	}
@@ -557,7 +512,7 @@ struct Any;
 
 template <template <class> class Cond, class Head, class... Rest>
 struct Any<Cond, Head, Rest...> {
-	static constexpr bool value = Cond<Head>::value || All<Cond, Rest...>::value;
+	static constexpr bool value = Cond<Head>::value || Any<Cond, Rest...>::value;
 };
 
 template <template <class> class Cond>
@@ -584,7 +539,7 @@ struct RepeatType {
 };
 
 
-// Decide if type is Vector
+// Decide if type is Scalar, Vector or Matrix
 template <class Arg>
 struct IsVector {
 	static constexpr bool value = false;
@@ -598,6 +553,50 @@ struct NotVector {
 	static constexpr bool value = !IsVector<Arg>::value;
 };
 
+template <class T>
+struct IsMatrix {
+	static constexpr bool value = false;
+};
+
+template <class T, int Columns, int Rows, eMatrixOrder Order>
+struct IsMatrix<Matrix<T, Columns, Rows, Order>> {
+	static constexpr bool value = true;
+};
+
+template <class T>
+struct NotMatrix {
+	static constexpr bool value = !IsMatrix<T>::value;
+};
+
+template <class T>
+struct IsScalar {
+	static constexpr bool value = !IsMatrix<T>::value && !IsVector<T>::value;
+};
+
+// Dimension of an argument (add dynamically sized vectors later)
+template <class U, int Along = 0>
+struct DimensionOf {
+	static constexpr int value = 1;
+};
+template <class Ta, int Da>
+struct DimensionOf<Vector<Ta, Da>, 0> {
+	static constexpr int value = Da;
+};
+
+// Sum dimensions of arguments
+template <class... Rest>
+struct SumDimensions;
+
+template <class Head, class... Rest>
+struct SumDimensions<Head, Rest...> {
+	static constexpr int value = DimensionOf<Head>::value > 0 ? DimensionOf<Head>::value + SumDimensions<Rest...>::value : -1;
+};
+
+template <>
+struct SumDimensions<> {
+	static constexpr int value = 0;
+};
+
 
 //------------------------------------------------------------------------------
 // General Vector class - no specializations needed
@@ -605,9 +604,6 @@ struct NotVector {
 
 template <class T, int D>
 class Vector : public VectorSpec<T, D> {
-protected:
-	using VectorSpec<T, D>::Assign;
-
 public:
 	//--------------------------------------------
 	// Data constructors
@@ -640,50 +636,37 @@ public:
 	// Copy, assignment, set
 	//--------------------------------------------
 
-	// Copy constructor
-	Vector(const Vector& rhs) {
-		// message("Vector(copy)");
-		Assign(rhs);
+	// Scalar concat constructor
+	template <class... Scalars, typename std::enable_if<(sizeof...(Scalars) > 0) && All<IsScalar, Scalars...>::value, int>::type = 0>
+	Vector(Scalars... scalars) {
+		static_assert(SumDimensions<Scalars...>::value <= D, "Arguments exceed vector dimension.");
+		Assign(0, scalars...);
 	}
 
-	// Contruct from all scalars
-	//template <class U, class... V, typename std::enable_if<All<NotVector, U, V...>::value, int>::type = 0>
-	//Vector(U&& )
-
-
-	// Concetaneting constructor
-	template <class U, class... V, typename std::enable_if<Any<IsVector, U, V...>::value, int>::type = 0>
-	Vector(const U& rhs1, const V&... rhs2) {
-		// message("Vector(concat...)");
-		Assign(rhs1, rhs2...);
+	// Generalized concat constructor
+	template <class... Mixed, typename std::enable_if<(sizeof...(Mixed) > 0) && Any<IsVector, Mixed...>::value, int>::type = 0>
+	Vector(const Mixed&... mixed) {
+		static_assert(SumDimensions<Mixed...>::value <= D, "Arguments exceed vector dimension.");
+		Assign(0, mixed...);
 	}
 
-
-	// Assign from any vector of same dimension
-	template <class U>
-	Vector& operator=(const Vector<U, D>& rhs) {
-		for (int i = 0; i < D; ++i) {
-			data[i] = rhs.data[i];
-		}
+	// Scalar concat set
+	template <class... Scalars, typename std::enable_if<(sizeof...(Scalars) > 0) && All<IsScalar, Scalars...>::value, int>::type = 0>
+	Vector& Set(Scalars... scalars) {
+		static_assert(SumDimensions<Scalars...>::value <= D, "Arguments exceed vector dimension.");
+		Assign(0, scalars...);
 		return *this;
 	}
 
-	// Assign from all scalars
-	template <class U, class... V, typename std::enable_if<All<NotVector, U, V...>::value, int>::type = 0>
-	Vector& Set(U u, V... v) {
-		// message("Set(a,b,c,d...)");
-		Assign(u, v...);
+	// Generalized concat set
+	template <class... Mixed, typename std::enable_if<(sizeof...(Mixed) > 0) && Any<IsVector, Mixed...>::value, int>::type = 0>
+	Vector& Set(const Mixed&... mixed) {
+		static_assert(SumDimensions<Mixed...>::value <= D, "Arguments exceed vector dimension.");
+		Assign(0, mixed...);
 		return *this;
 	}
 
-	// Concatenating assign
-	template <class U, class... V, typename std::enable_if<Any<IsVector, U, V...>::value, int>::type = 0>
-	Vector& Set(const U& u, const V&... v) {
-		// message("Set(concat...)");
-		Assign(u, v...);
-		return *this;
-	}
-
+	// Set all members to certain type
 	Vector& Spread(T all) {
 		VectorSpec<T, D>::spread(all);
 		return *this;
@@ -844,30 +827,6 @@ protected:
 	// Helpers
 	//--------------------------------------------
 
-	// Dimension of an argument (add dynamically sized vectors later)
-	template <class U>
-	struct DimensionOf {
-		static constexpr int value = 1;
-	};
-	template <class Ta, int Da>
-	struct DimensionOf<Vector<Ta, Da>> {
-		static constexpr int value = Da;
-	};
-
-	// Sum dimensions of arguments
-	template <class... Rest>
-	struct SumDimensions;
-
-	template <class Head, class... Rest>
-	struct SumDimensions<Head, Rest...> {
-		static constexpr int value = DimensionOf<Head>::value > 0 ? DimensionOf<Head>::value + SumDimensions<Rest...>::value : -1;
-	};
-
-	template <>
-	struct SumDimensions<> {
-		static constexpr int value = 0;
-	};
-
 	// Get nth element of an argument
 	template <class U>
 	struct GetVectorElement {
@@ -878,47 +837,29 @@ protected:
 		static U Get(const Vector<U, E>& u, int idx) { return u.data[idx]; }
 	};
 
-	// Assign helper
-	template <int ArgDim>
-	struct AssignHelper {
-		template <int>
-		static void Assign(Vector& target) {}
-
-		template <int StartIdx, class Head, class... Rest>
-		static void Assign(Vector& target, const Head& head, const Rest&... rest) {
-			constexpr int HeadDim = DimensionOf<Head>::value;
-			for (int i = 0; i < HeadDim; ++i) {
-				target.data[StartIdx + i] = GetVectorElement<Head>::Get(head, i);
-			}
-			return Assign<StartIdx + HeadDim, Rest... >(target, rest...);
-		}
-	};
-
-	// Assign from vector of same type
-	void Assign(const Vector& rhs) {
-		// message("Assign(copy)");
-		for (int i = 0; i < D; ++i) {
-			data[i] = rhs.data[i];
-		}
+	// Assign
+	// Scalar concat assign
+	template <class Head, class... Scalars, typename std::enable_if<All<IsScalar, Head, Scalars...>::value, int>::type = 0>
+	void Assign(int idx, Head head, Scalars... scalars) {
+		data[idx] = head;
+		Assign(idx + 1, scalars...);
 	}
 
-	// Filter for concatenating assign
-	template <class... Args>
-	struct AssignFilter {
-		// value is true if general assign is allowed
-		static constexpr bool value = 
-			!std::is_same<TypeList<typename std::decay<Args>::type...>, TypeList<Vector>>::value // Args != Vector
-			&& (!All<NotVector, Args...>::value || D > 4); // not scalars only || D > 4
-	};
+	// Generalized concat assign
+	template <class Head, class... Mixed, typename std::enable_if<Any<IsVector, Head, Mixed...>::value, int>::type = 0>
+	void Assign(int idx, const Head& head, const Mixed&... mixed) {
+		for (int i = 0; i < DimensionOf<Head>::value; ++i) {
+			data[idx] = GetVectorElement<Head>::Get(head, i);
+			++idx;
+		}
+		Assign(idx, mixed...);
+	}
 
-	// Concatenating assign
-	template <class Head, class... Rest, typename std::enable_if<AssignFilter<Head, Rest...>::value, int>::type = 0>
-	void Assign(const Head& head, const Rest&... rest) {
-		// message("Assign(concat...)");
-
-		constexpr int ArgDim = SumDimensions<Head, Rest...>::value;
-		static_assert(ArgDim == D, "The sum of dimensions of arguments must match the dimension of the vector.");
-		AssignHelper<ArgDim>::Assign<0, Head, Rest...>(*this, head, rest...);
+	// Assign terminator, fill stuff with zeros
+	void Assign(int idx) {
+		for (idx = 0; idx < D; idx++) {
+			data[idx] = T(0);
+		}
 	}
 };
 
@@ -1033,4 +974,3 @@ inline Vector<float, 3> VectorSpec<float, 3>::Cross(const Vector<float, 3>& lhs,
 							lhs.z * rhs.x - lhs.x * rhs.z,
 							lhs.x * rhs.y - lhs.y * rhs.x);
 }
-

@@ -134,7 +134,7 @@ int main() {
 	Vector<float, 4> v2{ 2.f, 3.f, 4.f, 5.f };
 	Vector<float, 4> v3 = v1*v2;
 
-	Vector<float, 8> v4(3, 4, 5, 6, 7, 8, 9, 10);
+	Vector<float, 8> v4(v2, v3);
 	v4.Set(1, 2, 3, 4, 5, 6, 7, 8);
 	v4.Set(v3, v2);
 
@@ -142,7 +142,7 @@ int main() {
 
 	Vector<float, 3> v(1.0f, 2.0f, 3.0f);
 	Vector<float, 3> u(1);
-	Vector<float, 4> w(v, 1.2f);
+	Vector<float, 4> w(v);
 	Vector<float, 3> c(v);
 	v.Set(1, 2, 3);
 	w.Set(2.5f, v);
@@ -220,7 +220,7 @@ int main() {
 	cout << "time 4x3 x 3x4:\t" << elapsed * 1000 << " ms" << endl;
 	elapsed = MatMulSpeedTest<float, 3, 4, 4, 3>();
 	cout << "time 3x4 x 4x3:\t" << elapsed * 1000 << " ms" << endl;
-
+	
 
 	return 0;
 }
