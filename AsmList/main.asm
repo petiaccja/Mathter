@@ -171,8 +171,8 @@ PUBLIC	??0?$allocator@V?$Matrix@M$02$02$00@@@std@@QEAA@XZ ; std::allocator<Matri
 PUBLIC	??0?$allocator@V?$Matrix@M$03$03$00@@@std@@QEAA@XZ ; std::allocator<Matrix<float,4,4,1> >::allocator<Matrix<float,4,4,1> >
 PUBLIC	??0?$allocator@V?$Matrix@M$03$01$00@@@std@@QEAA@XZ ; std::allocator<Matrix<float,4,2,1> >::allocator<Matrix<float,4,2,1> >
 PUBLIC	??0?$allocator@V?$Matrix@M$01$03$00@@@std@@QEAA@XZ ; std::allocator<Matrix<float,2,4,1> >::allocator<Matrix<float,2,4,1> >
-PUBLIC	?GetElement@?$MatrixData@M$03$02$00@@QEBAMHH@Z	; MatrixData<float,4,3,1>::GetElement
-PUBLIC	?GetElement@?$MatrixData@M$02$03$00@@QEBAMHH@Z	; MatrixData<float,3,4,1>::GetElement
+PUBLIC	?GetElement@?$MatrixData@M$03$02$00@@IEBAMHH@Z	; MatrixData<float,4,3,1>::GetElement
+PUBLIC	?GetElement@?$MatrixData@M$02$03$00@@IEBAMHH@Z	; MatrixData<float,3,4,1>::GetElement
 PUBLIC	??0?$allocator@V?$Matrix@M$03$02$00@@@std@@QEAA@XZ ; std::allocator<Matrix<float,4,3,1> >::allocator<Matrix<float,4,3,1> >
 PUBLIC	??0?$allocator@V?$Matrix@M$02$03$00@@@std@@QEAA@XZ ; std::allocator<Matrix<float,3,4,1> >::allocator<Matrix<float,3,4,1> >
 PUBLIC	?Assign@?$Vector@M$02@@IEAAXH@Z			; Vector<float,3>::Assign
@@ -362,12 +362,12 @@ PUBLIC	?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@
 PUBLIC	?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$03$00@@@std@@@2@$00@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@2@XZ ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,3,4,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,3,4,1> > >,1>::_Get_first
 PUBLIC	?zero@?$duration_values@_J@chrono@std@@SA_JXZ	; std::chrono::duration_values<__int64>::zero
 PUBLIC	?zero@?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@chrono@std@@SA?AV123@XZ ; std::chrono::duration<__int64,std::ratio<1,1000000000> >::zero
-PUBLIC	?GetElement@?$MatrixData@M$03$03$00@@QEBAMHH@Z	; MatrixData<float,4,4,1>::GetElement
-PUBLIC	?GetElement@?$MatrixData@M$02$02$00@@QEBAMHH@Z	; MatrixData<float,3,3,1>::GetElement
-PUBLIC	?GetElement@?$MatrixData@M$03$01$00@@QEBAMHH@Z	; MatrixData<float,4,2,1>::GetElement
-PUBLIC	?GetElement@?$MatrixData@M$01$03$00@@QEBAMHH@Z	; MatrixData<float,2,4,1>::GetElement
-PUBLIC	?GetElement@?$MatrixData@M$01$01$00@@QEAAAEAMHH@Z ; MatrixData<float,2,2,1>::GetElement
-PUBLIC	?GetElement@?$MatrixData@M$01$01$00@@QEBAMHH@Z	; MatrixData<float,2,2,1>::GetElement
+PUBLIC	?GetElement@?$MatrixData@M$03$03$00@@IEBAMHH@Z	; MatrixData<float,4,4,1>::GetElement
+PUBLIC	?GetElement@?$MatrixData@M$02$02$00@@IEBAMHH@Z	; MatrixData<float,3,3,1>::GetElement
+PUBLIC	?GetElement@?$MatrixData@M$03$01$00@@IEBAMHH@Z	; MatrixData<float,4,2,1>::GetElement
+PUBLIC	?GetElement@?$MatrixData@M$01$03$00@@IEBAMHH@Z	; MatrixData<float,2,4,1>::GetElement
+PUBLIC	?GetElement@?$MatrixData@M$01$01$00@@IEAAAEAMHH@Z ; MatrixData<float,2,2,1>::GetElement
+PUBLIC	?GetElement@?$MatrixData@M$01$01$00@@IEBAMHH@Z	; MatrixData<float,2,2,1>::GetElement
 PUBLIC	?_Buy@?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@IEAA_N_K@Z ; std::vector<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > >::_Buy
 PUBLIC	?_Tidy@?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@IEAAXXZ ; std::vector<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > >::_Tidy
 PUBLIC	??0?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@@std@@QEAA@XZ ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > > >::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > > >
@@ -400,8 +400,8 @@ PUBLIC	??0?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$03$00@@V?$allocator@
 PUBLIC	?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@2@XZ ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > > >::_Getal
 PUBLIC	?_Myfirst@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$01$03$00@@XZ ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > > >::_Myfirst
 PUBLIC	?_Mylast@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$01$03$00@@XZ ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > > >::_Mylast
-PUBLIC	?GetElement@?$MatrixData@M$03$02$00@@QEAAAEAMHH@Z ; MatrixData<float,4,3,1>::GetElement
-PUBLIC	?GetElement@?$MatrixData@M$02$03$00@@QEAAAEAMHH@Z ; MatrixData<float,3,4,1>::GetElement
+PUBLIC	?GetElement@?$MatrixData@M$03$02$00@@IEAAAEAMHH@Z ; MatrixData<float,4,3,1>::GetElement
+PUBLIC	?GetElement@?$MatrixData@M$02$03$00@@IEAAAEAMHH@Z ; MatrixData<float,3,4,1>::GetElement
 PUBLIC	?_Buy@?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@IEAA_N_K@Z ; std::vector<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > >::_Buy
 PUBLIC	?_Tidy@?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@IEAAXXZ ; std::vector<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > >::_Tidy
 PUBLIC	??0?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@@std@@QEAA@XZ ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > > >::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > > >
@@ -500,10 +500,10 @@ PUBLIC	??A?$Vector@M$01@@QEAAAEAMH@Z			; Vector<float,2>::operator[]
 PUBLIC	??0sentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@AEAV12@@Z ; std::basic_ostream<char,std::char_traits<char> >::sentry::sentry
 PUBLIC	??1sentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@XZ ; std::basic_ostream<char,std::char_traits<char> >::sentry::~sentry
 PUBLIC	??Bsentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEBA_NXZ ; std::basic_ostream<char,std::char_traits<char> >::sentry::operator bool
-PUBLIC	?GetElement@?$MatrixData@M$03$03$00@@QEAAAEAMHH@Z ; MatrixData<float,4,4,1>::GetElement
-PUBLIC	?GetElement@?$MatrixData@M$02$02$00@@QEAAAEAMHH@Z ; MatrixData<float,3,3,1>::GetElement
-PUBLIC	?GetElement@?$MatrixData@M$03$01$00@@QEAAAEAMHH@Z ; MatrixData<float,4,2,1>::GetElement
-PUBLIC	?GetElement@?$MatrixData@M$01$03$00@@QEAAAEAMHH@Z ; MatrixData<float,2,4,1>::GetElement
+PUBLIC	?GetElement@?$MatrixData@M$03$03$00@@IEAAAEAMHH@Z ; MatrixData<float,4,4,1>::GetElement
+PUBLIC	?GetElement@?$MatrixData@M$02$02$00@@IEAAAEAMHH@Z ; MatrixData<float,3,3,1>::GetElement
+PUBLIC	?GetElement@?$MatrixData@M$03$01$00@@IEAAAEAMHH@Z ; MatrixData<float,4,2,1>::GetElement
+PUBLIC	?GetElement@?$MatrixData@M$01$03$00@@IEAAAEAMHH@Z ; MatrixData<float,2,4,1>::GetElement
 PUBLIC	??0?$time_point@Usteady_clock@chrono@std@@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@23@@chrono@std@@QEAA@AEBV?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@12@@Z ; std::chrono::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > >::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > >
 PUBLIC	??R?$Matrix@M$02$02$00@@QEAAAEAMHH@Z		; Matrix<float,3,3,1>::operator()
 PUBLIC	??R?$Matrix@M$03$03$00@@QEAAAEAMHH@Z		; Matrix<float,4,4,1>::operator()
@@ -556,380 +556,380 @@ EXTRN	__security_cookie:QWORD
 EXTRN	_fltused:DWORD
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?deallocate@?$allocator@V?$Matrix@M$01$01$00@@@std@@QEAAXPEAV?$Matrix@M$01$01$00@@_K@Z DD imagerel $LN14
-	DD	imagerel $LN14+111
+$pdata$?deallocate@?$allocator@V?$Matrix@M$01$01$00@@@std@@QEAAXPEAV?$Matrix@M$01$01$00@@_K@Z DD imagerel $LN14@deallocate
+	DD	imagerel $LN14@deallocate+111
 	DD	imagerel $unwind$?deallocate@?$allocator@V?$Matrix@M$01$01$00@@@std@@QEAAXPEAV?$Matrix@M$01$01$00@@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?allocate@?$allocator@V?$Matrix@M$01$01$00@@@std@@QEAAPEAV?$Matrix@M$01$01$00@@_K@Z DD imagerel $LN15
-	DD	imagerel $LN15+34
+$pdata$?allocate@?$allocator@V?$Matrix@M$01$01$00@@@std@@QEAAPEAV?$Matrix@M$01$01$00@@_K@Z DD imagerel $LN15@allocate
+	DD	imagerel $LN15@allocate+34
 	DD	imagerel $unwind$?allocate@?$allocator@V?$Matrix@M$01$01$00@@@std@@QEAAPEAV?$Matrix@M$01$01$00@@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?deallocate@?$allocator@V?$Matrix@M$02$02$00@@@std@@QEAAXPEAV?$Matrix@M$02$02$00@@_K@Z DD imagerel $LN14
-	DD	imagerel $LN14+114
+$pdata$?deallocate@?$allocator@V?$Matrix@M$02$02$00@@@std@@QEAAXPEAV?$Matrix@M$02$02$00@@_K@Z DD imagerel $LN14@deallocate
+	DD	imagerel $LN14@deallocate+114
 	DD	imagerel $unwind$?deallocate@?$allocator@V?$Matrix@M$02$02$00@@@std@@QEAAXPEAV?$Matrix@M$02$02$00@@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?allocate@?$allocator@V?$Matrix@M$02$02$00@@@std@@QEAAPEAV?$Matrix@M$02$02$00@@_K@Z DD imagerel $LN15
-	DD	imagerel $LN15+34
+$pdata$?allocate@?$allocator@V?$Matrix@M$02$02$00@@@std@@QEAAPEAV?$Matrix@M$02$02$00@@_K@Z DD imagerel $LN15@allocate
+	DD	imagerel $LN15@allocate+34
 	DD	imagerel $unwind$?allocate@?$allocator@V?$Matrix@M$02$02$00@@@std@@QEAAPEAV?$Matrix@M$02$02$00@@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?deallocate@?$allocator@V?$Matrix@M$03$03$00@@@std@@QEAAXPEAV?$Matrix@M$03$03$00@@_K@Z DD imagerel $LN14
-	DD	imagerel $LN14+111
+$pdata$?deallocate@?$allocator@V?$Matrix@M$03$03$00@@@std@@QEAAXPEAV?$Matrix@M$03$03$00@@_K@Z DD imagerel $LN14@deallocate
+	DD	imagerel $LN14@deallocate+111
 	DD	imagerel $unwind$?deallocate@?$allocator@V?$Matrix@M$03$03$00@@@std@@QEAAXPEAV?$Matrix@M$03$03$00@@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?allocate@?$allocator@V?$Matrix@M$03$03$00@@@std@@QEAAPEAV?$Matrix@M$03$03$00@@_K@Z DD imagerel $LN15
-	DD	imagerel $LN15+34
+$pdata$?allocate@?$allocator@V?$Matrix@M$03$03$00@@@std@@QEAAPEAV?$Matrix@M$03$03$00@@_K@Z DD imagerel $LN15@allocate
+	DD	imagerel $LN15@allocate+34
 	DD	imagerel $unwind$?allocate@?$allocator@V?$Matrix@M$03$03$00@@@std@@QEAAPEAV?$Matrix@M$03$03$00@@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?deallocate@?$allocator@V?$Matrix@M$03$01$00@@@std@@QEAAXPEAV?$Matrix@M$03$01$00@@_K@Z DD imagerel $LN14
-	DD	imagerel $LN14+111
+$pdata$?deallocate@?$allocator@V?$Matrix@M$03$01$00@@@std@@QEAAXPEAV?$Matrix@M$03$01$00@@_K@Z DD imagerel $LN14@deallocate
+	DD	imagerel $LN14@deallocate+111
 	DD	imagerel $unwind$?deallocate@?$allocator@V?$Matrix@M$03$01$00@@@std@@QEAAXPEAV?$Matrix@M$03$01$00@@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?allocate@?$allocator@V?$Matrix@M$03$01$00@@@std@@QEAAPEAV?$Matrix@M$03$01$00@@_K@Z DD imagerel $LN15
-	DD	imagerel $LN15+34
+$pdata$?allocate@?$allocator@V?$Matrix@M$03$01$00@@@std@@QEAAPEAV?$Matrix@M$03$01$00@@_K@Z DD imagerel $LN15@allocate
+	DD	imagerel $LN15@allocate+34
 	DD	imagerel $unwind$?allocate@?$allocator@V?$Matrix@M$03$01$00@@@std@@QEAAPEAV?$Matrix@M$03$01$00@@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?deallocate@?$allocator@V?$Matrix@M$01$03$00@@@std@@QEAAXPEAV?$Matrix@M$01$03$00@@_K@Z DD imagerel $LN14
-	DD	imagerel $LN14+111
+$pdata$?deallocate@?$allocator@V?$Matrix@M$01$03$00@@@std@@QEAAXPEAV?$Matrix@M$01$03$00@@_K@Z DD imagerel $LN14@deallocate
+	DD	imagerel $LN14@deallocate+111
 	DD	imagerel $unwind$?deallocate@?$allocator@V?$Matrix@M$01$03$00@@@std@@QEAAXPEAV?$Matrix@M$01$03$00@@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?allocate@?$allocator@V?$Matrix@M$01$03$00@@@std@@QEAAPEAV?$Matrix@M$01$03$00@@_K@Z DD imagerel $LN15
-	DD	imagerel $LN15+34
+$pdata$?allocate@?$allocator@V?$Matrix@M$01$03$00@@@std@@QEAAPEAV?$Matrix@M$01$03$00@@_K@Z DD imagerel $LN15@allocate
+	DD	imagerel $LN15@allocate+34
 	DD	imagerel $unwind$?allocate@?$allocator@V?$Matrix@M$01$03$00@@@std@@QEAAPEAV?$Matrix@M$01$03$00@@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?deallocate@?$allocator@V?$Matrix@M$03$02$00@@@std@@QEAAXPEAV?$Matrix@M$03$02$00@@_K@Z DD imagerel $LN14
-	DD	imagerel $LN14+114
+$pdata$?deallocate@?$allocator@V?$Matrix@M$03$02$00@@@std@@QEAAXPEAV?$Matrix@M$03$02$00@@_K@Z DD imagerel $LN14@deallocate
+	DD	imagerel $LN14@deallocate+114
 	DD	imagerel $unwind$?deallocate@?$allocator@V?$Matrix@M$03$02$00@@@std@@QEAAXPEAV?$Matrix@M$03$02$00@@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?allocate@?$allocator@V?$Matrix@M$03$02$00@@@std@@QEAAPEAV?$Matrix@M$03$02$00@@_K@Z DD imagerel $LN15
-	DD	imagerel $LN15+34
+$pdata$?allocate@?$allocator@V?$Matrix@M$03$02$00@@@std@@QEAAPEAV?$Matrix@M$03$02$00@@_K@Z DD imagerel $LN15@allocate
+	DD	imagerel $LN15@allocate+34
 	DD	imagerel $unwind$?allocate@?$allocator@V?$Matrix@M$03$02$00@@@std@@QEAAPEAV?$Matrix@M$03$02$00@@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?deallocate@?$allocator@V?$Matrix@M$02$03$00@@@std@@QEAAXPEAV?$Matrix@M$02$03$00@@_K@Z DD imagerel $LN14
-	DD	imagerel $LN14+111
+$pdata$?deallocate@?$allocator@V?$Matrix@M$02$03$00@@@std@@QEAAXPEAV?$Matrix@M$02$03$00@@_K@Z DD imagerel $LN14@deallocate
+	DD	imagerel $LN14@deallocate+111
 	DD	imagerel $unwind$?deallocate@?$allocator@V?$Matrix@M$02$03$00@@@std@@QEAAXPEAV?$Matrix@M$02$03$00@@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?allocate@?$allocator@V?$Matrix@M$02$03$00@@@std@@QEAAPEAV?$Matrix@M$02$03$00@@_K@Z DD imagerel $LN15
-	DD	imagerel $LN15+34
+$pdata$?allocate@?$allocator@V?$Matrix@M$02$03$00@@@std@@QEAAPEAV?$Matrix@M$02$03$00@@_K@Z DD imagerel $LN15@allocate
+	DD	imagerel $LN15@allocate+34
 	DD	imagerel $unwind$?allocate@?$allocator@V?$Matrix@M$02$03$00@@@std@@QEAAPEAV?$Matrix@M$02$03$00@@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?_Xlen@?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@IEBAXXZ DD imagerel $LN4
-	DD	imagerel $LN4+18
+$pdata$?_Xlen@?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@IEBAXXZ DD imagerel $LN4@Xlen
+	DD	imagerel $LN4@Xlen+18
 	DD	imagerel $unwind$?_Xlen@?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@IEBAXXZ
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAAPEAV?$Matrix@M$01$01$00@@_K@Z DD imagerel $LN18
-	DD	imagerel $LN18+34
+$pdata$?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAAPEAV?$Matrix@M$01$01$00@@_K@Z DD imagerel $LN18@allocate
+	DD	imagerel $LN18@allocate+34
 	DD	imagerel $unwind$?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAAPEAV?$Matrix@M$01$01$00@@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$01$01$00@@_K@Z DD imagerel $LN17
-	DD	imagerel $LN17+111
+$pdata$?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$01$01$00@@_K@Z DD imagerel $LN17@deallocate
+	DD	imagerel $LN17@deallocate+111
 	DD	imagerel $unwind$?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$01$01$00@@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?_Xlen@?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@IEBAXXZ DD imagerel $LN4
-	DD	imagerel $LN4+18
+$pdata$?_Xlen@?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@IEBAXXZ DD imagerel $LN4@Xlen
+	DD	imagerel $LN4@Xlen+18
 	DD	imagerel $unwind$?_Xlen@?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@IEBAXXZ
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAAPEAV?$Matrix@M$02$02$00@@_K@Z DD imagerel $LN18
-	DD	imagerel $LN18+34
+$pdata$?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAAPEAV?$Matrix@M$02$02$00@@_K@Z DD imagerel $LN18@allocate
+	DD	imagerel $LN18@allocate+34
 	DD	imagerel $unwind$?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAAPEAV?$Matrix@M$02$02$00@@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$02$02$00@@_K@Z DD imagerel $LN17
-	DD	imagerel $LN17+114
+$pdata$?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$02$02$00@@_K@Z DD imagerel $LN17@deallocate
+	DD	imagerel $LN17@deallocate+114
 	DD	imagerel $unwind$?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$02$02$00@@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?_Xlen@?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@IEBAXXZ DD imagerel $LN4
-	DD	imagerel $LN4+18
+$pdata$?_Xlen@?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@IEBAXXZ DD imagerel $LN4@Xlen
+	DD	imagerel $LN4@Xlen+18
 	DD	imagerel $unwind$?_Xlen@?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@IEBAXXZ
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAAPEAV?$Matrix@M$03$03$00@@_K@Z DD imagerel $LN18
-	DD	imagerel $LN18+34
+$pdata$?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAAPEAV?$Matrix@M$03$03$00@@_K@Z DD imagerel $LN18@allocate
+	DD	imagerel $LN18@allocate+34
 	DD	imagerel $unwind$?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAAPEAV?$Matrix@M$03$03$00@@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$03$03$00@@_K@Z DD imagerel $LN17
-	DD	imagerel $LN17+111
+$pdata$?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$03$03$00@@_K@Z DD imagerel $LN17@deallocate
+	DD	imagerel $LN17@deallocate+111
 	DD	imagerel $unwind$?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$03$03$00@@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?_Xlen@?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@IEBAXXZ DD imagerel $LN4
-	DD	imagerel $LN4+18
+$pdata$?_Xlen@?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@IEBAXXZ DD imagerel $LN4@Xlen
+	DD	imagerel $LN4@Xlen+18
 	DD	imagerel $unwind$?_Xlen@?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@IEBAXXZ
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAAPEAV?$Matrix@M$03$01$00@@_K@Z DD imagerel $LN18
-	DD	imagerel $LN18+34
+$pdata$?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAAPEAV?$Matrix@M$03$01$00@@_K@Z DD imagerel $LN18@allocate
+	DD	imagerel $LN18@allocate+34
 	DD	imagerel $unwind$?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAAPEAV?$Matrix@M$03$01$00@@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$03$01$00@@_K@Z DD imagerel $LN17
-	DD	imagerel $LN17+111
+$pdata$?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$03$01$00@@_K@Z DD imagerel $LN17@deallocate
+	DD	imagerel $LN17@deallocate+111
 	DD	imagerel $unwind$?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$03$01$00@@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?_Xlen@?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@IEBAXXZ DD imagerel $LN4
-	DD	imagerel $LN4+18
+$pdata$?_Xlen@?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@IEBAXXZ DD imagerel $LN4@Xlen
+	DD	imagerel $LN4@Xlen+18
 	DD	imagerel $unwind$?_Xlen@?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@IEBAXXZ
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAAPEAV?$Matrix@M$01$03$00@@_K@Z DD imagerel $LN18
-	DD	imagerel $LN18+34
+$pdata$?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAAPEAV?$Matrix@M$01$03$00@@_K@Z DD imagerel $LN18@allocate
+	DD	imagerel $LN18@allocate+34
 	DD	imagerel $unwind$?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAAPEAV?$Matrix@M$01$03$00@@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$01$03$00@@_K@Z DD imagerel $LN17
-	DD	imagerel $LN17+111
+$pdata$?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$01$03$00@@_K@Z DD imagerel $LN17@deallocate
+	DD	imagerel $LN17@deallocate+111
 	DD	imagerel $unwind$?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$01$03$00@@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?_Xlen@?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@IEBAXXZ DD imagerel $LN4
-	DD	imagerel $LN4+18
+$pdata$?_Xlen@?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@IEBAXXZ DD imagerel $LN4@Xlen
+	DD	imagerel $LN4@Xlen+18
 	DD	imagerel $unwind$?_Xlen@?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@IEBAXXZ
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAAPEAV?$Matrix@M$03$02$00@@_K@Z DD imagerel $LN18
-	DD	imagerel $LN18+34
+$pdata$?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAAPEAV?$Matrix@M$03$02$00@@_K@Z DD imagerel $LN18@allocate
+	DD	imagerel $LN18@allocate+34
 	DD	imagerel $unwind$?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAAPEAV?$Matrix@M$03$02$00@@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$03$02$00@@_K@Z DD imagerel $LN17
-	DD	imagerel $LN17+114
+$pdata$?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$03$02$00@@_K@Z DD imagerel $LN17@deallocate
+	DD	imagerel $LN17@deallocate+114
 	DD	imagerel $unwind$?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$03$02$00@@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?_Xlen@?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@IEBAXXZ DD imagerel $LN4
-	DD	imagerel $LN4+18
+$pdata$?_Xlen@?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@IEBAXXZ DD imagerel $LN4@Xlen
+	DD	imagerel $LN4@Xlen+18
 	DD	imagerel $unwind$?_Xlen@?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@IEBAXXZ
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAAPEAV?$Matrix@M$02$03$00@@_K@Z DD imagerel $LN18
-	DD	imagerel $LN18+34
+$pdata$?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAAPEAV?$Matrix@M$02$03$00@@_K@Z DD imagerel $LN18@allocate
+	DD	imagerel $LN18@allocate+34
 	DD	imagerel $unwind$?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAAPEAV?$Matrix@M$02$03$00@@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$02$03$00@@_K@Z DD imagerel $LN17
-	DD	imagerel $LN17+111
+$pdata$?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$02$03$00@@_K@Z DD imagerel $LN17@deallocate
+	DD	imagerel $LN17@deallocate+111
 	DD	imagerel $unwind$?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$02$03$00@@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?_Buy@?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@IEAA_N_K@Z DD imagerel $LN123
-	DD	imagerel $LN123+72
+$pdata$?_Buy@?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@IEAA_N_K@Z DD imagerel $LN123@Buy
+	DD	imagerel $LN123@Buy+72
 	DD	imagerel $unwind$?_Buy@?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@IEAA_N_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?_Tidy@?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@IEAAXXZ DD imagerel $LN108
-	DD	imagerel $LN108+146
+$pdata$?_Tidy@?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@IEAAXXZ DD imagerel $LN108@Tidy
+	DD	imagerel $LN108@Tidy+146
 	DD	imagerel $unwind$?_Tidy@?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@IEAAXXZ
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?_Buy@?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@IEAA_N_K@Z DD imagerel $LN123
-	DD	imagerel $LN123+72
+$pdata$?_Buy@?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@IEAA_N_K@Z DD imagerel $LN123@Buy
+	DD	imagerel $LN123@Buy+72
 	DD	imagerel $unwind$?_Buy@?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@IEAA_N_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?_Tidy@?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@IEAAXXZ DD imagerel $LN108
-	DD	imagerel $LN108+177
+$pdata$?_Tidy@?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@IEAAXXZ DD imagerel $LN108@Tidy
+	DD	imagerel $LN108@Tidy+177
 	DD	imagerel $unwind$?_Tidy@?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@IEAAXXZ
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?_Buy@?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@IEAA_N_K@Z DD imagerel $LN123
-	DD	imagerel $LN123+72
+$pdata$?_Buy@?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@IEAA_N_K@Z DD imagerel $LN123@Buy
+	DD	imagerel $LN123@Buy+72
 	DD	imagerel $unwind$?_Buy@?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@IEAA_N_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?_Tidy@?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@IEAAXXZ DD imagerel $LN108
-	DD	imagerel $LN108+146
+$pdata$?_Tidy@?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@IEAAXXZ DD imagerel $LN108@Tidy
+	DD	imagerel $LN108@Tidy+146
 	DD	imagerel $unwind$?_Tidy@?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@IEAAXXZ
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?_Buy@?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@IEAA_N_K@Z DD imagerel $LN123
-	DD	imagerel $LN123+72
+$pdata$?_Buy@?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@IEAA_N_K@Z DD imagerel $LN123@Buy
+	DD	imagerel $LN123@Buy+72
 	DD	imagerel $unwind$?_Buy@?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@IEAA_N_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?_Tidy@?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@IEAAXXZ DD imagerel $LN108
-	DD	imagerel $LN108+146
+$pdata$?_Tidy@?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@IEAAXXZ DD imagerel $LN108@Tidy
+	DD	imagerel $LN108@Tidy+146
 	DD	imagerel $unwind$?_Tidy@?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@IEAAXXZ
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?_Buy@?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@IEAA_N_K@Z DD imagerel $LN123
-	DD	imagerel $LN123+72
+$pdata$?_Buy@?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@IEAA_N_K@Z DD imagerel $LN123@Buy
+	DD	imagerel $LN123@Buy+72
 	DD	imagerel $unwind$?_Buy@?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@IEAA_N_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?_Tidy@?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@IEAAXXZ DD imagerel $LN108
-	DD	imagerel $LN108+146
+$pdata$?_Tidy@?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@IEAAXXZ DD imagerel $LN108@Tidy
+	DD	imagerel $LN108@Tidy+146
 	DD	imagerel $unwind$?_Tidy@?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@IEAAXXZ
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?_Buy@?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@IEAA_N_K@Z DD imagerel $LN123
-	DD	imagerel $LN123+72
+$pdata$?_Buy@?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@IEAA_N_K@Z DD imagerel $LN123@Buy
+	DD	imagerel $LN123@Buy+72
 	DD	imagerel $unwind$?_Buy@?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@IEAA_N_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?_Tidy@?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@IEAAXXZ DD imagerel $LN108
-	DD	imagerel $LN108+177
+$pdata$?_Tidy@?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@IEAAXXZ DD imagerel $LN108@Tidy
+	DD	imagerel $LN108@Tidy+177
 	DD	imagerel $unwind$?_Tidy@?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@IEAAXXZ
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?_Buy@?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@IEAA_N_K@Z DD imagerel $LN123
-	DD	imagerel $LN123+72
+$pdata$?_Buy@?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@IEAA_N_K@Z DD imagerel $LN123@Buy
+	DD	imagerel $LN123@Buy+72
 	DD	imagerel $unwind$?_Buy@?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@IEAA_N_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?_Tidy@?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@IEAAXXZ DD imagerel $LN108
-	DD	imagerel $LN108+146
+$pdata$?_Tidy@?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@IEAAXXZ DD imagerel $LN108@Tidy
+	DD	imagerel $LN108@Tidy+146
 	DD	imagerel $unwind$?_Tidy@?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@IEAAXXZ
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$??0?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAA@_K@Z DD imagerel $LN270
-	DD	imagerel $LN270+89
+$pdata$??0?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAA@_K@Z DD imagerel $LN270@vector
+	DD	imagerel $LN270@vector+89
 	DD	imagerel $unwind$??0?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAA@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$??1?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAA@XZ DD imagerel $LN111
-	DD	imagerel $LN111+146
+$pdata$??1?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAA@XZ DD imagerel $LN111@vector
+	DD	imagerel $LN111@vector+146
 	DD	imagerel $unwind$??1?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAA@XZ
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$??0?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAA@_K@Z DD imagerel $LN165
-	DD	imagerel $LN165+89
+$pdata$??0?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAA@_K@Z DD imagerel $LN165@vector
+	DD	imagerel $LN165@vector+89
 	DD	imagerel $unwind$??0?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAA@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$??1?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAA@XZ DD imagerel $LN111
-	DD	imagerel $LN111+177
+$pdata$??1?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAA@XZ DD imagerel $LN111@vector
+	DD	imagerel $LN111@vector+177
 	DD	imagerel $unwind$??1?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAA@XZ
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$??0?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAA@_K@Z DD imagerel $LN270
-	DD	imagerel $LN270+89
+$pdata$??0?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAA@_K@Z DD imagerel $LN270@vector
+	DD	imagerel $LN270@vector+89
 	DD	imagerel $unwind$??0?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAA@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$??1?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAA@XZ DD imagerel $LN111
-	DD	imagerel $LN111+146
+$pdata$??1?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAA@XZ DD imagerel $LN111@vector
+	DD	imagerel $LN111@vector+146
 	DD	imagerel $unwind$??1?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAA@XZ
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$??0?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAA@_K@Z DD imagerel $LN270
-	DD	imagerel $LN270+89
+$pdata$??0?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAA@_K@Z DD imagerel $LN270@vector
+	DD	imagerel $LN270@vector+89
 	DD	imagerel $unwind$??0?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAA@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$??1?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAA@XZ DD imagerel $LN111
-	DD	imagerel $LN111+146
+$pdata$??1?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAA@XZ DD imagerel $LN111@vector
+	DD	imagerel $LN111@vector+146
 	DD	imagerel $unwind$??1?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAA@XZ
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$??0?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAA@_K@Z DD imagerel $LN270
-	DD	imagerel $LN270+89
+$pdata$??0?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAA@_K@Z DD imagerel $LN270@vector
+	DD	imagerel $LN270@vector+89
 	DD	imagerel $unwind$??0?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAA@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$??1?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAA@XZ DD imagerel $LN111
-	DD	imagerel $LN111+146
+$pdata$??1?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAA@XZ DD imagerel $LN111@vector
+	DD	imagerel $LN111@vector+146
 	DD	imagerel $unwind$??1?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAA@XZ
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$??0?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAA@_K@Z DD imagerel $LN165
-	DD	imagerel $LN165+89
+$pdata$??0?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAA@_K@Z DD imagerel $LN165@vector
+	DD	imagerel $LN165@vector+89
 	DD	imagerel $unwind$??0?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAA@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$??1?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAA@XZ DD imagerel $LN111
-	DD	imagerel $LN111+177
+$pdata$??1?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAA@XZ DD imagerel $LN111@vector
+	DD	imagerel $LN111@vector+177
 	DD	imagerel $unwind$??1?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAA@XZ
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$??0?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAA@_K@Z DD imagerel $LN270
-	DD	imagerel $LN270+89
+$pdata$??0?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAA@_K@Z DD imagerel $LN270@vector
+	DD	imagerel $LN270@vector+89
 	DD	imagerel $unwind$??0?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAA@_K@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$??1?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAA@XZ DD imagerel $LN111
-	DD	imagerel $LN111+146
+$pdata$??1?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAA@XZ DD imagerel $LN111@vector
+	DD	imagerel $LN111@vector+146
 	DD	imagerel $unwind$??1?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAA@XZ
 pdata	ENDS
 ;	COMDAT pdata
@@ -976,56 +976,56 @@ $pdata$??$MatMulSpeedTest@M$01$01$01$01@@YANXZ DD imagerel $LN591
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$??$?6M$01$01$00@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Matrix@M$01$01$00@@@Z DD imagerel $LN30
-	DD	imagerel $LN30+185
+$pdata$??$?6M$01$01$00@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Matrix@M$01$01$00@@@Z DD imagerel $LN30@operator
+	DD	imagerel $LN30@operator+185
 	DD	imagerel $unwind$??$?6M$01$01$00@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Matrix@M$01$01$00@@@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$??$?DMM$03$01$01$00$00MX@@YA?AV?$Matrix@M$01$01$00@@AEBV?$Matrix@M$03$01$00@@AEBV?$Matrix@M$01$03$00@@@Z DD imagerel $LN62
-	DD	imagerel $LN62+379
+$pdata$??$?DMM$03$01$01$00$00MX@@YA?AV?$Matrix@M$01$01$00@@AEBV?$Matrix@M$03$01$00@@AEBV?$Matrix@M$01$03$00@@@Z DD imagerel $LN62@operator
+	DD	imagerel $LN62@operator+379
 	DD	imagerel $unwind$??$?DMM$03$01$01$00$00MX@@YA?AV?$Matrix@M$01$01$00@@AEBV?$Matrix@M$03$01$00@@AEBV?$Matrix@M$01$03$00@@@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$??$?6M$01$03$00@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Matrix@M$01$03$00@@@Z DD imagerel $LN30
-	DD	imagerel $LN30+185
+$pdata$??$?6M$01$03$00@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Matrix@M$01$03$00@@@Z DD imagerel $LN30@operator
+	DD	imagerel $LN30@operator+185
 	DD	imagerel $unwind$??$?6M$01$03$00@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Matrix@M$01$03$00@@@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$??$?6M$03$01$00@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Matrix@M$03$01$00@@@Z DD imagerel $LN30
-	DD	imagerel $LN30+185
+$pdata$??$?6M$03$01$00@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Matrix@M$03$01$00@@@Z DD imagerel $LN30@operator
+	DD	imagerel $LN30@operator+185
 	DD	imagerel $unwind$??$?6M$03$01$00@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Matrix@M$03$01$00@@@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$??$?6M$02$02$00@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Matrix@M$02$02$00@@@Z DD imagerel $LN30
-	DD	imagerel $LN30+187
+$pdata$??$?6M$02$02$00@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Matrix@M$02$02$00@@@Z DD imagerel $LN30@operator
+	DD	imagerel $LN30@operator+187
 	DD	imagerel $unwind$??$?6M$02$02$00@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Matrix@M$02$02$00@@@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$??$?6M$03$03$00@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Matrix@M$03$03$00@@@Z DD imagerel $LN30
-	DD	imagerel $LN30+185
+$pdata$??$?6M$03$03$00@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Matrix@M$03$03$00@@@Z DD imagerel $LN30@operator
+	DD	imagerel $LN30@operator+185
 	DD	imagerel $unwind$??$?6M$03$03$00@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Matrix@M$03$03$00@@@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$??$?6M$03@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Vector@M$03@@@Z DD imagerel $LN13
-	DD	imagerel $LN13+158
+$pdata$??$?6M$03@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Vector@M$03@@@Z DD imagerel $LN13@operator
+	DD	imagerel $LN13@operator+158
 	DD	imagerel $unwind$??$?6M$03@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Vector@M$03@@@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$??$endl@DU?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@@Z DD imagerel $LN4
-	DD	imagerel $LN4+57
+$pdata$??$endl@DU?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@@Z DD imagerel $LN4@endl
+	DD	imagerel $LN4@endl+57
 	DD	imagerel $unwind$??$endl@DU?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z DD imagerel $LN114
-	DD	imagerel $LN114+455
+$pdata$??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z DD imagerel $LN114@operator
+	DD	imagerel $LN114@operator+455
 	DD	imagerel $unwind$??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z
 pdata	ENDS
 ;	COMDAT pdata
@@ -1036,26 +1036,26 @@ $pdata$?catch$8@?0???$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$ch
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$??0_Sentry_base@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@AEAV12@@Z DD imagerel $LN10
-	DD	imagerel $LN10+44
+$pdata$??0_Sentry_base@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@AEAV12@@Z DD imagerel $LN10@Sentry_bas
+	DD	imagerel $LN10@Sentry_bas+44
 	DD	imagerel $unwind$??0_Sentry_base@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@AEAV12@@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$??1_Sentry_base@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@XZ DD imagerel $LN8
-	DD	imagerel $LN8+45
+$pdata$??1_Sentry_base@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@XZ DD imagerel $LN8@Sentry_bas
+	DD	imagerel $LN8@Sentry_bas+45
 	DD	imagerel $unwind$??1_Sentry_base@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@XZ
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$??0sentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@AEAV12@@Z DD imagerel $LN26
-	DD	imagerel $LN26+124
+$pdata$??0sentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@AEAV12@@Z DD imagerel $LN26@sentry
+	DD	imagerel $LN26@sentry+124
 	DD	imagerel $unwind$??0sentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@AEAV12@@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$??1sentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@XZ DD imagerel $LN13
-	DD	imagerel $LN13+72
+$pdata$??1sentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@XZ DD imagerel $LN13@sentry
+	DD	imagerel $LN13@sentry+72
 	DD	imagerel $unwind$??1sentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@XZ
 pdata	ENDS
 ;	COMDAT pdata
@@ -1066,20 +1066,20 @@ $pdata$main DD	imagerel $LN953
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?now@steady_clock@chrono@std@@SA?AV?$time_point@Usteady_clock@chrono@std@@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@23@@23@XZ DD imagerel $LN8
-	DD	imagerel $LN8+75
+$pdata$?now@steady_clock@chrono@std@@SA?AV?$time_point@Usteady_clock@chrono@std@@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@23@@23@XZ DD imagerel $LN8@now
+	DD	imagerel $LN8@now+75
 	DD	imagerel $unwind$?now@steady_clock@chrono@std@@SA?AV?$time_point@Usteady_clock@chrono@std@@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@23@@23@XZ
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?_Deallocate@std@@YAXPEAX_K1@Z DD imagerel $LN11
-	DD	imagerel $LN11+110
+$pdata$?_Deallocate@std@@YAXPEAX_K1@Z DD imagerel $LN11@Deallocate
+	DD	imagerel $LN11@Deallocate+110
 	DD	imagerel $unwind$?_Deallocate@std@@YAXPEAX_K1@Z
 pdata	ENDS
 ;	COMDAT pdata
 pdata	SEGMENT
-$pdata$?_Allocate@std@@YAPEAX_K0_N@Z DD imagerel $LN12
-	DD	imagerel $LN12+104
+$pdata$?_Allocate@std@@YAPEAX_K0_N@Z DD imagerel $LN12@Allocate
+	DD	imagerel $LN12@Allocate+104
 	DD	imagerel $unwind$?_Allocate@std@@YAPEAX_K0_N@Z
 pdata	ENDS
 ;	COMDAT __xmm@41100000411000004100000040e00000
@@ -1221,19 +1221,16 @@ xdata	ENDS
 ;	COMDAT xdata
 xdata	SEGMENT
 $stateUnwindMap$??1sentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@XZ DD 0ffffffffH
-	DD	imagerel __imp___std_terminate
+	DD	imagerel __std_terminate
 xdata	ENDS
 ;	COMDAT CONST
 CONST	SEGMENT
-$cppxdata$??1sentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@XZ DD 019930522H
-	DD	01H
+$cppxdata$??1sentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@XZ DQ 00000000119930522r ; 2.33398e-314
 	DD	imagerel $stateUnwindMap$??1sentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@XZ
-	DD	00H
-	DD	00H
+	DQ	00000000000000000r		; 0
 	DD	03H
 	DD	imagerel $ip2state$??1sentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@XZ
-	DD	020H
-	DD	00H
+	DQ	00000000000000020r		; 1.58101e-322
 	DD	05H
 CONST	ENDS
 ;	COMDAT xdata
@@ -1259,15 +1256,12 @@ $stateUnwindMap$??0sentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@AEAV
 xdata	ENDS
 ;	COMDAT CONST
 CONST	SEGMENT
-$cppxdata$??0sentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@AEAV12@@Z DD 019930522H
-	DD	01H
+$cppxdata$??0sentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@AEAV12@@Z DQ 00000000119930522r ; 2.33398e-314
 	DD	imagerel $stateUnwindMap$??0sentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@AEAV12@@Z
-	DD	00H
-	DD	00H
+	DQ	00000000000000000r		; 0
 	DD	03H
 	DD	imagerel $ip2state$??0sentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@AEAV12@@Z
-	DD	020H
-	DD	00H
+	DQ	00000000000000020r		; 1.58101e-322
 	DD	01H
 CONST	ENDS
 ;	COMDAT xdata
@@ -1285,15 +1279,11 @@ $ip2state$??1_Sentry_base@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@XZ D
 xdata	ENDS
 ;	COMDAT CONST
 CONST	SEGMENT
-$cppxdata$??1_Sentry_base@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@XZ DD 019930522H
-	DD	00H
-	DD	00H
-	DD	00H
-	DD	00H
-	DD	01H
+$cppxdata$??1_Sentry_base@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@XZ DQ 00000000019930522r ; 2.11987e-315
+	DQ	00000000000000000r		; 0
+	DQ	00000000100000000r		; 2.122e-314
 	DD	imagerel $ip2state$??1_Sentry_base@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@XZ
-	DD	020H
-	DD	00H
+	DQ	00000000000000020r		; 1.58101e-322
 	DD	05H
 CONST	ENDS
 ;	COMDAT xdata
@@ -1367,21 +1357,19 @@ $stateUnwindMap$??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_
 	DD	01H
 	DD	00H
 	DD	0ffffffffH
-	DD	imagerel __imp___std_terminate
+	DD	imagerel __std_terminate
 	DD	04H
-	DD	imagerel __imp___std_terminate
+	DD	imagerel __std_terminate
 xdata	ENDS
 ;	COMDAT CONST
 CONST	SEGMENT
-$cppxdata$??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z DD 019930522H
-	DD	06H
+$cppxdata$??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z DQ 00000000619930522r ; 1.2944e-313
 	DD	imagerel $stateUnwindMap$??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z
 	DD	01H
 	DD	imagerel $tryMap$??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z
 	DD	0bH
 	DD	imagerel $ip2state$??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z
-	DD	020H
-	DD	00H
+	DQ	00000000000000020r		; 1.58101e-322
 	DD	01H
 CONST	ENDS
 ;	COMDAT xdata
@@ -2112,552 +2100,6 @@ $unwind$?deallocate@?$allocator@V?$Matrix@M$01$01$00@@@std@@QEAAXPEAV?$Matrix@M$
 	DD	04204H
 xdata	ENDS
 ; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vcruntime_new.h
-;	COMDAT ??2@YAPEAX_KPEAX@Z
-_TEXT	SEGMENT
-_Size$dead$ = 8
-_Where$ = 16
-??2@YAPEAX_KPEAX@Z PROC					; operator new, COMDAT
-
-; 88   :         (void)_Size;
-; 89   :         return _Where;
-
-	mov	rax, rdx
-
-; 90   :     }
-
-	ret	0
-??2@YAPEAX_KPEAX@Z ENDP					; operator new
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\iosfwd
-;	COMDAT ?length@?$char_traits@D@std@@SA_KPEBD@Z
-_TEXT	SEGMENT
-_First$ = 8
-?length@?$char_traits@D@std@@SA_KPEBD@Z PROC		; std::char_traits<char>::length, COMDAT
-
-; 523  : 		return (*_First == 0 ? 0
-
-	cmp	BYTE PTR [rcx], 0
-	jne	SHORT $LN3@length
-	xor	eax, eax
-
-; 524  : 			: _CSTD strlen(_First));
-; 525  : 		}
-
-	ret	0
-$LN3@length:
-
-; 523  : 		return (*_First == 0 ? 0
-
-	or	rax, -1
-	npad	4
-$LL5@length:
-	inc	rax
-	cmp	BYTE PTR [rcx+rax], 0
-	jne	SHORT $LL5@length
-
-; 524  : 			: _CSTD strlen(_First));
-; 525  : 		}
-
-	ret	0
-?length@?$char_traits@D@std@@SA_KPEBD@Z ENDP		; std::char_traits<char>::length
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\iosfwd
-;	COMDAT ?eq_int_type@?$char_traits@D@std@@SA_NAEBH0@Z
-_TEXT	SEGMENT
-_Left$ = 8
-_Right$ = 16
-?eq_int_type@?$char_traits@D@std@@SA_NAEBH0@Z PROC	; std::char_traits<char>::eq_int_type, COMDAT
-
-; 594  : 		{	// test for metacharacter equality
-
-	mov	eax, DWORD PTR [rdx]
-	cmp	DWORD PTR [rcx], eax
-	sete	al
-
-; 595  : 		return (_Left == _Right);
-; 596  : 		}
-
-	ret	0
-?eq_int_type@?$char_traits@D@std@@SA_NAEBH0@Z ENDP	; std::char_traits<char>::eq_int_type
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\iosfwd
-;	COMDAT ?eof@?$char_traits@D@std@@SAHXZ
-_TEXT	SEGMENT
-?eof@?$char_traits@D@std@@SAHXZ PROC			; std::char_traits<char>::eof, COMDAT
-
-; 606  : 		return (EOF);
-
-	or	eax, -1
-
-; 607  : 		}
-
-	ret	0
-?eof@?$char_traits@D@std@@SAHXZ ENDP			; std::char_traits<char>::eof
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-;	COMDAT ?_Orphan_all@_Container_base0@std@@QEAAXXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?_Orphan_all@_Container_base0@std@@QEAAXXZ PROC		; std::_Container_base0::_Orphan_all, COMDAT
-
-; 44   : 		}
-
-	ret	0
-?_Orphan_all@_Container_base0@std@@QEAAXXZ ENDP		; std::_Container_base0::_Orphan_all
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?_Allocate@std@@YAPEAX_K0_N@Z
-_TEXT	SEGMENT
-_Count$dead$ = 48
-_Sz$ = 56
-_Try_aligned_allocation$dead$ = 64
-?_Allocate@std@@YAPEAX_K0_N@Z PROC			; std::_Allocate, COMDAT
-
-; 48   : 	{	// allocate storage for _Count elements of size _Sz
-
-$LN12:
-	sub	rsp, 40					; 00000028H
-	mov	r8, rdx
-
-; 49   : 	void *_Ptr = 0;
-; 50   : 
-; 51   : 	if (_Count == 0)
-; 52   : 		return (_Ptr);
-; 53   : 
-; 54   : 	// check overflow of multiply
-; 55   : 	if ((size_t)(-1) / _Sz < _Count)
-
-	or	rax, -1
-	xor	edx, edx
-	div	r8
-	cmp	rax, 100000				; 000186a0H
-	jae	SHORT $LN3@Allocate
-
-; 56   : 		_Xbad_alloc();	// report no memory
-
-	call	QWORD PTR __imp_?_Xbad_alloc@std@@YAXXZ
-	int	3
-$LN3@Allocate:
-
-; 57   : 	const size_t _User_size = _Count * _Sz;
-
-	imul	rcx, r8, 100000				; 000186a0H
-
-; 58   : 
-; 59   :  #if defined(_M_IX86) || defined(_M_X64)
-; 60   : 	if (_Try_aligned_allocation
-; 61   : 		&& _BIG_ALLOCATION_THRESHOLD <= _User_size)
-
-	cmp	rcx, 4096				; 00001000H
-	jb	SHORT $LN4@Allocate
-
-; 62   : 		{	// allocate large block
-; 63   : 		static_assert(sizeof (void *) < _BIG_ALLOCATION_ALIGNMENT,
-; 64   : 			"Big allocations should at least match vector register size");
-; 65   : 		const size_t _Block_size = _NON_USER_SIZE + _User_size;
-
-	lea	rax, QWORD PTR [rcx+39]
-
-; 66   : 		if (_Block_size <= _User_size)
-
-	cmp	rax, rcx
-	ja	SHORT $LN6@Allocate
-
-; 67   : 			_Xbad_alloc();	// report no memory
-
-	call	QWORD PTR __imp_?_Xbad_alloc@std@@YAXXZ
-	int	3
-$LN6@Allocate:
-
-; 68   : 		const uintptr_t _Ptr_container =
-; 69   : 			reinterpret_cast<uintptr_t>(::operator new(_Block_size));
-
-	mov	rcx, rax
-	call	??2@YAPEAX_K@Z				; operator new
-
-; 70   : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container != 0);
-; 71   : 		_Ptr = reinterpret_cast<void *>((_Ptr_container + _NON_USER_SIZE)
-
-	lea	rcx, QWORD PTR [rax+39]
-	and	rcx, -32				; ffffffffffffffe0H
-
-; 72   : 			& ~(_BIG_ALLOCATION_ALIGNMENT - 1));
-; 73   : 		static_cast<uintptr_t *>(_Ptr)[-1] = _Ptr_container;
-
-	mov	QWORD PTR [rcx-8], rax
-
-; 84   : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr != 0);
-; 85   : 		}
-; 86   : 	return (_Ptr);
-
-	mov	rax, rcx
-
-; 87   : 	}
-
-	add	rsp, 40					; 00000028H
-	ret	0
-$LN4@Allocate:
-
-; 74   : 
-; 75   :  #ifdef _DEBUG
-; 76   : 		static_cast<uintptr_t *>(_Ptr)[-2] = _BIG_ALLOCATION_SENTINEL;
-; 77   :  #endif /* _DEBUG */
-; 78   : 		}
-; 79   : 	else
-; 80   :  #endif /* defined(_M_IX86) || defined(_M_X64) */
-; 81   : 
-; 82   : 		{	// allocate normal block
-; 83   : 		_Ptr = ::operator new(_User_size);
-
-	call	??2@YAPEAX_K@Z				; operator new
-	mov	rcx, rax
-
-; 87   : 	}
-
-	add	rsp, 40					; 00000028H
-	ret	0
-$LN11@Allocate:
-?_Allocate@std@@YAPEAX_K0_N@Z ENDP			; std::_Allocate
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?_Deallocate@std@@YAXPEAX_K1@Z
-_TEXT	SEGMENT
-_Ptr$ = 48
-_Count$ = 56
-_Sz$ = 64
-?_Deallocate@std@@YAXPEAX_K1@Z PROC			; std::_Deallocate, COMDAT
-
-; 92   : 	{	// deallocate storage for _Count elements of size _Sz
-
-$LN11:
-	sub	rsp, 40					; 00000028H
-	mov	r9, rdx
-
-; 93   :  #if defined(_M_IX86) || defined(_M_X64)
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	or	rax, -1
-	xor	edx, edx
-	div	r8
-	cmp	r9, rax
-	jbe	SHORT $LN2@Deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN2@Deallocate:
-
-; 95   : 	const size_t _User_size = _Count * _Sz;
-
-	imul	r9, r8
-
-; 96   : 	if (_BIG_ALLOCATION_THRESHOLD <= _User_size)
-
-	cmp	r9, 4096				; 00001000H
-	jb	SHORT $LN3@Deallocate
-
-; 97   : 		{	// deallocate large block
-; 98   : 		const uintptr_t _Ptr_user = reinterpret_cast<uintptr_t>(_Ptr);
-; 99   : 		_SCL_SECURE_ALWAYS_VALIDATE(
-
-	test	cl, 31
-	je	SHORT $LN4@Deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN4@Deallocate:
-
-; 100  : 			(_Ptr_user & (_BIG_ALLOCATION_ALIGNMENT - 1)) == 0);
-; 101  : 		const uintptr_t _Ptr_ptr = _Ptr_user - sizeof(void *);
-; 102  : 		const uintptr_t _Ptr_container =
-; 103  : 			*reinterpret_cast<uintptr_t *>(_Ptr_ptr);
-
-	mov	rax, QWORD PTR [rcx-8]
-
-; 104  : 
-; 105  :  #ifdef _DEBUG
-; 106  : 		// If the following asserts, it likely means that we are performing
-; 107  : 		// an aligned delete on memory coming from an unaligned allocation.
-; 108  : 		_SCL_SECURE_ALWAYS_VALIDATE(
-; 109  : 			reinterpret_cast<uintptr_t *>(_Ptr_ptr)[-1] ==
-; 110  : 				_BIG_ALLOCATION_SENTINEL);
-; 111  :  #endif /* _DEBUG */
-; 112  : 
-; 113  : 		// Extra paranoia on aligned allocation/deallocation
-; 114  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container < _Ptr_user);
-
-	cmp	rax, rcx
-	jb	SHORT $LN5@Deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN5@Deallocate:
-
-; 115  : 
-; 116  :  #ifdef _DEBUG
-; 117  : 		_SCL_SECURE_ALWAYS_VALIDATE(2 * sizeof(void *)
-; 118  : 			<= _Ptr_user - _Ptr_container);
-; 119  : 
-; 120  :  #else /* _DEBUG */
-; 121  : 		_SCL_SECURE_ALWAYS_VALIDATE(sizeof(void *)
-
-	sub	rcx, rax
-	cmp	rcx, 8
-	jae	SHORT $LN6@Deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN6@Deallocate:
-
-; 122  : 			<= _Ptr_user - _Ptr_container);
-; 123  :  #endif /* _DEBUG */
-; 124  : 
-; 125  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_user - _Ptr_container
-
-	cmp	rcx, 39					; 00000027H
-	jbe	SHORT $LN7@Deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN7@Deallocate:
-
-; 126  : 			<= _NON_USER_SIZE);
-; 127  : 
-; 128  : 		_Ptr = reinterpret_cast<void *>(_Ptr_container);
-
-	mov	rcx, rax
-$LN3@Deallocate:
-
-; 133  : 	}
-
-	add	rsp, 40					; 00000028H
-
-; 129  : 		}
-; 130  :  #endif /* defined(_M_IX86) || defined(_M_X64) */
-; 131  : 
-; 132  : 	::operator delete(_Ptr);
-
-	jmp	??3@YAXPEAX@Z				; operator delete
-$LN10@Deallocate:
-?_Deallocate@std@@YAXPEAX_K1@Z ENDP			; std::_Deallocate
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-;	COMDAT ?mul@Simd4f@@SA?AT1@AEBT1@0@Z
-_TEXT	SEGMENT
-$T2 = 8
-lhs$ = 16
-rhs$ = 24
-?mul@Simd4f@@SA?AT1@AEBT1@0@Z PROC			; Simd4f::mul, COMDAT
-
-; 12   : 		Simd4f res;
-; 13   : 		res.reg = _mm_mul_ps(lhs.reg, rhs.reg);
-
-	movaps	xmm0, XMMWORD PTR [rdx]
-
-; 14   : 		return res;
-
-	mov	rax, rcx
-	mulps	xmm0, XMMWORD PTR [r8]
-	movaps	XMMWORD PTR [rcx], xmm0
-
-; 15   : 	}
-
-	ret	0
-?mul@Simd4f@@SA?AT1@AEBT1@0@Z ENDP			; Simd4f::mul
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-;	COMDAT ?add@Simd4f@@SA?AT1@AEBT1@0@Z
-_TEXT	SEGMENT
-$T2 = 8
-lhs$ = 16
-rhs$ = 24
-?add@Simd4f@@SA?AT1@AEBT1@0@Z PROC			; Simd4f::add, COMDAT
-
-; 24   : 		Simd4f res;
-; 25   : 		res.reg = _mm_add_ps(lhs.reg, rhs.reg);
-
-	movaps	xmm0, XMMWORD PTR [rdx]
-
-; 26   : 		return res;
-
-	mov	rax, rcx
-	addps	xmm0, XMMWORD PTR [r8]
-	movaps	XMMWORD PTR [rcx], xmm0
-
-; 27   : 	}
-
-	ret	0
-?add@Simd4f@@SA?AT1@AEBT1@0@Z ENDP			; Simd4f::add
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-;	COMDAT ?mul@Simd4f@@SA?AT1@AEBT1@M@Z
-_TEXT	SEGMENT
-$T3 = 8
-lhs$ = 16
-rhs$ = 24
-?mul@Simd4f@@SA?AT1@AEBT1@M@Z PROC			; Simd4f::mul, COMDAT
-
-; 36   : 		Simd4f res;
-; 37   : 		__m128 tmp = _mm_set1_ps(rhs);
-
-	movaps	xmm0, xmm2
-
-; 38   : 		res.reg = _mm_mul_ps(lhs.reg, tmp);
-; 39   : 		return res;
-
-	mov	rax, rcx
-	shufps	xmm0, xmm0, 0
-	mulps	xmm0, XMMWORD PTR [rdx]
-	movaps	XMMWORD PTR [rcx], xmm0
-
-; 40   : 	}
-
-	ret	0
-?mul@Simd4f@@SA?AT1@AEBT1@M@Z ENDP			; Simd4f::mul
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-;	COMDAT ?add@?$VectorSpec@M$02@@IEAAXAEBV1@@Z
-_TEXT	SEGMENT
-this$ = 8
-rhs$ = 16
-?add@?$VectorSpec@M$02@@IEAAXAEBV1@@Z PROC		; VectorSpec<float,3>::add, COMDAT
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 25   : 		res.reg = _mm_add_ps(lhs.reg, rhs.reg);
-
-	movaps	xmm0, XMMWORD PTR [rdx]
-	addps	xmm0, XMMWORD PTR [rcx]
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 404  : 		simd = Simd4f::add(simd, rhs.simd);
-
-	movaps	XMMWORD PTR [rcx], xmm0
-
-; 405  : 	}
-
-	ret	0
-?add@?$VectorSpec@M$02@@IEAAXAEBV1@@Z ENDP		; VectorSpec<float,3>::add
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-;	COMDAT ?mul@?$VectorSpec@M$02@@IEAAXM@Z
-_TEXT	SEGMENT
-this$ = 8
-rhs$ = 16
-?mul@?$VectorSpec@M$02@@IEAAXM@Z PROC			; VectorSpec<float,3>::mul, COMDAT
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 37   : 		__m128 tmp = _mm_set1_ps(rhs);
-
-	movaps	xmm0, xmm1
-	shufps	xmm0, xmm0, 0
-
-; 38   : 		res.reg = _mm_mul_ps(lhs.reg, tmp);
-
-	mulps	xmm0, XMMWORD PTR [rcx]
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 412  : 		simd = Simd4f::mul(simd, rhs);
-
-	movaps	XMMWORD PTR [rcx], xmm0
-
-; 413  : 	}
-
-	ret	0
-?mul@?$VectorSpec@M$02@@IEAAXM@Z ENDP			; VectorSpec<float,3>::mul
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-;	COMDAT ?mul@?$VectorSpec@M$03@@IEAAXAEBV1@@Z
-_TEXT	SEGMENT
-this$ = 8
-rhs$ = 16
-?mul@?$VectorSpec@M$03@@IEAAXAEBV1@@Z PROC		; VectorSpec<float,4>::mul, COMDAT
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 13   : 		res.reg = _mm_mul_ps(lhs.reg, rhs.reg);
-
-	movaps	xmm0, XMMWORD PTR [rdx]
-	mulps	xmm0, XMMWORD PTR [rcx]
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 458  : 		simd = Simd4f::mul(simd, rhs.simd);
-
-	movaps	XMMWORD PTR [rcx], xmm0
-
-; 459  : 	}
-
-	ret	0
-?mul@?$VectorSpec@M$03@@IEAAXAEBV1@@Z ENDP		; VectorSpec<float,4>::mul
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-;	COMDAT ?add@?$VectorSpec@M$03@@IEAAXAEBV1@@Z
-_TEXT	SEGMENT
-this$ = 8
-rhs$ = 16
-?add@?$VectorSpec@M$03@@IEAAXAEBV1@@Z PROC		; VectorSpec<float,4>::add, COMDAT
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 25   : 		res.reg = _mm_add_ps(lhs.reg, rhs.reg);
-
-	movaps	xmm0, XMMWORD PTR [rdx]
-	addps	xmm0, XMMWORD PTR [rcx]
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 464  : 		simd = Simd4f::add(simd, rhs.simd);
-
-	movaps	XMMWORD PTR [rcx], xmm0
-
-; 465  : 	}
-
-	ret	0
-?add@?$VectorSpec@M$03@@IEAAXAEBV1@@Z ENDP		; VectorSpec<float,4>::add
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-;	COMDAT ?mul@?$VectorSpec@M$03@@IEAAXM@Z
-_TEXT	SEGMENT
-this$ = 8
-rhs$ = 16
-?mul@?$VectorSpec@M$03@@IEAAXM@Z PROC			; VectorSpec<float,4>::mul, COMDAT
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 37   : 		__m128 tmp = _mm_set1_ps(rhs);
-
-	movaps	xmm0, xmm1
-	shufps	xmm0, xmm0, 0
-
-; 38   : 		res.reg = _mm_mul_ps(lhs.reg, tmp);
-
-	mulps	xmm0, XMMWORD PTR [rcx]
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 472  : 		simd = Simd4f::mul(simd, rhs);
-
-	movaps	XMMWORD PTR [rcx], xmm0
-
-; 473  : 	}
-
-	ret	0
-?mul@?$VectorSpec@M$03@@IEAAXM@Z ENDP			; VectorSpec<float,4>::mul
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
 ; File c:\home\programming\mathter\mathter\vector.hpp
 ;	COMDAT ?Cross@?$VectorSpec@M$02@@SA?AV?$Vector@M$02@@AEBV2@0@Z
 _TEXT	SEGMENT
@@ -2666,78 +2108,22 @@ lhs$ = 16
 rhs$ = 24
 ?Cross@?$VectorSpec@M$02@@SA?AV?$Vector@M$02@@AEBV2@0@Z PROC ; VectorSpec<float,3>::Cross, COMDAT
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 	mov	QWORD PTR [rcx], rax
 	mov	DWORD PTR [rcx+8], eax
 
-; 973  : 	return Vector<float, 3>(lhs.y * rhs.z - lhs.z * rhs.y,
+; 972  : 	return Vector<float, 3>(lhs.y * rhs.z - lhs.z * rhs.y,
 
 	mov	rax, rcx
 
-; 974  : 							lhs.z * rhs.x - lhs.x * rhs.z,
-; 975  : 							lhs.x * rhs.y - lhs.y * rhs.x);
-; 976  : }
+; 973  : 							lhs.z * rhs.x - lhs.x * rhs.z,
+; 974  : 							lhs.x * rhs.y - lhs.y * rhs.x);
+; 975  : }
 
 	ret	0
 ?Cross@?$VectorSpec@M$02@@SA?AV?$Vector@M$02@@AEBV2@0@Z ENDP ; VectorSpec<float,3>::Cross
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\chrono
-;	COMDAT ?now@steady_clock@chrono@std@@SA?AV?$time_point@Usteady_clock@chrono@std@@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@23@@23@XZ
-_TEXT	SEGMENT
-__$ReturnUdt$ = 48
-?now@steady_clock@chrono@std@@SA?AV?$time_point@Usteady_clock@chrono@std@@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@23@@23@XZ PROC ; std::chrono::steady_clock::now, COMDAT
-
-; 998  : 		{	// get current time
-
-$LN8:
-	mov	QWORD PTR [rsp+8], rbx
-	push	rdi
-	sub	rsp, 32					; 00000020H
-	mov	rdi, rcx
-
-; 999  : 		const long long _Freq = _Query_perf_frequency();	// doesn't change after system boot
-
-	call	QWORD PTR __imp__Query_perf_frequency
-	mov	rbx, rax
-
-; 1000 : 		const long long _Ctr = _Query_perf_counter();
-
-	call	QWORD PTR __imp__Query_perf_counter
-
-; 1001 : 		static_assert(period::num == 1, "This assumes period::num == 1.");
-; 1002 : 		const long long _Whole = (_Ctr / _Freq) * period::den;
-; 1003 : 		const long long _Part = (_Ctr % _Freq) * period::den / _Freq;
-
-	cdq
-	idiv	rbx
-	mov	r8, rax
-	imul	rax, rdx, 1000000000			; 3b9aca00H
-	imul	rcx, r8, 1000000000			; 3b9aca00H
-	cdq
-	idiv	rbx
-
-; 1005 : 		}
-
-	mov	rbx, QWORD PTR [rsp+48]
-	add	rax, rcx
-
-; 243  : 		: _MyDur(_Other)
-
-	mov	QWORD PTR [rdi], rax
-
-; 1004 : 		return (time_point(duration(_Whole + _Part)));
-
-	mov	rax, rdi
-
-; 1005 : 		}
-
-	add	rsp, 32					; 00000020H
-	pop	rdi
-	ret	0
-?now@steady_clock@chrono@std@@SA?AV?$time_point@Usteady_clock@chrono@std@@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@23@@23@XZ ENDP ; std::chrono::steady_clock::now
 _TEXT	ENDS
 ; Function compile flags: /Ogtpy
 ; File c:\home\programming\mathter\main.cpp
@@ -2873,7 +2259,7 @@ $LN953:
 	mov	rcx, r15
 ; File c:\home\programming\mathter\mathter\vector.hpp
 
-; 458  : 		simd = Simd4f::mul(simd, rhs.simd);
+; 457  : 		simd = Simd4f::mul(simd, rhs.simd);
 
 	movaps	XMMWORD PTR v3$[rsp], xmm1
 ; File c:\home\programming\mathter\main.cpp
@@ -2933,7 +2319,7 @@ $LL109@main:
 	movaps	xmm0, XMMWORD PTR __xmm@4040000040400000400000003f800000
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 144  : 	for (int y = 0; y < Rows1; ++y) {
+; 168  : 	for (int y = 0; y < Rows1; ++y) {
 
 	mov	rax, rdi
 	movaps	xmm1, XMMWORD PTR __xmm@40c0000040c0000040a0000040800000
@@ -2965,18 +2351,18 @@ $LL393@main:
 	mulps	xmm0, xmm2
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 147  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
+; 171  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
 
 	movups	XMMWORD PTR $T17[rsp+rax], xmm0
 	add	rax, 16
 
-; 144  : 	for (int y = 0; y < Rows1; ++y) {
+; 168  : 	for (int y = 0; y < Rows1; ++y) {
 
 	cmp	rax, 64					; 00000040H
 	jl	SHORT $LL393@main
 
-; 148  : 	}
-; 149  : 	for (int x = 1; x < Match; ++x) {
+; 172  : 	}
+; 173  : 	for (int x = 1; x < Match; ++x) {
 
 	mov	ebx, 4
 	lea	r9, QWORD PTR mat1$[rbp-252]
@@ -2985,7 +2371,7 @@ $LL393@main:
 	npad	3
 $LL396@main:
 
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
+; 174  : 		for (int y = 0; y < Rows1; ++y) {
 
 	lea	rax, QWORD PTR $T17[rsp]
 	mov	rcx, r9
@@ -2999,11 +2385,11 @@ $LL399@main:
 	movss	xmm0, DWORD PTR [rcx]
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
+; 174  : 		for (int y = 0; y < Rows1; ++y) {
 
 	add	rcx, 16
 
-; 151  : 			scalarMultiplier = rhs.stripes[x];
+; 175  : 			scalarMultiplier = rhs.stripes[x];
 
 	movups	xmm1, XMMWORD PTR [r8]
 ; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
@@ -3021,19 +2407,19 @@ $LL399@main:
 	addps	xmm1, XMMWORD PTR [rax]
 ; File c:\home\programming\mathter\mathter\vector.hpp
 
-; 464  : 		simd = Simd4f::add(simd, rhs.simd);
+; 463  : 		simd = Simd4f::add(simd, rhs.simd);
 
 	movaps	XMMWORD PTR [rax], xmm1
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
+; 174  : 		for (int y = 0; y < Rows1; ++y) {
 
 	add	rax, 16
 	sub	rdx, 1
 	jne	SHORT $LL399@main
 
-; 148  : 	}
-; 149  : 	for (int x = 1; x < Match; ++x) {
+; 172  : 	}
+; 173  : 	for (int x = 1; x < Match; ++x) {
 
 	add	r8, 16
 	add	r9, rbx
@@ -3051,7 +2437,7 @@ $LL399@main:
 	call	QWORD PTR __imp_??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@P6AAEAV01@AEAV01@@Z@Z
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 164  : 	for (int i = 0; i < Rows; ++i) {
+; 188  : 	for (int i = 0; i < Rows; ++i) {
 
 	mov	rax, rdi
 	npad	12
@@ -3064,12 +2450,12 @@ $LL428@main:
 	addps	xmm1, XMMWORD PTR mat1$[rbp+rax-256]
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 165  : 		result.stripes[i] = lhs.stripes[i] + rhs.stripes[i];
+; 189  : 		result.stripes[i] = lhs.stripes[i] + rhs.stripes[i];
 
 	movaps	XMMWORD PTR $T30[rsp+rax], xmm1
 	add	rax, 16
 
-; 164  : 	for (int i = 0; i < Rows; ++i) {
+; 188  : 	for (int i = 0; i < Rows; ++i) {
 
 	cmp	rax, 64					; 00000040H
 	jl	SHORT $LL428@main
@@ -3089,7 +2475,7 @@ $LL428@main:
 	movss	xmm0, DWORD PTR __real@3f800000
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 144  : 	for (int y = 0; y < Rows1; ++y) {
+; 168  : 	for (int y = 0; y < Rows1; ++y) {
 
 	mov	rax, rdi
 ; File c:\home\programming\mathter\main.cpp
@@ -3110,7 +2496,7 @@ $LL428@main:
 	mov	DWORD PTR mat4$[rsp+8], 1077936128	; 40400000H
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 144  : 	for (int y = 0; y < Rows1; ++y) {
+; 168  : 	for (int y = 0; y < Rows1; ++y) {
 
 	movaps	xmm1, XMMWORD PTR mat4$[rsp]
 ; File c:\home\programming\mathter\main.cpp
@@ -3151,18 +2537,18 @@ $LL549@main:
 	mulps	xmm0, xmm1
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 147  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
+; 171  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
 
 	movups	XMMWORD PTR $T36[rbp+rax-256], xmm0
 	add	rax, 16
 
-; 144  : 	for (int y = 0; y < Rows1; ++y) {
+; 168  : 	for (int y = 0; y < Rows1; ++y) {
 
 	cmp	rax, 48					; 00000030H
 	jl	SHORT $LL549@main
 
-; 148  : 	}
-; 149  : 	for (int x = 1; x < Match; ++x) {
+; 172  : 	}
+; 173  : 	for (int x = 1; x < Match; ++x) {
 
 	lea	r9, QWORD PTR mat3$[rsp+4]
 	mov	r10d, 2
@@ -3170,7 +2556,7 @@ $LL549@main:
 	npad	4
 $LL552@main:
 
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
+; 174  : 		for (int y = 0; y < Rows1; ++y) {
 
 	lea	rax, QWORD PTR $T36[rbp-256]
 	mov	rcx, r9
@@ -3184,11 +2570,11 @@ $LL555@main:
 	movss	xmm0, DWORD PTR [rcx]
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
+; 174  : 		for (int y = 0; y < Rows1; ++y) {
 
 	add	rcx, 16
 
-; 151  : 			scalarMultiplier = rhs.stripes[x];
+; 175  : 			scalarMultiplier = rhs.stripes[x];
 
 	movups	xmm1, XMMWORD PTR [r8]
 ; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
@@ -3207,19 +2593,19 @@ $LL555@main:
 	addps	xmm0, xmm1
 ; File c:\home\programming\mathter\mathter\vector.hpp
 
-; 404  : 		simd = Simd4f::add(simd, rhs.simd);
+; 403  : 		simd = Simd4f::add(simd, rhs.simd);
 
 	movaps	XMMWORD PTR [rax], xmm0
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
+; 174  : 		for (int y = 0; y < Rows1; ++y) {
 
 	add	rax, 16
 	sub	rdx, 1
 	jne	SHORT $LL555@main
 
-; 148  : 	}
-; 149  : 	for (int x = 1; x < Match; ++x) {
+; 172  : 	}
+; 173  : 	for (int x = 1; x < Match; ++x) {
 
 	add	r8, 16
 	add	r9, rbx
@@ -3282,161 +2668,161 @@ $LL555@main:
 	call	QWORD PTR __imp_??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@P6AAEAV01@AEAV01@@Z@Z
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 145  : 		scalarMultiplier = rhs.stripes[0];
+; 169  : 		scalarMultiplier = rhs.stripes[0];
 
 	movq	QWORD PTR scalarMultiplier$62[rsp], xmm6
 ; File c:\home\programming\mathter\mathter\vector.hpp
 
-; 174  : 		this->x *= rhs;
+; 173  : 		this->x *= rhs;
 
 	movss	xmm0, DWORD PTR scalarMultiplier$62[rsp]
 	mulss	xmm0, DWORD PTR __real@40a00000
 
-; 175  : 		this->y *= rhs;
+; 174  : 		this->y *= rhs;
 
 	movss	xmm1, DWORD PTR scalarMultiplier$62[rsp+4]
 	mulss	xmm1, DWORD PTR __real@40a00000
 	movss	DWORD PTR scalarMultiplier$62[rsp], xmm0
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 147  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
+; 171  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
 
 	movq	QWORD PTR $T46[rsp], xmm6
 ; File c:\home\programming\mathter\mathter\vector.hpp
 
-; 164  : 		this->x += rhs.x;
+; 163  : 		this->x += rhs.x;
 
 	movss	xmm2, DWORD PTR $T46[rsp]
 
-; 165  : 		this->y += rhs.y;
+; 164  : 		this->y += rhs.y;
 
 	movss	xmm3, DWORD PTR $T46[rsp+4]
 
-; 175  : 		this->y *= rhs;
+; 174  : 		this->y *= rhs;
 
 	movss	DWORD PTR scalarMultiplier$62[rsp+4], xmm1
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 147  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
+; 171  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
 
 	mov	rax, QWORD PTR scalarMultiplier$62[rsp]
 
-; 151  : 			scalarMultiplier = rhs.stripes[x];
+; 175  : 			scalarMultiplier = rhs.stripes[x];
 
 	psrldq	xmm6, 8
 	movq	QWORD PTR scalarMultiplier$62[rsp], xmm6
 ; File c:\home\programming\mathter\mathter\vector.hpp
 
-; 174  : 		this->x *= rhs;
+; 173  : 		this->x *= rhs;
 
 	movss	xmm0, DWORD PTR scalarMultiplier$62[rsp]
 	mulss	xmm0, DWORD PTR __real@40000000
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 147  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
+; 171  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
 
 	mov	QWORD PTR $T46[rsp+8], rax
 ; File c:\home\programming\mathter\mathter\vector.hpp
 
-; 175  : 		this->y *= rhs;
+; 174  : 		this->y *= rhs;
 
 	movss	xmm1, DWORD PTR scalarMultiplier$62[rsp+4]
 	mulss	xmm1, DWORD PTR __real@40000000
 
-; 164  : 		this->x += rhs.x;
+; 163  : 		this->x += rhs.x;
 
 	movss	xmm4, DWORD PTR $T46[rsp+8]
 	addss	xmm2, xmm0
 
-; 165  : 		this->y += rhs.y;
+; 164  : 		this->y += rhs.y;
 
 	movss	xmm5, DWORD PTR $T46[rsp+12]
 	addss	xmm3, xmm1
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 151  : 			scalarMultiplier = rhs.stripes[x];
+; 175  : 			scalarMultiplier = rhs.stripes[x];
 
 	movq	QWORD PTR scalarMultiplier$62[rsp], xmm6
 ; File c:\home\programming\mathter\mathter\vector.hpp
 
-; 174  : 		this->x *= rhs;
+; 173  : 		this->x *= rhs;
 
 	movss	xmm0, DWORD PTR scalarMultiplier$62[rsp]
 	mulss	xmm0, DWORD PTR __real@40c00000
 
-; 175  : 		this->y *= rhs;
+; 174  : 		this->y *= rhs;
 
 	movss	xmm1, DWORD PTR scalarMultiplier$62[rsp+4]
 	mulss	xmm1, DWORD PTR __real@40c00000
 
-; 164  : 		this->x += rhs.x;
+; 163  : 		this->x += rhs.x;
 
 	addss	xmm4, xmm0
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 151  : 			scalarMultiplier = rhs.stripes[x];
+; 175  : 			scalarMultiplier = rhs.stripes[x];
 
 	movq	QWORD PTR scalarMultiplier$62[rsp], xmm7
 ; File c:\home\programming\mathter\mathter\vector.hpp
 
-; 175  : 		this->y *= rhs;
+; 174  : 		this->y *= rhs;
 
 	movss	xmm0, DWORD PTR scalarMultiplier$62[rsp+4]
 	mulss	xmm0, DWORD PTR __real@40400000
 
-; 165  : 		this->y += rhs.y;
+; 164  : 		this->y += rhs.y;
 
 	addss	xmm5, xmm1
 
-; 174  : 		this->x *= rhs;
+; 173  : 		this->x *= rhs;
 
 	movss	xmm1, DWORD PTR scalarMultiplier$62[rsp]
 	mulss	xmm1, DWORD PTR __real@40400000
 
-; 165  : 		this->y += rhs.y;
+; 164  : 		this->y += rhs.y;
 
 	addss	xmm3, xmm0
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 151  : 			scalarMultiplier = rhs.stripes[x];
+; 175  : 			scalarMultiplier = rhs.stripes[x];
 
 	movq	QWORD PTR scalarMultiplier$62[rsp], xmm7
 ; File c:\home\programming\mathter\mathter\vector.hpp
 
-; 175  : 		this->y *= rhs;
+; 174  : 		this->y *= rhs;
 
 	movss	xmm0, DWORD PTR scalarMultiplier$62[rsp+4]
 	mulss	xmm0, DWORD PTR __real@40e00000
 
-; 164  : 		this->x += rhs.x;
+; 163  : 		this->x += rhs.x;
 
 	addss	xmm2, xmm1
 
-; 174  : 		this->x *= rhs;
+; 173  : 		this->x *= rhs;
 
 	movss	xmm1, DWORD PTR scalarMultiplier$62[rsp]
 	mulss	xmm1, DWORD PTR __real@40e00000
 
-; 165  : 		this->y += rhs.y;
+; 164  : 		this->y += rhs.y;
 
 	addss	xmm5, xmm0
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 151  : 			scalarMultiplier = rhs.stripes[x];
+; 175  : 			scalarMultiplier = rhs.stripes[x];
 
 	psrldq	xmm7, 8
 	movq	QWORD PTR scalarMultiplier$62[rsp], xmm7
 ; File c:\home\programming\mathter\mathter\vector.hpp
 
-; 174  : 		this->x *= rhs;
+; 173  : 		this->x *= rhs;
 
 	movss	xmm0, DWORD PTR scalarMultiplier$62[rsp]
 
-; 164  : 		this->x += rhs.x;
+; 163  : 		this->x += rhs.x;
 
 	addss	xmm4, xmm1
 
-; 175  : 		this->y *= rhs;
+; 174  : 		this->y *= rhs;
 
 	movss	xmm1, DWORD PTR scalarMultiplier$62[rsp+4]
 	mulss	xmm0, DWORD PTR __real@40800000
@@ -3448,21 +2834,21 @@ $LL555@main:
 	mov	rcx, QWORD PTR __imp_?cout@std@@3V?$basic_ostream@DU?$char_traits@D@std@@@1@A
 ; File c:\home\programming\mathter\mathter\vector.hpp
 
-; 164  : 		this->x += rhs.x;
+; 163  : 		this->x += rhs.x;
 
 	addss	xmm2, xmm0
 
-; 165  : 		this->y += rhs.y;
+; 164  : 		this->y += rhs.y;
 
 	addss	xmm3, xmm1
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 151  : 			scalarMultiplier = rhs.stripes[x];
+; 175  : 			scalarMultiplier = rhs.stripes[x];
 
 	movq	QWORD PTR scalarMultiplier$62[rsp], xmm7
 ; File c:\home\programming\mathter\mathter\vector.hpp
 
-; 174  : 		this->x *= rhs;
+; 173  : 		this->x *= rhs;
 
 	movss	xmm0, DWORD PTR scalarMultiplier$62[rsp]
 ; File c:\home\programming\mathter\main.cpp
@@ -3472,18 +2858,18 @@ $LL555@main:
 	lea	rdx, QWORD PTR $T46[rsp]
 ; File c:\home\programming\mathter\mathter\vector.hpp
 
-; 175  : 		this->y *= rhs;
+; 174  : 		this->y *= rhs;
 
 	movss	xmm1, DWORD PTR scalarMultiplier$62[rsp+4]
 	mulss	xmm0, DWORD PTR __real@41000000
 	mulss	xmm1, DWORD PTR __real@41000000
 
-; 164  : 		this->x += rhs.x;
+; 163  : 		this->x += rhs.x;
 
 	addss	xmm4, xmm0
 	movss	DWORD PTR $T46[rsp], xmm2
 
-; 165  : 		this->y += rhs.y;
+; 164  : 		this->y += rhs.y;
 
 	movss	DWORD PTR $T46[rsp+4], xmm3
 	addss	xmm5, xmm1
@@ -3510,7 +2896,7 @@ $LL709@main:
 	movss	xmm0, DWORD PTR mat8$[rsp+rdi*8]
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 144  : 	for (int y = 0; y < Rows1; ++y) {
+; 168  : 	for (int y = 0; y < Rows1; ++y) {
 
 	lea	rax, QWORD PTR [rax+16]
 ; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
@@ -3520,7 +2906,7 @@ $LL709@main:
 	shufps	xmm0, xmm0, 0
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 144  : 	for (int y = 0; y < Rows1; ++y) {
+; 168  : 	for (int y = 0; y < Rows1; ++y) {
 
 	inc	rdi
 ; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
@@ -3530,13 +2916,13 @@ $LL709@main:
 	mulps	xmm0, xmm8
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 147  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
+; 171  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
 
 	movups	XMMWORD PTR [rax-16], xmm0
 	cmp	rdi, rbx
 	jl	SHORT $LL709@main
 
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
+; 174  : 		for (int y = 0; y < Rows1; ++y) {
 
 	lea	rax, QWORD PTR $T53[rbp-256]
 	lea	rcx, QWORD PTR mat8$[rsp+4]
@@ -3553,7 +2939,7 @@ $LL715@main:
 	movss	xmm1, DWORD PTR [rcx]
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
+; 174  : 		for (int y = 0; y < Rows1; ++y) {
 
 	add	rcx, 8
 ; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
@@ -3571,12 +2957,12 @@ $LL715@main:
 	addps	xmm0, xmm1
 ; File c:\home\programming\mathter\mathter\vector.hpp
 
-; 464  : 		simd = Simd4f::add(simd, rhs.simd);
+; 463  : 		simd = Simd4f::add(simd, rhs.simd);
 
 	movaps	XMMWORD PTR [rax], xmm0
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
+; 174  : 		for (int y = 0; y < Rows1; ++y) {
 
 	add	rax, 16
 	sub	rbx, 1
@@ -3773,1194 +3159,6 @@ $LL715@main:
 main	ENDP
 _TEXT	ENDS
 ; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ??R?$Matrix@M$01$03$00@@QEAAAEAMHH@Z
-_TEXT	SEGMENT
-this$ = 8
-col$ = 16
-row$ = 24
-??R?$Matrix@M$01$03$00@@QEAAAEAMHH@Z PROC		; Matrix<float,2,4,1>::operator(), COMDAT
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 684  : 		return data[idx];
-
-	movsxd	rax, edx
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 41   : 		return stripes[row][col];
-
-	movsxd	r8, r8d
-
-; 107  : 		return GetElement(col, row);
-
-	lea	rdx, QWORD PTR [rax+r8*2]
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 684  : 		return data[idx];
-
-	lea	rax, QWORD PTR [rcx+rdx*4]
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 108  : 	}
-
-	ret	0
-??R?$Matrix@M$01$03$00@@QEAAAEAMHH@Z ENDP		; Matrix<float,2,4,1>::operator()
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ??R?$Matrix@M$03$01$00@@QEAAAEAMHH@Z
-_TEXT	SEGMENT
-this$ = 8
-col$ = 16
-row$ = 24
-??R?$Matrix@M$03$01$00@@QEAAAEAMHH@Z PROC		; Matrix<float,4,2,1>::operator(), COMDAT
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 684  : 		return data[idx];
-
-	movsxd	rax, edx
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 41   : 		return stripes[row][col];
-
-	movsxd	r8, r8d
-
-; 107  : 		return GetElement(col, row);
-
-	lea	rdx, QWORD PTR [rax+r8*4]
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 684  : 		return data[idx];
-
-	lea	rax, QWORD PTR [rcx+rdx*4]
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 108  : 	}
-
-	ret	0
-??R?$Matrix@M$03$01$00@@QEAAAEAMHH@Z ENDP		; Matrix<float,4,2,1>::operator()
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ??R?$Matrix@M$03$03$00@@QEAAAEAMHH@Z
-_TEXT	SEGMENT
-this$ = 8
-col$ = 16
-row$ = 24
-??R?$Matrix@M$03$03$00@@QEAAAEAMHH@Z PROC		; Matrix<float,4,4,1>::operator(), COMDAT
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 684  : 		return data[idx];
-
-	movsxd	rax, edx
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 41   : 		return stripes[row][col];
-
-	movsxd	r8, r8d
-
-; 107  : 		return GetElement(col, row);
-
-	lea	rdx, QWORD PTR [rax+r8*4]
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 684  : 		return data[idx];
-
-	lea	rax, QWORD PTR [rcx+rdx*4]
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 108  : 	}
-
-	ret	0
-??R?$Matrix@M$03$03$00@@QEAAAEAMHH@Z ENDP		; Matrix<float,4,4,1>::operator()
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ??R?$Matrix@M$02$02$00@@QEAAAEAMHH@Z
-_TEXT	SEGMENT
-this$ = 8
-col$ = 16
-row$ = 24
-??R?$Matrix@M$02$02$00@@QEAAAEAMHH@Z PROC		; Matrix<float,3,3,1>::operator(), COMDAT
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 684  : 		return data[idx];
-
-	movsxd	rax, edx
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 41   : 		return stripes[row][col];
-
-	movsxd	r8, r8d
-
-; 107  : 		return GetElement(col, row);
-
-	lea	rdx, QWORD PTR [rax+r8*4]
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 684  : 		return data[idx];
-
-	lea	rax, QWORD PTR [rcx+rdx*4]
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 108  : 	}
-
-	ret	0
-??R?$Matrix@M$02$02$00@@QEAAAEAMHH@Z ENDP		; Matrix<float,3,3,1>::operator()
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\chrono
-;	COMDAT ??0?$time_point@Usteady_clock@chrono@std@@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@23@@chrono@std@@QEAA@AEBV?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@12@@Z
-_TEXT	SEGMENT
-this$ = 8
-_Other$ = 16
-??0?$time_point@Usteady_clock@chrono@std@@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@23@@chrono@std@@QEAA@AEBV?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@12@@Z PROC ; std::chrono::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > >::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > >, COMDAT
-
-; 243  : 		: _MyDur(_Other)
-
-	mov	rax, QWORD PTR [rdx]
-	mov	QWORD PTR [rcx], rax
-
-; 245  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$time_point@Usteady_clock@chrono@std@@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@23@@chrono@std@@QEAA@AEBV?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@12@@Z ENDP ; std::chrono::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > >::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ?GetElement@?$MatrixData@M$01$03$00@@QEAAAEAMHH@Z
-_TEXT	SEGMENT
-this$ = 8
-col$ = 16
-row$ = 24
-?GetElement@?$MatrixData@M$01$03$00@@QEAAAEAMHH@Z PROC	; MatrixData<float,2,4,1>::GetElement, COMDAT
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 684  : 		return data[idx];
-
-	movsxd	rax, edx
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 41   : 		return stripes[row][col];
-
-	movsxd	r8, r8d
-	lea	rdx, QWORD PTR [rax+r8*2]
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 684  : 		return data[idx];
-
-	lea	rax, QWORD PTR [rcx+rdx*4]
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 42   : 	}
-
-	ret	0
-?GetElement@?$MatrixData@M$01$03$00@@QEAAAEAMHH@Z ENDP	; MatrixData<float,2,4,1>::GetElement
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ?GetElement@?$MatrixData@M$03$01$00@@QEAAAEAMHH@Z
-_TEXT	SEGMENT
-this$ = 8
-col$ = 16
-row$ = 24
-?GetElement@?$MatrixData@M$03$01$00@@QEAAAEAMHH@Z PROC	; MatrixData<float,4,2,1>::GetElement, COMDAT
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 684  : 		return data[idx];
-
-	movsxd	rax, edx
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 41   : 		return stripes[row][col];
-
-	movsxd	r8, r8d
-	lea	rdx, QWORD PTR [rax+r8*4]
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 684  : 		return data[idx];
-
-	lea	rax, QWORD PTR [rcx+rdx*4]
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 42   : 	}
-
-	ret	0
-?GetElement@?$MatrixData@M$03$01$00@@QEAAAEAMHH@Z ENDP	; MatrixData<float,4,2,1>::GetElement
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ?GetElement@?$MatrixData@M$02$02$00@@QEAAAEAMHH@Z
-_TEXT	SEGMENT
-this$ = 8
-col$ = 16
-row$ = 24
-?GetElement@?$MatrixData@M$02$02$00@@QEAAAEAMHH@Z PROC	; MatrixData<float,3,3,1>::GetElement, COMDAT
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 684  : 		return data[idx];
-
-	movsxd	rax, edx
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 41   : 		return stripes[row][col];
-
-	movsxd	r8, r8d
-	lea	rdx, QWORD PTR [rax+r8*4]
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 684  : 		return data[idx];
-
-	lea	rax, QWORD PTR [rcx+rdx*4]
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 42   : 	}
-
-	ret	0
-?GetElement@?$MatrixData@M$02$02$00@@QEAAAEAMHH@Z ENDP	; MatrixData<float,3,3,1>::GetElement
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ?GetElement@?$MatrixData@M$03$03$00@@QEAAAEAMHH@Z
-_TEXT	SEGMENT
-this$ = 8
-col$ = 16
-row$ = 24
-?GetElement@?$MatrixData@M$03$03$00@@QEAAAEAMHH@Z PROC	; MatrixData<float,4,4,1>::GetElement, COMDAT
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 684  : 		return data[idx];
-
-	movsxd	rax, edx
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 41   : 		return stripes[row][col];
-
-	movsxd	r8, r8d
-	lea	rdx, QWORD PTR [rax+r8*4]
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 684  : 		return data[idx];
-
-	lea	rax, QWORD PTR [rcx+rdx*4]
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 42   : 	}
-
-	ret	0
-?GetElement@?$MatrixData@M$03$03$00@@QEAAAEAMHH@Z ENDP	; MatrixData<float,4,4,1>::GetElement
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-;	COMDAT ??Bsentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEBA_NXZ
-_TEXT	SEGMENT
-this$ = 8
-??Bsentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEBA_NXZ PROC ; std::basic_ostream<char,std::char_traits<char> >::sentry::operator bool, COMDAT
-
-; 142  : 			return (_Ok);
-
-	movzx	eax, BYTE PTR [rcx+8]
-
-; 143  : 			}
-
-	ret	0
-??Bsentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEBA_NXZ ENDP ; std::basic_ostream<char,std::char_traits<char> >::sentry::operator bool
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ios
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-;	COMDAT ??1sentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-$T3 = 32
-this$ = 64
-??1sentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@XZ PROC ; std::basic_ostream<char,std::char_traits<char> >::sentry::~sentry, COMDAT
-
-; 130  : 			{	// destroy the object
-
-$LN13:
-	push	rbx
-	sub	rsp, 48					; 00000030H
-	mov	QWORD PTR $T3[rsp], -2
-	mov	rbx, rcx
-
-; 131  :  #if _HAS_EXCEPTIONS
-; 132  : 			if (!_XSTD uncaught_exception())
-
-	call	QWORD PTR __imp_?uncaught_exception@std@@YA_NXZ
-	npad	1
-	test	al, al
-	jne	SHORT $LN2@sentry
-
-; 133  : 				this->_Myostr._Osfx();
-
-	mov	rcx, QWORD PTR [rbx]
-	call	QWORD PTR __imp_?_Osfx@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAXXZ
-	npad	1
-$LN2@sentry:
-
-; 107  : 			if (_Myostr.rdbuf() != 0)
-
-	mov	rdx, QWORD PTR [rbx]
-	mov	rax, QWORD PTR [rdx]
-	movsxd	rcx, DWORD PTR [rax+4]
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ios
-
-; 92   : 		return (_Mystrbuf);
-
-	mov	rcx, QWORD PTR [rcx+rdx+72]
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-
-; 107  : 			if (_Myostr.rdbuf() != 0)
-
-	test	rcx, rcx
-	je	SHORT $LN12@sentry
-
-; 108  : 				_Myostr.rdbuf()->_Unlock();
-
-	mov	rax, QWORD PTR [rcx]
-	call	QWORD PTR [rax+16]
-	npad	1
-$LN12@sentry:
-
-; 134  : 
-; 135  :  #else /* _HAS_EXCEPTIONS */
-; 136  : 			this->_Myostr._Osfx();
-; 137  :  #endif /* _HAS_EXCEPTIONS */
-; 138  : 			}
-
-	add	rsp, 48					; 00000030H
-	pop	rbx
-	ret	0
-??1sentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@XZ ENDP ; std::basic_ostream<char,std::char_traits<char> >::sentry::~sentry
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ios
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xiosbase
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ios
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xiosbase
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-;	COMDAT ??0sentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@AEAV12@@Z
-_TEXT	SEGMENT
-$T8 = 32
-this$ = 64
-_Ostr$ = 72
-??0sentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@AEAV12@@Z PROC ; std::basic_ostream<char,std::char_traits<char> >::sentry::sentry, COMDAT
-
-; 123  : 			{	// construct locking and testing stream
-
-$LN26:
-	mov	QWORD PTR [rsp+8], rcx
-	push	rdi
-	sub	rsp, 48					; 00000030H
-	mov	QWORD PTR $T8[rsp], -2
-	mov	QWORD PTR [rsp+72], rbx
-	mov	rbx, rdx
-	mov	rdi, rcx
-
-; 99   : 			: _Myostr(_Ostr)
-
-	mov	QWORD PTR [rcx], rdx
-
-; 101  : 			if (_Myostr.rdbuf() != 0)
-
-	mov	rax, QWORD PTR [rdx]
-	movsxd	r8, DWORD PTR [rax+4]
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ios
-
-; 92   : 		return (_Mystrbuf);
-
-	mov	rcx, QWORD PTR [r8+rdx+72]
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-
-; 101  : 			if (_Myostr.rdbuf() != 0)
-
-	test	rcx, rcx
-	je	SHORT $LN6@sentry
-
-; 102  : 				_Myostr.rdbuf()->_Lock();
-
-	mov	rax, QWORD PTR [rcx]
-	call	QWORD PTR [rax+8]
-	npad	1
-$LN6@sentry:
-
-; 124  : 			if (_Ostr.good() && _Ostr.tie() != 0 && _Ostr.tie() != &_Ostr)
-
-	mov	rax, QWORD PTR [rbx]
-	movsxd	rcx, DWORD PTR [rax+4]
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xiosbase
-
-; 339  : 		return (rdstate() == goodbit);
-
-	cmp	DWORD PTR [rcx+rbx+16], 0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-
-; 124  : 			if (_Ostr.good() && _Ostr.tie() != 0 && _Ostr.tie() != &_Ostr)
-
-	jne	SHORT $LN2@sentry
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ios
-
-; 80   : 		return (_Tiestr);
-
-	mov	rcx, QWORD PTR [rcx+rbx+80]
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-
-; 124  : 			if (_Ostr.good() && _Ostr.tie() != 0 && _Ostr.tie() != &_Ostr)
-
-	test	rcx, rcx
-	je	SHORT $LN2@sentry
-	cmp	rcx, rbx
-	je	SHORT $LN2@sentry
-
-; 125  : 				_Ostr.tie()->flush();
-
-	call	QWORD PTR __imp_?flush@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV12@XZ
-$LN2@sentry:
-
-; 126  : 			_Ok = _Ostr.good();	// store test only after flushing tie
-
-	mov	rax, QWORD PTR [rbx]
-	movsxd	rcx, DWORD PTR [rax+4]
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xiosbase
-
-; 339  : 		return (rdstate() == goodbit);
-
-	cmp	DWORD PTR [rcx+rbx+16], 0
-	sete	al
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-
-; 126  : 			_Ok = _Ostr.good();	// store test only after flushing tie
-
-	mov	BYTE PTR [rdi+8], al
-
-; 127  : 			}
-
-	mov	rax, rdi
-	mov	rbx, QWORD PTR [rsp+72]
-	add	rsp, 48					; 00000030H
-	pop	rdi
-	ret	0
-??0sentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@AEAV12@@Z ENDP ; std::basic_ostream<char,std::char_traits<char> >::sentry::sentry
-_TEXT	ENDS
-;	COMDAT text$x
-text$x	SEGMENT
-$T8 = 32
-this$ = 64
-_Ostr$ = 72
-?dtor$0@?0???0sentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@AEAV12@@Z@4HA PROC ; `std::basic_ostream<char,std::char_traits<char> >::sentry::sentry'::`1'::dtor$0
-	mov	rcx, QWORD PTR this$[rdx]
-	jmp	??1_Sentry_base@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@XZ ; std::basic_ostream<char,std::char_traits<char> >::_Sentry_base::~_Sentry_base
-?dtor$0@?0???0sentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@AEAV12@@Z@4HA ENDP ; `std::basic_ostream<char,std::char_traits<char> >::sentry::sentry'::`1'::dtor$0
-text$x	ENDS
-; Function compile flags: /Ogtpy
-;	COMDAT text$x
-text$x	SEGMENT
-$T8 = 32
-this$ = 64
-_Ostr$ = 72
-?dtor$0@?0???0sentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@AEAV12@@Z@4HA PROC ; `std::basic_ostream<char,std::char_traits<char> >::sentry::sentry'::`1'::dtor$0
-	mov	rcx, QWORD PTR this$[rdx]
-	jmp	??1_Sentry_base@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@XZ ; std::basic_ostream<char,std::char_traits<char> >::_Sentry_base::~_Sentry_base
-?dtor$0@?0???0sentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@AEAV12@@Z@4HA ENDP ; `std::basic_ostream<char,std::char_traits<char> >::sentry::sentry'::`1'::dtor$0
-text$x	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\vector.hpp
-;	COMDAT ??A?$Vector@M$01@@QEAAAEAMH@Z
-_TEXT	SEGMENT
-this$ = 8
-idx$ = 16
-??A?$Vector@M$01@@QEAAAEAMH@Z PROC			; Vector<float,2>::operator[], COMDAT
-
-; 684  : 		return data[idx];
-
-	movsxd	rax, edx
-	lea	rax, QWORD PTR [rcx+rax*4]
-
-; 685  : 	}
-
-	ret	0
-??A?$Vector@M$01@@QEAAAEAMH@Z ENDP			; Vector<float,2>::operator[]
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\vector.hpp
-;	COMDAT ??A?$Vector@M$03@@QEAAAEAMH@Z
-_TEXT	SEGMENT
-this$ = 8
-idx$ = 16
-??A?$Vector@M$03@@QEAAAEAMH@Z PROC			; Vector<float,4>::operator[], COMDAT
-
-; 684  : 		return data[idx];
-
-	movsxd	rax, edx
-	lea	rax, QWORD PTR [rcx+rax*4]
-
-; 685  : 	}
-
-	ret	0
-??A?$Vector@M$03@@QEAAAEAMH@Z ENDP			; Vector<float,4>::operator[]
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\vector.hpp
-;	COMDAT ??A?$Vector@M$02@@QEAAAEAMH@Z
-_TEXT	SEGMENT
-this$ = 8
-idx$ = 16
-??A?$Vector@M$02@@QEAAAEAMH@Z PROC			; Vector<float,3>::operator[], COMDAT
-
-; 684  : 		return data[idx];
-
-	movsxd	rax, edx
-	lea	rax, QWORD PTR [rcx+rax*4]
-
-; 685  : 	}
-
-	ret	0
-??A?$Vector@M$02@@QEAAAEAMH@Z ENDP			; Vector<float,3>::operator[]
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-;	COMDAT ??1_Sentry_base@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-$T3 = 32
-this$ = 64
-??1_Sentry_base@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@XZ PROC ; std::basic_ostream<char,std::char_traits<char> >::_Sentry_base::~_Sentry_base, COMDAT
-
-; 106  : 			{	// destroy after unlocking
-
-$LN8:
-	sub	rsp, 56					; 00000038H
-	mov	QWORD PTR $T3[rsp], -2
-
-; 107  : 			if (_Myostr.rdbuf() != 0)
-
-	mov	rdx, QWORD PTR [rcx]
-	mov	rax, QWORD PTR [rdx]
-	movsxd	rcx, DWORD PTR [rax+4]
-	mov	rcx, QWORD PTR [rcx+rdx+72]
-	test	rcx, rcx
-	je	SHORT $LN2@Sentry_bas
-
-; 108  : 				_Myostr.rdbuf()->_Unlock();
-
-	mov	rax, QWORD PTR [rcx]
-	call	QWORD PTR [rax+16]
-	npad	1
-$LN2@Sentry_bas:
-
-; 109  : 			}
-
-	add	rsp, 56					; 00000038H
-	ret	0
-??1_Sentry_base@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@XZ ENDP ; std::basic_ostream<char,std::char_traits<char> >::_Sentry_base::~_Sentry_base
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-;	COMDAT ??0_Sentry_base@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@AEAV12@@Z
-_TEXT	SEGMENT
-this$ = 48
-_Ostr$ = 56
-??0_Sentry_base@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@AEAV12@@Z PROC ; std::basic_ostream<char,std::char_traits<char> >::_Sentry_base::_Sentry_base, COMDAT
-
-; 100  : 			{	// lock the stream buffer, if there
-
-$LN10:
-	push	rbx
-	sub	rsp, 32					; 00000020H
-
-; 99   : 			: _Myostr(_Ostr)
-
-	mov	QWORD PTR [rcx], rdx
-
-; 100  : 			{	// lock the stream buffer, if there
-
-	mov	rbx, rcx
-
-; 101  : 			if (_Myostr.rdbuf() != 0)
-
-	mov	rax, QWORD PTR [rdx]
-	movsxd	r8, DWORD PTR [rax+4]
-	mov	rcx, QWORD PTR [r8+rdx+72]
-	test	rcx, rcx
-	je	SHORT $LN8@Sentry_bas
-
-; 102  : 				_Myostr.rdbuf()->_Lock();
-
-	mov	rax, QWORD PTR [rcx]
-	call	QWORD PTR [rax+8]
-$LN8@Sentry_bas:
-
-; 103  : 			}
-
-	mov	rax, rbx
-	add	rsp, 32					; 00000020H
-	pop	rbx
-	ret	0
-??0_Sentry_base@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@AEAV12@@Z ENDP ; std::basic_ostream<char,std::char_traits<char> >::_Sentry_base::_Sentry_base
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\iosfwd
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xiosbase
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ios
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xiosbase
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ios
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xiosbase
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xiosbase
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\iosfwd
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\iosfwd
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xiosbase
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ios
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-;	COMDAT ??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z
-_TEXT	SEGMENT
-$T27 = 32
-_Ok$ = 40
-_Ostr$ = 112
-_State$ = 120
-_Val$ = 120
-??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z PROC ; std::operator<<<std::char_traits<char> >, COMDAT
-
-; 780  : 	{	// insert NTBS into char stream
-
-$LN114:
-	mov	QWORD PTR [rsp+8], rcx
-	push	rsi
-	push	rdi
-	push	r12
-	push	r14
-	push	r15
-	sub	rsp, 64					; 00000040H
-	mov	QWORD PTR $T27[rsp], -2
-	mov	QWORD PTR [rsp+128], rbx
-	mov	r15, rdx
-	mov	rsi, rcx
-
-; 781  : 	typedef char _Elem;
-; 782  : 	typedef basic_ostream<_Elem, _Traits> _Myos;
-; 783  : 	ios_base::iostate _State = ios_base::goodbit;
-
-	xor	ebx, ebx
-	mov	DWORD PTR _State$[rsp], ebx
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\iosfwd
-
-; 523  : 		return (*_First == 0 ? 0
-
-	cmp	BYTE PTR [rdx], bl
-	jne	SHORT $LN26@operator
-	xor	r14d, r14d
-	jmp	SHORT $LN27@operator
-$LN26@operator:
-	or	r14, -1
-	npad	5
-$LL108@operator:
-	inc	r14
-	cmp	BYTE PTR [rdx+r14], bl
-	jne	SHORT $LL108@operator
-$LN27@operator:
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-
-; 785  : 	streamsize _Pad = _Ostr.width() <= 0 || _Ostr.width() <= _Count
-
-	mov	rax, QWORD PTR [rcx]
-	movsxd	rcx, DWORD PTR [rax+4]
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xiosbase
-
-; 423  : 		return (_Wide);
-
-	mov	rdi, QWORD PTR [rcx+rsi+40]
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-
-; 785  : 	streamsize _Pad = _Ostr.width() <= 0 || _Ostr.width() <= _Count
-
-	test	rdi, rdi
-	jle	SHORT $LN17@operator
-	cmp	rdi, r14
-	jle	SHORT $LN17@operator
-	sub	rdi, r14
-	jmp	SHORT $LN18@operator
-$LN17@operator:
-	xor	edi, edi
-$LN18@operator:
-
-; 99   : 			: _Myostr(_Ostr)
-
-	mov	r12, rsi
-	mov	QWORD PTR _Ok$[rsp], rsi
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ios
-
-; 92   : 		return (_Mystrbuf);
-
-	mov	rcx, QWORD PTR [rcx+rsi+72]
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-
-; 101  : 			if (_Myostr.rdbuf() != 0)
-
-	test	rcx, rcx
-	je	SHORT $LN39@operator
-
-; 102  : 				_Myostr.rdbuf()->_Lock();
-
-	mov	rax, QWORD PTR [rcx]
-	call	QWORD PTR [rax+8]
-	npad	1
-$LN39@operator:
-
-; 124  : 			if (_Ostr.good() && _Ostr.tie() != 0 && _Ostr.tie() != &_Ostr)
-
-	mov	rax, QWORD PTR [rsi]
-	movsxd	rcx, DWORD PTR [rax+4]
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xiosbase
-
-; 339  : 		return (rdstate() == goodbit);
-
-	cmp	DWORD PTR [rcx+rsi+16], 0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-
-; 124  : 			if (_Ostr.good() && _Ostr.tie() != 0 && _Ostr.tie() != &_Ostr)
-
-	jne	SHORT $LN35@operator
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ios
-
-; 80   : 		return (_Tiestr);
-
-	mov	rcx, QWORD PTR [rcx+rsi+80]
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-
-; 124  : 			if (_Ostr.good() && _Ostr.tie() != 0 && _Ostr.tie() != &_Ostr)
-
-	test	rcx, rcx
-	je	SHORT $LN35@operator
-	cmp	rcx, rsi
-	je	SHORT $LN35@operator
-
-; 125  : 				_Ostr.tie()->flush();
-
-	call	QWORD PTR __imp_?flush@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV12@XZ
-$LN35@operator:
-
-; 126  : 			_Ok = _Ostr.good();	// store test only after flushing tie
-
-	mov	rax, QWORD PTR [rsi]
-	movsxd	rcx, DWORD PTR [rax+4]
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xiosbase
-
-; 339  : 		return (rdstate() == goodbit);
-
-	cmp	DWORD PTR [rcx+rsi+16], 0
-	sete	al
-	mov	BYTE PTR _Ok$[rsp+8], al
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-
-; 789  : 	if (!_Ok)
-
-	test	al, al
-	jne	SHORT $LN8@operator
-
-; 790  : 		_State |= ios_base::badbit;
-
-	mov	ebx, 4
-
-; 791  : 	else
-
-	jmp	$LN22@operator
-$LN8@operator:
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xiosbase
-
-; 378  : 		return (_Fmtfl);
-
-	mov	eax, DWORD PTR [rcx+rsi+24]
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-
-; 794  : 		if ((_Ostr.flags() & ios_base::adjustfield) != ios_base::left)
-
-	and	eax, 448				; 000001c0H
-	cmp	eax, 64					; 00000040H
-	je	SHORT $LN105@operator
-$LL4@operator:
-
-; 795  : 			for (; 0 < _Pad; --_Pad)	// pad on left
-
-	test	rdi, rdi
-	jle	SHORT $LN3@operator
-
-; 796  : 				if (_Traits::eq_int_type(_Traits::eof(),
-
-	mov	rax, QWORD PTR [rsi]
-	movsxd	rcx, DWORD PTR [rax+4]
-	movzx	edx, BYTE PTR [rcx+rsi+88]
-	mov	rcx, QWORD PTR [rcx+rsi+72]
-	call	QWORD PTR __imp_?sputc@?$basic_streambuf@DU?$char_traits@D@std@@@std@@QEAAHD@Z
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\iosfwd
-
-; 595  : 		return (_Left == _Right);
-
-	cmp	eax, -1
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-
-; 796  : 				if (_Traits::eq_int_type(_Traits::eof(),
-
-	je	SHORT $LN112@operator
-
-; 795  : 			for (; 0 < _Pad; --_Pad)	// pad on left
-
-	dec	rdi
-	jmp	SHORT $LL4@operator
-$LN3@operator:
-	test	ebx, ebx
-
-; 800  : 					break;
-; 801  : 					}
-; 802  : 
-; 803  : 		if (_State == ios_base::goodbit
-; 804  : 			&& _Ostr.rdbuf()->sputn(_Val, _Count) != _Count)
-
-	jne	SHORT $LN6@operator
-$LN105@operator:
-	mov	rax, QWORD PTR [rsi]
-	movsxd	rcx, DWORD PTR [rax+4]
-	mov	r8, r14
-	mov	rdx, r15
-	mov	rcx, QWORD PTR [rcx+rsi+72]
-	call	QWORD PTR __imp_?sputn@?$basic_streambuf@DU?$char_traits@D@std@@@std@@QEAA_JPEBD_J@Z
-	cmp	rax, r14
-	jne	SHORT $LN112@operator
-$LL109@operator:
-
-; 806  : 
-; 807  : 		if (_State == ios_base::goodbit)
-; 808  : 			for (; 0 < _Pad; --_Pad)	// pad on right
-
-	test	rdi, rdi
-	jle	SHORT $LN6@operator
-
-; 809  : 				if (_Traits::eq_int_type(_Traits::eof(),
-
-	mov	rax, QWORD PTR [rsi]
-	movsxd	rcx, DWORD PTR [rax+4]
-	movzx	edx, BYTE PTR [rcx+rsi+88]
-	mov	rcx, QWORD PTR [rcx+rsi+72]
-	call	QWORD PTR __imp_?sputc@?$basic_streambuf@DU?$char_traits@D@std@@@std@@QEAAHD@Z
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\iosfwd
-
-; 595  : 		return (_Left == _Right);
-
-	cmp	eax, -1
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-
-; 809  : 				if (_Traits::eq_int_type(_Traits::eof(),
-
-	jne	SHORT $LN5@operator
-
-; 810  : 					_Ostr.rdbuf()->sputc(_Ostr.fill())))
-; 811  : 					{	// insertion failed, quit
-; 812  : 					_State |= ios_base::badbit;
-
-	or	ebx, 4
-
-; 813  : 					break;
-
-	jmp	SHORT $LN111@operator
-$LN5@operator:
-
-; 806  : 
-; 807  : 		if (_State == ios_base::goodbit)
-; 808  : 			for (; 0 < _Pad; --_Pad)	// pad on right
-
-	dec	rdi
-	jmp	SHORT $LL109@operator
-$LN112@operator:
-
-; 805  : 			_State |= ios_base::badbit;
-
-	mov	ebx, 4
-$LN111@operator:
-
-; 797  : 					_Ostr.rdbuf()->sputc(_Ostr.fill())))
-; 798  : 					{	// insertion failed, quit
-; 799  : 					_State |= ios_base::badbit;
-
-	mov	DWORD PTR _State$[rsp], ebx
-$LN6@operator:
-
-; 814  : 					}
-; 815  : 		_Ostr.width(0);
-
-	mov	rax, QWORD PTR [rsi]
-	movsxd	rcx, DWORD PTR [rax+4]
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xiosbase
-
-; 429  : 		_Wide = _Newwidth;
-
-	mov	QWORD PTR [rcx+rsi+40], 0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-	jmp	SHORT $LN22@operator
-$LN23@operator:
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ios
-	mov	rsi, QWORD PTR _Ostr$[rsp]
-	mov	ebx, DWORD PTR _State$[rsp]
-	mov	r12, QWORD PTR _Ok$[rsp]
-$LN22@operator:
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-
-; 819  : 	_Ostr.setstate(_State);
-
-	mov	rax, QWORD PTR [rsi]
-	movsxd	rcx, DWORD PTR [rax+4]
-	add	rcx, rsi
-	xor	r8d, r8d
-	mov	edx, ebx
-	call	QWORD PTR __imp_?setstate@?$basic_ios@DU?$char_traits@D@std@@@std@@QEAAXH_N@Z
-	npad	1
-
-; 132  : 			if (!_XSTD uncaught_exception())
-
-	call	QWORD PTR __imp_?uncaught_exception@std@@YA_NXZ
-	test	al, al
-	jne	SHORT $LN88@operator
-
-; 133  : 				this->_Myostr._Osfx();
-
-	mov	rcx, r12
-	call	QWORD PTR __imp_?_Osfx@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAXXZ
-	npad	1
-$LN88@operator:
-
-; 107  : 			if (_Myostr.rdbuf() != 0)
-
-	mov	rax, QWORD PTR [r12]
-	movsxd	rcx, DWORD PTR [rax+4]
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ios
-
-; 92   : 		return (_Mystrbuf);
-
-	mov	rcx, QWORD PTR [rcx+r12+72]
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-
-; 107  : 			if (_Myostr.rdbuf() != 0)
-
-	test	rcx, rcx
-	je	SHORT $LN92@operator
-
-; 108  : 				_Myostr.rdbuf()->_Unlock();
-
-	mov	rax, QWORD PTR [rcx]
-	call	QWORD PTR [rax+16]
-	npad	1
-$LN92@operator:
-
-; 820  : 	return (_Ostr);
-
-	mov	rax, rsi
-
-; 821  : 	}
-
-	mov	rbx, QWORD PTR [rsp+128]
-	add	rsp, 64					; 00000040H
-	pop	r15
-	pop	r14
-	pop	r12
-	pop	rdi
-	pop	rsi
-	ret	0
-??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z ENDP ; std::operator<<<std::char_traits<char> >
-_TEXT	ENDS
-;	COMDAT text$x
-text$x	SEGMENT
-$T27 = 32
-_Ok$ = 40
-_Ostr$ = 112
-_State$ = 120
-_Val$ = 120
-?dtor$1@?0???$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z@4HA PROC ; `std::operator<<<std::char_traits<char> >'::`1'::dtor$1
-	lea	rcx, QWORD PTR _Ok$[rdx]
-	jmp	??1_Sentry_base@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@XZ ; std::basic_ostream<char,std::char_traits<char> >::_Sentry_base::~_Sentry_base
-?dtor$1@?0???$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z@4HA ENDP ; `std::operator<<<std::char_traits<char> >'::`1'::dtor$1
-$T27 = 32
-_Ok$ = 40
-_Ostr$ = 112
-_State$ = 120
-_Val$ = 120
-?dtor$0@?0???$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z@4HA PROC ; `std::operator<<<std::char_traits<char> >'::`1'::dtor$0
-	lea	rcx, QWORD PTR _Ok$[rdx]
-	jmp	??1sentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@XZ ; std::basic_ostream<char,std::char_traits<char> >::sentry::~sentry
-?dtor$0@?0???$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z@4HA ENDP ; `std::operator<<<std::char_traits<char> >'::`1'::dtor$0
-$T27 = 32
-_Ok$ = 40
-_Ostr$ = 112
-_State$ = 120
-_Val$ = 120
-?catch$8@?0???$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z@4HA PROC ; `std::operator<<<std::char_traits<char> >'::`1'::catch$8
-
-; 816  : 		_CATCH_IO_(_Ostr)
-
-	mov	QWORD PTR [rsp+16], rdx
-	push	rbp
-	sub	rsp, 32					; 00000020H
-	mov	rbp, rdx
-__catch$??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z$0:
-	mov	rdx, QWORD PTR _Ostr$[rbp]
-	mov	rax, QWORD PTR [rdx]
-	movsxd	rcx, DWORD PTR [rax+4]
-	add	rcx, rdx
-	mov	r8b, 1
-	mov	edx, 4
-	call	QWORD PTR __imp_?setstate@?$basic_ios@DU?$char_traits@D@std@@@std@@QEAAXH_N@Z
-	npad	1
-	lea	rax, $LN23@catch$8
-	add	rsp, 32					; 00000020H
-	pop	rbp
-	ret	0
-	int	3
-?catch$8@?0???$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z@4HA ENDP ; `std::operator<<<std::char_traits<char> >'::`1'::catch$8
-text$x	ENDS
-; Function compile flags: /Ogtpy
-;	COMDAT text$x
-text$x	SEGMENT
-$T27 = 32
-_Ok$ = 40
-_Ostr$ = 112
-_State$ = 120
-_Val$ = 120
-?dtor$1@?0???$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z@4HA PROC ; `std::operator<<<std::char_traits<char> >'::`1'::dtor$1
-	lea	rcx, QWORD PTR _Ok$[rdx]
-	jmp	??1_Sentry_base@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@XZ ; std::basic_ostream<char,std::char_traits<char> >::_Sentry_base::~_Sentry_base
-?dtor$1@?0???$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z@4HA ENDP ; `std::operator<<<std::char_traits<char> >'::`1'::dtor$1
-text$x	ENDS
-; Function compile flags: /Ogtpy
-;	COMDAT text$x
-text$x	SEGMENT
-$T27 = 32
-_Ok$ = 40
-_Ostr$ = 112
-_State$ = 120
-_Val$ = 120
-?dtor$0@?0???$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z@4HA PROC ; `std::operator<<<std::char_traits<char> >'::`1'::dtor$0
-	lea	rcx, QWORD PTR _Ok$[rdx]
-	jmp	??1sentry@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAA@XZ ; std::basic_ostream<char,std::char_traits<char> >::sentry::~sentry
-?dtor$0@?0???$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z@4HA ENDP ; `std::operator<<<std::char_traits<char> >'::`1'::dtor$0
-text$x	ENDS
-; Function compile flags: /Ogtpy
-;	COMDAT text$x
-text$x	SEGMENT
-$T27 = 32
-_Ok$ = 40
-_Ostr$ = 112
-_State$ = 120
-_Val$ = 120
-?catch$8@?0???$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z@4HA PROC ; `std::operator<<<std::char_traits<char> >'::`1'::catch$8
-
-; 816  : 		_CATCH_IO_(_Ostr)
-
-	mov	QWORD PTR [rsp+16], rdx
-	push	rbp
-	sub	rsp, 32					; 00000020H
-	mov	rbp, rdx
-__catch$??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z$0:
-	mov	rdx, QWORD PTR _Ostr$[rbp]
-	mov	rax, QWORD PTR [rdx]
-	movsxd	rcx, DWORD PTR [rax+4]
-	add	rcx, rdx
-	mov	r8b, 1
-	mov	edx, 4
-	call	QWORD PTR __imp_?setstate@?$basic_ios@DU?$char_traits@D@std@@@std@@QEAAXH_N@Z
-	npad	1
-	lea	rax, $LN23@catch$8
-	add	rsp, 32					; 00000020H
-	pop	rbp
-	ret	0
-	int	3
-?catch$8@?0???$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z@4HA ENDP ; `std::operator<<<std::char_traits<char> >'::`1'::catch$8
-text$x	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\ostream
-;	COMDAT ??$endl@DU?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@@Z
-_TEXT	SEGMENT
-_Ostr$ = 48
-??$endl@DU?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@@Z PROC ; std::endl<char,std::char_traits<char> >, COMDAT
-
-; 991  : 	{	// insert newline and flush stream
-
-$LN4:
-	push	rbx
-	sub	rsp, 32					; 00000020H
-
-; 992  : 	_Ostr.put(_Ostr.widen('\n'));
-
-	mov	rax, QWORD PTR [rcx]
-	mov	rbx, rcx
-	mov	dl, 10
-	movsxd	rcx, DWORD PTR [rax+4]
-	add	rcx, rbx
-	call	QWORD PTR __imp_?widen@?$basic_ios@DU?$char_traits@D@std@@@std@@QEBADD@Z
-	movzx	edx, al
-	mov	rcx, rbx
-	call	QWORD PTR __imp_?put@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV12@D@Z
-
-; 993  : 	_Ostr.flush();
-
-	mov	rcx, rbx
-	call	QWORD PTR __imp_?flush@?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV12@XZ
-
-; 994  : 	return (_Ostr);
-
-	mov	rax, rbx
-
-; 995  : 	}
-
-	add	rsp, 32					; 00000020H
-	pop	rbx
-	ret	0
-??$endl@DU?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@@Z ENDP ; std::endl<char,std::char_traits<char> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
 ; File c:\home\programming\mathter\mathter\vector.hpp
 ;	COMDAT ??$?0MMM$0A@@?$Vector@M$02@@QEAA@MMM@Z
 _TEXT	SEGMENT
@@ -4970,38 +3168,19 @@ this$ = 8
 <scalars_2>$ = 32
 ??$?0MMM$0A@@?$Vector@M$02@@QEAA@MMM@Z PROC		; Vector<float,3>::Vector<float,3><float,float,float,0>, COMDAT
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 	mov	QWORD PTR [rcx], rax
 	mov	DWORD PTR [rcx+8], eax
 
-; 642  : 		static_assert(SumDimensions<Scalars...>::value <= D, "Arguments exceed vector dimension.");
-; 643  : 		Assign(0, scalars...);
-; 644  : 	}
+; 641  : 		static_assert(SumDimensions<Scalars...>::value <= D, "Arguments exceed vector dimension.");
+; 642  : 		Assign(0, scalars...);
+; 643  : 	}
 
 	mov	rax, rcx
 	ret	0
 ??$?0MMM$0A@@?$Vector@M$02@@QEAA@MMM@Z ENDP		; Vector<float,3>::Vector<float,3><float,float,float,0>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\chrono
-;	COMDAT ??$?0_JX@?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@chrono@std@@QEAA@AEB_J@Z
-_TEXT	SEGMENT
-this$ = 8
-_Val$ = 16
-??$?0_JX@?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@chrono@std@@QEAA@AEB_J@Z PROC ; std::chrono::duration<__int64,std::ratio<1,1000000000> >::duration<__int64,std::ratio<1,1000000000> ><__int64,void>, COMDAT
-
-; 116  : 			: _MyRep(static_cast<_Rep>(_Val))
-
-	mov	rax, QWORD PTR [rdx]
-	mov	QWORD PTR [rcx], rax
-
-; 118  : 		}
-
-	mov	rax, rcx
-	ret	0
-??$?0_JX@?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@chrono@std@@QEAA@AEB_J@Z ENDP ; std::chrono::duration<__int64,std::ratio<1,1000000000> >::duration<__int64,std::ratio<1,1000000000> ><__int64,void>
 _TEXT	ENDS
 ; Function compile flags: /Ogtpy
 ; File c:\home\programming\mathter\mathter\vector.hpp
@@ -5014,54 +3193,19 @@ this$ = 8
 <scalars_3>$ = 40
 ??$?0MMMM$0A@@?$Vector@M$03@@QEAA@MMMM@Z PROC		; Vector<float,4>::Vector<float,4><float,float,float,float,0>, COMDAT
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 	mov	QWORD PTR [rcx], rax
 	mov	QWORD PTR [rcx+8], rax
 
-; 642  : 		static_assert(SumDimensions<Scalars...>::value <= D, "Arguments exceed vector dimension.");
-; 643  : 		Assign(0, scalars...);
-; 644  : 	}
+; 641  : 		static_assert(SumDimensions<Scalars...>::value <= D, "Arguments exceed vector dimension.");
+; 642  : 		Assign(0, scalars...);
+; 643  : 	}
 
 	mov	rax, rcx
 	ret	0
 ??$?0MMMM$0A@@?$Vector@M$03@@QEAA@MMMM@Z ENDP		; Vector<float,4>::Vector<float,4><float,float,float,float,0>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-;	COMDAT ??$?DM$03@@YA?AV?$Vector@M$03@@AEBV0@0@Z
-_TEXT	SEGMENT
-__$ReturnUdt$ = 8
-lhs$ = 16
-rhs$ = 24
-??$?DM$03@@YA?AV?$Vector@M$03@@AEBV0@0@Z PROC		; operator*<float,4>, COMDAT
-
-; 874  : 	auto tmp = lhs;
-
-	movaps	xmm1, XMMWORD PTR [rdx]
-
-; 875  : 	tmp *= rhs;
-; 876  : 	return tmp;
-
-	mov	rax, rcx
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 13   : 		res.reg = _mm_mul_ps(lhs.reg, rhs.reg);
-
-	mulps	xmm1, XMMWORD PTR [r8]
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 458  : 		simd = Simd4f::mul(simd, rhs.simd);
-
-	movaps	XMMWORD PTR [rcx], xmm1
-
-; 877  : }
-
-	ret	0
-??$?DM$03@@YA?AV?$Vector@M$03@@AEBV0@0@Z ENDP		; operator*<float,4>
 _TEXT	ENDS
 ; Function compile flags: /Ogtpy
 ; File c:\home\programming\mathter\mathter\vector.hpp
@@ -5072,7 +3216,7 @@ this$ = 8
 <mixed_1>$ = 24
 ??$?0V?$Vector@M$03@@V0@$0A@@?$Vector@M$07@@QEAA@AEBV?$Vector@M$03@@0@Z PROC ; Vector<float,8>::Vector<float,8><Vector<float,4>,Vector<float,4>,0>, COMDAT
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 	mov	QWORD PTR [rcx], rax
@@ -5080,9 +3224,9 @@ this$ = 8
 	mov	QWORD PTR [rcx+16], rax
 	mov	QWORD PTR [rcx+24], rax
 
-; 649  : 		static_assert(SumDimensions<Mixed...>::value <= D, "Arguments exceed vector dimension.");
-; 650  : 		Assign(0, mixed...);
-; 651  : 	}
+; 648  : 		static_assert(SumDimensions<Mixed...>::value <= D, "Arguments exceed vector dimension.");
+; 649  : 		Assign(0, mixed...);
+; 650  : 	}
 
 	mov	rax, rcx
 	ret	0
@@ -5103,15 +3247,15 @@ this$ = 8
 <scalars_7>$dead$ = 72
 ??$Set@HHHHHHHH$0A@@?$Vector@M$07@@QEAAAEAV0@HHHHHHHH@Z PROC ; Vector<float,8>::Set<int,int,int,int,int,int,int,int,0>, COMDAT
 
-; 844  : 		data[idx] = head;
+; 843  : 		data[idx] = head;
 
 	mov	DWORD PTR [rcx], 1065353216		; 3f800000H
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 
-; 844  : 		data[idx] = head;
+; 843  : 		data[idx] = head;
 
 	mov	DWORD PTR [rcx+4], 1073741824		; 40000000H
 	mov	DWORD PTR [rcx+8], 1077936128		; 40400000H
@@ -5121,20 +3265,20 @@ this$ = 8
 	mov	DWORD PTR [rcx+24], 1088421888		; 40e00000H
 	mov	DWORD PTR [rcx+28], 1090519040		; 41000000H
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	mov	QWORD PTR [rcx], rax
 	mov	QWORD PTR [rcx+8], rax
 	mov	QWORD PTR [rcx+16], rax
 	mov	QWORD PTR [rcx+24], rax
 
-; 656  : 		static_assert(SumDimensions<Scalars...>::value <= D, "Arguments exceed vector dimension.");
-; 657  : 		Assign(0, scalars...);
-; 658  : 		return *this;
+; 655  : 		static_assert(SumDimensions<Scalars...>::value <= D, "Arguments exceed vector dimension.");
+; 656  : 		Assign(0, scalars...);
+; 657  : 		return *this;
 
 	mov	rax, rcx
 
-; 659  : 	}
+; 658  : 	}
 
 	ret	0
 ??$Set@HHHHHHHH$0A@@?$Vector@M$07@@QEAAAEAV0@HHHHHHHH@Z ENDP ; Vector<float,8>::Set<int,int,int,int,int,int,int,int,0>
@@ -5148,7 +3292,7 @@ this$ = 8
 <mixed_1>$ = 24
 ??$Set@V?$Vector@M$03@@V1@$0A@@?$Vector@M$07@@QEAAAEAV0@AEBV?$Vector@M$03@@0@Z PROC ; Vector<float,8>::Set<Vector<float,4>,Vector<float,4>,0>, COMDAT
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 	mov	QWORD PTR [rcx], rax
@@ -5156,87 +3300,16 @@ this$ = 8
 	mov	QWORD PTR [rcx+16], rax
 	mov	QWORD PTR [rcx+24], rax
 
-; 664  : 		static_assert(SumDimensions<Mixed...>::value <= D, "Arguments exceed vector dimension.");
-; 665  : 		Assign(0, mixed...);
-; 666  : 		return *this;
+; 663  : 		static_assert(SumDimensions<Mixed...>::value <= D, "Arguments exceed vector dimension.");
+; 664  : 		Assign(0, mixed...);
+; 665  : 		return *this;
 
 	mov	rax, rcx
 
-; 667  : 	}
+; 666  : 	}
 
 	ret	0
 ??$Set@V?$Vector@M$03@@V1@$0A@@?$Vector@M$07@@QEAAAEAV0@AEBV?$Vector@M$03@@0@Z ENDP ; Vector<float,8>::Set<Vector<float,4>,Vector<float,4>,0>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\main.cpp
-;	COMDAT ??$?6M$03@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Vector@M$03@@@Z
-_TEXT	SEGMENT
-os$ = 64
-v$ = 72
-??$?6M$03@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Vector@M$03@@@Z PROC ; operator<<<float,4>, COMDAT
-
-; 24   : std::ostream& operator<<(std::ostream& os, const Vector<T, D>& v) {
-
-$LN13:
-	mov	QWORD PTR [rsp+8], rbx
-	mov	QWORD PTR [rsp+16], rbp
-	mov	QWORD PTR [rsp+24], rsi
-	push	rdi
-	push	r14
-	push	r15
-	sub	rsp, 32					; 00000020H
-	mov	r14, rdx
-	mov	rbp, rcx
-
-; 25   : 	os << "{";
-
-	lea	rdx, OFFSET FLAT:$SG4294967198
-	call	??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z ; std::operator<<<std::char_traits<char> >
-
-; 26   : 	for (int x = 0; x < D; ++x) {
-
-	xor	esi, esi
-	lea	r15, OFFSET FLAT:$SG4294967197
-	mov	edi, esi
-	npad	11
-$LL4@operator:
-
-; 27   : 		os << v(x) << (x == D - 1 ? "" : "\t");
-
-	movss	xmm1, DWORD PTR [r14+rdi*4]
-	lea	rbx, OFFSET FLAT:$SG4294967196
-	cmp	esi, 3
-	mov	rcx, rbp
-	cmove	rbx, r15
-	call	QWORD PTR __imp_??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@M@Z
-	mov	rcx, rax
-	mov	rdx, rbx
-	call	??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z ; std::operator<<<std::char_traits<char> >
-	inc	esi
-	inc	rdi
-	cmp	rdi, 4
-	jl	SHORT $LL4@operator
-
-; 28   : 	}
-; 29   : 	os << "}";
-
-	lea	rdx, OFFSET FLAT:$SG4294967195
-	mov	rcx, rbp
-	call	??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z ; std::operator<<<std::char_traits<char> >
-
-; 30   : 	return os;
-; 31   : }
-
-	mov	rbx, QWORD PTR [rsp+64]
-	mov	rax, rbp
-	mov	rbp, QWORD PTR [rsp+72]
-	mov	rsi, QWORD PTR [rsp+80]
-	add	rsp, 32					; 00000020H
-	pop	r15
-	pop	r14
-	pop	rdi
-	ret	0
-??$?6M$03@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Vector@M$03@@@Z ENDP ; operator<<<float,4>
 _TEXT	ENDS
 ; Function compile flags: /Ogtpy
 ; File c:\home\programming\mathter\mathter\vector.hpp
@@ -5246,15 +3319,15 @@ this$ = 8
 <scalars_0>$dead$ = 16
 ??$?0H$0A@@?$Vector@M$02@@QEAA@H@Z PROC			; Vector<float,3>::Vector<float,3><int,0>, COMDAT
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 	mov	QWORD PTR [rcx], rax
 	mov	DWORD PTR [rcx+8], eax
 
-; 642  : 		static_assert(SumDimensions<Scalars...>::value <= D, "Arguments exceed vector dimension.");
-; 643  : 		Assign(0, scalars...);
-; 644  : 	}
+; 641  : 		static_assert(SumDimensions<Scalars...>::value <= D, "Arguments exceed vector dimension.");
+; 642  : 		Assign(0, scalars...);
+; 643  : 	}
 
 	mov	rax, rcx
 	ret	0
@@ -5268,15 +3341,15 @@ this$ = 8
 <mixed_0>$dead$ = 16
 ??$?0V?$Vector@M$02@@$0A@@?$Vector@M$03@@QEAA@AEBV?$Vector@M$02@@@Z PROC ; Vector<float,4>::Vector<float,4><Vector<float,3>,0>, COMDAT
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 	mov	QWORD PTR [rcx], rax
 	mov	QWORD PTR [rcx+8], rax
 
-; 649  : 		static_assert(SumDimensions<Mixed...>::value <= D, "Arguments exceed vector dimension.");
-; 650  : 		Assign(0, mixed...);
-; 651  : 	}
+; 648  : 		static_assert(SumDimensions<Mixed...>::value <= D, "Arguments exceed vector dimension.");
+; 649  : 		Assign(0, mixed...);
+; 650  : 	}
 
 	mov	rax, rcx
 	ret	0
@@ -5292,31 +3365,31 @@ this$ = 8
 <scalars_2>$dead$ = 32
 ??$Set@HHH$0A@@?$Vector@M$02@@QEAAAEAV0@HHH@Z PROC	; Vector<float,3>::Set<int,int,int,0>, COMDAT
 
-; 844  : 		data[idx] = head;
+; 843  : 		data[idx] = head;
 
 	mov	DWORD PTR [rcx], 1065353216		; 3f800000H
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 
-; 844  : 		data[idx] = head;
+; 843  : 		data[idx] = head;
 
 	mov	DWORD PTR [rcx+4], 1073741824		; 40000000H
 	mov	DWORD PTR [rcx+8], 1077936128		; 40400000H
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	mov	QWORD PTR [rcx], rax
 	mov	DWORD PTR [rcx+8], eax
 
-; 656  : 		static_assert(SumDimensions<Scalars...>::value <= D, "Arguments exceed vector dimension.");
-; 657  : 		Assign(0, scalars...);
-; 658  : 		return *this;
+; 655  : 		static_assert(SumDimensions<Scalars...>::value <= D, "Arguments exceed vector dimension.");
+; 656  : 		Assign(0, scalars...);
+; 657  : 		return *this;
 
 	mov	rax, rcx
 
-; 659  : 	}
+; 658  : 	}
 
 	ret	0
 ??$Set@HHH$0A@@?$Vector@M$02@@QEAAAEAV0@HHH@Z ENDP	; Vector<float,3>::Set<int,int,int,0>
@@ -5330,1134 +3403,22 @@ this$ = 8
 <mixed_1>$ = 24
 ??$Set@MV?$Vector@M$02@@$0A@@?$Vector@M$03@@QEAAAEAV0@AEBMAEBV?$Vector@M$02@@@Z PROC ; Vector<float,4>::Set<float,Vector<float,3>,0>, COMDAT
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 	mov	QWORD PTR [rcx], rax
 	mov	QWORD PTR [rcx+8], rax
 
-; 664  : 		static_assert(SumDimensions<Mixed...>::value <= D, "Arguments exceed vector dimension.");
-; 665  : 		Assign(0, mixed...);
-; 666  : 		return *this;
+; 663  : 		static_assert(SumDimensions<Mixed...>::value <= D, "Arguments exceed vector dimension.");
+; 664  : 		Assign(0, mixed...);
+; 665  : 		return *this;
 
 	mov	rax, rcx
 
-; 667  : 	}
+; 666  : 	}
 
 	ret	0
 ??$Set@MV?$Vector@M$02@@$0A@@?$Vector@M$03@@QEAAAEAV0@AEBMAEBV?$Vector@M$02@@@Z ENDP ; Vector<float,4>::Set<float,Vector<float,3>,0>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ??$?DMM$03$03$03$00$00MX@@YA?AV?$Matrix@M$03$03$00@@AEBV0@0@Z
-_TEXT	SEGMENT
-__$ReturnUdt$ = 8
-lhs$ = 16
-rhs$ = 24
-??$?DMM$03$03$03$00$00MX@@YA?AV?$Matrix@M$03$03$00@@AEBV0@0@Z PROC ; operator*<float,float,4,4,4,1,1,float,void>, COMDAT
-
-; 144  : 	for (int y = 0; y < Rows1; ++y) {
-
-	mov	r10, rdx
-	mov	r11, rcx
-	sub	r10, rcx
-	mov	rax, rcx
-	mov	r9d, 4
-$LL4@operator:
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 37   : 		__m128 tmp = _mm_set1_ps(rhs);
-
-	movss	xmm1, DWORD PTR [r10+rax]
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 144  : 	for (int y = 0; y < Rows1; ++y) {
-
-	lea	rax, QWORD PTR [rax+16]
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 37   : 		__m128 tmp = _mm_set1_ps(rhs);
-
-	shufps	xmm1, xmm1, 0
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 145  : 		scalarMultiplier = rhs.stripes[0];
-
-	movups	xmm0, XMMWORD PTR [r8]
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 38   : 		res.reg = _mm_mul_ps(lhs.reg, tmp);
-
-	mulps	xmm1, xmm0
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 147  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
-
-	movups	XMMWORD PTR [rax-16], xmm1
-	sub	r9, 1
-	jne	SHORT $LL4@operator
-
-; 148  : 	}
-; 149  : 	for (int x = 1; x < Match; ++x) {
-
-	lea	r9, QWORD PTR [rdx+4]
-	mov	r10d, 3
-	lea	rdx, QWORD PTR [r8+16]
-	npad	1
-$LL7@operator:
-
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
-
-	mov	rax, r11
-	mov	rcx, r9
-	mov	r8d, 4
-	npad	4
-$LL10@operator:
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 37   : 		__m128 tmp = _mm_set1_ps(rhs);
-
-	movss	xmm0, DWORD PTR [rcx]
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
-
-	add	rcx, 16
-
-; 151  : 			scalarMultiplier = rhs.stripes[x];
-
-	movups	xmm1, XMMWORD PTR [rdx]
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 37   : 		__m128 tmp = _mm_set1_ps(rhs);
-
-	shufps	xmm0, xmm0, 0
-
-; 38   : 		res.reg = _mm_mul_ps(lhs.reg, tmp);
-
-	mulps	xmm1, xmm0
-
-; 25   : 		res.reg = _mm_add_ps(lhs.reg, rhs.reg);
-
-	addps	xmm1, XMMWORD PTR [rax]
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 464  : 		simd = Simd4f::add(simd, rhs.simd);
-
-	movaps	XMMWORD PTR [rax], xmm1
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
-
-	add	rax, 16
-	sub	r8, 1
-	jne	SHORT $LL10@operator
-
-; 148  : 	}
-; 149  : 	for (int x = 1; x < Match; ++x) {
-
-	add	rdx, 16
-	add	r9, 4
-	sub	r10, 1
-	jne	SHORT $LL7@operator
-
-; 152  : 			scalarMultiplier.mul(lhs(x, y));
-; 153  : 			static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]).add(scalarMultiplier);
-; 154  : 		}
-; 155  : 	}
-; 156  : 
-; 157  : 	return result;
-
-	mov	rax, r11
-
-; 158  : }
-
-	ret	0
-??$?DMM$03$03$03$00$00MX@@YA?AV?$Matrix@M$03$03$00@@AEBV0@0@Z ENDP ; operator*<float,float,4,4,4,1,1,float,void>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\main.cpp
-;	COMDAT ??$?6M$03$03$00@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Matrix@M$03$03$00@@@Z
-_TEXT	SEGMENT
-os$ = 64
-mat$ = 72
-??$?6M$03$03$00@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Matrix@M$03$03$00@@@Z PROC ; operator<<<float,4,4,1>, COMDAT
-
-; 12   : std::ostream& operator<<(std::ostream& os, const Matrix<T, Columns, Rows, Order>& mat) {
-
-$LN30:
-	mov	QWORD PTR [rsp+8], rbx
-	mov	QWORD PTR [rsp+16], rbp
-	mov	QWORD PTR [rsp+24], rsi
-	mov	QWORD PTR [rsp+32], rdi
-	push	r12
-	push	r14
-	push	r15
-	sub	rsp, 32					; 00000020H
-	mov	rdi, rdx
-
-; 13   : 	for (int y = 0; y < mat.Height(); ++y) {
-
-	lea	r12, OFFSET FLAT:$SG4294967193
-	mov	rbp, rcx
-	mov	r15d, 4
-$LL4@operator:
-
-; 14   : 		os << "{";
-
-	lea	rdx, OFFSET FLAT:$SG4294967194
-	mov	rcx, rbp
-	call	??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z ; std::operator<<<std::char_traits<char> >
-
-; 15   : 		for (int x = 0; x < mat.Width(); ++x) {
-
-	xor	esi, esi
-	lea	r14d, QWORD PTR [rsi+4]
-	npad	10
-$LL7@operator:
-
-; 16   : 			os << mat(x, y) << (x == mat.Width() - 1 ? "" : "\t");
-
-	movss	xmm1, DWORD PTR [rdi]
-	lea	rbx, OFFSET FLAT:$SG4294967192
-	cmp	esi, 3
-	mov	rcx, rbp
-	cmove	rbx, r12
-	call	QWORD PTR __imp_??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@M@Z
-	mov	rcx, rax
-	mov	rdx, rbx
-	call	??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z ; std::operator<<<std::char_traits<char> >
-	inc	esi
-	add	rdi, 4
-	sub	r14, 1
-	jne	SHORT $LL7@operator
-
-; 17   : 		}
-; 18   : 		os << "}\n";
-
-	lea	rdx, OFFSET FLAT:$SG4294967191
-	mov	rcx, rbp
-	call	??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z ; std::operator<<<std::char_traits<char> >
-	sub	r15, 1
-	jne	SHORT $LL4@operator
-
-; 19   : 	}
-; 20   : 	return os;
-; 21   : }
-
-	mov	rbx, QWORD PTR [rsp+64]
-	mov	rax, rbp
-	mov	rbp, QWORD PTR [rsp+72]
-	mov	rsi, QWORD PTR [rsp+80]
-	mov	rdi, QWORD PTR [rsp+88]
-	add	rsp, 32					; 00000020H
-	pop	r15
-	pop	r14
-	pop	r12
-	ret	0
-??$?6M$03$03$00@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Matrix@M$03$03$00@@@Z ENDP ; operator<<<float,4,4,1>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ??$?HMM$03$03$00$00M@@YA?AV?$Matrix@M$03$03$00@@AEBV0@0@Z
-_TEXT	SEGMENT
-__$ReturnUdt$ = 8
-lhs$ = 16
-rhs$ = 24
-??$?HMM$03$03$00$00M@@YA?AV?$Matrix@M$03$03$00@@AEBV0@0@Z PROC ; operator+<float,float,4,4,1,1,float>, COMDAT
-
-; 163  : 	Matrix<U, Columns, Rows, Order1> result;
-; 164  : 	for (int i = 0; i < Rows; ++i) {
-
-	sub	rdx, r8
-	mov	r9, rcx
-	sub	r9, r8
-	mov	eax, 4
-	npad	2
-$LL4@operator:
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 25   : 		res.reg = _mm_add_ps(lhs.reg, rhs.reg);
-
-	movaps	xmm0, XMMWORD PTR [r8]
-	addps	xmm0, XMMWORD PTR [rdx+r8]
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 165  : 		result.stripes[i] = lhs.stripes[i] + rhs.stripes[i];
-
-	movaps	XMMWORD PTR [r9+r8], xmm0
-	add	r8, 16
-	sub	rax, 1
-	jne	SHORT $LL4@operator
-
-; 166  : 	}
-; 167  : 	return result;
-
-	mov	rax, rcx
-
-; 168  : }
-
-	ret	0
-??$?HMM$03$03$00$00M@@YA?AV?$Matrix@M$03$03$00@@AEBV0@0@Z ENDP ; operator+<float,float,4,4,1,1,float>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ??$?DMM$02$02$02$00$00MX@@YA?AV?$Matrix@M$02$02$00@@AEBV0@0@Z
-_TEXT	SEGMENT
-__$ReturnUdt$ = 8
-lhs$ = 16
-rhs$ = 24
-??$?DMM$02$02$02$00$00MX@@YA?AV?$Matrix@M$02$02$00@@AEBV0@0@Z PROC ; operator*<float,float,3,3,3,1,1,float,void>, COMDAT
-
-; 144  : 	for (int y = 0; y < Rows1; ++y) {
-
-	mov	r10, rdx
-	mov	r11, rcx
-	sub	r10, rcx
-	mov	rax, rcx
-	mov	r9d, 3
-$LL4@operator:
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 37   : 		__m128 tmp = _mm_set1_ps(rhs);
-
-	movss	xmm1, DWORD PTR [r10+rax]
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 144  : 	for (int y = 0; y < Rows1; ++y) {
-
-	lea	rax, QWORD PTR [rax+16]
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 37   : 		__m128 tmp = _mm_set1_ps(rhs);
-
-	shufps	xmm1, xmm1, 0
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 145  : 		scalarMultiplier = rhs.stripes[0];
-
-	movups	xmm0, XMMWORD PTR [r8]
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 38   : 		res.reg = _mm_mul_ps(lhs.reg, tmp);
-
-	mulps	xmm1, xmm0
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 147  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
-
-	movups	XMMWORD PTR [rax-16], xmm1
-	sub	r9, 1
-	jne	SHORT $LL4@operator
-
-; 148  : 	}
-; 149  : 	for (int x = 1; x < Match; ++x) {
-
-	lea	r9, QWORD PTR [rdx+4]
-	mov	r10d, 2
-	lea	rdx, QWORD PTR [r8+16]
-	npad	1
-$LL7@operator:
-
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
-
-	mov	rax, r11
-	mov	rcx, r9
-	mov	r8d, 3
-	npad	4
-$LL10@operator:
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 37   : 		__m128 tmp = _mm_set1_ps(rhs);
-
-	movss	xmm0, DWORD PTR [rcx]
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
-
-	add	rcx, 16
-
-; 151  : 			scalarMultiplier = rhs.stripes[x];
-
-	movups	xmm1, XMMWORD PTR [rdx]
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 37   : 		__m128 tmp = _mm_set1_ps(rhs);
-
-	shufps	xmm0, xmm0, 0
-
-; 38   : 		res.reg = _mm_mul_ps(lhs.reg, tmp);
-
-	mulps	xmm1, xmm0
-
-; 25   : 		res.reg = _mm_add_ps(lhs.reg, rhs.reg);
-
-	addps	xmm1, XMMWORD PTR [rax]
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 404  : 		simd = Simd4f::add(simd, rhs.simd);
-
-	movaps	XMMWORD PTR [rax], xmm1
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
-
-	add	rax, 16
-	sub	r8, 1
-	jne	SHORT $LL10@operator
-
-; 148  : 	}
-; 149  : 	for (int x = 1; x < Match; ++x) {
-
-	add	rdx, 16
-	add	r9, 4
-	sub	r10, 1
-	jne	SHORT $LL7@operator
-
-; 152  : 			scalarMultiplier.mul(lhs(x, y));
-; 153  : 			static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]).add(scalarMultiplier);
-; 154  : 		}
-; 155  : 	}
-; 156  : 
-; 157  : 	return result;
-
-	mov	rax, r11
-
-; 158  : }
-
-	ret	0
-??$?DMM$02$02$02$00$00MX@@YA?AV?$Matrix@M$02$02$00@@AEBV0@0@Z ENDP ; operator*<float,float,3,3,3,1,1,float,void>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\main.cpp
-;	COMDAT ??$?6M$02$02$00@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Matrix@M$02$02$00@@@Z
-_TEXT	SEGMENT
-os$ = 80
-mat$ = 88
-??$?6M$02$02$00@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Matrix@M$02$02$00@@@Z PROC ; operator<<<float,3,3,1>, COMDAT
-
-; 12   : std::ostream& operator<<(std::ostream& os, const Matrix<T, Columns, Rows, Order>& mat) {
-
-$LN30:
-	mov	QWORD PTR [rsp+8], rbx
-	mov	QWORD PTR [rsp+16], rbp
-	mov	QWORD PTR [rsp+24], rsi
-	push	rdi
-	push	r12
-	push	r13
-	push	r14
-	push	r15
-	sub	rsp, 32					; 00000020H
-	mov	r15, rdx
-
-; 13   : 	for (int y = 0; y < mat.Height(); ++y) {
-
-	lea	r13, OFFSET FLAT:$SG4294967189
-	mov	rbp, rcx
-	mov	r12d, 3
-	npad	1
-$LL4@operator:
-
-; 14   : 		os << "{";
-
-	lea	rdx, OFFSET FLAT:$SG4294967190
-	mov	rcx, rbp
-	call	??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z ; std::operator<<<std::char_traits<char> >
-
-; 15   : 		for (int x = 0; x < mat.Width(); ++x) {
-
-	xor	edi, edi
-	mov	rsi, r15
-	lea	r14d, QWORD PTR [rdi+3]
-	npad	8
-$LL7@operator:
-
-; 16   : 			os << mat(x, y) << (x == mat.Width() - 1 ? "" : "\t");
-
-	movss	xmm1, DWORD PTR [rsi]
-	lea	rbx, OFFSET FLAT:$SG4294967188
-	cmp	edi, 2
-	mov	rcx, rbp
-	cmove	rbx, r13
-	call	QWORD PTR __imp_??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@M@Z
-	mov	rcx, rax
-	mov	rdx, rbx
-	call	??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z ; std::operator<<<std::char_traits<char> >
-	inc	edi
-	lea	rsi, QWORD PTR [rsi+4]
-	sub	r14, 1
-	jne	SHORT $LL7@operator
-
-; 17   : 		}
-; 18   : 		os << "}\n";
-
-	lea	rdx, OFFSET FLAT:$SG4294967187
-	mov	rcx, rbp
-	call	??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z ; std::operator<<<std::char_traits<char> >
-	add	r15, 16
-	sub	r12, 1
-	jne	SHORT $LL4@operator
-
-; 19   : 	}
-; 20   : 	return os;
-; 21   : }
-
-	mov	rbx, QWORD PTR [rsp+80]
-	mov	rax, rbp
-	mov	rbp, QWORD PTR [rsp+88]
-	mov	rsi, QWORD PTR [rsp+96]
-	add	rsp, 32					; 00000020H
-	pop	r15
-	pop	r14
-	pop	r13
-	pop	r12
-	pop	rdi
-	ret	0
-??$?6M$02$02$00@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Matrix@M$02$02$00@@@Z ENDP ; operator<<<float,3,3,1>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\main.cpp
-;	COMDAT ??$?6M$03$01$00@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Matrix@M$03$01$00@@@Z
-_TEXT	SEGMENT
-os$ = 64
-mat$ = 72
-??$?6M$03$01$00@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Matrix@M$03$01$00@@@Z PROC ; operator<<<float,4,2,1>, COMDAT
-
-; 12   : std::ostream& operator<<(std::ostream& os, const Matrix<T, Columns, Rows, Order>& mat) {
-
-$LN30:
-	mov	QWORD PTR [rsp+8], rbx
-	mov	QWORD PTR [rsp+16], rbp
-	mov	QWORD PTR [rsp+24], rsi
-	mov	QWORD PTR [rsp+32], rdi
-	push	r12
-	push	r14
-	push	r15
-	sub	rsp, 32					; 00000020H
-	mov	rdi, rdx
-
-; 13   : 	for (int y = 0; y < mat.Height(); ++y) {
-
-	lea	r12, OFFSET FLAT:$SG4294967185
-	mov	rbp, rcx
-	mov	r15d, 2
-$LL4@operator:
-
-; 14   : 		os << "{";
-
-	lea	rdx, OFFSET FLAT:$SG4294967186
-	mov	rcx, rbp
-	call	??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z ; std::operator<<<std::char_traits<char> >
-
-; 15   : 		for (int x = 0; x < mat.Width(); ++x) {
-
-	xor	esi, esi
-	lea	r14d, QWORD PTR [rsi+4]
-	npad	10
-$LL7@operator:
-
-; 16   : 			os << mat(x, y) << (x == mat.Width() - 1 ? "" : "\t");
-
-	movss	xmm1, DWORD PTR [rdi]
-	lea	rbx, OFFSET FLAT:$SG4294967184
-	cmp	esi, 3
-	mov	rcx, rbp
-	cmove	rbx, r12
-	call	QWORD PTR __imp_??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@M@Z
-	mov	rcx, rax
-	mov	rdx, rbx
-	call	??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z ; std::operator<<<std::char_traits<char> >
-	inc	esi
-	add	rdi, 4
-	sub	r14, 1
-	jne	SHORT $LL7@operator
-
-; 17   : 		}
-; 18   : 		os << "}\n";
-
-	lea	rdx, OFFSET FLAT:$SG4294967183
-	mov	rcx, rbp
-	call	??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z ; std::operator<<<std::char_traits<char> >
-	sub	r15, 1
-	jne	SHORT $LL4@operator
-
-; 19   : 	}
-; 20   : 	return os;
-; 21   : }
-
-	mov	rbx, QWORD PTR [rsp+64]
-	mov	rax, rbp
-	mov	rbp, QWORD PTR [rsp+72]
-	mov	rsi, QWORD PTR [rsp+80]
-	mov	rdi, QWORD PTR [rsp+88]
-	add	rsp, 32					; 00000020H
-	pop	r15
-	pop	r14
-	pop	r12
-	ret	0
-??$?6M$03$01$00@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Matrix@M$03$01$00@@@Z ENDP ; operator<<<float,4,2,1>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\main.cpp
-;	COMDAT ??$?6M$01$03$00@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Matrix@M$01$03$00@@@Z
-_TEXT	SEGMENT
-os$ = 64
-mat$ = 72
-??$?6M$01$03$00@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Matrix@M$01$03$00@@@Z PROC ; operator<<<float,2,4,1>, COMDAT
-
-; 12   : std::ostream& operator<<(std::ostream& os, const Matrix<T, Columns, Rows, Order>& mat) {
-
-$LN30:
-	mov	QWORD PTR [rsp+8], rbx
-	mov	QWORD PTR [rsp+16], rbp
-	mov	QWORD PTR [rsp+24], rsi
-	mov	QWORD PTR [rsp+32], rdi
-	push	r12
-	push	r14
-	push	r15
-	sub	rsp, 32					; 00000020H
-	mov	rdi, rdx
-
-; 13   : 	for (int y = 0; y < mat.Height(); ++y) {
-
-	lea	r12, OFFSET FLAT:$SG4294967181
-	mov	rbp, rcx
-	mov	r15d, 4
-$LL4@operator:
-
-; 14   : 		os << "{";
-
-	lea	rdx, OFFSET FLAT:$SG4294967182
-	mov	rcx, rbp
-	call	??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z ; std::operator<<<std::char_traits<char> >
-
-; 15   : 		for (int x = 0; x < mat.Width(); ++x) {
-
-	xor	esi, esi
-	lea	r14d, QWORD PTR [rsi+2]
-	npad	10
-$LL7@operator:
-
-; 16   : 			os << mat(x, y) << (x == mat.Width() - 1 ? "" : "\t");
-
-	movss	xmm1, DWORD PTR [rdi]
-	lea	rbx, OFFSET FLAT:$SG4294967180
-	cmp	esi, 1
-	mov	rcx, rbp
-	cmove	rbx, r12
-	call	QWORD PTR __imp_??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@M@Z
-	mov	rcx, rax
-	mov	rdx, rbx
-	call	??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z ; std::operator<<<std::char_traits<char> >
-	inc	esi
-	add	rdi, 4
-	sub	r14, 1
-	jne	SHORT $LL7@operator
-
-; 17   : 		}
-; 18   : 		os << "}\n";
-
-	lea	rdx, OFFSET FLAT:$SG4294967179
-	mov	rcx, rbp
-	call	??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z ; std::operator<<<std::char_traits<char> >
-	sub	r15, 1
-	jne	SHORT $LL4@operator
-
-; 19   : 	}
-; 20   : 	return os;
-; 21   : }
-
-	mov	rbx, QWORD PTR [rsp+64]
-	mov	rax, rbp
-	mov	rbp, QWORD PTR [rsp+72]
-	mov	rsi, QWORD PTR [rsp+80]
-	mov	rdi, QWORD PTR [rsp+88]
-	add	rsp, 32					; 00000020H
-	pop	r15
-	pop	r14
-	pop	r12
-	ret	0
-??$?6M$01$03$00@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Matrix@M$01$03$00@@@Z ENDP ; operator<<<float,2,4,1>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ??$?DMM$03$01$01$00$00MX@@YA?AV?$Matrix@M$01$01$00@@AEBV?$Matrix@M$03$01$00@@AEBV?$Matrix@M$01$03$00@@@Z
-_TEXT	SEGMENT
-scalarMultiplier$ = 16
-__$ReturnUdt$ = 16
-lhs$ = 24
-rhs$ = 32
-??$?DMM$03$01$01$00$00MX@@YA?AV?$Matrix@M$01$01$00@@AEBV?$Matrix@M$03$01$00@@AEBV?$Matrix@M$01$03$00@@@Z PROC ; operator*<float,float,4,2,2,1,1,float,void>, COMDAT
-
-; 138  : {
-
-$LN62:
-	push	rbp
-	mov	rbp, rsp
-
-; 139  : 	using ResultT = Matrix<V, Columns2, Rows1, Order1>;
-; 140  : 
-; 141  : 	ResultT result;
-; 142  : 
-; 143  : 	VectorSpec<V, Columns2> scalarMultiplier;
-; 144  : 	for (int y = 0; y < Rows1; ++y) {
-; 145  : 		scalarMultiplier = rhs.stripes[0];
-
-	mov	rax, QWORD PTR [r8]
-	mov	QWORD PTR scalarMultiplier$[rbp], rax
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 174  : 		this->x *= rhs;
-
-	movss	xmm0, DWORD PTR scalarMultiplier$[rbp]
-	mulss	xmm0, DWORD PTR [rdx]
-
-; 175  : 		this->y *= rhs;
-
-	movss	xmm1, DWORD PTR scalarMultiplier$[rbp+4]
-	mulss	xmm1, DWORD PTR [rdx]
-	movss	DWORD PTR scalarMultiplier$[rbp], xmm0
-	movss	DWORD PTR scalarMultiplier$[rbp+4], xmm1
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 147  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
-
-	mov	rax, QWORD PTR scalarMultiplier$[rbp]
-	mov	QWORD PTR [rcx], rax
-	mov	rax, QWORD PTR [r8]
-	mov	QWORD PTR scalarMultiplier$[rbp], rax
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 175  : 		this->y *= rhs;
-
-	movss	xmm1, DWORD PTR scalarMultiplier$[rbp+4]
-	mulss	xmm1, DWORD PTR [rdx+16]
-	movss	xmm0, DWORD PTR scalarMultiplier$[rbp]
-	mulss	xmm0, DWORD PTR [rdx+16]
-	movss	DWORD PTR scalarMultiplier$[rbp+4], xmm1
-	movss	DWORD PTR scalarMultiplier$[rbp], xmm0
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 147  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
-
-	mov	rax, QWORD PTR scalarMultiplier$[rbp]
-	mov	QWORD PTR [rcx+8], rax
-
-; 151  : 			scalarMultiplier = rhs.stripes[x];
-
-	mov	rax, QWORD PTR [r8+8]
-	mov	QWORD PTR scalarMultiplier$[rbp], rax
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 174  : 		this->x *= rhs;
-
-	movss	xmm1, DWORD PTR scalarMultiplier$[rbp]
-	mulss	xmm1, DWORD PTR [rdx+4]
-
-; 175  : 		this->y *= rhs;
-
-	movss	xmm2, DWORD PTR scalarMultiplier$[rbp+4]
-	mulss	xmm2, DWORD PTR [rdx+4]
-
-; 164  : 		this->x += rhs.x;
-
-	addss	xmm1, DWORD PTR [rcx]
-
-; 165  : 		this->y += rhs.y;
-
-	addss	xmm2, DWORD PTR [rcx+4]
-	movss	DWORD PTR [rcx], xmm1
-	movss	DWORD PTR [rcx+4], xmm2
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 151  : 			scalarMultiplier = rhs.stripes[x];
-
-	mov	rax, QWORD PTR [r8+8]
-	mov	QWORD PTR scalarMultiplier$[rbp], rax
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 174  : 		this->x *= rhs;
-
-	movss	xmm1, DWORD PTR scalarMultiplier$[rbp]
-	mulss	xmm1, DWORD PTR [rdx+20]
-
-; 175  : 		this->y *= rhs;
-
-	movss	xmm2, DWORD PTR scalarMultiplier$[rbp+4]
-	mulss	xmm2, DWORD PTR [rdx+20]
-
-; 164  : 		this->x += rhs.x;
-
-	addss	xmm1, DWORD PTR [rcx+8]
-	movss	DWORD PTR [rcx+8], xmm1
-
-; 165  : 		this->y += rhs.y;
-
-	addss	xmm2, DWORD PTR [rcx+12]
-	movss	DWORD PTR [rcx+12], xmm2
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 151  : 			scalarMultiplier = rhs.stripes[x];
-
-	mov	rax, QWORD PTR [r8+16]
-	mov	QWORD PTR scalarMultiplier$[rbp], rax
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 174  : 		this->x *= rhs;
-
-	movss	xmm1, DWORD PTR scalarMultiplier$[rbp]
-	mulss	xmm1, DWORD PTR [rdx+8]
-
-; 175  : 		this->y *= rhs;
-
-	movss	xmm2, DWORD PTR scalarMultiplier$[rbp+4]
-	mulss	xmm2, DWORD PTR [rdx+8]
-
-; 164  : 		this->x += rhs.x;
-
-	addss	xmm1, DWORD PTR [rcx]
-	movss	DWORD PTR [rcx], xmm1
-
-; 165  : 		this->y += rhs.y;
-
-	addss	xmm2, DWORD PTR [rcx+4]
-	movss	DWORD PTR [rcx+4], xmm2
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 151  : 			scalarMultiplier = rhs.stripes[x];
-
-	mov	rax, QWORD PTR [r8+16]
-	mov	QWORD PTR scalarMultiplier$[rbp], rax
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 174  : 		this->x *= rhs;
-
-	movss	xmm1, DWORD PTR scalarMultiplier$[rbp]
-	mulss	xmm1, DWORD PTR [rdx+24]
-
-; 175  : 		this->y *= rhs;
-
-	movss	xmm2, DWORD PTR scalarMultiplier$[rbp+4]
-	mulss	xmm2, DWORD PTR [rdx+24]
-
-; 164  : 		this->x += rhs.x;
-
-	addss	xmm1, DWORD PTR [rcx+8]
-	movss	DWORD PTR [rcx+8], xmm1
-
-; 165  : 		this->y += rhs.y;
-
-	addss	xmm2, DWORD PTR [rcx+12]
-	movss	DWORD PTR [rcx+12], xmm2
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 151  : 			scalarMultiplier = rhs.stripes[x];
-
-	mov	rax, QWORD PTR [r8+24]
-	mov	QWORD PTR scalarMultiplier$[rbp], rax
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 174  : 		this->x *= rhs;
-
-	movss	xmm1, DWORD PTR scalarMultiplier$[rbp]
-	mulss	xmm1, DWORD PTR [rdx+12]
-
-; 175  : 		this->y *= rhs;
-
-	movss	xmm2, DWORD PTR scalarMultiplier$[rbp+4]
-	mulss	xmm2, DWORD PTR [rdx+12]
-
-; 164  : 		this->x += rhs.x;
-
-	addss	xmm1, DWORD PTR [rcx]
-	movss	DWORD PTR [rcx], xmm1
-
-; 165  : 		this->y += rhs.y;
-
-	addss	xmm2, DWORD PTR [rcx+4]
-	movss	DWORD PTR [rcx+4], xmm2
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 151  : 			scalarMultiplier = rhs.stripes[x];
-
-	mov	rax, QWORD PTR [r8+24]
-	mov	QWORD PTR scalarMultiplier$[rbp], rax
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 174  : 		this->x *= rhs;
-
-	movss	xmm1, DWORD PTR scalarMultiplier$[rbp]
-	mulss	xmm1, DWORD PTR [rdx+28]
-
-; 175  : 		this->y *= rhs;
-
-	movss	xmm2, DWORD PTR scalarMultiplier$[rbp+4]
-	mulss	xmm2, DWORD PTR [rdx+28]
-
-; 164  : 		this->x += rhs.x;
-
-	addss	xmm1, DWORD PTR [rcx+8]
-	movss	DWORD PTR [rcx+8], xmm1
-
-; 165  : 		this->y += rhs.y;
-
-	addss	xmm2, DWORD PTR [rcx+12]
-	movss	DWORD PTR [rcx+12], xmm2
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 157  : 	return result;
-
-	mov	rax, rcx
-
-; 158  : }
-
-	pop	rbp
-	ret	0
-??$?DMM$03$01$01$00$00MX@@YA?AV?$Matrix@M$01$01$00@@AEBV?$Matrix@M$03$01$00@@AEBV?$Matrix@M$01$03$00@@@Z ENDP ; operator*<float,float,4,2,2,1,1,float,void>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\main.cpp
-;	COMDAT ??$?6M$01$01$00@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Matrix@M$01$01$00@@@Z
-_TEXT	SEGMENT
-os$ = 64
-mat$ = 72
-??$?6M$01$01$00@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Matrix@M$01$01$00@@@Z PROC ; operator<<<float,2,2,1>, COMDAT
-
-; 12   : std::ostream& operator<<(std::ostream& os, const Matrix<T, Columns, Rows, Order>& mat) {
-
-$LN30:
-	mov	QWORD PTR [rsp+8], rbx
-	mov	QWORD PTR [rsp+16], rbp
-	mov	QWORD PTR [rsp+24], rsi
-	mov	QWORD PTR [rsp+32], rdi
-	push	r12
-	push	r14
-	push	r15
-	sub	rsp, 32					; 00000020H
-	mov	rdi, rdx
-
-; 13   : 	for (int y = 0; y < mat.Height(); ++y) {
-
-	lea	r12, OFFSET FLAT:$SG4294967177
-	mov	rbp, rcx
-	mov	r15d, 2
-$LL4@operator:
-
-; 14   : 		os << "{";
-
-	lea	rdx, OFFSET FLAT:$SG4294967178
-	mov	rcx, rbp
-	call	??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z ; std::operator<<<std::char_traits<char> >
-
-; 15   : 		for (int x = 0; x < mat.Width(); ++x) {
-
-	xor	esi, esi
-	lea	r14d, QWORD PTR [rsi+2]
-	npad	10
-$LL7@operator:
-
-; 16   : 			os << mat(x, y) << (x == mat.Width() - 1 ? "" : "\t");
-
-	movss	xmm1, DWORD PTR [rdi]
-	lea	rbx, OFFSET FLAT:$SG4294967176
-	cmp	esi, 1
-	mov	rcx, rbp
-	cmove	rbx, r12
-	call	QWORD PTR __imp_??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@M@Z
-	mov	rcx, rax
-	mov	rdx, rbx
-	call	??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z ; std::operator<<<std::char_traits<char> >
-	inc	esi
-	add	rdi, 4
-	sub	r14, 1
-	jne	SHORT $LL7@operator
-
-; 17   : 		}
-; 18   : 		os << "}\n";
-
-	lea	rdx, OFFSET FLAT:$SG4294967175
-	mov	rcx, rbp
-	call	??$?6U?$char_traits@D@std@@@std@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@0@AEAV10@PEBD@Z ; std::operator<<<std::char_traits<char> >
-	sub	r15, 1
-	jne	SHORT $LL4@operator
-
-; 19   : 	}
-; 20   : 	return os;
-; 21   : }
-
-	mov	rbx, QWORD PTR [rsp+64]
-	mov	rax, rbp
-	mov	rbp, QWORD PTR [rsp+72]
-	mov	rsi, QWORD PTR [rsp+80]
-	mov	rdi, QWORD PTR [rsp+88]
-	add	rsp, 32					; 00000020H
-	pop	r15
-	pop	r14
-	pop	r12
-	ret	0
-??$?6M$01$01$00@@YAAEAV?$basic_ostream@DU?$char_traits@D@std@@@std@@AEAV01@AEBV?$Matrix@M$01$01$00@@@Z ENDP ; operator<<<float,2,2,1>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ??$?DMM$01$03$03$00$00MX@@YA?AV?$Matrix@M$03$03$00@@AEBV?$Matrix@M$01$03$00@@AEBV?$Matrix@M$03$01$00@@@Z
-_TEXT	SEGMENT
-__$ReturnUdt$ = 8
-lhs$ = 16
-rhs$ = 24
-??$?DMM$01$03$03$00$00MX@@YA?AV?$Matrix@M$03$03$00@@AEBV?$Matrix@M$01$03$00@@AEBV?$Matrix@M$03$01$00@@@Z PROC ; operator*<float,float,2,4,4,1,1,float,void>, COMDAT
-
-; 138  : {
-
-	mov	r10, rcx
-
-; 144  : 	for (int y = 0; y < Rows1; ++y) {
-
-	xor	eax, eax
-	mov	r9, rcx
-	npad	8
-$LL4@operator:
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 37   : 		__m128 tmp = _mm_set1_ps(rhs);
-
-	movss	xmm1, DWORD PTR [rdx+rax*8]
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 144  : 	for (int y = 0; y < Rows1; ++y) {
-
-	lea	r9, QWORD PTR [r9+16]
-
-; 145  : 		scalarMultiplier = rhs.stripes[0];
-
-	movups	xmm0, XMMWORD PTR [r8]
-	inc	rax
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 37   : 		__m128 tmp = _mm_set1_ps(rhs);
-
-	shufps	xmm1, xmm1, 0
-
-; 38   : 		res.reg = _mm_mul_ps(lhs.reg, tmp);
-
-	mulps	xmm1, xmm0
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 147  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
-
-	movups	XMMWORD PTR [r9-16], xmm1
-	cmp	rax, 4
-	jl	SHORT $LL4@operator
-
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
-
-	lea	rcx, QWORD PTR [rdx+4]
-	mov	rax, r10
-	mov	edx, 4
-	npad	2
-$LL10@operator:
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 37   : 		__m128 tmp = _mm_set1_ps(rhs);
-
-	movss	xmm0, DWORD PTR [rcx]
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
-
-	add	rcx, 8
-
-; 151  : 			scalarMultiplier = rhs.stripes[x];
-
-	movups	xmm1, XMMWORD PTR [r8+16]
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 37   : 		__m128 tmp = _mm_set1_ps(rhs);
-
-	shufps	xmm0, xmm0, 0
-
-; 38   : 		res.reg = _mm_mul_ps(lhs.reg, tmp);
-
-	mulps	xmm1, xmm0
-
-; 25   : 		res.reg = _mm_add_ps(lhs.reg, rhs.reg);
-
-	movaps	xmm0, XMMWORD PTR [rax]
-	addps	xmm0, xmm1
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 464  : 		simd = Simd4f::add(simd, rhs.simd);
-
-	movaps	XMMWORD PTR [rax], xmm0
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
-
-	add	rax, 16
-	sub	rdx, 1
-	jne	SHORT $LL10@operator
-
-; 152  : 			scalarMultiplier.mul(lhs(x, y));
-; 153  : 			static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]).add(scalarMultiplier);
-; 154  : 		}
-; 155  : 	}
-; 156  : 
-; 157  : 	return result;
-
-	mov	rax, r10
-
-; 158  : }
-
-	ret	0
-??$?DMM$01$03$03$00$00MX@@YA?AV?$Matrix@M$03$03$00@@AEBV?$Matrix@M$01$03$00@@AEBV?$Matrix@M$03$01$00@@@Z ENDP ; operator*<float,float,2,4,4,1,1,float,void>
 _TEXT	ENDS
 ; Function compile flags: /Ogtpy
 ; File c:\home\programming\mathter\main.cpp
@@ -6666,104 +3627,104 @@ $LL19@MatMulSpee:
 $LL22@MatMulSpee:
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 145  : 		scalarMultiplier = rhs.stripes[0];
+; 169  : 		scalarMultiplier = rhs.stripes[0];
 
 	mov	rax, QWORD PTR [rdx-8]
 	mov	QWORD PTR scalarMultiplier$146[rbp-105], rax
 ; File c:\home\programming\mathter\mathter\vector.hpp
 
-; 174  : 		this->x *= rhs;
+; 173  : 		this->x *= rhs;
 
 	movss	xmm0, DWORD PTR scalarMultiplier$146[rbp-105]
 	mulss	xmm0, DWORD PTR [rdi+rdx-8]
 	movss	DWORD PTR scalarMultiplier$146[rbp-105], xmm0
 
-; 175  : 		this->y *= rhs;
+; 174  : 		this->y *= rhs;
 
 	movss	xmm1, DWORD PTR scalarMultiplier$146[rbp-101]
 	mulss	xmm1, DWORD PTR [rdi+rdx-8]
 	movss	DWORD PTR scalarMultiplier$146[rbp-101], xmm1
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 147  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
+; 171  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
 
 	mov	rcx, QWORD PTR scalarMultiplier$146[rbp-105]
 	mov	QWORD PTR $T22[rbp-105], rcx
 
-; 145  : 		scalarMultiplier = rhs.stripes[0];
+; 169  : 		scalarMultiplier = rhs.stripes[0];
 
 	mov	QWORD PTR scalarMultiplier$146[rbp-105], rax
 ; File c:\home\programming\mathter\mathter\vector.hpp
 
-; 174  : 		this->x *= rhs;
+; 173  : 		this->x *= rhs;
 
 	movss	xmm0, DWORD PTR scalarMultiplier$146[rbp-105]
 	mulss	xmm0, DWORD PTR [rdx+rdi]
 	movss	DWORD PTR scalarMultiplier$146[rbp-105], xmm0
 
-; 175  : 		this->y *= rhs;
+; 174  : 		this->y *= rhs;
 
 	movss	xmm1, DWORD PTR scalarMultiplier$146[rbp-101]
 	mulss	xmm1, DWORD PTR [rdx+rdi]
 	movss	DWORD PTR scalarMultiplier$146[rbp-101], xmm1
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 147  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
+; 171  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
 
 	mov	rax, QWORD PTR scalarMultiplier$146[rbp-105]
 	mov	QWORD PTR $T22[rbp-97], rax
 
-; 151  : 			scalarMultiplier = rhs.stripes[x];
+; 175  : 			scalarMultiplier = rhs.stripes[x];
 
 	mov	rax, QWORD PTR [rdx]
 	mov	QWORD PTR scalarMultiplier$146[rbp-105], rax
 ; File c:\home\programming\mathter\mathter\vector.hpp
 
-; 174  : 		this->x *= rhs;
+; 173  : 		this->x *= rhs;
 
 	movss	xmm2, DWORD PTR scalarMultiplier$146[rbp-105]
 	mulss	xmm2, DWORD PTR [rdi+rdx-4]
 
-; 175  : 		this->y *= rhs;
+; 174  : 		this->y *= rhs;
 
 	movss	xmm3, DWORD PTR scalarMultiplier$146[rbp-101]
 	mulss	xmm3, DWORD PTR [rdi+rdx-4]
 
-; 164  : 		this->x += rhs.x;
+; 163  : 		this->x += rhs.x;
 
 	movss	xmm1, DWORD PTR $T22[rbp-105]
 	addss	xmm1, xmm2
 	movss	DWORD PTR $T22[rbp-105], xmm1
 
-; 165  : 		this->y += rhs.y;
+; 164  : 		this->y += rhs.y;
 
 	movss	xmm0, DWORD PTR $T22[rbp-101]
 	addss	xmm0, xmm3
 	movss	DWORD PTR $T22[rbp-101], xmm0
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 151  : 			scalarMultiplier = rhs.stripes[x];
+; 175  : 			scalarMultiplier = rhs.stripes[x];
 
 	mov	QWORD PTR scalarMultiplier$146[rbp-105], rax
 ; File c:\home\programming\mathter\mathter\vector.hpp
 
-; 174  : 		this->x *= rhs;
+; 173  : 		this->x *= rhs;
 
 	movss	xmm2, DWORD PTR scalarMultiplier$146[rbp-105]
 	mulss	xmm2, DWORD PTR [rdi+rdx+4]
 
-; 175  : 		this->y *= rhs;
+; 174  : 		this->y *= rhs;
 
 	movss	xmm3, DWORD PTR scalarMultiplier$146[rbp-101]
 	mulss	xmm3, DWORD PTR [rdi+rdx+4]
 
-; 164  : 		this->x += rhs.x;
+; 163  : 		this->x += rhs.x;
 
 	movss	xmm0, DWORD PTR $T22[rbp-97]
 	addss	xmm0, xmm2
 	movss	DWORD PTR $T22[rbp-97], xmm0
 
-; 165  : 		this->y += rhs.y;
+; 164  : 		this->y += rhs.y;
 
 	movss	xmm1, DWORD PTR $T22[rbp-93]
 	addss	xmm1, xmm3
@@ -7487,12 +4448,12 @@ $LL22@MatMulSpee:
 $LL130@MatMulSpee:
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 145  : 		scalarMultiplier = rhs.stripes[0];
+; 169  : 		scalarMultiplier = rhs.stripes[0];
 
 	movups	xmm1, XMMWORD PTR [r10-16]
 ; File c:\home\programming\mathter\mathter\vector.hpp
 
-; 680  : 		return data[idx];
+; 679  : 		return data[idx];
 
 	lea	rax, QWORD PTR [rsi+r10]
 ; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
@@ -7507,18 +4468,18 @@ $LL130@MatMulSpee:
 	mulps	xmm1, xmm0
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 147  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
+; 171  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
 
 	movups	XMMWORD PTR [rcx], xmm1
 
-; 144  : 	for (int y = 0; y < Rows1; ++y) {
+; 168  : 	for (int y = 0; y < Rows1; ++y) {
 
 	lea	rcx, QWORD PTR [rcx+16]
 	sub	rdx, 1
 	jne	SHORT $LL130@MatMulSpee
 
-; 148  : 	}
-; 149  : 	for (int x = 1; x < Match; ++x) {
+; 172  : 	}
+; 173  : 	for (int x = 1; x < Match; ++x) {
 
 	lea	r9, QWORD PTR [r15+r10]
 	mov	r8, r10
@@ -7526,14 +4487,14 @@ $LL130@MatMulSpee:
 	npad	2
 $LL133@MatMulSpee:
 
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
+; 174  : 		for (int y = 0; y < Rows1; ++y) {
 
 	lea	rax, QWORD PTR $T26[rsp]
 	mov	rcx, r9
 	mov	edx, 3
 $LL136@MatMulSpee:
 
-; 151  : 			scalarMultiplier = rhs.stripes[x];
+; 175  : 			scalarMultiplier = rhs.stripes[x];
 
 	movups	xmm1, XMMWORD PTR [r8]
 ; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
@@ -7552,20 +4513,20 @@ $LL136@MatMulSpee:
 	addps	xmm1, XMMWORD PTR [rax]
 ; File c:\home\programming\mathter\mathter\vector.hpp
 
-; 404  : 		simd = Simd4f::add(simd, rhs.simd);
+; 403  : 		simd = Simd4f::add(simd, rhs.simd);
 
 	movaps	XMMWORD PTR [rax], xmm1
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
+; 174  : 		for (int y = 0; y < Rows1; ++y) {
 
 	add	rcx, 16
 	add	rax, 16
 	sub	rdx, 1
 	jne	SHORT $LL136@MatMulSpee
 
-; 148  : 	}
-; 149  : 	for (int x = 1; x < Match; ++x) {
+; 172  : 	}
+; 173  : 	for (int x = 1; x < Match; ++x) {
 
 	add	r8, 16
 	add	r9, 4
@@ -8320,12 +5281,12 @@ $LL22@MatMulSpee:
 $LL130@MatMulSpee:
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 145  : 		scalarMultiplier = rhs.stripes[0];
+; 169  : 		scalarMultiplier = rhs.stripes[0];
 
 	movups	xmm1, XMMWORD PTR [r10-16]
 ; File c:\home\programming\mathter\mathter\vector.hpp
 
-; 680  : 		return data[idx];
+; 679  : 		return data[idx];
 
 	lea	rax, QWORD PTR [rcx+rsi]
 ; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
@@ -8340,18 +5301,18 @@ $LL130@MatMulSpee:
 	mulps	xmm1, xmm0
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 147  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
+; 171  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
 
 	movups	XMMWORD PTR [rcx], xmm1
 
-; 144  : 	for (int y = 0; y < Rows1; ++y) {
+; 168  : 	for (int y = 0; y < Rows1; ++y) {
 
 	lea	rcx, QWORD PTR [rcx+16]
 	sub	rdx, 1
 	jne	SHORT $LL130@MatMulSpee
 
-; 148  : 	}
-; 149  : 	for (int x = 1; x < Match; ++x) {
+; 172  : 	}
+; 173  : 	for (int x = 1; x < Match; ++x) {
 
 	lea	r9, QWORD PTR [r15+r10]
 	mov	r8, r10
@@ -8359,14 +5320,14 @@ $LL130@MatMulSpee:
 	npad	1
 $LL133@MatMulSpee:
 
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
+; 174  : 		for (int y = 0; y < Rows1; ++y) {
 
 	lea	rax, QWORD PTR $T26[rsp]
 	mov	rcx, r9
 	mov	edx, 4
 $LL136@MatMulSpee:
 
-; 151  : 			scalarMultiplier = rhs.stripes[x];
+; 175  : 			scalarMultiplier = rhs.stripes[x];
 
 	movups	xmm1, XMMWORD PTR [r8]
 ; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
@@ -8385,20 +5346,20 @@ $LL136@MatMulSpee:
 	addps	xmm1, XMMWORD PTR [rax]
 ; File c:\home\programming\mathter\mathter\vector.hpp
 
-; 464  : 		simd = Simd4f::add(simd, rhs.simd);
+; 463  : 		simd = Simd4f::add(simd, rhs.simd);
 
 	movaps	XMMWORD PTR [rax], xmm1
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
+; 174  : 		for (int y = 0; y < Rows1; ++y) {
 
 	add	rcx, 16
 	add	rax, 16
 	sub	rdx, 1
 	jne	SHORT $LL136@MatMulSpee
 
-; 148  : 	}
-; 149  : 	for (int x = 1; x < Match; ++x) {
+; 172  : 	}
+; 173  : 	for (int x = 1; x < Match; ++x) {
 
 	add	r8, 16
 	add	r9, 4
@@ -9808,7 +6769,7 @@ $LL19@MatMulSpee:
 $LL22@MatMulSpee:
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 144  : 	for (int y = 0; y < Rows1; ++y) {
+; 168  : 	for (int y = 0; y < Rows1; ++y) {
 
 	xor	eax, eax
 ; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
@@ -9820,7 +6781,7 @@ $LL22@MatMulSpee:
 $LL130@MatMulSpee:
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 145  : 		scalarMultiplier = rhs.stripes[0];
+; 169  : 		scalarMultiplier = rhs.stripes[0];
 
 	movups	xmm1, XMMWORD PTR [r10+rcx]
 ; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
@@ -9835,25 +6796,25 @@ $LL130@MatMulSpee:
 	mulps	xmm1, xmm0
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 147  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
+; 171  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
 
 	movups	XMMWORD PTR [rdx], xmm1
 
-; 144  : 	for (int y = 0; y < Rows1; ++y) {
+; 168  : 	for (int y = 0; y < Rows1; ++y) {
 
 	inc	rax
 	lea	rdx, QWORD PTR [rdx+16]
 	cmp	rax, 4
 	jl	SHORT $LL130@MatMulSpee
 
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
+; 174  : 		for (int y = 0; y < Rows1; ++y) {
 
 	lea	rax, QWORD PTR $T26[rsp]
 	lea	rdx, QWORD PTR [rcx+4]
 	mov	r9d, 4
 $LL136@MatMulSpee:
 
-; 151  : 			scalarMultiplier = rhs.stripes[x];
+; 175  : 			scalarMultiplier = rhs.stripes[x];
 
 	movups	xmm1, XMMWORD PTR [r10+rcx+16]
 ; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
@@ -9872,12 +6833,12 @@ $LL136@MatMulSpee:
 	addps	xmm1, XMMWORD PTR [rax]
 ; File c:\home\programming\mathter\mathter\vector.hpp
 
-; 464  : 		simd = Simd4f::add(simd, rhs.simd);
+; 463  : 		simd = Simd4f::add(simd, rhs.simd);
 
 	movaps	XMMWORD PTR [rax], xmm1
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
+; 174  : 		for (int y = 0; y < Rows1; ++y) {
 
 	add	rdx, 8
 	add	rax, 16
@@ -10608,7 +7569,7 @@ $LL22@MatMulSpee:
 $LL130@MatMulSpee:
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 145  : 		scalarMultiplier = rhs.stripes[0];
+; 169  : 		scalarMultiplier = rhs.stripes[0];
 
 	movups	xmm1, XMMWORD PTR [r11]
 ; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
@@ -10623,18 +7584,18 @@ $LL130@MatMulSpee:
 	mulps	xmm1, xmm0
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 147  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
+; 171  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
 
 	movups	XMMWORD PTR [rax], xmm1
 
-; 144  : 	for (int y = 0; y < Rows1; ++y) {
+; 168  : 	for (int y = 0; y < Rows1; ++y) {
 
 	lea	rax, QWORD PTR [rax+16]
 	sub	rcx, 1
 	jne	SHORT $LL130@MatMulSpee
 
-; 148  : 	}
-; 149  : 	for (int x = 1; x < Match; ++x) {
+; 172  : 	}
+; 173  : 	for (int x = 1; x < Match; ++x) {
 
 	mov	r9, rbp
 	lea	rdx, QWORD PTR [r11+16]
@@ -10642,14 +7603,14 @@ $LL130@MatMulSpee:
 	npad	8
 $LL133@MatMulSpee:
 
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
+; 174  : 		for (int y = 0; y < Rows1; ++y) {
 
 	lea	rax, QWORD PTR $T26[rsp]
 	mov	rcx, r9
 	mov	r8d, 3
 $LL136@MatMulSpee:
 
-; 151  : 			scalarMultiplier = rhs.stripes[x];
+; 175  : 			scalarMultiplier = rhs.stripes[x];
 
 	movups	xmm1, XMMWORD PTR [rdx]
 ; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
@@ -10668,20 +7629,20 @@ $LL136@MatMulSpee:
 	addps	xmm1, XMMWORD PTR [rax]
 ; File c:\home\programming\mathter\mathter\vector.hpp
 
-; 404  : 		simd = Simd4f::add(simd, rhs.simd);
+; 403  : 		simd = Simd4f::add(simd, rhs.simd);
 
 	movaps	XMMWORD PTR [rax], xmm1
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
+; 174  : 		for (int y = 0; y < Rows1; ++y) {
 
 	add	rcx, 16
 	add	rax, 16
 	sub	r8, 1
 	jne	SHORT $LL136@MatMulSpee
 
-; 148  : 	}
-; 149  : 	for (int x = 1; x < Match; ++x) {
+; 172  : 	}
+; 173  : 	for (int x = 1; x < Match; ++x) {
 
 	add	rdx, 16
 	add	r9, 4
@@ -11441,7 +8402,7 @@ $LL22@MatMulSpee:
 $LL130@MatMulSpee:
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 145  : 		scalarMultiplier = rhs.stripes[0];
+; 169  : 		scalarMultiplier = rhs.stripes[0];
 
 	movups	xmm1, XMMWORD PTR [r11]
 ; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
@@ -11456,18 +8417,18 @@ $LL130@MatMulSpee:
 	mulps	xmm1, xmm0
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 147  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
+; 171  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
 
 	movups	XMMWORD PTR [rax], xmm1
 
-; 144  : 	for (int y = 0; y < Rows1; ++y) {
+; 168  : 	for (int y = 0; y < Rows1; ++y) {
 
 	lea	rax, QWORD PTR [rax+16]
 	sub	rcx, 1
 	jne	SHORT $LL130@MatMulSpee
 
-; 148  : 	}
-; 149  : 	for (int x = 1; x < Match; ++x) {
+; 172  : 	}
+; 173  : 	for (int x = 1; x < Match; ++x) {
 
 	mov	r9, rbp
 	lea	rdx, QWORD PTR [r11+16]
@@ -11475,14 +8436,14 @@ $LL130@MatMulSpee:
 	npad	8
 $LL133@MatMulSpee:
 
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
+; 174  : 		for (int y = 0; y < Rows1; ++y) {
 
 	lea	rax, QWORD PTR $T26[rsp]
 	mov	rcx, r9
 	mov	r8d, 4
 $LL136@MatMulSpee:
 
-; 151  : 			scalarMultiplier = rhs.stripes[x];
+; 175  : 			scalarMultiplier = rhs.stripes[x];
 
 	movups	xmm1, XMMWORD PTR [rdx]
 ; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
@@ -11501,20 +8462,20 @@ $LL136@MatMulSpee:
 	addps	xmm1, XMMWORD PTR [rax]
 ; File c:\home\programming\mathter\mathter\vector.hpp
 
-; 464  : 		simd = Simd4f::add(simd, rhs.simd);
+; 463  : 		simd = Simd4f::add(simd, rhs.simd);
 
 	movaps	XMMWORD PTR [rax], xmm1
 ; File c:\home\programming\mathter\mathter\matrix.hpp
 
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
+; 174  : 		for (int y = 0; y < Rows1; ++y) {
 
 	add	rcx, 16
 	add	rax, 16
 	sub	r8, 1
 	jne	SHORT $LL136@MatMulSpee
 
-; 148  : 	}
-; 149  : 	for (int x = 1; x < Match; ++x) {
+; 172  : 	}
+; 173  : 	for (int x = 1; x < Match; ++x) {
 
 	add	rdx, 16
 	add	r9, 4
@@ -12024,8872 +8985,6 @@ __$ArrayPad$ = 208
 ?dtor$1@?0???$MatMulSpeedTest@M$02$03$03$02@@YANXZ@4HA ENDP ; `MatMulSpeedTest<float,3,4,4,3>'::`1'::dtor$1
 text$x	ENDS
 ; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??A?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAAAEAV?$Matrix@M$02$03$00@@_K@Z
-_TEXT	SEGMENT
-this$ = 8
-_Pos$ = 16
-??A?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAAAEAV?$Matrix@M$02$03$00@@_K@Z PROC ; std::vector<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > >::operator[], COMDAT
-
-; 1231 :  #if _ITERATOR_DEBUG_LEVEL == 2
-; 1232 : 		if (size() <= _Pos)
-; 1233 : 			{	// report error
-; 1234 : 			_DEBUG_ERROR("vector subscript out of range");
-; 1235 : 			_SCL_SECURE_OUT_OF_RANGE;
-; 1236 : 			}
-; 1237 : 
-; 1238 :  #elif _ITERATOR_DEBUG_LEVEL == 1
-; 1239 : 		_SCL_SECURE_VALIDATE_RANGE(_Pos < size());
-; 1240 :  #endif /* _ITERATOR_DEBUG_LEVEL */
-; 1241 : 
-; 1242 : 		return (*(this->_Myfirst() + _Pos));
-
-	shl	rdx, 6
-	add	rdx, QWORD PTR [rcx]
-	mov	rax, rdx
-
-; 1243 : 		}
-
-	ret	0
-??A?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAAAEAV?$Matrix@M$02$03$00@@_K@Z ENDP ; std::vector<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > >::operator[]
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??1?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 48
-??1?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAA@XZ PROC ; std::vector<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > >::~vector<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > >, COMDAT
-
-; 975  : 		{	// destroy the object
-
-$LN111:
-	push	rbx
-	sub	rsp, 32					; 00000020H
-	mov	rbx, rcx
-
-; 1637 : 		if (this->_Myfirst() != pointer())
-
-	mov	rcx, QWORD PTR [rcx]
-	test	rcx, rcx
-	je	SHORT $LN4@vector
-
-; 1641 : 			this->_Getal().deallocate(this->_Myfirst(),
-
-	mov	rax, QWORD PTR [rbx+16]
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	mov	rdx, 288230376151711743			; 03ffffffffffffffH
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1641 : 			this->_Getal().deallocate(this->_Myfirst(),
-
-	sub	rax, rcx
-	sar	rax, 6
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	cmp	rax, rdx
-	jbe	SHORT $LN71@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN71@vector:
-
-; 95   : 	const size_t _User_size = _Count * _Sz;
-
-	shl	rax, 6
-
-; 96   : 	if (_BIG_ALLOCATION_THRESHOLD <= _User_size)
-
-	cmp	rax, 4096				; 00001000H
-	jb	SHORT $LN72@vector
-
-; 97   : 		{	// deallocate large block
-; 98   : 		const uintptr_t _Ptr_user = reinterpret_cast<uintptr_t>(_Ptr);
-; 99   : 		_SCL_SECURE_ALWAYS_VALIDATE(
-
-	test	cl, 31
-	je	SHORT $LN73@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN73@vector:
-
-; 100  : 			(_Ptr_user & (_BIG_ALLOCATION_ALIGNMENT - 1)) == 0);
-; 101  : 		const uintptr_t _Ptr_ptr = _Ptr_user - sizeof(void *);
-; 102  : 		const uintptr_t _Ptr_container =
-; 103  : 			*reinterpret_cast<uintptr_t *>(_Ptr_ptr);
-
-	mov	rax, QWORD PTR [rcx-8]
-
-; 104  : 
-; 105  :  #ifdef _DEBUG
-; 106  : 		// If the following asserts, it likely means that we are performing
-; 107  : 		// an aligned delete on memory coming from an unaligned allocation.
-; 108  : 		_SCL_SECURE_ALWAYS_VALIDATE(
-; 109  : 			reinterpret_cast<uintptr_t *>(_Ptr_ptr)[-1] ==
-; 110  : 				_BIG_ALLOCATION_SENTINEL);
-; 111  :  #endif /* _DEBUG */
-; 112  : 
-; 113  : 		// Extra paranoia on aligned allocation/deallocation
-; 114  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container < _Ptr_user);
-
-	cmp	rax, rcx
-	jb	SHORT $LN74@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN74@vector:
-
-; 115  : 
-; 116  :  #ifdef _DEBUG
-; 117  : 		_SCL_SECURE_ALWAYS_VALIDATE(2 * sizeof(void *)
-; 118  : 			<= _Ptr_user - _Ptr_container);
-; 119  : 
-; 120  :  #else /* _DEBUG */
-; 121  : 		_SCL_SECURE_ALWAYS_VALIDATE(sizeof(void *)
-
-	sub	rcx, rax
-	cmp	rcx, 8
-	jae	SHORT $LN75@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN75@vector:
-
-; 122  : 			<= _Ptr_user - _Ptr_container);
-; 123  :  #endif /* _DEBUG */
-; 124  : 
-; 125  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_user - _Ptr_container
-
-	cmp	rcx, 39					; 00000027H
-	jbe	SHORT $LN76@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN76@vector:
-
-; 126  : 			<= _NON_USER_SIZE);
-; 127  : 
-; 128  : 		_Ptr = reinterpret_cast<void *>(_Ptr_container);
-
-	mov	rcx, rax
-$LN72@vector:
-
-; 129  : 		}
-; 130  :  #endif /* defined(_M_IX86) || defined(_M_X64) */
-; 131  : 
-; 132  : 	::operator delete(_Ptr);
-
-	call	??3@YAXPEAX@Z				; operator delete
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1643 : 			this->_Myfirst() = pointer();
-
-	xor	eax, eax
-	mov	QWORD PTR [rbx], rax
-
-; 1644 : 			this->_Mylast() = pointer();
-
-	mov	QWORD PTR [rbx+8], rax
-
-; 1645 : 			this->_Myend() = pointer();
-
-	mov	QWORD PTR [rbx+16], rax
-$LN4@vector:
-
-; 976  : 		_Tidy();
-; 977  : 		}
-
-	add	rsp, 32					; 00000020H
-	pop	rbx
-	ret	0
-$LN110@vector:
-??1?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAA@XZ ENDP ; std::vector<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > >::~vector<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??0?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAA@_K@Z
-_TEXT	SEGMENT
-this$ = 48
-_Count$dead$ = 56
-??0?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAA@_K@Z PROC ; std::vector<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > >::vector<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > >, COMDAT
-
-; 717  : 		{	// construct from _Count * value_type()
-
-$LN270:
-	push	rbx
-	sub	rsp, 32					; 00000020H
-
-; 1562 : 		this->_Myfirst() = pointer();
-
-	xor	eax, eax
-
-; 717  : 		{	// construct from _Count * value_type()
-
-	mov	rbx, rcx
-
-; 1562 : 		this->_Myfirst() = pointer();
-
-	mov	QWORD PTR [rcx], rax
-
-; 1563 : 		this->_Mylast() = pointer();
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 1564 : 		this->_Myend() = pointer();
-
-	mov	QWORD PTR [rcx+16], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 69   : 			reinterpret_cast<uintptr_t>(::operator new(_Block_size));
-
-	mov	ecx, 6400039				; 0061a827H
-	call	??2@YAPEAX_K@Z				; operator new
-
-; 70   : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container != 0);
-; 71   : 		_Ptr = reinterpret_cast<void *>((_Ptr_container + _NON_USER_SIZE)
-
-	lea	rdx, QWORD PTR [rax+39]
-	and	rdx, -32				; ffffffffffffffe0H
-
-; 72   : 			& ~(_BIG_ALLOCATION_ALIGNMENT - 1));
-; 73   : 		static_cast<uintptr_t *>(_Ptr)[-1] = _Ptr_container;
-
-	mov	QWORD PTR [rdx-8], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1572 : 			this->_Myfirst() = this->_Getal().allocate(_Capacity);
-
-	mov	QWORD PTR [rbx], rdx
-
-; 1573 : 			this->_Mylast() = this->_Myfirst();
-
-	mov	QWORD PTR [rbx+8], rdx
-
-; 1574 : 			this->_Myend() = this->_Myfirst() + _Capacity;
-
-	mov	rax, QWORD PTR [rbx]
-	add	rax, 6400000				; 0061a800H
-	mov	QWORD PTR [rbx+16], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-
-; 481  : 	_Uninitialized_default_fill_n1(_First, _Count, _Al,
-
-	mov	rcx, QWORD PTR [rbx]
-	call	??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$02$03$00@@_KV?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@YAXPEAV?$Matrix@M$02$03$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z ; std::_Uninitialized_default_fill_n1<Matrix<float,3,4,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,3,4,1> > >
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 723  : 			this->_Mylast() += _Count;
-
-	add	QWORD PTR [rbx+8], 6400000		; 0061a800H
-
-; 724  : 			_CATCH_ALL
-; 725  : 			_Tidy();
-; 726  : 			_RERAISE;
-; 727  : 			_CATCH_END
-; 728  : 			}
-; 729  : 		}
-
-	mov	rax, rbx
-	add	rsp, 32					; 00000020H
-	pop	rbx
-	ret	0
-??0?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAA@_K@Z ENDP ; std::vector<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > >::vector<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??A?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAAAEAV?$Matrix@M$03$02$00@@_K@Z
-_TEXT	SEGMENT
-this$ = 8
-_Pos$ = 16
-??A?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAAAEAV?$Matrix@M$03$02$00@@_K@Z PROC ; std::vector<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > >::operator[], COMDAT
-
-; 1231 :  #if _ITERATOR_DEBUG_LEVEL == 2
-; 1232 : 		if (size() <= _Pos)
-; 1233 : 			{	// report error
-; 1234 : 			_DEBUG_ERROR("vector subscript out of range");
-; 1235 : 			_SCL_SECURE_OUT_OF_RANGE;
-; 1236 : 			}
-; 1237 : 
-; 1238 :  #elif _ITERATOR_DEBUG_LEVEL == 1
-; 1239 : 		_SCL_SECURE_VALIDATE_RANGE(_Pos < size());
-; 1240 :  #endif /* _ITERATOR_DEBUG_LEVEL */
-; 1241 : 
-; 1242 : 		return (*(this->_Myfirst() + _Pos));
-
-	lea	rax, QWORD PTR [rdx+rdx*2]
-	shl	rax, 4
-	add	rax, QWORD PTR [rcx]
-
-; 1243 : 		}
-
-	ret	0
-??A?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAAAEAV?$Matrix@M$03$02$00@@_K@Z ENDP ; std::vector<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > >::operator[]
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??1?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 48
-??1?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAA@XZ PROC ; std::vector<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > >::~vector<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > >, COMDAT
-
-; 975  : 		{	// destroy the object
-
-$LN111:
-	push	rbx
-	sub	rsp, 32					; 00000020H
-	mov	rbx, rcx
-
-; 1637 : 		if (this->_Myfirst() != pointer())
-
-	mov	rcx, QWORD PTR [rcx]
-	test	rcx, rcx
-	je	$LN4@vector
-
-; 1638 : 			{	// something to free, destroy and deallocate it
-; 1639 : 			this->_Orphan_all();
-; 1640 : 			_Destroy(this->_Myfirst(), this->_Mylast());
-; 1641 : 			this->_Getal().deallocate(this->_Myfirst(),
-
-	mov	rdx, QWORD PTR [rbx+16]
-	mov	rax, 3074457345618258603		; 2aaaaaaaaaaaaaabH
-	sub	rdx, rcx
-	imul	rdx
-	sar	rdx, 3
-	mov	rax, rdx
-	shr	rax, 63					; 0000003fH
-	add	rdx, rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	mov	rax, 384307168202282325			; 0555555555555555H
-	cmp	rdx, rax
-	jbe	SHORT $LN71@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN71@vector:
-
-; 95   : 	const size_t _User_size = _Count * _Sz;
-
-	lea	rax, QWORD PTR [rdx+rdx*2]
-	shl	rax, 4
-
-; 96   : 	if (_BIG_ALLOCATION_THRESHOLD <= _User_size)
-
-	cmp	rax, 4096				; 00001000H
-	jb	SHORT $LN72@vector
-
-; 97   : 		{	// deallocate large block
-; 98   : 		const uintptr_t _Ptr_user = reinterpret_cast<uintptr_t>(_Ptr);
-; 99   : 		_SCL_SECURE_ALWAYS_VALIDATE(
-
-	test	cl, 31
-	je	SHORT $LN73@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN73@vector:
-
-; 100  : 			(_Ptr_user & (_BIG_ALLOCATION_ALIGNMENT - 1)) == 0);
-; 101  : 		const uintptr_t _Ptr_ptr = _Ptr_user - sizeof(void *);
-; 102  : 		const uintptr_t _Ptr_container =
-; 103  : 			*reinterpret_cast<uintptr_t *>(_Ptr_ptr);
-
-	mov	rax, QWORD PTR [rcx-8]
-
-; 104  : 
-; 105  :  #ifdef _DEBUG
-; 106  : 		// If the following asserts, it likely means that we are performing
-; 107  : 		// an aligned delete on memory coming from an unaligned allocation.
-; 108  : 		_SCL_SECURE_ALWAYS_VALIDATE(
-; 109  : 			reinterpret_cast<uintptr_t *>(_Ptr_ptr)[-1] ==
-; 110  : 				_BIG_ALLOCATION_SENTINEL);
-; 111  :  #endif /* _DEBUG */
-; 112  : 
-; 113  : 		// Extra paranoia on aligned allocation/deallocation
-; 114  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container < _Ptr_user);
-
-	cmp	rax, rcx
-	jb	SHORT $LN74@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN74@vector:
-
-; 115  : 
-; 116  :  #ifdef _DEBUG
-; 117  : 		_SCL_SECURE_ALWAYS_VALIDATE(2 * sizeof(void *)
-; 118  : 			<= _Ptr_user - _Ptr_container);
-; 119  : 
-; 120  :  #else /* _DEBUG */
-; 121  : 		_SCL_SECURE_ALWAYS_VALIDATE(sizeof(void *)
-
-	sub	rcx, rax
-	cmp	rcx, 8
-	jae	SHORT $LN75@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN75@vector:
-
-; 122  : 			<= _Ptr_user - _Ptr_container);
-; 123  :  #endif /* _DEBUG */
-; 124  : 
-; 125  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_user - _Ptr_container
-
-	cmp	rcx, 39					; 00000027H
-	jbe	SHORT $LN76@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN76@vector:
-
-; 126  : 			<= _NON_USER_SIZE);
-; 127  : 
-; 128  : 		_Ptr = reinterpret_cast<void *>(_Ptr_container);
-
-	mov	rcx, rax
-$LN72@vector:
-
-; 129  : 		}
-; 130  :  #endif /* defined(_M_IX86) || defined(_M_X64) */
-; 131  : 
-; 132  : 	::operator delete(_Ptr);
-
-	call	??3@YAXPEAX@Z				; operator delete
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1643 : 			this->_Myfirst() = pointer();
-
-	xor	eax, eax
-	mov	QWORD PTR [rbx], rax
-
-; 1644 : 			this->_Mylast() = pointer();
-
-	mov	QWORD PTR [rbx+8], rax
-
-; 1645 : 			this->_Myend() = pointer();
-
-	mov	QWORD PTR [rbx+16], rax
-$LN4@vector:
-
-; 976  : 		_Tidy();
-; 977  : 		}
-
-	add	rsp, 32					; 00000020H
-	pop	rbx
-	ret	0
-$LN110@vector:
-??1?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAA@XZ ENDP ; std::vector<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > >::~vector<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??0?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAA@_K@Z
-_TEXT	SEGMENT
-this$ = 48
-_Count$dead$ = 56
-??0?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAA@_K@Z PROC ; std::vector<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > >::vector<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > >, COMDAT
-
-; 717  : 		{	// construct from _Count * value_type()
-
-$LN165:
-	push	rbx
-	sub	rsp, 32					; 00000020H
-
-; 1562 : 		this->_Myfirst() = pointer();
-
-	xor	eax, eax
-
-; 717  : 		{	// construct from _Count * value_type()
-
-	mov	rbx, rcx
-
-; 1562 : 		this->_Myfirst() = pointer();
-
-	mov	QWORD PTR [rcx], rax
-
-; 1563 : 		this->_Mylast() = pointer();
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 1564 : 		this->_Myend() = pointer();
-
-	mov	QWORD PTR [rcx+16], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 69   : 			reinterpret_cast<uintptr_t>(::operator new(_Block_size));
-
-	mov	ecx, 4800039				; 00493e27H
-	call	??2@YAPEAX_K@Z				; operator new
-
-; 70   : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container != 0);
-; 71   : 		_Ptr = reinterpret_cast<void *>((_Ptr_container + _NON_USER_SIZE)
-
-	lea	rdx, QWORD PTR [rax+39]
-	and	rdx, -32				; ffffffffffffffe0H
-
-; 72   : 			& ~(_BIG_ALLOCATION_ALIGNMENT - 1));
-; 73   : 		static_cast<uintptr_t *>(_Ptr)[-1] = _Ptr_container;
-
-	mov	QWORD PTR [rdx-8], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1572 : 			this->_Myfirst() = this->_Getal().allocate(_Capacity);
-
-	mov	QWORD PTR [rbx], rdx
-
-; 1573 : 			this->_Mylast() = this->_Myfirst();
-
-	mov	QWORD PTR [rbx+8], rdx
-
-; 1574 : 			this->_Myend() = this->_Myfirst() + _Capacity;
-
-	mov	rax, QWORD PTR [rbx]
-	add	rax, 4800000				; 00493e00H
-	mov	QWORD PTR [rbx+16], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-
-; 481  : 	_Uninitialized_default_fill_n1(_First, _Count, _Al,
-
-	mov	rcx, QWORD PTR [rbx]
-	call	??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$03$02$00@@_KV?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@YAXPEAV?$Matrix@M$03$02$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z ; std::_Uninitialized_default_fill_n1<Matrix<float,4,3,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,4,3,1> > >
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 723  : 			this->_Mylast() += _Count;
-
-	add	QWORD PTR [rbx+8], 4800000		; 00493e00H
-
-; 724  : 			_CATCH_ALL
-; 725  : 			_Tidy();
-; 726  : 			_RERAISE;
-; 727  : 			_CATCH_END
-; 728  : 			}
-; 729  : 		}
-
-	mov	rax, rbx
-	add	rsp, 32					; 00000020H
-	pop	rbx
-	ret	0
-??0?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAA@_K@Z ENDP ; std::vector<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > >::vector<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ??R?$Matrix@M$02$03$00@@QEAAAEAMHH@Z
-_TEXT	SEGMENT
-this$ = 8
-col$ = 16
-row$ = 24
-??R?$Matrix@M$02$03$00@@QEAAAEAMHH@Z PROC		; Matrix<float,3,4,1>::operator(), COMDAT
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 684  : 		return data[idx];
-
-	movsxd	rax, edx
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 41   : 		return stripes[row][col];
-
-	movsxd	r8, r8d
-
-; 107  : 		return GetElement(col, row);
-
-	lea	rdx, QWORD PTR [rax+r8*4]
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 684  : 		return data[idx];
-
-	lea	rax, QWORD PTR [rcx+rdx*4]
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 108  : 	}
-
-	ret	0
-??R?$Matrix@M$02$03$00@@QEAAAEAMHH@Z ENDP		; Matrix<float,3,4,1>::operator()
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ??R?$Matrix@M$03$02$00@@QEAAAEAMHH@Z
-_TEXT	SEGMENT
-this$ = 8
-col$ = 16
-row$ = 24
-??R?$Matrix@M$03$02$00@@QEAAAEAMHH@Z PROC		; Matrix<float,4,3,1>::operator(), COMDAT
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 684  : 		return data[idx];
-
-	movsxd	rax, edx
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 41   : 		return stripes[row][col];
-
-	movsxd	r8, r8d
-
-; 107  : 		return GetElement(col, row);
-
-	lea	rdx, QWORD PTR [rax+r8*4]
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 684  : 		return data[idx];
-
-	lea	rax, QWORD PTR [rcx+rdx*4]
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 108  : 	}
-
-	ret	0
-??R?$Matrix@M$03$02$00@@QEAAAEAMHH@Z ENDP		; Matrix<float,4,3,1>::operator()
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??A?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAAAEAV?$Matrix@M$01$03$00@@_K@Z
-_TEXT	SEGMENT
-this$ = 8
-_Pos$ = 16
-??A?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAAAEAV?$Matrix@M$01$03$00@@_K@Z PROC ; std::vector<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > >::operator[], COMDAT
-
-; 1231 :  #if _ITERATOR_DEBUG_LEVEL == 2
-; 1232 : 		if (size() <= _Pos)
-; 1233 : 			{	// report error
-; 1234 : 			_DEBUG_ERROR("vector subscript out of range");
-; 1235 : 			_SCL_SECURE_OUT_OF_RANGE;
-; 1236 : 			}
-; 1237 : 
-; 1238 :  #elif _ITERATOR_DEBUG_LEVEL == 1
-; 1239 : 		_SCL_SECURE_VALIDATE_RANGE(_Pos < size());
-; 1240 :  #endif /* _ITERATOR_DEBUG_LEVEL */
-; 1241 : 
-; 1242 : 		return (*(this->_Myfirst() + _Pos));
-
-	shl	rdx, 5
-	add	rdx, QWORD PTR [rcx]
-	mov	rax, rdx
-
-; 1243 : 		}
-
-	ret	0
-??A?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAAAEAV?$Matrix@M$01$03$00@@_K@Z ENDP ; std::vector<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > >::operator[]
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??1?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 48
-??1?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAA@XZ PROC ; std::vector<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > >::~vector<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > >, COMDAT
-
-; 975  : 		{	// destroy the object
-
-$LN111:
-	push	rbx
-	sub	rsp, 32					; 00000020H
-	mov	rbx, rcx
-
-; 1637 : 		if (this->_Myfirst() != pointer())
-
-	mov	rcx, QWORD PTR [rcx]
-	test	rcx, rcx
-	je	SHORT $LN4@vector
-
-; 1641 : 			this->_Getal().deallocate(this->_Myfirst(),
-
-	mov	rax, QWORD PTR [rbx+16]
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	mov	rdx, 576460752303423487			; 07ffffffffffffffH
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1641 : 			this->_Getal().deallocate(this->_Myfirst(),
-
-	sub	rax, rcx
-	sar	rax, 5
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	cmp	rax, rdx
-	jbe	SHORT $LN71@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN71@vector:
-
-; 95   : 	const size_t _User_size = _Count * _Sz;
-
-	shl	rax, 5
-
-; 96   : 	if (_BIG_ALLOCATION_THRESHOLD <= _User_size)
-
-	cmp	rax, 4096				; 00001000H
-	jb	SHORT $LN72@vector
-
-; 97   : 		{	// deallocate large block
-; 98   : 		const uintptr_t _Ptr_user = reinterpret_cast<uintptr_t>(_Ptr);
-; 99   : 		_SCL_SECURE_ALWAYS_VALIDATE(
-
-	test	cl, 31
-	je	SHORT $LN73@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN73@vector:
-
-; 100  : 			(_Ptr_user & (_BIG_ALLOCATION_ALIGNMENT - 1)) == 0);
-; 101  : 		const uintptr_t _Ptr_ptr = _Ptr_user - sizeof(void *);
-; 102  : 		const uintptr_t _Ptr_container =
-; 103  : 			*reinterpret_cast<uintptr_t *>(_Ptr_ptr);
-
-	mov	rax, QWORD PTR [rcx-8]
-
-; 104  : 
-; 105  :  #ifdef _DEBUG
-; 106  : 		// If the following asserts, it likely means that we are performing
-; 107  : 		// an aligned delete on memory coming from an unaligned allocation.
-; 108  : 		_SCL_SECURE_ALWAYS_VALIDATE(
-; 109  : 			reinterpret_cast<uintptr_t *>(_Ptr_ptr)[-1] ==
-; 110  : 				_BIG_ALLOCATION_SENTINEL);
-; 111  :  #endif /* _DEBUG */
-; 112  : 
-; 113  : 		// Extra paranoia on aligned allocation/deallocation
-; 114  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container < _Ptr_user);
-
-	cmp	rax, rcx
-	jb	SHORT $LN74@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN74@vector:
-
-; 115  : 
-; 116  :  #ifdef _DEBUG
-; 117  : 		_SCL_SECURE_ALWAYS_VALIDATE(2 * sizeof(void *)
-; 118  : 			<= _Ptr_user - _Ptr_container);
-; 119  : 
-; 120  :  #else /* _DEBUG */
-; 121  : 		_SCL_SECURE_ALWAYS_VALIDATE(sizeof(void *)
-
-	sub	rcx, rax
-	cmp	rcx, 8
-	jae	SHORT $LN75@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN75@vector:
-
-; 122  : 			<= _Ptr_user - _Ptr_container);
-; 123  :  #endif /* _DEBUG */
-; 124  : 
-; 125  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_user - _Ptr_container
-
-	cmp	rcx, 39					; 00000027H
-	jbe	SHORT $LN76@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN76@vector:
-
-; 126  : 			<= _NON_USER_SIZE);
-; 127  : 
-; 128  : 		_Ptr = reinterpret_cast<void *>(_Ptr_container);
-
-	mov	rcx, rax
-$LN72@vector:
-
-; 129  : 		}
-; 130  :  #endif /* defined(_M_IX86) || defined(_M_X64) */
-; 131  : 
-; 132  : 	::operator delete(_Ptr);
-
-	call	??3@YAXPEAX@Z				; operator delete
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1643 : 			this->_Myfirst() = pointer();
-
-	xor	eax, eax
-	mov	QWORD PTR [rbx], rax
-
-; 1644 : 			this->_Mylast() = pointer();
-
-	mov	QWORD PTR [rbx+8], rax
-
-; 1645 : 			this->_Myend() = pointer();
-
-	mov	QWORD PTR [rbx+16], rax
-$LN4@vector:
-
-; 976  : 		_Tidy();
-; 977  : 		}
-
-	add	rsp, 32					; 00000020H
-	pop	rbx
-	ret	0
-$LN110@vector:
-??1?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAA@XZ ENDP ; std::vector<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > >::~vector<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??0?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAA@_K@Z
-_TEXT	SEGMENT
-this$ = 48
-_Count$dead$ = 56
-??0?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAA@_K@Z PROC ; std::vector<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > >::vector<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > >, COMDAT
-
-; 717  : 		{	// construct from _Count * value_type()
-
-$LN270:
-	push	rbx
-	sub	rsp, 32					; 00000020H
-
-; 1562 : 		this->_Myfirst() = pointer();
-
-	xor	eax, eax
-
-; 717  : 		{	// construct from _Count * value_type()
-
-	mov	rbx, rcx
-
-; 1562 : 		this->_Myfirst() = pointer();
-
-	mov	QWORD PTR [rcx], rax
-
-; 1563 : 		this->_Mylast() = pointer();
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 1564 : 		this->_Myend() = pointer();
-
-	mov	QWORD PTR [rcx+16], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 69   : 			reinterpret_cast<uintptr_t>(::operator new(_Block_size));
-
-	mov	ecx, 3200039				; 0030d427H
-	call	??2@YAPEAX_K@Z				; operator new
-
-; 70   : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container != 0);
-; 71   : 		_Ptr = reinterpret_cast<void *>((_Ptr_container + _NON_USER_SIZE)
-
-	lea	rdx, QWORD PTR [rax+39]
-	and	rdx, -32				; ffffffffffffffe0H
-
-; 72   : 			& ~(_BIG_ALLOCATION_ALIGNMENT - 1));
-; 73   : 		static_cast<uintptr_t *>(_Ptr)[-1] = _Ptr_container;
-
-	mov	QWORD PTR [rdx-8], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1572 : 			this->_Myfirst() = this->_Getal().allocate(_Capacity);
-
-	mov	QWORD PTR [rbx], rdx
-
-; 1573 : 			this->_Mylast() = this->_Myfirst();
-
-	mov	QWORD PTR [rbx+8], rdx
-
-; 1574 : 			this->_Myend() = this->_Myfirst() + _Capacity;
-
-	mov	rax, QWORD PTR [rbx]
-	add	rax, 3200000				; 0030d400H
-	mov	QWORD PTR [rbx+16], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-
-; 481  : 	_Uninitialized_default_fill_n1(_First, _Count, _Al,
-
-	mov	rcx, QWORD PTR [rbx]
-	call	??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$01$03$00@@_KV?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@YAXPEAV?$Matrix@M$01$03$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z ; std::_Uninitialized_default_fill_n1<Matrix<float,2,4,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,2,4,1> > >
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 723  : 			this->_Mylast() += _Count;
-
-	add	QWORD PTR [rbx+8], 3200000		; 0030d400H
-
-; 724  : 			_CATCH_ALL
-; 725  : 			_Tidy();
-; 726  : 			_RERAISE;
-; 727  : 			_CATCH_END
-; 728  : 			}
-; 729  : 		}
-
-	mov	rax, rbx
-	add	rsp, 32					; 00000020H
-	pop	rbx
-	ret	0
-??0?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAA@_K@Z ENDP ; std::vector<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > >::vector<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??A?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAAAEAV?$Matrix@M$03$01$00@@_K@Z
-_TEXT	SEGMENT
-this$ = 8
-_Pos$ = 16
-??A?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAAAEAV?$Matrix@M$03$01$00@@_K@Z PROC ; std::vector<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > >::operator[], COMDAT
-
-; 1231 :  #if _ITERATOR_DEBUG_LEVEL == 2
-; 1232 : 		if (size() <= _Pos)
-; 1233 : 			{	// report error
-; 1234 : 			_DEBUG_ERROR("vector subscript out of range");
-; 1235 : 			_SCL_SECURE_OUT_OF_RANGE;
-; 1236 : 			}
-; 1237 : 
-; 1238 :  #elif _ITERATOR_DEBUG_LEVEL == 1
-; 1239 : 		_SCL_SECURE_VALIDATE_RANGE(_Pos < size());
-; 1240 :  #endif /* _ITERATOR_DEBUG_LEVEL */
-; 1241 : 
-; 1242 : 		return (*(this->_Myfirst() + _Pos));
-
-	shl	rdx, 5
-	add	rdx, QWORD PTR [rcx]
-	mov	rax, rdx
-
-; 1243 : 		}
-
-	ret	0
-??A?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAAAEAV?$Matrix@M$03$01$00@@_K@Z ENDP ; std::vector<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > >::operator[]
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??1?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 48
-??1?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAA@XZ PROC ; std::vector<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > >::~vector<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > >, COMDAT
-
-; 975  : 		{	// destroy the object
-
-$LN111:
-	push	rbx
-	sub	rsp, 32					; 00000020H
-	mov	rbx, rcx
-
-; 1637 : 		if (this->_Myfirst() != pointer())
-
-	mov	rcx, QWORD PTR [rcx]
-	test	rcx, rcx
-	je	SHORT $LN4@vector
-
-; 1641 : 			this->_Getal().deallocate(this->_Myfirst(),
-
-	mov	rax, QWORD PTR [rbx+16]
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	mov	rdx, 576460752303423487			; 07ffffffffffffffH
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1641 : 			this->_Getal().deallocate(this->_Myfirst(),
-
-	sub	rax, rcx
-	sar	rax, 5
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	cmp	rax, rdx
-	jbe	SHORT $LN71@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN71@vector:
-
-; 95   : 	const size_t _User_size = _Count * _Sz;
-
-	shl	rax, 5
-
-; 96   : 	if (_BIG_ALLOCATION_THRESHOLD <= _User_size)
-
-	cmp	rax, 4096				; 00001000H
-	jb	SHORT $LN72@vector
-
-; 97   : 		{	// deallocate large block
-; 98   : 		const uintptr_t _Ptr_user = reinterpret_cast<uintptr_t>(_Ptr);
-; 99   : 		_SCL_SECURE_ALWAYS_VALIDATE(
-
-	test	cl, 31
-	je	SHORT $LN73@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN73@vector:
-
-; 100  : 			(_Ptr_user & (_BIG_ALLOCATION_ALIGNMENT - 1)) == 0);
-; 101  : 		const uintptr_t _Ptr_ptr = _Ptr_user - sizeof(void *);
-; 102  : 		const uintptr_t _Ptr_container =
-; 103  : 			*reinterpret_cast<uintptr_t *>(_Ptr_ptr);
-
-	mov	rax, QWORD PTR [rcx-8]
-
-; 104  : 
-; 105  :  #ifdef _DEBUG
-; 106  : 		// If the following asserts, it likely means that we are performing
-; 107  : 		// an aligned delete on memory coming from an unaligned allocation.
-; 108  : 		_SCL_SECURE_ALWAYS_VALIDATE(
-; 109  : 			reinterpret_cast<uintptr_t *>(_Ptr_ptr)[-1] ==
-; 110  : 				_BIG_ALLOCATION_SENTINEL);
-; 111  :  #endif /* _DEBUG */
-; 112  : 
-; 113  : 		// Extra paranoia on aligned allocation/deallocation
-; 114  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container < _Ptr_user);
-
-	cmp	rax, rcx
-	jb	SHORT $LN74@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN74@vector:
-
-; 115  : 
-; 116  :  #ifdef _DEBUG
-; 117  : 		_SCL_SECURE_ALWAYS_VALIDATE(2 * sizeof(void *)
-; 118  : 			<= _Ptr_user - _Ptr_container);
-; 119  : 
-; 120  :  #else /* _DEBUG */
-; 121  : 		_SCL_SECURE_ALWAYS_VALIDATE(sizeof(void *)
-
-	sub	rcx, rax
-	cmp	rcx, 8
-	jae	SHORT $LN75@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN75@vector:
-
-; 122  : 			<= _Ptr_user - _Ptr_container);
-; 123  :  #endif /* _DEBUG */
-; 124  : 
-; 125  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_user - _Ptr_container
-
-	cmp	rcx, 39					; 00000027H
-	jbe	SHORT $LN76@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN76@vector:
-
-; 126  : 			<= _NON_USER_SIZE);
-; 127  : 
-; 128  : 		_Ptr = reinterpret_cast<void *>(_Ptr_container);
-
-	mov	rcx, rax
-$LN72@vector:
-
-; 129  : 		}
-; 130  :  #endif /* defined(_M_IX86) || defined(_M_X64) */
-; 131  : 
-; 132  : 	::operator delete(_Ptr);
-
-	call	??3@YAXPEAX@Z				; operator delete
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1643 : 			this->_Myfirst() = pointer();
-
-	xor	eax, eax
-	mov	QWORD PTR [rbx], rax
-
-; 1644 : 			this->_Mylast() = pointer();
-
-	mov	QWORD PTR [rbx+8], rax
-
-; 1645 : 			this->_Myend() = pointer();
-
-	mov	QWORD PTR [rbx+16], rax
-$LN4@vector:
-
-; 976  : 		_Tidy();
-; 977  : 		}
-
-	add	rsp, 32					; 00000020H
-	pop	rbx
-	ret	0
-$LN110@vector:
-??1?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAA@XZ ENDP ; std::vector<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > >::~vector<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??0?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAA@_K@Z
-_TEXT	SEGMENT
-this$ = 48
-_Count$dead$ = 56
-??0?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAA@_K@Z PROC ; std::vector<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > >::vector<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > >, COMDAT
-
-; 717  : 		{	// construct from _Count * value_type()
-
-$LN270:
-	push	rbx
-	sub	rsp, 32					; 00000020H
-
-; 1562 : 		this->_Myfirst() = pointer();
-
-	xor	eax, eax
-
-; 717  : 		{	// construct from _Count * value_type()
-
-	mov	rbx, rcx
-
-; 1562 : 		this->_Myfirst() = pointer();
-
-	mov	QWORD PTR [rcx], rax
-
-; 1563 : 		this->_Mylast() = pointer();
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 1564 : 		this->_Myend() = pointer();
-
-	mov	QWORD PTR [rcx+16], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 69   : 			reinterpret_cast<uintptr_t>(::operator new(_Block_size));
-
-	mov	ecx, 3200039				; 0030d427H
-	call	??2@YAPEAX_K@Z				; operator new
-
-; 70   : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container != 0);
-; 71   : 		_Ptr = reinterpret_cast<void *>((_Ptr_container + _NON_USER_SIZE)
-
-	lea	rdx, QWORD PTR [rax+39]
-	and	rdx, -32				; ffffffffffffffe0H
-
-; 72   : 			& ~(_BIG_ALLOCATION_ALIGNMENT - 1));
-; 73   : 		static_cast<uintptr_t *>(_Ptr)[-1] = _Ptr_container;
-
-	mov	QWORD PTR [rdx-8], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1572 : 			this->_Myfirst() = this->_Getal().allocate(_Capacity);
-
-	mov	QWORD PTR [rbx], rdx
-
-; 1573 : 			this->_Mylast() = this->_Myfirst();
-
-	mov	QWORD PTR [rbx+8], rdx
-
-; 1574 : 			this->_Myend() = this->_Myfirst() + _Capacity;
-
-	mov	rax, QWORD PTR [rbx]
-	add	rax, 3200000				; 0030d400H
-	mov	QWORD PTR [rbx+16], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-
-; 481  : 	_Uninitialized_default_fill_n1(_First, _Count, _Al,
-
-	mov	rcx, QWORD PTR [rbx]
-	call	??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$03$01$00@@_KV?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@YAXPEAV?$Matrix@M$03$01$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z ; std::_Uninitialized_default_fill_n1<Matrix<float,4,2,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,4,2,1> > >
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 723  : 			this->_Mylast() += _Count;
-
-	add	QWORD PTR [rbx+8], 3200000		; 0030d400H
-
-; 724  : 			_CATCH_ALL
-; 725  : 			_Tidy();
-; 726  : 			_RERAISE;
-; 727  : 			_CATCH_END
-; 728  : 			}
-; 729  : 		}
-
-	mov	rax, rbx
-	add	rsp, 32					; 00000020H
-	pop	rbx
-	ret	0
-??0?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAA@_K@Z ENDP ; std::vector<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > >::vector<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??A?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAAAEAV?$Matrix@M$03$03$00@@_K@Z
-_TEXT	SEGMENT
-this$ = 8
-_Pos$ = 16
-??A?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAAAEAV?$Matrix@M$03$03$00@@_K@Z PROC ; std::vector<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > >::operator[], COMDAT
-
-; 1231 :  #if _ITERATOR_DEBUG_LEVEL == 2
-; 1232 : 		if (size() <= _Pos)
-; 1233 : 			{	// report error
-; 1234 : 			_DEBUG_ERROR("vector subscript out of range");
-; 1235 : 			_SCL_SECURE_OUT_OF_RANGE;
-; 1236 : 			}
-; 1237 : 
-; 1238 :  #elif _ITERATOR_DEBUG_LEVEL == 1
-; 1239 : 		_SCL_SECURE_VALIDATE_RANGE(_Pos < size());
-; 1240 :  #endif /* _ITERATOR_DEBUG_LEVEL */
-; 1241 : 
-; 1242 : 		return (*(this->_Myfirst() + _Pos));
-
-	shl	rdx, 6
-	add	rdx, QWORD PTR [rcx]
-	mov	rax, rdx
-
-; 1243 : 		}
-
-	ret	0
-??A?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAAAEAV?$Matrix@M$03$03$00@@_K@Z ENDP ; std::vector<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > >::operator[]
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??1?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 48
-??1?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAA@XZ PROC ; std::vector<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > >::~vector<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > >, COMDAT
-
-; 975  : 		{	// destroy the object
-
-$LN111:
-	push	rbx
-	sub	rsp, 32					; 00000020H
-	mov	rbx, rcx
-
-; 1637 : 		if (this->_Myfirst() != pointer())
-
-	mov	rcx, QWORD PTR [rcx]
-	test	rcx, rcx
-	je	SHORT $LN4@vector
-
-; 1641 : 			this->_Getal().deallocate(this->_Myfirst(),
-
-	mov	rax, QWORD PTR [rbx+16]
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	mov	rdx, 288230376151711743			; 03ffffffffffffffH
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1641 : 			this->_Getal().deallocate(this->_Myfirst(),
-
-	sub	rax, rcx
-	sar	rax, 6
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	cmp	rax, rdx
-	jbe	SHORT $LN71@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN71@vector:
-
-; 95   : 	const size_t _User_size = _Count * _Sz;
-
-	shl	rax, 6
-
-; 96   : 	if (_BIG_ALLOCATION_THRESHOLD <= _User_size)
-
-	cmp	rax, 4096				; 00001000H
-	jb	SHORT $LN72@vector
-
-; 97   : 		{	// deallocate large block
-; 98   : 		const uintptr_t _Ptr_user = reinterpret_cast<uintptr_t>(_Ptr);
-; 99   : 		_SCL_SECURE_ALWAYS_VALIDATE(
-
-	test	cl, 31
-	je	SHORT $LN73@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN73@vector:
-
-; 100  : 			(_Ptr_user & (_BIG_ALLOCATION_ALIGNMENT - 1)) == 0);
-; 101  : 		const uintptr_t _Ptr_ptr = _Ptr_user - sizeof(void *);
-; 102  : 		const uintptr_t _Ptr_container =
-; 103  : 			*reinterpret_cast<uintptr_t *>(_Ptr_ptr);
-
-	mov	rax, QWORD PTR [rcx-8]
-
-; 104  : 
-; 105  :  #ifdef _DEBUG
-; 106  : 		// If the following asserts, it likely means that we are performing
-; 107  : 		// an aligned delete on memory coming from an unaligned allocation.
-; 108  : 		_SCL_SECURE_ALWAYS_VALIDATE(
-; 109  : 			reinterpret_cast<uintptr_t *>(_Ptr_ptr)[-1] ==
-; 110  : 				_BIG_ALLOCATION_SENTINEL);
-; 111  :  #endif /* _DEBUG */
-; 112  : 
-; 113  : 		// Extra paranoia on aligned allocation/deallocation
-; 114  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container < _Ptr_user);
-
-	cmp	rax, rcx
-	jb	SHORT $LN74@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN74@vector:
-
-; 115  : 
-; 116  :  #ifdef _DEBUG
-; 117  : 		_SCL_SECURE_ALWAYS_VALIDATE(2 * sizeof(void *)
-; 118  : 			<= _Ptr_user - _Ptr_container);
-; 119  : 
-; 120  :  #else /* _DEBUG */
-; 121  : 		_SCL_SECURE_ALWAYS_VALIDATE(sizeof(void *)
-
-	sub	rcx, rax
-	cmp	rcx, 8
-	jae	SHORT $LN75@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN75@vector:
-
-; 122  : 			<= _Ptr_user - _Ptr_container);
-; 123  :  #endif /* _DEBUG */
-; 124  : 
-; 125  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_user - _Ptr_container
-
-	cmp	rcx, 39					; 00000027H
-	jbe	SHORT $LN76@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN76@vector:
-
-; 126  : 			<= _NON_USER_SIZE);
-; 127  : 
-; 128  : 		_Ptr = reinterpret_cast<void *>(_Ptr_container);
-
-	mov	rcx, rax
-$LN72@vector:
-
-; 129  : 		}
-; 130  :  #endif /* defined(_M_IX86) || defined(_M_X64) */
-; 131  : 
-; 132  : 	::operator delete(_Ptr);
-
-	call	??3@YAXPEAX@Z				; operator delete
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1643 : 			this->_Myfirst() = pointer();
-
-	xor	eax, eax
-	mov	QWORD PTR [rbx], rax
-
-; 1644 : 			this->_Mylast() = pointer();
-
-	mov	QWORD PTR [rbx+8], rax
-
-; 1645 : 			this->_Myend() = pointer();
-
-	mov	QWORD PTR [rbx+16], rax
-$LN4@vector:
-
-; 976  : 		_Tidy();
-; 977  : 		}
-
-	add	rsp, 32					; 00000020H
-	pop	rbx
-	ret	0
-$LN110@vector:
-??1?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAA@XZ ENDP ; std::vector<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > >::~vector<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??0?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAA@_K@Z
-_TEXT	SEGMENT
-this$ = 48
-_Count$dead$ = 56
-??0?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAA@_K@Z PROC ; std::vector<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > >::vector<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > >, COMDAT
-
-; 717  : 		{	// construct from _Count * value_type()
-
-$LN270:
-	push	rbx
-	sub	rsp, 32					; 00000020H
-
-; 1562 : 		this->_Myfirst() = pointer();
-
-	xor	eax, eax
-
-; 717  : 		{	// construct from _Count * value_type()
-
-	mov	rbx, rcx
-
-; 1562 : 		this->_Myfirst() = pointer();
-
-	mov	QWORD PTR [rcx], rax
-
-; 1563 : 		this->_Mylast() = pointer();
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 1564 : 		this->_Myend() = pointer();
-
-	mov	QWORD PTR [rcx+16], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 69   : 			reinterpret_cast<uintptr_t>(::operator new(_Block_size));
-
-	mov	ecx, 6400039				; 0061a827H
-	call	??2@YAPEAX_K@Z				; operator new
-
-; 70   : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container != 0);
-; 71   : 		_Ptr = reinterpret_cast<void *>((_Ptr_container + _NON_USER_SIZE)
-
-	lea	rdx, QWORD PTR [rax+39]
-	and	rdx, -32				; ffffffffffffffe0H
-
-; 72   : 			& ~(_BIG_ALLOCATION_ALIGNMENT - 1));
-; 73   : 		static_cast<uintptr_t *>(_Ptr)[-1] = _Ptr_container;
-
-	mov	QWORD PTR [rdx-8], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1572 : 			this->_Myfirst() = this->_Getal().allocate(_Capacity);
-
-	mov	QWORD PTR [rbx], rdx
-
-; 1573 : 			this->_Mylast() = this->_Myfirst();
-
-	mov	QWORD PTR [rbx+8], rdx
-
-; 1574 : 			this->_Myend() = this->_Myfirst() + _Capacity;
-
-	mov	rax, QWORD PTR [rbx]
-	add	rax, 6400000				; 0061a800H
-	mov	QWORD PTR [rbx+16], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-
-; 481  : 	_Uninitialized_default_fill_n1(_First, _Count, _Al,
-
-	mov	rcx, QWORD PTR [rbx]
-	call	??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$03$03$00@@_KV?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@YAXPEAV?$Matrix@M$03$03$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z ; std::_Uninitialized_default_fill_n1<Matrix<float,4,4,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,4,4,1> > >
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 723  : 			this->_Mylast() += _Count;
-
-	add	QWORD PTR [rbx+8], 6400000		; 0061a800H
-
-; 724  : 			_CATCH_ALL
-; 725  : 			_Tidy();
-; 726  : 			_RERAISE;
-; 727  : 			_CATCH_END
-; 728  : 			}
-; 729  : 		}
-
-	mov	rax, rbx
-	add	rsp, 32					; 00000020H
-	pop	rbx
-	ret	0
-??0?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAA@_K@Z ENDP ; std::vector<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > >::vector<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??A?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAAAEAV?$Matrix@M$02$02$00@@_K@Z
-_TEXT	SEGMENT
-this$ = 8
-_Pos$ = 16
-??A?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAAAEAV?$Matrix@M$02$02$00@@_K@Z PROC ; std::vector<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > >::operator[], COMDAT
-
-; 1231 :  #if _ITERATOR_DEBUG_LEVEL == 2
-; 1232 : 		if (size() <= _Pos)
-; 1233 : 			{	// report error
-; 1234 : 			_DEBUG_ERROR("vector subscript out of range");
-; 1235 : 			_SCL_SECURE_OUT_OF_RANGE;
-; 1236 : 			}
-; 1237 : 
-; 1238 :  #elif _ITERATOR_DEBUG_LEVEL == 1
-; 1239 : 		_SCL_SECURE_VALIDATE_RANGE(_Pos < size());
-; 1240 :  #endif /* _ITERATOR_DEBUG_LEVEL */
-; 1241 : 
-; 1242 : 		return (*(this->_Myfirst() + _Pos));
-
-	lea	rax, QWORD PTR [rdx+rdx*2]
-	shl	rax, 4
-	add	rax, QWORD PTR [rcx]
-
-; 1243 : 		}
-
-	ret	0
-??A?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAAAEAV?$Matrix@M$02$02$00@@_K@Z ENDP ; std::vector<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > >::operator[]
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??1?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 48
-??1?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAA@XZ PROC ; std::vector<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > >::~vector<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > >, COMDAT
-
-; 975  : 		{	// destroy the object
-
-$LN111:
-	push	rbx
-	sub	rsp, 32					; 00000020H
-	mov	rbx, rcx
-
-; 1637 : 		if (this->_Myfirst() != pointer())
-
-	mov	rcx, QWORD PTR [rcx]
-	test	rcx, rcx
-	je	$LN4@vector
-
-; 1638 : 			{	// something to free, destroy and deallocate it
-; 1639 : 			this->_Orphan_all();
-; 1640 : 			_Destroy(this->_Myfirst(), this->_Mylast());
-; 1641 : 			this->_Getal().deallocate(this->_Myfirst(),
-
-	mov	rdx, QWORD PTR [rbx+16]
-	mov	rax, 3074457345618258603		; 2aaaaaaaaaaaaaabH
-	sub	rdx, rcx
-	imul	rdx
-	sar	rdx, 3
-	mov	rax, rdx
-	shr	rax, 63					; 0000003fH
-	add	rdx, rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	mov	rax, 384307168202282325			; 0555555555555555H
-	cmp	rdx, rax
-	jbe	SHORT $LN71@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN71@vector:
-
-; 95   : 	const size_t _User_size = _Count * _Sz;
-
-	lea	rax, QWORD PTR [rdx+rdx*2]
-	shl	rax, 4
-
-; 96   : 	if (_BIG_ALLOCATION_THRESHOLD <= _User_size)
-
-	cmp	rax, 4096				; 00001000H
-	jb	SHORT $LN72@vector
-
-; 97   : 		{	// deallocate large block
-; 98   : 		const uintptr_t _Ptr_user = reinterpret_cast<uintptr_t>(_Ptr);
-; 99   : 		_SCL_SECURE_ALWAYS_VALIDATE(
-
-	test	cl, 31
-	je	SHORT $LN73@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN73@vector:
-
-; 100  : 			(_Ptr_user & (_BIG_ALLOCATION_ALIGNMENT - 1)) == 0);
-; 101  : 		const uintptr_t _Ptr_ptr = _Ptr_user - sizeof(void *);
-; 102  : 		const uintptr_t _Ptr_container =
-; 103  : 			*reinterpret_cast<uintptr_t *>(_Ptr_ptr);
-
-	mov	rax, QWORD PTR [rcx-8]
-
-; 104  : 
-; 105  :  #ifdef _DEBUG
-; 106  : 		// If the following asserts, it likely means that we are performing
-; 107  : 		// an aligned delete on memory coming from an unaligned allocation.
-; 108  : 		_SCL_SECURE_ALWAYS_VALIDATE(
-; 109  : 			reinterpret_cast<uintptr_t *>(_Ptr_ptr)[-1] ==
-; 110  : 				_BIG_ALLOCATION_SENTINEL);
-; 111  :  #endif /* _DEBUG */
-; 112  : 
-; 113  : 		// Extra paranoia on aligned allocation/deallocation
-; 114  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container < _Ptr_user);
-
-	cmp	rax, rcx
-	jb	SHORT $LN74@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN74@vector:
-
-; 115  : 
-; 116  :  #ifdef _DEBUG
-; 117  : 		_SCL_SECURE_ALWAYS_VALIDATE(2 * sizeof(void *)
-; 118  : 			<= _Ptr_user - _Ptr_container);
-; 119  : 
-; 120  :  #else /* _DEBUG */
-; 121  : 		_SCL_SECURE_ALWAYS_VALIDATE(sizeof(void *)
-
-	sub	rcx, rax
-	cmp	rcx, 8
-	jae	SHORT $LN75@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN75@vector:
-
-; 122  : 			<= _Ptr_user - _Ptr_container);
-; 123  :  #endif /* _DEBUG */
-; 124  : 
-; 125  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_user - _Ptr_container
-
-	cmp	rcx, 39					; 00000027H
-	jbe	SHORT $LN76@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN76@vector:
-
-; 126  : 			<= _NON_USER_SIZE);
-; 127  : 
-; 128  : 		_Ptr = reinterpret_cast<void *>(_Ptr_container);
-
-	mov	rcx, rax
-$LN72@vector:
-
-; 129  : 		}
-; 130  :  #endif /* defined(_M_IX86) || defined(_M_X64) */
-; 131  : 
-; 132  : 	::operator delete(_Ptr);
-
-	call	??3@YAXPEAX@Z				; operator delete
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1643 : 			this->_Myfirst() = pointer();
-
-	xor	eax, eax
-	mov	QWORD PTR [rbx], rax
-
-; 1644 : 			this->_Mylast() = pointer();
-
-	mov	QWORD PTR [rbx+8], rax
-
-; 1645 : 			this->_Myend() = pointer();
-
-	mov	QWORD PTR [rbx+16], rax
-$LN4@vector:
-
-; 976  : 		_Tidy();
-; 977  : 		}
-
-	add	rsp, 32					; 00000020H
-	pop	rbx
-	ret	0
-$LN110@vector:
-??1?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAA@XZ ENDP ; std::vector<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > >::~vector<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??0?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAA@_K@Z
-_TEXT	SEGMENT
-this$ = 48
-_Count$dead$ = 56
-??0?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAA@_K@Z PROC ; std::vector<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > >::vector<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > >, COMDAT
-
-; 717  : 		{	// construct from _Count * value_type()
-
-$LN165:
-	push	rbx
-	sub	rsp, 32					; 00000020H
-
-; 1562 : 		this->_Myfirst() = pointer();
-
-	xor	eax, eax
-
-; 717  : 		{	// construct from _Count * value_type()
-
-	mov	rbx, rcx
-
-; 1562 : 		this->_Myfirst() = pointer();
-
-	mov	QWORD PTR [rcx], rax
-
-; 1563 : 		this->_Mylast() = pointer();
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 1564 : 		this->_Myend() = pointer();
-
-	mov	QWORD PTR [rcx+16], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 69   : 			reinterpret_cast<uintptr_t>(::operator new(_Block_size));
-
-	mov	ecx, 4800039				; 00493e27H
-	call	??2@YAPEAX_K@Z				; operator new
-
-; 70   : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container != 0);
-; 71   : 		_Ptr = reinterpret_cast<void *>((_Ptr_container + _NON_USER_SIZE)
-
-	lea	rdx, QWORD PTR [rax+39]
-	and	rdx, -32				; ffffffffffffffe0H
-
-; 72   : 			& ~(_BIG_ALLOCATION_ALIGNMENT - 1));
-; 73   : 		static_cast<uintptr_t *>(_Ptr)[-1] = _Ptr_container;
-
-	mov	QWORD PTR [rdx-8], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1572 : 			this->_Myfirst() = this->_Getal().allocate(_Capacity);
-
-	mov	QWORD PTR [rbx], rdx
-
-; 1573 : 			this->_Mylast() = this->_Myfirst();
-
-	mov	QWORD PTR [rbx+8], rdx
-
-; 1574 : 			this->_Myend() = this->_Myfirst() + _Capacity;
-
-	mov	rax, QWORD PTR [rbx]
-	add	rax, 4800000				; 00493e00H
-	mov	QWORD PTR [rbx+16], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-
-; 481  : 	_Uninitialized_default_fill_n1(_First, _Count, _Al,
-
-	mov	rcx, QWORD PTR [rbx]
-	call	??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$02$02$00@@_KV?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@YAXPEAV?$Matrix@M$02$02$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z ; std::_Uninitialized_default_fill_n1<Matrix<float,3,3,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,3,3,1> > >
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 723  : 			this->_Mylast() += _Count;
-
-	add	QWORD PTR [rbx+8], 4800000		; 00493e00H
-
-; 724  : 			_CATCH_ALL
-; 725  : 			_Tidy();
-; 726  : 			_RERAISE;
-; 727  : 			_CATCH_END
-; 728  : 			}
-; 729  : 		}
-
-	mov	rax, rbx
-	add	rsp, 32					; 00000020H
-	pop	rbx
-	ret	0
-??0?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAA@_K@Z ENDP ; std::vector<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > >::vector<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\random
-;	COMDAT ??0?$uniform_real_distribution@M@std@@QEAA@MM@Z
-_TEXT	SEGMENT
-this$ = 8
-_Min0$ = 16
-_Max0$ = 24
-??0?$uniform_real_distribution@M@std@@QEAA@MM@Z PROC	; std::uniform_real_distribution<float>::uniform_real_distribution<float>, COMDAT
-
-; 3252 : 			_Min = _Min0;
-
-	movss	DWORD PTR [rcx], xmm1
-
-; 3405 : 		}
-
-	mov	rax, rcx
-
-; 3253 : 			_Max = _Max0;
-
-	movss	DWORD PTR [rcx+4], xmm2
-
-; 3405 : 		}
-
-	ret	0
-??0?$uniform_real_distribution@M@std@@QEAA@MM@Z ENDP	; std::uniform_real_distribution<float>::uniform_real_distribution<float>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??A?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAAAEAV?$Matrix@M$01$01$00@@_K@Z
-_TEXT	SEGMENT
-this$ = 8
-_Pos$ = 16
-??A?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAAAEAV?$Matrix@M$01$01$00@@_K@Z PROC ; std::vector<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > >::operator[], COMDAT
-
-; 1231 :  #if _ITERATOR_DEBUG_LEVEL == 2
-; 1232 : 		if (size() <= _Pos)
-; 1233 : 			{	// report error
-; 1234 : 			_DEBUG_ERROR("vector subscript out of range");
-; 1235 : 			_SCL_SECURE_OUT_OF_RANGE;
-; 1236 : 			}
-; 1237 : 
-; 1238 :  #elif _ITERATOR_DEBUG_LEVEL == 1
-; 1239 : 		_SCL_SECURE_VALIDATE_RANGE(_Pos < size());
-; 1240 :  #endif /* _ITERATOR_DEBUG_LEVEL */
-; 1241 : 
-; 1242 : 		return (*(this->_Myfirst() + _Pos));
-
-	shl	rdx, 4
-	add	rdx, QWORD PTR [rcx]
-	mov	rax, rdx
-
-; 1243 : 		}
-
-	ret	0
-??A?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAAAEAV?$Matrix@M$01$01$00@@_K@Z ENDP ; std::vector<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > >::operator[]
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??1?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 48
-??1?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAA@XZ PROC ; std::vector<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > >::~vector<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > >, COMDAT
-
-; 975  : 		{	// destroy the object
-
-$LN111:
-	push	rbx
-	sub	rsp, 32					; 00000020H
-	mov	rbx, rcx
-
-; 1637 : 		if (this->_Myfirst() != pointer())
-
-	mov	rcx, QWORD PTR [rcx]
-	test	rcx, rcx
-	je	SHORT $LN4@vector
-
-; 1641 : 			this->_Getal().deallocate(this->_Myfirst(),
-
-	mov	rax, QWORD PTR [rbx+16]
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	mov	rdx, 1152921504606846975		; 0fffffffffffffffH
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1641 : 			this->_Getal().deallocate(this->_Myfirst(),
-
-	sub	rax, rcx
-	sar	rax, 4
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	cmp	rax, rdx
-	jbe	SHORT $LN71@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN71@vector:
-
-; 95   : 	const size_t _User_size = _Count * _Sz;
-
-	shl	rax, 4
-
-; 96   : 	if (_BIG_ALLOCATION_THRESHOLD <= _User_size)
-
-	cmp	rax, 4096				; 00001000H
-	jb	SHORT $LN72@vector
-
-; 97   : 		{	// deallocate large block
-; 98   : 		const uintptr_t _Ptr_user = reinterpret_cast<uintptr_t>(_Ptr);
-; 99   : 		_SCL_SECURE_ALWAYS_VALIDATE(
-
-	test	cl, 31
-	je	SHORT $LN73@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN73@vector:
-
-; 100  : 			(_Ptr_user & (_BIG_ALLOCATION_ALIGNMENT - 1)) == 0);
-; 101  : 		const uintptr_t _Ptr_ptr = _Ptr_user - sizeof(void *);
-; 102  : 		const uintptr_t _Ptr_container =
-; 103  : 			*reinterpret_cast<uintptr_t *>(_Ptr_ptr);
-
-	mov	rax, QWORD PTR [rcx-8]
-
-; 104  : 
-; 105  :  #ifdef _DEBUG
-; 106  : 		// If the following asserts, it likely means that we are performing
-; 107  : 		// an aligned delete on memory coming from an unaligned allocation.
-; 108  : 		_SCL_SECURE_ALWAYS_VALIDATE(
-; 109  : 			reinterpret_cast<uintptr_t *>(_Ptr_ptr)[-1] ==
-; 110  : 				_BIG_ALLOCATION_SENTINEL);
-; 111  :  #endif /* _DEBUG */
-; 112  : 
-; 113  : 		// Extra paranoia on aligned allocation/deallocation
-; 114  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container < _Ptr_user);
-
-	cmp	rax, rcx
-	jb	SHORT $LN74@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN74@vector:
-
-; 115  : 
-; 116  :  #ifdef _DEBUG
-; 117  : 		_SCL_SECURE_ALWAYS_VALIDATE(2 * sizeof(void *)
-; 118  : 			<= _Ptr_user - _Ptr_container);
-; 119  : 
-; 120  :  #else /* _DEBUG */
-; 121  : 		_SCL_SECURE_ALWAYS_VALIDATE(sizeof(void *)
-
-	sub	rcx, rax
-	cmp	rcx, 8
-	jae	SHORT $LN75@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN75@vector:
-
-; 122  : 			<= _Ptr_user - _Ptr_container);
-; 123  :  #endif /* _DEBUG */
-; 124  : 
-; 125  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_user - _Ptr_container
-
-	cmp	rcx, 39					; 00000027H
-	jbe	SHORT $LN76@vector
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN76@vector:
-
-; 126  : 			<= _NON_USER_SIZE);
-; 127  : 
-; 128  : 		_Ptr = reinterpret_cast<void *>(_Ptr_container);
-
-	mov	rcx, rax
-$LN72@vector:
-
-; 129  : 		}
-; 130  :  #endif /* defined(_M_IX86) || defined(_M_X64) */
-; 131  : 
-; 132  : 	::operator delete(_Ptr);
-
-	call	??3@YAXPEAX@Z				; operator delete
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1643 : 			this->_Myfirst() = pointer();
-
-	xor	eax, eax
-	mov	QWORD PTR [rbx], rax
-
-; 1644 : 			this->_Mylast() = pointer();
-
-	mov	QWORD PTR [rbx+8], rax
-
-; 1645 : 			this->_Myend() = pointer();
-
-	mov	QWORD PTR [rbx+16], rax
-$LN4@vector:
-
-; 976  : 		_Tidy();
-; 977  : 		}
-
-	add	rsp, 32					; 00000020H
-	pop	rbx
-	ret	0
-$LN110@vector:
-??1?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAA@XZ ENDP ; std::vector<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > >::~vector<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??0?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAA@_K@Z
-_TEXT	SEGMENT
-this$ = 48
-_Count$dead$ = 56
-??0?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAA@_K@Z PROC ; std::vector<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > >::vector<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > >, COMDAT
-
-; 717  : 		{	// construct from _Count * value_type()
-
-$LN270:
-	push	rbx
-	sub	rsp, 32					; 00000020H
-
-; 1562 : 		this->_Myfirst() = pointer();
-
-	xor	eax, eax
-
-; 717  : 		{	// construct from _Count * value_type()
-
-	mov	rbx, rcx
-
-; 1562 : 		this->_Myfirst() = pointer();
-
-	mov	QWORD PTR [rcx], rax
-
-; 1563 : 		this->_Mylast() = pointer();
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 1564 : 		this->_Myend() = pointer();
-
-	mov	QWORD PTR [rcx+16], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 69   : 			reinterpret_cast<uintptr_t>(::operator new(_Block_size));
-
-	mov	ecx, 1600039				; 00186a27H
-	call	??2@YAPEAX_K@Z				; operator new
-
-; 70   : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container != 0);
-; 71   : 		_Ptr = reinterpret_cast<void *>((_Ptr_container + _NON_USER_SIZE)
-
-	lea	rdx, QWORD PTR [rax+39]
-	and	rdx, -32				; ffffffffffffffe0H
-
-; 72   : 			& ~(_BIG_ALLOCATION_ALIGNMENT - 1));
-; 73   : 		static_cast<uintptr_t *>(_Ptr)[-1] = _Ptr_container;
-
-	mov	QWORD PTR [rdx-8], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1572 : 			this->_Myfirst() = this->_Getal().allocate(_Capacity);
-
-	mov	QWORD PTR [rbx], rdx
-
-; 1573 : 			this->_Mylast() = this->_Myfirst();
-
-	mov	QWORD PTR [rbx+8], rdx
-
-; 1574 : 			this->_Myend() = this->_Myfirst() + _Capacity;
-
-	mov	rax, QWORD PTR [rbx]
-	add	rax, 1600000				; 00186a00H
-	mov	QWORD PTR [rbx+16], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-
-; 481  : 	_Uninitialized_default_fill_n1(_First, _Count, _Al,
-
-	mov	rcx, QWORD PTR [rbx]
-	call	??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$01$01$00@@_KV?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@YAXPEAV?$Matrix@M$01$01$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z ; std::_Uninitialized_default_fill_n1<Matrix<float,2,2,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,2,2,1> > >
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 723  : 			this->_Mylast() += _Count;
-
-	add	QWORD PTR [rbx+8], 1600000		; 00186a00H
-
-; 724  : 			_CATCH_ALL
-; 725  : 			_Tidy();
-; 726  : 			_RERAISE;
-; 727  : 			_CATCH_END
-; 728  : 			}
-; 729  : 		}
-
-	mov	rax, rbx
-	add	rsp, 32					; 00000020H
-	pop	rbx
-	ret	0
-??0?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAA@_K@Z ENDP ; std::vector<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > >::vector<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ?Height@?$MatrixData@M$01$01$00@@QEBAHXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?Height@?$MatrixData@M$01$01$00@@QEBAHXZ PROC		; MatrixData<float,2,2,1>::Height, COMDAT
-
-; 30   : 		return Rows;
-
-	mov	eax, 2
-
-; 31   : 	}
-
-	ret	0
-?Height@?$MatrixData@M$01$01$00@@QEBAHXZ ENDP		; MatrixData<float,2,2,1>::Height
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ?Width@?$MatrixData@M$01$01$00@@QEBAHXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?Width@?$MatrixData@M$01$01$00@@QEBAHXZ PROC		; MatrixData<float,2,2,1>::Width, COMDAT
-
-; 27   : 		return Columns;
-
-	mov	eax, 2
-
-; 28   : 	}
-
-	ret	0
-?Width@?$MatrixData@M$01$01$00@@QEBAHXZ ENDP		; MatrixData<float,2,2,1>::Width
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ??R?$Matrix@M$01$01$00@@QEBAMHH@Z
-_TEXT	SEGMENT
-this$ = 8
-col$ = 16
-row$ = 24
-??R?$Matrix@M$01$01$00@@QEBAMHH@Z PROC			; Matrix<float,2,2,1>::operator(), COMDAT
-
-; 45   : 		return stripes[row][col];
-
-	movsxd	r8, r8d
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 680  : 		return data[idx];
-
-	movsxd	rax, edx
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 110  : 		return GetElement(col, row);
-
-	lea	rdx, QWORD PTR [rax+r8*2]
-	movss	xmm0, DWORD PTR [rcx+rdx*4]
-
-; 111  : 	}
-
-	ret	0
-??R?$Matrix@M$01$01$00@@QEBAMHH@Z ENDP			; Matrix<float,2,2,1>::operator()
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ??R?$Matrix@M$01$01$00@@QEAAAEAMHH@Z
-_TEXT	SEGMENT
-this$ = 8
-col$ = 16
-row$ = 24
-??R?$Matrix@M$01$01$00@@QEAAAEAMHH@Z PROC		; Matrix<float,2,2,1>::operator(), COMDAT
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 684  : 		return data[idx];
-
-	movsxd	rax, edx
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 41   : 		return stripes[row][col];
-
-	movsxd	r8, r8d
-
-; 107  : 		return GetElement(col, row);
-
-	lea	rdx, QWORD PTR [rax+r8*2]
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 684  : 		return data[idx];
-
-	lea	rax, QWORD PTR [rcx+rdx*4]
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 108  : 	}
-
-	ret	0
-??R?$Matrix@M$01$01$00@@QEAAAEAMHH@Z ENDP		; Matrix<float,2,2,1>::operator()
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\vector.hpp
-;	COMDAT ?mul@?$VectorSpec@M$01@@IEAAXM@Z
-_TEXT	SEGMENT
-this$ = 8
-rhs$ = 16
-?mul@?$VectorSpec@M$01@@IEAAXM@Z PROC			; VectorSpec<float,2>::mul, COMDAT
-
-; 174  : 		this->x *= rhs;
-
-	movaps	xmm0, xmm1
-
-; 175  : 		this->y *= rhs;
-
-	mulss	xmm1, DWORD PTR [rcx+4]
-	mulss	xmm0, DWORD PTR [rcx]
-	movss	DWORD PTR [rcx+4], xmm1
-	movss	DWORD PTR [rcx], xmm0
-
-; 176  : 	}
-
-	ret	0
-?mul@?$VectorSpec@M$01@@IEAAXM@Z ENDP			; VectorSpec<float,2>::mul
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\vector.hpp
-;	COMDAT ?add@?$VectorSpec@M$01@@IEAAXAEBV1@@Z
-_TEXT	SEGMENT
-this$ = 8
-rhs$ = 16
-?add@?$VectorSpec@M$01@@IEAAXAEBV1@@Z PROC		; VectorSpec<float,2>::add, COMDAT
-
-; 164  : 		this->x += rhs.x;
-
-	movss	xmm0, DWORD PTR [rdx]
-
-; 165  : 		this->y += rhs.y;
-
-	movss	xmm1, DWORD PTR [rdx+4]
-	addss	xmm0, DWORD PTR [rcx]
-	addss	xmm1, DWORD PTR [rcx+4]
-	movss	DWORD PTR [rcx], xmm0
-	movss	DWORD PTR [rcx+4], xmm1
-
-; 166  : 	}
-
-	ret	0
-?add@?$VectorSpec@M$01@@IEAAXAEBV1@@Z ENDP		; VectorSpec<float,2>::add
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ?Height@?$MatrixData@M$01$03$00@@QEBAHXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?Height@?$MatrixData@M$01$03$00@@QEBAHXZ PROC		; MatrixData<float,2,4,1>::Height, COMDAT
-
-; 30   : 		return Rows;
-
-	mov	eax, 4
-
-; 31   : 	}
-
-	ret	0
-?Height@?$MatrixData@M$01$03$00@@QEBAHXZ ENDP		; MatrixData<float,2,4,1>::Height
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ?Width@?$MatrixData@M$01$03$00@@QEBAHXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?Width@?$MatrixData@M$01$03$00@@QEBAHXZ PROC		; MatrixData<float,2,4,1>::Width, COMDAT
-
-; 27   : 		return Columns;
-
-	mov	eax, 2
-
-; 28   : 	}
-
-	ret	0
-?Width@?$MatrixData@M$01$03$00@@QEBAHXZ ENDP		; MatrixData<float,2,4,1>::Width
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ??R?$Matrix@M$01$03$00@@QEBAMHH@Z
-_TEXT	SEGMENT
-this$ = 8
-col$ = 16
-row$ = 24
-??R?$Matrix@M$01$03$00@@QEBAMHH@Z PROC			; Matrix<float,2,4,1>::operator(), COMDAT
-
-; 45   : 		return stripes[row][col];
-
-	movsxd	r8, r8d
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 680  : 		return data[idx];
-
-	movsxd	rax, edx
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 110  : 		return GetElement(col, row);
-
-	lea	rdx, QWORD PTR [rax+r8*2]
-	movss	xmm0, DWORD PTR [rcx+rdx*4]
-
-; 111  : 	}
-
-	ret	0
-??R?$Matrix@M$01$03$00@@QEBAMHH@Z ENDP			; Matrix<float,2,4,1>::operator()
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ?Height@?$MatrixData@M$03$01$00@@QEBAHXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?Height@?$MatrixData@M$03$01$00@@QEBAHXZ PROC		; MatrixData<float,4,2,1>::Height, COMDAT
-
-; 30   : 		return Rows;
-
-	mov	eax, 2
-
-; 31   : 	}
-
-	ret	0
-?Height@?$MatrixData@M$03$01$00@@QEBAHXZ ENDP		; MatrixData<float,4,2,1>::Height
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ?Width@?$MatrixData@M$03$01$00@@QEBAHXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?Width@?$MatrixData@M$03$01$00@@QEBAHXZ PROC		; MatrixData<float,4,2,1>::Width, COMDAT
-
-; 27   : 		return Columns;
-
-	mov	eax, 4
-
-; 28   : 	}
-
-	ret	0
-?Width@?$MatrixData@M$03$01$00@@QEBAHXZ ENDP		; MatrixData<float,4,2,1>::Width
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ??R?$Matrix@M$03$01$00@@QEBAMHH@Z
-_TEXT	SEGMENT
-this$ = 8
-col$ = 16
-row$ = 24
-??R?$Matrix@M$03$01$00@@QEBAMHH@Z PROC			; Matrix<float,4,2,1>::operator(), COMDAT
-
-; 45   : 		return stripes[row][col];
-
-	movsxd	r8, r8d
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 680  : 		return data[idx];
-
-	movsxd	rax, edx
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 110  : 		return GetElement(col, row);
-
-	lea	rdx, QWORD PTR [rax+r8*4]
-	movss	xmm0, DWORD PTR [rcx+rdx*4]
-
-; 111  : 	}
-
-	ret	0
-??R?$Matrix@M$03$01$00@@QEBAMHH@Z ENDP			; Matrix<float,4,2,1>::operator()
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ?Height@?$MatrixData@M$02$02$00@@QEBAHXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?Height@?$MatrixData@M$02$02$00@@QEBAHXZ PROC		; MatrixData<float,3,3,1>::Height, COMDAT
-
-; 30   : 		return Rows;
-
-	mov	eax, 3
-
-; 31   : 	}
-
-	ret	0
-?Height@?$MatrixData@M$02$02$00@@QEBAHXZ ENDP		; MatrixData<float,3,3,1>::Height
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ?Width@?$MatrixData@M$02$02$00@@QEBAHXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?Width@?$MatrixData@M$02$02$00@@QEBAHXZ PROC		; MatrixData<float,3,3,1>::Width, COMDAT
-
-; 27   : 		return Columns;
-
-	mov	eax, 3
-
-; 28   : 	}
-
-	ret	0
-?Width@?$MatrixData@M$02$02$00@@QEBAHXZ ENDP		; MatrixData<float,3,3,1>::Width
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ?Height@?$MatrixData@M$03$03$00@@QEBAHXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?Height@?$MatrixData@M$03$03$00@@QEBAHXZ PROC		; MatrixData<float,4,4,1>::Height, COMDAT
-
-; 30   : 		return Rows;
-
-	mov	eax, 4
-
-; 31   : 	}
-
-	ret	0
-?Height@?$MatrixData@M$03$03$00@@QEBAHXZ ENDP		; MatrixData<float,4,4,1>::Height
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ?Width@?$MatrixData@M$03$03$00@@QEBAHXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?Width@?$MatrixData@M$03$03$00@@QEBAHXZ PROC		; MatrixData<float,4,4,1>::Width, COMDAT
-
-; 27   : 		return Columns;
-
-	mov	eax, 4
-
-; 28   : 	}
-
-	ret	0
-?Width@?$MatrixData@M$03$03$00@@QEBAHXZ ENDP		; MatrixData<float,4,4,1>::Width
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ??R?$Matrix@M$03$03$00@@QEBAMHH@Z
-_TEXT	SEGMENT
-this$ = 8
-col$ = 16
-row$ = 24
-??R?$Matrix@M$03$03$00@@QEBAMHH@Z PROC			; Matrix<float,4,4,1>::operator(), COMDAT
-
-; 45   : 		return stripes[row][col];
-
-	movsxd	r8, r8d
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 680  : 		return data[idx];
-
-	movsxd	rax, edx
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 110  : 		return GetElement(col, row);
-
-	lea	rdx, QWORD PTR [rax+r8*4]
-	movss	xmm0, DWORD PTR [rcx+rdx*4]
-
-; 111  : 	}
-
-	ret	0
-??R?$Matrix@M$03$03$00@@QEBAMHH@Z ENDP			; Matrix<float,4,4,1>::operator()
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ??R?$Matrix@M$02$02$00@@QEBAMHH@Z
-_TEXT	SEGMENT
-this$ = 8
-col$ = 16
-row$ = 24
-??R?$Matrix@M$02$02$00@@QEBAMHH@Z PROC			; Matrix<float,3,3,1>::operator(), COMDAT
-
-; 45   : 		return stripes[row][col];
-
-	movsxd	r8, r8d
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 680  : 		return data[idx];
-
-	movsxd	rax, edx
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 110  : 		return GetElement(col, row);
-
-	lea	rdx, QWORD PTR [rax+r8*4]
-	movss	xmm0, DWORD PTR [rcx+rdx*4]
-
-; 111  : 	}
-
-	ret	0
-??R?$Matrix@M$02$02$00@@QEBAMHH@Z ENDP			; Matrix<float,3,3,1>::operator()
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-;	COMDAT ??X?$Vector@M$03@@QEAAAEAV0@AEBV0@@Z
-_TEXT	SEGMENT
-this$ = 8
-rhs$ = 16
-??X?$Vector@M$03@@QEAAAEAV0@AEBV0@@Z PROC		; Vector<float,4>::operator*=, COMDAT
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 13   : 		res.reg = _mm_mul_ps(lhs.reg, rhs.reg);
-
-	movaps	xmm0, XMMWORD PTR [rdx]
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 747  : 		return *this;
-
-	mov	rax, rcx
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 13   : 		res.reg = _mm_mul_ps(lhs.reg, rhs.reg);
-
-	mulps	xmm0, XMMWORD PTR [rcx]
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 458  : 		simd = Simd4f::mul(simd, rhs.simd);
-
-	movaps	XMMWORD PTR [rcx], xmm0
-
-; 748  : 	}
-
-	ret	0
-??X?$Vector@M$03@@QEAAAEAV0@AEBV0@@Z ENDP		; Vector<float,4>::operator*=
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\vector.hpp
-;	COMDAT ??R?$Vector@M$03@@QEBAMH@Z
-_TEXT	SEGMENT
-this$ = 8
-idx$ = 16
-??R?$Vector@M$03@@QEBAMH@Z PROC				; Vector<float,4>::operator(), COMDAT
-
-; 688  : 		return data[idx];
-
-	movsxd	rax, edx
-	movss	xmm0, DWORD PTR [rcx+rax*4]
-
-; 689  : 	}
-
-	ret	0
-??R?$Vector@M$03@@QEBAMH@Z ENDP				; Vector<float,4>::operator()
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\random
-;	COMDAT ??0?$linear_congruential_engine@I$0LMIP@$0A@$0HPPPPPPP@@std@@QEAA@I@Z
-_TEXT	SEGMENT
-this$ = 8
-_X0$dead$ = 16
-??0?$linear_congruential_engine@I$0LMIP@$0A@$0HPPPPPPP@@std@@QEAA@I@Z PROC ; std::linear_congruential_engine<unsigned int,48271,0,2147483647>::linear_congruential_engine<unsigned int,48271,0,2147483647>, COMDAT
-
-; 551  : 		_Imp._Prev = _Mx != 0 ? _X0 % _Mx : _X0;
-
-	mov	DWORD PTR [rcx], 1
-
-; 629  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$linear_congruential_engine@I$0LMIP@$0A@$0HPPPPPPP@@std@@QEAA@I@Z ENDP ; std::linear_congruential_engine<unsigned int,48271,0,2147483647>::linear_congruential_engine<unsigned int,48271,0,2147483647>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\chrono
-;	COMDAT ??0?$time_point@Usteady_clock@chrono@std@@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@23@@chrono@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 8
-??0?$time_point@Usteady_clock@chrono@std@@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@23@@chrono@std@@QEAA@XZ PROC ; std::chrono::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > >::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > >, COMDAT
-
-; 116  : 			: _MyRep(static_cast<_Rep>(_Val))
-
-	mov	QWORD PTR [rcx], 0
-
-; 240  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$time_point@Usteady_clock@chrono@std@@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@23@@chrono@std@@QEAA@XZ ENDP ; std::chrono::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > >::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\chrono
-;	COMDAT ?count@?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@chrono@std@@QEBA_JXZ
-_TEXT	SEGMENT
-this$ = 8
-?count@?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@chrono@std@@QEBA_JXZ PROC ; std::chrono::duration<__int64,std::ratio<1,1000000000> >::count, COMDAT
-
-; 135  : 		return (_MyRep);
-
-	mov	rax, QWORD PTR [rcx]
-
-; 136  : 		}
-
-	ret	0
-?count@?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@chrono@std@@QEBA_JXZ ENDP ; std::chrono::duration<__int64,std::ratio<1,1000000000> >::count
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Mylast@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$02$03$00@@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Mylast@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$02$03$00@@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > > >::_Mylast, COMDAT
-
-; 653  : 		return (_Get_data()._Mylast);
-
-	lea	rax, QWORD PTR [rcx+8]
-
-; 654  : 		}
-
-	ret	0
-?_Mylast@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$02$03$00@@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > > >::_Mylast
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Myfirst@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$02$03$00@@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Myfirst@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$02$03$00@@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > > >::_Myfirst, COMDAT
-
-; 643  : 		return (_Get_data()._Myfirst);
-
-	mov	rax, rcx
-
-; 644  : 		}
-
-	ret	0
-?_Myfirst@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$02$03$00@@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > > >::_Myfirst
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@2@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > > >::_Getal, COMDAT
-
-; 623  : 		return (_Mypair._Get_first());
-
-	mov	rax, rcx
-
-; 624  : 		}
-
-	ret	0
-?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@2@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > > >::_Getal
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??0?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 8
-??0?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@@std@@QEAA@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > > >::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > > >, COMDAT
-
-; 485  : 		: _Myfirst(),
-
-	xor	eax, eax
-	mov	QWORD PTR [rcx], rax
-
-; 486  : 		_Mylast(),
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 487  : 		_Myend()
-
-	mov	QWORD PTR [rcx+16], rax
-
-; 521  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@@std@@QEAA@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > > >::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Tidy@?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@IEAAXXZ
-_TEXT	SEGMENT
-this$ = 48
-?_Tidy@?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@IEAAXXZ PROC ; std::vector<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > >::_Tidy, COMDAT
-
-; 1636 : 		{	// free all storage
-
-$LN108:
-	push	rbx
-	sub	rsp, 32					; 00000020H
-	mov	rbx, rcx
-
-; 1637 : 		if (this->_Myfirst() != pointer())
-
-	mov	rcx, QWORD PTR [rcx]
-	test	rcx, rcx
-	je	SHORT $LN2@Tidy
-
-; 1641 : 			this->_Getal().deallocate(this->_Myfirst(),
-
-	mov	rax, QWORD PTR [rbx+16]
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	mov	rdx, 288230376151711743			; 03ffffffffffffffH
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1641 : 			this->_Getal().deallocate(this->_Myfirst(),
-
-	sub	rax, rcx
-	sar	rax, 6
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	cmp	rax, rdx
-	jbe	SHORT $LN69@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN69@Tidy:
-
-; 95   : 	const size_t _User_size = _Count * _Sz;
-
-	shl	rax, 6
-
-; 96   : 	if (_BIG_ALLOCATION_THRESHOLD <= _User_size)
-
-	cmp	rax, 4096				; 00001000H
-	jb	SHORT $LN70@Tidy
-
-; 97   : 		{	// deallocate large block
-; 98   : 		const uintptr_t _Ptr_user = reinterpret_cast<uintptr_t>(_Ptr);
-; 99   : 		_SCL_SECURE_ALWAYS_VALIDATE(
-
-	test	cl, 31
-	je	SHORT $LN71@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN71@Tidy:
-
-; 100  : 			(_Ptr_user & (_BIG_ALLOCATION_ALIGNMENT - 1)) == 0);
-; 101  : 		const uintptr_t _Ptr_ptr = _Ptr_user - sizeof(void *);
-; 102  : 		const uintptr_t _Ptr_container =
-; 103  : 			*reinterpret_cast<uintptr_t *>(_Ptr_ptr);
-
-	mov	rax, QWORD PTR [rcx-8]
-
-; 104  : 
-; 105  :  #ifdef _DEBUG
-; 106  : 		// If the following asserts, it likely means that we are performing
-; 107  : 		// an aligned delete on memory coming from an unaligned allocation.
-; 108  : 		_SCL_SECURE_ALWAYS_VALIDATE(
-; 109  : 			reinterpret_cast<uintptr_t *>(_Ptr_ptr)[-1] ==
-; 110  : 				_BIG_ALLOCATION_SENTINEL);
-; 111  :  #endif /* _DEBUG */
-; 112  : 
-; 113  : 		// Extra paranoia on aligned allocation/deallocation
-; 114  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container < _Ptr_user);
-
-	cmp	rax, rcx
-	jb	SHORT $LN72@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN72@Tidy:
-
-; 115  : 
-; 116  :  #ifdef _DEBUG
-; 117  : 		_SCL_SECURE_ALWAYS_VALIDATE(2 * sizeof(void *)
-; 118  : 			<= _Ptr_user - _Ptr_container);
-; 119  : 
-; 120  :  #else /* _DEBUG */
-; 121  : 		_SCL_SECURE_ALWAYS_VALIDATE(sizeof(void *)
-
-	sub	rcx, rax
-	cmp	rcx, 8
-	jae	SHORT $LN73@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN73@Tidy:
-
-; 122  : 			<= _Ptr_user - _Ptr_container);
-; 123  :  #endif /* _DEBUG */
-; 124  : 
-; 125  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_user - _Ptr_container
-
-	cmp	rcx, 39					; 00000027H
-	jbe	SHORT $LN74@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN74@Tidy:
-
-; 126  : 			<= _NON_USER_SIZE);
-; 127  : 
-; 128  : 		_Ptr = reinterpret_cast<void *>(_Ptr_container);
-
-	mov	rcx, rax
-$LN70@Tidy:
-
-; 129  : 		}
-; 130  :  #endif /* defined(_M_IX86) || defined(_M_X64) */
-; 131  : 
-; 132  : 	::operator delete(_Ptr);
-
-	call	??3@YAXPEAX@Z				; operator delete
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1643 : 			this->_Myfirst() = pointer();
-
-	xor	eax, eax
-	mov	QWORD PTR [rbx], rax
-
-; 1644 : 			this->_Mylast() = pointer();
-
-	mov	QWORD PTR [rbx+8], rax
-
-; 1645 : 			this->_Myend() = pointer();
-
-	mov	QWORD PTR [rbx+16], rax
-$LN2@Tidy:
-
-; 1646 : 			}
-; 1647 : 		}
-
-	add	rsp, 32					; 00000020H
-	pop	rbx
-	ret	0
-$LN107@Tidy:
-?_Tidy@?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@IEAAXXZ ENDP ; std::vector<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > >::_Tidy
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Buy@?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@IEAA_N_K@Z
-_TEXT	SEGMENT
-this$ = 48
-_Capacity$dead$ = 56
-?_Buy@?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@IEAA_N_K@Z PROC ; std::vector<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > >::_Buy, COMDAT
-
-; 1561 : 		{	// allocate array with _Capacity elements
-
-$LN123:
-	push	rbx
-	sub	rsp, 32					; 00000020H
-
-; 1562 : 		this->_Myfirst() = pointer();
-
-	xor	eax, eax
-	mov	rbx, rcx
-	mov	QWORD PTR [rcx], rax
-
-; 1563 : 		this->_Mylast() = pointer();
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 1564 : 		this->_Myend() = pointer();
-
-	mov	QWORD PTR [rcx+16], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 69   : 			reinterpret_cast<uintptr_t>(::operator new(_Block_size));
-
-	mov	ecx, 6400039				; 0061a827H
-	call	??2@YAPEAX_K@Z				; operator new
-
-; 70   : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container != 0);
-; 71   : 		_Ptr = reinterpret_cast<void *>((_Ptr_container + _NON_USER_SIZE)
-
-	lea	rdx, QWORD PTR [rax+39]
-	and	rdx, -32				; ffffffffffffffe0H
-
-; 72   : 			& ~(_BIG_ALLOCATION_ALIGNMENT - 1));
-; 73   : 		static_cast<uintptr_t *>(_Ptr)[-1] = _Ptr_container;
-
-	mov	QWORD PTR [rdx-8], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1572 : 			this->_Myfirst() = this->_Getal().allocate(_Capacity);
-
-	mov	QWORD PTR [rbx], rdx
-
-; 1573 : 			this->_Mylast() = this->_Myfirst();
-
-	mov	QWORD PTR [rbx+8], rdx
-
-; 1574 : 			this->_Myend() = this->_Myfirst() + _Capacity;
-
-	mov	rax, QWORD PTR [rbx]
-	add	rax, 6400000				; 0061a800H
-	mov	QWORD PTR [rbx+16], rax
-
-; 1575 : 			}
-; 1576 : 		return (true);
-
-	mov	al, 1
-
-; 1577 : 		}
-
-	add	rsp, 32					; 00000020H
-	pop	rbx
-	ret	0
-?_Buy@?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@IEAA_N_K@Z ENDP ; std::vector<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > >::_Buy
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Mylast@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$03$02$00@@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Mylast@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$03$02$00@@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > > >::_Mylast, COMDAT
-
-; 653  : 		return (_Get_data()._Mylast);
-
-	lea	rax, QWORD PTR [rcx+8]
-
-; 654  : 		}
-
-	ret	0
-?_Mylast@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$03$02$00@@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > > >::_Mylast
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Myfirst@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$03$02$00@@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Myfirst@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$03$02$00@@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > > >::_Myfirst, COMDAT
-
-; 643  : 		return (_Get_data()._Myfirst);
-
-	mov	rax, rcx
-
-; 644  : 		}
-
-	ret	0
-?_Myfirst@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$03$02$00@@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > > >::_Myfirst
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@2@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > > >::_Getal, COMDAT
-
-; 623  : 		return (_Mypair._Get_first());
-
-	mov	rax, rcx
-
-; 624  : 		}
-
-	ret	0
-?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@2@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > > >::_Getal
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??0?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 8
-??0?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@@std@@QEAA@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > > >::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > > >, COMDAT
-
-; 485  : 		: _Myfirst(),
-
-	xor	eax, eax
-	mov	QWORD PTR [rcx], rax
-
-; 486  : 		_Mylast(),
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 487  : 		_Myend()
-
-	mov	QWORD PTR [rcx+16], rax
-
-; 521  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@@std@@QEAA@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > > >::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Tidy@?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@IEAAXXZ
-_TEXT	SEGMENT
-this$ = 48
-?_Tidy@?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@IEAAXXZ PROC ; std::vector<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > >::_Tidy, COMDAT
-
-; 1636 : 		{	// free all storage
-
-$LN108:
-	push	rbx
-	sub	rsp, 32					; 00000020H
-	mov	rbx, rcx
-
-; 1637 : 		if (this->_Myfirst() != pointer())
-
-	mov	rcx, QWORD PTR [rcx]
-	test	rcx, rcx
-	je	$LN2@Tidy
-
-; 1638 : 			{	// something to free, destroy and deallocate it
-; 1639 : 			this->_Orphan_all();
-; 1640 : 			_Destroy(this->_Myfirst(), this->_Mylast());
-; 1641 : 			this->_Getal().deallocate(this->_Myfirst(),
-
-	mov	rdx, QWORD PTR [rbx+16]
-	mov	rax, 3074457345618258603		; 2aaaaaaaaaaaaaabH
-	sub	rdx, rcx
-	imul	rdx
-	sar	rdx, 3
-	mov	rax, rdx
-	shr	rax, 63					; 0000003fH
-	add	rdx, rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	mov	rax, 384307168202282325			; 0555555555555555H
-	cmp	rdx, rax
-	jbe	SHORT $LN69@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN69@Tidy:
-
-; 95   : 	const size_t _User_size = _Count * _Sz;
-
-	lea	rax, QWORD PTR [rdx+rdx*2]
-	shl	rax, 4
-
-; 96   : 	if (_BIG_ALLOCATION_THRESHOLD <= _User_size)
-
-	cmp	rax, 4096				; 00001000H
-	jb	SHORT $LN70@Tidy
-
-; 97   : 		{	// deallocate large block
-; 98   : 		const uintptr_t _Ptr_user = reinterpret_cast<uintptr_t>(_Ptr);
-; 99   : 		_SCL_SECURE_ALWAYS_VALIDATE(
-
-	test	cl, 31
-	je	SHORT $LN71@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN71@Tidy:
-
-; 100  : 			(_Ptr_user & (_BIG_ALLOCATION_ALIGNMENT - 1)) == 0);
-; 101  : 		const uintptr_t _Ptr_ptr = _Ptr_user - sizeof(void *);
-; 102  : 		const uintptr_t _Ptr_container =
-; 103  : 			*reinterpret_cast<uintptr_t *>(_Ptr_ptr);
-
-	mov	rax, QWORD PTR [rcx-8]
-
-; 104  : 
-; 105  :  #ifdef _DEBUG
-; 106  : 		// If the following asserts, it likely means that we are performing
-; 107  : 		// an aligned delete on memory coming from an unaligned allocation.
-; 108  : 		_SCL_SECURE_ALWAYS_VALIDATE(
-; 109  : 			reinterpret_cast<uintptr_t *>(_Ptr_ptr)[-1] ==
-; 110  : 				_BIG_ALLOCATION_SENTINEL);
-; 111  :  #endif /* _DEBUG */
-; 112  : 
-; 113  : 		// Extra paranoia on aligned allocation/deallocation
-; 114  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container < _Ptr_user);
-
-	cmp	rax, rcx
-	jb	SHORT $LN72@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN72@Tidy:
-
-; 115  : 
-; 116  :  #ifdef _DEBUG
-; 117  : 		_SCL_SECURE_ALWAYS_VALIDATE(2 * sizeof(void *)
-; 118  : 			<= _Ptr_user - _Ptr_container);
-; 119  : 
-; 120  :  #else /* _DEBUG */
-; 121  : 		_SCL_SECURE_ALWAYS_VALIDATE(sizeof(void *)
-
-	sub	rcx, rax
-	cmp	rcx, 8
-	jae	SHORT $LN73@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN73@Tidy:
-
-; 122  : 			<= _Ptr_user - _Ptr_container);
-; 123  :  #endif /* _DEBUG */
-; 124  : 
-; 125  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_user - _Ptr_container
-
-	cmp	rcx, 39					; 00000027H
-	jbe	SHORT $LN74@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN74@Tidy:
-
-; 126  : 			<= _NON_USER_SIZE);
-; 127  : 
-; 128  : 		_Ptr = reinterpret_cast<void *>(_Ptr_container);
-
-	mov	rcx, rax
-$LN70@Tidy:
-
-; 129  : 		}
-; 130  :  #endif /* defined(_M_IX86) || defined(_M_X64) */
-; 131  : 
-; 132  : 	::operator delete(_Ptr);
-
-	call	??3@YAXPEAX@Z				; operator delete
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1643 : 			this->_Myfirst() = pointer();
-
-	xor	eax, eax
-	mov	QWORD PTR [rbx], rax
-
-; 1644 : 			this->_Mylast() = pointer();
-
-	mov	QWORD PTR [rbx+8], rax
-
-; 1645 : 			this->_Myend() = pointer();
-
-	mov	QWORD PTR [rbx+16], rax
-$LN2@Tidy:
-
-; 1646 : 			}
-; 1647 : 		}
-
-	add	rsp, 32					; 00000020H
-	pop	rbx
-	ret	0
-$LN107@Tidy:
-?_Tidy@?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@IEAAXXZ ENDP ; std::vector<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > >::_Tidy
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Buy@?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@IEAA_N_K@Z
-_TEXT	SEGMENT
-this$ = 48
-_Capacity$dead$ = 56
-?_Buy@?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@IEAA_N_K@Z PROC ; std::vector<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > >::_Buy, COMDAT
-
-; 1561 : 		{	// allocate array with _Capacity elements
-
-$LN123:
-	push	rbx
-	sub	rsp, 32					; 00000020H
-
-; 1562 : 		this->_Myfirst() = pointer();
-
-	xor	eax, eax
-	mov	rbx, rcx
-	mov	QWORD PTR [rcx], rax
-
-; 1563 : 		this->_Mylast() = pointer();
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 1564 : 		this->_Myend() = pointer();
-
-	mov	QWORD PTR [rcx+16], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 69   : 			reinterpret_cast<uintptr_t>(::operator new(_Block_size));
-
-	mov	ecx, 4800039				; 00493e27H
-	call	??2@YAPEAX_K@Z				; operator new
-
-; 70   : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container != 0);
-; 71   : 		_Ptr = reinterpret_cast<void *>((_Ptr_container + _NON_USER_SIZE)
-
-	lea	rdx, QWORD PTR [rax+39]
-	and	rdx, -32				; ffffffffffffffe0H
-
-; 72   : 			& ~(_BIG_ALLOCATION_ALIGNMENT - 1));
-; 73   : 		static_cast<uintptr_t *>(_Ptr)[-1] = _Ptr_container;
-
-	mov	QWORD PTR [rdx-8], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1572 : 			this->_Myfirst() = this->_Getal().allocate(_Capacity);
-
-	mov	QWORD PTR [rbx], rdx
-
-; 1573 : 			this->_Mylast() = this->_Myfirst();
-
-	mov	QWORD PTR [rbx+8], rdx
-
-; 1574 : 			this->_Myend() = this->_Myfirst() + _Capacity;
-
-	mov	rax, QWORD PTR [rbx]
-	add	rax, 4800000				; 00493e00H
-	mov	QWORD PTR [rbx+16], rax
-
-; 1575 : 			}
-; 1576 : 		return (true);
-
-	mov	al, 1
-
-; 1577 : 		}
-
-	add	rsp, 32					; 00000020H
-	pop	rbx
-	ret	0
-?_Buy@?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@IEAA_N_K@Z ENDP ; std::vector<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > >::_Buy
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ?GetElement@?$MatrixData@M$02$03$00@@QEAAAEAMHH@Z
-_TEXT	SEGMENT
-this$ = 8
-col$ = 16
-row$ = 24
-?GetElement@?$MatrixData@M$02$03$00@@QEAAAEAMHH@Z PROC	; MatrixData<float,3,4,1>::GetElement, COMDAT
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 684  : 		return data[idx];
-
-	movsxd	rax, edx
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 41   : 		return stripes[row][col];
-
-	movsxd	r8, r8d
-	lea	rdx, QWORD PTR [rax+r8*4]
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 684  : 		return data[idx];
-
-	lea	rax, QWORD PTR [rcx+rdx*4]
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 42   : 	}
-
-	ret	0
-?GetElement@?$MatrixData@M$02$03$00@@QEAAAEAMHH@Z ENDP	; MatrixData<float,3,4,1>::GetElement
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ?GetElement@?$MatrixData@M$03$02$00@@QEAAAEAMHH@Z
-_TEXT	SEGMENT
-this$ = 8
-col$ = 16
-row$ = 24
-?GetElement@?$MatrixData@M$03$02$00@@QEAAAEAMHH@Z PROC	; MatrixData<float,4,3,1>::GetElement, COMDAT
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 684  : 		return data[idx];
-
-	movsxd	rax, edx
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 41   : 		return stripes[row][col];
-
-	movsxd	r8, r8d
-	lea	rdx, QWORD PTR [rax+r8*4]
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 684  : 		return data[idx];
-
-	lea	rax, QWORD PTR [rcx+rdx*4]
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 42   : 	}
-
-	ret	0
-?GetElement@?$MatrixData@M$03$02$00@@QEAAAEAMHH@Z ENDP	; MatrixData<float,4,3,1>::GetElement
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Mylast@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$01$03$00@@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Mylast@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$01$03$00@@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > > >::_Mylast, COMDAT
-
-; 653  : 		return (_Get_data()._Mylast);
-
-	lea	rax, QWORD PTR [rcx+8]
-
-; 654  : 		}
-
-	ret	0
-?_Mylast@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$01$03$00@@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > > >::_Mylast
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Myfirst@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$01$03$00@@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Myfirst@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$01$03$00@@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > > >::_Myfirst, COMDAT
-
-; 643  : 		return (_Get_data()._Myfirst);
-
-	mov	rax, rcx
-
-; 644  : 		}
-
-	ret	0
-?_Myfirst@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$01$03$00@@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > > >::_Myfirst
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@2@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > > >::_Getal, COMDAT
-
-; 623  : 		return (_Mypair._Get_first());
-
-	mov	rax, rcx
-
-; 624  : 		}
-
-	ret	0
-?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@2@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > > >::_Getal
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??0?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 8
-??0?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@@std@@QEAA@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > > >::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > > >, COMDAT
-
-; 485  : 		: _Myfirst(),
-
-	xor	eax, eax
-	mov	QWORD PTR [rcx], rax
-
-; 486  : 		_Mylast(),
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 487  : 		_Myend()
-
-	mov	QWORD PTR [rcx+16], rax
-
-; 521  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@@std@@QEAA@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > > >::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Tidy@?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@IEAAXXZ
-_TEXT	SEGMENT
-this$ = 48
-?_Tidy@?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@IEAAXXZ PROC ; std::vector<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > >::_Tidy, COMDAT
-
-; 1636 : 		{	// free all storage
-
-$LN108:
-	push	rbx
-	sub	rsp, 32					; 00000020H
-	mov	rbx, rcx
-
-; 1637 : 		if (this->_Myfirst() != pointer())
-
-	mov	rcx, QWORD PTR [rcx]
-	test	rcx, rcx
-	je	SHORT $LN2@Tidy
-
-; 1641 : 			this->_Getal().deallocate(this->_Myfirst(),
-
-	mov	rax, QWORD PTR [rbx+16]
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	mov	rdx, 576460752303423487			; 07ffffffffffffffH
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1641 : 			this->_Getal().deallocate(this->_Myfirst(),
-
-	sub	rax, rcx
-	sar	rax, 5
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	cmp	rax, rdx
-	jbe	SHORT $LN69@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN69@Tidy:
-
-; 95   : 	const size_t _User_size = _Count * _Sz;
-
-	shl	rax, 5
-
-; 96   : 	if (_BIG_ALLOCATION_THRESHOLD <= _User_size)
-
-	cmp	rax, 4096				; 00001000H
-	jb	SHORT $LN70@Tidy
-
-; 97   : 		{	// deallocate large block
-; 98   : 		const uintptr_t _Ptr_user = reinterpret_cast<uintptr_t>(_Ptr);
-; 99   : 		_SCL_SECURE_ALWAYS_VALIDATE(
-
-	test	cl, 31
-	je	SHORT $LN71@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN71@Tidy:
-
-; 100  : 			(_Ptr_user & (_BIG_ALLOCATION_ALIGNMENT - 1)) == 0);
-; 101  : 		const uintptr_t _Ptr_ptr = _Ptr_user - sizeof(void *);
-; 102  : 		const uintptr_t _Ptr_container =
-; 103  : 			*reinterpret_cast<uintptr_t *>(_Ptr_ptr);
-
-	mov	rax, QWORD PTR [rcx-8]
-
-; 104  : 
-; 105  :  #ifdef _DEBUG
-; 106  : 		// If the following asserts, it likely means that we are performing
-; 107  : 		// an aligned delete on memory coming from an unaligned allocation.
-; 108  : 		_SCL_SECURE_ALWAYS_VALIDATE(
-; 109  : 			reinterpret_cast<uintptr_t *>(_Ptr_ptr)[-1] ==
-; 110  : 				_BIG_ALLOCATION_SENTINEL);
-; 111  :  #endif /* _DEBUG */
-; 112  : 
-; 113  : 		// Extra paranoia on aligned allocation/deallocation
-; 114  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container < _Ptr_user);
-
-	cmp	rax, rcx
-	jb	SHORT $LN72@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN72@Tidy:
-
-; 115  : 
-; 116  :  #ifdef _DEBUG
-; 117  : 		_SCL_SECURE_ALWAYS_VALIDATE(2 * sizeof(void *)
-; 118  : 			<= _Ptr_user - _Ptr_container);
-; 119  : 
-; 120  :  #else /* _DEBUG */
-; 121  : 		_SCL_SECURE_ALWAYS_VALIDATE(sizeof(void *)
-
-	sub	rcx, rax
-	cmp	rcx, 8
-	jae	SHORT $LN73@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN73@Tidy:
-
-; 122  : 			<= _Ptr_user - _Ptr_container);
-; 123  :  #endif /* _DEBUG */
-; 124  : 
-; 125  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_user - _Ptr_container
-
-	cmp	rcx, 39					; 00000027H
-	jbe	SHORT $LN74@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN74@Tidy:
-
-; 126  : 			<= _NON_USER_SIZE);
-; 127  : 
-; 128  : 		_Ptr = reinterpret_cast<void *>(_Ptr_container);
-
-	mov	rcx, rax
-$LN70@Tidy:
-
-; 129  : 		}
-; 130  :  #endif /* defined(_M_IX86) || defined(_M_X64) */
-; 131  : 
-; 132  : 	::operator delete(_Ptr);
-
-	call	??3@YAXPEAX@Z				; operator delete
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1643 : 			this->_Myfirst() = pointer();
-
-	xor	eax, eax
-	mov	QWORD PTR [rbx], rax
-
-; 1644 : 			this->_Mylast() = pointer();
-
-	mov	QWORD PTR [rbx+8], rax
-
-; 1645 : 			this->_Myend() = pointer();
-
-	mov	QWORD PTR [rbx+16], rax
-$LN2@Tidy:
-
-; 1646 : 			}
-; 1647 : 		}
-
-	add	rsp, 32					; 00000020H
-	pop	rbx
-	ret	0
-$LN107@Tidy:
-?_Tidy@?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@IEAAXXZ ENDP ; std::vector<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > >::_Tidy
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Buy@?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@IEAA_N_K@Z
-_TEXT	SEGMENT
-this$ = 48
-_Capacity$dead$ = 56
-?_Buy@?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@IEAA_N_K@Z PROC ; std::vector<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > >::_Buy, COMDAT
-
-; 1561 : 		{	// allocate array with _Capacity elements
-
-$LN123:
-	push	rbx
-	sub	rsp, 32					; 00000020H
-
-; 1562 : 		this->_Myfirst() = pointer();
-
-	xor	eax, eax
-	mov	rbx, rcx
-	mov	QWORD PTR [rcx], rax
-
-; 1563 : 		this->_Mylast() = pointer();
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 1564 : 		this->_Myend() = pointer();
-
-	mov	QWORD PTR [rcx+16], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 69   : 			reinterpret_cast<uintptr_t>(::operator new(_Block_size));
-
-	mov	ecx, 3200039				; 0030d427H
-	call	??2@YAPEAX_K@Z				; operator new
-
-; 70   : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container != 0);
-; 71   : 		_Ptr = reinterpret_cast<void *>((_Ptr_container + _NON_USER_SIZE)
-
-	lea	rdx, QWORD PTR [rax+39]
-	and	rdx, -32				; ffffffffffffffe0H
-
-; 72   : 			& ~(_BIG_ALLOCATION_ALIGNMENT - 1));
-; 73   : 		static_cast<uintptr_t *>(_Ptr)[-1] = _Ptr_container;
-
-	mov	QWORD PTR [rdx-8], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1572 : 			this->_Myfirst() = this->_Getal().allocate(_Capacity);
-
-	mov	QWORD PTR [rbx], rdx
-
-; 1573 : 			this->_Mylast() = this->_Myfirst();
-
-	mov	QWORD PTR [rbx+8], rdx
-
-; 1574 : 			this->_Myend() = this->_Myfirst() + _Capacity;
-
-	mov	rax, QWORD PTR [rbx]
-	add	rax, 3200000				; 0030d400H
-	mov	QWORD PTR [rbx+16], rax
-
-; 1575 : 			}
-; 1576 : 		return (true);
-
-	mov	al, 1
-
-; 1577 : 		}
-
-	add	rsp, 32					; 00000020H
-	pop	rbx
-	ret	0
-?_Buy@?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@IEAA_N_K@Z ENDP ; std::vector<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > >::_Buy
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Mylast@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$03$01$00@@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Mylast@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$03$01$00@@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > > >::_Mylast, COMDAT
-
-; 653  : 		return (_Get_data()._Mylast);
-
-	lea	rax, QWORD PTR [rcx+8]
-
-; 654  : 		}
-
-	ret	0
-?_Mylast@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$03$01$00@@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > > >::_Mylast
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Myfirst@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$03$01$00@@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Myfirst@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$03$01$00@@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > > >::_Myfirst, COMDAT
-
-; 643  : 		return (_Get_data()._Myfirst);
-
-	mov	rax, rcx
-
-; 644  : 		}
-
-	ret	0
-?_Myfirst@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$03$01$00@@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > > >::_Myfirst
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@2@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > > >::_Getal, COMDAT
-
-; 623  : 		return (_Mypair._Get_first());
-
-	mov	rax, rcx
-
-; 624  : 		}
-
-	ret	0
-?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@2@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > > >::_Getal
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??0?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 8
-??0?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@@std@@QEAA@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > > >::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > > >, COMDAT
-
-; 485  : 		: _Myfirst(),
-
-	xor	eax, eax
-	mov	QWORD PTR [rcx], rax
-
-; 486  : 		_Mylast(),
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 487  : 		_Myend()
-
-	mov	QWORD PTR [rcx+16], rax
-
-; 521  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@@std@@QEAA@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > > >::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Tidy@?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@IEAAXXZ
-_TEXT	SEGMENT
-this$ = 48
-?_Tidy@?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@IEAAXXZ PROC ; std::vector<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > >::_Tidy, COMDAT
-
-; 1636 : 		{	// free all storage
-
-$LN108:
-	push	rbx
-	sub	rsp, 32					; 00000020H
-	mov	rbx, rcx
-
-; 1637 : 		if (this->_Myfirst() != pointer())
-
-	mov	rcx, QWORD PTR [rcx]
-	test	rcx, rcx
-	je	SHORT $LN2@Tidy
-
-; 1641 : 			this->_Getal().deallocate(this->_Myfirst(),
-
-	mov	rax, QWORD PTR [rbx+16]
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	mov	rdx, 576460752303423487			; 07ffffffffffffffH
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1641 : 			this->_Getal().deallocate(this->_Myfirst(),
-
-	sub	rax, rcx
-	sar	rax, 5
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	cmp	rax, rdx
-	jbe	SHORT $LN69@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN69@Tidy:
-
-; 95   : 	const size_t _User_size = _Count * _Sz;
-
-	shl	rax, 5
-
-; 96   : 	if (_BIG_ALLOCATION_THRESHOLD <= _User_size)
-
-	cmp	rax, 4096				; 00001000H
-	jb	SHORT $LN70@Tidy
-
-; 97   : 		{	// deallocate large block
-; 98   : 		const uintptr_t _Ptr_user = reinterpret_cast<uintptr_t>(_Ptr);
-; 99   : 		_SCL_SECURE_ALWAYS_VALIDATE(
-
-	test	cl, 31
-	je	SHORT $LN71@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN71@Tidy:
-
-; 100  : 			(_Ptr_user & (_BIG_ALLOCATION_ALIGNMENT - 1)) == 0);
-; 101  : 		const uintptr_t _Ptr_ptr = _Ptr_user - sizeof(void *);
-; 102  : 		const uintptr_t _Ptr_container =
-; 103  : 			*reinterpret_cast<uintptr_t *>(_Ptr_ptr);
-
-	mov	rax, QWORD PTR [rcx-8]
-
-; 104  : 
-; 105  :  #ifdef _DEBUG
-; 106  : 		// If the following asserts, it likely means that we are performing
-; 107  : 		// an aligned delete on memory coming from an unaligned allocation.
-; 108  : 		_SCL_SECURE_ALWAYS_VALIDATE(
-; 109  : 			reinterpret_cast<uintptr_t *>(_Ptr_ptr)[-1] ==
-; 110  : 				_BIG_ALLOCATION_SENTINEL);
-; 111  :  #endif /* _DEBUG */
-; 112  : 
-; 113  : 		// Extra paranoia on aligned allocation/deallocation
-; 114  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container < _Ptr_user);
-
-	cmp	rax, rcx
-	jb	SHORT $LN72@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN72@Tidy:
-
-; 115  : 
-; 116  :  #ifdef _DEBUG
-; 117  : 		_SCL_SECURE_ALWAYS_VALIDATE(2 * sizeof(void *)
-; 118  : 			<= _Ptr_user - _Ptr_container);
-; 119  : 
-; 120  :  #else /* _DEBUG */
-; 121  : 		_SCL_SECURE_ALWAYS_VALIDATE(sizeof(void *)
-
-	sub	rcx, rax
-	cmp	rcx, 8
-	jae	SHORT $LN73@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN73@Tidy:
-
-; 122  : 			<= _Ptr_user - _Ptr_container);
-; 123  :  #endif /* _DEBUG */
-; 124  : 
-; 125  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_user - _Ptr_container
-
-	cmp	rcx, 39					; 00000027H
-	jbe	SHORT $LN74@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN74@Tidy:
-
-; 126  : 			<= _NON_USER_SIZE);
-; 127  : 
-; 128  : 		_Ptr = reinterpret_cast<void *>(_Ptr_container);
-
-	mov	rcx, rax
-$LN70@Tidy:
-
-; 129  : 		}
-; 130  :  #endif /* defined(_M_IX86) || defined(_M_X64) */
-; 131  : 
-; 132  : 	::operator delete(_Ptr);
-
-	call	??3@YAXPEAX@Z				; operator delete
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1643 : 			this->_Myfirst() = pointer();
-
-	xor	eax, eax
-	mov	QWORD PTR [rbx], rax
-
-; 1644 : 			this->_Mylast() = pointer();
-
-	mov	QWORD PTR [rbx+8], rax
-
-; 1645 : 			this->_Myend() = pointer();
-
-	mov	QWORD PTR [rbx+16], rax
-$LN2@Tidy:
-
-; 1646 : 			}
-; 1647 : 		}
-
-	add	rsp, 32					; 00000020H
-	pop	rbx
-	ret	0
-$LN107@Tidy:
-?_Tidy@?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@IEAAXXZ ENDP ; std::vector<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > >::_Tidy
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Buy@?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@IEAA_N_K@Z
-_TEXT	SEGMENT
-this$ = 48
-_Capacity$dead$ = 56
-?_Buy@?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@IEAA_N_K@Z PROC ; std::vector<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > >::_Buy, COMDAT
-
-; 1561 : 		{	// allocate array with _Capacity elements
-
-$LN123:
-	push	rbx
-	sub	rsp, 32					; 00000020H
-
-; 1562 : 		this->_Myfirst() = pointer();
-
-	xor	eax, eax
-	mov	rbx, rcx
-	mov	QWORD PTR [rcx], rax
-
-; 1563 : 		this->_Mylast() = pointer();
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 1564 : 		this->_Myend() = pointer();
-
-	mov	QWORD PTR [rcx+16], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 69   : 			reinterpret_cast<uintptr_t>(::operator new(_Block_size));
-
-	mov	ecx, 3200039				; 0030d427H
-	call	??2@YAPEAX_K@Z				; operator new
-
-; 70   : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container != 0);
-; 71   : 		_Ptr = reinterpret_cast<void *>((_Ptr_container + _NON_USER_SIZE)
-
-	lea	rdx, QWORD PTR [rax+39]
-	and	rdx, -32				; ffffffffffffffe0H
-
-; 72   : 			& ~(_BIG_ALLOCATION_ALIGNMENT - 1));
-; 73   : 		static_cast<uintptr_t *>(_Ptr)[-1] = _Ptr_container;
-
-	mov	QWORD PTR [rdx-8], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1572 : 			this->_Myfirst() = this->_Getal().allocate(_Capacity);
-
-	mov	QWORD PTR [rbx], rdx
-
-; 1573 : 			this->_Mylast() = this->_Myfirst();
-
-	mov	QWORD PTR [rbx+8], rdx
-
-; 1574 : 			this->_Myend() = this->_Myfirst() + _Capacity;
-
-	mov	rax, QWORD PTR [rbx]
-	add	rax, 3200000				; 0030d400H
-	mov	QWORD PTR [rbx+16], rax
-
-; 1575 : 			}
-; 1576 : 		return (true);
-
-	mov	al, 1
-
-; 1577 : 		}
-
-	add	rsp, 32					; 00000020H
-	pop	rbx
-	ret	0
-?_Buy@?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@IEAA_N_K@Z ENDP ; std::vector<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > >::_Buy
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Mylast@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$03$03$00@@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Mylast@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$03$03$00@@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > > >::_Mylast, COMDAT
-
-; 653  : 		return (_Get_data()._Mylast);
-
-	lea	rax, QWORD PTR [rcx+8]
-
-; 654  : 		}
-
-	ret	0
-?_Mylast@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$03$03$00@@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > > >::_Mylast
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Myfirst@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$03$03$00@@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Myfirst@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$03$03$00@@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > > >::_Myfirst, COMDAT
-
-; 643  : 		return (_Get_data()._Myfirst);
-
-	mov	rax, rcx
-
-; 644  : 		}
-
-	ret	0
-?_Myfirst@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$03$03$00@@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > > >::_Myfirst
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@2@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > > >::_Getal, COMDAT
-
-; 623  : 		return (_Mypair._Get_first());
-
-	mov	rax, rcx
-
-; 624  : 		}
-
-	ret	0
-?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@2@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > > >::_Getal
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??0?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 8
-??0?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@@std@@QEAA@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > > >::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > > >, COMDAT
-
-; 485  : 		: _Myfirst(),
-
-	xor	eax, eax
-	mov	QWORD PTR [rcx], rax
-
-; 486  : 		_Mylast(),
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 487  : 		_Myend()
-
-	mov	QWORD PTR [rcx+16], rax
-
-; 521  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@@std@@QEAA@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > > >::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Tidy@?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@IEAAXXZ
-_TEXT	SEGMENT
-this$ = 48
-?_Tidy@?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@IEAAXXZ PROC ; std::vector<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > >::_Tidy, COMDAT
-
-; 1636 : 		{	// free all storage
-
-$LN108:
-	push	rbx
-	sub	rsp, 32					; 00000020H
-	mov	rbx, rcx
-
-; 1637 : 		if (this->_Myfirst() != pointer())
-
-	mov	rcx, QWORD PTR [rcx]
-	test	rcx, rcx
-	je	SHORT $LN2@Tidy
-
-; 1641 : 			this->_Getal().deallocate(this->_Myfirst(),
-
-	mov	rax, QWORD PTR [rbx+16]
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	mov	rdx, 288230376151711743			; 03ffffffffffffffH
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1641 : 			this->_Getal().deallocate(this->_Myfirst(),
-
-	sub	rax, rcx
-	sar	rax, 6
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	cmp	rax, rdx
-	jbe	SHORT $LN69@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN69@Tidy:
-
-; 95   : 	const size_t _User_size = _Count * _Sz;
-
-	shl	rax, 6
-
-; 96   : 	if (_BIG_ALLOCATION_THRESHOLD <= _User_size)
-
-	cmp	rax, 4096				; 00001000H
-	jb	SHORT $LN70@Tidy
-
-; 97   : 		{	// deallocate large block
-; 98   : 		const uintptr_t _Ptr_user = reinterpret_cast<uintptr_t>(_Ptr);
-; 99   : 		_SCL_SECURE_ALWAYS_VALIDATE(
-
-	test	cl, 31
-	je	SHORT $LN71@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN71@Tidy:
-
-; 100  : 			(_Ptr_user & (_BIG_ALLOCATION_ALIGNMENT - 1)) == 0);
-; 101  : 		const uintptr_t _Ptr_ptr = _Ptr_user - sizeof(void *);
-; 102  : 		const uintptr_t _Ptr_container =
-; 103  : 			*reinterpret_cast<uintptr_t *>(_Ptr_ptr);
-
-	mov	rax, QWORD PTR [rcx-8]
-
-; 104  : 
-; 105  :  #ifdef _DEBUG
-; 106  : 		// If the following asserts, it likely means that we are performing
-; 107  : 		// an aligned delete on memory coming from an unaligned allocation.
-; 108  : 		_SCL_SECURE_ALWAYS_VALIDATE(
-; 109  : 			reinterpret_cast<uintptr_t *>(_Ptr_ptr)[-1] ==
-; 110  : 				_BIG_ALLOCATION_SENTINEL);
-; 111  :  #endif /* _DEBUG */
-; 112  : 
-; 113  : 		// Extra paranoia on aligned allocation/deallocation
-; 114  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container < _Ptr_user);
-
-	cmp	rax, rcx
-	jb	SHORT $LN72@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN72@Tidy:
-
-; 115  : 
-; 116  :  #ifdef _DEBUG
-; 117  : 		_SCL_SECURE_ALWAYS_VALIDATE(2 * sizeof(void *)
-; 118  : 			<= _Ptr_user - _Ptr_container);
-; 119  : 
-; 120  :  #else /* _DEBUG */
-; 121  : 		_SCL_SECURE_ALWAYS_VALIDATE(sizeof(void *)
-
-	sub	rcx, rax
-	cmp	rcx, 8
-	jae	SHORT $LN73@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN73@Tidy:
-
-; 122  : 			<= _Ptr_user - _Ptr_container);
-; 123  :  #endif /* _DEBUG */
-; 124  : 
-; 125  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_user - _Ptr_container
-
-	cmp	rcx, 39					; 00000027H
-	jbe	SHORT $LN74@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN74@Tidy:
-
-; 126  : 			<= _NON_USER_SIZE);
-; 127  : 
-; 128  : 		_Ptr = reinterpret_cast<void *>(_Ptr_container);
-
-	mov	rcx, rax
-$LN70@Tidy:
-
-; 129  : 		}
-; 130  :  #endif /* defined(_M_IX86) || defined(_M_X64) */
-; 131  : 
-; 132  : 	::operator delete(_Ptr);
-
-	call	??3@YAXPEAX@Z				; operator delete
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1643 : 			this->_Myfirst() = pointer();
-
-	xor	eax, eax
-	mov	QWORD PTR [rbx], rax
-
-; 1644 : 			this->_Mylast() = pointer();
-
-	mov	QWORD PTR [rbx+8], rax
-
-; 1645 : 			this->_Myend() = pointer();
-
-	mov	QWORD PTR [rbx+16], rax
-$LN2@Tidy:
-
-; 1646 : 			}
-; 1647 : 		}
-
-	add	rsp, 32					; 00000020H
-	pop	rbx
-	ret	0
-$LN107@Tidy:
-?_Tidy@?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@IEAAXXZ ENDP ; std::vector<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > >::_Tidy
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Buy@?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@IEAA_N_K@Z
-_TEXT	SEGMENT
-this$ = 48
-_Capacity$dead$ = 56
-?_Buy@?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@IEAA_N_K@Z PROC ; std::vector<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > >::_Buy, COMDAT
-
-; 1561 : 		{	// allocate array with _Capacity elements
-
-$LN123:
-	push	rbx
-	sub	rsp, 32					; 00000020H
-
-; 1562 : 		this->_Myfirst() = pointer();
-
-	xor	eax, eax
-	mov	rbx, rcx
-	mov	QWORD PTR [rcx], rax
-
-; 1563 : 		this->_Mylast() = pointer();
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 1564 : 		this->_Myend() = pointer();
-
-	mov	QWORD PTR [rcx+16], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 69   : 			reinterpret_cast<uintptr_t>(::operator new(_Block_size));
-
-	mov	ecx, 6400039				; 0061a827H
-	call	??2@YAPEAX_K@Z				; operator new
-
-; 70   : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container != 0);
-; 71   : 		_Ptr = reinterpret_cast<void *>((_Ptr_container + _NON_USER_SIZE)
-
-	lea	rdx, QWORD PTR [rax+39]
-	and	rdx, -32				; ffffffffffffffe0H
-
-; 72   : 			& ~(_BIG_ALLOCATION_ALIGNMENT - 1));
-; 73   : 		static_cast<uintptr_t *>(_Ptr)[-1] = _Ptr_container;
-
-	mov	QWORD PTR [rdx-8], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1572 : 			this->_Myfirst() = this->_Getal().allocate(_Capacity);
-
-	mov	QWORD PTR [rbx], rdx
-
-; 1573 : 			this->_Mylast() = this->_Myfirst();
-
-	mov	QWORD PTR [rbx+8], rdx
-
-; 1574 : 			this->_Myend() = this->_Myfirst() + _Capacity;
-
-	mov	rax, QWORD PTR [rbx]
-	add	rax, 6400000				; 0061a800H
-	mov	QWORD PTR [rbx+16], rax
-
-; 1575 : 			}
-; 1576 : 		return (true);
-
-	mov	al, 1
-
-; 1577 : 		}
-
-	add	rsp, 32					; 00000020H
-	pop	rbx
-	ret	0
-?_Buy@?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@IEAA_N_K@Z ENDP ; std::vector<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > >::_Buy
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Mylast@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$02$02$00@@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Mylast@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$02$02$00@@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > > >::_Mylast, COMDAT
-
-; 653  : 		return (_Get_data()._Mylast);
-
-	lea	rax, QWORD PTR [rcx+8]
-
-; 654  : 		}
-
-	ret	0
-?_Mylast@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$02$02$00@@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > > >::_Mylast
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Myfirst@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$02$02$00@@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Myfirst@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$02$02$00@@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > > >::_Myfirst, COMDAT
-
-; 643  : 		return (_Get_data()._Myfirst);
-
-	mov	rax, rcx
-
-; 644  : 		}
-
-	ret	0
-?_Myfirst@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$02$02$00@@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > > >::_Myfirst
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@2@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > > >::_Getal, COMDAT
-
-; 623  : 		return (_Mypair._Get_first());
-
-	mov	rax, rcx
-
-; 624  : 		}
-
-	ret	0
-?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@2@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > > >::_Getal
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??0?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 8
-??0?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@@std@@QEAA@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > > >::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > > >, COMDAT
-
-; 485  : 		: _Myfirst(),
-
-	xor	eax, eax
-	mov	QWORD PTR [rcx], rax
-
-; 486  : 		_Mylast(),
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 487  : 		_Myend()
-
-	mov	QWORD PTR [rcx+16], rax
-
-; 521  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@@std@@QEAA@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > > >::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Tidy@?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@IEAAXXZ
-_TEXT	SEGMENT
-this$ = 48
-?_Tidy@?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@IEAAXXZ PROC ; std::vector<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > >::_Tidy, COMDAT
-
-; 1636 : 		{	// free all storage
-
-$LN108:
-	push	rbx
-	sub	rsp, 32					; 00000020H
-	mov	rbx, rcx
-
-; 1637 : 		if (this->_Myfirst() != pointer())
-
-	mov	rcx, QWORD PTR [rcx]
-	test	rcx, rcx
-	je	$LN2@Tidy
-
-; 1638 : 			{	// something to free, destroy and deallocate it
-; 1639 : 			this->_Orphan_all();
-; 1640 : 			_Destroy(this->_Myfirst(), this->_Mylast());
-; 1641 : 			this->_Getal().deallocate(this->_Myfirst(),
-
-	mov	rdx, QWORD PTR [rbx+16]
-	mov	rax, 3074457345618258603		; 2aaaaaaaaaaaaaabH
-	sub	rdx, rcx
-	imul	rdx
-	sar	rdx, 3
-	mov	rax, rdx
-	shr	rax, 63					; 0000003fH
-	add	rdx, rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	mov	rax, 384307168202282325			; 0555555555555555H
-	cmp	rdx, rax
-	jbe	SHORT $LN69@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN69@Tidy:
-
-; 95   : 	const size_t _User_size = _Count * _Sz;
-
-	lea	rax, QWORD PTR [rdx+rdx*2]
-	shl	rax, 4
-
-; 96   : 	if (_BIG_ALLOCATION_THRESHOLD <= _User_size)
-
-	cmp	rax, 4096				; 00001000H
-	jb	SHORT $LN70@Tidy
-
-; 97   : 		{	// deallocate large block
-; 98   : 		const uintptr_t _Ptr_user = reinterpret_cast<uintptr_t>(_Ptr);
-; 99   : 		_SCL_SECURE_ALWAYS_VALIDATE(
-
-	test	cl, 31
-	je	SHORT $LN71@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN71@Tidy:
-
-; 100  : 			(_Ptr_user & (_BIG_ALLOCATION_ALIGNMENT - 1)) == 0);
-; 101  : 		const uintptr_t _Ptr_ptr = _Ptr_user - sizeof(void *);
-; 102  : 		const uintptr_t _Ptr_container =
-; 103  : 			*reinterpret_cast<uintptr_t *>(_Ptr_ptr);
-
-	mov	rax, QWORD PTR [rcx-8]
-
-; 104  : 
-; 105  :  #ifdef _DEBUG
-; 106  : 		// If the following asserts, it likely means that we are performing
-; 107  : 		// an aligned delete on memory coming from an unaligned allocation.
-; 108  : 		_SCL_SECURE_ALWAYS_VALIDATE(
-; 109  : 			reinterpret_cast<uintptr_t *>(_Ptr_ptr)[-1] ==
-; 110  : 				_BIG_ALLOCATION_SENTINEL);
-; 111  :  #endif /* _DEBUG */
-; 112  : 
-; 113  : 		// Extra paranoia on aligned allocation/deallocation
-; 114  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container < _Ptr_user);
-
-	cmp	rax, rcx
-	jb	SHORT $LN72@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN72@Tidy:
-
-; 115  : 
-; 116  :  #ifdef _DEBUG
-; 117  : 		_SCL_SECURE_ALWAYS_VALIDATE(2 * sizeof(void *)
-; 118  : 			<= _Ptr_user - _Ptr_container);
-; 119  : 
-; 120  :  #else /* _DEBUG */
-; 121  : 		_SCL_SECURE_ALWAYS_VALIDATE(sizeof(void *)
-
-	sub	rcx, rax
-	cmp	rcx, 8
-	jae	SHORT $LN73@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN73@Tidy:
-
-; 122  : 			<= _Ptr_user - _Ptr_container);
-; 123  :  #endif /* _DEBUG */
-; 124  : 
-; 125  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_user - _Ptr_container
-
-	cmp	rcx, 39					; 00000027H
-	jbe	SHORT $LN74@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN74@Tidy:
-
-; 126  : 			<= _NON_USER_SIZE);
-; 127  : 
-; 128  : 		_Ptr = reinterpret_cast<void *>(_Ptr_container);
-
-	mov	rcx, rax
-$LN70@Tidy:
-
-; 129  : 		}
-; 130  :  #endif /* defined(_M_IX86) || defined(_M_X64) */
-; 131  : 
-; 132  : 	::operator delete(_Ptr);
-
-	call	??3@YAXPEAX@Z				; operator delete
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1643 : 			this->_Myfirst() = pointer();
-
-	xor	eax, eax
-	mov	QWORD PTR [rbx], rax
-
-; 1644 : 			this->_Mylast() = pointer();
-
-	mov	QWORD PTR [rbx+8], rax
-
-; 1645 : 			this->_Myend() = pointer();
-
-	mov	QWORD PTR [rbx+16], rax
-$LN2@Tidy:
-
-; 1646 : 			}
-; 1647 : 		}
-
-	add	rsp, 32					; 00000020H
-	pop	rbx
-	ret	0
-$LN107@Tidy:
-?_Tidy@?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@IEAAXXZ ENDP ; std::vector<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > >::_Tidy
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Buy@?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@IEAA_N_K@Z
-_TEXT	SEGMENT
-this$ = 48
-_Capacity$dead$ = 56
-?_Buy@?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@IEAA_N_K@Z PROC ; std::vector<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > >::_Buy, COMDAT
-
-; 1561 : 		{	// allocate array with _Capacity elements
-
-$LN123:
-	push	rbx
-	sub	rsp, 32					; 00000020H
-
-; 1562 : 		this->_Myfirst() = pointer();
-
-	xor	eax, eax
-	mov	rbx, rcx
-	mov	QWORD PTR [rcx], rax
-
-; 1563 : 		this->_Mylast() = pointer();
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 1564 : 		this->_Myend() = pointer();
-
-	mov	QWORD PTR [rcx+16], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 69   : 			reinterpret_cast<uintptr_t>(::operator new(_Block_size));
-
-	mov	ecx, 4800039				; 00493e27H
-	call	??2@YAPEAX_K@Z				; operator new
-
-; 70   : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container != 0);
-; 71   : 		_Ptr = reinterpret_cast<void *>((_Ptr_container + _NON_USER_SIZE)
-
-	lea	rdx, QWORD PTR [rax+39]
-	and	rdx, -32				; ffffffffffffffe0H
-
-; 72   : 			& ~(_BIG_ALLOCATION_ALIGNMENT - 1));
-; 73   : 		static_cast<uintptr_t *>(_Ptr)[-1] = _Ptr_container;
-
-	mov	QWORD PTR [rdx-8], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1572 : 			this->_Myfirst() = this->_Getal().allocate(_Capacity);
-
-	mov	QWORD PTR [rbx], rdx
-
-; 1573 : 			this->_Mylast() = this->_Myfirst();
-
-	mov	QWORD PTR [rbx+8], rdx
-
-; 1574 : 			this->_Myend() = this->_Myfirst() + _Capacity;
-
-	mov	rax, QWORD PTR [rbx]
-	add	rax, 4800000				; 00493e00H
-	mov	QWORD PTR [rbx+16], rax
-
-; 1575 : 			}
-; 1576 : 		return (true);
-
-	mov	al, 1
-
-; 1577 : 		}
-
-	add	rsp, 32					; 00000020H
-	pop	rbx
-	ret	0
-?_Buy@?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@IEAA_N_K@Z ENDP ; std::vector<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > >::_Buy
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\random
-;	COMDAT ??0?$uniform_real@M@std@@QEAA@MM@Z
-_TEXT	SEGMENT
-this$ = 8
-_Min0$ = 16
-_Max0$ = 24
-??0?$uniform_real@M@std@@QEAA@MM@Z PROC			; std::uniform_real<float>::uniform_real<float>, COMDAT
-
-; 3252 : 			_Min = _Min0;
-
-	movss	DWORD PTR [rcx], xmm1
-
-; 3264 : 		}
-
-	mov	rax, rcx
-
-; 3253 : 			_Max = _Max0;
-
-	movss	DWORD PTR [rcx+4], xmm2
-
-; 3264 : 		}
-
-	ret	0
-??0?$uniform_real@M@std@@QEAA@MM@Z ENDP			; std::uniform_real<float>::uniform_real<float>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\random
-;	COMDAT ??0?$linear_congruential@I$0LMIP@$0A@$0HPPPPPPP@@std@@QEAA@I@Z
-_TEXT	SEGMENT
-this$ = 8
-_X0$dead$ = 16
-??0?$linear_congruential@I$0LMIP@$0A@$0HPPPPPPP@@std@@QEAA@I@Z PROC ; std::linear_congruential<unsigned int,48271,0,2147483647>::linear_congruential<unsigned int,48271,0,2147483647>, COMDAT
-
-; 551  : 		_Imp._Prev = _Mx != 0 ? _X0 % _Mx : _X0;
-
-	mov	DWORD PTR [rcx], 1
-
-; 478  : 		{	// construct from initial value
-; 479  : 		seed(_X0);
-; 480  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$linear_congruential@I$0LMIP@$0A@$0HPPPPPPP@@std@@QEAA@I@Z ENDP ; std::linear_congruential<unsigned int,48271,0,2147483647>::linear_congruential<unsigned int,48271,0,2147483647>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Mylast@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$01$01$00@@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Mylast@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$01$01$00@@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > > >::_Mylast, COMDAT
-
-; 653  : 		return (_Get_data()._Mylast);
-
-	lea	rax, QWORD PTR [rcx+8]
-
-; 654  : 		}
-
-	ret	0
-?_Mylast@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$01$01$00@@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > > >::_Mylast
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Myfirst@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$01$01$00@@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Myfirst@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$01$01$00@@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > > >::_Myfirst, COMDAT
-
-; 643  : 		return (_Get_data()._Myfirst);
-
-	mov	rax, rcx
-
-; 644  : 		}
-
-	ret	0
-?_Myfirst@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$01$01$00@@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > > >::_Myfirst
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@2@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > > >::_Getal, COMDAT
-
-; 623  : 		return (_Mypair._Get_first());
-
-	mov	rax, rcx
-
-; 624  : 		}
-
-	ret	0
-?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@2@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > > >::_Getal
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??0?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 8
-??0?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@@std@@QEAA@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > > >::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > > >, COMDAT
-
-; 485  : 		: _Myfirst(),
-
-	xor	eax, eax
-	mov	QWORD PTR [rcx], rax
-
-; 486  : 		_Mylast(),
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 487  : 		_Myend()
-
-	mov	QWORD PTR [rcx+16], rax
-
-; 521  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@@std@@QEAA@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > > >::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Tidy@?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@IEAAXXZ
-_TEXT	SEGMENT
-this$ = 48
-?_Tidy@?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@IEAAXXZ PROC ; std::vector<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > >::_Tidy, COMDAT
-
-; 1636 : 		{	// free all storage
-
-$LN108:
-	push	rbx
-	sub	rsp, 32					; 00000020H
-	mov	rbx, rcx
-
-; 1637 : 		if (this->_Myfirst() != pointer())
-
-	mov	rcx, QWORD PTR [rcx]
-	test	rcx, rcx
-	je	SHORT $LN2@Tidy
-
-; 1641 : 			this->_Getal().deallocate(this->_Myfirst(),
-
-	mov	rax, QWORD PTR [rbx+16]
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	mov	rdx, 1152921504606846975		; 0fffffffffffffffH
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1641 : 			this->_Getal().deallocate(this->_Myfirst(),
-
-	sub	rax, rcx
-	sar	rax, 4
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	cmp	rax, rdx
-	jbe	SHORT $LN69@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN69@Tidy:
-
-; 95   : 	const size_t _User_size = _Count * _Sz;
-
-	shl	rax, 4
-
-; 96   : 	if (_BIG_ALLOCATION_THRESHOLD <= _User_size)
-
-	cmp	rax, 4096				; 00001000H
-	jb	SHORT $LN70@Tidy
-
-; 97   : 		{	// deallocate large block
-; 98   : 		const uintptr_t _Ptr_user = reinterpret_cast<uintptr_t>(_Ptr);
-; 99   : 		_SCL_SECURE_ALWAYS_VALIDATE(
-
-	test	cl, 31
-	je	SHORT $LN71@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN71@Tidy:
-
-; 100  : 			(_Ptr_user & (_BIG_ALLOCATION_ALIGNMENT - 1)) == 0);
-; 101  : 		const uintptr_t _Ptr_ptr = _Ptr_user - sizeof(void *);
-; 102  : 		const uintptr_t _Ptr_container =
-; 103  : 			*reinterpret_cast<uintptr_t *>(_Ptr_ptr);
-
-	mov	rax, QWORD PTR [rcx-8]
-
-; 104  : 
-; 105  :  #ifdef _DEBUG
-; 106  : 		// If the following asserts, it likely means that we are performing
-; 107  : 		// an aligned delete on memory coming from an unaligned allocation.
-; 108  : 		_SCL_SECURE_ALWAYS_VALIDATE(
-; 109  : 			reinterpret_cast<uintptr_t *>(_Ptr_ptr)[-1] ==
-; 110  : 				_BIG_ALLOCATION_SENTINEL);
-; 111  :  #endif /* _DEBUG */
-; 112  : 
-; 113  : 		// Extra paranoia on aligned allocation/deallocation
-; 114  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container < _Ptr_user);
-
-	cmp	rax, rcx
-	jb	SHORT $LN72@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN72@Tidy:
-
-; 115  : 
-; 116  :  #ifdef _DEBUG
-; 117  : 		_SCL_SECURE_ALWAYS_VALIDATE(2 * sizeof(void *)
-; 118  : 			<= _Ptr_user - _Ptr_container);
-; 119  : 
-; 120  :  #else /* _DEBUG */
-; 121  : 		_SCL_SECURE_ALWAYS_VALIDATE(sizeof(void *)
-
-	sub	rcx, rax
-	cmp	rcx, 8
-	jae	SHORT $LN73@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN73@Tidy:
-
-; 122  : 			<= _Ptr_user - _Ptr_container);
-; 123  :  #endif /* _DEBUG */
-; 124  : 
-; 125  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_user - _Ptr_container
-
-	cmp	rcx, 39					; 00000027H
-	jbe	SHORT $LN74@Tidy
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN74@Tidy:
-
-; 126  : 			<= _NON_USER_SIZE);
-; 127  : 
-; 128  : 		_Ptr = reinterpret_cast<void *>(_Ptr_container);
-
-	mov	rcx, rax
-$LN70@Tidy:
-
-; 129  : 		}
-; 130  :  #endif /* defined(_M_IX86) || defined(_M_X64) */
-; 131  : 
-; 132  : 	::operator delete(_Ptr);
-
-	call	??3@YAXPEAX@Z				; operator delete
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1643 : 			this->_Myfirst() = pointer();
-
-	xor	eax, eax
-	mov	QWORD PTR [rbx], rax
-
-; 1644 : 			this->_Mylast() = pointer();
-
-	mov	QWORD PTR [rbx+8], rax
-
-; 1645 : 			this->_Myend() = pointer();
-
-	mov	QWORD PTR [rbx+16], rax
-$LN2@Tidy:
-
-; 1646 : 			}
-; 1647 : 		}
-
-	add	rsp, 32					; 00000020H
-	pop	rbx
-	ret	0
-$LN107@Tidy:
-?_Tidy@?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@IEAAXXZ ENDP ; std::vector<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > >::_Tidy
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Buy@?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@IEAA_N_K@Z
-_TEXT	SEGMENT
-this$ = 48
-_Capacity$dead$ = 56
-?_Buy@?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@IEAA_N_K@Z PROC ; std::vector<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > >::_Buy, COMDAT
-
-; 1561 : 		{	// allocate array with _Capacity elements
-
-$LN123:
-	push	rbx
-	sub	rsp, 32					; 00000020H
-
-; 1562 : 		this->_Myfirst() = pointer();
-
-	xor	eax, eax
-	mov	rbx, rcx
-	mov	QWORD PTR [rcx], rax
-
-; 1563 : 		this->_Mylast() = pointer();
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 1564 : 		this->_Myend() = pointer();
-
-	mov	QWORD PTR [rcx+16], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 69   : 			reinterpret_cast<uintptr_t>(::operator new(_Block_size));
-
-	mov	ecx, 1600039				; 00186a27H
-	call	??2@YAPEAX_K@Z				; operator new
-
-; 70   : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container != 0);
-; 71   : 		_Ptr = reinterpret_cast<void *>((_Ptr_container + _NON_USER_SIZE)
-
-	lea	rdx, QWORD PTR [rax+39]
-	and	rdx, -32				; ffffffffffffffe0H
-
-; 72   : 			& ~(_BIG_ALLOCATION_ALIGNMENT - 1));
-; 73   : 		static_cast<uintptr_t *>(_Ptr)[-1] = _Ptr_container;
-
-	mov	QWORD PTR [rdx-8], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 1572 : 			this->_Myfirst() = this->_Getal().allocate(_Capacity);
-
-	mov	QWORD PTR [rbx], rdx
-
-; 1573 : 			this->_Mylast() = this->_Myfirst();
-
-	mov	QWORD PTR [rbx+8], rdx
-
-; 1574 : 			this->_Myend() = this->_Myfirst() + _Capacity;
-
-	mov	rax, QWORD PTR [rbx]
-	add	rax, 1600000				; 00186a00H
-	mov	QWORD PTR [rbx+16], rax
-
-; 1575 : 			}
-; 1576 : 		return (true);
-
-	mov	al, 1
-
-; 1577 : 		}
-
-	add	rsp, 32					; 00000020H
-	pop	rbx
-	ret	0
-?_Buy@?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@IEAA_N_K@Z ENDP ; std::vector<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > >::_Buy
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ?GetElement@?$MatrixData@M$01$01$00@@QEBAMHH@Z
-_TEXT	SEGMENT
-this$ = 8
-col$ = 16
-row$ = 24
-?GetElement@?$MatrixData@M$01$01$00@@QEBAMHH@Z PROC	; MatrixData<float,2,2,1>::GetElement, COMDAT
-
-; 45   : 		return stripes[row][col];
-
-	movsxd	r8, r8d
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 680  : 		return data[idx];
-
-	movsxd	rax, edx
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 45   : 		return stripes[row][col];
-
-	lea	rdx, QWORD PTR [rax+r8*2]
-	movss	xmm0, DWORD PTR [rcx+rdx*4]
-
-; 46   : 	}
-
-	ret	0
-?GetElement@?$MatrixData@M$01$01$00@@QEBAMHH@Z ENDP	; MatrixData<float,2,2,1>::GetElement
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ?GetElement@?$MatrixData@M$01$01$00@@QEAAAEAMHH@Z
-_TEXT	SEGMENT
-this$ = 8
-col$ = 16
-row$ = 24
-?GetElement@?$MatrixData@M$01$01$00@@QEAAAEAMHH@Z PROC	; MatrixData<float,2,2,1>::GetElement, COMDAT
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 684  : 		return data[idx];
-
-	movsxd	rax, edx
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 41   : 		return stripes[row][col];
-
-	movsxd	r8, r8d
-	lea	rdx, QWORD PTR [rax+r8*2]
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 684  : 		return data[idx];
-
-	lea	rax, QWORD PTR [rcx+rdx*4]
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 42   : 	}
-
-	ret	0
-?GetElement@?$MatrixData@M$01$01$00@@QEAAAEAMHH@Z ENDP	; MatrixData<float,2,2,1>::GetElement
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ?GetElement@?$MatrixData@M$01$03$00@@QEBAMHH@Z
-_TEXT	SEGMENT
-this$ = 8
-col$ = 16
-row$ = 24
-?GetElement@?$MatrixData@M$01$03$00@@QEBAMHH@Z PROC	; MatrixData<float,2,4,1>::GetElement, COMDAT
-
-; 45   : 		return stripes[row][col];
-
-	movsxd	r8, r8d
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 680  : 		return data[idx];
-
-	movsxd	rax, edx
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 45   : 		return stripes[row][col];
-
-	lea	rdx, QWORD PTR [rax+r8*2]
-	movss	xmm0, DWORD PTR [rcx+rdx*4]
-
-; 46   : 	}
-
-	ret	0
-?GetElement@?$MatrixData@M$01$03$00@@QEBAMHH@Z ENDP	; MatrixData<float,2,4,1>::GetElement
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ?GetElement@?$MatrixData@M$03$01$00@@QEBAMHH@Z
-_TEXT	SEGMENT
-this$ = 8
-col$ = 16
-row$ = 24
-?GetElement@?$MatrixData@M$03$01$00@@QEBAMHH@Z PROC	; MatrixData<float,4,2,1>::GetElement, COMDAT
-
-; 45   : 		return stripes[row][col];
-
-	movsxd	r8, r8d
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 680  : 		return data[idx];
-
-	movsxd	rax, edx
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 45   : 		return stripes[row][col];
-
-	lea	rdx, QWORD PTR [rax+r8*4]
-	movss	xmm0, DWORD PTR [rcx+rdx*4]
-
-; 46   : 	}
-
-	ret	0
-?GetElement@?$MatrixData@M$03$01$00@@QEBAMHH@Z ENDP	; MatrixData<float,4,2,1>::GetElement
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ?GetElement@?$MatrixData@M$02$02$00@@QEBAMHH@Z
-_TEXT	SEGMENT
-this$ = 8
-col$ = 16
-row$ = 24
-?GetElement@?$MatrixData@M$02$02$00@@QEBAMHH@Z PROC	; MatrixData<float,3,3,1>::GetElement, COMDAT
-
-; 45   : 		return stripes[row][col];
-
-	movsxd	r8, r8d
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 680  : 		return data[idx];
-
-	movsxd	rax, edx
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 45   : 		return stripes[row][col];
-
-	lea	rdx, QWORD PTR [rax+r8*4]
-	movss	xmm0, DWORD PTR [rcx+rdx*4]
-
-; 46   : 	}
-
-	ret	0
-?GetElement@?$MatrixData@M$02$02$00@@QEBAMHH@Z ENDP	; MatrixData<float,3,3,1>::GetElement
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ?GetElement@?$MatrixData@M$03$03$00@@QEBAMHH@Z
-_TEXT	SEGMENT
-this$ = 8
-col$ = 16
-row$ = 24
-?GetElement@?$MatrixData@M$03$03$00@@QEBAMHH@Z PROC	; MatrixData<float,4,4,1>::GetElement, COMDAT
-
-; 45   : 		return stripes[row][col];
-
-	movsxd	r8, r8d
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 680  : 		return data[idx];
-
-	movsxd	rax, edx
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 45   : 		return stripes[row][col];
-
-	lea	rdx, QWORD PTR [rax+r8*4]
-	movss	xmm0, DWORD PTR [rcx+rdx*4]
-
-; 46   : 	}
-
-	ret	0
-?GetElement@?$MatrixData@M$03$03$00@@QEBAMHH@Z ENDP	; MatrixData<float,4,4,1>::GetElement
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\chrono
-;	COMDAT ?zero@?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@chrono@std@@SA?AV123@XZ
-_TEXT	SEGMENT
-__$ReturnUdt$ = 8
-?zero@?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@chrono@std@@SA?AV123@XZ PROC ; std::chrono::duration<__int64,std::ratio<1,1000000000> >::zero, COMDAT
-
-; 116  : 			: _MyRep(static_cast<_Rep>(_Val))
-
-	mov	QWORD PTR [rcx], 0
-
-; 208  : 		return (_Myt(duration_values<_Rep>::zero()));
-
-	mov	rax, rcx
-
-; 209  : 		}
-
-	ret	0
-?zero@?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@chrono@std@@SA?AV123@XZ ENDP ; std::chrono::duration<__int64,std::ratio<1,1000000000> >::zero
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\chrono
-;	COMDAT ?zero@?$duration_values@_J@chrono@std@@SA_JXZ
-_TEXT	SEGMENT
-?zero@?$duration_values@_J@chrono@std@@SA_JXZ PROC	; std::chrono::duration_values<__int64>::zero, COMDAT
-
-; 40   : 		return (_Rep(0));
-
-	xor	eax, eax
-
-; 41   : 		}
-
-	ret	0
-?zero@?$duration_values@_J@chrono@std@@SA_JXZ ENDP	; std::chrono::duration_values<__int64>::zero
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-;	COMDAT ?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$03$00@@@std@@@2@$00@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$03$00@@@std@@@2@$00@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@2@XZ PROC ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,3,4,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,3,4,1> > >,1>::_Get_first, COMDAT
-
-; 295  : 		return (*this);
-
-	mov	rax, rcx
-
-; 296  : 		}
-
-	ret	0
-?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$03$00@@@std@@@2@$00@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@2@XZ ENDP ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,3,4,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,3,4,1> > >,1>::_Get_first
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$02$03$00@@_K@Z
-_TEXT	SEGMENT
-this$dead$ = 48
-_Ptr$ = 56
-_Count$ = 64
-?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$02$03$00@@_K@Z PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,3,4,1> > >::deallocate, COMDAT
-
-; 986  : 		{	// deallocate object at _Ptr, ignore size
-
-$LN17:
-	sub	rsp, 40					; 00000028H
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	mov	rax, 288230376151711743			; 03ffffffffffffffH
-	cmp	r8, rax
-	jbe	SHORT $LN6@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN6@deallocate:
-
-; 95   : 	const size_t _User_size = _Count * _Sz;
-
-	shl	r8, 6
-
-; 96   : 	if (_BIG_ALLOCATION_THRESHOLD <= _User_size)
-
-	cmp	r8, 4096				; 00001000H
-	jb	SHORT $LN7@deallocate
-
-; 97   : 		{	// deallocate large block
-; 98   : 		const uintptr_t _Ptr_user = reinterpret_cast<uintptr_t>(_Ptr);
-; 99   : 		_SCL_SECURE_ALWAYS_VALIDATE(
-
-	test	dl, 31
-	je	SHORT $LN8@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN8@deallocate:
-
-; 100  : 			(_Ptr_user & (_BIG_ALLOCATION_ALIGNMENT - 1)) == 0);
-; 101  : 		const uintptr_t _Ptr_ptr = _Ptr_user - sizeof(void *);
-; 102  : 		const uintptr_t _Ptr_container =
-; 103  : 			*reinterpret_cast<uintptr_t *>(_Ptr_ptr);
-
-	mov	rax, QWORD PTR [rdx-8]
-
-; 104  : 
-; 105  :  #ifdef _DEBUG
-; 106  : 		// If the following asserts, it likely means that we are performing
-; 107  : 		// an aligned delete on memory coming from an unaligned allocation.
-; 108  : 		_SCL_SECURE_ALWAYS_VALIDATE(
-; 109  : 			reinterpret_cast<uintptr_t *>(_Ptr_ptr)[-1] ==
-; 110  : 				_BIG_ALLOCATION_SENTINEL);
-; 111  :  #endif /* _DEBUG */
-; 112  : 
-; 113  : 		// Extra paranoia on aligned allocation/deallocation
-; 114  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container < _Ptr_user);
-
-	cmp	rax, rdx
-	jb	SHORT $LN9@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN9@deallocate:
-
-; 115  : 
-; 116  :  #ifdef _DEBUG
-; 117  : 		_SCL_SECURE_ALWAYS_VALIDATE(2 * sizeof(void *)
-; 118  : 			<= _Ptr_user - _Ptr_container);
-; 119  : 
-; 120  :  #else /* _DEBUG */
-; 121  : 		_SCL_SECURE_ALWAYS_VALIDATE(sizeof(void *)
-
-	sub	rdx, rax
-	cmp	rdx, 8
-	jae	SHORT $LN10@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN10@deallocate:
-
-; 122  : 			<= _Ptr_user - _Ptr_container);
-; 123  :  #endif /* _DEBUG */
-; 124  : 
-; 125  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_user - _Ptr_container
-
-	cmp	rdx, 39					; 00000027H
-	jbe	SHORT $LN11@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN11@deallocate:
-
-; 126  : 			<= _NON_USER_SIZE);
-; 127  : 
-; 128  : 		_Ptr = reinterpret_cast<void *>(_Ptr_container);
-
-	mov	rdx, rax
-$LN7@deallocate:
-
-; 129  : 		}
-; 130  :  #endif /* defined(_M_IX86) || defined(_M_X64) */
-; 131  : 
-; 132  : 	::operator delete(_Ptr);
-
-	mov	rcx, rdx
-
-; 987  : 		_Mybase::deallocate(_Ptr, _Count);
-; 988  : 		}
-
-	add	rsp, 40					; 00000028H
-
-; 132  : 	::operator delete(_Ptr);
-
-	jmp	??3@YAXPEAX@Z				; operator delete
-$LN16@deallocate:
-?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$02$03$00@@_K@Z ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,3,4,1> > >::deallocate
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAAPEAV?$Matrix@M$02$03$00@@_K@Z
-_TEXT	SEGMENT
-this$dead$ = 48
-_Count$dead$ = 56
-?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAAPEAV?$Matrix@M$02$03$00@@_K@Z PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,3,4,1> > >::allocate, COMDAT
-
-; 975  : 		{	// allocate array of _Count elements
-
-$LN18:
-	sub	rsp, 40					; 00000028H
-
-; 69   : 			reinterpret_cast<uintptr_t>(::operator new(_Block_size));
-
-	mov	ecx, 6400039				; 0061a827H
-	call	??2@YAPEAX_K@Z				; operator new
-
-; 70   : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container != 0);
-; 71   : 		_Ptr = reinterpret_cast<void *>((_Ptr_container + _NON_USER_SIZE)
-
-	lea	rcx, QWORD PTR [rax+39]
-	and	rcx, -32				; ffffffffffffffe0H
-
-; 72   : 			& ~(_BIG_ALLOCATION_ALIGNMENT - 1));
-; 73   : 		static_cast<uintptr_t *>(_Ptr)[-1] = _Ptr_container;
-
-	mov	QWORD PTR [rcx-8], rax
-
-; 976  : 		return (_Mybase::allocate(_Count));
-
-	mov	rax, rcx
-
-; 977  : 		}
-
-	add	rsp, 40					; 00000028H
-	ret	0
-?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAAPEAV?$Matrix@M$02$03$00@@_K@Z ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,3,4,1> > >::allocate
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Myend@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$02$03$00@@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Myend@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$02$03$00@@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > > >::_Myend, COMDAT
-
-; 663  : 		return (_Get_data()._Myend);
-
-	lea	rax, QWORD PTR [rcx+16]
-
-; 664  : 		}
-
-	ret	0
-?_Myend@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$02$03$00@@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > > >::_Myend
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Get_data@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$03$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Get_data@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$03$00@@@std@@@2@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > > >::_Get_data, COMDAT
-
-; 633  : 		return (_Mypair._Get_second());
-
-	mov	rax, rcx
-
-; 634  : 		}
-
-	ret	0
-?_Get_data@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$03$00@@@std@@@2@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > > >::_Get_data
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Orphan_all@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@@std@@QEAAXXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?_Orphan_all@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@@std@@QEAAXXZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > > >::_Orphan_all, COMDAT
-
-; 613  : 		_Get_data()._Orphan_all();
-; 614  : 		}
-
-	ret	0
-?_Orphan_all@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@@std@@QEAAXXZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > > >::_Orphan_all
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Xlen@?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@IEBAXXZ
-_TEXT	SEGMENT
-this$dead$ = 48
-?_Xlen@?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@IEBAXXZ PROC ; std::vector<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > >::_Xlen, COMDAT
-
-; 1764 : 		{	// report a length_error
-
-$LN4:
-	sub	rsp, 40					; 00000028H
-
-; 1765 : 		_Xlength_error("vector<T> too long");
-
-	lea	rcx, OFFSET FLAT:??_C@_0BD@OLBABOEK@vector?$DMT?$DO?5too?5long?$AA@
-	call	QWORD PTR __imp_?_Xlength_error@std@@YAXPEBD@Z
-	int	3
-$LN3@Xlen:
-?_Xlen@?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@IEBAXXZ ENDP ; std::vector<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > >::_Xlen
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Destroy@?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@IEAAXPEAV?$Matrix@M$02$03$00@@0@Z
-_TEXT	SEGMENT
-this$dead$ = 8
-_First$dead$ = 16
-_Last$dead$ = 24
-?_Destroy@?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@IEAAXPEAV?$Matrix@M$02$03$00@@0@Z PROC ; std::vector<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > >::_Destroy, COMDAT
-
-; 1581 : 		_Destroy_range(_First, _Last, this->_Getal());
-; 1582 : 		}
-
-	ret	0
-?_Destroy@?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@IEAAXPEAV?$Matrix@M$02$03$00@@0@Z ENDP ; std::vector<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > >::_Destroy
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?max_size@?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEBA_KXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?max_size@?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEBA_KXZ PROC ; std::vector<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > >::max_size, COMDAT
-
-; 1185 : 		return (this->_Getal().max_size());
-
-	mov	rax, 288230376151711743			; 03ffffffffffffffH
-
-; 1186 : 		}
-
-	ret	0
-?max_size@?$vector@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEBA_KXZ ENDP ; std::vector<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > >::max_size
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-;	COMDAT ?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$02$00@@@std@@@2@$00@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$02$00@@@std@@@2@$00@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@2@XZ PROC ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,4,3,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,4,3,1> > >,1>::_Get_first, COMDAT
-
-; 295  : 		return (*this);
-
-	mov	rax, rcx
-
-; 296  : 		}
-
-	ret	0
-?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$02$00@@@std@@@2@$00@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@2@XZ ENDP ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,4,3,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,4,3,1> > >,1>::_Get_first
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$03$02$00@@_K@Z
-_TEXT	SEGMENT
-this$dead$ = 48
-_Ptr$ = 56
-_Count$ = 64
-?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$03$02$00@@_K@Z PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,4,3,1> > >::deallocate, COMDAT
-
-; 986  : 		{	// deallocate object at _Ptr, ignore size
-
-$LN17:
-	sub	rsp, 40					; 00000028H
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	mov	rax, 384307168202282325			; 0555555555555555H
-	cmp	r8, rax
-	jbe	SHORT $LN6@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN6@deallocate:
-
-; 95   : 	const size_t _User_size = _Count * _Sz;
-
-	lea	rax, QWORD PTR [r8+r8*2]
-	shl	rax, 4
-
-; 96   : 	if (_BIG_ALLOCATION_THRESHOLD <= _User_size)
-
-	cmp	rax, 4096				; 00001000H
-	jb	SHORT $LN7@deallocate
-
-; 97   : 		{	// deallocate large block
-; 98   : 		const uintptr_t _Ptr_user = reinterpret_cast<uintptr_t>(_Ptr);
-; 99   : 		_SCL_SECURE_ALWAYS_VALIDATE(
-
-	test	dl, 31
-	je	SHORT $LN8@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN8@deallocate:
-
-; 100  : 			(_Ptr_user & (_BIG_ALLOCATION_ALIGNMENT - 1)) == 0);
-; 101  : 		const uintptr_t _Ptr_ptr = _Ptr_user - sizeof(void *);
-; 102  : 		const uintptr_t _Ptr_container =
-; 103  : 			*reinterpret_cast<uintptr_t *>(_Ptr_ptr);
-
-	mov	rax, QWORD PTR [rdx-8]
-
-; 104  : 
-; 105  :  #ifdef _DEBUG
-; 106  : 		// If the following asserts, it likely means that we are performing
-; 107  : 		// an aligned delete on memory coming from an unaligned allocation.
-; 108  : 		_SCL_SECURE_ALWAYS_VALIDATE(
-; 109  : 			reinterpret_cast<uintptr_t *>(_Ptr_ptr)[-1] ==
-; 110  : 				_BIG_ALLOCATION_SENTINEL);
-; 111  :  #endif /* _DEBUG */
-; 112  : 
-; 113  : 		// Extra paranoia on aligned allocation/deallocation
-; 114  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container < _Ptr_user);
-
-	cmp	rax, rdx
-	jb	SHORT $LN9@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN9@deallocate:
-
-; 115  : 
-; 116  :  #ifdef _DEBUG
-; 117  : 		_SCL_SECURE_ALWAYS_VALIDATE(2 * sizeof(void *)
-; 118  : 			<= _Ptr_user - _Ptr_container);
-; 119  : 
-; 120  :  #else /* _DEBUG */
-; 121  : 		_SCL_SECURE_ALWAYS_VALIDATE(sizeof(void *)
-
-	sub	rdx, rax
-	cmp	rdx, 8
-	jae	SHORT $LN10@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN10@deallocate:
-
-; 122  : 			<= _Ptr_user - _Ptr_container);
-; 123  :  #endif /* _DEBUG */
-; 124  : 
-; 125  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_user - _Ptr_container
-
-	cmp	rdx, 39					; 00000027H
-	jbe	SHORT $LN11@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN11@deallocate:
-
-; 126  : 			<= _NON_USER_SIZE);
-; 127  : 
-; 128  : 		_Ptr = reinterpret_cast<void *>(_Ptr_container);
-
-	mov	rdx, rax
-$LN7@deallocate:
-
-; 129  : 		}
-; 130  :  #endif /* defined(_M_IX86) || defined(_M_X64) */
-; 131  : 
-; 132  : 	::operator delete(_Ptr);
-
-	mov	rcx, rdx
-
-; 987  : 		_Mybase::deallocate(_Ptr, _Count);
-; 988  : 		}
-
-	add	rsp, 40					; 00000028H
-
-; 132  : 	::operator delete(_Ptr);
-
-	jmp	??3@YAXPEAX@Z				; operator delete
-$LN16@deallocate:
-?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$03$02$00@@_K@Z ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,4,3,1> > >::deallocate
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAAPEAV?$Matrix@M$03$02$00@@_K@Z
-_TEXT	SEGMENT
-this$dead$ = 48
-_Count$dead$ = 56
-?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAAPEAV?$Matrix@M$03$02$00@@_K@Z PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,4,3,1> > >::allocate, COMDAT
-
-; 975  : 		{	// allocate array of _Count elements
-
-$LN18:
-	sub	rsp, 40					; 00000028H
-
-; 69   : 			reinterpret_cast<uintptr_t>(::operator new(_Block_size));
-
-	mov	ecx, 4800039				; 00493e27H
-	call	??2@YAPEAX_K@Z				; operator new
-
-; 70   : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container != 0);
-; 71   : 		_Ptr = reinterpret_cast<void *>((_Ptr_container + _NON_USER_SIZE)
-
-	lea	rcx, QWORD PTR [rax+39]
-	and	rcx, -32				; ffffffffffffffe0H
-
-; 72   : 			& ~(_BIG_ALLOCATION_ALIGNMENT - 1));
-; 73   : 		static_cast<uintptr_t *>(_Ptr)[-1] = _Ptr_container;
-
-	mov	QWORD PTR [rcx-8], rax
-
-; 976  : 		return (_Mybase::allocate(_Count));
-
-	mov	rax, rcx
-
-; 977  : 		}
-
-	add	rsp, 40					; 00000028H
-	ret	0
-?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAAPEAV?$Matrix@M$03$02$00@@_K@Z ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,4,3,1> > >::allocate
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Myend@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$03$02$00@@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Myend@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$03$02$00@@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > > >::_Myend, COMDAT
-
-; 663  : 		return (_Get_data()._Myend);
-
-	lea	rax, QWORD PTR [rcx+16]
-
-; 664  : 		}
-
-	ret	0
-?_Myend@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$03$02$00@@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > > >::_Myend
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Get_data@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$02$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Get_data@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$02$00@@@std@@@2@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > > >::_Get_data, COMDAT
-
-; 633  : 		return (_Mypair._Get_second());
-
-	mov	rax, rcx
-
-; 634  : 		}
-
-	ret	0
-?_Get_data@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$02$00@@@std@@@2@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > > >::_Get_data
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Orphan_all@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@@std@@QEAAXXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?_Orphan_all@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@@std@@QEAAXXZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > > >::_Orphan_all, COMDAT
-
-; 613  : 		_Get_data()._Orphan_all();
-; 614  : 		}
-
-	ret	0
-?_Orphan_all@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@@std@@QEAAXXZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > > >::_Orphan_all
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Xlen@?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@IEBAXXZ
-_TEXT	SEGMENT
-this$dead$ = 48
-?_Xlen@?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@IEBAXXZ PROC ; std::vector<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > >::_Xlen, COMDAT
-
-; 1764 : 		{	// report a length_error
-
-$LN4:
-	sub	rsp, 40					; 00000028H
-
-; 1765 : 		_Xlength_error("vector<T> too long");
-
-	lea	rcx, OFFSET FLAT:??_C@_0BD@OLBABOEK@vector?$DMT?$DO?5too?5long?$AA@
-	call	QWORD PTR __imp_?_Xlength_error@std@@YAXPEBD@Z
-	int	3
-$LN3@Xlen:
-?_Xlen@?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@IEBAXXZ ENDP ; std::vector<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > >::_Xlen
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Destroy@?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@IEAAXPEAV?$Matrix@M$03$02$00@@0@Z
-_TEXT	SEGMENT
-this$dead$ = 8
-_First$dead$ = 16
-_Last$dead$ = 24
-?_Destroy@?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@IEAAXPEAV?$Matrix@M$03$02$00@@0@Z PROC ; std::vector<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > >::_Destroy, COMDAT
-
-; 1581 : 		_Destroy_range(_First, _Last, this->_Getal());
-; 1582 : 		}
-
-	ret	0
-?_Destroy@?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@IEAAXPEAV?$Matrix@M$03$02$00@@0@Z ENDP ; std::vector<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > >::_Destroy
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?max_size@?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEBA_KXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?max_size@?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEBA_KXZ PROC ; std::vector<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > >::max_size, COMDAT
-
-; 1185 : 		return (this->_Getal().max_size());
-
-	mov	rax, 384307168202282325			; 0555555555555555H
-
-; 1186 : 		}
-
-	ret	0
-?max_size@?$vector@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEBA_KXZ ENDP ; std::vector<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > >::max_size
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-;	COMDAT ?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$03$00@@@std@@@2@$00@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$03$00@@@std@@@2@$00@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@2@XZ PROC ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,2,4,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,2,4,1> > >,1>::_Get_first, COMDAT
-
-; 295  : 		return (*this);
-
-	mov	rax, rcx
-
-; 296  : 		}
-
-	ret	0
-?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$03$00@@@std@@@2@$00@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@2@XZ ENDP ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,2,4,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,2,4,1> > >,1>::_Get_first
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$01$03$00@@_K@Z
-_TEXT	SEGMENT
-this$dead$ = 48
-_Ptr$ = 56
-_Count$ = 64
-?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$01$03$00@@_K@Z PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,2,4,1> > >::deallocate, COMDAT
-
-; 986  : 		{	// deallocate object at _Ptr, ignore size
-
-$LN17:
-	sub	rsp, 40					; 00000028H
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	mov	rax, 576460752303423487			; 07ffffffffffffffH
-	cmp	r8, rax
-	jbe	SHORT $LN6@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN6@deallocate:
-
-; 95   : 	const size_t _User_size = _Count * _Sz;
-
-	shl	r8, 5
-
-; 96   : 	if (_BIG_ALLOCATION_THRESHOLD <= _User_size)
-
-	cmp	r8, 4096				; 00001000H
-	jb	SHORT $LN7@deallocate
-
-; 97   : 		{	// deallocate large block
-; 98   : 		const uintptr_t _Ptr_user = reinterpret_cast<uintptr_t>(_Ptr);
-; 99   : 		_SCL_SECURE_ALWAYS_VALIDATE(
-
-	test	dl, 31
-	je	SHORT $LN8@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN8@deallocate:
-
-; 100  : 			(_Ptr_user & (_BIG_ALLOCATION_ALIGNMENT - 1)) == 0);
-; 101  : 		const uintptr_t _Ptr_ptr = _Ptr_user - sizeof(void *);
-; 102  : 		const uintptr_t _Ptr_container =
-; 103  : 			*reinterpret_cast<uintptr_t *>(_Ptr_ptr);
-
-	mov	rax, QWORD PTR [rdx-8]
-
-; 104  : 
-; 105  :  #ifdef _DEBUG
-; 106  : 		// If the following asserts, it likely means that we are performing
-; 107  : 		// an aligned delete on memory coming from an unaligned allocation.
-; 108  : 		_SCL_SECURE_ALWAYS_VALIDATE(
-; 109  : 			reinterpret_cast<uintptr_t *>(_Ptr_ptr)[-1] ==
-; 110  : 				_BIG_ALLOCATION_SENTINEL);
-; 111  :  #endif /* _DEBUG */
-; 112  : 
-; 113  : 		// Extra paranoia on aligned allocation/deallocation
-; 114  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container < _Ptr_user);
-
-	cmp	rax, rdx
-	jb	SHORT $LN9@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN9@deallocate:
-
-; 115  : 
-; 116  :  #ifdef _DEBUG
-; 117  : 		_SCL_SECURE_ALWAYS_VALIDATE(2 * sizeof(void *)
-; 118  : 			<= _Ptr_user - _Ptr_container);
-; 119  : 
-; 120  :  #else /* _DEBUG */
-; 121  : 		_SCL_SECURE_ALWAYS_VALIDATE(sizeof(void *)
-
-	sub	rdx, rax
-	cmp	rdx, 8
-	jae	SHORT $LN10@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN10@deallocate:
-
-; 122  : 			<= _Ptr_user - _Ptr_container);
-; 123  :  #endif /* _DEBUG */
-; 124  : 
-; 125  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_user - _Ptr_container
-
-	cmp	rdx, 39					; 00000027H
-	jbe	SHORT $LN11@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN11@deallocate:
-
-; 126  : 			<= _NON_USER_SIZE);
-; 127  : 
-; 128  : 		_Ptr = reinterpret_cast<void *>(_Ptr_container);
-
-	mov	rdx, rax
-$LN7@deallocate:
-
-; 129  : 		}
-; 130  :  #endif /* defined(_M_IX86) || defined(_M_X64) */
-; 131  : 
-; 132  : 	::operator delete(_Ptr);
-
-	mov	rcx, rdx
-
-; 987  : 		_Mybase::deallocate(_Ptr, _Count);
-; 988  : 		}
-
-	add	rsp, 40					; 00000028H
-
-; 132  : 	::operator delete(_Ptr);
-
-	jmp	??3@YAXPEAX@Z				; operator delete
-$LN16@deallocate:
-?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$01$03$00@@_K@Z ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,2,4,1> > >::deallocate
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAAPEAV?$Matrix@M$01$03$00@@_K@Z
-_TEXT	SEGMENT
-this$dead$ = 48
-_Count$dead$ = 56
-?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAAPEAV?$Matrix@M$01$03$00@@_K@Z PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,2,4,1> > >::allocate, COMDAT
-
-; 975  : 		{	// allocate array of _Count elements
-
-$LN18:
-	sub	rsp, 40					; 00000028H
-
-; 69   : 			reinterpret_cast<uintptr_t>(::operator new(_Block_size));
-
-	mov	ecx, 3200039				; 0030d427H
-	call	??2@YAPEAX_K@Z				; operator new
-
-; 70   : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container != 0);
-; 71   : 		_Ptr = reinterpret_cast<void *>((_Ptr_container + _NON_USER_SIZE)
-
-	lea	rcx, QWORD PTR [rax+39]
-	and	rcx, -32				; ffffffffffffffe0H
-
-; 72   : 			& ~(_BIG_ALLOCATION_ALIGNMENT - 1));
-; 73   : 		static_cast<uintptr_t *>(_Ptr)[-1] = _Ptr_container;
-
-	mov	QWORD PTR [rcx-8], rax
-
-; 976  : 		return (_Mybase::allocate(_Count));
-
-	mov	rax, rcx
-
-; 977  : 		}
-
-	add	rsp, 40					; 00000028H
-	ret	0
-?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAAPEAV?$Matrix@M$01$03$00@@_K@Z ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,2,4,1> > >::allocate
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Myend@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$01$03$00@@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Myend@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$01$03$00@@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > > >::_Myend, COMDAT
-
-; 663  : 		return (_Get_data()._Myend);
-
-	lea	rax, QWORD PTR [rcx+16]
-
-; 664  : 		}
-
-	ret	0
-?_Myend@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$01$03$00@@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > > >::_Myend
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Get_data@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$03$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Get_data@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$03$00@@@std@@@2@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > > >::_Get_data, COMDAT
-
-; 633  : 		return (_Mypair._Get_second());
-
-	mov	rax, rcx
-
-; 634  : 		}
-
-	ret	0
-?_Get_data@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$03$00@@@std@@@2@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > > >::_Get_data
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Orphan_all@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@@std@@QEAAXXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?_Orphan_all@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@@std@@QEAAXXZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > > >::_Orphan_all, COMDAT
-
-; 613  : 		_Get_data()._Orphan_all();
-; 614  : 		}
-
-	ret	0
-?_Orphan_all@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@@std@@QEAAXXZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > > >::_Orphan_all
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Xlen@?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@IEBAXXZ
-_TEXT	SEGMENT
-this$dead$ = 48
-?_Xlen@?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@IEBAXXZ PROC ; std::vector<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > >::_Xlen, COMDAT
-
-; 1764 : 		{	// report a length_error
-
-$LN4:
-	sub	rsp, 40					; 00000028H
-
-; 1765 : 		_Xlength_error("vector<T> too long");
-
-	lea	rcx, OFFSET FLAT:??_C@_0BD@OLBABOEK@vector?$DMT?$DO?5too?5long?$AA@
-	call	QWORD PTR __imp_?_Xlength_error@std@@YAXPEBD@Z
-	int	3
-$LN3@Xlen:
-?_Xlen@?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@IEBAXXZ ENDP ; std::vector<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > >::_Xlen
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Destroy@?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@IEAAXPEAV?$Matrix@M$01$03$00@@0@Z
-_TEXT	SEGMENT
-this$dead$ = 8
-_First$dead$ = 16
-_Last$dead$ = 24
-?_Destroy@?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@IEAAXPEAV?$Matrix@M$01$03$00@@0@Z PROC ; std::vector<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > >::_Destroy, COMDAT
-
-; 1581 : 		_Destroy_range(_First, _Last, this->_Getal());
-; 1582 : 		}
-
-	ret	0
-?_Destroy@?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@IEAAXPEAV?$Matrix@M$01$03$00@@0@Z ENDP ; std::vector<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > >::_Destroy
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?max_size@?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEBA_KXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?max_size@?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEBA_KXZ PROC ; std::vector<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > >::max_size, COMDAT
-
-; 1185 : 		return (this->_Getal().max_size());
-
-	mov	rax, 576460752303423487			; 07ffffffffffffffH
-
-; 1186 : 		}
-
-	ret	0
-?max_size@?$vector@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEBA_KXZ ENDP ; std::vector<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > >::max_size
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-;	COMDAT ?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$01$00@@@std@@@2@$00@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$01$00@@@std@@@2@$00@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@2@XZ PROC ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,4,2,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,4,2,1> > >,1>::_Get_first, COMDAT
-
-; 295  : 		return (*this);
-
-	mov	rax, rcx
-
-; 296  : 		}
-
-	ret	0
-?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$01$00@@@std@@@2@$00@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@2@XZ ENDP ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,4,2,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,4,2,1> > >,1>::_Get_first
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$03$01$00@@_K@Z
-_TEXT	SEGMENT
-this$dead$ = 48
-_Ptr$ = 56
-_Count$ = 64
-?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$03$01$00@@_K@Z PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,4,2,1> > >::deallocate, COMDAT
-
-; 986  : 		{	// deallocate object at _Ptr, ignore size
-
-$LN17:
-	sub	rsp, 40					; 00000028H
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	mov	rax, 576460752303423487			; 07ffffffffffffffH
-	cmp	r8, rax
-	jbe	SHORT $LN6@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN6@deallocate:
-
-; 95   : 	const size_t _User_size = _Count * _Sz;
-
-	shl	r8, 5
-
-; 96   : 	if (_BIG_ALLOCATION_THRESHOLD <= _User_size)
-
-	cmp	r8, 4096				; 00001000H
-	jb	SHORT $LN7@deallocate
-
-; 97   : 		{	// deallocate large block
-; 98   : 		const uintptr_t _Ptr_user = reinterpret_cast<uintptr_t>(_Ptr);
-; 99   : 		_SCL_SECURE_ALWAYS_VALIDATE(
-
-	test	dl, 31
-	je	SHORT $LN8@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN8@deallocate:
-
-; 100  : 			(_Ptr_user & (_BIG_ALLOCATION_ALIGNMENT - 1)) == 0);
-; 101  : 		const uintptr_t _Ptr_ptr = _Ptr_user - sizeof(void *);
-; 102  : 		const uintptr_t _Ptr_container =
-; 103  : 			*reinterpret_cast<uintptr_t *>(_Ptr_ptr);
-
-	mov	rax, QWORD PTR [rdx-8]
-
-; 104  : 
-; 105  :  #ifdef _DEBUG
-; 106  : 		// If the following asserts, it likely means that we are performing
-; 107  : 		// an aligned delete on memory coming from an unaligned allocation.
-; 108  : 		_SCL_SECURE_ALWAYS_VALIDATE(
-; 109  : 			reinterpret_cast<uintptr_t *>(_Ptr_ptr)[-1] ==
-; 110  : 				_BIG_ALLOCATION_SENTINEL);
-; 111  :  #endif /* _DEBUG */
-; 112  : 
-; 113  : 		// Extra paranoia on aligned allocation/deallocation
-; 114  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container < _Ptr_user);
-
-	cmp	rax, rdx
-	jb	SHORT $LN9@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN9@deallocate:
-
-; 115  : 
-; 116  :  #ifdef _DEBUG
-; 117  : 		_SCL_SECURE_ALWAYS_VALIDATE(2 * sizeof(void *)
-; 118  : 			<= _Ptr_user - _Ptr_container);
-; 119  : 
-; 120  :  #else /* _DEBUG */
-; 121  : 		_SCL_SECURE_ALWAYS_VALIDATE(sizeof(void *)
-
-	sub	rdx, rax
-	cmp	rdx, 8
-	jae	SHORT $LN10@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN10@deallocate:
-
-; 122  : 			<= _Ptr_user - _Ptr_container);
-; 123  :  #endif /* _DEBUG */
-; 124  : 
-; 125  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_user - _Ptr_container
-
-	cmp	rdx, 39					; 00000027H
-	jbe	SHORT $LN11@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN11@deallocate:
-
-; 126  : 			<= _NON_USER_SIZE);
-; 127  : 
-; 128  : 		_Ptr = reinterpret_cast<void *>(_Ptr_container);
-
-	mov	rdx, rax
-$LN7@deallocate:
-
-; 129  : 		}
-; 130  :  #endif /* defined(_M_IX86) || defined(_M_X64) */
-; 131  : 
-; 132  : 	::operator delete(_Ptr);
-
-	mov	rcx, rdx
-
-; 987  : 		_Mybase::deallocate(_Ptr, _Count);
-; 988  : 		}
-
-	add	rsp, 40					; 00000028H
-
-; 132  : 	::operator delete(_Ptr);
-
-	jmp	??3@YAXPEAX@Z				; operator delete
-$LN16@deallocate:
-?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$03$01$00@@_K@Z ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,4,2,1> > >::deallocate
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAAPEAV?$Matrix@M$03$01$00@@_K@Z
-_TEXT	SEGMENT
-this$dead$ = 48
-_Count$dead$ = 56
-?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAAPEAV?$Matrix@M$03$01$00@@_K@Z PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,4,2,1> > >::allocate, COMDAT
-
-; 975  : 		{	// allocate array of _Count elements
-
-$LN18:
-	sub	rsp, 40					; 00000028H
-
-; 69   : 			reinterpret_cast<uintptr_t>(::operator new(_Block_size));
-
-	mov	ecx, 3200039				; 0030d427H
-	call	??2@YAPEAX_K@Z				; operator new
-
-; 70   : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container != 0);
-; 71   : 		_Ptr = reinterpret_cast<void *>((_Ptr_container + _NON_USER_SIZE)
-
-	lea	rcx, QWORD PTR [rax+39]
-	and	rcx, -32				; ffffffffffffffe0H
-
-; 72   : 			& ~(_BIG_ALLOCATION_ALIGNMENT - 1));
-; 73   : 		static_cast<uintptr_t *>(_Ptr)[-1] = _Ptr_container;
-
-	mov	QWORD PTR [rcx-8], rax
-
-; 976  : 		return (_Mybase::allocate(_Count));
-
-	mov	rax, rcx
-
-; 977  : 		}
-
-	add	rsp, 40					; 00000028H
-	ret	0
-?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAAPEAV?$Matrix@M$03$01$00@@_K@Z ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,4,2,1> > >::allocate
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Myend@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$03$01$00@@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Myend@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$03$01$00@@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > > >::_Myend, COMDAT
-
-; 663  : 		return (_Get_data()._Myend);
-
-	lea	rax, QWORD PTR [rcx+16]
-
-; 664  : 		}
-
-	ret	0
-?_Myend@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$03$01$00@@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > > >::_Myend
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Get_data@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$01$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Get_data@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$01$00@@@std@@@2@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > > >::_Get_data, COMDAT
-
-; 633  : 		return (_Mypair._Get_second());
-
-	mov	rax, rcx
-
-; 634  : 		}
-
-	ret	0
-?_Get_data@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$01$00@@@std@@@2@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > > >::_Get_data
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Orphan_all@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@@std@@QEAAXXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?_Orphan_all@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@@std@@QEAAXXZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > > >::_Orphan_all, COMDAT
-
-; 613  : 		_Get_data()._Orphan_all();
-; 614  : 		}
-
-	ret	0
-?_Orphan_all@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@@std@@QEAAXXZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > > >::_Orphan_all
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Xlen@?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@IEBAXXZ
-_TEXT	SEGMENT
-this$dead$ = 48
-?_Xlen@?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@IEBAXXZ PROC ; std::vector<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > >::_Xlen, COMDAT
-
-; 1764 : 		{	// report a length_error
-
-$LN4:
-	sub	rsp, 40					; 00000028H
-
-; 1765 : 		_Xlength_error("vector<T> too long");
-
-	lea	rcx, OFFSET FLAT:??_C@_0BD@OLBABOEK@vector?$DMT?$DO?5too?5long?$AA@
-	call	QWORD PTR __imp_?_Xlength_error@std@@YAXPEBD@Z
-	int	3
-$LN3@Xlen:
-?_Xlen@?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@IEBAXXZ ENDP ; std::vector<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > >::_Xlen
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Destroy@?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@IEAAXPEAV?$Matrix@M$03$01$00@@0@Z
-_TEXT	SEGMENT
-this$dead$ = 8
-_First$dead$ = 16
-_Last$dead$ = 24
-?_Destroy@?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@IEAAXPEAV?$Matrix@M$03$01$00@@0@Z PROC ; std::vector<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > >::_Destroy, COMDAT
-
-; 1581 : 		_Destroy_range(_First, _Last, this->_Getal());
-; 1582 : 		}
-
-	ret	0
-?_Destroy@?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@IEAAXPEAV?$Matrix@M$03$01$00@@0@Z ENDP ; std::vector<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > >::_Destroy
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?max_size@?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEBA_KXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?max_size@?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEBA_KXZ PROC ; std::vector<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > >::max_size, COMDAT
-
-; 1185 : 		return (this->_Getal().max_size());
-
-	mov	rax, 576460752303423487			; 07ffffffffffffffH
-
-; 1186 : 		}
-
-	ret	0
-?max_size@?$vector@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEBA_KXZ ENDP ; std::vector<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > >::max_size
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-;	COMDAT ?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$03$00@@@std@@@2@$00@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$03$00@@@std@@@2@$00@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@2@XZ PROC ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,4,4,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,4,4,1> > >,1>::_Get_first, COMDAT
-
-; 295  : 		return (*this);
-
-	mov	rax, rcx
-
-; 296  : 		}
-
-	ret	0
-?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$03$00@@@std@@@2@$00@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@2@XZ ENDP ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,4,4,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,4,4,1> > >,1>::_Get_first
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$03$03$00@@_K@Z
-_TEXT	SEGMENT
-this$dead$ = 48
-_Ptr$ = 56
-_Count$ = 64
-?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$03$03$00@@_K@Z PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,4,4,1> > >::deallocate, COMDAT
-
-; 986  : 		{	// deallocate object at _Ptr, ignore size
-
-$LN17:
-	sub	rsp, 40					; 00000028H
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	mov	rax, 288230376151711743			; 03ffffffffffffffH
-	cmp	r8, rax
-	jbe	SHORT $LN6@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN6@deallocate:
-
-; 95   : 	const size_t _User_size = _Count * _Sz;
-
-	shl	r8, 6
-
-; 96   : 	if (_BIG_ALLOCATION_THRESHOLD <= _User_size)
-
-	cmp	r8, 4096				; 00001000H
-	jb	SHORT $LN7@deallocate
-
-; 97   : 		{	// deallocate large block
-; 98   : 		const uintptr_t _Ptr_user = reinterpret_cast<uintptr_t>(_Ptr);
-; 99   : 		_SCL_SECURE_ALWAYS_VALIDATE(
-
-	test	dl, 31
-	je	SHORT $LN8@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN8@deallocate:
-
-; 100  : 			(_Ptr_user & (_BIG_ALLOCATION_ALIGNMENT - 1)) == 0);
-; 101  : 		const uintptr_t _Ptr_ptr = _Ptr_user - sizeof(void *);
-; 102  : 		const uintptr_t _Ptr_container =
-; 103  : 			*reinterpret_cast<uintptr_t *>(_Ptr_ptr);
-
-	mov	rax, QWORD PTR [rdx-8]
-
-; 104  : 
-; 105  :  #ifdef _DEBUG
-; 106  : 		// If the following asserts, it likely means that we are performing
-; 107  : 		// an aligned delete on memory coming from an unaligned allocation.
-; 108  : 		_SCL_SECURE_ALWAYS_VALIDATE(
-; 109  : 			reinterpret_cast<uintptr_t *>(_Ptr_ptr)[-1] ==
-; 110  : 				_BIG_ALLOCATION_SENTINEL);
-; 111  :  #endif /* _DEBUG */
-; 112  : 
-; 113  : 		// Extra paranoia on aligned allocation/deallocation
-; 114  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container < _Ptr_user);
-
-	cmp	rax, rdx
-	jb	SHORT $LN9@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN9@deallocate:
-
-; 115  : 
-; 116  :  #ifdef _DEBUG
-; 117  : 		_SCL_SECURE_ALWAYS_VALIDATE(2 * sizeof(void *)
-; 118  : 			<= _Ptr_user - _Ptr_container);
-; 119  : 
-; 120  :  #else /* _DEBUG */
-; 121  : 		_SCL_SECURE_ALWAYS_VALIDATE(sizeof(void *)
-
-	sub	rdx, rax
-	cmp	rdx, 8
-	jae	SHORT $LN10@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN10@deallocate:
-
-; 122  : 			<= _Ptr_user - _Ptr_container);
-; 123  :  #endif /* _DEBUG */
-; 124  : 
-; 125  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_user - _Ptr_container
-
-	cmp	rdx, 39					; 00000027H
-	jbe	SHORT $LN11@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN11@deallocate:
-
-; 126  : 			<= _NON_USER_SIZE);
-; 127  : 
-; 128  : 		_Ptr = reinterpret_cast<void *>(_Ptr_container);
-
-	mov	rdx, rax
-$LN7@deallocate:
-
-; 129  : 		}
-; 130  :  #endif /* defined(_M_IX86) || defined(_M_X64) */
-; 131  : 
-; 132  : 	::operator delete(_Ptr);
-
-	mov	rcx, rdx
-
-; 987  : 		_Mybase::deallocate(_Ptr, _Count);
-; 988  : 		}
-
-	add	rsp, 40					; 00000028H
-
-; 132  : 	::operator delete(_Ptr);
-
-	jmp	??3@YAXPEAX@Z				; operator delete
-$LN16@deallocate:
-?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$03$03$00@@_K@Z ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,4,4,1> > >::deallocate
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAAPEAV?$Matrix@M$03$03$00@@_K@Z
-_TEXT	SEGMENT
-this$dead$ = 48
-_Count$dead$ = 56
-?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAAPEAV?$Matrix@M$03$03$00@@_K@Z PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,4,4,1> > >::allocate, COMDAT
-
-; 975  : 		{	// allocate array of _Count elements
-
-$LN18:
-	sub	rsp, 40					; 00000028H
-
-; 69   : 			reinterpret_cast<uintptr_t>(::operator new(_Block_size));
-
-	mov	ecx, 6400039				; 0061a827H
-	call	??2@YAPEAX_K@Z				; operator new
-
-; 70   : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container != 0);
-; 71   : 		_Ptr = reinterpret_cast<void *>((_Ptr_container + _NON_USER_SIZE)
-
-	lea	rcx, QWORD PTR [rax+39]
-	and	rcx, -32				; ffffffffffffffe0H
-
-; 72   : 			& ~(_BIG_ALLOCATION_ALIGNMENT - 1));
-; 73   : 		static_cast<uintptr_t *>(_Ptr)[-1] = _Ptr_container;
-
-	mov	QWORD PTR [rcx-8], rax
-
-; 976  : 		return (_Mybase::allocate(_Count));
-
-	mov	rax, rcx
-
-; 977  : 		}
-
-	add	rsp, 40					; 00000028H
-	ret	0
-?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAAPEAV?$Matrix@M$03$03$00@@_K@Z ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,4,4,1> > >::allocate
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Myend@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$03$03$00@@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Myend@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$03$03$00@@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > > >::_Myend, COMDAT
-
-; 663  : 		return (_Get_data()._Myend);
-
-	lea	rax, QWORD PTR [rcx+16]
-
-; 664  : 		}
-
-	ret	0
-?_Myend@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$03$03$00@@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > > >::_Myend
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Get_data@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$03$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Get_data@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$03$00@@@std@@@2@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > > >::_Get_data, COMDAT
-
-; 633  : 		return (_Mypair._Get_second());
-
-	mov	rax, rcx
-
-; 634  : 		}
-
-	ret	0
-?_Get_data@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$03$00@@@std@@@2@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > > >::_Get_data
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Orphan_all@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@@std@@QEAAXXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?_Orphan_all@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@@std@@QEAAXXZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > > >::_Orphan_all, COMDAT
-
-; 613  : 		_Get_data()._Orphan_all();
-; 614  : 		}
-
-	ret	0
-?_Orphan_all@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@@std@@QEAAXXZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > > >::_Orphan_all
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Xlen@?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@IEBAXXZ
-_TEXT	SEGMENT
-this$dead$ = 48
-?_Xlen@?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@IEBAXXZ PROC ; std::vector<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > >::_Xlen, COMDAT
-
-; 1764 : 		{	// report a length_error
-
-$LN4:
-	sub	rsp, 40					; 00000028H
-
-; 1765 : 		_Xlength_error("vector<T> too long");
-
-	lea	rcx, OFFSET FLAT:??_C@_0BD@OLBABOEK@vector?$DMT?$DO?5too?5long?$AA@
-	call	QWORD PTR __imp_?_Xlength_error@std@@YAXPEBD@Z
-	int	3
-$LN3@Xlen:
-?_Xlen@?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@IEBAXXZ ENDP ; std::vector<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > >::_Xlen
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Destroy@?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@IEAAXPEAV?$Matrix@M$03$03$00@@0@Z
-_TEXT	SEGMENT
-this$dead$ = 8
-_First$dead$ = 16
-_Last$dead$ = 24
-?_Destroy@?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@IEAAXPEAV?$Matrix@M$03$03$00@@0@Z PROC ; std::vector<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > >::_Destroy, COMDAT
-
-; 1581 : 		_Destroy_range(_First, _Last, this->_Getal());
-; 1582 : 		}
-
-	ret	0
-?_Destroy@?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@IEAAXPEAV?$Matrix@M$03$03$00@@0@Z ENDP ; std::vector<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > >::_Destroy
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?max_size@?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEBA_KXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?max_size@?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEBA_KXZ PROC ; std::vector<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > >::max_size, COMDAT
-
-; 1185 : 		return (this->_Getal().max_size());
-
-	mov	rax, 288230376151711743			; 03ffffffffffffffH
-
-; 1186 : 		}
-
-	ret	0
-?max_size@?$vector@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEBA_KXZ ENDP ; std::vector<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > >::max_size
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-;	COMDAT ?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$02$00@@@std@@@2@$00@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$02$00@@@std@@@2@$00@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@2@XZ PROC ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,3,3,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,3,3,1> > >,1>::_Get_first, COMDAT
-
-; 295  : 		return (*this);
-
-	mov	rax, rcx
-
-; 296  : 		}
-
-	ret	0
-?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$02$00@@@std@@@2@$00@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@2@XZ ENDP ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,3,3,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,3,3,1> > >,1>::_Get_first
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$02$02$00@@_K@Z
-_TEXT	SEGMENT
-this$dead$ = 48
-_Ptr$ = 56
-_Count$ = 64
-?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$02$02$00@@_K@Z PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,3,3,1> > >::deallocate, COMDAT
-
-; 986  : 		{	// deallocate object at _Ptr, ignore size
-
-$LN17:
-	sub	rsp, 40					; 00000028H
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	mov	rax, 384307168202282325			; 0555555555555555H
-	cmp	r8, rax
-	jbe	SHORT $LN6@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN6@deallocate:
-
-; 95   : 	const size_t _User_size = _Count * _Sz;
-
-	lea	rax, QWORD PTR [r8+r8*2]
-	shl	rax, 4
-
-; 96   : 	if (_BIG_ALLOCATION_THRESHOLD <= _User_size)
-
-	cmp	rax, 4096				; 00001000H
-	jb	SHORT $LN7@deallocate
-
-; 97   : 		{	// deallocate large block
-; 98   : 		const uintptr_t _Ptr_user = reinterpret_cast<uintptr_t>(_Ptr);
-; 99   : 		_SCL_SECURE_ALWAYS_VALIDATE(
-
-	test	dl, 31
-	je	SHORT $LN8@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN8@deallocate:
-
-; 100  : 			(_Ptr_user & (_BIG_ALLOCATION_ALIGNMENT - 1)) == 0);
-; 101  : 		const uintptr_t _Ptr_ptr = _Ptr_user - sizeof(void *);
-; 102  : 		const uintptr_t _Ptr_container =
-; 103  : 			*reinterpret_cast<uintptr_t *>(_Ptr_ptr);
-
-	mov	rax, QWORD PTR [rdx-8]
-
-; 104  : 
-; 105  :  #ifdef _DEBUG
-; 106  : 		// If the following asserts, it likely means that we are performing
-; 107  : 		// an aligned delete on memory coming from an unaligned allocation.
-; 108  : 		_SCL_SECURE_ALWAYS_VALIDATE(
-; 109  : 			reinterpret_cast<uintptr_t *>(_Ptr_ptr)[-1] ==
-; 110  : 				_BIG_ALLOCATION_SENTINEL);
-; 111  :  #endif /* _DEBUG */
-; 112  : 
-; 113  : 		// Extra paranoia on aligned allocation/deallocation
-; 114  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container < _Ptr_user);
-
-	cmp	rax, rdx
-	jb	SHORT $LN9@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN9@deallocate:
-
-; 115  : 
-; 116  :  #ifdef _DEBUG
-; 117  : 		_SCL_SECURE_ALWAYS_VALIDATE(2 * sizeof(void *)
-; 118  : 			<= _Ptr_user - _Ptr_container);
-; 119  : 
-; 120  :  #else /* _DEBUG */
-; 121  : 		_SCL_SECURE_ALWAYS_VALIDATE(sizeof(void *)
-
-	sub	rdx, rax
-	cmp	rdx, 8
-	jae	SHORT $LN10@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN10@deallocate:
-
-; 122  : 			<= _Ptr_user - _Ptr_container);
-; 123  :  #endif /* _DEBUG */
-; 124  : 
-; 125  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_user - _Ptr_container
-
-	cmp	rdx, 39					; 00000027H
-	jbe	SHORT $LN11@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN11@deallocate:
-
-; 126  : 			<= _NON_USER_SIZE);
-; 127  : 
-; 128  : 		_Ptr = reinterpret_cast<void *>(_Ptr_container);
-
-	mov	rdx, rax
-$LN7@deallocate:
-
-; 129  : 		}
-; 130  :  #endif /* defined(_M_IX86) || defined(_M_X64) */
-; 131  : 
-; 132  : 	::operator delete(_Ptr);
-
-	mov	rcx, rdx
-
-; 987  : 		_Mybase::deallocate(_Ptr, _Count);
-; 988  : 		}
-
-	add	rsp, 40					; 00000028H
-
-; 132  : 	::operator delete(_Ptr);
-
-	jmp	??3@YAXPEAX@Z				; operator delete
-$LN16@deallocate:
-?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$02$02$00@@_K@Z ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,3,3,1> > >::deallocate
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAAPEAV?$Matrix@M$02$02$00@@_K@Z
-_TEXT	SEGMENT
-this$dead$ = 48
-_Count$dead$ = 56
-?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAAPEAV?$Matrix@M$02$02$00@@_K@Z PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,3,3,1> > >::allocate, COMDAT
-
-; 975  : 		{	// allocate array of _Count elements
-
-$LN18:
-	sub	rsp, 40					; 00000028H
-
-; 69   : 			reinterpret_cast<uintptr_t>(::operator new(_Block_size));
-
-	mov	ecx, 4800039				; 00493e27H
-	call	??2@YAPEAX_K@Z				; operator new
-
-; 70   : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container != 0);
-; 71   : 		_Ptr = reinterpret_cast<void *>((_Ptr_container + _NON_USER_SIZE)
-
-	lea	rcx, QWORD PTR [rax+39]
-	and	rcx, -32				; ffffffffffffffe0H
-
-; 72   : 			& ~(_BIG_ALLOCATION_ALIGNMENT - 1));
-; 73   : 		static_cast<uintptr_t *>(_Ptr)[-1] = _Ptr_container;
-
-	mov	QWORD PTR [rcx-8], rax
-
-; 976  : 		return (_Mybase::allocate(_Count));
-
-	mov	rax, rcx
-
-; 977  : 		}
-
-	add	rsp, 40					; 00000028H
-	ret	0
-?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAAPEAV?$Matrix@M$02$02$00@@_K@Z ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,3,3,1> > >::allocate
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Myend@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$02$02$00@@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Myend@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$02$02$00@@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > > >::_Myend, COMDAT
-
-; 663  : 		return (_Get_data()._Myend);
-
-	lea	rax, QWORD PTR [rcx+16]
-
-; 664  : 		}
-
-	ret	0
-?_Myend@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$02$02$00@@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > > >::_Myend
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Get_data@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$02$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Get_data@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$02$00@@@std@@@2@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > > >::_Get_data, COMDAT
-
-; 633  : 		return (_Mypair._Get_second());
-
-	mov	rax, rcx
-
-; 634  : 		}
-
-	ret	0
-?_Get_data@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$02$00@@@std@@@2@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > > >::_Get_data
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Orphan_all@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@@std@@QEAAXXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?_Orphan_all@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@@std@@QEAAXXZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > > >::_Orphan_all, COMDAT
-
-; 613  : 		_Get_data()._Orphan_all();
-; 614  : 		}
-
-	ret	0
-?_Orphan_all@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@@std@@QEAAXXZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > > >::_Orphan_all
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Xlen@?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@IEBAXXZ
-_TEXT	SEGMENT
-this$dead$ = 48
-?_Xlen@?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@IEBAXXZ PROC ; std::vector<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > >::_Xlen, COMDAT
-
-; 1764 : 		{	// report a length_error
-
-$LN4:
-	sub	rsp, 40					; 00000028H
-
-; 1765 : 		_Xlength_error("vector<T> too long");
-
-	lea	rcx, OFFSET FLAT:??_C@_0BD@OLBABOEK@vector?$DMT?$DO?5too?5long?$AA@
-	call	QWORD PTR __imp_?_Xlength_error@std@@YAXPEBD@Z
-	int	3
-$LN3@Xlen:
-?_Xlen@?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@IEBAXXZ ENDP ; std::vector<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > >::_Xlen
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Destroy@?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@IEAAXPEAV?$Matrix@M$02$02$00@@0@Z
-_TEXT	SEGMENT
-this$dead$ = 8
-_First$dead$ = 16
-_Last$dead$ = 24
-?_Destroy@?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@IEAAXPEAV?$Matrix@M$02$02$00@@0@Z PROC ; std::vector<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > >::_Destroy, COMDAT
-
-; 1581 : 		_Destroy_range(_First, _Last, this->_Getal());
-; 1582 : 		}
-
-	ret	0
-?_Destroy@?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@IEAAXPEAV?$Matrix@M$02$02$00@@0@Z ENDP ; std::vector<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > >::_Destroy
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?max_size@?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEBA_KXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?max_size@?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEBA_KXZ PROC ; std::vector<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > >::max_size, COMDAT
-
-; 1185 : 		return (this->_Getal().max_size());
-
-	mov	rax, 384307168202282325			; 0555555555555555H
-
-; 1186 : 		}
-
-	ret	0
-?max_size@?$vector@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEBA_KXZ ENDP ; std::vector<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > >::max_size
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\random
-;	COMDAT ??0param_type@?$uniform_real@M@std@@QEAA@MM@Z
-_TEXT	SEGMENT
-this$ = 8
-_Min0$ = 16
-_Max0$ = 24
-??0param_type@?$uniform_real@M@std@@QEAA@MM@Z PROC	; std::uniform_real<float>::param_type::param_type, COMDAT
-
-; 3252 : 			_Min = _Min0;
-
-	movss	DWORD PTR [rcx], xmm1
-
-; 3222 : 			_Ty _Max0 = _Ty(1))
-; 3223 : 			{	// construct from parameters
-; 3224 : 			_Init(_Min0, _Max0);
-; 3225 : 			}
-
-	mov	rax, rcx
-
-; 3253 : 			_Max = _Max0;
-
-	movss	DWORD PTR [rcx+4], xmm2
-
-; 3222 : 			_Ty _Max0 = _Ty(1))
-; 3223 : 			{	// construct from parameters
-; 3224 : 			_Init(_Min0, _Max0);
-; 3225 : 			}
-
-	ret	0
-??0param_type@?$uniform_real@M@std@@QEAA@MM@Z ENDP	; std::uniform_real<float>::param_type::param_type
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\random
-;	COMDAT ??0?$_Mul_mod@_KI$0LMIP@$0A@$0HPPPPPPP@@std@@QEAA@I@Z
-_TEXT	SEGMENT
-this$ = 8
-_Val$dead$ = 16
-??0?$_Mul_mod@_KI$0LMIP@$0A@$0HPPPPPPP@@std@@QEAA@I@Z PROC ; std::_Mul_mod<unsigned __int64,unsigned int,48271,0,2147483647>::_Mul_mod<unsigned __int64,unsigned int,48271,0,2147483647>, COMDAT
-
-; 348  : 		: _Prev(_Val)
-
-	mov	DWORD PTR [rcx], 0
-
-; 350  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$_Mul_mod@_KI$0LMIP@$0A@$0HPPPPPPP@@std@@QEAA@I@Z ENDP ; std::_Mul_mod<unsigned __int64,unsigned int,48271,0,2147483647>::_Mul_mod<unsigned __int64,unsigned int,48271,0,2147483647>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\random
-;	COMDAT ?seed@?$linear_congruential@I$0LMIP@$0A@$0HPPPPPPP@@std@@QEAAXI@Z
-_TEXT	SEGMENT
-this$ = 8
-_X0$dead$ = 16
-?seed@?$linear_congruential@I$0LMIP@$0A@$0HPPPPPPP@@std@@QEAAXI@Z PROC ; std::linear_congruential<unsigned int,48271,0,2147483647>::seed, COMDAT
-
-; 551  : 		_Imp._Prev = _Mx != 0 ? _X0 % _Mx : _X0;
-
-	mov	DWORD PTR [rcx], 1
-
-; 491  : 		_Reset(_X0);
-; 492  : 		}
-
-	ret	0
-?seed@?$linear_congruential@I$0LMIP@$0A@$0HPPPPPPP@@std@@QEAAXI@Z ENDP ; std::linear_congruential<unsigned int,48271,0,2147483647>::seed
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-;	COMDAT ?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$01$00@@@std@@@2@$00@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$01$00@@@std@@@2@$00@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@2@XZ PROC ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,2,2,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,2,2,1> > >,1>::_Get_first, COMDAT
-
-; 295  : 		return (*this);
-
-	mov	rax, rcx
-
-; 296  : 		}
-
-	ret	0
-?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$01$00@@@std@@@2@$00@std@@QEAAAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@2@XZ ENDP ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,2,2,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,2,2,1> > >,1>::_Get_first
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$01$01$00@@_K@Z
-_TEXT	SEGMENT
-this$dead$ = 48
-_Ptr$ = 56
-_Count$ = 64
-?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$01$01$00@@_K@Z PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,2,2,1> > >::deallocate, COMDAT
-
-; 986  : 		{	// deallocate object at _Ptr, ignore size
-
-$LN17:
-	sub	rsp, 40					; 00000028H
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	mov	rax, 1152921504606846975		; 0fffffffffffffffH
-	cmp	r8, rax
-	jbe	SHORT $LN6@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN6@deallocate:
-
-; 95   : 	const size_t _User_size = _Count * _Sz;
-
-	shl	r8, 4
-
-; 96   : 	if (_BIG_ALLOCATION_THRESHOLD <= _User_size)
-
-	cmp	r8, 4096				; 00001000H
-	jb	SHORT $LN7@deallocate
-
-; 97   : 		{	// deallocate large block
-; 98   : 		const uintptr_t _Ptr_user = reinterpret_cast<uintptr_t>(_Ptr);
-; 99   : 		_SCL_SECURE_ALWAYS_VALIDATE(
-
-	test	dl, 31
-	je	SHORT $LN8@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN8@deallocate:
-
-; 100  : 			(_Ptr_user & (_BIG_ALLOCATION_ALIGNMENT - 1)) == 0);
-; 101  : 		const uintptr_t _Ptr_ptr = _Ptr_user - sizeof(void *);
-; 102  : 		const uintptr_t _Ptr_container =
-; 103  : 			*reinterpret_cast<uintptr_t *>(_Ptr_ptr);
-
-	mov	rax, QWORD PTR [rdx-8]
-
-; 104  : 
-; 105  :  #ifdef _DEBUG
-; 106  : 		// If the following asserts, it likely means that we are performing
-; 107  : 		// an aligned delete on memory coming from an unaligned allocation.
-; 108  : 		_SCL_SECURE_ALWAYS_VALIDATE(
-; 109  : 			reinterpret_cast<uintptr_t *>(_Ptr_ptr)[-1] ==
-; 110  : 				_BIG_ALLOCATION_SENTINEL);
-; 111  :  #endif /* _DEBUG */
-; 112  : 
-; 113  : 		// Extra paranoia on aligned allocation/deallocation
-; 114  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container < _Ptr_user);
-
-	cmp	rax, rdx
-	jb	SHORT $LN9@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN9@deallocate:
-
-; 115  : 
-; 116  :  #ifdef _DEBUG
-; 117  : 		_SCL_SECURE_ALWAYS_VALIDATE(2 * sizeof(void *)
-; 118  : 			<= _Ptr_user - _Ptr_container);
-; 119  : 
-; 120  :  #else /* _DEBUG */
-; 121  : 		_SCL_SECURE_ALWAYS_VALIDATE(sizeof(void *)
-
-	sub	rdx, rax
-	cmp	rdx, 8
-	jae	SHORT $LN10@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN10@deallocate:
-
-; 122  : 			<= _Ptr_user - _Ptr_container);
-; 123  :  #endif /* _DEBUG */
-; 124  : 
-; 125  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_user - _Ptr_container
-
-	cmp	rdx, 39					; 00000027H
-	jbe	SHORT $LN11@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN11@deallocate:
-
-; 126  : 			<= _NON_USER_SIZE);
-; 127  : 
-; 128  : 		_Ptr = reinterpret_cast<void *>(_Ptr_container);
-
-	mov	rdx, rax
-$LN7@deallocate:
-
-; 129  : 		}
-; 130  :  #endif /* defined(_M_IX86) || defined(_M_X64) */
-; 131  : 
-; 132  : 	::operator delete(_Ptr);
-
-	mov	rcx, rdx
-
-; 987  : 		_Mybase::deallocate(_Ptr, _Count);
-; 988  : 		}
-
-	add	rsp, 40					; 00000028H
-
-; 132  : 	::operator delete(_Ptr);
-
-	jmp	??3@YAXPEAX@Z				; operator delete
-$LN16@deallocate:
-?deallocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$01$01$00@@_K@Z ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,2,2,1> > >::deallocate
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAAPEAV?$Matrix@M$01$01$00@@_K@Z
-_TEXT	SEGMENT
-this$dead$ = 48
-_Count$dead$ = 56
-?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAAPEAV?$Matrix@M$01$01$00@@_K@Z PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,2,2,1> > >::allocate, COMDAT
-
-; 975  : 		{	// allocate array of _Count elements
-
-$LN18:
-	sub	rsp, 40					; 00000028H
-
-; 69   : 			reinterpret_cast<uintptr_t>(::operator new(_Block_size));
-
-	mov	ecx, 1600039				; 00186a27H
-	call	??2@YAPEAX_K@Z				; operator new
-
-; 70   : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container != 0);
-; 71   : 		_Ptr = reinterpret_cast<void *>((_Ptr_container + _NON_USER_SIZE)
-
-	lea	rcx, QWORD PTR [rax+39]
-	and	rcx, -32				; ffffffffffffffe0H
-
-; 72   : 			& ~(_BIG_ALLOCATION_ALIGNMENT - 1));
-; 73   : 		static_cast<uintptr_t *>(_Ptr)[-1] = _Ptr_container;
-
-	mov	QWORD PTR [rcx-8], rax
-
-; 976  : 		return (_Mybase::allocate(_Count));
-
-	mov	rax, rcx
-
-; 977  : 		}
-
-	add	rsp, 40					; 00000028H
-	ret	0
-?allocate@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAAPEAV?$Matrix@M$01$01$00@@_K@Z ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,2,2,1> > >::allocate
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Myend@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$01$01$00@@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Myend@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$01$01$00@@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > > >::_Myend, COMDAT
-
-; 663  : 		return (_Get_data()._Myend);
-
-	lea	rax, QWORD PTR [rcx+16]
-
-; 664  : 		}
-
-	ret	0
-?_Myend@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@@std@@QEAAAEAPEAV?$Matrix@M$01$01$00@@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > > >::_Myend
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Get_data@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$01$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Get_data@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$01$00@@@std@@@2@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > > >::_Get_data, COMDAT
-
-; 633  : 		return (_Mypair._Get_second());
-
-	mov	rax, rcx
-
-; 634  : 		}
-
-	ret	0
-?_Get_data@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$01$00@@@std@@@2@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > > >::_Get_data
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Orphan_all@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@@std@@QEAAXXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?_Orphan_all@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@@std@@QEAAXXZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > > >::_Orphan_all, COMDAT
-
-; 613  : 		_Get_data()._Orphan_all();
-; 614  : 		}
-
-	ret	0
-?_Orphan_all@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@@std@@QEAAXXZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > > >::_Orphan_all
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Xlen@?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@IEBAXXZ
-_TEXT	SEGMENT
-this$dead$ = 48
-?_Xlen@?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@IEBAXXZ PROC ; std::vector<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > >::_Xlen, COMDAT
-
-; 1764 : 		{	// report a length_error
-
-$LN4:
-	sub	rsp, 40					; 00000028H
-
-; 1765 : 		_Xlength_error("vector<T> too long");
-
-	lea	rcx, OFFSET FLAT:??_C@_0BD@OLBABOEK@vector?$DMT?$DO?5too?5long?$AA@
-	call	QWORD PTR __imp_?_Xlength_error@std@@YAXPEBD@Z
-	int	3
-$LN3@Xlen:
-?_Xlen@?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@IEBAXXZ ENDP ; std::vector<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > >::_Xlen
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Destroy@?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@IEAAXPEAV?$Matrix@M$01$01$00@@0@Z
-_TEXT	SEGMENT
-this$dead$ = 8
-_First$dead$ = 16
-_Last$dead$ = 24
-?_Destroy@?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@IEAAXPEAV?$Matrix@M$01$01$00@@0@Z PROC ; std::vector<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > >::_Destroy, COMDAT
-
-; 1581 : 		_Destroy_range(_First, _Last, this->_Getal());
-; 1582 : 		}
-
-	ret	0
-?_Destroy@?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@IEAAXPEAV?$Matrix@M$01$01$00@@0@Z ENDP ; std::vector<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > >::_Destroy
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?max_size@?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEBA_KXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?max_size@?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEBA_KXZ PROC ; std::vector<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > >::max_size, COMDAT
-
-; 1185 : 		return (this->_Getal().max_size());
-
-	mov	rax, 1152921504606846975		; 0fffffffffffffffH
-
-; 1186 : 		}
-
-	ret	0
-?max_size@?$vector@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEBA_KXZ ENDP ; std::vector<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > >::max_size
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\vector.hpp
-;	COMDAT ??A?$Vector@M$01@@QEBAMH@Z
-_TEXT	SEGMENT
-this$ = 8
-idx$ = 16
-??A?$Vector@M$01@@QEBAMH@Z PROC				; Vector<float,2>::operator[], COMDAT
-
-; 680  : 		return data[idx];
-
-	movsxd	rax, edx
-	movss	xmm0, DWORD PTR [rcx+rax*4]
-
-; 681  : 	}
-
-	ret	0
-??A?$Vector@M$01@@QEBAMH@Z ENDP				; Vector<float,2>::operator[]
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\vector.hpp
-;	COMDAT ??A?$Vector@M$03@@QEBAMH@Z
-_TEXT	SEGMENT
-this$ = 8
-idx$ = 16
-??A?$Vector@M$03@@QEBAMH@Z PROC				; Vector<float,4>::operator[], COMDAT
-
-; 680  : 		return data[idx];
-
-	movsxd	rax, edx
-	movss	xmm0, DWORD PTR [rcx+rax*4]
-
-; 681  : 	}
-
-	ret	0
-??A?$Vector@M$03@@QEBAMH@Z ENDP				; Vector<float,4>::operator[]
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\vector.hpp
-;	COMDAT ??A?$Vector@M$02@@QEBAMH@Z
-_TEXT	SEGMENT
-this$ = 8
-idx$ = 16
-??A?$Vector@M$02@@QEBAMH@Z PROC				; Vector<float,3>::operator[], COMDAT
-
-; 680  : 		return data[idx];
-
-	movsxd	rax, edx
-	movss	xmm0, DWORD PTR [rcx+rax*4]
-
-; 681  : 	}
-
-	ret	0
-??A?$Vector@M$02@@QEBAMH@Z ENDP				; Vector<float,3>::operator[]
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-;	COMDAT ?_Get_second@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$03$00@@@std@@@2@$00@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$03$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Get_second@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$03$00@@@std@@@2@$00@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$03$00@@@std@@@2@XZ PROC ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,3,4,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,3,4,1> > >,1>::_Get_second, COMDAT
-
-; 315  : 		return (_Myval2);
-
-	mov	rax, rcx
-
-; 316  : 		}
-
-	ret	0
-?_Get_second@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$03$00@@@std@@@2@$00@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$03$00@@@std@@@2@XZ ENDP ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,3,4,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,3,4,1> > >,1>::_Get_second
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?max_size@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEBA_KU_Nil@2@@Z
-_TEXT	SEGMENT
-this$dead$ = 8
-__formal$dead$ = 16
-?max_size@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEBA_KU_Nil@2@@Z PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,3,4,1> > >::max_size, COMDAT
-
-; 1008 : 		return (_Mytraits::max_size(*this));
-
-	mov	rax, 288230376151711743			; 03ffffffffffffffH
-
-; 1009 : 		}
-
-	ret	0
-?max_size@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEBA_KU_Nil@2@@Z ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,3,4,1> > >::max_size
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@2@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > > >::_Getal, COMDAT
-
-; 628  : 		return (_Mypair._Get_first());
-
-	mov	rax, rcx
-
-; 629  : 		}
-
-	ret	0
-?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$03$00@@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@2@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,4,1>,std::allocator<Matrix<float,3,4,1> > > >::_Getal
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?allocate@?$allocator@V?$Matrix@M$02$03$00@@@std@@QEAAPEAV?$Matrix@M$02$03$00@@_K@Z
-_TEXT	SEGMENT
-this$dead$ = 48
-_Count$dead$ = 56
-?allocate@?$allocator@V?$Matrix@M$02$03$00@@@std@@QEAAPEAV?$Matrix@M$02$03$00@@_K@Z PROC ; std::allocator<Matrix<float,3,4,1> >::allocate, COMDAT
-
-; 724  : 		{	// allocate array of _Count elements
-
-$LN15:
-	sub	rsp, 40					; 00000028H
-
-; 69   : 			reinterpret_cast<uintptr_t>(::operator new(_Block_size));
-
-	mov	ecx, 6400039				; 0061a827H
-	call	??2@YAPEAX_K@Z				; operator new
-
-; 70   : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container != 0);
-; 71   : 		_Ptr = reinterpret_cast<void *>((_Ptr_container + _NON_USER_SIZE)
-
-	lea	rcx, QWORD PTR [rax+39]
-	and	rcx, -32				; ffffffffffffffe0H
-
-; 72   : 			& ~(_BIG_ALLOCATION_ALIGNMENT - 1));
-; 73   : 		static_cast<uintptr_t *>(_Ptr)[-1] = _Ptr_container;
-
-	mov	QWORD PTR [rcx-8], rax
-
-; 725  : 		return (static_cast<pointer>(_Allocate(_Count, sizeof (_Ty))));
-
-	mov	rax, rcx
-
-; 726  : 		}
-
-	add	rsp, 40					; 00000028H
-	ret	0
-?allocate@?$allocator@V?$Matrix@M$02$03$00@@@std@@QEAAPEAV?$Matrix@M$02$03$00@@_K@Z ENDP ; std::allocator<Matrix<float,3,4,1> >::allocate
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?deallocate@?$allocator@V?$Matrix@M$02$03$00@@@std@@QEAAXPEAV?$Matrix@M$02$03$00@@_K@Z
-_TEXT	SEGMENT
-this$dead$ = 48
-_Ptr$ = 56
-_Count$ = 64
-?deallocate@?$allocator@V?$Matrix@M$02$03$00@@@std@@QEAAXPEAV?$Matrix@M$02$03$00@@_K@Z PROC ; std::allocator<Matrix<float,3,4,1> >::deallocate, COMDAT
-
-; 719  : 		{	// deallocate object at _Ptr
-
-$LN14:
-	sub	rsp, 40					; 00000028H
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	mov	rax, 288230376151711743			; 03ffffffffffffffH
-	cmp	r8, rax
-	jbe	SHORT $LN4@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN4@deallocate:
-
-; 95   : 	const size_t _User_size = _Count * _Sz;
-
-	shl	r8, 6
-
-; 96   : 	if (_BIG_ALLOCATION_THRESHOLD <= _User_size)
-
-	cmp	r8, 4096				; 00001000H
-	jb	SHORT $LN5@deallocate
-
-; 97   : 		{	// deallocate large block
-; 98   : 		const uintptr_t _Ptr_user = reinterpret_cast<uintptr_t>(_Ptr);
-; 99   : 		_SCL_SECURE_ALWAYS_VALIDATE(
-
-	test	dl, 31
-	je	SHORT $LN6@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN6@deallocate:
-
-; 100  : 			(_Ptr_user & (_BIG_ALLOCATION_ALIGNMENT - 1)) == 0);
-; 101  : 		const uintptr_t _Ptr_ptr = _Ptr_user - sizeof(void *);
-; 102  : 		const uintptr_t _Ptr_container =
-; 103  : 			*reinterpret_cast<uintptr_t *>(_Ptr_ptr);
-
-	mov	rax, QWORD PTR [rdx-8]
-
-; 104  : 
-; 105  :  #ifdef _DEBUG
-; 106  : 		// If the following asserts, it likely means that we are performing
-; 107  : 		// an aligned delete on memory coming from an unaligned allocation.
-; 108  : 		_SCL_SECURE_ALWAYS_VALIDATE(
-; 109  : 			reinterpret_cast<uintptr_t *>(_Ptr_ptr)[-1] ==
-; 110  : 				_BIG_ALLOCATION_SENTINEL);
-; 111  :  #endif /* _DEBUG */
-; 112  : 
-; 113  : 		// Extra paranoia on aligned allocation/deallocation
-; 114  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container < _Ptr_user);
-
-	cmp	rax, rdx
-	jb	SHORT $LN7@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN7@deallocate:
-
-; 115  : 
-; 116  :  #ifdef _DEBUG
-; 117  : 		_SCL_SECURE_ALWAYS_VALIDATE(2 * sizeof(void *)
-; 118  : 			<= _Ptr_user - _Ptr_container);
-; 119  : 
-; 120  :  #else /* _DEBUG */
-; 121  : 		_SCL_SECURE_ALWAYS_VALIDATE(sizeof(void *)
-
-	sub	rdx, rax
-	cmp	rdx, 8
-	jae	SHORT $LN8@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN8@deallocate:
-
-; 122  : 			<= _Ptr_user - _Ptr_container);
-; 123  :  #endif /* _DEBUG */
-; 124  : 
-; 125  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_user - _Ptr_container
-
-	cmp	rdx, 39					; 00000027H
-	jbe	SHORT $LN9@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN9@deallocate:
-
-; 126  : 			<= _NON_USER_SIZE);
-; 127  : 
-; 128  : 		_Ptr = reinterpret_cast<void *>(_Ptr_container);
-
-	mov	rdx, rax
-$LN5@deallocate:
-
-; 129  : 		}
-; 130  :  #endif /* defined(_M_IX86) || defined(_M_X64) */
-; 131  : 
-; 132  : 	::operator delete(_Ptr);
-
-	mov	rcx, rdx
-
-; 720  : 		_Deallocate(_Ptr, _Count, sizeof (_Ty));
-; 721  : 		}
-
-	add	rsp, 40					; 00000028H
-
-; 132  : 	::operator delete(_Ptr);
-
-	jmp	??3@YAXPEAX@Z				; operator delete
-$LN13@deallocate:
-?deallocate@?$allocator@V?$Matrix@M$02$03$00@@@std@@QEAAXPEAV?$Matrix@M$02$03$00@@_K@Z ENDP ; std::allocator<Matrix<float,3,4,1> >::deallocate
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-;	COMDAT ?_Get_second@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$02$00@@@std@@@2@$00@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$02$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Get_second@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$02$00@@@std@@@2@$00@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$02$00@@@std@@@2@XZ PROC ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,4,3,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,4,3,1> > >,1>::_Get_second, COMDAT
-
-; 315  : 		return (_Myval2);
-
-	mov	rax, rcx
-
-; 316  : 		}
-
-	ret	0
-?_Get_second@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$02$00@@@std@@@2@$00@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$02$00@@@std@@@2@XZ ENDP ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,4,3,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,4,3,1> > >,1>::_Get_second
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?max_size@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEBA_KU_Nil@2@@Z
-_TEXT	SEGMENT
-this$dead$ = 8
-__formal$dead$ = 16
-?max_size@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEBA_KU_Nil@2@@Z PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,4,3,1> > >::max_size, COMDAT
-
-; 1008 : 		return (_Mytraits::max_size(*this));
-
-	mov	rax, 384307168202282325			; 0555555555555555H
-
-; 1009 : 		}
-
-	ret	0
-?max_size@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEBA_KU_Nil@2@@Z ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,4,3,1> > >::max_size
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@2@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > > >::_Getal, COMDAT
-
-; 628  : 		return (_Mypair._Get_first());
-
-	mov	rax, rcx
-
-; 629  : 		}
-
-	ret	0
-?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$02$00@@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@2@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,3,1>,std::allocator<Matrix<float,4,3,1> > > >::_Getal
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?allocate@?$allocator@V?$Matrix@M$03$02$00@@@std@@QEAAPEAV?$Matrix@M$03$02$00@@_K@Z
-_TEXT	SEGMENT
-this$dead$ = 48
-_Count$dead$ = 56
-?allocate@?$allocator@V?$Matrix@M$03$02$00@@@std@@QEAAPEAV?$Matrix@M$03$02$00@@_K@Z PROC ; std::allocator<Matrix<float,4,3,1> >::allocate, COMDAT
-
-; 724  : 		{	// allocate array of _Count elements
-
-$LN15:
-	sub	rsp, 40					; 00000028H
-
-; 69   : 			reinterpret_cast<uintptr_t>(::operator new(_Block_size));
-
-	mov	ecx, 4800039				; 00493e27H
-	call	??2@YAPEAX_K@Z				; operator new
-
-; 70   : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container != 0);
-; 71   : 		_Ptr = reinterpret_cast<void *>((_Ptr_container + _NON_USER_SIZE)
-
-	lea	rcx, QWORD PTR [rax+39]
-	and	rcx, -32				; ffffffffffffffe0H
-
-; 72   : 			& ~(_BIG_ALLOCATION_ALIGNMENT - 1));
-; 73   : 		static_cast<uintptr_t *>(_Ptr)[-1] = _Ptr_container;
-
-	mov	QWORD PTR [rcx-8], rax
-
-; 725  : 		return (static_cast<pointer>(_Allocate(_Count, sizeof (_Ty))));
-
-	mov	rax, rcx
-
-; 726  : 		}
-
-	add	rsp, 40					; 00000028H
-	ret	0
-?allocate@?$allocator@V?$Matrix@M$03$02$00@@@std@@QEAAPEAV?$Matrix@M$03$02$00@@_K@Z ENDP ; std::allocator<Matrix<float,4,3,1> >::allocate
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?deallocate@?$allocator@V?$Matrix@M$03$02$00@@@std@@QEAAXPEAV?$Matrix@M$03$02$00@@_K@Z
-_TEXT	SEGMENT
-this$dead$ = 48
-_Ptr$ = 56
-_Count$ = 64
-?deallocate@?$allocator@V?$Matrix@M$03$02$00@@@std@@QEAAXPEAV?$Matrix@M$03$02$00@@_K@Z PROC ; std::allocator<Matrix<float,4,3,1> >::deallocate, COMDAT
-
-; 719  : 		{	// deallocate object at _Ptr
-
-$LN14:
-	sub	rsp, 40					; 00000028H
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	mov	rax, 384307168202282325			; 0555555555555555H
-	cmp	r8, rax
-	jbe	SHORT $LN4@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN4@deallocate:
-
-; 95   : 	const size_t _User_size = _Count * _Sz;
-
-	lea	rax, QWORD PTR [r8+r8*2]
-	shl	rax, 4
-
-; 96   : 	if (_BIG_ALLOCATION_THRESHOLD <= _User_size)
-
-	cmp	rax, 4096				; 00001000H
-	jb	SHORT $LN5@deallocate
-
-; 97   : 		{	// deallocate large block
-; 98   : 		const uintptr_t _Ptr_user = reinterpret_cast<uintptr_t>(_Ptr);
-; 99   : 		_SCL_SECURE_ALWAYS_VALIDATE(
-
-	test	dl, 31
-	je	SHORT $LN6@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN6@deallocate:
-
-; 100  : 			(_Ptr_user & (_BIG_ALLOCATION_ALIGNMENT - 1)) == 0);
-; 101  : 		const uintptr_t _Ptr_ptr = _Ptr_user - sizeof(void *);
-; 102  : 		const uintptr_t _Ptr_container =
-; 103  : 			*reinterpret_cast<uintptr_t *>(_Ptr_ptr);
-
-	mov	rax, QWORD PTR [rdx-8]
-
-; 104  : 
-; 105  :  #ifdef _DEBUG
-; 106  : 		// If the following asserts, it likely means that we are performing
-; 107  : 		// an aligned delete on memory coming from an unaligned allocation.
-; 108  : 		_SCL_SECURE_ALWAYS_VALIDATE(
-; 109  : 			reinterpret_cast<uintptr_t *>(_Ptr_ptr)[-1] ==
-; 110  : 				_BIG_ALLOCATION_SENTINEL);
-; 111  :  #endif /* _DEBUG */
-; 112  : 
-; 113  : 		// Extra paranoia on aligned allocation/deallocation
-; 114  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container < _Ptr_user);
-
-	cmp	rax, rdx
-	jb	SHORT $LN7@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN7@deallocate:
-
-; 115  : 
-; 116  :  #ifdef _DEBUG
-; 117  : 		_SCL_SECURE_ALWAYS_VALIDATE(2 * sizeof(void *)
-; 118  : 			<= _Ptr_user - _Ptr_container);
-; 119  : 
-; 120  :  #else /* _DEBUG */
-; 121  : 		_SCL_SECURE_ALWAYS_VALIDATE(sizeof(void *)
-
-	sub	rdx, rax
-	cmp	rdx, 8
-	jae	SHORT $LN8@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN8@deallocate:
-
-; 122  : 			<= _Ptr_user - _Ptr_container);
-; 123  :  #endif /* _DEBUG */
-; 124  : 
-; 125  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_user - _Ptr_container
-
-	cmp	rdx, 39					; 00000027H
-	jbe	SHORT $LN9@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN9@deallocate:
-
-; 126  : 			<= _NON_USER_SIZE);
-; 127  : 
-; 128  : 		_Ptr = reinterpret_cast<void *>(_Ptr_container);
-
-	mov	rdx, rax
-$LN5@deallocate:
-
-; 129  : 		}
-; 130  :  #endif /* defined(_M_IX86) || defined(_M_X64) */
-; 131  : 
-; 132  : 	::operator delete(_Ptr);
-
-	mov	rcx, rdx
-
-; 720  : 		_Deallocate(_Ptr, _Count, sizeof (_Ty));
-; 721  : 		}
-
-	add	rsp, 40					; 00000028H
-
-; 132  : 	::operator delete(_Ptr);
-
-	jmp	??3@YAXPEAX@Z				; operator delete
-$LN13@deallocate:
-?deallocate@?$allocator@V?$Matrix@M$03$02$00@@@std@@QEAAXPEAV?$Matrix@M$03$02$00@@_K@Z ENDP ; std::allocator<Matrix<float,4,3,1> >::deallocate
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-;	COMDAT ?_Get_second@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$03$00@@@std@@@2@$00@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$03$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Get_second@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$03$00@@@std@@@2@$00@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$03$00@@@std@@@2@XZ PROC ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,2,4,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,2,4,1> > >,1>::_Get_second, COMDAT
-
-; 315  : 		return (_Myval2);
-
-	mov	rax, rcx
-
-; 316  : 		}
-
-	ret	0
-?_Get_second@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$03$00@@@std@@@2@$00@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$03$00@@@std@@@2@XZ ENDP ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,2,4,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,2,4,1> > >,1>::_Get_second
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?max_size@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEBA_KU_Nil@2@@Z
-_TEXT	SEGMENT
-this$dead$ = 8
-__formal$dead$ = 16
-?max_size@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEBA_KU_Nil@2@@Z PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,2,4,1> > >::max_size, COMDAT
-
-; 1008 : 		return (_Mytraits::max_size(*this));
-
-	mov	rax, 576460752303423487			; 07ffffffffffffffH
-
-; 1009 : 		}
-
-	ret	0
-?max_size@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEBA_KU_Nil@2@@Z ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,2,4,1> > >::max_size
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@2@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > > >::_Getal, COMDAT
-
-; 628  : 		return (_Mypair._Get_first());
-
-	mov	rax, rcx
-
-; 629  : 		}
-
-	ret	0
-?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$03$00@@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@2@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,4,1>,std::allocator<Matrix<float,2,4,1> > > >::_Getal
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?allocate@?$allocator@V?$Matrix@M$01$03$00@@@std@@QEAAPEAV?$Matrix@M$01$03$00@@_K@Z
-_TEXT	SEGMENT
-this$dead$ = 48
-_Count$dead$ = 56
-?allocate@?$allocator@V?$Matrix@M$01$03$00@@@std@@QEAAPEAV?$Matrix@M$01$03$00@@_K@Z PROC ; std::allocator<Matrix<float,2,4,1> >::allocate, COMDAT
-
-; 724  : 		{	// allocate array of _Count elements
-
-$LN15:
-	sub	rsp, 40					; 00000028H
-
-; 69   : 			reinterpret_cast<uintptr_t>(::operator new(_Block_size));
-
-	mov	ecx, 3200039				; 0030d427H
-	call	??2@YAPEAX_K@Z				; operator new
-
-; 70   : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container != 0);
-; 71   : 		_Ptr = reinterpret_cast<void *>((_Ptr_container + _NON_USER_SIZE)
-
-	lea	rcx, QWORD PTR [rax+39]
-	and	rcx, -32				; ffffffffffffffe0H
-
-; 72   : 			& ~(_BIG_ALLOCATION_ALIGNMENT - 1));
-; 73   : 		static_cast<uintptr_t *>(_Ptr)[-1] = _Ptr_container;
-
-	mov	QWORD PTR [rcx-8], rax
-
-; 725  : 		return (static_cast<pointer>(_Allocate(_Count, sizeof (_Ty))));
-
-	mov	rax, rcx
-
-; 726  : 		}
-
-	add	rsp, 40					; 00000028H
-	ret	0
-?allocate@?$allocator@V?$Matrix@M$01$03$00@@@std@@QEAAPEAV?$Matrix@M$01$03$00@@_K@Z ENDP ; std::allocator<Matrix<float,2,4,1> >::allocate
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?deallocate@?$allocator@V?$Matrix@M$01$03$00@@@std@@QEAAXPEAV?$Matrix@M$01$03$00@@_K@Z
-_TEXT	SEGMENT
-this$dead$ = 48
-_Ptr$ = 56
-_Count$ = 64
-?deallocate@?$allocator@V?$Matrix@M$01$03$00@@@std@@QEAAXPEAV?$Matrix@M$01$03$00@@_K@Z PROC ; std::allocator<Matrix<float,2,4,1> >::deallocate, COMDAT
-
-; 719  : 		{	// deallocate object at _Ptr
-
-$LN14:
-	sub	rsp, 40					; 00000028H
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	mov	rax, 576460752303423487			; 07ffffffffffffffH
-	cmp	r8, rax
-	jbe	SHORT $LN4@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN4@deallocate:
-
-; 95   : 	const size_t _User_size = _Count * _Sz;
-
-	shl	r8, 5
-
-; 96   : 	if (_BIG_ALLOCATION_THRESHOLD <= _User_size)
-
-	cmp	r8, 4096				; 00001000H
-	jb	SHORT $LN5@deallocate
-
-; 97   : 		{	// deallocate large block
-; 98   : 		const uintptr_t _Ptr_user = reinterpret_cast<uintptr_t>(_Ptr);
-; 99   : 		_SCL_SECURE_ALWAYS_VALIDATE(
-
-	test	dl, 31
-	je	SHORT $LN6@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN6@deallocate:
-
-; 100  : 			(_Ptr_user & (_BIG_ALLOCATION_ALIGNMENT - 1)) == 0);
-; 101  : 		const uintptr_t _Ptr_ptr = _Ptr_user - sizeof(void *);
-; 102  : 		const uintptr_t _Ptr_container =
-; 103  : 			*reinterpret_cast<uintptr_t *>(_Ptr_ptr);
-
-	mov	rax, QWORD PTR [rdx-8]
-
-; 104  : 
-; 105  :  #ifdef _DEBUG
-; 106  : 		// If the following asserts, it likely means that we are performing
-; 107  : 		// an aligned delete on memory coming from an unaligned allocation.
-; 108  : 		_SCL_SECURE_ALWAYS_VALIDATE(
-; 109  : 			reinterpret_cast<uintptr_t *>(_Ptr_ptr)[-1] ==
-; 110  : 				_BIG_ALLOCATION_SENTINEL);
-; 111  :  #endif /* _DEBUG */
-; 112  : 
-; 113  : 		// Extra paranoia on aligned allocation/deallocation
-; 114  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container < _Ptr_user);
-
-	cmp	rax, rdx
-	jb	SHORT $LN7@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN7@deallocate:
-
-; 115  : 
-; 116  :  #ifdef _DEBUG
-; 117  : 		_SCL_SECURE_ALWAYS_VALIDATE(2 * sizeof(void *)
-; 118  : 			<= _Ptr_user - _Ptr_container);
-; 119  : 
-; 120  :  #else /* _DEBUG */
-; 121  : 		_SCL_SECURE_ALWAYS_VALIDATE(sizeof(void *)
-
-	sub	rdx, rax
-	cmp	rdx, 8
-	jae	SHORT $LN8@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN8@deallocate:
-
-; 122  : 			<= _Ptr_user - _Ptr_container);
-; 123  :  #endif /* _DEBUG */
-; 124  : 
-; 125  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_user - _Ptr_container
-
-	cmp	rdx, 39					; 00000027H
-	jbe	SHORT $LN9@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN9@deallocate:
-
-; 126  : 			<= _NON_USER_SIZE);
-; 127  : 
-; 128  : 		_Ptr = reinterpret_cast<void *>(_Ptr_container);
-
-	mov	rdx, rax
-$LN5@deallocate:
-
-; 129  : 		}
-; 130  :  #endif /* defined(_M_IX86) || defined(_M_X64) */
-; 131  : 
-; 132  : 	::operator delete(_Ptr);
-
-	mov	rcx, rdx
-
-; 720  : 		_Deallocate(_Ptr, _Count, sizeof (_Ty));
-; 721  : 		}
-
-	add	rsp, 40					; 00000028H
-
-; 132  : 	::operator delete(_Ptr);
-
-	jmp	??3@YAXPEAX@Z				; operator delete
-$LN13@deallocate:
-?deallocate@?$allocator@V?$Matrix@M$01$03$00@@@std@@QEAAXPEAV?$Matrix@M$01$03$00@@_K@Z ENDP ; std::allocator<Matrix<float,2,4,1> >::deallocate
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-;	COMDAT ?_Get_second@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$01$00@@@std@@@2@$00@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$01$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Get_second@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$01$00@@@std@@@2@$00@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$01$00@@@std@@@2@XZ PROC ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,4,2,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,4,2,1> > >,1>::_Get_second, COMDAT
-
-; 315  : 		return (_Myval2);
-
-	mov	rax, rcx
-
-; 316  : 		}
-
-	ret	0
-?_Get_second@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$01$00@@@std@@@2@$00@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$01$00@@@std@@@2@XZ ENDP ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,4,2,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,4,2,1> > >,1>::_Get_second
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?max_size@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEBA_KU_Nil@2@@Z
-_TEXT	SEGMENT
-this$dead$ = 8
-__formal$dead$ = 16
-?max_size@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEBA_KU_Nil@2@@Z PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,4,2,1> > >::max_size, COMDAT
-
-; 1008 : 		return (_Mytraits::max_size(*this));
-
-	mov	rax, 576460752303423487			; 07ffffffffffffffH
-
-; 1009 : 		}
-
-	ret	0
-?max_size@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEBA_KU_Nil@2@@Z ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,4,2,1> > >::max_size
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@2@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > > >::_Getal, COMDAT
-
-; 628  : 		return (_Mypair._Get_first());
-
-	mov	rax, rcx
-
-; 629  : 		}
-
-	ret	0
-?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$01$00@@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@2@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,2,1>,std::allocator<Matrix<float,4,2,1> > > >::_Getal
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?allocate@?$allocator@V?$Matrix@M$03$01$00@@@std@@QEAAPEAV?$Matrix@M$03$01$00@@_K@Z
-_TEXT	SEGMENT
-this$dead$ = 48
-_Count$dead$ = 56
-?allocate@?$allocator@V?$Matrix@M$03$01$00@@@std@@QEAAPEAV?$Matrix@M$03$01$00@@_K@Z PROC ; std::allocator<Matrix<float,4,2,1> >::allocate, COMDAT
-
-; 724  : 		{	// allocate array of _Count elements
-
-$LN15:
-	sub	rsp, 40					; 00000028H
-
-; 69   : 			reinterpret_cast<uintptr_t>(::operator new(_Block_size));
-
-	mov	ecx, 3200039				; 0030d427H
-	call	??2@YAPEAX_K@Z				; operator new
-
-; 70   : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container != 0);
-; 71   : 		_Ptr = reinterpret_cast<void *>((_Ptr_container + _NON_USER_SIZE)
-
-	lea	rcx, QWORD PTR [rax+39]
-	and	rcx, -32				; ffffffffffffffe0H
-
-; 72   : 			& ~(_BIG_ALLOCATION_ALIGNMENT - 1));
-; 73   : 		static_cast<uintptr_t *>(_Ptr)[-1] = _Ptr_container;
-
-	mov	QWORD PTR [rcx-8], rax
-
-; 725  : 		return (static_cast<pointer>(_Allocate(_Count, sizeof (_Ty))));
-
-	mov	rax, rcx
-
-; 726  : 		}
-
-	add	rsp, 40					; 00000028H
-	ret	0
-?allocate@?$allocator@V?$Matrix@M$03$01$00@@@std@@QEAAPEAV?$Matrix@M$03$01$00@@_K@Z ENDP ; std::allocator<Matrix<float,4,2,1> >::allocate
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?deallocate@?$allocator@V?$Matrix@M$03$01$00@@@std@@QEAAXPEAV?$Matrix@M$03$01$00@@_K@Z
-_TEXT	SEGMENT
-this$dead$ = 48
-_Ptr$ = 56
-_Count$ = 64
-?deallocate@?$allocator@V?$Matrix@M$03$01$00@@@std@@QEAAXPEAV?$Matrix@M$03$01$00@@_K@Z PROC ; std::allocator<Matrix<float,4,2,1> >::deallocate, COMDAT
-
-; 719  : 		{	// deallocate object at _Ptr
-
-$LN14:
-	sub	rsp, 40					; 00000028H
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	mov	rax, 576460752303423487			; 07ffffffffffffffH
-	cmp	r8, rax
-	jbe	SHORT $LN4@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN4@deallocate:
-
-; 95   : 	const size_t _User_size = _Count * _Sz;
-
-	shl	r8, 5
-
-; 96   : 	if (_BIG_ALLOCATION_THRESHOLD <= _User_size)
-
-	cmp	r8, 4096				; 00001000H
-	jb	SHORT $LN5@deallocate
-
-; 97   : 		{	// deallocate large block
-; 98   : 		const uintptr_t _Ptr_user = reinterpret_cast<uintptr_t>(_Ptr);
-; 99   : 		_SCL_SECURE_ALWAYS_VALIDATE(
-
-	test	dl, 31
-	je	SHORT $LN6@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN6@deallocate:
-
-; 100  : 			(_Ptr_user & (_BIG_ALLOCATION_ALIGNMENT - 1)) == 0);
-; 101  : 		const uintptr_t _Ptr_ptr = _Ptr_user - sizeof(void *);
-; 102  : 		const uintptr_t _Ptr_container =
-; 103  : 			*reinterpret_cast<uintptr_t *>(_Ptr_ptr);
-
-	mov	rax, QWORD PTR [rdx-8]
-
-; 104  : 
-; 105  :  #ifdef _DEBUG
-; 106  : 		// If the following asserts, it likely means that we are performing
-; 107  : 		// an aligned delete on memory coming from an unaligned allocation.
-; 108  : 		_SCL_SECURE_ALWAYS_VALIDATE(
-; 109  : 			reinterpret_cast<uintptr_t *>(_Ptr_ptr)[-1] ==
-; 110  : 				_BIG_ALLOCATION_SENTINEL);
-; 111  :  #endif /* _DEBUG */
-; 112  : 
-; 113  : 		// Extra paranoia on aligned allocation/deallocation
-; 114  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container < _Ptr_user);
-
-	cmp	rax, rdx
-	jb	SHORT $LN7@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN7@deallocate:
-
-; 115  : 
-; 116  :  #ifdef _DEBUG
-; 117  : 		_SCL_SECURE_ALWAYS_VALIDATE(2 * sizeof(void *)
-; 118  : 			<= _Ptr_user - _Ptr_container);
-; 119  : 
-; 120  :  #else /* _DEBUG */
-; 121  : 		_SCL_SECURE_ALWAYS_VALIDATE(sizeof(void *)
-
-	sub	rdx, rax
-	cmp	rdx, 8
-	jae	SHORT $LN8@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN8@deallocate:
-
-; 122  : 			<= _Ptr_user - _Ptr_container);
-; 123  :  #endif /* _DEBUG */
-; 124  : 
-; 125  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_user - _Ptr_container
-
-	cmp	rdx, 39					; 00000027H
-	jbe	SHORT $LN9@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN9@deallocate:
-
-; 126  : 			<= _NON_USER_SIZE);
-; 127  : 
-; 128  : 		_Ptr = reinterpret_cast<void *>(_Ptr_container);
-
-	mov	rdx, rax
-$LN5@deallocate:
-
-; 129  : 		}
-; 130  :  #endif /* defined(_M_IX86) || defined(_M_X64) */
-; 131  : 
-; 132  : 	::operator delete(_Ptr);
-
-	mov	rcx, rdx
-
-; 720  : 		_Deallocate(_Ptr, _Count, sizeof (_Ty));
-; 721  : 		}
-
-	add	rsp, 40					; 00000028H
-
-; 132  : 	::operator delete(_Ptr);
-
-	jmp	??3@YAXPEAX@Z				; operator delete
-$LN13@deallocate:
-?deallocate@?$allocator@V?$Matrix@M$03$01$00@@@std@@QEAAXPEAV?$Matrix@M$03$01$00@@_K@Z ENDP ; std::allocator<Matrix<float,4,2,1> >::deallocate
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-;	COMDAT ?_Get_second@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$03$00@@@std@@@2@$00@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$03$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Get_second@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$03$00@@@std@@@2@$00@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$03$00@@@std@@@2@XZ PROC ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,4,4,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,4,4,1> > >,1>::_Get_second, COMDAT
-
-; 315  : 		return (_Myval2);
-
-	mov	rax, rcx
-
-; 316  : 		}
-
-	ret	0
-?_Get_second@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$03$00@@@std@@@2@$00@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$03$00@@@std@@@2@XZ ENDP ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,4,4,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,4,4,1> > >,1>::_Get_second
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?max_size@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEBA_KU_Nil@2@@Z
-_TEXT	SEGMENT
-this$dead$ = 8
-__formal$dead$ = 16
-?max_size@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEBA_KU_Nil@2@@Z PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,4,4,1> > >::max_size, COMDAT
-
-; 1008 : 		return (_Mytraits::max_size(*this));
-
-	mov	rax, 288230376151711743			; 03ffffffffffffffH
-
-; 1009 : 		}
-
-	ret	0
-?max_size@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEBA_KU_Nil@2@@Z ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,4,4,1> > >::max_size
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@2@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > > >::_Getal, COMDAT
-
-; 628  : 		return (_Mypair._Get_first());
-
-	mov	rax, rcx
-
-; 629  : 		}
-
-	ret	0
-?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$03$03$00@@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@2@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,4,4,1>,std::allocator<Matrix<float,4,4,1> > > >::_Getal
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?allocate@?$allocator@V?$Matrix@M$03$03$00@@@std@@QEAAPEAV?$Matrix@M$03$03$00@@_K@Z
-_TEXT	SEGMENT
-this$dead$ = 48
-_Count$dead$ = 56
-?allocate@?$allocator@V?$Matrix@M$03$03$00@@@std@@QEAAPEAV?$Matrix@M$03$03$00@@_K@Z PROC ; std::allocator<Matrix<float,4,4,1> >::allocate, COMDAT
-
-; 724  : 		{	// allocate array of _Count elements
-
-$LN15:
-	sub	rsp, 40					; 00000028H
-
-; 69   : 			reinterpret_cast<uintptr_t>(::operator new(_Block_size));
-
-	mov	ecx, 6400039				; 0061a827H
-	call	??2@YAPEAX_K@Z				; operator new
-
-; 70   : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container != 0);
-; 71   : 		_Ptr = reinterpret_cast<void *>((_Ptr_container + _NON_USER_SIZE)
-
-	lea	rcx, QWORD PTR [rax+39]
-	and	rcx, -32				; ffffffffffffffe0H
-
-; 72   : 			& ~(_BIG_ALLOCATION_ALIGNMENT - 1));
-; 73   : 		static_cast<uintptr_t *>(_Ptr)[-1] = _Ptr_container;
-
-	mov	QWORD PTR [rcx-8], rax
-
-; 725  : 		return (static_cast<pointer>(_Allocate(_Count, sizeof (_Ty))));
-
-	mov	rax, rcx
-
-; 726  : 		}
-
-	add	rsp, 40					; 00000028H
-	ret	0
-?allocate@?$allocator@V?$Matrix@M$03$03$00@@@std@@QEAAPEAV?$Matrix@M$03$03$00@@_K@Z ENDP ; std::allocator<Matrix<float,4,4,1> >::allocate
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?deallocate@?$allocator@V?$Matrix@M$03$03$00@@@std@@QEAAXPEAV?$Matrix@M$03$03$00@@_K@Z
-_TEXT	SEGMENT
-this$dead$ = 48
-_Ptr$ = 56
-_Count$ = 64
-?deallocate@?$allocator@V?$Matrix@M$03$03$00@@@std@@QEAAXPEAV?$Matrix@M$03$03$00@@_K@Z PROC ; std::allocator<Matrix<float,4,4,1> >::deallocate, COMDAT
-
-; 719  : 		{	// deallocate object at _Ptr
-
-$LN14:
-	sub	rsp, 40					; 00000028H
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	mov	rax, 288230376151711743			; 03ffffffffffffffH
-	cmp	r8, rax
-	jbe	SHORT $LN4@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN4@deallocate:
-
-; 95   : 	const size_t _User_size = _Count * _Sz;
-
-	shl	r8, 6
-
-; 96   : 	if (_BIG_ALLOCATION_THRESHOLD <= _User_size)
-
-	cmp	r8, 4096				; 00001000H
-	jb	SHORT $LN5@deallocate
-
-; 97   : 		{	// deallocate large block
-; 98   : 		const uintptr_t _Ptr_user = reinterpret_cast<uintptr_t>(_Ptr);
-; 99   : 		_SCL_SECURE_ALWAYS_VALIDATE(
-
-	test	dl, 31
-	je	SHORT $LN6@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN6@deallocate:
-
-; 100  : 			(_Ptr_user & (_BIG_ALLOCATION_ALIGNMENT - 1)) == 0);
-; 101  : 		const uintptr_t _Ptr_ptr = _Ptr_user - sizeof(void *);
-; 102  : 		const uintptr_t _Ptr_container =
-; 103  : 			*reinterpret_cast<uintptr_t *>(_Ptr_ptr);
-
-	mov	rax, QWORD PTR [rdx-8]
-
-; 104  : 
-; 105  :  #ifdef _DEBUG
-; 106  : 		// If the following asserts, it likely means that we are performing
-; 107  : 		// an aligned delete on memory coming from an unaligned allocation.
-; 108  : 		_SCL_SECURE_ALWAYS_VALIDATE(
-; 109  : 			reinterpret_cast<uintptr_t *>(_Ptr_ptr)[-1] ==
-; 110  : 				_BIG_ALLOCATION_SENTINEL);
-; 111  :  #endif /* _DEBUG */
-; 112  : 
-; 113  : 		// Extra paranoia on aligned allocation/deallocation
-; 114  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container < _Ptr_user);
-
-	cmp	rax, rdx
-	jb	SHORT $LN7@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN7@deallocate:
-
-; 115  : 
-; 116  :  #ifdef _DEBUG
-; 117  : 		_SCL_SECURE_ALWAYS_VALIDATE(2 * sizeof(void *)
-; 118  : 			<= _Ptr_user - _Ptr_container);
-; 119  : 
-; 120  :  #else /* _DEBUG */
-; 121  : 		_SCL_SECURE_ALWAYS_VALIDATE(sizeof(void *)
-
-	sub	rdx, rax
-	cmp	rdx, 8
-	jae	SHORT $LN8@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN8@deallocate:
-
-; 122  : 			<= _Ptr_user - _Ptr_container);
-; 123  :  #endif /* _DEBUG */
-; 124  : 
-; 125  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_user - _Ptr_container
-
-	cmp	rdx, 39					; 00000027H
-	jbe	SHORT $LN9@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN9@deallocate:
-
-; 126  : 			<= _NON_USER_SIZE);
-; 127  : 
-; 128  : 		_Ptr = reinterpret_cast<void *>(_Ptr_container);
-
-	mov	rdx, rax
-$LN5@deallocate:
-
-; 129  : 		}
-; 130  :  #endif /* defined(_M_IX86) || defined(_M_X64) */
-; 131  : 
-; 132  : 	::operator delete(_Ptr);
-
-	mov	rcx, rdx
-
-; 720  : 		_Deallocate(_Ptr, _Count, sizeof (_Ty));
-; 721  : 		}
-
-	add	rsp, 40					; 00000028H
-
-; 132  : 	::operator delete(_Ptr);
-
-	jmp	??3@YAXPEAX@Z				; operator delete
-$LN13@deallocate:
-?deallocate@?$allocator@V?$Matrix@M$03$03$00@@@std@@QEAAXPEAV?$Matrix@M$03$03$00@@_K@Z ENDP ; std::allocator<Matrix<float,4,4,1> >::deallocate
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-;	COMDAT ?_Get_second@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$02$00@@@std@@@2@$00@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$02$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Get_second@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$02$00@@@std@@@2@$00@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$02$00@@@std@@@2@XZ PROC ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,3,3,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,3,3,1> > >,1>::_Get_second, COMDAT
-
-; 315  : 		return (_Myval2);
-
-	mov	rax, rcx
-
-; 316  : 		}
-
-	ret	0
-?_Get_second@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$02$00@@@std@@@2@$00@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$02$00@@@std@@@2@XZ ENDP ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,3,3,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,3,3,1> > >,1>::_Get_second
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?max_size@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEBA_KU_Nil@2@@Z
-_TEXT	SEGMENT
-this$dead$ = 8
-__formal$dead$ = 16
-?max_size@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEBA_KU_Nil@2@@Z PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,3,3,1> > >::max_size, COMDAT
-
-; 1008 : 		return (_Mytraits::max_size(*this));
-
-	mov	rax, 384307168202282325			; 0555555555555555H
-
-; 1009 : 		}
-
-	ret	0
-?max_size@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEBA_KU_Nil@2@@Z ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,3,3,1> > >::max_size
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@2@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > > >::_Getal, COMDAT
-
-; 628  : 		return (_Mypair._Get_first());
-
-	mov	rax, rcx
-
-; 629  : 		}
-
-	ret	0
-?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$02$02$00@@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@2@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,3,3,1>,std::allocator<Matrix<float,3,3,1> > > >::_Getal
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?allocate@?$allocator@V?$Matrix@M$02$02$00@@@std@@QEAAPEAV?$Matrix@M$02$02$00@@_K@Z
-_TEXT	SEGMENT
-this$dead$ = 48
-_Count$dead$ = 56
-?allocate@?$allocator@V?$Matrix@M$02$02$00@@@std@@QEAAPEAV?$Matrix@M$02$02$00@@_K@Z PROC ; std::allocator<Matrix<float,3,3,1> >::allocate, COMDAT
-
-; 724  : 		{	// allocate array of _Count elements
-
-$LN15:
-	sub	rsp, 40					; 00000028H
-
-; 69   : 			reinterpret_cast<uintptr_t>(::operator new(_Block_size));
-
-	mov	ecx, 4800039				; 00493e27H
-	call	??2@YAPEAX_K@Z				; operator new
-
-; 70   : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container != 0);
-; 71   : 		_Ptr = reinterpret_cast<void *>((_Ptr_container + _NON_USER_SIZE)
-
-	lea	rcx, QWORD PTR [rax+39]
-	and	rcx, -32				; ffffffffffffffe0H
-
-; 72   : 			& ~(_BIG_ALLOCATION_ALIGNMENT - 1));
-; 73   : 		static_cast<uintptr_t *>(_Ptr)[-1] = _Ptr_container;
-
-	mov	QWORD PTR [rcx-8], rax
-
-; 725  : 		return (static_cast<pointer>(_Allocate(_Count, sizeof (_Ty))));
-
-	mov	rax, rcx
-
-; 726  : 		}
-
-	add	rsp, 40					; 00000028H
-	ret	0
-?allocate@?$allocator@V?$Matrix@M$02$02$00@@@std@@QEAAPEAV?$Matrix@M$02$02$00@@_K@Z ENDP ; std::allocator<Matrix<float,3,3,1> >::allocate
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?deallocate@?$allocator@V?$Matrix@M$02$02$00@@@std@@QEAAXPEAV?$Matrix@M$02$02$00@@_K@Z
-_TEXT	SEGMENT
-this$dead$ = 48
-_Ptr$ = 56
-_Count$ = 64
-?deallocate@?$allocator@V?$Matrix@M$02$02$00@@@std@@QEAAXPEAV?$Matrix@M$02$02$00@@_K@Z PROC ; std::allocator<Matrix<float,3,3,1> >::deallocate, COMDAT
-
-; 719  : 		{	// deallocate object at _Ptr
-
-$LN14:
-	sub	rsp, 40					; 00000028H
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	mov	rax, 384307168202282325			; 0555555555555555H
-	cmp	r8, rax
-	jbe	SHORT $LN4@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN4@deallocate:
-
-; 95   : 	const size_t _User_size = _Count * _Sz;
-
-	lea	rax, QWORD PTR [r8+r8*2]
-	shl	rax, 4
-
-; 96   : 	if (_BIG_ALLOCATION_THRESHOLD <= _User_size)
-
-	cmp	rax, 4096				; 00001000H
-	jb	SHORT $LN5@deallocate
-
-; 97   : 		{	// deallocate large block
-; 98   : 		const uintptr_t _Ptr_user = reinterpret_cast<uintptr_t>(_Ptr);
-; 99   : 		_SCL_SECURE_ALWAYS_VALIDATE(
-
-	test	dl, 31
-	je	SHORT $LN6@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN6@deallocate:
-
-; 100  : 			(_Ptr_user & (_BIG_ALLOCATION_ALIGNMENT - 1)) == 0);
-; 101  : 		const uintptr_t _Ptr_ptr = _Ptr_user - sizeof(void *);
-; 102  : 		const uintptr_t _Ptr_container =
-; 103  : 			*reinterpret_cast<uintptr_t *>(_Ptr_ptr);
-
-	mov	rax, QWORD PTR [rdx-8]
-
-; 104  : 
-; 105  :  #ifdef _DEBUG
-; 106  : 		// If the following asserts, it likely means that we are performing
-; 107  : 		// an aligned delete on memory coming from an unaligned allocation.
-; 108  : 		_SCL_SECURE_ALWAYS_VALIDATE(
-; 109  : 			reinterpret_cast<uintptr_t *>(_Ptr_ptr)[-1] ==
-; 110  : 				_BIG_ALLOCATION_SENTINEL);
-; 111  :  #endif /* _DEBUG */
-; 112  : 
-; 113  : 		// Extra paranoia on aligned allocation/deallocation
-; 114  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container < _Ptr_user);
-
-	cmp	rax, rdx
-	jb	SHORT $LN7@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN7@deallocate:
-
-; 115  : 
-; 116  :  #ifdef _DEBUG
-; 117  : 		_SCL_SECURE_ALWAYS_VALIDATE(2 * sizeof(void *)
-; 118  : 			<= _Ptr_user - _Ptr_container);
-; 119  : 
-; 120  :  #else /* _DEBUG */
-; 121  : 		_SCL_SECURE_ALWAYS_VALIDATE(sizeof(void *)
-
-	sub	rdx, rax
-	cmp	rdx, 8
-	jae	SHORT $LN8@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN8@deallocate:
-
-; 122  : 			<= _Ptr_user - _Ptr_container);
-; 123  :  #endif /* _DEBUG */
-; 124  : 
-; 125  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_user - _Ptr_container
-
-	cmp	rdx, 39					; 00000027H
-	jbe	SHORT $LN9@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN9@deallocate:
-
-; 126  : 			<= _NON_USER_SIZE);
-; 127  : 
-; 128  : 		_Ptr = reinterpret_cast<void *>(_Ptr_container);
-
-	mov	rdx, rax
-$LN5@deallocate:
-
-; 129  : 		}
-; 130  :  #endif /* defined(_M_IX86) || defined(_M_X64) */
-; 131  : 
-; 132  : 	::operator delete(_Ptr);
-
-	mov	rcx, rdx
-
-; 720  : 		_Deallocate(_Ptr, _Count, sizeof (_Ty));
-; 721  : 		}
-
-	add	rsp, 40					; 00000028H
-
-; 132  : 	::operator delete(_Ptr);
-
-	jmp	??3@YAXPEAX@Z				; operator delete
-$LN13@deallocate:
-?deallocate@?$allocator@V?$Matrix@M$02$02$00@@@std@@QEAAXPEAV?$Matrix@M$02$02$00@@_K@Z ENDP ; std::allocator<Matrix<float,3,3,1> >::deallocate
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\random
-;	COMDAT ?_Init@param_type@?$uniform_real@M@std@@QEAAXMM@Z
-_TEXT	SEGMENT
-this$ = 8
-_Min0$ = 16
-_Max0$ = 24
-?_Init@param_type@?$uniform_real@M@std@@QEAAXMM@Z PROC	; std::uniform_real<float>::param_type::_Init, COMDAT
-
-; 3249 : 			_RNG_ASSERT(_Min0 <= _Max0 && (0 <= _Min0
-; 3250 : 				|| _Max0 <= _Min0 + (numeric_limits<_Ty>::max)()),
-; 3251 : 				"invalid min and max arguments for uniform_real");
-; 3252 : 			_Min = _Min0;
-
-	movss	DWORD PTR [rcx], xmm1
-
-; 3253 : 			_Max = _Max0;
-
-	movss	DWORD PTR [rcx+4], xmm2
-
-; 3254 : 			}
-
-	ret	0
-?_Init@param_type@?$uniform_real@M@std@@QEAAXMM@Z ENDP	; std::uniform_real<float>::param_type::_Init
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\random
-;	COMDAT ?_Reset@?$linear_congruential@I$0LMIP@$0A@$0HPPPPPPP@@std@@IEAAXI@Z
-_TEXT	SEGMENT
-this$ = 8
-_X0$dead$ = 16
-?_Reset@?$linear_congruential@I$0LMIP@$0A@$0HPPPPPPP@@std@@IEAAXI@Z PROC ; std::linear_congruential<unsigned int,48271,0,2147483647>::_Reset, COMDAT
-
-; 551  : 		_Imp._Prev = _Mx != 0 ? _X0 % _Mx : _X0;
-
-	mov	DWORD PTR [rcx], 1
-
-; 552  : 		if (_Imp._Prev == 0 && _Cx == 0)
-; 553  : 			_Imp._Prev = 1;
-; 554  : 		}
-
-	ret	0
-?_Reset@?$linear_congruential@I$0LMIP@$0A@$0HPPPPPPP@@std@@IEAAXI@Z ENDP ; std::linear_congruential<unsigned int,48271,0,2147483647>::_Reset
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-;	COMDAT ?_Get_second@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$01$00@@@std@@@2@$00@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$01$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Get_second@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$01$00@@@std@@@2@$00@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$01$00@@@std@@@2@XZ PROC ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,2,2,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,2,2,1> > >,1>::_Get_second, COMDAT
-
-; 315  : 		return (_Myval2);
-
-	mov	rax, rcx
-
-; 316  : 		}
-
-	ret	0
-?_Get_second@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$01$00@@@std@@@2@$00@std@@QEAAAEAV?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$01$00@@@std@@@2@XZ ENDP ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,2,2,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,2,2,1> > >,1>::_Get_second
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?max_size@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEBA_KU_Nil@2@@Z
-_TEXT	SEGMENT
-this$dead$ = 8
-__formal$dead$ = 16
-?max_size@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEBA_KU_Nil@2@@Z PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,2,2,1> > >::max_size, COMDAT
-
-; 1008 : 		return (_Mytraits::max_size(*this));
-
-	mov	rax, 1152921504606846975		; 0fffffffffffffffH
-
-; 1009 : 		}
-
-	ret	0
-?max_size@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEBA_KU_Nil@2@@Z ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,2,2,1> > >::max_size
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@2@XZ PROC ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > > >::_Getal, COMDAT
-
-; 628  : 		return (_Mypair._Get_first());
-
-	mov	rax, rcx
-
-; 629  : 		}
-
-	ret	0
-?_Getal@?$_Vector_alloc@U?$_Vec_base_types@V?$Matrix@M$01$01$00@@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@2@XZ ENDP ; std::_Vector_alloc<std::_Vec_base_types<Matrix<float,2,2,1>,std::allocator<Matrix<float,2,2,1> > > >::_Getal
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?allocate@?$allocator@V?$Matrix@M$01$01$00@@@std@@QEAAPEAV?$Matrix@M$01$01$00@@_K@Z
-_TEXT	SEGMENT
-this$dead$ = 48
-_Count$dead$ = 56
-?allocate@?$allocator@V?$Matrix@M$01$01$00@@@std@@QEAAPEAV?$Matrix@M$01$01$00@@_K@Z PROC ; std::allocator<Matrix<float,2,2,1> >::allocate, COMDAT
-
-; 724  : 		{	// allocate array of _Count elements
-
-$LN15:
-	sub	rsp, 40					; 00000028H
-
-; 69   : 			reinterpret_cast<uintptr_t>(::operator new(_Block_size));
-
-	mov	ecx, 1600039				; 00186a27H
-	call	??2@YAPEAX_K@Z				; operator new
-
-; 70   : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container != 0);
-; 71   : 		_Ptr = reinterpret_cast<void *>((_Ptr_container + _NON_USER_SIZE)
-
-	lea	rcx, QWORD PTR [rax+39]
-	and	rcx, -32				; ffffffffffffffe0H
-
-; 72   : 			& ~(_BIG_ALLOCATION_ALIGNMENT - 1));
-; 73   : 		static_cast<uintptr_t *>(_Ptr)[-1] = _Ptr_container;
-
-	mov	QWORD PTR [rcx-8], rax
-
-; 725  : 		return (static_cast<pointer>(_Allocate(_Count, sizeof (_Ty))));
-
-	mov	rax, rcx
-
-; 726  : 		}
-
-	add	rsp, 40					; 00000028H
-	ret	0
-?allocate@?$allocator@V?$Matrix@M$01$01$00@@@std@@QEAAPEAV?$Matrix@M$01$01$00@@_K@Z ENDP ; std::allocator<Matrix<float,2,2,1> >::allocate
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?deallocate@?$allocator@V?$Matrix@M$01$01$00@@@std@@QEAAXPEAV?$Matrix@M$01$01$00@@_K@Z
-_TEXT	SEGMENT
-this$dead$ = 48
-_Ptr$ = 56
-_Count$ = 64
-?deallocate@?$allocator@V?$Matrix@M$01$01$00@@@std@@QEAAXPEAV?$Matrix@M$01$01$00@@_K@Z PROC ; std::allocator<Matrix<float,2,2,1> >::deallocate, COMDAT
-
-; 719  : 		{	// deallocate object at _Ptr
-
-$LN14:
-	sub	rsp, 40					; 00000028H
-
-; 94   : 	_SCL_SECURE_ALWAYS_VALIDATE(_Count <= (size_t)(-1) / _Sz);
-
-	mov	rax, 1152921504606846975		; 0fffffffffffffffH
-	cmp	r8, rax
-	jbe	SHORT $LN4@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN4@deallocate:
-
-; 95   : 	const size_t _User_size = _Count * _Sz;
-
-	shl	r8, 4
-
-; 96   : 	if (_BIG_ALLOCATION_THRESHOLD <= _User_size)
-
-	cmp	r8, 4096				; 00001000H
-	jb	SHORT $LN5@deallocate
-
-; 97   : 		{	// deallocate large block
-; 98   : 		const uintptr_t _Ptr_user = reinterpret_cast<uintptr_t>(_Ptr);
-; 99   : 		_SCL_SECURE_ALWAYS_VALIDATE(
-
-	test	dl, 31
-	je	SHORT $LN6@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN6@deallocate:
-
-; 100  : 			(_Ptr_user & (_BIG_ALLOCATION_ALIGNMENT - 1)) == 0);
-; 101  : 		const uintptr_t _Ptr_ptr = _Ptr_user - sizeof(void *);
-; 102  : 		const uintptr_t _Ptr_container =
-; 103  : 			*reinterpret_cast<uintptr_t *>(_Ptr_ptr);
-
-	mov	rax, QWORD PTR [rdx-8]
-
-; 104  : 
-; 105  :  #ifdef _DEBUG
-; 106  : 		// If the following asserts, it likely means that we are performing
-; 107  : 		// an aligned delete on memory coming from an unaligned allocation.
-; 108  : 		_SCL_SECURE_ALWAYS_VALIDATE(
-; 109  : 			reinterpret_cast<uintptr_t *>(_Ptr_ptr)[-1] ==
-; 110  : 				_BIG_ALLOCATION_SENTINEL);
-; 111  :  #endif /* _DEBUG */
-; 112  : 
-; 113  : 		// Extra paranoia on aligned allocation/deallocation
-; 114  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_container < _Ptr_user);
-
-	cmp	rax, rdx
-	jb	SHORT $LN7@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN7@deallocate:
-
-; 115  : 
-; 116  :  #ifdef _DEBUG
-; 117  : 		_SCL_SECURE_ALWAYS_VALIDATE(2 * sizeof(void *)
-; 118  : 			<= _Ptr_user - _Ptr_container);
-; 119  : 
-; 120  :  #else /* _DEBUG */
-; 121  : 		_SCL_SECURE_ALWAYS_VALIDATE(sizeof(void *)
-
-	sub	rdx, rax
-	cmp	rdx, 8
-	jae	SHORT $LN8@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN8@deallocate:
-
-; 122  : 			<= _Ptr_user - _Ptr_container);
-; 123  :  #endif /* _DEBUG */
-; 124  : 
-; 125  : 		_SCL_SECURE_ALWAYS_VALIDATE(_Ptr_user - _Ptr_container
-
-	cmp	rdx, 39					; 00000027H
-	jbe	SHORT $LN9@deallocate
-	call	QWORD PTR __imp__invalid_parameter_noinfo_noreturn
-	int	3
-$LN9@deallocate:
-
-; 126  : 			<= _NON_USER_SIZE);
-; 127  : 
-; 128  : 		_Ptr = reinterpret_cast<void *>(_Ptr_container);
-
-	mov	rdx, rax
-$LN5@deallocate:
-
-; 129  : 		}
-; 130  :  #endif /* defined(_M_IX86) || defined(_M_X64) */
-; 131  : 
-; 132  : 	::operator delete(_Ptr);
-
-	mov	rcx, rdx
-
-; 720  : 		_Deallocate(_Ptr, _Count, sizeof (_Ty));
-; 721  : 		}
-
-	add	rsp, 40					; 00000028H
-
-; 132  : 	::operator delete(_Ptr);
-
-	jmp	??3@YAXPEAX@Z				; operator delete
-$LN13@deallocate:
-?deallocate@?$allocator@V?$Matrix@M$01$01$00@@@std@@QEAAXPEAV?$Matrix@M$01$01$00@@_K@Z ENDP ; std::allocator<Matrix<float,2,2,1> >::deallocate
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-;	COMDAT ?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$03$00@@@std@@@2@$00@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$03$00@@@std@@@2@$00@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@2@XZ PROC ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,3,4,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,3,4,1> > >,1>::_Get_first, COMDAT
-
-; 300  : 		return (*this);
-
-	mov	rax, rcx
-
-; 301  : 		}
-
-	ret	0
-?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$03$00@@@std@@@2@$00@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@2@XZ ENDP ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,3,4,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,3,4,1> > >,1>::_Get_first
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?max_size@?$allocator_traits@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@SA_KAEBV?$allocator@V?$Matrix@M$02$03$00@@@2@@Z
-_TEXT	SEGMENT
-_Al$dead$ = 8
-?max_size@?$allocator_traits@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@SA_KAEBV?$allocator@V?$Matrix@M$02$03$00@@@2@@Z PROC ; std::allocator_traits<std::allocator<Matrix<float,3,4,1> > >::max_size, COMDAT
-
-; 869  : 		return (_Al.max_size());
-
-	mov	rax, 288230376151711743			; 03ffffffffffffffH
-
-; 870  : 		}
-
-	ret	0
-?max_size@?$allocator_traits@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@SA_KAEBV?$allocator@V?$Matrix@M$02$03$00@@@2@@Z ENDP ; std::allocator_traits<std::allocator<Matrix<float,3,4,1> > >::max_size
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-;	COMDAT ?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$02$00@@@std@@@2@$00@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$02$00@@@std@@@2@$00@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@2@XZ PROC ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,4,3,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,4,3,1> > >,1>::_Get_first, COMDAT
-
-; 300  : 		return (*this);
-
-	mov	rax, rcx
-
-; 301  : 		}
-
-	ret	0
-?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$02$00@@@std@@@2@$00@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@2@XZ ENDP ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,4,3,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,4,3,1> > >,1>::_Get_first
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?max_size@?$allocator_traits@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@SA_KAEBV?$allocator@V?$Matrix@M$03$02$00@@@2@@Z
-_TEXT	SEGMENT
-_Al$dead$ = 8
-?max_size@?$allocator_traits@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@SA_KAEBV?$allocator@V?$Matrix@M$03$02$00@@@2@@Z PROC ; std::allocator_traits<std::allocator<Matrix<float,4,3,1> > >::max_size, COMDAT
-
-; 869  : 		return (_Al.max_size());
-
-	mov	rax, 384307168202282325			; 0555555555555555H
-
-; 870  : 		}
-
-	ret	0
-?max_size@?$allocator_traits@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@SA_KAEBV?$allocator@V?$Matrix@M$03$02$00@@@2@@Z ENDP ; std::allocator_traits<std::allocator<Matrix<float,4,3,1> > >::max_size
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-;	COMDAT ?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$03$00@@@std@@@2@$00@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$03$00@@@std@@@2@$00@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@2@XZ PROC ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,2,4,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,2,4,1> > >,1>::_Get_first, COMDAT
-
-; 300  : 		return (*this);
-
-	mov	rax, rcx
-
-; 301  : 		}
-
-	ret	0
-?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$03$00@@@std@@@2@$00@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@2@XZ ENDP ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,2,4,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,2,4,1> > >,1>::_Get_first
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?max_size@?$allocator_traits@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@SA_KAEBV?$allocator@V?$Matrix@M$01$03$00@@@2@@Z
-_TEXT	SEGMENT
-_Al$dead$ = 8
-?max_size@?$allocator_traits@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@SA_KAEBV?$allocator@V?$Matrix@M$01$03$00@@@2@@Z PROC ; std::allocator_traits<std::allocator<Matrix<float,2,4,1> > >::max_size, COMDAT
-
-; 869  : 		return (_Al.max_size());
-
-	mov	rax, 576460752303423487			; 07ffffffffffffffH
-
-; 870  : 		}
-
-	ret	0
-?max_size@?$allocator_traits@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@SA_KAEBV?$allocator@V?$Matrix@M$01$03$00@@@2@@Z ENDP ; std::allocator_traits<std::allocator<Matrix<float,2,4,1> > >::max_size
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-;	COMDAT ?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$01$00@@@std@@@2@$00@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$01$00@@@std@@@2@$00@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@2@XZ PROC ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,4,2,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,4,2,1> > >,1>::_Get_first, COMDAT
-
-; 300  : 		return (*this);
-
-	mov	rax, rcx
-
-; 301  : 		}
-
-	ret	0
-?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$01$00@@@std@@@2@$00@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@2@XZ ENDP ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,4,2,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,4,2,1> > >,1>::_Get_first
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?max_size@?$allocator_traits@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@SA_KAEBV?$allocator@V?$Matrix@M$03$01$00@@@2@@Z
-_TEXT	SEGMENT
-_Al$dead$ = 8
-?max_size@?$allocator_traits@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@SA_KAEBV?$allocator@V?$Matrix@M$03$01$00@@@2@@Z PROC ; std::allocator_traits<std::allocator<Matrix<float,4,2,1> > >::max_size, COMDAT
-
-; 869  : 		return (_Al.max_size());
-
-	mov	rax, 576460752303423487			; 07ffffffffffffffH
-
-; 870  : 		}
-
-	ret	0
-?max_size@?$allocator_traits@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@SA_KAEBV?$allocator@V?$Matrix@M$03$01$00@@@2@@Z ENDP ; std::allocator_traits<std::allocator<Matrix<float,4,2,1> > >::max_size
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-;	COMDAT ?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$03$00@@@std@@@2@$00@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$03$00@@@std@@@2@$00@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@2@XZ PROC ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,4,4,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,4,4,1> > >,1>::_Get_first, COMDAT
-
-; 300  : 		return (*this);
-
-	mov	rax, rcx
-
-; 301  : 		}
-
-	ret	0
-?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$03$00@@@std@@@2@$00@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@2@XZ ENDP ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,4,4,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,4,4,1> > >,1>::_Get_first
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?max_size@?$allocator_traits@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@SA_KAEBV?$allocator@V?$Matrix@M$03$03$00@@@2@@Z
-_TEXT	SEGMENT
-_Al$dead$ = 8
-?max_size@?$allocator_traits@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@SA_KAEBV?$allocator@V?$Matrix@M$03$03$00@@@2@@Z PROC ; std::allocator_traits<std::allocator<Matrix<float,4,4,1> > >::max_size, COMDAT
-
-; 869  : 		return (_Al.max_size());
-
-	mov	rax, 288230376151711743			; 03ffffffffffffffH
-
-; 870  : 		}
-
-	ret	0
-?max_size@?$allocator_traits@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@SA_KAEBV?$allocator@V?$Matrix@M$03$03$00@@@2@@Z ENDP ; std::allocator_traits<std::allocator<Matrix<float,4,4,1> > >::max_size
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-;	COMDAT ?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$02$00@@@std@@@2@$00@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$02$00@@@std@@@2@$00@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@2@XZ PROC ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,3,3,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,3,3,1> > >,1>::_Get_first, COMDAT
-
-; 300  : 		return (*this);
-
-	mov	rax, rcx
-
-; 301  : 		}
-
-	ret	0
-?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$02$00@@@std@@@2@$00@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@2@XZ ENDP ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,3,3,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,3,3,1> > >,1>::_Get_first
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?max_size@?$allocator_traits@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@SA_KAEBV?$allocator@V?$Matrix@M$02$02$00@@@2@@Z
-_TEXT	SEGMENT
-_Al$dead$ = 8
-?max_size@?$allocator_traits@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@SA_KAEBV?$allocator@V?$Matrix@M$02$02$00@@@2@@Z PROC ; std::allocator_traits<std::allocator<Matrix<float,3,3,1> > >::max_size, COMDAT
-
-; 869  : 		return (_Al.max_size());
-
-	mov	rax, 384307168202282325			; 0555555555555555H
-
-; 870  : 		}
-
-	ret	0
-?max_size@?$allocator_traits@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@SA_KAEBV?$allocator@V?$Matrix@M$02$02$00@@@2@@Z ENDP ; std::allocator_traits<std::allocator<Matrix<float,3,3,1> > >::max_size
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-;	COMDAT ?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$01$00@@@std@@@2@$00@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@2@XZ
-_TEXT	SEGMENT
-this$ = 8
-?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$01$00@@@std@@@2@$00@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@2@XZ PROC ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,2,2,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,2,2,1> > >,1>::_Get_first, COMDAT
-
-; 300  : 		return (*this);
-
-	mov	rax, rcx
-
-; 301  : 		}
-
-	ret	0
-?_Get_first@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$01$00@@@std@@@2@$00@std@@QEBAAEBU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@2@XZ ENDP ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,2,2,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,2,2,1> > >,1>::_Get_first
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?max_size@?$allocator_traits@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@SA_KAEBV?$allocator@V?$Matrix@M$01$01$00@@@2@@Z
-_TEXT	SEGMENT
-_Al$dead$ = 8
-?max_size@?$allocator_traits@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@SA_KAEBV?$allocator@V?$Matrix@M$01$01$00@@@2@@Z PROC ; std::allocator_traits<std::allocator<Matrix<float,2,2,1> > >::max_size, COMDAT
-
-; 869  : 		return (_Al.max_size());
-
-	mov	rax, 1152921504606846975		; 0fffffffffffffffH
-
-; 870  : 		}
-
-	ret	0
-?max_size@?$allocator_traits@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@SA_KAEBV?$allocator@V?$Matrix@M$01$01$00@@@2@@Z ENDP ; std::allocator_traits<std::allocator<Matrix<float,2,2,1> > >::max_size
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?max_size@?$allocator@V?$Matrix@M$02$03$00@@@std@@QEBA_KXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?max_size@?$allocator@V?$Matrix@M$02$03$00@@@std@@QEBA_KXZ PROC ; std::allocator<Matrix<float,3,4,1> >::max_size, COMDAT
-
-; 749  : 		return ((size_t)(-1) / sizeof (_Ty));
-
-	mov	rax, 288230376151711743			; 03ffffffffffffffH
-
-; 750  : 		}
-
-	ret	0
-?max_size@?$allocator@V?$Matrix@M$02$03$00@@@std@@QEBA_KXZ ENDP ; std::allocator<Matrix<float,3,4,1> >::max_size
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?max_size@?$allocator@V?$Matrix@M$03$02$00@@@std@@QEBA_KXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?max_size@?$allocator@V?$Matrix@M$03$02$00@@@std@@QEBA_KXZ PROC ; std::allocator<Matrix<float,4,3,1> >::max_size, COMDAT
-
-; 749  : 		return ((size_t)(-1) / sizeof (_Ty));
-
-	mov	rax, 384307168202282325			; 0555555555555555H
-
-; 750  : 		}
-
-	ret	0
-?max_size@?$allocator@V?$Matrix@M$03$02$00@@@std@@QEBA_KXZ ENDP ; std::allocator<Matrix<float,4,3,1> >::max_size
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?max_size@?$allocator@V?$Matrix@M$01$03$00@@@std@@QEBA_KXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?max_size@?$allocator@V?$Matrix@M$01$03$00@@@std@@QEBA_KXZ PROC ; std::allocator<Matrix<float,2,4,1> >::max_size, COMDAT
-
-; 749  : 		return ((size_t)(-1) / sizeof (_Ty));
-
-	mov	rax, 576460752303423487			; 07ffffffffffffffH
-
-; 750  : 		}
-
-	ret	0
-?max_size@?$allocator@V?$Matrix@M$01$03$00@@@std@@QEBA_KXZ ENDP ; std::allocator<Matrix<float,2,4,1> >::max_size
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?max_size@?$allocator@V?$Matrix@M$03$01$00@@@std@@QEBA_KXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?max_size@?$allocator@V?$Matrix@M$03$01$00@@@std@@QEBA_KXZ PROC ; std::allocator<Matrix<float,4,2,1> >::max_size, COMDAT
-
-; 749  : 		return ((size_t)(-1) / sizeof (_Ty));
-
-	mov	rax, 576460752303423487			; 07ffffffffffffffH
-
-; 750  : 		}
-
-	ret	0
-?max_size@?$allocator@V?$Matrix@M$03$01$00@@@std@@QEBA_KXZ ENDP ; std::allocator<Matrix<float,4,2,1> >::max_size
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?max_size@?$allocator@V?$Matrix@M$03$03$00@@@std@@QEBA_KXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?max_size@?$allocator@V?$Matrix@M$03$03$00@@@std@@QEBA_KXZ PROC ; std::allocator<Matrix<float,4,4,1> >::max_size, COMDAT
-
-; 749  : 		return ((size_t)(-1) / sizeof (_Ty));
-
-	mov	rax, 288230376151711743			; 03ffffffffffffffH
-
-; 750  : 		}
-
-	ret	0
-?max_size@?$allocator@V?$Matrix@M$03$03$00@@@std@@QEBA_KXZ ENDP ; std::allocator<Matrix<float,4,4,1> >::max_size
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?max_size@?$allocator@V?$Matrix@M$02$02$00@@@std@@QEBA_KXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?max_size@?$allocator@V?$Matrix@M$02$02$00@@@std@@QEBA_KXZ PROC ; std::allocator<Matrix<float,3,3,1> >::max_size, COMDAT
-
-; 749  : 		return ((size_t)(-1) / sizeof (_Ty));
-
-	mov	rax, 384307168202282325			; 0555555555555555H
-
-; 750  : 		}
-
-	ret	0
-?max_size@?$allocator@V?$Matrix@M$02$02$00@@@std@@QEBA_KXZ ENDP ; std::allocator<Matrix<float,3,3,1> >::max_size
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ?max_size@?$allocator@V?$Matrix@M$01$01$00@@@std@@QEBA_KXZ
-_TEXT	SEGMENT
-this$dead$ = 8
-?max_size@?$allocator@V?$Matrix@M$01$01$00@@@std@@QEBA_KXZ PROC ; std::allocator<Matrix<float,2,2,1> >::max_size, COMDAT
-
-; 749  : 		return ((size_t)(-1) / sizeof (_Ty));
-
-	mov	rax, 1152921504606846975		; 0fffffffffffffffH
-
-; 750  : 		}
-
-	ret	0
-?max_size@?$allocator@V?$Matrix@M$01$01$00@@@std@@QEBA_KXZ ENDP ; std::allocator<Matrix<float,2,2,1> >::max_size
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
 ; File c:\home\programming\mathter\mathter\vector.hpp
 ;	COMDAT ??$Assign@MMM$0A@@?$Vector@M$02@@IEAAXHMMM@Z
 _TEXT	SEGMENT
@@ -20900,15 +8995,15 @@ head$ = 24
 <scalars_1>$ = 40
 ??$Assign@MMM$0A@@?$Vector@M$02@@IEAAXHMMM@Z PROC	; Vector<float,3>::Assign<float,float,float,0>, COMDAT
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 	mov	QWORD PTR [rcx], rax
 	mov	DWORD PTR [rcx+8], eax
 
-; 844  : 		data[idx] = head;
-; 845  : 		Assign(idx + 1, scalars...);
-; 846  : 	}
+; 843  : 		data[idx] = head;
+; 844  : 		Assign(idx + 1, scalars...);
+; 845  : 	}
 
 	ret	0
 ??$Assign@MMM$0A@@?$Vector@M$02@@IEAAXHMMM@Z ENDP	; Vector<float,3>::Assign<float,float,float,0>
@@ -20925,15 +9020,15 @@ head$ = 24
 <scalars_2>$ = 48
 ??$Assign@MMMM$0A@@?$Vector@M$03@@IEAAXHMMMM@Z PROC	; Vector<float,4>::Assign<float,float,float,float,0>, COMDAT
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 	mov	QWORD PTR [rcx], rax
 	mov	QWORD PTR [rcx+8], rax
 
-; 844  : 		data[idx] = head;
-; 845  : 		Assign(idx + 1, scalars...);
-; 846  : 	}
+; 843  : 		data[idx] = head;
+; 844  : 		Assign(idx + 1, scalars...);
+; 845  : 	}
 
 	ret	0
 ??$Assign@MMMM$0A@@?$Vector@M$03@@IEAAXHMMMM@Z ENDP	; Vector<float,4>::Assign<float,float,float,float,0>
@@ -20948,7 +9043,7 @@ head$ = 24
 <mixed_0>$ = 32
 ??$Assign@V?$Vector@M$03@@V1@$0A@@?$Vector@M$07@@IEAAXHAEBV?$Vector@M$03@@0@Z PROC ; Vector<float,8>::Assign<Vector<float,4>,Vector<float,4>,0>, COMDAT
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 	mov	QWORD PTR [rcx], rax
@@ -20956,12 +9051,12 @@ head$ = 24
 	mov	QWORD PTR [rcx+16], rax
 	mov	QWORD PTR [rcx+24], rax
 
-; 851  : 		for (int i = 0; i < DimensionOf<Head>::value; ++i) {
-; 852  : 			data[idx] = GetVectorElement<Head>::Get(head, i);
-; 853  : 			++idx;
-; 854  : 		}
-; 855  : 		Assign(idx, mixed...);
-; 856  : 	}
+; 850  : 		for (int i = 0; i < DimensionOf<Head>::value; ++i) {
+; 851  : 			data[idx] = GetVectorElement<Head>::Get(head, i);
+; 852  : 			++idx;
+; 853  : 		}
+; 854  : 		Assign(idx, mixed...);
+; 855  : 	}
 
 	ret	0
 ??$Assign@V?$Vector@M$03@@V1@$0A@@?$Vector@M$07@@IEAAXHAEBV?$Vector@M$03@@0@Z ENDP ; Vector<float,8>::Assign<Vector<float,4>,Vector<float,4>,0>
@@ -20982,15 +9077,15 @@ head$dead$ = 24
 <scalars_6>$dead$ = 80
 ??$Assign@HHHHHHHH$0A@@?$Vector@M$07@@IEAAXHHHHHHHHH@Z PROC ; Vector<float,8>::Assign<int,int,int,int,int,int,int,int,0>, COMDAT
 
-; 844  : 		data[idx] = head;
+; 843  : 		data[idx] = head;
 
 	mov	DWORD PTR [rcx], 1065353216		; 3f800000H
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 
-; 844  : 		data[idx] = head;
+; 843  : 		data[idx] = head;
 
 	mov	DWORD PTR [rcx+4], 1073741824		; 40000000H
 	mov	DWORD PTR [rcx+8], 1077936128		; 40400000H
@@ -21000,15 +9095,15 @@ head$dead$ = 24
 	mov	DWORD PTR [rcx+24], 1088421888		; 40e00000H
 	mov	DWORD PTR [rcx+28], 1090519040		; 41000000H
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	mov	QWORD PTR [rcx], rax
 	mov	QWORD PTR [rcx+8], rax
 	mov	QWORD PTR [rcx+16], rax
 	mov	QWORD PTR [rcx+24], rax
 
-; 845  : 		Assign(idx + 1, scalars...);
-; 846  : 	}
+; 844  : 		Assign(idx + 1, scalars...);
+; 845  : 	}
 
 	ret	0
 ??$Assign@HHHHHHHH$0A@@?$Vector@M$07@@IEAAXHHHHHHHHH@Z ENDP ; Vector<float,8>::Assign<int,int,int,int,int,int,int,int,0>
@@ -21022,21 +9117,21 @@ idx$ = 16
 head$ = 24
 ??$Assign@H$$V$0A@@?$Vector@M$02@@IEAAXHH@Z PROC	; Vector<float,3>::Assign<int,0>, COMDAT
 
-; 844  : 		data[idx] = head;
+; 843  : 		data[idx] = head;
 
 	movsxd	rax, edx
 	movd	xmm0, r8d
 	cvtdq2ps xmm0, xmm0
 	movss	DWORD PTR [rcx+rax*4], xmm0
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 	mov	QWORD PTR [rcx], rax
 	mov	DWORD PTR [rcx+8], eax
 
-; 845  : 		Assign(idx + 1, scalars...);
-; 846  : 	}
+; 844  : 		Assign(idx + 1, scalars...);
+; 845  : 	}
 
 	ret	0
 ??$Assign@H$$V$0A@@?$Vector@M$02@@IEAAXHH@Z ENDP	; Vector<float,3>::Assign<int,0>
@@ -21050,8 +9145,8 @@ idx$ = 16
 head$ = 24
 ??$Assign@V?$Vector@M$02@@$$V$0A@@?$Vector@M$03@@IEAAXHAEBV?$Vector@M$02@@@Z PROC ; Vector<float,4>::Assign<Vector<float,3>,0>, COMDAT
 
-; 851  : 		for (int i = 0; i < DimensionOf<Head>::value; ++i) {
-; 852  : 			data[idx] = GetVectorElement<Head>::Get(head, i);
+; 850  : 		for (int i = 0; i < DimensionOf<Head>::value; ++i) {
+; 851  : 			data[idx] = GetVectorElement<Head>::Get(head, i);
 
 	mov	eax, DWORD PTR [r8]
 	movsxd	r9, edx
@@ -21061,16 +9156,16 @@ head$ = 24
 	mov	eax, DWORD PTR [r8+8]
 	mov	DWORD PTR [rcx+r9*4+8], eax
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 	mov	QWORD PTR [rcx], rax
 	mov	QWORD PTR [rcx+8], rax
 
-; 853  : 			++idx;
-; 854  : 		}
-; 855  : 		Assign(idx, mixed...);
-; 856  : 	}
+; 852  : 			++idx;
+; 853  : 		}
+; 854  : 		Assign(idx, mixed...);
+; 855  : 	}
 
 	ret	0
 ??$Assign@V?$Vector@M$02@@$$V$0A@@?$Vector@M$03@@IEAAXHAEBV?$Vector@M$02@@@Z ENDP ; Vector<float,4>::Assign<Vector<float,3>,0>
@@ -21086,26 +9181,26 @@ head$dead$ = 24
 <scalars_1>$dead$ = 40
 ??$Assign@HHH$0A@@?$Vector@M$02@@IEAAXHHHH@Z PROC	; Vector<float,3>::Assign<int,int,int,0>, COMDAT
 
-; 844  : 		data[idx] = head;
+; 843  : 		data[idx] = head;
 
 	mov	DWORD PTR [rcx], 1065353216		; 3f800000H
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 
-; 844  : 		data[idx] = head;
+; 843  : 		data[idx] = head;
 
 	mov	DWORD PTR [rcx+4], 1073741824		; 40000000H
 	mov	DWORD PTR [rcx+8], 1077936128		; 40400000H
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	mov	QWORD PTR [rcx], rax
 	mov	DWORD PTR [rcx+8], eax
 
-; 845  : 		Assign(idx + 1, scalars...);
-; 846  : 	}
+; 844  : 		Assign(idx + 1, scalars...);
+; 845  : 	}
 
 	ret	0
 ??$Assign@HHH$0A@@?$Vector@M$02@@IEAAXHHHH@Z ENDP	; Vector<float,3>::Assign<int,int,int,0>
@@ -21120,1371 +9215,21 @@ head$ = 24
 <mixed_0>$ = 32
 ??$Assign@MV?$Vector@M$02@@$0A@@?$Vector@M$03@@IEAAXHAEBMAEBV?$Vector@M$02@@@Z PROC ; Vector<float,4>::Assign<float,Vector<float,3>,0>, COMDAT
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 	mov	QWORD PTR [rcx], rax
 	mov	QWORD PTR [rcx+8], rax
 
-; 851  : 		for (int i = 0; i < DimensionOf<Head>::value; ++i) {
-; 852  : 			data[idx] = GetVectorElement<Head>::Get(head, i);
-; 853  : 			++idx;
-; 854  : 		}
-; 855  : 		Assign(idx, mixed...);
-; 856  : 	}
+; 850  : 		for (int i = 0; i < DimensionOf<Head>::value; ++i) {
+; 851  : 			data[idx] = GetVectorElement<Head>::Get(head, i);
+; 852  : 			++idx;
+; 853  : 		}
+; 854  : 		Assign(idx, mixed...);
+; 855  : 	}
 
 	ret	0
 ??$Assign@MV?$Vector@M$02@@$0A@@?$Vector@M$03@@IEAAXHAEBMAEBV?$Vector@M$02@@@Z ENDP ; Vector<float,4>::Assign<float,Vector<float,3>,0>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-;	COMDAT ??$?HM$03@@YA?AV?$Vector@M$03@@AEBV0@0@Z
-_TEXT	SEGMENT
-__$ReturnUdt$ = 8
-lhs$ = 16
-rhs$ = 24
-??$?HM$03@@YA?AV?$Vector@M$03@@AEBV0@0@Z PROC		; operator+<float,4>, COMDAT
-
-; 888  : 	auto tmp = lhs;
-
-	movaps	xmm1, XMMWORD PTR [rdx]
-
-; 889  : 	tmp += rhs;
-; 890  : 	return tmp;
-
-	mov	rax, rcx
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 25   : 		res.reg = _mm_add_ps(lhs.reg, rhs.reg);
-
-	addps	xmm1, XMMWORD PTR [r8]
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 464  : 		simd = Simd4f::add(simd, rhs.simd);
-
-	movaps	XMMWORD PTR [rcx], xmm1
-
-; 891  : }
-
-	ret	0
-??$?HM$03@@YA?AV?$Vector@M$03@@AEBV0@0@Z ENDP		; operator+<float,4>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ??$?DMM$01$01$01$00$00MX@@YA?AV?$Matrix@M$01$01$00@@AEBV0@0@Z
-_TEXT	SEGMENT
-scalarMultiplier$ = 8
-__$ReturnUdt$ = 8
-lhs$ = 16
-rhs$ = 24
-??$?DMM$01$01$01$00$00MX@@YA?AV?$Matrix@M$01$01$00@@AEBV0@0@Z PROC ; operator*<float,float,2,2,2,1,1,float,void>, COMDAT
-
-; 139  : 	using ResultT = Matrix<V, Columns2, Rows1, Order1>;
-; 140  : 
-; 141  : 	ResultT result;
-; 142  : 
-; 143  : 	VectorSpec<V, Columns2> scalarMultiplier;
-; 144  : 	for (int y = 0; y < Rows1; ++y) {
-; 145  : 		scalarMultiplier = rhs.stripes[0];
-
-	mov	rax, QWORD PTR [r8]
-	mov	QWORD PTR scalarMultiplier$[rsp], rax
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 174  : 		this->x *= rhs;
-
-	movss	xmm0, DWORD PTR scalarMultiplier$[rsp]
-	mulss	xmm0, DWORD PTR [rdx]
-
-; 175  : 		this->y *= rhs;
-
-	movss	xmm1, DWORD PTR scalarMultiplier$[rsp+4]
-	mulss	xmm1, DWORD PTR [rdx]
-	movss	DWORD PTR scalarMultiplier$[rsp], xmm0
-	movss	DWORD PTR scalarMultiplier$[rsp+4], xmm1
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 147  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
-
-	mov	rax, QWORD PTR scalarMultiplier$[rsp]
-	mov	QWORD PTR [rcx], rax
-	mov	rax, QWORD PTR [r8]
-	mov	QWORD PTR scalarMultiplier$[rsp], rax
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 175  : 		this->y *= rhs;
-
-	movss	xmm1, DWORD PTR scalarMultiplier$[rsp+4]
-	mulss	xmm1, DWORD PTR [rdx+8]
-	movss	xmm0, DWORD PTR scalarMultiplier$[rsp]
-	mulss	xmm0, DWORD PTR [rdx+8]
-	movss	DWORD PTR scalarMultiplier$[rsp+4], xmm1
-	movss	DWORD PTR scalarMultiplier$[rsp], xmm0
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 147  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
-
-	mov	rax, QWORD PTR scalarMultiplier$[rsp]
-	mov	QWORD PTR [rcx+8], rax
-
-; 151  : 			scalarMultiplier = rhs.stripes[x];
-
-	mov	rax, QWORD PTR [r8+8]
-	mov	QWORD PTR scalarMultiplier$[rsp], rax
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 174  : 		this->x *= rhs;
-
-	movss	xmm1, DWORD PTR scalarMultiplier$[rsp]
-	mulss	xmm1, DWORD PTR [rdx+4]
-
-; 175  : 		this->y *= rhs;
-
-	movss	xmm2, DWORD PTR scalarMultiplier$[rsp+4]
-	mulss	xmm2, DWORD PTR [rdx+4]
-
-; 164  : 		this->x += rhs.x;
-
-	addss	xmm1, DWORD PTR [rcx]
-
-; 165  : 		this->y += rhs.y;
-
-	addss	xmm2, DWORD PTR [rcx+4]
-	movss	DWORD PTR [rcx], xmm1
-	movss	DWORD PTR [rcx+4], xmm2
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 151  : 			scalarMultiplier = rhs.stripes[x];
-
-	mov	rax, QWORD PTR [r8+8]
-	mov	QWORD PTR scalarMultiplier$[rsp], rax
-
-; 152  : 			scalarMultiplier.mul(lhs(x, y));
-; 153  : 			static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]).add(scalarMultiplier);
-; 154  : 		}
-; 155  : 	}
-; 156  : 
-; 157  : 	return result;
-
-	mov	rax, rcx
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 174  : 		this->x *= rhs;
-
-	movss	xmm1, DWORD PTR scalarMultiplier$[rsp]
-	mulss	xmm1, DWORD PTR [rdx+12]
-
-; 175  : 		this->y *= rhs;
-
-	movss	xmm2, DWORD PTR scalarMultiplier$[rsp+4]
-	mulss	xmm2, DWORD PTR [rdx+12]
-
-; 164  : 		this->x += rhs.x;
-
-	addss	xmm1, DWORD PTR [rcx+8]
-	movss	DWORD PTR [rcx+8], xmm1
-
-; 165  : 		this->y += rhs.y;
-
-	addss	xmm2, DWORD PTR [rcx+12]
-	movss	DWORD PTR [rcx+12], xmm2
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 158  : }
-
-	ret	0
-??$?DMM$01$01$01$00$00MX@@YA?AV?$Matrix@M$01$01$00@@AEBV0@0@Z ENDP ; operator*<float,float,2,2,2,1,1,float,void>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\chrono
-;	COMDAT ??$?GUsteady_clock@chrono@std@@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@12@V312@@chrono@std@@YA?AV?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@01@AEBV?$time_point@Usteady_clock@chrono@std@@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@23@@01@0@Z
-_TEXT	SEGMENT
-__$ReturnUdt$ = 8
-_Left$ = 16
-_Right$ = 24
-??$?GUsteady_clock@chrono@std@@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@12@V312@@chrono@std@@YA?AV?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@01@AEBV?$time_point@Usteady_clock@chrono@std@@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@23@@01@0@Z PROC ; std::chrono::operator-<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> >,std::chrono::duration<__int64,std::ratio<1,1000000000> > >, COMDAT
-
-; 353  : 	return (_CD(_CD(_Left).count() - _CD(_Right).count()));
-
-	mov	rax, QWORD PTR [rdx]
-	sub	rax, QWORD PTR [r8]
-
-; 116  : 			: _MyRep(static_cast<_Rep>(_Val))
-
-	mov	QWORD PTR [rcx], rax
-
-; 848  : 	return (_Left.time_since_epoch() - _Right.time_since_epoch());
-
-	mov	rax, rcx
-
-; 849  : 	}
-
-	ret	0
-??$?GUsteady_clock@chrono@std@@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@12@V312@@chrono@std@@YA?AV?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@01@AEBV?$time_point@Usteady_clock@chrono@std@@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@23@@01@0@Z ENDP ; std::chrono::operator-<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> >,std::chrono::duration<__int64,std::ratio<1,1000000000> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\chrono
-;	COMDAT ??$duration_cast@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@chrono@std@@_JU?$ratio@$00$0DLJKMKAA@@3@@chrono@std@@YA?AV?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@01@AEBV201@@Z
-_TEXT	SEGMENT
-__$ReturnUdt$ = 8
-_Dur$ = 16
-??$duration_cast@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@chrono@std@@_JU?$ratio@$00$0DLJKMKAA@@3@@chrono@std@@YA?AV?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@01@AEBV201@@Z PROC ; std::chrono::duration_cast<std::chrono::duration<__int64,std::ratio<1,1000000000> >,__int64,std::ratio<1,1000000000> >, COMDAT
-
-; 552  : 	typedef ratio_divide<_Period, typename _To::period> _CF;
-; 553  : 
-; 554  : 	typedef typename _To::rep _ToRep;
-; 555  : 	typedef typename common_type<_ToRep, _Rep, intmax_t>::type _CR;
-; 556  : 	return (_CF::num == 1 && _CF::den == 1
-
-	mov	rax, QWORD PTR [rdx]
-	mov	QWORD PTR [rcx], rax
-	mov	rax, rcx
-
-; 557  : 			? static_cast<_To>(static_cast<_ToRep>(_Dur.count()))
-; 558  : 		: _CF::num != 1 && _CF::den == 1
-; 559  : 			? static_cast<_To>(static_cast<_ToRep>(
-; 560  : 				static_cast<_CR>(
-; 561  : 					_Dur.count()) * static_cast<_CR>(_CF::num)))
-; 562  : 		: _CF::num == 1 && _CF::den != 1
-; 563  : 			? static_cast<_To>(static_cast<_ToRep>(
-; 564  : 				static_cast<_CR>(_Dur.count())
-; 565  : 					/ static_cast<_CR>(_CF::den)))
-; 566  : 		: static_cast<_To>(static_cast<_ToRep>(
-; 567  : 			static_cast<_CR>(_Dur.count()) * static_cast<_CR>(_CF::num)
-; 568  : 				/ static_cast<_CR>(_CF::den))));
-; 569  : 	}
-
-	ret	0
-??$duration_cast@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@chrono@std@@_JU?$ratio@$00$0DLJKMKAA@@3@@chrono@std@@YA?AV?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@01@AEBV201@@Z ENDP ; std::chrono::duration_cast<std::chrono::duration<__int64,std::ratio<1,1000000000> >,__int64,std::ratio<1,1000000000> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ??$?DMM$03$02$02$00$00MX@@YA?AV?$Matrix@M$02$02$00@@AEBV?$Matrix@M$03$02$00@@AEBV?$Matrix@M$02$03$00@@@Z
-_TEXT	SEGMENT
-__$ReturnUdt$ = 8
-lhs$ = 16
-rhs$ = 24
-??$?DMM$03$02$02$00$00MX@@YA?AV?$Matrix@M$02$02$00@@AEBV?$Matrix@M$03$02$00@@AEBV?$Matrix@M$02$03$00@@@Z PROC ; operator*<float,float,4,3,3,1,1,float,void>, COMDAT
-
-; 144  : 	for (int y = 0; y < Rows1; ++y) {
-
-	mov	r10, rdx
-	mov	r11, rcx
-	sub	r10, rcx
-	mov	rax, rcx
-	mov	r9d, 3
-$LL4@operator:
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 37   : 		__m128 tmp = _mm_set1_ps(rhs);
-
-	movss	xmm1, DWORD PTR [r10+rax]
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 144  : 	for (int y = 0; y < Rows1; ++y) {
-
-	lea	rax, QWORD PTR [rax+16]
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 37   : 		__m128 tmp = _mm_set1_ps(rhs);
-
-	shufps	xmm1, xmm1, 0
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 145  : 		scalarMultiplier = rhs.stripes[0];
-
-	movups	xmm0, XMMWORD PTR [r8]
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 38   : 		res.reg = _mm_mul_ps(lhs.reg, tmp);
-
-	mulps	xmm1, xmm0
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 147  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
-
-	movups	XMMWORD PTR [rax-16], xmm1
-	sub	r9, 1
-	jne	SHORT $LL4@operator
-
-; 148  : 	}
-; 149  : 	for (int x = 1; x < Match; ++x) {
-
-	lea	r9, QWORD PTR [rdx+4]
-	mov	r10d, 3
-	lea	rdx, QWORD PTR [r8+16]
-	npad	1
-$LL7@operator:
-
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
-
-	mov	rax, r11
-	mov	rcx, r9
-	mov	r8d, 3
-	npad	4
-$LL10@operator:
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 37   : 		__m128 tmp = _mm_set1_ps(rhs);
-
-	movss	xmm0, DWORD PTR [rcx]
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
-
-	add	rcx, 16
-
-; 151  : 			scalarMultiplier = rhs.stripes[x];
-
-	movups	xmm1, XMMWORD PTR [rdx]
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 37   : 		__m128 tmp = _mm_set1_ps(rhs);
-
-	shufps	xmm0, xmm0, 0
-
-; 38   : 		res.reg = _mm_mul_ps(lhs.reg, tmp);
-
-	mulps	xmm1, xmm0
-
-; 25   : 		res.reg = _mm_add_ps(lhs.reg, rhs.reg);
-
-	addps	xmm1, XMMWORD PTR [rax]
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 404  : 		simd = Simd4f::add(simd, rhs.simd);
-
-	movaps	XMMWORD PTR [rax], xmm1
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
-
-	add	rax, 16
-	sub	r8, 1
-	jne	SHORT $LL10@operator
-
-; 148  : 	}
-; 149  : 	for (int x = 1; x < Match; ++x) {
-
-	add	rdx, 16
-	add	r9, 4
-	sub	r10, 1
-	jne	SHORT $LL7@operator
-
-; 152  : 			scalarMultiplier.mul(lhs(x, y));
-; 153  : 			static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]).add(scalarMultiplier);
-; 154  : 		}
-; 155  : 	}
-; 156  : 
-; 157  : 	return result;
-
-	mov	rax, r11
-
-; 158  : }
-
-	ret	0
-??$?DMM$03$02$02$00$00MX@@YA?AV?$Matrix@M$02$02$00@@AEBV?$Matrix@M$03$02$00@@AEBV?$Matrix@M$02$03$00@@@Z ENDP ; operator*<float,float,4,3,3,1,1,float,void>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ??$?DMM$02$03$03$00$00MX@@YA?AV?$Matrix@M$03$03$00@@AEBV?$Matrix@M$02$03$00@@AEBV?$Matrix@M$03$02$00@@@Z
-_TEXT	SEGMENT
-__$ReturnUdt$ = 8
-lhs$ = 16
-rhs$ = 24
-??$?DMM$02$03$03$00$00MX@@YA?AV?$Matrix@M$03$03$00@@AEBV?$Matrix@M$02$03$00@@AEBV?$Matrix@M$03$02$00@@@Z PROC ; operator*<float,float,3,4,4,1,1,float,void>, COMDAT
-
-; 144  : 	for (int y = 0; y < Rows1; ++y) {
-
-	mov	r10, rdx
-	mov	r11, rcx
-	sub	r10, rcx
-	mov	rax, rcx
-	mov	r9d, 4
-$LL4@operator:
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 37   : 		__m128 tmp = _mm_set1_ps(rhs);
-
-	movss	xmm1, DWORD PTR [r10+rax]
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 144  : 	for (int y = 0; y < Rows1; ++y) {
-
-	lea	rax, QWORD PTR [rax+16]
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 37   : 		__m128 tmp = _mm_set1_ps(rhs);
-
-	shufps	xmm1, xmm1, 0
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 145  : 		scalarMultiplier = rhs.stripes[0];
-
-	movups	xmm0, XMMWORD PTR [r8]
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 38   : 		res.reg = _mm_mul_ps(lhs.reg, tmp);
-
-	mulps	xmm1, xmm0
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 147  : 		static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]) = scalarMultiplier;
-
-	movups	XMMWORD PTR [rax-16], xmm1
-	sub	r9, 1
-	jne	SHORT $LL4@operator
-
-; 148  : 	}
-; 149  : 	for (int x = 1; x < Match; ++x) {
-
-	lea	r9, QWORD PTR [rdx+4]
-	mov	r10d, 2
-	lea	rdx, QWORD PTR [r8+16]
-	npad	1
-$LL7@operator:
-
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
-
-	mov	rax, r11
-	mov	rcx, r9
-	mov	r8d, 4
-	npad	4
-$LL10@operator:
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 37   : 		__m128 tmp = _mm_set1_ps(rhs);
-
-	movss	xmm0, DWORD PTR [rcx]
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
-
-	add	rcx, 16
-
-; 151  : 			scalarMultiplier = rhs.stripes[x];
-
-	movups	xmm1, XMMWORD PTR [rdx]
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 37   : 		__m128 tmp = _mm_set1_ps(rhs);
-
-	shufps	xmm0, xmm0, 0
-
-; 38   : 		res.reg = _mm_mul_ps(lhs.reg, tmp);
-
-	mulps	xmm1, xmm0
-
-; 25   : 		res.reg = _mm_add_ps(lhs.reg, rhs.reg);
-
-	addps	xmm1, XMMWORD PTR [rax]
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 464  : 		simd = Simd4f::add(simd, rhs.simd);
-
-	movaps	XMMWORD PTR [rax], xmm1
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 150  : 		for (int y = 0; y < Rows1; ++y) {
-
-	add	rax, 16
-	sub	r8, 1
-	jne	SHORT $LL10@operator
-
-; 148  : 	}
-; 149  : 	for (int x = 1; x < Match; ++x) {
-
-	add	rdx, 16
-	add	r9, 4
-	sub	r10, 1
-	jne	SHORT $LL7@operator
-
-; 152  : 			scalarMultiplier.mul(lhs(x, y));
-; 153  : 			static_cast<VectorSpec<V, Columns2>&>(result.stripes[y]).add(scalarMultiplier);
-; 154  : 		}
-; 155  : 	}
-; 156  : 
-; 157  : 	return result;
-
-	mov	rax, r11
-
-; 158  : }
-
-	ret	0
-??$?DMM$02$03$03$00$00MX@@YA?AV?$Matrix@M$03$03$00@@AEBV?$Matrix@M$02$03$00@@AEBV?$Matrix@M$03$02$00@@@Z ENDP ; operator*<float,float,3,4,4,1,1,float,void>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-;	COMDAT ??$_Uninitialized_default_fill_n@PEAV?$Matrix@M$02$03$00@@_KV?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@YAXPEAV?$Matrix@M$02$03$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@0@@Z
-_TEXT	SEGMENT
-_First$ = 8
-_Count$dead$ = 16
-_Al$dead$ = 24
-??$_Uninitialized_default_fill_n@PEAV?$Matrix@M$02$03$00@@_KV?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@YAXPEAV?$Matrix@M$02$03$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@0@@Z PROC ; std::_Uninitialized_default_fill_n<Matrix<float,3,4,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,3,4,1> > >, COMDAT
-
-; 480  : 	typedef _Iter_value_t<_FwdIt> _Ty;
-; 481  : 	_Uninitialized_default_fill_n1(_First, _Count, _Al,
-
-	jmp	??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$02$03$00@@_KV?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@YAXPEAV?$Matrix@M$02$03$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z ; std::_Uninitialized_default_fill_n1<Matrix<float,3,4,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,3,4,1> > >
-??$_Uninitialized_default_fill_n@PEAV?$Matrix@M$02$03$00@@_KV?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@YAXPEAV?$Matrix@M$02$03$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@0@@Z ENDP ; std::_Uninitialized_default_fill_n<Matrix<float,3,4,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,3,4,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-;	COMDAT ??$_Uninitialized_default_fill_n@PEAV?$Matrix@M$03$02$00@@_KV?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@YAXPEAV?$Matrix@M$03$02$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@0@@Z
-_TEXT	SEGMENT
-_First$ = 8
-_Count$dead$ = 16
-_Al$dead$ = 24
-??$_Uninitialized_default_fill_n@PEAV?$Matrix@M$03$02$00@@_KV?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@YAXPEAV?$Matrix@M$03$02$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@0@@Z PROC ; std::_Uninitialized_default_fill_n<Matrix<float,4,3,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,4,3,1> > >, COMDAT
-
-; 480  : 	typedef _Iter_value_t<_FwdIt> _Ty;
-; 481  : 	_Uninitialized_default_fill_n1(_First, _Count, _Al,
-
-	jmp	??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$03$02$00@@_KV?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@YAXPEAV?$Matrix@M$03$02$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z ; std::_Uninitialized_default_fill_n1<Matrix<float,4,3,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,4,3,1> > >
-??$_Uninitialized_default_fill_n@PEAV?$Matrix@M$03$02$00@@_KV?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@YAXPEAV?$Matrix@M$03$02$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@0@@Z ENDP ; std::_Uninitialized_default_fill_n<Matrix<float,4,3,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,4,3,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-;	COMDAT ??$_Uninitialized_default_fill_n@PEAV?$Matrix@M$01$03$00@@_KV?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@YAXPEAV?$Matrix@M$01$03$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@0@@Z
-_TEXT	SEGMENT
-_First$ = 8
-_Count$dead$ = 16
-_Al$dead$ = 24
-??$_Uninitialized_default_fill_n@PEAV?$Matrix@M$01$03$00@@_KV?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@YAXPEAV?$Matrix@M$01$03$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@0@@Z PROC ; std::_Uninitialized_default_fill_n<Matrix<float,2,4,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,2,4,1> > >, COMDAT
-
-; 480  : 	typedef _Iter_value_t<_FwdIt> _Ty;
-; 481  : 	_Uninitialized_default_fill_n1(_First, _Count, _Al,
-
-	jmp	??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$01$03$00@@_KV?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@YAXPEAV?$Matrix@M$01$03$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z ; std::_Uninitialized_default_fill_n1<Matrix<float,2,4,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,2,4,1> > >
-??$_Uninitialized_default_fill_n@PEAV?$Matrix@M$01$03$00@@_KV?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@YAXPEAV?$Matrix@M$01$03$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@0@@Z ENDP ; std::_Uninitialized_default_fill_n<Matrix<float,2,4,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,2,4,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-;	COMDAT ??$_Uninitialized_default_fill_n@PEAV?$Matrix@M$03$01$00@@_KV?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@YAXPEAV?$Matrix@M$03$01$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@0@@Z
-_TEXT	SEGMENT
-_First$ = 8
-_Count$dead$ = 16
-_Al$dead$ = 24
-??$_Uninitialized_default_fill_n@PEAV?$Matrix@M$03$01$00@@_KV?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@YAXPEAV?$Matrix@M$03$01$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@0@@Z PROC ; std::_Uninitialized_default_fill_n<Matrix<float,4,2,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,4,2,1> > >, COMDAT
-
-; 480  : 	typedef _Iter_value_t<_FwdIt> _Ty;
-; 481  : 	_Uninitialized_default_fill_n1(_First, _Count, _Al,
-
-	jmp	??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$03$01$00@@_KV?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@YAXPEAV?$Matrix@M$03$01$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z ; std::_Uninitialized_default_fill_n1<Matrix<float,4,2,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,4,2,1> > >
-??$_Uninitialized_default_fill_n@PEAV?$Matrix@M$03$01$00@@_KV?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@YAXPEAV?$Matrix@M$03$01$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@0@@Z ENDP ; std::_Uninitialized_default_fill_n<Matrix<float,4,2,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,4,2,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-;	COMDAT ??$_Uninitialized_default_fill_n@PEAV?$Matrix@M$03$03$00@@_KV?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@YAXPEAV?$Matrix@M$03$03$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@0@@Z
-_TEXT	SEGMENT
-_First$ = 8
-_Count$dead$ = 16
-_Al$dead$ = 24
-??$_Uninitialized_default_fill_n@PEAV?$Matrix@M$03$03$00@@_KV?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@YAXPEAV?$Matrix@M$03$03$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@0@@Z PROC ; std::_Uninitialized_default_fill_n<Matrix<float,4,4,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,4,4,1> > >, COMDAT
-
-; 480  : 	typedef _Iter_value_t<_FwdIt> _Ty;
-; 481  : 	_Uninitialized_default_fill_n1(_First, _Count, _Al,
-
-	jmp	??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$03$03$00@@_KV?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@YAXPEAV?$Matrix@M$03$03$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z ; std::_Uninitialized_default_fill_n1<Matrix<float,4,4,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,4,4,1> > >
-??$_Uninitialized_default_fill_n@PEAV?$Matrix@M$03$03$00@@_KV?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@YAXPEAV?$Matrix@M$03$03$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@0@@Z ENDP ; std::_Uninitialized_default_fill_n<Matrix<float,4,4,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,4,4,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-;	COMDAT ??$_Uninitialized_default_fill_n@PEAV?$Matrix@M$02$02$00@@_KV?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@YAXPEAV?$Matrix@M$02$02$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@0@@Z
-_TEXT	SEGMENT
-_First$ = 8
-_Count$dead$ = 16
-_Al$dead$ = 24
-??$_Uninitialized_default_fill_n@PEAV?$Matrix@M$02$02$00@@_KV?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@YAXPEAV?$Matrix@M$02$02$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@0@@Z PROC ; std::_Uninitialized_default_fill_n<Matrix<float,3,3,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,3,3,1> > >, COMDAT
-
-; 480  : 	typedef _Iter_value_t<_FwdIt> _Ty;
-; 481  : 	_Uninitialized_default_fill_n1(_First, _Count, _Al,
-
-	jmp	??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$02$02$00@@_KV?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@YAXPEAV?$Matrix@M$02$02$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z ; std::_Uninitialized_default_fill_n1<Matrix<float,3,3,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,3,3,1> > >
-??$_Uninitialized_default_fill_n@PEAV?$Matrix@M$02$02$00@@_KV?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@YAXPEAV?$Matrix@M$02$02$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@0@@Z ENDP ; std::_Uninitialized_default_fill_n<Matrix<float,3,3,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,3,3,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-;	COMDAT ??$_Uninitialized_default_fill_n@PEAV?$Matrix@M$01$01$00@@_KV?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@YAXPEAV?$Matrix@M$01$01$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@0@@Z
-_TEXT	SEGMENT
-_First$ = 8
-_Count$dead$ = 16
-_Al$dead$ = 24
-??$_Uninitialized_default_fill_n@PEAV?$Matrix@M$01$01$00@@_KV?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@YAXPEAV?$Matrix@M$01$01$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@0@@Z PROC ; std::_Uninitialized_default_fill_n<Matrix<float,2,2,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,2,2,1> > >, COMDAT
-
-; 480  : 	typedef _Iter_value_t<_FwdIt> _Ty;
-; 481  : 	_Uninitialized_default_fill_n1(_First, _Count, _Al,
-
-	jmp	??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$01$01$00@@_KV?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@YAXPEAV?$Matrix@M$01$01$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z ; std::_Uninitialized_default_fill_n1<Matrix<float,2,2,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,2,2,1> > >
-??$_Uninitialized_default_fill_n@PEAV?$Matrix@M$01$01$00@@_KV?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@YAXPEAV?$Matrix@M$01$01$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@0@@Z ENDP ; std::_Uninitialized_default_fill_n<Matrix<float,2,2,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,2,2,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-;	COMDAT ??$?0$$V@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$03$00@@@std@@@2@$00@std@@QEAA@U_Zero_then_variadic_args_t@1@@Z
-_TEXT	SEGMENT
-this$ = 8
-__formal$dead$ = 16
-??$?0$$V@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$03$00@@@std@@@2@$00@std@@QEAA@U_Zero_then_variadic_args_t@1@@Z PROC ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,3,4,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,3,4,1> > >,1>::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,3,4,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,3,4,1> > >,1><>, COMDAT
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 485  : 		: _Myfirst(),
-
-	xor	eax, eax
-	mov	QWORD PTR [rcx], rax
-
-; 486  : 		_Mylast(),
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 487  : 		_Myend()
-
-	mov	QWORD PTR [rcx+16], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-
-; 281  : 		}
-
-	mov	rax, rcx
-	ret	0
-??$?0$$V@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$03$00@@@std@@@2@$00@std@@QEAA@U_Zero_then_variadic_args_t@1@@Z ENDP ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,3,4,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,3,4,1> > >,1>::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,3,4,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,3,4,1> > >,1><>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-;	COMDAT ??$?0$$V@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$02$00@@@std@@@2@$00@std@@QEAA@U_Zero_then_variadic_args_t@1@@Z
-_TEXT	SEGMENT
-this$ = 8
-__formal$dead$ = 16
-??$?0$$V@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$02$00@@@std@@@2@$00@std@@QEAA@U_Zero_then_variadic_args_t@1@@Z PROC ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,4,3,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,4,3,1> > >,1>::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,4,3,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,4,3,1> > >,1><>, COMDAT
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 485  : 		: _Myfirst(),
-
-	xor	eax, eax
-	mov	QWORD PTR [rcx], rax
-
-; 486  : 		_Mylast(),
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 487  : 		_Myend()
-
-	mov	QWORD PTR [rcx+16], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-
-; 281  : 		}
-
-	mov	rax, rcx
-	ret	0
-??$?0$$V@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$02$00@@@std@@@2@$00@std@@QEAA@U_Zero_then_variadic_args_t@1@@Z ENDP ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,4,3,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,4,3,1> > >,1>::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,4,3,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,4,3,1> > >,1><>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-;	COMDAT ??$?0$$V@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$03$00@@@std@@@2@$00@std@@QEAA@U_Zero_then_variadic_args_t@1@@Z
-_TEXT	SEGMENT
-this$ = 8
-__formal$dead$ = 16
-??$?0$$V@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$03$00@@@std@@@2@$00@std@@QEAA@U_Zero_then_variadic_args_t@1@@Z PROC ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,2,4,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,2,4,1> > >,1>::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,2,4,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,2,4,1> > >,1><>, COMDAT
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 485  : 		: _Myfirst(),
-
-	xor	eax, eax
-	mov	QWORD PTR [rcx], rax
-
-; 486  : 		_Mylast(),
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 487  : 		_Myend()
-
-	mov	QWORD PTR [rcx+16], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-
-; 281  : 		}
-
-	mov	rax, rcx
-	ret	0
-??$?0$$V@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$03$00@@@std@@@2@$00@std@@QEAA@U_Zero_then_variadic_args_t@1@@Z ENDP ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,2,4,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,2,4,1> > >,1>::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,2,4,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,2,4,1> > >,1><>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-;	COMDAT ??$?0$$V@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$01$00@@@std@@@2@$00@std@@QEAA@U_Zero_then_variadic_args_t@1@@Z
-_TEXT	SEGMENT
-this$ = 8
-__formal$dead$ = 16
-??$?0$$V@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$01$00@@@std@@@2@$00@std@@QEAA@U_Zero_then_variadic_args_t@1@@Z PROC ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,4,2,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,4,2,1> > >,1>::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,4,2,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,4,2,1> > >,1><>, COMDAT
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 485  : 		: _Myfirst(),
-
-	xor	eax, eax
-	mov	QWORD PTR [rcx], rax
-
-; 486  : 		_Mylast(),
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 487  : 		_Myend()
-
-	mov	QWORD PTR [rcx+16], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-
-; 281  : 		}
-
-	mov	rax, rcx
-	ret	0
-??$?0$$V@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$01$00@@@std@@@2@$00@std@@QEAA@U_Zero_then_variadic_args_t@1@@Z ENDP ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,4,2,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,4,2,1> > >,1>::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,4,2,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,4,2,1> > >,1><>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-;	COMDAT ??$?0$$V@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$03$00@@@std@@@2@$00@std@@QEAA@U_Zero_then_variadic_args_t@1@@Z
-_TEXT	SEGMENT
-this$ = 8
-__formal$dead$ = 16
-??$?0$$V@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$03$00@@@std@@@2@$00@std@@QEAA@U_Zero_then_variadic_args_t@1@@Z PROC ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,4,4,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,4,4,1> > >,1>::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,4,4,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,4,4,1> > >,1><>, COMDAT
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 485  : 		: _Myfirst(),
-
-	xor	eax, eax
-	mov	QWORD PTR [rcx], rax
-
-; 486  : 		_Mylast(),
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 487  : 		_Myend()
-
-	mov	QWORD PTR [rcx+16], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-
-; 281  : 		}
-
-	mov	rax, rcx
-	ret	0
-??$?0$$V@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$03$00@@@std@@@2@$00@std@@QEAA@U_Zero_then_variadic_args_t@1@@Z ENDP ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,4,4,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,4,4,1> > >,1>::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,4,4,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,4,4,1> > >,1><>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-;	COMDAT ??$?0$$V@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$02$00@@@std@@@2@$00@std@@QEAA@U_Zero_then_variadic_args_t@1@@Z
-_TEXT	SEGMENT
-this$ = 8
-__formal$dead$ = 16
-??$?0$$V@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$02$00@@@std@@@2@$00@std@@QEAA@U_Zero_then_variadic_args_t@1@@Z PROC ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,3,3,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,3,3,1> > >,1>::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,3,3,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,3,3,1> > >,1><>, COMDAT
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 485  : 		: _Myfirst(),
-
-	xor	eax, eax
-	mov	QWORD PTR [rcx], rax
-
-; 486  : 		_Mylast(),
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 487  : 		_Myend()
-
-	mov	QWORD PTR [rcx+16], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-
-; 281  : 		}
-
-	mov	rax, rcx
-	ret	0
-??$?0$$V@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$02$00@@@std@@@2@$00@std@@QEAA@U_Zero_then_variadic_args_t@1@@Z ENDP ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,3,3,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,3,3,1> > >,1>::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,3,3,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,3,3,1> > >,1><>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-;	COMDAT ??$?0$$V@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$01$00@@@std@@@2@$00@std@@QEAA@U_Zero_then_variadic_args_t@1@@Z
-_TEXT	SEGMENT
-this$ = 8
-__formal$dead$ = 16
-??$?0$$V@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$01$00@@@std@@@2@$00@std@@QEAA@U_Zero_then_variadic_args_t@1@@Z PROC ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,2,2,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,2,2,1> > >,1>::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,2,2,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,2,2,1> > >,1><>, COMDAT
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-
-; 485  : 		: _Myfirst(),
-
-	xor	eax, eax
-	mov	QWORD PTR [rcx], rax
-
-; 486  : 		_Mylast(),
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 487  : 		_Myend()
-
-	mov	QWORD PTR [rcx+16], rax
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xutility
-
-; 281  : 		}
-
-	mov	rax, rcx
-	ret	0
-??$?0$$V@?$_Compressed_pair@U?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@V?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$01$00@@@std@@@2@$00@std@@QEAA@U_Zero_then_variadic_args_t@1@@Z ENDP ; std::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,2,2,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,2,2,1> > >,1>::_Compressed_pair<std::_Wrap_alloc<std::allocator<Matrix<float,2,2,1> > >,std::_Vector_val<std::_Simple_types<Matrix<float,2,2,1> > >,1><>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$_Destroy_range@V?$allocator@V?$Matrix@M$02$03$00@@@std@@PEAV?$Matrix@M$02$03$00@@@std@@YAXPEAV?$Matrix@M$02$03$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@0@@Z
-_TEXT	SEGMENT
-_First$dead$ = 8
-_Last$dead$ = 16
-_Al$dead$ = 24
-??$_Destroy_range@V?$allocator@V?$Matrix@M$02$03$00@@@std@@PEAV?$Matrix@M$02$03$00@@@std@@YAXPEAV?$Matrix@M$02$03$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@0@@Z PROC ; std::_Destroy_range<std::allocator<Matrix<float,3,4,1> >,Matrix<float,3,4,1> * __ptr64>, COMDAT
-
-; 1115 : 		// note that this is an optimization for debug mode codegen;
-; 1116 : 		// in release mode the BE removes all of this
-; 1117 : 	typedef typename _Alloc::value_type _Val;
-; 1118 : 	_Destroy_range1(_First, _Last, _Al, typename conjunction<
-; 1119 : 		is_trivially_destructible<_Val>,
-; 1120 : 		_Uses_default_destroy<_Alloc, _Val *>>::type());
-; 1121 : 	}
-
-	ret	0
-??$_Destroy_range@V?$allocator@V?$Matrix@M$02$03$00@@@std@@PEAV?$Matrix@M$02$03$00@@@std@@YAXPEAV?$Matrix@M$02$03$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@0@@Z ENDP ; std::_Destroy_range<std::allocator<Matrix<float,3,4,1> >,Matrix<float,3,4,1> * __ptr64>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$_Destroy_range@V?$allocator@V?$Matrix@M$03$02$00@@@std@@PEAV?$Matrix@M$03$02$00@@@std@@YAXPEAV?$Matrix@M$03$02$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@0@@Z
-_TEXT	SEGMENT
-_First$dead$ = 8
-_Last$dead$ = 16
-_Al$dead$ = 24
-??$_Destroy_range@V?$allocator@V?$Matrix@M$03$02$00@@@std@@PEAV?$Matrix@M$03$02$00@@@std@@YAXPEAV?$Matrix@M$03$02$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@0@@Z PROC ; std::_Destroy_range<std::allocator<Matrix<float,4,3,1> >,Matrix<float,4,3,1> * __ptr64>, COMDAT
-
-; 1115 : 		// note that this is an optimization for debug mode codegen;
-; 1116 : 		// in release mode the BE removes all of this
-; 1117 : 	typedef typename _Alloc::value_type _Val;
-; 1118 : 	_Destroy_range1(_First, _Last, _Al, typename conjunction<
-; 1119 : 		is_trivially_destructible<_Val>,
-; 1120 : 		_Uses_default_destroy<_Alloc, _Val *>>::type());
-; 1121 : 	}
-
-	ret	0
-??$_Destroy_range@V?$allocator@V?$Matrix@M$03$02$00@@@std@@PEAV?$Matrix@M$03$02$00@@@std@@YAXPEAV?$Matrix@M$03$02$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@0@@Z ENDP ; std::_Destroy_range<std::allocator<Matrix<float,4,3,1> >,Matrix<float,4,3,1> * __ptr64>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$_Destroy_range@V?$allocator@V?$Matrix@M$01$03$00@@@std@@PEAV?$Matrix@M$01$03$00@@@std@@YAXPEAV?$Matrix@M$01$03$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@0@@Z
-_TEXT	SEGMENT
-_First$dead$ = 8
-_Last$dead$ = 16
-_Al$dead$ = 24
-??$_Destroy_range@V?$allocator@V?$Matrix@M$01$03$00@@@std@@PEAV?$Matrix@M$01$03$00@@@std@@YAXPEAV?$Matrix@M$01$03$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@0@@Z PROC ; std::_Destroy_range<std::allocator<Matrix<float,2,4,1> >,Matrix<float,2,4,1> * __ptr64>, COMDAT
-
-; 1115 : 		// note that this is an optimization for debug mode codegen;
-; 1116 : 		// in release mode the BE removes all of this
-; 1117 : 	typedef typename _Alloc::value_type _Val;
-; 1118 : 	_Destroy_range1(_First, _Last, _Al, typename conjunction<
-; 1119 : 		is_trivially_destructible<_Val>,
-; 1120 : 		_Uses_default_destroy<_Alloc, _Val *>>::type());
-; 1121 : 	}
-
-	ret	0
-??$_Destroy_range@V?$allocator@V?$Matrix@M$01$03$00@@@std@@PEAV?$Matrix@M$01$03$00@@@std@@YAXPEAV?$Matrix@M$01$03$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@0@@Z ENDP ; std::_Destroy_range<std::allocator<Matrix<float,2,4,1> >,Matrix<float,2,4,1> * __ptr64>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$_Destroy_range@V?$allocator@V?$Matrix@M$03$01$00@@@std@@PEAV?$Matrix@M$03$01$00@@@std@@YAXPEAV?$Matrix@M$03$01$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@0@@Z
-_TEXT	SEGMENT
-_First$dead$ = 8
-_Last$dead$ = 16
-_Al$dead$ = 24
-??$_Destroy_range@V?$allocator@V?$Matrix@M$03$01$00@@@std@@PEAV?$Matrix@M$03$01$00@@@std@@YAXPEAV?$Matrix@M$03$01$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@0@@Z PROC ; std::_Destroy_range<std::allocator<Matrix<float,4,2,1> >,Matrix<float,4,2,1> * __ptr64>, COMDAT
-
-; 1115 : 		// note that this is an optimization for debug mode codegen;
-; 1116 : 		// in release mode the BE removes all of this
-; 1117 : 	typedef typename _Alloc::value_type _Val;
-; 1118 : 	_Destroy_range1(_First, _Last, _Al, typename conjunction<
-; 1119 : 		is_trivially_destructible<_Val>,
-; 1120 : 		_Uses_default_destroy<_Alloc, _Val *>>::type());
-; 1121 : 	}
-
-	ret	0
-??$_Destroy_range@V?$allocator@V?$Matrix@M$03$01$00@@@std@@PEAV?$Matrix@M$03$01$00@@@std@@YAXPEAV?$Matrix@M$03$01$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@0@@Z ENDP ; std::_Destroy_range<std::allocator<Matrix<float,4,2,1> >,Matrix<float,4,2,1> * __ptr64>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$_Destroy_range@V?$allocator@V?$Matrix@M$03$03$00@@@std@@PEAV?$Matrix@M$03$03$00@@@std@@YAXPEAV?$Matrix@M$03$03$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@0@@Z
-_TEXT	SEGMENT
-_First$dead$ = 8
-_Last$dead$ = 16
-_Al$dead$ = 24
-??$_Destroy_range@V?$allocator@V?$Matrix@M$03$03$00@@@std@@PEAV?$Matrix@M$03$03$00@@@std@@YAXPEAV?$Matrix@M$03$03$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@0@@Z PROC ; std::_Destroy_range<std::allocator<Matrix<float,4,4,1> >,Matrix<float,4,4,1> * __ptr64>, COMDAT
-
-; 1115 : 		// note that this is an optimization for debug mode codegen;
-; 1116 : 		// in release mode the BE removes all of this
-; 1117 : 	typedef typename _Alloc::value_type _Val;
-; 1118 : 	_Destroy_range1(_First, _Last, _Al, typename conjunction<
-; 1119 : 		is_trivially_destructible<_Val>,
-; 1120 : 		_Uses_default_destroy<_Alloc, _Val *>>::type());
-; 1121 : 	}
-
-	ret	0
-??$_Destroy_range@V?$allocator@V?$Matrix@M$03$03$00@@@std@@PEAV?$Matrix@M$03$03$00@@@std@@YAXPEAV?$Matrix@M$03$03$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@0@@Z ENDP ; std::_Destroy_range<std::allocator<Matrix<float,4,4,1> >,Matrix<float,4,4,1> * __ptr64>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$_Destroy_range@V?$allocator@V?$Matrix@M$02$02$00@@@std@@PEAV?$Matrix@M$02$02$00@@@std@@YAXPEAV?$Matrix@M$02$02$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@0@@Z
-_TEXT	SEGMENT
-_First$dead$ = 8
-_Last$dead$ = 16
-_Al$dead$ = 24
-??$_Destroy_range@V?$allocator@V?$Matrix@M$02$02$00@@@std@@PEAV?$Matrix@M$02$02$00@@@std@@YAXPEAV?$Matrix@M$02$02$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@0@@Z PROC ; std::_Destroy_range<std::allocator<Matrix<float,3,3,1> >,Matrix<float,3,3,1> * __ptr64>, COMDAT
-
-; 1115 : 		// note that this is an optimization for debug mode codegen;
-; 1116 : 		// in release mode the BE removes all of this
-; 1117 : 	typedef typename _Alloc::value_type _Val;
-; 1118 : 	_Destroy_range1(_First, _Last, _Al, typename conjunction<
-; 1119 : 		is_trivially_destructible<_Val>,
-; 1120 : 		_Uses_default_destroy<_Alloc, _Val *>>::type());
-; 1121 : 	}
-
-	ret	0
-??$_Destroy_range@V?$allocator@V?$Matrix@M$02$02$00@@@std@@PEAV?$Matrix@M$02$02$00@@@std@@YAXPEAV?$Matrix@M$02$02$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@0@@Z ENDP ; std::_Destroy_range<std::allocator<Matrix<float,3,3,1> >,Matrix<float,3,3,1> * __ptr64>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$_Destroy_range@V?$allocator@V?$Matrix@M$01$01$00@@@std@@PEAV?$Matrix@M$01$01$00@@@std@@YAXPEAV?$Matrix@M$01$01$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@0@@Z
-_TEXT	SEGMENT
-_First$dead$ = 8
-_Last$dead$ = 16
-_Al$dead$ = 24
-??$_Destroy_range@V?$allocator@V?$Matrix@M$01$01$00@@@std@@PEAV?$Matrix@M$01$01$00@@@std@@YAXPEAV?$Matrix@M$01$01$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@0@@Z PROC ; std::_Destroy_range<std::allocator<Matrix<float,2,2,1> >,Matrix<float,2,2,1> * __ptr64>, COMDAT
-
-; 1115 : 		// note that this is an optimization for debug mode codegen;
-; 1116 : 		// in release mode the BE removes all of this
-; 1117 : 	typedef typename _Alloc::value_type _Val;
-; 1118 : 	_Destroy_range1(_First, _Last, _Al, typename conjunction<
-; 1119 : 		is_trivially_destructible<_Val>,
-; 1120 : 		_Uses_default_destroy<_Alloc, _Val *>>::type());
-; 1121 : 	}
-
-	ret	0
-??$_Destroy_range@V?$allocator@V?$Matrix@M$01$01$00@@@std@@PEAV?$Matrix@M$01$01$00@@@std@@YAXPEAV?$Matrix@M$01$01$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@0@@Z ENDP ; std::_Destroy_range<std::allocator<Matrix<float,2,2,1> >,Matrix<float,2,2,1> * __ptr64>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\vector.hpp
-;	COMDAT ?Get@?$GetVectorElement@M@?$Vector@M$03@@SAMAEBMH@Z
-_TEXT	SEGMENT
-u$ = 8
-idx$dead$ = 16
-?Get@?$GetVectorElement@M@?$Vector@M$03@@SAMAEBMH@Z PROC ; Vector<float,4>::GetVectorElement<float>::Get, COMDAT
-
-; 833  : 		static U Get(const U& u, int idx) { return u; }
-
-	movss	xmm0, DWORD PTR [rcx]
-	ret	0
-?Get@?$GetVectorElement@M@?$Vector@M$03@@SAMAEBMH@Z ENDP ; Vector<float,4>::GetVectorElement<float>::Get
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\vector.hpp
-;	COMDAT ?Get@?$GetVectorElement@V?$Vector@M$02@@@?$Vector@M$03@@SAMAEBV?$Vector@M$02@@H@Z
-_TEXT	SEGMENT
-u$ = 8
-idx$ = 16
-?Get@?$GetVectorElement@V?$Vector@M$02@@@?$Vector@M$03@@SAMAEBV?$Vector@M$02@@H@Z PROC ; Vector<float,4>::GetVectorElement<Vector<float,3> >::Get, COMDAT
-
-; 837  : 		static U Get(const Vector<U, E>& u, int idx) { return u.data[idx]; }
-
-	movsxd	rax, edx
-	movss	xmm0, DWORD PTR [rcx+rax*4]
-	ret	0
-?Get@?$GetVectorElement@V?$Vector@M$02@@@?$Vector@M$03@@SAMAEBV?$Vector@M$02@@H@Z ENDP ; Vector<float,4>::GetVectorElement<Vector<float,3> >::Get
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\vector.hpp
-;	COMDAT ?Get@?$GetVectorElement@V?$Vector@M$03@@@?$Vector@M$07@@SAMAEBV?$Vector@M$03@@H@Z
-_TEXT	SEGMENT
-u$ = 8
-idx$ = 16
-?Get@?$GetVectorElement@V?$Vector@M$03@@@?$Vector@M$07@@SAMAEBV?$Vector@M$03@@H@Z PROC ; Vector<float,8>::GetVectorElement<Vector<float,4> >::Get, COMDAT
-
-; 837  : 		static U Get(const Vector<U, E>& u, int idx) { return u.data[idx]; }
-
-	movsxd	rax, edx
-	movss	xmm0, DWORD PTR [rcx+rax*4]
-	ret	0
-?Get@?$GetVectorElement@V?$Vector@M$03@@@?$Vector@M$07@@SAMAEBV?$Vector@M$03@@H@Z ENDP ; Vector<float,8>::GetVectorElement<Vector<float,4> >::Get
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??0?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$03$00@@@std@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 8
-??0?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$03$00@@@std@@@std@@QEAA@XZ PROC ; std::_Vector_val<std::_Simple_types<Matrix<float,3,4,1> > >::_Vector_val<std::_Simple_types<Matrix<float,3,4,1> > >, COMDAT
-
-; 485  : 		: _Myfirst(),
-
-	xor	eax, eax
-	mov	QWORD PTR [rcx], rax
-
-; 486  : 		_Mylast(),
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 487  : 		_Myend()
-
-	mov	QWORD PTR [rcx+16], rax
-
-; 489  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$03$00@@@std@@@std@@QEAA@XZ ENDP ; std::_Vector_val<std::_Simple_types<Matrix<float,3,4,1> > >::_Vector_val<std::_Simple_types<Matrix<float,3,4,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??0?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 8
-??0?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAA@XZ PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,3,4,1> > >::_Wrap_alloc<std::allocator<Matrix<float,3,4,1> > >, COMDAT
-
-; 937  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAA@XZ ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,3,4,1> > >::_Wrap_alloc<std::allocator<Matrix<float,3,4,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??0?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$02$00@@@std@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 8
-??0?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$02$00@@@std@@@std@@QEAA@XZ PROC ; std::_Vector_val<std::_Simple_types<Matrix<float,4,3,1> > >::_Vector_val<std::_Simple_types<Matrix<float,4,3,1> > >, COMDAT
-
-; 485  : 		: _Myfirst(),
-
-	xor	eax, eax
-	mov	QWORD PTR [rcx], rax
-
-; 486  : 		_Mylast(),
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 487  : 		_Myend()
-
-	mov	QWORD PTR [rcx+16], rax
-
-; 489  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$02$00@@@std@@@std@@QEAA@XZ ENDP ; std::_Vector_val<std::_Simple_types<Matrix<float,4,3,1> > >::_Vector_val<std::_Simple_types<Matrix<float,4,3,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??0?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 8
-??0?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAA@XZ PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,4,3,1> > >::_Wrap_alloc<std::allocator<Matrix<float,4,3,1> > >, COMDAT
-
-; 937  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAA@XZ ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,4,3,1> > >::_Wrap_alloc<std::allocator<Matrix<float,4,3,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ??R?$Matrix@M$02$03$00@@QEBAMHH@Z
-_TEXT	SEGMENT
-this$ = 8
-col$ = 16
-row$ = 24
-??R?$Matrix@M$02$03$00@@QEBAMHH@Z PROC			; Matrix<float,3,4,1>::operator(), COMDAT
-
-; 45   : 		return stripes[row][col];
-
-	movsxd	r8, r8d
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 680  : 		return data[idx];
-
-	movsxd	rax, edx
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 110  : 		return GetElement(col, row);
-
-	lea	rdx, QWORD PTR [rax+r8*4]
-	movss	xmm0, DWORD PTR [rcx+rdx*4]
-
-; 111  : 	}
-
-	ret	0
-??R?$Matrix@M$02$03$00@@QEBAMHH@Z ENDP			; Matrix<float,3,4,1>::operator()
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ??R?$Matrix@M$03$02$00@@QEBAMHH@Z
-_TEXT	SEGMENT
-this$ = 8
-col$ = 16
-row$ = 24
-??R?$Matrix@M$03$02$00@@QEBAMHH@Z PROC			; Matrix<float,4,3,1>::operator(), COMDAT
-
-; 45   : 		return stripes[row][col];
-
-	movsxd	r8, r8d
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 680  : 		return data[idx];
-
-	movsxd	rax, edx
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 110  : 		return GetElement(col, row);
-
-	lea	rdx, QWORD PTR [rax+r8*4]
-	movss	xmm0, DWORD PTR [rcx+rdx*4]
-
-; 111  : 	}
-
-	ret	0
-??R?$Matrix@M$03$02$00@@QEBAMHH@Z ENDP			; Matrix<float,4,3,1>::operator()
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??0?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$03$00@@@std@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 8
-??0?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$03$00@@@std@@@std@@QEAA@XZ PROC ; std::_Vector_val<std::_Simple_types<Matrix<float,2,4,1> > >::_Vector_val<std::_Simple_types<Matrix<float,2,4,1> > >, COMDAT
-
-; 485  : 		: _Myfirst(),
-
-	xor	eax, eax
-	mov	QWORD PTR [rcx], rax
-
-; 486  : 		_Mylast(),
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 487  : 		_Myend()
-
-	mov	QWORD PTR [rcx+16], rax
-
-; 489  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$03$00@@@std@@@std@@QEAA@XZ ENDP ; std::_Vector_val<std::_Simple_types<Matrix<float,2,4,1> > >::_Vector_val<std::_Simple_types<Matrix<float,2,4,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??0?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 8
-??0?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAA@XZ PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,2,4,1> > >::_Wrap_alloc<std::allocator<Matrix<float,2,4,1> > >, COMDAT
-
-; 937  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAA@XZ ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,2,4,1> > >::_Wrap_alloc<std::allocator<Matrix<float,2,4,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??0?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$01$00@@@std@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 8
-??0?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$01$00@@@std@@@std@@QEAA@XZ PROC ; std::_Vector_val<std::_Simple_types<Matrix<float,4,2,1> > >::_Vector_val<std::_Simple_types<Matrix<float,4,2,1> > >, COMDAT
-
-; 485  : 		: _Myfirst(),
-
-	xor	eax, eax
-	mov	QWORD PTR [rcx], rax
-
-; 486  : 		_Mylast(),
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 487  : 		_Myend()
-
-	mov	QWORD PTR [rcx+16], rax
-
-; 489  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$01$00@@@std@@@std@@QEAA@XZ ENDP ; std::_Vector_val<std::_Simple_types<Matrix<float,4,2,1> > >::_Vector_val<std::_Simple_types<Matrix<float,4,2,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??0?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 8
-??0?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAA@XZ PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,4,2,1> > >::_Wrap_alloc<std::allocator<Matrix<float,4,2,1> > >, COMDAT
-
-; 937  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAA@XZ ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,4,2,1> > >::_Wrap_alloc<std::allocator<Matrix<float,4,2,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??0?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$03$00@@@std@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 8
-??0?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$03$00@@@std@@@std@@QEAA@XZ PROC ; std::_Vector_val<std::_Simple_types<Matrix<float,4,4,1> > >::_Vector_val<std::_Simple_types<Matrix<float,4,4,1> > >, COMDAT
-
-; 485  : 		: _Myfirst(),
-
-	xor	eax, eax
-	mov	QWORD PTR [rcx], rax
-
-; 486  : 		_Mylast(),
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 487  : 		_Myend()
-
-	mov	QWORD PTR [rcx+16], rax
-
-; 489  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$_Vector_val@U?$_Simple_types@V?$Matrix@M$03$03$00@@@std@@@std@@QEAA@XZ ENDP ; std::_Vector_val<std::_Simple_types<Matrix<float,4,4,1> > >::_Vector_val<std::_Simple_types<Matrix<float,4,4,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??0?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 8
-??0?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAA@XZ PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,4,4,1> > >::_Wrap_alloc<std::allocator<Matrix<float,4,4,1> > >, COMDAT
-
-; 937  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAA@XZ ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,4,4,1> > >::_Wrap_alloc<std::allocator<Matrix<float,4,4,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??0?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$02$00@@@std@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 8
-??0?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$02$00@@@std@@@std@@QEAA@XZ PROC ; std::_Vector_val<std::_Simple_types<Matrix<float,3,3,1> > >::_Vector_val<std::_Simple_types<Matrix<float,3,3,1> > >, COMDAT
-
-; 485  : 		: _Myfirst(),
-
-	xor	eax, eax
-	mov	QWORD PTR [rcx], rax
-
-; 486  : 		_Mylast(),
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 487  : 		_Myend()
-
-	mov	QWORD PTR [rcx+16], rax
-
-; 489  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$_Vector_val@U?$_Simple_types@V?$Matrix@M$02$02$00@@@std@@@std@@QEAA@XZ ENDP ; std::_Vector_val<std::_Simple_types<Matrix<float,3,3,1> > >::_Vector_val<std::_Simple_types<Matrix<float,3,3,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??0?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 8
-??0?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAA@XZ PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,3,3,1> > >::_Wrap_alloc<std::allocator<Matrix<float,3,3,1> > >, COMDAT
-
-; 937  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAA@XZ ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,3,3,1> > >::_Wrap_alloc<std::allocator<Matrix<float,3,3,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\vector
-;	COMDAT ??0?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$01$00@@@std@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 8
-??0?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$01$00@@@std@@@std@@QEAA@XZ PROC ; std::_Vector_val<std::_Simple_types<Matrix<float,2,2,1> > >::_Vector_val<std::_Simple_types<Matrix<float,2,2,1> > >, COMDAT
-
-; 485  : 		: _Myfirst(),
-
-	xor	eax, eax
-	mov	QWORD PTR [rcx], rax
-
-; 486  : 		_Mylast(),
-
-	mov	QWORD PTR [rcx+8], rax
-
-; 487  : 		_Myend()
-
-	mov	QWORD PTR [rcx+16], rax
-
-; 489  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$_Vector_val@U?$_Simple_types@V?$Matrix@M$01$01$00@@@std@@@std@@QEAA@XZ ENDP ; std::_Vector_val<std::_Simple_types<Matrix<float,2,2,1> > >::_Vector_val<std::_Simple_types<Matrix<float,2,2,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??0?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 8
-??0?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAA@XZ PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,2,2,1> > >::_Wrap_alloc<std::allocator<Matrix<float,2,2,1> > >, COMDAT
-
-; 937  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAA@XZ ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,2,2,1> > >::_Wrap_alloc<std::allocator<Matrix<float,2,2,1> > >
 _TEXT	ENDS
 ; Function compile flags: /Ogtpy
 ; File c:\home\programming\mathter\mathter\vector.hpp
@@ -22494,74 +9239,18 @@ this$ = 8
 idx$dead$ = 16
 ?Assign@?$Vector@M$03@@IEAAXH@Z PROC			; Vector<float,4>::Assign, COMDAT
 
-; 860  : 		for (idx = 0; idx < D; idx++) {
-; 861  : 			data[idx] = T(0);
+; 859  : 		for (idx = 0; idx < D; idx++) {
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 	mov	QWORD PTR [rcx], rax
 	mov	QWORD PTR [rcx+8], rax
 
-; 862  : 		}
-; 863  : 	}
+; 861  : 		}
+; 862  : 	}
 
 	ret	0
 ?Assign@?$Vector@M$03@@IEAAXH@Z ENDP			; Vector<float,4>::Assign
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-;	COMDAT ??Y?$Vector@M$03@@QEAAAEAV0@AEBV0@@Z
-_TEXT	SEGMENT
-this$ = 8
-rhs$ = 16
-??Y?$Vector@M$03@@QEAAAEAV0@AEBV0@@Z PROC		; Vector<float,4>::operator+=, COMDAT
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 25   : 		res.reg = _mm_add_ps(lhs.reg, rhs.reg);
-
-	movaps	xmm0, XMMWORD PTR [rdx]
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 757  : 		return *this;
-
-	mov	rax, rcx
-; File c:\home\programming\mathter\mathter\simd4f_sse.hpp
-
-; 25   : 		res.reg = _mm_add_ps(lhs.reg, rhs.reg);
-
-	addps	xmm0, XMMWORD PTR [rcx]
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 464  : 		simd = Simd4f::add(simd, rhs.simd);
-
-	movaps	XMMWORD PTR [rcx], xmm0
-
-; 758  : 	}
-
-	ret	0
-??Y?$Vector@M$03@@QEAAAEAV0@AEBV0@@Z ENDP		; Vector<float,4>::operator+=
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\chrono
-;	COMDAT ?time_since_epoch@?$time_point@Usteady_clock@chrono@std@@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@23@@chrono@std@@QEBA?AV?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@23@XZ
-_TEXT	SEGMENT
-this$ = 8
-__$ReturnUdt$ = 16
-?time_since_epoch@?$time_point@Usteady_clock@chrono@std@@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@23@@chrono@std@@QEBA?AV?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@23@XZ PROC ; std::chrono::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > >::time_since_epoch, COMDAT
-
-; 258  : 		return (_MyDur);
-
-	mov	rax, QWORD PTR [rcx]
-	mov	QWORD PTR [rdx], rax
-	mov	rax, rdx
-
-; 259  : 		}
-
-	ret	0
-?time_since_epoch@?$time_point@Usteady_clock@chrono@std@@V?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@23@@chrono@std@@QEBA?AV?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@23@XZ ENDP ; std::chrono::time_point<std::chrono::steady_clock,std::chrono::duration<__int64,std::ratio<1,1000000000> > >::time_since_epoch
 _TEXT	ENDS
 ; Function compile flags: /Ogtpy
 ; File c:\home\programming\mathter\mathter\vector.hpp
@@ -22571,178 +9260,18 @@ this$ = 8
 idx$dead$ = 16
 ?Assign@?$Vector@M$02@@IEAAXH@Z PROC			; Vector<float,3>::Assign, COMDAT
 
-; 860  : 		for (idx = 0; idx < D; idx++) {
-; 861  : 			data[idx] = T(0);
+; 859  : 		for (idx = 0; idx < D; idx++) {
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 	mov	QWORD PTR [rcx], rax
 	mov	DWORD PTR [rcx+8], eax
 
-; 862  : 		}
-; 863  : 	}
+; 861  : 		}
+; 862  : 	}
 
 	ret	0
 ?Assign@?$Vector@M$02@@IEAAXH@Z ENDP			; Vector<float,3>::Assign
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??0?$allocator@V?$Matrix@M$02$03$00@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 8
-??0?$allocator@V?$Matrix@M$02$03$00@@@std@@QEAA@XZ PROC	; std::allocator<Matrix<float,3,4,1> >::allocator<Matrix<float,3,4,1> >, COMDAT
-
-; 700  : 		{	// construct default allocator (do nothing)
-; 701  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$allocator@V?$Matrix@M$02$03$00@@@std@@QEAA@XZ ENDP	; std::allocator<Matrix<float,3,4,1> >::allocator<Matrix<float,3,4,1> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??0?$allocator@V?$Matrix@M$03$02$00@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 8
-??0?$allocator@V?$Matrix@M$03$02$00@@@std@@QEAA@XZ PROC	; std::allocator<Matrix<float,4,3,1> >::allocator<Matrix<float,4,3,1> >, COMDAT
-
-; 700  : 		{	// construct default allocator (do nothing)
-; 701  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$allocator@V?$Matrix@M$03$02$00@@@std@@QEAA@XZ ENDP	; std::allocator<Matrix<float,4,3,1> >::allocator<Matrix<float,4,3,1> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ?GetElement@?$MatrixData@M$02$03$00@@QEBAMHH@Z
-_TEXT	SEGMENT
-this$ = 8
-col$ = 16
-row$ = 24
-?GetElement@?$MatrixData@M$02$03$00@@QEBAMHH@Z PROC	; MatrixData<float,3,4,1>::GetElement, COMDAT
-
-; 45   : 		return stripes[row][col];
-
-	movsxd	r8, r8d
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 680  : 		return data[idx];
-
-	movsxd	rax, edx
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 45   : 		return stripes[row][col];
-
-	lea	rdx, QWORD PTR [rax+r8*4]
-	movss	xmm0, DWORD PTR [rcx+rdx*4]
-
-; 46   : 	}
-
-	ret	0
-?GetElement@?$MatrixData@M$02$03$00@@QEBAMHH@Z ENDP	; MatrixData<float,3,4,1>::GetElement
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\home\programming\mathter\mathter\matrix.hpp
-; File c:\home\programming\mathter\mathter\vector.hpp
-; File c:\home\programming\mathter\mathter\matrix.hpp
-;	COMDAT ?GetElement@?$MatrixData@M$03$02$00@@QEBAMHH@Z
-_TEXT	SEGMENT
-this$ = 8
-col$ = 16
-row$ = 24
-?GetElement@?$MatrixData@M$03$02$00@@QEBAMHH@Z PROC	; MatrixData<float,4,3,1>::GetElement, COMDAT
-
-; 45   : 		return stripes[row][col];
-
-	movsxd	r8, r8d
-; File c:\home\programming\mathter\mathter\vector.hpp
-
-; 680  : 		return data[idx];
-
-	movsxd	rax, edx
-; File c:\home\programming\mathter\mathter\matrix.hpp
-
-; 45   : 		return stripes[row][col];
-
-	lea	rdx, QWORD PTR [rax+r8*4]
-	movss	xmm0, DWORD PTR [rcx+rdx*4]
-
-; 46   : 	}
-
-	ret	0
-?GetElement@?$MatrixData@M$03$02$00@@QEBAMHH@Z ENDP	; MatrixData<float,4,3,1>::GetElement
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??0?$allocator@V?$Matrix@M$01$03$00@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 8
-??0?$allocator@V?$Matrix@M$01$03$00@@@std@@QEAA@XZ PROC	; std::allocator<Matrix<float,2,4,1> >::allocator<Matrix<float,2,4,1> >, COMDAT
-
-; 700  : 		{	// construct default allocator (do nothing)
-; 701  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$allocator@V?$Matrix@M$01$03$00@@@std@@QEAA@XZ ENDP	; std::allocator<Matrix<float,2,4,1> >::allocator<Matrix<float,2,4,1> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??0?$allocator@V?$Matrix@M$03$01$00@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 8
-??0?$allocator@V?$Matrix@M$03$01$00@@@std@@QEAA@XZ PROC	; std::allocator<Matrix<float,4,2,1> >::allocator<Matrix<float,4,2,1> >, COMDAT
-
-; 700  : 		{	// construct default allocator (do nothing)
-; 701  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$allocator@V?$Matrix@M$03$01$00@@@std@@QEAA@XZ ENDP	; std::allocator<Matrix<float,4,2,1> >::allocator<Matrix<float,4,2,1> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??0?$allocator@V?$Matrix@M$03$03$00@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 8
-??0?$allocator@V?$Matrix@M$03$03$00@@@std@@QEAA@XZ PROC	; std::allocator<Matrix<float,4,4,1> >::allocator<Matrix<float,4,4,1> >, COMDAT
-
-; 700  : 		{	// construct default allocator (do nothing)
-; 701  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$allocator@V?$Matrix@M$03$03$00@@@std@@QEAA@XZ ENDP	; std::allocator<Matrix<float,4,4,1> >::allocator<Matrix<float,4,4,1> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??0?$allocator@V?$Matrix@M$02$02$00@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 8
-??0?$allocator@V?$Matrix@M$02$02$00@@@std@@QEAA@XZ PROC	; std::allocator<Matrix<float,3,3,1> >::allocator<Matrix<float,3,3,1> >, COMDAT
-
-; 700  : 		{	// construct default allocator (do nothing)
-; 701  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$allocator@V?$Matrix@M$02$02$00@@@std@@QEAA@XZ ENDP	; std::allocator<Matrix<float,3,3,1> >::allocator<Matrix<float,3,3,1> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??0?$allocator@V?$Matrix@M$01$01$00@@@std@@QEAA@XZ
-_TEXT	SEGMENT
-this$ = 8
-??0?$allocator@V?$Matrix@M$01$01$00@@@std@@QEAA@XZ PROC	; std::allocator<Matrix<float,2,2,1> >::allocator<Matrix<float,2,2,1> >, COMDAT
-
-; 700  : 		{	// construct default allocator (do nothing)
-; 701  : 		}
-
-	mov	rax, rcx
-	ret	0
-??0?$allocator@V?$Matrix@M$01$01$00@@@std@@QEAA@XZ ENDP	; std::allocator<Matrix<float,2,2,1> >::allocator<Matrix<float,2,2,1> >
 _TEXT	ENDS
 ; Function compile flags: /Ogtpy
 ; File c:\home\programming\mathter\mathter\vector.hpp
@@ -22754,15 +9283,15 @@ head$ = 24
 <scalars_0>$ = 32
 ??$Assign@MM$0A@@?$Vector@M$02@@IEAAXHMM@Z PROC		; Vector<float,3>::Assign<float,float,0>, COMDAT
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 	mov	QWORD PTR [rcx], rax
 	mov	DWORD PTR [rcx+8], eax
 
-; 844  : 		data[idx] = head;
-; 845  : 		Assign(idx + 1, scalars...);
-; 846  : 	}
+; 843  : 		data[idx] = head;
+; 844  : 		Assign(idx + 1, scalars...);
+; 845  : 	}
 
 	ret	0
 ??$Assign@MM$0A@@?$Vector@M$02@@IEAAXHMM@Z ENDP		; Vector<float,3>::Assign<float,float,0>
@@ -22778,15 +9307,15 @@ head$ = 24
 <scalars_1>$ = 40
 ??$Assign@MMM$0A@@?$Vector@M$03@@IEAAXHMMM@Z PROC	; Vector<float,4>::Assign<float,float,float,0>, COMDAT
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 	mov	QWORD PTR [rcx], rax
 	mov	QWORD PTR [rcx+8], rax
 
-; 844  : 		data[idx] = head;
-; 845  : 		Assign(idx + 1, scalars...);
-; 846  : 	}
+; 843  : 		data[idx] = head;
+; 844  : 		Assign(idx + 1, scalars...);
+; 845  : 	}
 
 	ret	0
 ??$Assign@MMM$0A@@?$Vector@M$03@@IEAAXHMMM@Z ENDP	; Vector<float,4>::Assign<float,float,float,0>
@@ -22800,8 +9329,8 @@ idx$ = 16
 head$ = 24
 ??$Assign@V?$Vector@M$03@@$$V$0A@@?$Vector@M$07@@IEAAXHAEBV?$Vector@M$03@@@Z PROC ; Vector<float,8>::Assign<Vector<float,4>,0>, COMDAT
 
-; 851  : 		for (int i = 0; i < DimensionOf<Head>::value; ++i) {
-; 852  : 			data[idx] = GetVectorElement<Head>::Get(head, i);
+; 850  : 		for (int i = 0; i < DimensionOf<Head>::value; ++i) {
+; 851  : 			data[idx] = GetVectorElement<Head>::Get(head, i);
 
 	mov	eax, DWORD PTR [r8]
 	movsxd	r9, edx
@@ -22813,7 +9342,7 @@ head$ = 24
 	mov	eax, DWORD PTR [r8+12]
 	mov	DWORD PTR [rcx+r9*4+12], eax
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 	mov	QWORD PTR [rcx], rax
@@ -22821,10 +9350,10 @@ head$ = 24
 	mov	QWORD PTR [rcx+16], rax
 	mov	QWORD PTR [rcx+24], rax
 
-; 853  : 			++idx;
-; 854  : 		}
-; 855  : 		Assign(idx, mixed...);
-; 856  : 	}
+; 852  : 			++idx;
+; 853  : 		}
+; 854  : 		Assign(idx, mixed...);
+; 855  : 	}
 
 	ret	0
 ??$Assign@V?$Vector@M$03@@$$V$0A@@?$Vector@M$07@@IEAAXHAEBV?$Vector@M$03@@@Z ENDP ; Vector<float,8>::Assign<Vector<float,4>,0>
@@ -22844,15 +9373,15 @@ head$dead$ = 24
 <scalars_5>$dead$ = 72
 ??$Assign@HHHHHHH$0A@@?$Vector@M$07@@IEAAXHHHHHHHH@Z PROC ; Vector<float,8>::Assign<int,int,int,int,int,int,int,0>, COMDAT
 
-; 844  : 		data[idx] = head;
+; 843  : 		data[idx] = head;
 
 	mov	DWORD PTR [rcx+4], 1073741824		; 40000000H
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 
-; 844  : 		data[idx] = head;
+; 843  : 		data[idx] = head;
 
 	mov	DWORD PTR [rcx+8], 1077936128		; 40400000H
 	mov	DWORD PTR [rcx+12], 1082130432		; 40800000H
@@ -22861,15 +9390,15 @@ head$dead$ = 24
 	mov	DWORD PTR [rcx+24], 1088421888		; 40e00000H
 	mov	DWORD PTR [rcx+28], 1090519040		; 41000000H
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	mov	QWORD PTR [rcx], rax
 	mov	QWORD PTR [rcx+8], rax
 	mov	QWORD PTR [rcx+16], rax
 	mov	QWORD PTR [rcx+24], rax
 
-; 845  : 		Assign(idx + 1, scalars...);
-; 846  : 	}
+; 844  : 		Assign(idx + 1, scalars...);
+; 845  : 	}
 
 	ret	0
 ??$Assign@HHHHHHH$0A@@?$Vector@M$07@@IEAAXHHHHHHHH@Z ENDP ; Vector<float,8>::Assign<int,int,int,int,int,int,int,0>
@@ -22884,503 +9413,28 @@ head$dead$ = 24
 <scalars_0>$dead$ = 32
 ??$Assign@HH$0A@@?$Vector@M$02@@IEAAXHHH@Z PROC		; Vector<float,3>::Assign<int,int,0>, COMDAT
 
-; 844  : 		data[idx] = head;
+; 843  : 		data[idx] = head;
 
 	mov	DWORD PTR [rcx+4], 1073741824		; 40000000H
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 
-; 844  : 		data[idx] = head;
+; 843  : 		data[idx] = head;
 
 	mov	DWORD PTR [rcx+8], 1077936128		; 40400000H
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	mov	QWORD PTR [rcx], rax
 	mov	DWORD PTR [rcx+8], eax
 
-; 845  : 		Assign(idx + 1, scalars...);
-; 846  : 	}
+; 844  : 		Assign(idx + 1, scalars...);
+; 845  : 	}
 
 	ret	0
 ??$Assign@HH$0A@@?$Vector@M$02@@IEAAXHHH@Z ENDP		; Vector<float,3>::Assign<int,int,0>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\chrono
-;	COMDAT ??$?G_JU?$ratio@$00$0DLJKMKAA@@std@@_JU01@@chrono@std@@YA?AV?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@01@AEBV201@0@Z
-_TEXT	SEGMENT
-__$ReturnUdt$ = 8
-_Left$ = 16
-_Right$ = 24
-??$?G_JU?$ratio@$00$0DLJKMKAA@@std@@_JU01@@chrono@std@@YA?AV?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@01@AEBV201@0@Z PROC ; std::chrono::operator-<__int64,std::ratio<1,1000000000>,__int64,std::ratio<1,1000000000> >, COMDAT
-
-; 351  : 	typedef typename common_type<
-; 352  : 		duration<_Rep1, _Period1>, duration<_Rep2, _Period2> >::type _CD;
-; 353  : 	return (_CD(_CD(_Left).count() - _CD(_Right).count()));
-
-	mov	rax, QWORD PTR [rdx]
-	sub	rax, QWORD PTR [r8]
-
-; 116  : 			: _MyRep(static_cast<_Rep>(_Val))
-
-	mov	QWORD PTR [rcx], rax
-
-; 351  : 	typedef typename common_type<
-; 352  : 		duration<_Rep1, _Period1>, duration<_Rep2, _Period2> >::type _CD;
-; 353  : 	return (_CD(_CD(_Left).count() - _CD(_Right).count()));
-
-	mov	rax, rcx
-
-; 354  : 	}
-
-	ret	0
-??$?G_JU?$ratio@$00$0DLJKMKAA@@std@@_JU01@@chrono@std@@YA?AV?$duration@_JU?$ratio@$00$0DLJKMKAA@@std@@@01@AEBV201@0@Z ENDP ; std::chrono::operator-<__int64,std::ratio<1,1000000000>,__int64,std::ratio<1,1000000000> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-;	COMDAT ??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$02$03$00@@_KV?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@YAXPEAV?$Matrix@M$02$03$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z
-_TEXT	SEGMENT
-_First$ = 8
-_Count$dead$ = 16
-_Al$dead$ = 24
-__formal$dead$ = 32
-??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$02$03$00@@_KV?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@YAXPEAV?$Matrix@M$02$03$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z PROC ; std::_Uninitialized_default_fill_n1<Matrix<float,3,4,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,3,4,1> > >, COMDAT
-
-; 453  : 	{	// value-initialize _Count objects to raw _First, using _Al, no special optimization
-
-	mov	eax, 100000				; 000186a0H
-$LL4@Uninitiali:
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 737  : 		::new ((void *)_Ptr) _Objty(_STD forward<_Types>(_Args)...);
-
-	test	rcx, rcx
-	je	SHORT $LN2@Uninitiali
-	xor	edx, edx
-	mov	QWORD PTR [rcx], rdx
-	mov	QWORD PTR [rcx+8], rdx
-	mov	QWORD PTR [rcx+16], rdx
-	mov	QWORD PTR [rcx+24], rdx
-	mov	QWORD PTR [rcx+32], rdx
-	mov	QWORD PTR [rcx+40], rdx
-	mov	QWORD PTR [rcx+48], rdx
-	mov	QWORD PTR [rcx+56], rdx
-$LN2@Uninitiali:
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-
-; 457  : 	for (; 0 < _Count; --_Count, (void)++_First)
-
-	add	rcx, 64					; 00000040H
-	sub	rax, 1
-	jne	SHORT $LL4@Uninitiali
-
-; 458  : 		_Al.construct(_Unfancy(_First));
-; 459  : 	_CATCH_ALL
-; 460  : 	_Destroy_range(_Next, _First, _Al);
-; 461  : 	_RERAISE;
-; 462  : 	_CATCH_END
-; 463  : 	}
-
-	ret	0
-??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$02$03$00@@_KV?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@YAXPEAV?$Matrix@M$02$03$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z ENDP ; std::_Uninitialized_default_fill_n1<Matrix<float,3,4,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,3,4,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-;	COMDAT ??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$03$02$00@@_KV?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@YAXPEAV?$Matrix@M$03$02$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z
-_TEXT	SEGMENT
-_First$ = 8
-_Count$dead$ = 16
-_Al$dead$ = 24
-__formal$dead$ = 32
-??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$03$02$00@@_KV?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@YAXPEAV?$Matrix@M$03$02$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z PROC ; std::_Uninitialized_default_fill_n1<Matrix<float,4,3,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,4,3,1> > >, COMDAT
-
-; 453  : 	{	// value-initialize _Count objects to raw _First, using _Al, no special optimization
-
-	mov	eax, 100000				; 000186a0H
-$LL4@Uninitiali:
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 737  : 		::new ((void *)_Ptr) _Objty(_STD forward<_Types>(_Args)...);
-
-	test	rcx, rcx
-	je	SHORT $LN2@Uninitiali
-	xor	edx, edx
-	mov	QWORD PTR [rcx], rdx
-	mov	QWORD PTR [rcx+8], rdx
-	mov	QWORD PTR [rcx+16], rdx
-	mov	QWORD PTR [rcx+24], rdx
-	mov	QWORD PTR [rcx+32], rdx
-	mov	QWORD PTR [rcx+40], rdx
-$LN2@Uninitiali:
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-
-; 457  : 	for (; 0 < _Count; --_Count, (void)++_First)
-
-	add	rcx, 48					; 00000030H
-	sub	rax, 1
-	jne	SHORT $LL4@Uninitiali
-
-; 458  : 		_Al.construct(_Unfancy(_First));
-; 459  : 	_CATCH_ALL
-; 460  : 	_Destroy_range(_Next, _First, _Al);
-; 461  : 	_RERAISE;
-; 462  : 	_CATCH_END
-; 463  : 	}
-
-	ret	0
-??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$03$02$00@@_KV?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@YAXPEAV?$Matrix@M$03$02$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z ENDP ; std::_Uninitialized_default_fill_n1<Matrix<float,4,3,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,4,3,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-;	COMDAT ??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$01$03$00@@_KV?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@YAXPEAV?$Matrix@M$01$03$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z
-_TEXT	SEGMENT
-_First$ = 8
-_Count$dead$ = 16
-_Al$dead$ = 24
-__formal$dead$ = 32
-??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$01$03$00@@_KV?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@YAXPEAV?$Matrix@M$01$03$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z PROC ; std::_Uninitialized_default_fill_n1<Matrix<float,2,4,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,2,4,1> > >, COMDAT
-
-; 453  : 	{	// value-initialize _Count objects to raw _First, using _Al, no special optimization
-
-	mov	eax, 100000				; 000186a0H
-$LL4@Uninitiali:
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 737  : 		::new ((void *)_Ptr) _Objty(_STD forward<_Types>(_Args)...);
-
-	test	rcx, rcx
-	je	SHORT $LN2@Uninitiali
-	xor	edx, edx
-	mov	QWORD PTR [rcx], rdx
-	mov	QWORD PTR [rcx+8], rdx
-	mov	QWORD PTR [rcx+16], rdx
-	mov	QWORD PTR [rcx+24], rdx
-$LN2@Uninitiali:
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-
-; 457  : 	for (; 0 < _Count; --_Count, (void)++_First)
-
-	add	rcx, 32					; 00000020H
-	sub	rax, 1
-	jne	SHORT $LL4@Uninitiali
-
-; 458  : 		_Al.construct(_Unfancy(_First));
-; 459  : 	_CATCH_ALL
-; 460  : 	_Destroy_range(_Next, _First, _Al);
-; 461  : 	_RERAISE;
-; 462  : 	_CATCH_END
-; 463  : 	}
-
-	ret	0
-??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$01$03$00@@_KV?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@YAXPEAV?$Matrix@M$01$03$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z ENDP ; std::_Uninitialized_default_fill_n1<Matrix<float,2,4,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,2,4,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-;	COMDAT ??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$03$01$00@@_KV?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@YAXPEAV?$Matrix@M$03$01$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z
-_TEXT	SEGMENT
-_First$ = 8
-_Count$dead$ = 16
-_Al$dead$ = 24
-__formal$dead$ = 32
-??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$03$01$00@@_KV?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@YAXPEAV?$Matrix@M$03$01$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z PROC ; std::_Uninitialized_default_fill_n1<Matrix<float,4,2,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,4,2,1> > >, COMDAT
-
-; 453  : 	{	// value-initialize _Count objects to raw _First, using _Al, no special optimization
-
-	mov	eax, 100000				; 000186a0H
-$LL4@Uninitiali:
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 737  : 		::new ((void *)_Ptr) _Objty(_STD forward<_Types>(_Args)...);
-
-	test	rcx, rcx
-	je	SHORT $LN2@Uninitiali
-	xor	edx, edx
-	mov	QWORD PTR [rcx], rdx
-	mov	QWORD PTR [rcx+8], rdx
-	mov	QWORD PTR [rcx+16], rdx
-	mov	QWORD PTR [rcx+24], rdx
-$LN2@Uninitiali:
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-
-; 457  : 	for (; 0 < _Count; --_Count, (void)++_First)
-
-	add	rcx, 32					; 00000020H
-	sub	rax, 1
-	jne	SHORT $LL4@Uninitiali
-
-; 458  : 		_Al.construct(_Unfancy(_First));
-; 459  : 	_CATCH_ALL
-; 460  : 	_Destroy_range(_Next, _First, _Al);
-; 461  : 	_RERAISE;
-; 462  : 	_CATCH_END
-; 463  : 	}
-
-	ret	0
-??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$03$01$00@@_KV?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@YAXPEAV?$Matrix@M$03$01$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z ENDP ; std::_Uninitialized_default_fill_n1<Matrix<float,4,2,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,4,2,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-;	COMDAT ??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$03$03$00@@_KV?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@YAXPEAV?$Matrix@M$03$03$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z
-_TEXT	SEGMENT
-_First$ = 8
-_Count$dead$ = 16
-_Al$dead$ = 24
-__formal$dead$ = 32
-??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$03$03$00@@_KV?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@YAXPEAV?$Matrix@M$03$03$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z PROC ; std::_Uninitialized_default_fill_n1<Matrix<float,4,4,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,4,4,1> > >, COMDAT
-
-; 453  : 	{	// value-initialize _Count objects to raw _First, using _Al, no special optimization
-
-	mov	eax, 100000				; 000186a0H
-$LL4@Uninitiali:
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 737  : 		::new ((void *)_Ptr) _Objty(_STD forward<_Types>(_Args)...);
-
-	test	rcx, rcx
-	je	SHORT $LN2@Uninitiali
-	xor	edx, edx
-	mov	QWORD PTR [rcx], rdx
-	mov	QWORD PTR [rcx+8], rdx
-	mov	QWORD PTR [rcx+16], rdx
-	mov	QWORD PTR [rcx+24], rdx
-	mov	QWORD PTR [rcx+32], rdx
-	mov	QWORD PTR [rcx+40], rdx
-	mov	QWORD PTR [rcx+48], rdx
-	mov	QWORD PTR [rcx+56], rdx
-$LN2@Uninitiali:
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-
-; 457  : 	for (; 0 < _Count; --_Count, (void)++_First)
-
-	add	rcx, 64					; 00000040H
-	sub	rax, 1
-	jne	SHORT $LL4@Uninitiali
-
-; 458  : 		_Al.construct(_Unfancy(_First));
-; 459  : 	_CATCH_ALL
-; 460  : 	_Destroy_range(_Next, _First, _Al);
-; 461  : 	_RERAISE;
-; 462  : 	_CATCH_END
-; 463  : 	}
-
-	ret	0
-??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$03$03$00@@_KV?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@YAXPEAV?$Matrix@M$03$03$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z ENDP ; std::_Uninitialized_default_fill_n1<Matrix<float,4,4,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,4,4,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-;	COMDAT ??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$02$02$00@@_KV?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@YAXPEAV?$Matrix@M$02$02$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z
-_TEXT	SEGMENT
-_First$ = 8
-_Count$dead$ = 16
-_Al$dead$ = 24
-__formal$dead$ = 32
-??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$02$02$00@@_KV?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@YAXPEAV?$Matrix@M$02$02$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z PROC ; std::_Uninitialized_default_fill_n1<Matrix<float,3,3,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,3,3,1> > >, COMDAT
-
-; 453  : 	{	// value-initialize _Count objects to raw _First, using _Al, no special optimization
-
-	mov	eax, 100000				; 000186a0H
-$LL4@Uninitiali:
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 737  : 		::new ((void *)_Ptr) _Objty(_STD forward<_Types>(_Args)...);
-
-	test	rcx, rcx
-	je	SHORT $LN2@Uninitiali
-	xor	edx, edx
-	mov	QWORD PTR [rcx], rdx
-	mov	QWORD PTR [rcx+8], rdx
-	mov	QWORD PTR [rcx+16], rdx
-	mov	QWORD PTR [rcx+24], rdx
-	mov	QWORD PTR [rcx+32], rdx
-	mov	QWORD PTR [rcx+40], rdx
-$LN2@Uninitiali:
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-
-; 457  : 	for (; 0 < _Count; --_Count, (void)++_First)
-
-	add	rcx, 48					; 00000030H
-	sub	rax, 1
-	jne	SHORT $LL4@Uninitiali
-
-; 458  : 		_Al.construct(_Unfancy(_First));
-; 459  : 	_CATCH_ALL
-; 460  : 	_Destroy_range(_Next, _First, _Al);
-; 461  : 	_RERAISE;
-; 462  : 	_CATCH_END
-; 463  : 	}
-
-	ret	0
-??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$02$02$00@@_KV?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@YAXPEAV?$Matrix@M$02$02$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z ENDP ; std::_Uninitialized_default_fill_n1<Matrix<float,3,3,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,3,3,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-;	COMDAT ??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$01$01$00@@_KV?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@YAXPEAV?$Matrix@M$01$01$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z
-_TEXT	SEGMENT
-_First$ = 8
-_Count$dead$ = 16
-_Al$dead$ = 24
-__formal$dead$ = 32
-??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$01$01$00@@_KV?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@YAXPEAV?$Matrix@M$01$01$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z PROC ; std::_Uninitialized_default_fill_n1<Matrix<float,2,2,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,2,2,1> > >, COMDAT
-
-; 453  : 	{	// value-initialize _Count objects to raw _First, using _Al, no special optimization
-
-	mov	eax, 100000				; 000186a0H
-$LL4@Uninitiali:
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-
-; 737  : 		::new ((void *)_Ptr) _Objty(_STD forward<_Types>(_Args)...);
-
-	test	rcx, rcx
-	je	SHORT $LN2@Uninitiali
-	xor	edx, edx
-	mov	QWORD PTR [rcx], rdx
-	mov	QWORD PTR [rcx+8], rdx
-$LN2@Uninitiali:
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory
-
-; 457  : 	for (; 0 < _Count; --_Count, (void)++_First)
-
-	add	rcx, 16
-	sub	rax, 1
-	jne	SHORT $LL4@Uninitiali
-
-; 458  : 		_Al.construct(_Unfancy(_First));
-; 459  : 	_CATCH_ALL
-; 460  : 	_Destroy_range(_Next, _First, _Al);
-; 461  : 	_RERAISE;
-; 462  : 	_CATCH_END
-; 463  : 	}
-
-	ret	0
-??$_Uninitialized_default_fill_n1@PEAV?$Matrix@M$01$01$00@@_KV?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@YAXPEAV?$Matrix@M$01$01$00@@_KAEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@0@U?$integral_constant@_N$0A@@0@@Z ENDP ; std::_Uninitialized_default_fill_n1<Matrix<float,2,2,1> * __ptr64,unsigned __int64,std::allocator<Matrix<float,2,2,1> > >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$_Destroy_range1@V?$allocator@V?$Matrix@M$02$03$00@@@std@@PEAV?$Matrix@M$02$03$00@@@std@@YAXPEAV?$Matrix@M$02$03$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@0@U?$integral_constant@_N$00@0@@Z
-_TEXT	SEGMENT
-__formal$dead$ = 8
-__formal$dead$ = 16
-__formal$dead$ = 24
-__formal$dead$ = 32
-??$_Destroy_range1@V?$allocator@V?$Matrix@M$02$03$00@@@std@@PEAV?$Matrix@M$02$03$00@@@std@@YAXPEAV?$Matrix@M$02$03$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@0@U?$integral_constant@_N$00@0@@Z PROC ; std::_Destroy_range1<std::allocator<Matrix<float,3,4,1> >,Matrix<float,3,4,1> * __ptr64>, COMDAT
-
-; 1108 : 		// nothing to do
-; 1109 : 	}
-
-	ret	0
-??$_Destroy_range1@V?$allocator@V?$Matrix@M$02$03$00@@@std@@PEAV?$Matrix@M$02$03$00@@@std@@YAXPEAV?$Matrix@M$02$03$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@0@U?$integral_constant@_N$00@0@@Z ENDP ; std::_Destroy_range1<std::allocator<Matrix<float,3,4,1> >,Matrix<float,3,4,1> * __ptr64>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$_Destroy_range1@V?$allocator@V?$Matrix@M$03$02$00@@@std@@PEAV?$Matrix@M$03$02$00@@@std@@YAXPEAV?$Matrix@M$03$02$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@0@U?$integral_constant@_N$00@0@@Z
-_TEXT	SEGMENT
-__formal$dead$ = 8
-__formal$dead$ = 16
-__formal$dead$ = 24
-__formal$dead$ = 32
-??$_Destroy_range1@V?$allocator@V?$Matrix@M$03$02$00@@@std@@PEAV?$Matrix@M$03$02$00@@@std@@YAXPEAV?$Matrix@M$03$02$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@0@U?$integral_constant@_N$00@0@@Z PROC ; std::_Destroy_range1<std::allocator<Matrix<float,4,3,1> >,Matrix<float,4,3,1> * __ptr64>, COMDAT
-
-; 1108 : 		// nothing to do
-; 1109 : 	}
-
-	ret	0
-??$_Destroy_range1@V?$allocator@V?$Matrix@M$03$02$00@@@std@@PEAV?$Matrix@M$03$02$00@@@std@@YAXPEAV?$Matrix@M$03$02$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@0@U?$integral_constant@_N$00@0@@Z ENDP ; std::_Destroy_range1<std::allocator<Matrix<float,4,3,1> >,Matrix<float,4,3,1> * __ptr64>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$_Destroy_range1@V?$allocator@V?$Matrix@M$01$03$00@@@std@@PEAV?$Matrix@M$01$03$00@@@std@@YAXPEAV?$Matrix@M$01$03$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@0@U?$integral_constant@_N$00@0@@Z
-_TEXT	SEGMENT
-__formal$dead$ = 8
-__formal$dead$ = 16
-__formal$dead$ = 24
-__formal$dead$ = 32
-??$_Destroy_range1@V?$allocator@V?$Matrix@M$01$03$00@@@std@@PEAV?$Matrix@M$01$03$00@@@std@@YAXPEAV?$Matrix@M$01$03$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@0@U?$integral_constant@_N$00@0@@Z PROC ; std::_Destroy_range1<std::allocator<Matrix<float,2,4,1> >,Matrix<float,2,4,1> * __ptr64>, COMDAT
-
-; 1108 : 		// nothing to do
-; 1109 : 	}
-
-	ret	0
-??$_Destroy_range1@V?$allocator@V?$Matrix@M$01$03$00@@@std@@PEAV?$Matrix@M$01$03$00@@@std@@YAXPEAV?$Matrix@M$01$03$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@0@U?$integral_constant@_N$00@0@@Z ENDP ; std::_Destroy_range1<std::allocator<Matrix<float,2,4,1> >,Matrix<float,2,4,1> * __ptr64>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$_Destroy_range1@V?$allocator@V?$Matrix@M$03$01$00@@@std@@PEAV?$Matrix@M$03$01$00@@@std@@YAXPEAV?$Matrix@M$03$01$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@0@U?$integral_constant@_N$00@0@@Z
-_TEXT	SEGMENT
-__formal$dead$ = 8
-__formal$dead$ = 16
-__formal$dead$ = 24
-__formal$dead$ = 32
-??$_Destroy_range1@V?$allocator@V?$Matrix@M$03$01$00@@@std@@PEAV?$Matrix@M$03$01$00@@@std@@YAXPEAV?$Matrix@M$03$01$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@0@U?$integral_constant@_N$00@0@@Z PROC ; std::_Destroy_range1<std::allocator<Matrix<float,4,2,1> >,Matrix<float,4,2,1> * __ptr64>, COMDAT
-
-; 1108 : 		// nothing to do
-; 1109 : 	}
-
-	ret	0
-??$_Destroy_range1@V?$allocator@V?$Matrix@M$03$01$00@@@std@@PEAV?$Matrix@M$03$01$00@@@std@@YAXPEAV?$Matrix@M$03$01$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@0@U?$integral_constant@_N$00@0@@Z ENDP ; std::_Destroy_range1<std::allocator<Matrix<float,4,2,1> >,Matrix<float,4,2,1> * __ptr64>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$_Destroy_range1@V?$allocator@V?$Matrix@M$03$03$00@@@std@@PEAV?$Matrix@M$03$03$00@@@std@@YAXPEAV?$Matrix@M$03$03$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@0@U?$integral_constant@_N$00@0@@Z
-_TEXT	SEGMENT
-__formal$dead$ = 8
-__formal$dead$ = 16
-__formal$dead$ = 24
-__formal$dead$ = 32
-??$_Destroy_range1@V?$allocator@V?$Matrix@M$03$03$00@@@std@@PEAV?$Matrix@M$03$03$00@@@std@@YAXPEAV?$Matrix@M$03$03$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@0@U?$integral_constant@_N$00@0@@Z PROC ; std::_Destroy_range1<std::allocator<Matrix<float,4,4,1> >,Matrix<float,4,4,1> * __ptr64>, COMDAT
-
-; 1108 : 		// nothing to do
-; 1109 : 	}
-
-	ret	0
-??$_Destroy_range1@V?$allocator@V?$Matrix@M$03$03$00@@@std@@PEAV?$Matrix@M$03$03$00@@@std@@YAXPEAV?$Matrix@M$03$03$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@0@U?$integral_constant@_N$00@0@@Z ENDP ; std::_Destroy_range1<std::allocator<Matrix<float,4,4,1> >,Matrix<float,4,4,1> * __ptr64>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$_Destroy_range1@V?$allocator@V?$Matrix@M$02$02$00@@@std@@PEAV?$Matrix@M$02$02$00@@@std@@YAXPEAV?$Matrix@M$02$02$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@0@U?$integral_constant@_N$00@0@@Z
-_TEXT	SEGMENT
-__formal$dead$ = 8
-__formal$dead$ = 16
-__formal$dead$ = 24
-__formal$dead$ = 32
-??$_Destroy_range1@V?$allocator@V?$Matrix@M$02$02$00@@@std@@PEAV?$Matrix@M$02$02$00@@@std@@YAXPEAV?$Matrix@M$02$02$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@0@U?$integral_constant@_N$00@0@@Z PROC ; std::_Destroy_range1<std::allocator<Matrix<float,3,3,1> >,Matrix<float,3,3,1> * __ptr64>, COMDAT
-
-; 1108 : 		// nothing to do
-; 1109 : 	}
-
-	ret	0
-??$_Destroy_range1@V?$allocator@V?$Matrix@M$02$02$00@@@std@@PEAV?$Matrix@M$02$02$00@@@std@@YAXPEAV?$Matrix@M$02$02$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@0@U?$integral_constant@_N$00@0@@Z ENDP ; std::_Destroy_range1<std::allocator<Matrix<float,3,3,1> >,Matrix<float,3,3,1> * __ptr64>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$_Destroy_range1@V?$allocator@V?$Matrix@M$01$01$00@@@std@@PEAV?$Matrix@M$01$01$00@@@std@@YAXPEAV?$Matrix@M$01$01$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@0@U?$integral_constant@_N$00@0@@Z
-_TEXT	SEGMENT
-__formal$dead$ = 8
-__formal$dead$ = 16
-__formal$dead$ = 24
-__formal$dead$ = 32
-??$_Destroy_range1@V?$allocator@V?$Matrix@M$01$01$00@@@std@@PEAV?$Matrix@M$01$01$00@@@std@@YAXPEAV?$Matrix@M$01$01$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@0@U?$integral_constant@_N$00@0@@Z PROC ; std::_Destroy_range1<std::allocator<Matrix<float,2,2,1> >,Matrix<float,2,2,1> * __ptr64>, COMDAT
-
-; 1108 : 		// nothing to do
-; 1109 : 	}
-
-	ret	0
-??$_Destroy_range1@V?$allocator@V?$Matrix@M$01$01$00@@@std@@PEAV?$Matrix@M$01$01$00@@@std@@YAXPEAV?$Matrix@M$01$01$00@@0AEAU?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@0@U?$integral_constant@_N$00@0@@Z ENDP ; std::_Destroy_range1<std::allocator<Matrix<float,2,2,1> >,Matrix<float,2,2,1> * __ptr64>
 _TEXT	ENDS
 ; Function compile flags: /Ogtpy
 ; File c:\home\programming\mathter\mathter\vector.hpp
@@ -23390,8 +9444,8 @@ this$ = 8
 idx$dead$ = 16
 ?Assign@?$Vector@M$07@@IEAAXH@Z PROC			; Vector<float,8>::Assign, COMDAT
 
-; 860  : 		for (idx = 0; idx < D; idx++) {
-; 861  : 			data[idx] = T(0);
+; 859  : 		for (idx = 0; idx < D; idx++) {
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 	mov	QWORD PTR [rcx], rax
@@ -23399,123 +9453,11 @@ idx$dead$ = 16
 	mov	QWORD PTR [rcx+16], rax
 	mov	QWORD PTR [rcx+24], rax
 
-; 862  : 		}
-; 863  : 	}
+; 861  : 		}
+; 862  : 	}
 
 	ret	0
 ?Assign@?$Vector@M$07@@IEAAXH@Z ENDP			; Vector<float,8>::Assign
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xstddef
-;	COMDAT ??$_Unfancy@V?$Matrix@M$02$03$00@@@std@@YAPEAV?$Matrix@M$02$03$00@@PEAV1@@Z
-_TEXT	SEGMENT
-_Ptr$ = 8
-??$_Unfancy@V?$Matrix@M$02$03$00@@@std@@YAPEAV?$Matrix@M$02$03$00@@PEAV1@@Z PROC ; std::_Unfancy<Matrix<float,3,4,1> >, COMDAT
-
-; 740  : 	return (_Ptr);
-
-	mov	rax, rcx
-
-; 741  : 	}
-
-	ret	0
-??$_Unfancy@V?$Matrix@M$02$03$00@@@std@@YAPEAV?$Matrix@M$02$03$00@@PEAV1@@Z ENDP ; std::_Unfancy<Matrix<float,3,4,1> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xstddef
-;	COMDAT ??$_Unfancy@V?$Matrix@M$03$02$00@@@std@@YAPEAV?$Matrix@M$03$02$00@@PEAV1@@Z
-_TEXT	SEGMENT
-_Ptr$ = 8
-??$_Unfancy@V?$Matrix@M$03$02$00@@@std@@YAPEAV?$Matrix@M$03$02$00@@PEAV1@@Z PROC ; std::_Unfancy<Matrix<float,4,3,1> >, COMDAT
-
-; 740  : 	return (_Ptr);
-
-	mov	rax, rcx
-
-; 741  : 	}
-
-	ret	0
-??$_Unfancy@V?$Matrix@M$03$02$00@@@std@@YAPEAV?$Matrix@M$03$02$00@@PEAV1@@Z ENDP ; std::_Unfancy<Matrix<float,4,3,1> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xstddef
-;	COMDAT ??$_Unfancy@V?$Matrix@M$01$03$00@@@std@@YAPEAV?$Matrix@M$01$03$00@@PEAV1@@Z
-_TEXT	SEGMENT
-_Ptr$ = 8
-??$_Unfancy@V?$Matrix@M$01$03$00@@@std@@YAPEAV?$Matrix@M$01$03$00@@PEAV1@@Z PROC ; std::_Unfancy<Matrix<float,2,4,1> >, COMDAT
-
-; 740  : 	return (_Ptr);
-
-	mov	rax, rcx
-
-; 741  : 	}
-
-	ret	0
-??$_Unfancy@V?$Matrix@M$01$03$00@@@std@@YAPEAV?$Matrix@M$01$03$00@@PEAV1@@Z ENDP ; std::_Unfancy<Matrix<float,2,4,1> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xstddef
-;	COMDAT ??$_Unfancy@V?$Matrix@M$03$01$00@@@std@@YAPEAV?$Matrix@M$03$01$00@@PEAV1@@Z
-_TEXT	SEGMENT
-_Ptr$ = 8
-??$_Unfancy@V?$Matrix@M$03$01$00@@@std@@YAPEAV?$Matrix@M$03$01$00@@PEAV1@@Z PROC ; std::_Unfancy<Matrix<float,4,2,1> >, COMDAT
-
-; 740  : 	return (_Ptr);
-
-	mov	rax, rcx
-
-; 741  : 	}
-
-	ret	0
-??$_Unfancy@V?$Matrix@M$03$01$00@@@std@@YAPEAV?$Matrix@M$03$01$00@@PEAV1@@Z ENDP ; std::_Unfancy<Matrix<float,4,2,1> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xstddef
-;	COMDAT ??$_Unfancy@V?$Matrix@M$03$03$00@@@std@@YAPEAV?$Matrix@M$03$03$00@@PEAV1@@Z
-_TEXT	SEGMENT
-_Ptr$ = 8
-??$_Unfancy@V?$Matrix@M$03$03$00@@@std@@YAPEAV?$Matrix@M$03$03$00@@PEAV1@@Z PROC ; std::_Unfancy<Matrix<float,4,4,1> >, COMDAT
-
-; 740  : 	return (_Ptr);
-
-	mov	rax, rcx
-
-; 741  : 	}
-
-	ret	0
-??$_Unfancy@V?$Matrix@M$03$03$00@@@std@@YAPEAV?$Matrix@M$03$03$00@@PEAV1@@Z ENDP ; std::_Unfancy<Matrix<float,4,4,1> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xstddef
-;	COMDAT ??$_Unfancy@V?$Matrix@M$02$02$00@@@std@@YAPEAV?$Matrix@M$02$02$00@@PEAV1@@Z
-_TEXT	SEGMENT
-_Ptr$ = 8
-??$_Unfancy@V?$Matrix@M$02$02$00@@@std@@YAPEAV?$Matrix@M$02$02$00@@PEAV1@@Z PROC ; std::_Unfancy<Matrix<float,3,3,1> >, COMDAT
-
-; 740  : 	return (_Ptr);
-
-	mov	rax, rcx
-
-; 741  : 	}
-
-	ret	0
-??$_Unfancy@V?$Matrix@M$02$02$00@@@std@@YAPEAV?$Matrix@M$02$02$00@@PEAV1@@Z ENDP ; std::_Unfancy<Matrix<float,3,3,1> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xstddef
-;	COMDAT ??$_Unfancy@V?$Matrix@M$01$01$00@@@std@@YAPEAV?$Matrix@M$01$01$00@@PEAV1@@Z
-_TEXT	SEGMENT
-_Ptr$ = 8
-??$_Unfancy@V?$Matrix@M$01$01$00@@@std@@YAPEAV?$Matrix@M$01$01$00@@PEAV1@@Z PROC ; std::_Unfancy<Matrix<float,2,2,1> >, COMDAT
-
-; 740  : 	return (_Ptr);
-
-	mov	rax, rcx
-
-; 741  : 	}
-
-	ret	0
-??$_Unfancy@V?$Matrix@M$01$01$00@@@std@@YAPEAV?$Matrix@M$01$01$00@@PEAV1@@Z ENDP ; std::_Unfancy<Matrix<float,2,2,1> >
 _TEXT	ENDS
 ; Function compile flags: /Ogtpy
 ; File c:\home\programming\mathter\mathter\vector.hpp
@@ -23526,15 +9468,15 @@ idx$dead$ = 16
 head$ = 24
 ??$Assign@M$$V$0A@@?$Vector@M$02@@IEAAXHM@Z PROC	; Vector<float,3>::Assign<float,0>, COMDAT
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 	mov	QWORD PTR [rcx], rax
 	mov	DWORD PTR [rcx+8], eax
 
-; 844  : 		data[idx] = head;
-; 845  : 		Assign(idx + 1, scalars...);
-; 846  : 	}
+; 843  : 		data[idx] = head;
+; 844  : 		Assign(idx + 1, scalars...);
+; 845  : 	}
 
 	ret	0
 ??$Assign@M$$V$0A@@?$Vector@M$02@@IEAAXHM@Z ENDP	; Vector<float,3>::Assign<float,0>
@@ -23549,15 +9491,15 @@ head$ = 24
 <scalars_0>$ = 32
 ??$Assign@MM$0A@@?$Vector@M$03@@IEAAXHMM@Z PROC		; Vector<float,4>::Assign<float,float,0>, COMDAT
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 	mov	QWORD PTR [rcx], rax
 	mov	QWORD PTR [rcx+8], rax
 
-; 844  : 		data[idx] = head;
-; 845  : 		Assign(idx + 1, scalars...);
-; 846  : 	}
+; 843  : 		data[idx] = head;
+; 844  : 		Assign(idx + 1, scalars...);
+; 845  : 	}
 
 	ret	0
 ??$Assign@MM$0A@@?$Vector@M$03@@IEAAXHMM@Z ENDP		; Vector<float,4>::Assign<float,float,0>
@@ -23576,15 +9518,15 @@ head$dead$ = 24
 <scalars_4>$dead$ = 64
 ??$Assign@HHHHHH$0A@@?$Vector@M$07@@IEAAXHHHHHHH@Z PROC	; Vector<float,8>::Assign<int,int,int,int,int,int,0>, COMDAT
 
-; 844  : 		data[idx] = head;
+; 843  : 		data[idx] = head;
 
 	mov	DWORD PTR [rcx+8], 1077936128		; 40400000H
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 
-; 844  : 		data[idx] = head;
+; 843  : 		data[idx] = head;
 
 	mov	DWORD PTR [rcx+12], 1082130432		; 40800000H
 	mov	DWORD PTR [rcx+16], 1084227584		; 40a00000H
@@ -23592,210 +9534,18 @@ head$dead$ = 24
 	mov	DWORD PTR [rcx+24], 1088421888		; 40e00000H
 	mov	DWORD PTR [rcx+28], 1090519040		; 41000000H
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	mov	QWORD PTR [rcx], rax
 	mov	QWORD PTR [rcx+8], rax
 	mov	QWORD PTR [rcx+16], rax
 	mov	QWORD PTR [rcx+24], rax
 
-; 845  : 		Assign(idx + 1, scalars...);
-; 846  : 	}
+; 844  : 		Assign(idx + 1, scalars...);
+; 845  : 	}
 
 	ret	0
 ??$Assign@HHHHHH$0A@@?$Vector@M$07@@IEAAXHHHHHHH@Z ENDP	; Vector<float,8>::Assign<int,int,int,int,int,int,0>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$construct@V?$Matrix@M$02$03$00@@$$V@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$02$03$00@@@Z
-_TEXT	SEGMENT
-this$dead$ = 8
-_Ptr$ = 16
-??$construct@V?$Matrix@M$02$03$00@@$$V@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$02$03$00@@@Z PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,3,4,1> > >::construct<Matrix<float,3,4,1> >, COMDAT
-
-; 737  : 		::new ((void *)_Ptr) _Objty(_STD forward<_Types>(_Args)...);
-
-	test	rdx, rdx
-	je	SHORT $LN7@construct
-	xor	eax, eax
-	mov	QWORD PTR [rdx], rax
-	mov	QWORD PTR [rdx+8], rax
-	mov	QWORD PTR [rdx+16], rax
-	mov	QWORD PTR [rdx+24], rax
-	mov	QWORD PTR [rdx+32], rax
-	mov	QWORD PTR [rdx+40], rax
-	mov	QWORD PTR [rdx+48], rax
-	mov	QWORD PTR [rdx+56], rax
-$LN7@construct:
-
-; 995  : 		_Mytraits::construct(*this, _Ptr,
-; 996  : 			_STD forward<_Types>(_Args)...);
-; 997  : 		}
-
-	ret	0
-??$construct@V?$Matrix@M$02$03$00@@$$V@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$02$03$00@@@Z ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,3,4,1> > >::construct<Matrix<float,3,4,1> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$construct@V?$Matrix@M$03$02$00@@$$V@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$03$02$00@@@Z
-_TEXT	SEGMENT
-this$dead$ = 8
-_Ptr$ = 16
-??$construct@V?$Matrix@M$03$02$00@@$$V@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$03$02$00@@@Z PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,4,3,1> > >::construct<Matrix<float,4,3,1> >, COMDAT
-
-; 737  : 		::new ((void *)_Ptr) _Objty(_STD forward<_Types>(_Args)...);
-
-	test	rdx, rdx
-	je	SHORT $LN7@construct
-	xor	eax, eax
-	mov	QWORD PTR [rdx], rax
-	mov	QWORD PTR [rdx+8], rax
-	mov	QWORD PTR [rdx+16], rax
-	mov	QWORD PTR [rdx+24], rax
-	mov	QWORD PTR [rdx+32], rax
-	mov	QWORD PTR [rdx+40], rax
-$LN7@construct:
-
-; 995  : 		_Mytraits::construct(*this, _Ptr,
-; 996  : 			_STD forward<_Types>(_Args)...);
-; 997  : 		}
-
-	ret	0
-??$construct@V?$Matrix@M$03$02$00@@$$V@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$03$02$00@@@Z ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,4,3,1> > >::construct<Matrix<float,4,3,1> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$construct@V?$Matrix@M$01$03$00@@$$V@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$01$03$00@@@Z
-_TEXT	SEGMENT
-this$dead$ = 8
-_Ptr$ = 16
-??$construct@V?$Matrix@M$01$03$00@@$$V@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$01$03$00@@@Z PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,2,4,1> > >::construct<Matrix<float,2,4,1> >, COMDAT
-
-; 737  : 		::new ((void *)_Ptr) _Objty(_STD forward<_Types>(_Args)...);
-
-	test	rdx, rdx
-	je	SHORT $LN7@construct
-	xor	eax, eax
-	mov	QWORD PTR [rdx], rax
-	mov	QWORD PTR [rdx+8], rax
-	mov	QWORD PTR [rdx+16], rax
-	mov	QWORD PTR [rdx+24], rax
-$LN7@construct:
-
-; 995  : 		_Mytraits::construct(*this, _Ptr,
-; 996  : 			_STD forward<_Types>(_Args)...);
-; 997  : 		}
-
-	ret	0
-??$construct@V?$Matrix@M$01$03$00@@$$V@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$01$03$00@@@Z ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,2,4,1> > >::construct<Matrix<float,2,4,1> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$construct@V?$Matrix@M$03$01$00@@$$V@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$03$01$00@@@Z
-_TEXT	SEGMENT
-this$dead$ = 8
-_Ptr$ = 16
-??$construct@V?$Matrix@M$03$01$00@@$$V@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$03$01$00@@@Z PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,4,2,1> > >::construct<Matrix<float,4,2,1> >, COMDAT
-
-; 737  : 		::new ((void *)_Ptr) _Objty(_STD forward<_Types>(_Args)...);
-
-	test	rdx, rdx
-	je	SHORT $LN7@construct
-	xor	eax, eax
-	mov	QWORD PTR [rdx], rax
-	mov	QWORD PTR [rdx+8], rax
-	mov	QWORD PTR [rdx+16], rax
-	mov	QWORD PTR [rdx+24], rax
-$LN7@construct:
-
-; 995  : 		_Mytraits::construct(*this, _Ptr,
-; 996  : 			_STD forward<_Types>(_Args)...);
-; 997  : 		}
-
-	ret	0
-??$construct@V?$Matrix@M$03$01$00@@$$V@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$03$01$00@@@Z ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,4,2,1> > >::construct<Matrix<float,4,2,1> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$construct@V?$Matrix@M$03$03$00@@$$V@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$03$03$00@@@Z
-_TEXT	SEGMENT
-this$dead$ = 8
-_Ptr$ = 16
-??$construct@V?$Matrix@M$03$03$00@@$$V@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$03$03$00@@@Z PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,4,4,1> > >::construct<Matrix<float,4,4,1> >, COMDAT
-
-; 737  : 		::new ((void *)_Ptr) _Objty(_STD forward<_Types>(_Args)...);
-
-	test	rdx, rdx
-	je	SHORT $LN7@construct
-	xor	eax, eax
-	mov	QWORD PTR [rdx], rax
-	mov	QWORD PTR [rdx+8], rax
-	mov	QWORD PTR [rdx+16], rax
-	mov	QWORD PTR [rdx+24], rax
-	mov	QWORD PTR [rdx+32], rax
-	mov	QWORD PTR [rdx+40], rax
-	mov	QWORD PTR [rdx+48], rax
-	mov	QWORD PTR [rdx+56], rax
-$LN7@construct:
-
-; 995  : 		_Mytraits::construct(*this, _Ptr,
-; 996  : 			_STD forward<_Types>(_Args)...);
-; 997  : 		}
-
-	ret	0
-??$construct@V?$Matrix@M$03$03$00@@$$V@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$03$03$00@@@Z ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,4,4,1> > >::construct<Matrix<float,4,4,1> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$construct@V?$Matrix@M$02$02$00@@$$V@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$02$02$00@@@Z
-_TEXT	SEGMENT
-this$dead$ = 8
-_Ptr$ = 16
-??$construct@V?$Matrix@M$02$02$00@@$$V@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$02$02$00@@@Z PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,3,3,1> > >::construct<Matrix<float,3,3,1> >, COMDAT
-
-; 737  : 		::new ((void *)_Ptr) _Objty(_STD forward<_Types>(_Args)...);
-
-	test	rdx, rdx
-	je	SHORT $LN7@construct
-	xor	eax, eax
-	mov	QWORD PTR [rdx], rax
-	mov	QWORD PTR [rdx+8], rax
-	mov	QWORD PTR [rdx+16], rax
-	mov	QWORD PTR [rdx+24], rax
-	mov	QWORD PTR [rdx+32], rax
-	mov	QWORD PTR [rdx+40], rax
-$LN7@construct:
-
-; 995  : 		_Mytraits::construct(*this, _Ptr,
-; 996  : 			_STD forward<_Types>(_Args)...);
-; 997  : 		}
-
-	ret	0
-??$construct@V?$Matrix@M$02$02$00@@$$V@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$02$02$00@@@Z ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,3,3,1> > >::construct<Matrix<float,3,3,1> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$construct@V?$Matrix@M$01$01$00@@$$V@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$01$01$00@@@Z
-_TEXT	SEGMENT
-this$dead$ = 8
-_Ptr$ = 16
-??$construct@V?$Matrix@M$01$01$00@@$$V@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$01$01$00@@@Z PROC ; std::_Wrap_alloc<std::allocator<Matrix<float,2,2,1> > >::construct<Matrix<float,2,2,1> >, COMDAT
-
-; 737  : 		::new ((void *)_Ptr) _Objty(_STD forward<_Types>(_Args)...);
-
-	test	rdx, rdx
-	je	SHORT $LN7@construct
-	xor	eax, eax
-	mov	QWORD PTR [rdx], rax
-	mov	QWORD PTR [rdx+8], rax
-$LN7@construct:
-
-; 995  : 		_Mytraits::construct(*this, _Ptr,
-; 996  : 			_STD forward<_Types>(_Args)...);
-; 997  : 		}
-
-	ret	0
-??$construct@V?$Matrix@M$01$01$00@@$$V@?$_Wrap_alloc@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@QEAAXPEAV?$Matrix@M$01$01$00@@@Z ENDP ; std::_Wrap_alloc<std::allocator<Matrix<float,2,2,1> > >::construct<Matrix<float,2,2,1> >
 _TEXT	ENDS
 ; Function compile flags: /Ogtpy
 ; File c:\home\programming\mathter\mathter\vector.hpp
@@ -23806,15 +9556,15 @@ idx$dead$ = 16
 head$ = 24
 ??$Assign@M$$V$0A@@?$Vector@M$03@@IEAAXHM@Z PROC	; Vector<float,4>::Assign<float,0>, COMDAT
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 	mov	QWORD PTR [rcx], rax
 	mov	QWORD PTR [rcx+8], rax
 
-; 844  : 		data[idx] = head;
-; 845  : 		Assign(idx + 1, scalars...);
-; 846  : 	}
+; 843  : 		data[idx] = head;
+; 844  : 		Assign(idx + 1, scalars...);
+; 845  : 	}
 
 	ret	0
 ??$Assign@M$$V$0A@@?$Vector@M$03@@IEAAXHM@Z ENDP	; Vector<float,4>::Assign<float,0>
@@ -23832,218 +9582,33 @@ head$dead$ = 24
 <scalars_3>$dead$ = 56
 ??$Assign@HHHHH$0A@@?$Vector@M$07@@IEAAXHHHHHH@Z PROC	; Vector<float,8>::Assign<int,int,int,int,int,0>, COMDAT
 
-; 844  : 		data[idx] = head;
+; 843  : 		data[idx] = head;
 
 	mov	DWORD PTR [rcx+12], 1082130432		; 40800000H
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 
-; 844  : 		data[idx] = head;
+; 843  : 		data[idx] = head;
 
 	mov	DWORD PTR [rcx+16], 1084227584		; 40a00000H
 	mov	DWORD PTR [rcx+20], 1086324736		; 40c00000H
 	mov	DWORD PTR [rcx+24], 1088421888		; 40e00000H
 	mov	DWORD PTR [rcx+28], 1090519040		; 41000000H
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	mov	QWORD PTR [rcx], rax
 	mov	QWORD PTR [rcx+8], rax
 	mov	QWORD PTR [rcx+16], rax
 	mov	QWORD PTR [rcx+24], rax
 
-; 845  : 		Assign(idx + 1, scalars...);
-; 846  : 	}
+; 844  : 		Assign(idx + 1, scalars...);
+; 845  : 	}
 
 	ret	0
 ??$Assign@HHHHH$0A@@?$Vector@M$07@@IEAAXHHHHHH@Z ENDP	; Vector<float,8>::Assign<int,int,int,int,int,0>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$construct@V?$Matrix@M$02$03$00@@$$V@?$allocator_traits@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@SAXAEAV?$allocator@V?$Matrix@M$02$03$00@@@1@PEAV?$Matrix@M$02$03$00@@@Z
-_TEXT	SEGMENT
-_Al$dead$ = 8
-_Ptr$ = 16
-??$construct@V?$Matrix@M$02$03$00@@$$V@?$allocator_traits@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@SAXAEAV?$allocator@V?$Matrix@M$02$03$00@@@1@PEAV?$Matrix@M$02$03$00@@@Z PROC ; std::allocator_traits<std::allocator<Matrix<float,3,4,1> > >::construct<Matrix<float,3,4,1> >, COMDAT
-
-; 737  : 		::new ((void *)_Ptr) _Objty(_STD forward<_Types>(_Args)...);
-
-	test	rdx, rdx
-	je	SHORT $LN5@construct
-	xor	eax, eax
-	mov	QWORD PTR [rdx], rax
-	mov	QWORD PTR [rdx+8], rax
-	mov	QWORD PTR [rdx+16], rax
-	mov	QWORD PTR [rdx+24], rax
-	mov	QWORD PTR [rdx+32], rax
-	mov	QWORD PTR [rdx+40], rax
-	mov	QWORD PTR [rdx+48], rax
-	mov	QWORD PTR [rdx+56], rax
-$LN5@construct:
-
-; 857  : 		_Al.construct(_Ptr, _STD forward<_Types>(_Args)...);
-; 858  : 		}
-
-	ret	0
-??$construct@V?$Matrix@M$02$03$00@@$$V@?$allocator_traits@V?$allocator@V?$Matrix@M$02$03$00@@@std@@@std@@SAXAEAV?$allocator@V?$Matrix@M$02$03$00@@@1@PEAV?$Matrix@M$02$03$00@@@Z ENDP ; std::allocator_traits<std::allocator<Matrix<float,3,4,1> > >::construct<Matrix<float,3,4,1> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$construct@V?$Matrix@M$03$02$00@@$$V@?$allocator_traits@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@SAXAEAV?$allocator@V?$Matrix@M$03$02$00@@@1@PEAV?$Matrix@M$03$02$00@@@Z
-_TEXT	SEGMENT
-_Al$dead$ = 8
-_Ptr$ = 16
-??$construct@V?$Matrix@M$03$02$00@@$$V@?$allocator_traits@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@SAXAEAV?$allocator@V?$Matrix@M$03$02$00@@@1@PEAV?$Matrix@M$03$02$00@@@Z PROC ; std::allocator_traits<std::allocator<Matrix<float,4,3,1> > >::construct<Matrix<float,4,3,1> >, COMDAT
-
-; 737  : 		::new ((void *)_Ptr) _Objty(_STD forward<_Types>(_Args)...);
-
-	test	rdx, rdx
-	je	SHORT $LN5@construct
-	xor	eax, eax
-	mov	QWORD PTR [rdx], rax
-	mov	QWORD PTR [rdx+8], rax
-	mov	QWORD PTR [rdx+16], rax
-	mov	QWORD PTR [rdx+24], rax
-	mov	QWORD PTR [rdx+32], rax
-	mov	QWORD PTR [rdx+40], rax
-$LN5@construct:
-
-; 857  : 		_Al.construct(_Ptr, _STD forward<_Types>(_Args)...);
-; 858  : 		}
-
-	ret	0
-??$construct@V?$Matrix@M$03$02$00@@$$V@?$allocator_traits@V?$allocator@V?$Matrix@M$03$02$00@@@std@@@std@@SAXAEAV?$allocator@V?$Matrix@M$03$02$00@@@1@PEAV?$Matrix@M$03$02$00@@@Z ENDP ; std::allocator_traits<std::allocator<Matrix<float,4,3,1> > >::construct<Matrix<float,4,3,1> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$construct@V?$Matrix@M$01$03$00@@$$V@?$allocator_traits@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@SAXAEAV?$allocator@V?$Matrix@M$01$03$00@@@1@PEAV?$Matrix@M$01$03$00@@@Z
-_TEXT	SEGMENT
-_Al$dead$ = 8
-_Ptr$ = 16
-??$construct@V?$Matrix@M$01$03$00@@$$V@?$allocator_traits@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@SAXAEAV?$allocator@V?$Matrix@M$01$03$00@@@1@PEAV?$Matrix@M$01$03$00@@@Z PROC ; std::allocator_traits<std::allocator<Matrix<float,2,4,1> > >::construct<Matrix<float,2,4,1> >, COMDAT
-
-; 737  : 		::new ((void *)_Ptr) _Objty(_STD forward<_Types>(_Args)...);
-
-	test	rdx, rdx
-	je	SHORT $LN5@construct
-	xor	eax, eax
-	mov	QWORD PTR [rdx], rax
-	mov	QWORD PTR [rdx+8], rax
-	mov	QWORD PTR [rdx+16], rax
-	mov	QWORD PTR [rdx+24], rax
-$LN5@construct:
-
-; 857  : 		_Al.construct(_Ptr, _STD forward<_Types>(_Args)...);
-; 858  : 		}
-
-	ret	0
-??$construct@V?$Matrix@M$01$03$00@@$$V@?$allocator_traits@V?$allocator@V?$Matrix@M$01$03$00@@@std@@@std@@SAXAEAV?$allocator@V?$Matrix@M$01$03$00@@@1@PEAV?$Matrix@M$01$03$00@@@Z ENDP ; std::allocator_traits<std::allocator<Matrix<float,2,4,1> > >::construct<Matrix<float,2,4,1> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$construct@V?$Matrix@M$03$01$00@@$$V@?$allocator_traits@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@SAXAEAV?$allocator@V?$Matrix@M$03$01$00@@@1@PEAV?$Matrix@M$03$01$00@@@Z
-_TEXT	SEGMENT
-_Al$dead$ = 8
-_Ptr$ = 16
-??$construct@V?$Matrix@M$03$01$00@@$$V@?$allocator_traits@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@SAXAEAV?$allocator@V?$Matrix@M$03$01$00@@@1@PEAV?$Matrix@M$03$01$00@@@Z PROC ; std::allocator_traits<std::allocator<Matrix<float,4,2,1> > >::construct<Matrix<float,4,2,1> >, COMDAT
-
-; 737  : 		::new ((void *)_Ptr) _Objty(_STD forward<_Types>(_Args)...);
-
-	test	rdx, rdx
-	je	SHORT $LN5@construct
-	xor	eax, eax
-	mov	QWORD PTR [rdx], rax
-	mov	QWORD PTR [rdx+8], rax
-	mov	QWORD PTR [rdx+16], rax
-	mov	QWORD PTR [rdx+24], rax
-$LN5@construct:
-
-; 857  : 		_Al.construct(_Ptr, _STD forward<_Types>(_Args)...);
-; 858  : 		}
-
-	ret	0
-??$construct@V?$Matrix@M$03$01$00@@$$V@?$allocator_traits@V?$allocator@V?$Matrix@M$03$01$00@@@std@@@std@@SAXAEAV?$allocator@V?$Matrix@M$03$01$00@@@1@PEAV?$Matrix@M$03$01$00@@@Z ENDP ; std::allocator_traits<std::allocator<Matrix<float,4,2,1> > >::construct<Matrix<float,4,2,1> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$construct@V?$Matrix@M$03$03$00@@$$V@?$allocator_traits@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@SAXAEAV?$allocator@V?$Matrix@M$03$03$00@@@1@PEAV?$Matrix@M$03$03$00@@@Z
-_TEXT	SEGMENT
-_Al$dead$ = 8
-_Ptr$ = 16
-??$construct@V?$Matrix@M$03$03$00@@$$V@?$allocator_traits@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@SAXAEAV?$allocator@V?$Matrix@M$03$03$00@@@1@PEAV?$Matrix@M$03$03$00@@@Z PROC ; std::allocator_traits<std::allocator<Matrix<float,4,4,1> > >::construct<Matrix<float,4,4,1> >, COMDAT
-
-; 737  : 		::new ((void *)_Ptr) _Objty(_STD forward<_Types>(_Args)...);
-
-	test	rdx, rdx
-	je	SHORT $LN5@construct
-	xor	eax, eax
-	mov	QWORD PTR [rdx], rax
-	mov	QWORD PTR [rdx+8], rax
-	mov	QWORD PTR [rdx+16], rax
-	mov	QWORD PTR [rdx+24], rax
-	mov	QWORD PTR [rdx+32], rax
-	mov	QWORD PTR [rdx+40], rax
-	mov	QWORD PTR [rdx+48], rax
-	mov	QWORD PTR [rdx+56], rax
-$LN5@construct:
-
-; 857  : 		_Al.construct(_Ptr, _STD forward<_Types>(_Args)...);
-; 858  : 		}
-
-	ret	0
-??$construct@V?$Matrix@M$03$03$00@@$$V@?$allocator_traits@V?$allocator@V?$Matrix@M$03$03$00@@@std@@@std@@SAXAEAV?$allocator@V?$Matrix@M$03$03$00@@@1@PEAV?$Matrix@M$03$03$00@@@Z ENDP ; std::allocator_traits<std::allocator<Matrix<float,4,4,1> > >::construct<Matrix<float,4,4,1> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$construct@V?$Matrix@M$02$02$00@@$$V@?$allocator_traits@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@SAXAEAV?$allocator@V?$Matrix@M$02$02$00@@@1@PEAV?$Matrix@M$02$02$00@@@Z
-_TEXT	SEGMENT
-_Al$dead$ = 8
-_Ptr$ = 16
-??$construct@V?$Matrix@M$02$02$00@@$$V@?$allocator_traits@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@SAXAEAV?$allocator@V?$Matrix@M$02$02$00@@@1@PEAV?$Matrix@M$02$02$00@@@Z PROC ; std::allocator_traits<std::allocator<Matrix<float,3,3,1> > >::construct<Matrix<float,3,3,1> >, COMDAT
-
-; 737  : 		::new ((void *)_Ptr) _Objty(_STD forward<_Types>(_Args)...);
-
-	test	rdx, rdx
-	je	SHORT $LN5@construct
-	xor	eax, eax
-	mov	QWORD PTR [rdx], rax
-	mov	QWORD PTR [rdx+8], rax
-	mov	QWORD PTR [rdx+16], rax
-	mov	QWORD PTR [rdx+24], rax
-	mov	QWORD PTR [rdx+32], rax
-	mov	QWORD PTR [rdx+40], rax
-$LN5@construct:
-
-; 857  : 		_Al.construct(_Ptr, _STD forward<_Types>(_Args)...);
-; 858  : 		}
-
-	ret	0
-??$construct@V?$Matrix@M$02$02$00@@$$V@?$allocator_traits@V?$allocator@V?$Matrix@M$02$02$00@@@std@@@std@@SAXAEAV?$allocator@V?$Matrix@M$02$02$00@@@1@PEAV?$Matrix@M$02$02$00@@@Z ENDP ; std::allocator_traits<std::allocator<Matrix<float,3,3,1> > >::construct<Matrix<float,3,3,1> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$construct@V?$Matrix@M$01$01$00@@$$V@?$allocator_traits@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@SAXAEAV?$allocator@V?$Matrix@M$01$01$00@@@1@PEAV?$Matrix@M$01$01$00@@@Z
-_TEXT	SEGMENT
-_Al$dead$ = 8
-_Ptr$ = 16
-??$construct@V?$Matrix@M$01$01$00@@$$V@?$allocator_traits@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@SAXAEAV?$allocator@V?$Matrix@M$01$01$00@@@1@PEAV?$Matrix@M$01$01$00@@@Z PROC ; std::allocator_traits<std::allocator<Matrix<float,2,2,1> > >::construct<Matrix<float,2,2,1> >, COMDAT
-
-; 737  : 		::new ((void *)_Ptr) _Objty(_STD forward<_Types>(_Args)...);
-
-	test	rdx, rdx
-	je	SHORT $LN5@construct
-	xor	eax, eax
-	mov	QWORD PTR [rdx], rax
-	mov	QWORD PTR [rdx+8], rax
-$LN5@construct:
-
-; 857  : 		_Al.construct(_Ptr, _STD forward<_Types>(_Args)...);
-; 858  : 		}
-
-	ret	0
-??$construct@V?$Matrix@M$01$01$00@@$$V@?$allocator_traits@V?$allocator@V?$Matrix@M$01$01$00@@@std@@@std@@SAXAEAV?$allocator@V?$Matrix@M$01$01$00@@@1@PEAV?$Matrix@M$01$01$00@@@Z ENDP ; std::allocator_traits<std::allocator<Matrix<float,2,2,1> > >::construct<Matrix<float,2,2,1> >
 _TEXT	ENDS
 ; Function compile flags: /Ogtpy
 ; File c:\home\programming\mathter\mathter\vector.hpp
@@ -24057,210 +9622,32 @@ head$dead$ = 24
 <scalars_2>$dead$ = 48
 ??$Assign@HHHH$0A@@?$Vector@M$07@@IEAAXHHHHH@Z PROC	; Vector<float,8>::Assign<int,int,int,int,0>, COMDAT
 
-; 844  : 		data[idx] = head;
+; 843  : 		data[idx] = head;
 
 	mov	DWORD PTR [rcx+16], 1084227584		; 40a00000H
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 
-; 844  : 		data[idx] = head;
+; 843  : 		data[idx] = head;
 
 	mov	DWORD PTR [rcx+20], 1086324736		; 40c00000H
 	mov	DWORD PTR [rcx+24], 1088421888		; 40e00000H
 	mov	DWORD PTR [rcx+28], 1090519040		; 41000000H
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	mov	QWORD PTR [rcx], rax
 	mov	QWORD PTR [rcx+8], rax
 	mov	QWORD PTR [rcx+16], rax
 	mov	QWORD PTR [rcx+24], rax
 
-; 845  : 		Assign(idx + 1, scalars...);
-; 846  : 	}
+; 844  : 		Assign(idx + 1, scalars...);
+; 845  : 	}
 
 	ret	0
 ??$Assign@HHHH$0A@@?$Vector@M$07@@IEAAXHHHHH@Z ENDP	; Vector<float,8>::Assign<int,int,int,int,0>
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$construct@V?$Matrix@M$02$03$00@@$$V@?$allocator@V?$Matrix@M$02$03$00@@@std@@QEAAXPEAV?$Matrix@M$02$03$00@@@Z
-_TEXT	SEGMENT
-this$dead$ = 8
-_Ptr$ = 16
-??$construct@V?$Matrix@M$02$03$00@@$$V@?$allocator@V?$Matrix@M$02$03$00@@@std@@QEAAXPEAV?$Matrix@M$02$03$00@@@Z PROC ; std::allocator<Matrix<float,3,4,1> >::construct<Matrix<float,3,4,1> >, COMDAT
-
-; 737  : 		::new ((void *)_Ptr) _Objty(_STD forward<_Types>(_Args)...);
-
-	test	rdx, rdx
-	je	SHORT $LN3@construct
-	xor	eax, eax
-	mov	QWORD PTR [rdx], rax
-	mov	QWORD PTR [rdx+8], rax
-	mov	QWORD PTR [rdx+16], rax
-	mov	QWORD PTR [rdx+24], rax
-	mov	QWORD PTR [rdx+32], rax
-	mov	QWORD PTR [rdx+40], rax
-	mov	QWORD PTR [rdx+48], rax
-	mov	QWORD PTR [rdx+56], rax
-$LN3@construct:
-
-; 738  : 		}
-
-	ret	0
-??$construct@V?$Matrix@M$02$03$00@@$$V@?$allocator@V?$Matrix@M$02$03$00@@@std@@QEAAXPEAV?$Matrix@M$02$03$00@@@Z ENDP ; std::allocator<Matrix<float,3,4,1> >::construct<Matrix<float,3,4,1> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$construct@V?$Matrix@M$03$02$00@@$$V@?$allocator@V?$Matrix@M$03$02$00@@@std@@QEAAXPEAV?$Matrix@M$03$02$00@@@Z
-_TEXT	SEGMENT
-this$dead$ = 8
-_Ptr$ = 16
-??$construct@V?$Matrix@M$03$02$00@@$$V@?$allocator@V?$Matrix@M$03$02$00@@@std@@QEAAXPEAV?$Matrix@M$03$02$00@@@Z PROC ; std::allocator<Matrix<float,4,3,1> >::construct<Matrix<float,4,3,1> >, COMDAT
-
-; 737  : 		::new ((void *)_Ptr) _Objty(_STD forward<_Types>(_Args)...);
-
-	test	rdx, rdx
-	je	SHORT $LN3@construct
-	xor	eax, eax
-	mov	QWORD PTR [rdx], rax
-	mov	QWORD PTR [rdx+8], rax
-	mov	QWORD PTR [rdx+16], rax
-	mov	QWORD PTR [rdx+24], rax
-	mov	QWORD PTR [rdx+32], rax
-	mov	QWORD PTR [rdx+40], rax
-$LN3@construct:
-
-; 738  : 		}
-
-	ret	0
-??$construct@V?$Matrix@M$03$02$00@@$$V@?$allocator@V?$Matrix@M$03$02$00@@@std@@QEAAXPEAV?$Matrix@M$03$02$00@@@Z ENDP ; std::allocator<Matrix<float,4,3,1> >::construct<Matrix<float,4,3,1> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$construct@V?$Matrix@M$01$03$00@@$$V@?$allocator@V?$Matrix@M$01$03$00@@@std@@QEAAXPEAV?$Matrix@M$01$03$00@@@Z
-_TEXT	SEGMENT
-this$dead$ = 8
-_Ptr$ = 16
-??$construct@V?$Matrix@M$01$03$00@@$$V@?$allocator@V?$Matrix@M$01$03$00@@@std@@QEAAXPEAV?$Matrix@M$01$03$00@@@Z PROC ; std::allocator<Matrix<float,2,4,1> >::construct<Matrix<float,2,4,1> >, COMDAT
-
-; 737  : 		::new ((void *)_Ptr) _Objty(_STD forward<_Types>(_Args)...);
-
-	test	rdx, rdx
-	je	SHORT $LN3@construct
-	xor	eax, eax
-	mov	QWORD PTR [rdx], rax
-	mov	QWORD PTR [rdx+8], rax
-	mov	QWORD PTR [rdx+16], rax
-	mov	QWORD PTR [rdx+24], rax
-$LN3@construct:
-
-; 738  : 		}
-
-	ret	0
-??$construct@V?$Matrix@M$01$03$00@@$$V@?$allocator@V?$Matrix@M$01$03$00@@@std@@QEAAXPEAV?$Matrix@M$01$03$00@@@Z ENDP ; std::allocator<Matrix<float,2,4,1> >::construct<Matrix<float,2,4,1> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$construct@V?$Matrix@M$03$01$00@@$$V@?$allocator@V?$Matrix@M$03$01$00@@@std@@QEAAXPEAV?$Matrix@M$03$01$00@@@Z
-_TEXT	SEGMENT
-this$dead$ = 8
-_Ptr$ = 16
-??$construct@V?$Matrix@M$03$01$00@@$$V@?$allocator@V?$Matrix@M$03$01$00@@@std@@QEAAXPEAV?$Matrix@M$03$01$00@@@Z PROC ; std::allocator<Matrix<float,4,2,1> >::construct<Matrix<float,4,2,1> >, COMDAT
-
-; 737  : 		::new ((void *)_Ptr) _Objty(_STD forward<_Types>(_Args)...);
-
-	test	rdx, rdx
-	je	SHORT $LN3@construct
-	xor	eax, eax
-	mov	QWORD PTR [rdx], rax
-	mov	QWORD PTR [rdx+8], rax
-	mov	QWORD PTR [rdx+16], rax
-	mov	QWORD PTR [rdx+24], rax
-$LN3@construct:
-
-; 738  : 		}
-
-	ret	0
-??$construct@V?$Matrix@M$03$01$00@@$$V@?$allocator@V?$Matrix@M$03$01$00@@@std@@QEAAXPEAV?$Matrix@M$03$01$00@@@Z ENDP ; std::allocator<Matrix<float,4,2,1> >::construct<Matrix<float,4,2,1> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$construct@V?$Matrix@M$03$03$00@@$$V@?$allocator@V?$Matrix@M$03$03$00@@@std@@QEAAXPEAV?$Matrix@M$03$03$00@@@Z
-_TEXT	SEGMENT
-this$dead$ = 8
-_Ptr$ = 16
-??$construct@V?$Matrix@M$03$03$00@@$$V@?$allocator@V?$Matrix@M$03$03$00@@@std@@QEAAXPEAV?$Matrix@M$03$03$00@@@Z PROC ; std::allocator<Matrix<float,4,4,1> >::construct<Matrix<float,4,4,1> >, COMDAT
-
-; 737  : 		::new ((void *)_Ptr) _Objty(_STD forward<_Types>(_Args)...);
-
-	test	rdx, rdx
-	je	SHORT $LN3@construct
-	xor	eax, eax
-	mov	QWORD PTR [rdx], rax
-	mov	QWORD PTR [rdx+8], rax
-	mov	QWORD PTR [rdx+16], rax
-	mov	QWORD PTR [rdx+24], rax
-	mov	QWORD PTR [rdx+32], rax
-	mov	QWORD PTR [rdx+40], rax
-	mov	QWORD PTR [rdx+48], rax
-	mov	QWORD PTR [rdx+56], rax
-$LN3@construct:
-
-; 738  : 		}
-
-	ret	0
-??$construct@V?$Matrix@M$03$03$00@@$$V@?$allocator@V?$Matrix@M$03$03$00@@@std@@QEAAXPEAV?$Matrix@M$03$03$00@@@Z ENDP ; std::allocator<Matrix<float,4,4,1> >::construct<Matrix<float,4,4,1> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$construct@V?$Matrix@M$02$02$00@@$$V@?$allocator@V?$Matrix@M$02$02$00@@@std@@QEAAXPEAV?$Matrix@M$02$02$00@@@Z
-_TEXT	SEGMENT
-this$dead$ = 8
-_Ptr$ = 16
-??$construct@V?$Matrix@M$02$02$00@@$$V@?$allocator@V?$Matrix@M$02$02$00@@@std@@QEAAXPEAV?$Matrix@M$02$02$00@@@Z PROC ; std::allocator<Matrix<float,3,3,1> >::construct<Matrix<float,3,3,1> >, COMDAT
-
-; 737  : 		::new ((void *)_Ptr) _Objty(_STD forward<_Types>(_Args)...);
-
-	test	rdx, rdx
-	je	SHORT $LN3@construct
-	xor	eax, eax
-	mov	QWORD PTR [rdx], rax
-	mov	QWORD PTR [rdx+8], rax
-	mov	QWORD PTR [rdx+16], rax
-	mov	QWORD PTR [rdx+24], rax
-	mov	QWORD PTR [rdx+32], rax
-	mov	QWORD PTR [rdx+40], rax
-$LN3@construct:
-
-; 738  : 		}
-
-	ret	0
-??$construct@V?$Matrix@M$02$02$00@@$$V@?$allocator@V?$Matrix@M$02$02$00@@@std@@QEAAXPEAV?$Matrix@M$02$02$00@@@Z ENDP ; std::allocator<Matrix<float,3,3,1> >::construct<Matrix<float,3,3,1> >
-_TEXT	ENDS
-; Function compile flags: /Ogtpy
-; File c:\program files (x86)\microsoft visual studio 14.0\vc\include\xmemory0
-;	COMDAT ??$construct@V?$Matrix@M$01$01$00@@$$V@?$allocator@V?$Matrix@M$01$01$00@@@std@@QEAAXPEAV?$Matrix@M$01$01$00@@@Z
-_TEXT	SEGMENT
-this$dead$ = 8
-_Ptr$ = 16
-??$construct@V?$Matrix@M$01$01$00@@$$V@?$allocator@V?$Matrix@M$01$01$00@@@std@@QEAAXPEAV?$Matrix@M$01$01$00@@@Z PROC ; std::allocator<Matrix<float,2,2,1> >::construct<Matrix<float,2,2,1> >, COMDAT
-
-; 737  : 		::new ((void *)_Ptr) _Objty(_STD forward<_Types>(_Args)...);
-
-	test	rdx, rdx
-	je	SHORT $LN3@construct
-	xor	eax, eax
-	mov	QWORD PTR [rdx], rax
-	mov	QWORD PTR [rdx+8], rax
-$LN3@construct:
-
-; 738  : 		}
-
-	ret	0
-??$construct@V?$Matrix@M$01$01$00@@$$V@?$allocator@V?$Matrix@M$01$01$00@@@std@@QEAAXPEAV?$Matrix@M$01$01$00@@@Z ENDP ; std::allocator<Matrix<float,2,2,1> >::construct<Matrix<float,2,2,1> >
 _TEXT	ENDS
 ; Function compile flags: /Ogtpy
 ; File c:\home\programming\mathter\mathter\vector.hpp
@@ -24273,28 +9660,28 @@ head$dead$ = 24
 <scalars_1>$dead$ = 40
 ??$Assign@HHH$0A@@?$Vector@M$07@@IEAAXHHHH@Z PROC	; Vector<float,8>::Assign<int,int,int,0>, COMDAT
 
-; 844  : 		data[idx] = head;
+; 843  : 		data[idx] = head;
 
 	mov	DWORD PTR [rcx+20], 1086324736		; 40c00000H
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 
-; 844  : 		data[idx] = head;
+; 843  : 		data[idx] = head;
 
 	mov	DWORD PTR [rcx+24], 1088421888		; 40e00000H
 	mov	DWORD PTR [rcx+28], 1090519040		; 41000000H
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	mov	QWORD PTR [rcx], rax
 	mov	QWORD PTR [rcx+8], rax
 	mov	QWORD PTR [rcx+16], rax
 	mov	QWORD PTR [rcx+24], rax
 
-; 845  : 		Assign(idx + 1, scalars...);
-; 846  : 	}
+; 844  : 		Assign(idx + 1, scalars...);
+; 845  : 	}
 
 	ret	0
 ??$Assign@HHH$0A@@?$Vector@M$07@@IEAAXHHHH@Z ENDP	; Vector<float,8>::Assign<int,int,int,0>
@@ -24309,27 +9696,27 @@ head$dead$ = 24
 <scalars_0>$dead$ = 32
 ??$Assign@HH$0A@@?$Vector@M$07@@IEAAXHHH@Z PROC		; Vector<float,8>::Assign<int,int,0>, COMDAT
 
-; 844  : 		data[idx] = head;
+; 843  : 		data[idx] = head;
 
 	mov	DWORD PTR [rcx+24], 1088421888		; 40e00000H
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 
-; 844  : 		data[idx] = head;
+; 843  : 		data[idx] = head;
 
 	mov	DWORD PTR [rcx+28], 1090519040		; 41000000H
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	mov	QWORD PTR [rcx], rax
 	mov	QWORD PTR [rcx+8], rax
 	mov	QWORD PTR [rcx+16], rax
 	mov	QWORD PTR [rcx+24], rax
 
-; 845  : 		Assign(idx + 1, scalars...);
-; 846  : 	}
+; 844  : 		Assign(idx + 1, scalars...);
+; 845  : 	}
 
 	ret	0
 ??$Assign@HH$0A@@?$Vector@M$07@@IEAAXHHH@Z ENDP		; Vector<float,8>::Assign<int,int,0>
@@ -24343,23 +9730,23 @@ idx$dead$ = 16
 head$dead$ = 24
 ??$Assign@H$$V$0A@@?$Vector@M$07@@IEAAXHH@Z PROC	; Vector<float,8>::Assign<int,0>, COMDAT
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	xor	eax, eax
 
-; 844  : 		data[idx] = head;
+; 843  : 		data[idx] = head;
 
 	mov	DWORD PTR [rcx+28], 1090519040		; 41000000H
 
-; 861  : 			data[idx] = T(0);
+; 860  : 			data[idx] = T(0);
 
 	mov	QWORD PTR [rcx], rax
 	mov	QWORD PTR [rcx+8], rax
 	mov	QWORD PTR [rcx+16], rax
 	mov	QWORD PTR [rcx+24], rax
 
-; 845  : 		Assign(idx + 1, scalars...);
-; 846  : 	}
+; 844  : 		Assign(idx + 1, scalars...);
+; 845  : 	}
 
 	ret	0
 ??$Assign@H$$V$0A@@?$Vector@M$07@@IEAAXHH@Z ENDP	; Vector<float,8>::Assign<int,0>

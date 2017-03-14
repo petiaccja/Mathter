@@ -44,7 +44,6 @@ auto operator*(const Matrix<T, Match, Rows1, Order1>& lhs, const Matrix<U, Colum
 //--------------------------------------
 
 // Function they must have:
-// Assign(x, [y, [z, [w]]])
 // mul, div, add, sum - vec x vec
 // mul, div, add, sum - vec x scalar
 // spread

@@ -29,7 +29,7 @@ public:
 	constexpr int Height() const {
 		return Rows;
 	}
-public:
+protected:
 	// Rows equal height, Columns equal width, row-major has column-sized stripes
 	static constexpr int StripeDim = Columns;
 	static constexpr int StripeCount = Rows;
@@ -67,8 +67,8 @@ protected:
 		return thisMat;
 	}
 
-	float Trace() const;
-	float Determinant() const;
+	T Trace() const;
+	T Determinant() const;
 	MyMatrixT& Transpose();
 	MyMatrixT& Invert();
 	MyMatrixT Inverted() const;
@@ -88,13 +88,14 @@ template <class T, int Columns, int Rows, eMatrixOrder Order>
 class Matrix : public MatrixOps<T, Columns, Rows, Order> {
 protected:
 	using MatrixData<T, Columns, Rows, Order>::GetElement;
+	using MatrixData::stripes;
 public:
 	//--------------------------------------------
 	// Constructors
 	//--------------------------------------------
 
 	Matrix() = default;
-	
+
 	template <class... Args, typename std::enable_if<All<IsScalar, Args...>::value, int>::type = 0>
 	Matrix(Args... args);
 
@@ -114,17 +115,40 @@ public:
 	// Arithmetic
 	//--------------------------------------------
 
-	template <class T, class U, eMatrixOrder Order2, class V>
-	friend Matrix<U, Columns, Rows, Order> operator+(const Matrix<T, Columns, Rows, Order>&, const Matrix<U, Columns, Rows, Order2>&);
+	// Non-modifying external operators
+	template <class T, class U, int Columns, int Rows, eMatrixOrder Order1, eMatrixOrder Order2, class V>
+	friend Matrix<U, Columns, Rows, Order1> operator+(const Matrix<T, Columns, Rows, Order1>& lhs, const Matrix<U, Columns, Rows, Order2>& rhs);
 
-	template <class T, class U, eMatrixOrder Order2, class V>
-	friend Matrix<U, Columns, Rows, Order> operator-(const Matrix<T, Columns, Rows, Order>&, const Matrix<U, Columns, Rows, Order2>&);
+	template <class T, class U, int Columns, int Rows, eMatrixOrder Order1, eMatrixOrder Order2, class V>
+	friend Matrix<U, Columns, Rows, Order1> operator-(const Matrix<T, Columns, Rows, Order1>& lhs, const Matrix<U, Columns, Rows, Order2>& rhs);
+
+	template <class T, class U, int Match, int Rows1, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, class V, class>
+	friend auto operator*(const Matrix<T, Match, Rows1, Order1>& lhs, const Matrix<U, Columns2, Match, Order2>& rhs)
+		->Matrix<V, Columns2, Rows1, Order1>;
+
+	// Internal modifying operators
+	template <class U, eMatrixOrder Order2>
+	Matrix& operator+=(const Matrix<U, Columns, Rows, Order2>& rhs) {
+		*this = operator+<T, U, Columns, Rows, Order, Order2, T>(*this, rhs);
+	}
+
+	template <class U, eMatrixOrder Order2>
+	Matrix& operator-=(const Matrix<U, Columns, Rows, Order2>& rhs) {
+		*this = operator-<T, U, Columns, Rows, Order, Order2, T>(*this, rhs);
+	}
 
 
 	//--------------------------------------------
 	// Matrix functions
 	//--------------------------------------------
-	Matrix<T, Rows, Columns, Order> Transposed() const;
+	auto Transposed() const {
+		Matrix<T, Rows, Columns, Order> result;
+		for (int y = 0; y < Rows; ++y) {
+			for (int x = 0; x < Rows; ++x) {
+				result(y, x) = (*this)(x, y);
+			}
+		}
+	}
 
 
 private:
@@ -132,7 +156,7 @@ private:
 };
 
 
-template <class T, class U, int Match, int Rows1, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, class V = MatMulElemT<T,U>, class = void>
+template <class T, class U, int Match, int Rows1, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, class V = MatMulElemT<T, U>, class = void>
 auto operator*(const Matrix<T, Match, Rows1, Order1>& lhs, const Matrix<U, Columns2, Match, Order2>& rhs)
 -> Matrix<V, Columns2, Rows1, Order1>
 {
@@ -174,4 +198,38 @@ Matrix<U, Columns, Rows, Order1> operator-(const Matrix<T, Columns, Rows, Order1
 		result.stripes[i] = lhs.stripes[i] - rhs.stripes[i];
 	}
 	return result;
+}
+
+template <class T, int Dim, eMatrixOrder Order>
+T MatrixOps<T, Dim, Dim, Order, true>::Trace() const {
+	T sum = GetElement(0, 0);
+	for (int i = 1; i < Dim; ++i) {
+		sum += GetElement(i, i);
+	}
+	return sum;
+}
+
+template <class T, int Dim, eMatrixOrder Order>
+T MatrixOps<T, Dim, Dim, Order, true>::Determinant() const {
+	static_assert(false, "Determinant not implemented yet.");
+	return T();
+}
+
+template <class T, int Dim, eMatrixOrder Order>
+auto MatrixOps<T, Dim, Dim, Order, true>::Transpose() -> MyMatrixT& {
+	static_cast<MyMatrixT&>(*this) = static_cast<MyMatrixT&>(*this).Transposed();
+	return static_cast<MyMatrixT&>(*this);
+}
+
+template <class T, int Dim, eMatrixOrder Order>
+auto MatrixOps<T, Dim, Dim, Order, true>::Invert() -> MyMatrixT& {
+	static_assert(false, "Inverse not implemented yet.");
+	return static_cast<MyMatrixT&>(*this);
+}
+
+template <class T, int Dim, eMatrixOrder Order>
+auto MatrixOps<T, Dim, Dim, Order, true>::Inverted() const -> MyMatrixT {
+	static_assert(false, "Inverse not implemented yet.");
+	auto copy = return static_cast<MyMatrixT&>(*this);
+	return copy.Invert();
 }
