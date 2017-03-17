@@ -132,6 +132,7 @@ double MatMulSpeedTest() {
 
 
 int main() {
+	// Vector operator test
 	Vector<float, 4> v1{ 1.f, 2.f, 3.f, 4.f };
 	Vector<float, 4> v2{ 2.f, 3.f, 4.f, 5.f };
 	Vector<float, 4> v3 = v1*v2;
@@ -151,11 +152,39 @@ int main() {
 
 	auto d = Vector<float, 3>::Cross(v, u);
 
+	// Matrix-vector shaped matrix test
+	Matrix<float, 1, 3> matvec;
+	matvec(0) = 1;
+	matvec(1) = 3;
+	matvec(2) = 5;
+	matvec(3) = 7;
+	Vector<float, 3> vec(1,3,5,7);
+	Matrix<float, 3, 4> transform = {
+		3,4,5,
+		1,2,3,
+		6,5,4,
+		2,3,4,
+	};
+	auto matvec_t = transform * matvec;
+	auto vec_t = transform * vec;
+	auto matvec_t2 = matvec.Transposed() * transform.Transposed();
+	auto vec_t2 = vec * transform.Transposed();
+	cout << "Matrix * vec transforms:" << endl;
+	cout << matvec_t << endl
+		<< vec_t << endl 
+		<< matvec_t2 << endl 
+		<< vec_t2 << endl << endl;
+
+
+
+
+	// Matrix test types
 	using Matrix3x3 = typename std::conditional<false, PlainMat3, Matrix<float, 3, 3>>::type;
 	using Matrix4x4 = Matrix<float, 4, 4>;
 
 
 	// correct test mat4x4
+	cout << "4x4 checks:" << endl;
 	Matrix4x4 mat1 = {
 		1,2,3,3,
 		4,5,6,6,
@@ -174,6 +203,7 @@ int main() {
 
 
 	// correct test mat3x3
+	cout << "3x3 checks:" << endl;
 	Matrix3x3 mat3;
 	Matrix3x3 mat4;
 

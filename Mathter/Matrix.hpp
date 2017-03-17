@@ -14,6 +14,9 @@ enum class eMatrixLayout {
 };
 
 
+//------------------------------------------------------------------------------
+// Matrix base class only allocating the memory
+//------------------------------------------------------------------------------
 
 template <class T, int Columns, int Rows, eMatrixOrder Order = eMatrixOrder::FOLLOW_VECTOR>
 class MatrixData {
@@ -48,6 +51,10 @@ protected:
 };
 
 
+//------------------------------------------------------------------------------
+// Matrix operations class extending MatrixData by special operations
+//------------------------------------------------------------------------------
+
 template <class T, int Columns, int Rows, eMatrixOrder Order, bool Square = (Columns == Rows)>
 class MatrixOps;
 
@@ -60,7 +67,7 @@ protected:
 template <class T, int Dim, eMatrixOrder Order>
 class MatrixOps<T, Dim, Dim, Order, true> : public MatrixOps<T, Dim, Dim, Order, false> {
 	using MyMatrixT = Matrix<T, Dim, Dim, Order>;
-protected:
+public:
 	template <class T2, eMatrixOrder Order2>
 	MyMatrixT& operator*=(const Matrix<T2, Dim, Dim, Order2>& rhs) {
 		auto& thisMat = static_cast<MyMatrixT&>(*this);
@@ -73,8 +80,15 @@ protected:
 	MyMatrixT& Transpose();
 	MyMatrixT& Invert();
 	MyMatrixT Inverted() const;
+
+	static MyMatrixT Identity();
+	MyMatrixT& SetIdentity();
 };
 
+
+//------------------------------------------------------------------------------
+// Global Matrix function prototypes
+//------------------------------------------------------------------------------
 
 template <class T, class U, int Columns, int Rows, eMatrixOrder Order1, eMatrixOrder Order2, class V = decltype(T() + U())>
 Matrix<U, Columns, Rows, Order1> operator+(const Matrix<T, Columns, Rows, Order1>&, const Matrix<U, Columns, Rows, Order2>&);
@@ -83,7 +97,9 @@ template <class T, class U, int Columns, int Rows, eMatrixOrder Order1, eMatrixO
 Matrix<U, Columns, Rows, Order1> operator-(const Matrix<T, Columns, Rows, Order1>&, const Matrix<U, Columns, Rows, Order2>&);
 
 
-
+//------------------------------------------------------------------------------
+// Matrix class providing the common interface for all matrices
+//------------------------------------------------------------------------------
 
 template <class T, int Columns, int Rows, eMatrixOrder Order>
 class Matrix : public MatrixOps<T, Columns, Rows, Order> {
@@ -108,12 +124,24 @@ public:
 	// Accessors
 	//--------------------------------------------
 
+	// General matrix indexing
 	T& operator()(int col, int row) {
 		return GetElement(col, row);
 	}
 	T operator()(int col, int row) const {
 		return GetElement(col, row);
 	}
+
+	// Column and row vector simple indexing
+	template <class = typename std::enable_if<(Columns == 1 && Rows > 1) || (Columns > 1 && Rows == 1)>::type>
+	T& operator()(int idx) {
+		return GetElement(Columns == 1 ? 0 : idx, Rows == 1 ? 0 : idx);
+	}
+	template <class = typename std::enable_if<(Columns == 1 && Rows > 1) || (Columns > 1 && Rows == 1)>::type>
+	T operator()(int idx) const {
+		return GetElement(Columns == 1 ? 0 : idx, Rows == 1 ? 0 : idx);
+	}
+
 
 	//--------------------------------------------
 	// Arithmetic
@@ -145,14 +173,25 @@ public:
 	//--------------------------------------------
 	// Matrix functions
 	//--------------------------------------------
-	auto Transposed() const {
+	auto Transposed() const -> Matrix<T, Rows, Columns, Order> {
 		Matrix<T, Rows, Columns, Order> result;
 		for (int y = 0; y < Rows; ++y) {
 			for (int x = 0; x < Rows; ++x) {
 				result(y, x) = (*this)(x, y);
 			}
 		}
+		return result;
 	}
+
+	//--------------------------------------------
+	// Matrix-vector arithmetic
+	//--------------------------------------------
+	template <class Vt, class Mt, int Vd, int Mcol, eMatrixOrder Morder, class Rt>
+	friend Vector<Rt, Mcol> operator*(const Vector<Vt, Vd>& vec, const Matrix<Mt, Mcol, Vd, Morder>& mat);
+
+	template <class Vt, class Mt, int Vd, int Mrow, eMatrixOrder Morder, class Rt>
+	friend Vector<Rt, Mrow> operator*(const Matrix<Mt, Vd, Mrow, Morder>& mat, const Vector<Vt, Vd>& vec);
+	
 
 protected:
 	//--------------------------------------------
@@ -169,6 +208,11 @@ protected:
 	void Assign() {}
 };
 
+
+
+//------------------------------------------------------------------------------
+// Matrix-Matrix arithmetic
+//------------------------------------------------------------------------------
 
 template <class T, class U, int Match, int Rows1, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, class V = MatMulElemT<T, U>, class = void>
 auto operator*(const Matrix<T, Match, Rows1, Order1>& lhs, const Matrix<U, Columns2, Match, Order2>& rhs)
@@ -214,6 +258,11 @@ Matrix<U, Columns, Rows, Order1> operator-(const Matrix<T, Columns, Rows, Order1
 	return result;
 }
 
+
+//------------------------------------------------------------------------------
+// MatrixOps : Square matrices
+//------------------------------------------------------------------------------
+
 template <class T, int Dim, eMatrixOrder Order>
 T MatrixOps<T, Dim, Dim, Order, true>::Trace() const {
 	T sum = GetElement(0, 0);
@@ -247,6 +296,58 @@ auto MatrixOps<T, Dim, Dim, Order, true>::Inverted() const -> MyMatrixT {
 	auto copy = return static_cast<MyMatrixT&>(*this);
 	return copy.Invert();
 }
+
+template <class T, int Dim, eMatrixOrder Order>
+auto MatrixOps<T, Dim, Dim, Order, true>::Identity() -> MyMatrixT {
+	MyMatrixT res;
+
+	for (int i = 0; i < Dim; ++i) {
+		static_cast<MatrixOps&>(res).stripes[i].Spread(T(0));
+		res(i, i) = T(1);
+	}
+
+	return res;
+}
+
+template <class T, int Dim, eMatrixOrder Order>
+auto MatrixOps<T, Dim, Dim, Order, true>::SetIdentity() -> MyMatrixT& {
+	static_cast<MyMatrixT&>(*this) = Identity();
+}
+
+
+
+//------------------------------------------------------------------------------
+// Matrix-vector arithmetic
+//------------------------------------------------------------------------------
+
+// v*M
+template <class Vt, class Mt, int Vd, int Mcol, eMatrixOrder Morder, class Rt = MatMulElemT<Vt, Mt>>
+Vector<Rt, Mcol> operator*(const Vector<Vt, Vd>& vec, const Matrix<Mt, Mcol, Vd, Morder>& mat) {
+	Vector<Rt, Mcol> result;
+	result = vec(0) * mat.stripes[0];
+	for (int i = 1; i < Vd; ++i) {
+		result += vec(i) * mat.stripes[i];
+	}
+	return result;
+}
+
+// M*v
+template <class Vt, class Mt, int Vd, int Mrow, eMatrixOrder Morder, class Rt = MatMulElemT<Vt, Mt>>
+Vector<Rt, Mrow> operator*(const Matrix<Mt, Vd, Mrow, Morder>& mat, const Vector<Vt, Vd>& vec) {
+	Vector<Rt, Mrow> result;
+	for (int i = 0; i < Mrow; ++i) {
+		result(i) = vec.Dot(vec, mat.stripes[i]);
+	}
+	return result;
+}
+
+// v*=M
+template <class Vt, class Mt, int Vd, eMatrixOrder Morder>
+Vector<Vt, Vd>& operator*=(Vector<Vt, Vd>& vec, const Matrix<Mt, Vd, Vd, Morder>& mat) {
+	vec = operator*<Vt, Mt, Vd, Vd, Morder, Vt>(vec, mat);
+	return vec;
+}
+
 
 
 } // namespace mathter

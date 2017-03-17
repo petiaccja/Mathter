@@ -779,7 +779,6 @@ public:
 		return *this;
 	}
 
-
 	//--------------------------------------------
 	// Common functions
 	//--------------------------------------------
@@ -949,6 +948,10 @@ inline Vector<T, D> operator-(T lhs, const Vector<T, D>& rhs) {
 	tmp -= lhs;
 	return tmp;
 }
+
+
+// Vector arithmetic with different types
+// TODO...
 
 
 //------------------------------------------------------------------------------
