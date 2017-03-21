@@ -175,8 +175,8 @@ public:
 	//--------------------------------------------
 	auto Transposed() const -> Matrix<T, Rows, Columns, Order> {
 		Matrix<T, Rows, Columns, Order> result;
-		for (int y = 0; y < Rows; ++y) {
-			for (int x = 0; x < Rows; ++x) {
+		for (int y = 0; y < Height(); ++y) {
+			for (int x = 0; x < Width(); ++x) {
 				result(y, x) = (*this)(x, y);
 			}
 		}

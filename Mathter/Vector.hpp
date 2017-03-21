@@ -372,7 +372,7 @@ class VectorSpec<float, 3> {
 	friend auto operator*(const Matrix<T, Match, Rows1, Order1>& lhs, const Matrix<U, Columns2, Match, Order2>& rhs)
 		->Matrix<V, Columns2, Rows1, Order1>;
 public:
-	VectorSpec() = default;
+	VectorSpec() { simd.v[3] = 0.0f; }
 
 	union {
 		Simd4f simd;
@@ -642,7 +642,7 @@ public:
 	template <class H1, class... Mixed, typename std::enable_if<impl::Any<impl::IsVector, H1, Mixed...>::value, int>::type = 0>
 	Vector(const H1& h1, const Mixed&... mixed) {
 		static_assert(impl::SumDimensions<Mixed...>::value <= D, "Arguments exceed vector dimension.");
-		Assign(0, mixed...);
+		Assign(0, h1, mixed...);
 	}
 
 	// Scalar concat set
@@ -778,6 +778,37 @@ public:
 		sub(rhs);
 		return *this;
 	}
+
+
+	// Vector assign arithmetic w/ different type
+	template <class U, class = typename std::enable_if<!std::is_same<T, U>::value>::type>
+	inline Vector& operator*=(const Vector<U, D>& rhs) {
+		for (int i = 0; i < D; ++i)
+			(*this)[i] *= rhs[i];
+		return *this;
+	}
+
+	template <class U, class = typename std::enable_if<!std::is_same<T, U>::value>::type>
+	inline Vector& operator/=(const Vector<U, D>& rhs) {
+		for (int i = 0; i < D; ++i)
+			(*this)[i] /= rhs[i];
+		return *this;
+	}
+
+	template <class U, class = typename std::enable_if<!std::is_same<T, U>::value>::type>
+	inline Vector& operator+=(const Vector<U, D>& rhs) {
+		for (int i = 0; i < D; ++i)
+			(*this)[i] += rhs[i];
+		return *this;
+	}
+
+	template <class U, class = typename std::enable_if<!std::is_same<T, U>::value>::type>
+	inline Vector& operator-=(const Vector<U, D>& rhs) {
+		for (int i = 0; i < D; ++i)
+			(*this)[i] -= rhs[i];
+		return *this;
+	}
+
 
 	//--------------------------------------------
 	// Common functions
@@ -951,7 +982,37 @@ inline Vector<T, D> operator-(T lhs, const Vector<T, D>& rhs) {
 
 
 // Vector arithmetic with different types
-// TODO...
+template <class T, class U, int D, class = typename std::enable_if<!std::is_same<T, U>::value>::type>
+inline auto operator*(const Vector<T, D>& lhs, const Vector<U, D>& rhs) {
+	Vector<decltype(T() * U()), D> ret;
+	for (int i = 0; i < D; ++i)
+		ret[i] = lhs[i] * rhs[i];
+	return ret;
+}
+
+template <class T, class U, int D, class = typename std::enable_if<!std::is_same<T, U>::value>::type>
+inline auto operator/(const Vector<T, D>& lhs, const Vector<U, D>& rhs) {
+	Vector<decltype(T() / U()), D> ret;
+	for (int i = 0; i < D; ++i)
+		ret[i] = lhs[i] / rhs[i];
+	return ret;
+}
+
+template <class T, class U, int D, class = typename std::enable_if<!std::is_same<T, U>::value>::type>
+inline auto operator+(const Vector<T, D>& lhs, const Vector<U, D>& rhs) {
+	Vector<decltype(T() + U()), D> ret;
+	for (int i = 0; i < D; ++i)
+		ret[i] = lhs[i] + rhs[i];
+	return ret;
+}
+
+template <class T, class U, int D, class = typename std::enable_if<!std::is_same<T, U>::value>::type>
+inline auto operator-(const Vector<T, D>& lhs, const Vector<U, D>& rhs) {
+	Vector<decltype(T() - U()), D> ret;
+	for (int i = 0; i < D; ++i)
+		ret[i] = lhs[i] - rhs[i];
+	return ret;
+}
 
 
 //------------------------------------------------------------------------------

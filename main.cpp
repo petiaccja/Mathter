@@ -150,6 +150,9 @@ int main() {
 	v.Set(1, 2, 3);
 	w.Set(2.5f, v);
 
+	Vector<double, 4> wd = w;
+	auto ud = wd + w;
+
 	auto d = Vector<float, 3>::Cross(v, u);
 
 	// Matrix-vector shaped matrix test
