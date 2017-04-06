@@ -312,6 +312,7 @@ auto MatrixOps<T, Dim, Dim, Order, true>::Identity() -> MyMatrixT {
 template <class T, int Dim, eMatrixOrder Order>
 auto MatrixOps<T, Dim, Dim, Order, true>::SetIdentity() -> MyMatrixT& {
 	static_cast<MyMatrixT&>(*this) = Identity();
+	return static_cast<MyMatrixT&>(*this);
 }
 
 
