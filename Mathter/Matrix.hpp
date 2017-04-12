@@ -142,6 +142,32 @@ public:
 		return GetElement(Columns == 1 ? 0 : idx, Rows == 1 ? 0 : idx);
 	}
 
+	//--------------------------------------------
+	// Compare
+	//--------------------------------------------
+
+	template <eMatrixOrder Order2>
+	bool operator==(const Matrix<T, Columns, Rows, Order2>& rhs) const {
+		bool equal = true;
+		for (int i = 0; i < StripeCount; ++i) {
+			equal = equal && stripes[i] == rhs.stripes[i];
+		}
+		return equal;
+	}
+
+	template <eMatrixOrder Order2>
+	bool operator!=(const Matrix<T, Columns, Rows, Order2>& rhs) const {
+		return !(*this == rhs);
+	}
+
+	template <eMatrixOrder Order2, class = typename std::enable_if<std::is_floating_point<T>::value>::type>
+	bool AlmostEqual(const Matrix<T, Columns, Rows, Order2>& rhs) const {
+		bool equal = true;
+		for (int i = 0; i < StripeCount; ++i) {
+			equal = equal && stripes[i].AlmostEqual(rhs.stripes[i]);
+		}
+		return equal;
+	}
 
 	//--------------------------------------------
 	// Arithmetic
@@ -169,6 +195,18 @@ public:
 		*this = operator-<T, U, Columns, Rows, Order, Order2, T>(*this, rhs);
 	}
 
+	// Scalar multiplication
+	Matrix& operator*=(T s) {
+		for (auto& stripe : stripes) {
+			stripe *= s;
+		}
+		return *this;
+	}
+	Matrix& operator/=(T s) {
+		*this *= (1 / s);
+		return *this;
+	}
+
 
 	//--------------------------------------------
 	// Matrix functions
@@ -183,6 +221,118 @@ public:
 		return result;
 	}
 
+	static Matrix Zero() {
+		Matrix m;
+		for (auto& stripe : m.stripes) {
+			stripe.Spread(T(0));
+		}
+		return m;
+	}
+
+	Matrix& SetZero() {
+		*this = Zero();
+		return *this;
+	}
+
+
+	//--------------------------------------------
+	// Geometry
+	//--------------------------------------------
+
+	// Scale
+	template <class... Args, typename std::enable_if<(impl::All<impl::IsScalar, Args...>::value), int>::type = 0>
+	static Matrix Scale(Args&&... args) {
+		static_assert(sizeof...(Args) <= std::min(Rows, Columns), "You must provide scales for dimensions equal to matrix dimension");
+		Matrix m;
+		m.SetZero();
+		T tableArgs[sizeof...(Args)] = { std::forward<Args>(args)... };
+		for (int i = 0; i < sizeof...(Args); ++i) {
+			m(i, i) = std::move(tableArgs[i]);
+		}
+		return m;
+	}
+
+	template <class U, int D>
+	static void Scale(Vector<U, D> scale) {
+		static_assert(D < std::min(Rows, Columns), "Vector dimension must be smaller than or equal to matrix dimension.");
+		Matrix m;
+		m.SetZero();
+		for (int i = 0; i < scale.Dimension(); ++i) {
+			m(i, i) = std::move(scale(i));
+		}
+		return m;
+	}
+
+	// Static rotation
+	template <class = typename std::enable_if<(2 <= Rows && Rows <= 3 && 2 <= Columns && Columns <= 3)>::type>
+	static Matrix Rotation(T angle);
+
+	template <int Axis, class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
+	static Matrix Rotation(T angle);
+	template <class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
+	static Matrix RotationX(T angle);
+	template <class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
+	static Matrix RotationY(T angle);
+	template <class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
+	static Matrix RotationZ(T angle);
+
+	template <int FirstAxis, int SecondAxis, int ThirdAxis, class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
+	static Matrix Rotation(T angle1, T angle2, T angle3);
+
+	template <class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
+	static Matrix RotationEuler(float z1, float x2, float z3);
+
+	template <class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
+	static Matrix RotationRPY(float x1, float y2, float z3);
+
+	template <class U, class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
+	static Matrix Rotation(Vector<U, 3> axis, T angle);
+
+
+	// Member rotation
+	template <class = typename std::enable_if<(2 <= Rows && Rows <= 3 && 2 <= Columns && Columns <= 3)>::type>
+	Matrix& SetRotation(T angle) { *this = Matrix::Rotation(angle); return *this; }
+
+	template <int Axis, class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
+	Matrix& SetRotation(T angle) { *this = Matrix::Rotation<Axis>(angle); return *this; }
+	template <class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
+	Matrix& SetRotationX(T angle) { *this = Matrix::RotationX(angle); return *this; }
+	template <class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
+	Matrix& SetRotationY(T angle) { *this = Matrix::RotationY(angle); return *this; }
+	template <class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
+	Matrix& SetRotationZ(T angle) { *this = Matrix::RotationZ(angle); return *this; }
+
+	template <int FirstAxis, int SecondAxis, int ThirdAxis, class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
+	Matrix& SetRotation(T angle1, T angle2, T angle3) { *this = Matrix::Rotation<FirstAxis, SecondAxis, ThirdAxis>(angle1, angle2, angle3); return *this; }
+
+	template <class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
+	Matrix& SetRotationEuler(float z1, float x2, float z3) { *this = Matrix::RotationEuler(z1, x2, z3); return *this; }
+
+	template <class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
+	Matrix& SetRotationRPY(float x1, float y2, float z3) { *this = Matrix::RotationRPY(x1, y2, z3); return *this; }
+
+	template <class U, class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
+	Matrix& SetRotation(Vector<U, 3> axis, T angle) { *this = Matrix::Rotation(axis, angle); return *this; }
+
+
+	// Translation
+	template <class... Args, typename std::enable_if<(impl::All<impl::IsScalar, Args...>::value), int>::type = 0>
+	Matrix Translation(Args&& args) {
+		constexpr int TranslationDim = Order == eMatrixOrder::FOLLOW_VECTOR ? Rows - 1 : Columns - 1;
+		static_assert(sizeof...(Args) == TranslationDim, "Number of arguments must match the dimension of translation.");
+		static_assert(TranslationDim > 0, "1x1 matrices cannot represent translation.");
+
+		Matrix m;
+		if (Order == eMatrixOrder::FOLLOW_VECTOR) {
+			T tableArgs[sizeof...(Args)] = { std::forward<Args>(args)... };
+			for (int i = 0; i < sizeof...(Args); ++i) {
+				m(i, i) = std::move(tableArgs[i]);
+			}
+			return m;
+		}
+	}
+
+
 	//--------------------------------------------
 	// Matrix-vector arithmetic
 	//--------------------------------------------
@@ -191,7 +341,7 @@ public:
 
 	template <class Vt, class Mt, int Vd, int Mrow, eMatrixOrder Morder, class Rt>
 	friend Vector<Rt, Mrow> operator*(const Matrix<Mt, Vd, Mrow, Morder>& mat, const Vector<Vt, Vd>& vec);
-	
+
 
 protected:
 	//--------------------------------------------
@@ -258,6 +408,35 @@ Matrix<U, Columns, Rows, Order1> operator-(const Matrix<T, Columns, Rows, Order1
 	return result;
 }
 
+//------------------------------------------------------------------------------
+// Matrix-Scalar arithmetic
+//------------------------------------------------------------------------------
+
+
+template <class T, int Columns, int Rows, eMatrixOrder Order>
+Matrix<T, Columns, Rows, Order> operator*(T s, Matrix<T, Columns, Rows, Order> mat) {
+	mat *= s;
+	return mat;
+}
+
+template <class T, int Columns, int Rows, eMatrixOrder Order>
+Matrix<T, Columns, Rows, Order> operator/(T s, Matrix<T, Columns, Rows, Order> mat) {
+	mat /= s;
+	return mat;
+}
+
+template <class T, int Columns, int Rows, eMatrixOrder Order>
+Matrix<T, Columns, Rows, Order> operator*(Matrix<T, Columns, Rows, Order> mat, T s) {
+	mat *= s;
+	return mat;
+}
+
+template <class T, int Columns, int Rows, eMatrixOrder Order>
+Matrix<T, Columns, Rows, Order> operator/(Matrix<T, Columns, Rows, Order> mat, T s) {
+	mat /= s;
+	return mat;
+}
+
 
 //------------------------------------------------------------------------------
 // MatrixOps : Square matrices
@@ -274,7 +453,7 @@ T MatrixOps<T, Dim, Dim, Order, true>::Trace() const {
 
 template <class T, int Dim, eMatrixOrder Order>
 T MatrixOps<T, Dim, Dim, Order, true>::Determinant() const {
-	static_assert(false, "Determinant not implemented yet.");
+	//static_assert(false, "Determinant not implemented yet.");
 	return T();
 }
 
@@ -286,14 +465,14 @@ auto MatrixOps<T, Dim, Dim, Order, true>::Transpose() -> MyMatrixT& {
 
 template <class T, int Dim, eMatrixOrder Order>
 auto MatrixOps<T, Dim, Dim, Order, true>::Invert() -> MyMatrixT& {
-	static_assert(false, "Inverse not implemented yet.");
+	//static_assert(false, "Inverse not implemented yet.");
 	return static_cast<MyMatrixT&>(*this);
 }
 
 template <class T, int Dim, eMatrixOrder Order>
 auto MatrixOps<T, Dim, Dim, Order, true>::Inverted() const -> MyMatrixT {
-	static_assert(false, "Inverse not implemented yet.");
-	auto copy = return static_cast<MyMatrixT&>(*this);
+	//static_assert(false, "Inverse not implemented yet.");
+	MyMatrixT copy = static_cast<const MyMatrixT&>(*this);
 	return copy.Invert();
 }
 
@@ -350,5 +529,179 @@ Vector<Vt, Vd>& operator*=(Vector<Vt, Vd>& vec, const Matrix<Mt, Vd, Vd, Morder>
 }
 
 
+//------------------------------------------------------------------------------
+// Geometry
+//------------------------------------------------------------------------------
+
+template <class T, int Columns, int Rows, eMatrixOrder Order>
+template <class>
+Matrix<T, Columns, Rows, Order> Matrix<T, Columns, Rows, Order>::Rotation(T angle) {
+	Matrix<T, Columns, Rows, Order> m;
+
+	T C = cos(angle);
+	T S = sin(angle);
+
+	auto elem = [&m](int i, int j) -> T& {
+		return Order == eMatrixOrder::FOLLOW_VECTOR ? m(i, j) : m(j, i);
+	};
+
+	// Indices according to follow vector order
+	elem(0, 0) = C;		elem(1, 0) = S;
+	elem(0, 1) = -S;	elem(1, 1) = C;
+
+	// Rest
+	for (int x = 2; x < m.Width(); ++x) {
+		for (int y = 2; y < m.Height(); ++y) {
+			m(x, y) = (x == y);
+		}
+	}
+
+	return m;
+}
+
+
+
+template <class T, int Columns, int Rows, eMatrixOrder Order>
+template <int Axis, class>
+Matrix<T, Columns, Rows, Order> Matrix<T, Columns, Rows, Order>::Rotation(T angle) {
+	Matrix<T, Columns, Rows, Order> m;
+
+	T C = cos(angle);
+	T S = sin(angle);
+
+	auto elem = [&m](int i, int j) -> T& {
+		return Order == eMatrixOrder::FOLLOW_VECTOR ? m(i, j) : m(j, i);
+	};
+
+	static_assert(0 <= Axis && Axis < 3, "You may choose X=0, Y=1 or Z=2 axes.");
+
+	// Indices according to follow vector order
+	if (Axis == 0) {
+		// Rotate around X
+		elem(0, 0) = 1;		elem(1, 0) = 0;		elem(2, 0) = 0;
+		elem(0, 1) = 0;		elem(1, 1) = C;		elem(2, 1) = S;
+		elem(0, 2) = 0;		elem(1, 2) = -S;	elem(2, 2) = C;
+	}
+	else if (Axis == 1) {
+		// Rotate around Y
+		elem(0, 0) = C;		elem(1, 0) = 0;		elem(2, 0) = -S;
+		elem(0, 1) = 0;		elem(1, 1) = 1;		elem(2, 1) = 0;
+		elem(0, 2) = S;		elem(1, 2) = 0;		elem(2, 2) = C;
+	}
+	else {
+		// Rotate around Z
+		elem(0, 0) = C;		elem(1, 0) = S;		elem(2, 0) = 0;
+		elem(0, 1) = -S;	elem(1, 1) = C;		elem(2, 1) = 0;
+		elem(0, 2) = 0;		elem(1, 2) = 0;		elem(2, 2) = 1;
+	}
+
+	// Rest
+	for (int x = 3; x < m.Width(); ++x) {
+		for (int y = 3; y < m.Height(); ++y) {
+			m(x, y) = (x == y);
+		}
+	}
+
+	return m;
+}
+
+
+template <class T, int Columns, int Rows, eMatrixOrder Order>
+template <class>
+Matrix<T, Columns, Rows, Order> Matrix<T, Columns, Rows, Order>::RotationX(T angle) {
+	return Rotation<0>(angle);
+}
+
+
+template <class T, int Columns, int Rows, eMatrixOrder Order>
+template <class>
+Matrix<T, Columns, Rows, Order> Matrix<T, Columns, Rows, Order>::RotationY(T angle) {
+	return Rotation<1>(angle);
+}
+
+
+template <class T, int Columns, int Rows, eMatrixOrder Order>
+template <class>
+Matrix<T, Columns, Rows, Order> Matrix<T, Columns, Rows, Order>::RotationZ(T angle) {
+	return Rotation<2>(angle);
+}
+
+
+template <class T, int Columns, int Rows, eMatrixOrder Order>
+template <int Axis1, int Axis2, int Axis3, class>
+Matrix<T, Columns, Rows, Order> Matrix<T, Columns, Rows, Order>::Rotation(T angle1, T angle2, T angle3) {
+	return Rotation<Axis1>(angle1) * Rotation<Axis2>(angle2) * Rotation<Axis3>(angle3);
+}
+
+
+template <class T, int Columns, int Rows, eMatrixOrder Order>
+template <class>
+Matrix<T, Columns, Rows, Order> Matrix<T, Columns, Rows, Order>::RotationEuler(float z1, float x2, float z3) {
+	return Rotation<2, 0, 2>(z1, x2, z3);
+}
+
+
+template <class T, int Columns, int Rows, eMatrixOrder Order>
+template <class>
+Matrix<T, Columns, Rows, Order> Matrix<T, Columns, Rows, Order>::RotationRPY(float x1, float y2, float z3) {
+	return Rotation<0, 1, 2>(x1, y2, z3);
+}
+
+
+template <class T, int Columns, int Rows, eMatrixOrder Order>
+template <class U, class>
+Matrix<T, Columns, Rows, Order> Matrix<T, Columns, Rows, Order>::Rotation(Vector<U, 3> axis, T angle) {
+	Matrix<T, Columns, Rows, Order> m;
+
+	T C = cos(angle);
+	T S = sin(angle);
+
+	// 3x3 rotation sub-matrix
+	using RotMat = Matrix<T, 3, 3, eMatrixOrder::FOLLOW_VECTOR>;
+	Matrix<T, 1, 3, eMatrixOrder::FOLLOW_VECTOR> u(axis(0), axis(1), axis(2));
+	RotMat cross = {
+		0, -u(2), u(1),
+		u(2), 0, -u(0),
+		-u(1), u(0), 0
+	};
+	RotMat rot = C*RotMat::Identity() + S*cross + (1 - C)*(u*u.Transposed());
+
+
+	// Elements
+	auto elem = [&m](int i, int j) -> T& {
+		return Order == eMatrixOrder::PRECEDE_VECTOR ? m(i, j) : m(j, i);
+	};
+	for (int x = 0; x < 3; ++x) {
+		for (int y = 0; y < 3; ++y) {
+			elem(x, y) = rot(x, y);
+		}
+	}
+
+	// Rest
+	for (int x = 3; x < m.Width(); ++x) {
+		for (int y = 3; y < m.Height(); ++y) {
+			m(x, y) = (x == y);
+		}
+	}
+
+	return m;
+}
+
+
 
 } // namespace mathter
+
+
+
+
+template <class T, int Columns, int Rows, mathter::eMatrixOrder Order>
+std::ostream& operator<<(std::ostream& os, const mathter::Matrix<T, Columns, Rows, Order>& mat) {
+	for (int y = 0; y < mat.Height(); ++y) {
+		os << "[";
+		for (int x = 0; x < mat.Width(); ++x) {
+			os << mat(x, y) << (x == mat.Width() - 1 ? "" : "\t");
+		}
+		os << "]\n";
+	}
+	return os;
+}

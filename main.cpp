@@ -6,31 +6,11 @@
 #include <vector>
 #include <random>
 
+#include <gtest\gtest.h>
+
 using namespace std;
 using namespace mathter;
 
-
-template <class T, int Columns, int Rows, eMatrixOrder Order>
-std::ostream& operator<<(std::ostream& os, const Matrix<T, Columns, Rows, Order>& mat) {
-	for (int y = 0; y < mat.Height(); ++y) {
-		os << "{";
-		for (int x = 0; x < mat.Width(); ++x) {
-			os << mat(x, y) << (x == mat.Width() - 1 ? "" : "\t");
-		}
-		os << "}\n";
-	}
-	return os;
-}
-
-template <class T, int D>
-std::ostream& operator<<(std::ostream& os, const Vector<T, D>& v) {
-	os << "{";
-	for (int x = 0; x < D; ++x) {
-		os << v(x) << (x == D - 1 ? "" : "\t");
-	}
-	os << "}";
-	return os;
-}
 
 
 struct PlainMat3 {
@@ -131,7 +111,11 @@ double MatMulSpeedTest() {
 }
 
 
-int main() {
+int main(int argc, char* argv[]) {
+	::testing::InitGoogleTest(&argc, argv);
+	return RUN_ALL_TESTS();
+
+	/*
 	// Vector operator test
 	Vector<float, 4> v1{ 1.f, 2.f, 3.f, 4.f };
 	Vector<float, 4> v2{ 2.f, 3.f, 4.f, 5.f };
@@ -236,7 +220,7 @@ int main() {
 	cout << mat8 << " = " << endl;
 	cout << mat7 * mat8 << " & " << endl;
 	cout << mat8 * mat7 << endl;
-
+	*/
 
 	double elapsed;
 	elapsed = MatMulSpeedTest<float, 2, 2, 2, 2>();

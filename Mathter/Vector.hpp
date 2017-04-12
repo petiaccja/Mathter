@@ -1,7 +1,7 @@
 #pragma once
 
 #include <type_traits>
-#include <iostream> // debug only
+#include <iostream>
 
 #include "Simd.hpp"
 
@@ -47,7 +47,7 @@ auto operator*(const Matrix<T, Match, Rows1, Order1>& lhs, const Matrix<U, Colum
 // dot
 
 //------------------------------------------------------------------------------
-// Vector 2D data container
+// Vector general data container
 //------------------------------------------------------------------------------
 
 template <class T, int D>
@@ -114,8 +114,10 @@ protected:
 
 	// Misc
 	inline float dot(const VectorSpec& rhs) const {
-		float sum = this->x * rhs.x;
-		sum += this->y * rhs.y;
+		float sum = 0.0f;
+		for (int i = 0; i < D; ++i) {
+			sum += data[i] * rhs.data[i];
+		}
 		return sum;
 	}
 };
@@ -597,6 +599,8 @@ struct SumDimensions<> {
 } // namespace impl
 
 
+
+
 //------------------------------------------------------------------------------
 // General Vector class - no specializations needed
 //------------------------------------------------------------------------------
@@ -647,205 +651,231 @@ public:
 
 	// Scalar concat set
 	template <class... Scalars, typename std::enable_if<(sizeof...(Scalars) > 1) && impl::All<impl::IsScalar, Scalars...>::value, int>::type = 0>
-	Vector& Set(Scalars... scalars) {
-		static_assert(impl::SumDimensions<Scalars...>::value <= D, "Arguments exceed vector dimension.");
-		Assign(0, scalars...);
-		return *this;
-	}
+			Vector& Set(Scalars... scalars) {
+				static_assert(impl::SumDimensions<Scalars...>::value <= D, "Arguments exceed vector dimension.");
+				Assign(0, scalars...);
+				return *this;
+			}
 
-	// Generalized concat set
-	template <class... Mixed, typename std::enable_if<(sizeof...(Mixed) > 0) && impl::Any<impl::IsVector, Mixed...>::value, int>::type = 0>
-	Vector& Set(const Mixed&... mixed) {
-		static_assert(impl::SumDimensions<Mixed...>::value <= D, "Arguments exceed vector dimension.");
-		Assign(0, mixed...);
-		return *this;
-	}
+			// Generalized concat set
+			template <class... Mixed, typename std::enable_if<(sizeof...(Mixed) > 0) && impl::Any<impl::IsVector, Mixed...>::value, int>::type = 0>
+			Vector& Set(const Mixed&... mixed) {
+				static_assert(impl::SumDimensions<Mixed...>::value <= D, "Arguments exceed vector dimension.");
+				Assign(0, mixed...);
+				return *this;
+			}
 
-	// Set all members to certain type
-	Vector& Spread(T all) {
-		VectorSpec<T, D>::spread(all);
-		return *this;
-	}
+			// Set all members to certain type
+			Vector& Spread(T all) {
+				VectorSpec<T, D>::spread(all);
+				return *this;
+			}
 
-	//--------------------------------------------
-	// Accessors
-	//--------------------------------------------
+			//--------------------------------------------
+			// Properties
+			//--------------------------------------------
 
-	T operator[](int idx) const {
-		return data[idx];
-	}
-
-	T& operator[](int idx) {
-		return data[idx];
-	}
-
-	T operator()(int idx) const {
-		return data[idx];
-	}
-
-	T& operator()(int idx) {
-		return data[idx];
-	}
-
-	const T* cbegin() const {
-		return data;
-	}
-	const T* begin() const {
-		return data;
-	}
-	T* begin() {
-		return data;
-	}
-	const T* cend() const {
-		return data + D;
-	}
-	const T* end() const {
-		return data + D;
-	}
-	T* end() {
-		return data + D;
-	}
+			constexpr int Dimension() const {
+				return D;
+			}
 
 
-	const T* Data() const {
-		return data;
-	}
-	T* Data() {
-		return data;
-	}
+			//--------------------------------------------
+			// Accessors
+			//--------------------------------------------
+
+			T operator[](int idx) const {
+				return data[idx];
+			}
+
+			T& operator[](int idx) {
+				return data[idx];
+			}
+
+			T operator()(int idx) const {
+				return data[idx];
+			}
+
+			T& operator()(int idx) {
+				return data[idx];
+			}
+
+			const T* cbegin() const {
+				return data;
+			}
+			const T* begin() const {
+				return data;
+			}
+			T* begin() {
+				return data;
+			}
+			const T* cend() const {
+				return data + D;
+			}
+			const T* end() const {
+				return data + D;
+			}
+			T* end() {
+				return data + D;
+			}
 
 
-	//--------------------------------------------
-	// Compare
-	//--------------------------------------------
-
-	bool operator==(const Vector& rhs) const {
-		bool same = data[0] == rhs.data[0];
-		for (int i = 1; i < D; ++i) {
-			same = same && data[i] == rhs.data[i];
-		}
-		return same;
-	}
-
-	bool operator!=(const Vector& rhs) const {
-		return !operator==(rhs);
-	}
-
-	//--------------------------------------------
-	// Arithmetic
-	//--------------------------------------------
+			const T* Data() const {
+				return data;
+			}
+			T* Data() {
+				return data;
+			}
 
 
-	// Vector assign arithmetic
-	inline Vector& operator*=(const Vector& rhs) {
-		mul(rhs);
-		return *this;
-	}
+			//--------------------------------------------
+			// Compare
+			//--------------------------------------------
 
-	inline Vector& operator/=(const Vector& rhs) {
-		div(rhs);
-		return *this;
-	}
+			bool operator==(const Vector& rhs) const {
+				bool same = data[0] == rhs.data[0];
+				for (int i = 1; i < D; ++i) {
+					same = same && data[i] == rhs.data[i];
+				}
+				return same;
+			}
 
-	inline Vector& operator+=(const Vector& rhs) {
-		add(rhs);
-		return *this;
-	}
+			bool operator!=(const Vector& rhs) const {
+				return !operator==(rhs);
+			}
 
-	inline Vector& operator-=(const Vector& rhs) {
-		sub(rhs);
-		return *this;
-	}
+			template <class = typename std::enable_if<std::is_floating_point<T>::value>::type>
+			bool AlmostEqual(const Vector& rhs) const {
+				bool same = true;
+				for (int i = 0; i < D; ++i) {
+					T d1 = data[i], d2 = rhs.data[i];
+					if (d1 < 1e-38 && d2 < 1e-38) {
+						continue;
+					}
+					d1 /= pow(T(10), floor(log10(abs(d1))));
+					d2 /= pow(T(10), floor(log10(abs(d2))));
+					d1 *= 1000.f;
+					d2 *= 1000.f;
+					same = same && floor(d1) == floor(d2);
+				}
+				return same;
+			}
 
-
-	// Scalar assign arithmetic
-	inline Vector& operator*=(T rhs) {
-		mul(rhs);
-		return *this;
-	}
-
-	inline Vector& operator/=(T rhs) {
-		div(rhs);
-		return *this;
-	}
-
-	inline Vector& operator+=(T rhs) {
-		add(rhs);
-		return *this;
-	}
-
-	inline Vector& operator-=(T rhs) {
-		sub(rhs);
-		return *this;
-	}
+			//--------------------------------------------
+			// Arithmetic
+			//--------------------------------------------
 
 
-	// Vector assign arithmetic w/ different type
-	template <class U, class = typename std::enable_if<!std::is_same<T, U>::value>::type>
-	inline Vector& operator*=(const Vector<U, D>& rhs) {
-		for (int i = 0; i < D; ++i)
-			(*this)[i] *= rhs[i];
-		return *this;
-	}
+			// Vector assign arithmetic
+			inline Vector& operator*=(const Vector& rhs) {
+				mul(rhs);
+				return *this;
+			}
 
-	template <class U, class = typename std::enable_if<!std::is_same<T, U>::value>::type>
-	inline Vector& operator/=(const Vector<U, D>& rhs) {
-		for (int i = 0; i < D; ++i)
-			(*this)[i] /= rhs[i];
-		return *this;
-	}
+			inline Vector& operator/=(const Vector& rhs) {
+				div(rhs);
+				return *this;
+			}
 
-	template <class U, class = typename std::enable_if<!std::is_same<T, U>::value>::type>
-	inline Vector& operator+=(const Vector<U, D>& rhs) {
-		for (int i = 0; i < D; ++i)
-			(*this)[i] += rhs[i];
-		return *this;
-	}
+			inline Vector& operator+=(const Vector& rhs) {
+				add(rhs);
+				return *this;
+			}
 
-	template <class U, class = typename std::enable_if<!std::is_same<T, U>::value>::type>
-	inline Vector& operator-=(const Vector<U, D>& rhs) {
-		for (int i = 0; i < D; ++i)
-			(*this)[i] -= rhs[i];
-		return *this;
-	}
+			inline Vector& operator-=(const Vector& rhs) {
+				sub(rhs);
+				return *this;
+			}
 
 
-	//--------------------------------------------
-	// Common functions
-	//--------------------------------------------
+			// Scalar assign arithmetic
+			inline Vector& operator*=(T rhs) {
+				mul(rhs);
+				return *this;
+			}
 
-	void Normalize() {
-		T l = Length();
-		operator/=(l);
-	}
+			inline Vector& operator/=(T rhs) {
+				div(rhs);
+				return *this;
+			}
 
-	Vector Normalized() const {
-		Vector v = *this;
-		v.Normalize();
-		return v;
-	}
+			inline Vector& operator+=(T rhs) {
+				add(rhs);
+				return *this;
+			}
 
-
-	static T Dot(const Vector& lhs, const Vector& rhs) {
-		return lhs.dot(rhs);
-	}
-
-	template <class U, typename std::enable_if<!std::is_same<T, U>::value, int>::type = 0>
-	static auto Dot(const Vector& lhs, const Vector<U, D>& rhs) {
-		auto s = lhs.data[0] * rhs.data[0];
-		for (int i = 1; i < D; ++i) {
-			s = lhs.data[i] * rhs.data[i] + s;
-		}
-	}
+			inline Vector& operator-=(T rhs) {
+				sub(rhs);
+				return *this;
+			}
 
 
-	T LengthSquared() const {
-		return Dot(*this, *this);
-	}
+			// Vector assign arithmetic w/ different type
+			template <class U, class = typename std::enable_if<!std::is_same<T, U>::value>::type>
+			inline Vector& operator*=(const Vector<U, D>& rhs) {
+				for (int i = 0; i < D; ++i)
+					(*this)[i] *= rhs[i];
+				return *this;
+			}
 
-	T Length() const {
-		return sqrt(LengthSquared());
-	}
+			template <class U, class = typename std::enable_if<!std::is_same<T, U>::value>::type>
+			inline Vector& operator/=(const Vector<U, D>& rhs) {
+				for (int i = 0; i < D; ++i)
+					(*this)[i] /= rhs[i];
+				return *this;
+			}
+
+			template <class U, class = typename std::enable_if<!std::is_same<T, U>::value>::type>
+			inline Vector& operator+=(const Vector<U, D>& rhs) {
+				for (int i = 0; i < D; ++i)
+					(*this)[i] += rhs[i];
+				return *this;
+			}
+
+			template <class U, class = typename std::enable_if<!std::is_same<T, U>::value>::type>
+			inline Vector& operator-=(const Vector<U, D>& rhs) {
+				for (int i = 0; i < D; ++i)
+					(*this)[i] -= rhs[i];
+				return *this;
+			}
+
+
+			//--------------------------------------------
+			// Common functions
+			//--------------------------------------------
+
+			void Normalize() {
+				T l = Length();
+				operator/=(l);
+			}
+
+			Vector Normalized() const {
+				Vector v = *this;
+				v.Normalize();
+				return v;
+			}
+
+
+			static T Dot(const Vector& lhs, const Vector& rhs) {
+				return lhs.dot(rhs);
+			}
+
+			template <class U, typename std::enable_if<!std::is_same<T, U>::value, int>::type = 0>
+			static auto Dot(const Vector& lhs, const Vector<U, D>& rhs) {
+				auto s = lhs.data[0] * rhs.data[0];
+				for (int i = 1; i < D; ++i) {
+					s = lhs.data[i] * rhs.data[i] + s;
+				}
+			}
+
+
+			T LengthSquared() const {
+				return Dot(*this, *this);
+			}
+
+			T Length() const {
+				return sqrt(LengthSquared());
+			}
 
 protected:
 	//--------------------------------------------
@@ -1036,3 +1066,15 @@ inline Vector<float, 3> VectorSpec<float, 3>::Cross(const Vector<float, 3>& lhs,
 
 
 } // namespace mathter
+
+
+
+template <class T, int D>
+std::ostream& operator<<(std::ostream& os, const mathter::Vector<T, D>& v) {
+	os << "[";
+	for (int x = 0; x < D; ++x) {
+		os << v(x) << (x == D - 1 ? "" : "\t");
+	}
+	os << "]";
+	return os;
+}
