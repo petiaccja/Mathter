@@ -20,6 +20,9 @@
     <ClCompile Include="TestVector.cpp">
       <Filter>Test</Filter>
     </ClCompile>
+    <ClCompile Include="TestMatrix.cpp">
+      <Filter>Mathter</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Mathter\Vector.hpp">
@@ -36,9 +39,6 @@
     </ClInclude>
     <ClInclude Include="Mathter\Simd4f_sse.hpp">
       <Filter>Mathter</Filter>
-    </ClInclude>
-    <ClInclude Include="TestMatrix.cpp">
-      <Filter>Test</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

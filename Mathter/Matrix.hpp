@@ -317,7 +317,7 @@ public:
 
 	// Translation
 	template <class... Args, typename std::enable_if<(impl::All<impl::IsScalar, Args...>::value), int>::type = 0>
-	Matrix Translation(Args&& args) {
+	Matrix Translation(Args&&... args) {
 		constexpr int TranslationDim = Order == eMatrixOrder::FOLLOW_VECTOR ? Rows - 1 : Columns - 1;
 		static_assert(sizeof...(Args) == TranslationDim, "Number of arguments must match the dimension of translation.");
 		static_assert(TranslationDim > 0, "1x1 matrices cannot represent translation.");
