@@ -121,7 +121,7 @@ int main(int argc, char* argv[]) {
 	Vector<float, 4> v2{ 2.f, 3.f, 4.f, 5.f };
 	Vector<float, 4> v3 = v1*v2;
 
-	Vector<float, 8> v4(v2, v3);
+	Vector<float, 8> v4(3,4, v2, 1, 2);
 	v4.Set(1, 2, 3, 4, 5, 6, 7, 8);
 	v4.Set(v3, v2);
 

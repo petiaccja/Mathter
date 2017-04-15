@@ -638,14 +638,14 @@ public:
 	// Scalar concat constructor
 	template <class H1, class H2, class... Scalars, typename std::enable_if<impl::All<impl::IsScalar, H1, H2, Scalars...>::value, int>::type = 0>
 	Vector(H1 h1, H2 h2, Scalars... scalars) {
-		static_assert(impl::SumDimensions<Scalars...>::value <= D, "Arguments exceed vector dimension.");
+		static_assert(impl::SumDimensions<H1, H2, Scalars...>::value <= D, "Arguments exceed vector dimension.");
 		Assign(0, h1, h2, scalars...);
 	}
 
 	// Generalized concat constructor
 	template <class H1, class... Mixed, typename std::enable_if<impl::Any<impl::IsVector, H1, Mixed...>::value, int>::type = 0>
 	Vector(const H1& h1, const Mixed&... mixed) {
-		static_assert(impl::SumDimensions<Mixed...>::value <= D, "Arguments exceed vector dimension.");
+		static_assert(impl::SumDimensions<H1, Mixed...>::value <= D, "Arguments exceed vector dimension.");
 		Assign(0, h1, mixed...);
 	}
 
