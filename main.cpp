@@ -1,3 +1,5 @@
+#pragma warning(disable: 4244)
+
 #include "Mathter\Vector.hpp"
 #include "Mathter\Matrix.hpp"
 
@@ -7,6 +9,8 @@
 #include <random>
 
 #include <gtest\gtest.h>
+
+//#define RUN_UNIT_TEST
 
 using namespace std;
 using namespace mathter;
@@ -66,10 +70,10 @@ std::ostream& operator<<(std::ostream& os, const PlainMat3& mat) {
 }
 
 
-template <class T, int Col1, int Row1, int Col2, int Row2>
+template <class T, int Col1, int Row1, int Col2, int Row2, eMatrixLayout Layout = eMatrixLayout::ROW_MAJOR, eMatrixLayout LayoutRight = Layout>
 double MatMulSpeedTest() {
-	using LeftT = Matrix<T, Col1, Row1>;
-	using RightT = Matrix<T, Col2, Row2>;
+	using LeftT = Matrix<T, Col1, Row1, eMatrixOrder::FOLLOW_VECTOR, Layout>;
+	using RightT = Matrix<T, Col2, Row2, eMatrixOrder::FOLLOW_VECTOR, LayoutRight>;
 	using ResultT = typename decltype(LeftT()*RightT());
 
 	constexpr int iterationCount = 100'000;
@@ -112,16 +116,17 @@ double MatMulSpeedTest() {
 
 
 int main(int argc, char* argv[]) {
+#ifdef RUN_UNIT_TEST
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
 
-	/*
+#else
 	// Vector operator test
 	Vector<float, 4> v1{ 1.f, 2.f, 3.f, 4.f };
 	Vector<float, 4> v2{ 2.f, 3.f, 4.f, 5.f };
 	Vector<float, 4> v3 = v1*v2;
 
-	Vector<float, 8> v4(3,4, v2, 1, 2);
+	Vector<float, 8> v4(3, 4, v2, 1, 2);
 	v4.Set(1, 2, 3, 4, 5, 6, 7, 8);
 	v4.Set(v3, v2);
 
@@ -145,7 +150,7 @@ int main(int argc, char* argv[]) {
 	matvec(1) = 3;
 	matvec(2) = 5;
 	matvec(3) = 7;
-	Vector<float, 3> vec(1,3,5,7);
+	Vector<float, 3> vec(1, 3, 5);
 	Matrix<float, 3, 4> transform = {
 		3,4,5,
 		1,2,3,
@@ -158,8 +163,8 @@ int main(int argc, char* argv[]) {
 	auto vec_t2 = vec * transform.Transposed();
 	cout << "Matrix * vec transforms:" << endl;
 	cout << matvec_t << endl
-		<< vec_t << endl 
-		<< matvec_t2 << endl 
+		<< vec_t << endl
+		<< matvec_t2 << endl
 		<< vec_t2 << endl << endl;
 
 
@@ -220,26 +225,44 @@ int main(int argc, char* argv[]) {
 	cout << mat8 << " = " << endl;
 	cout << mat7 * mat8 << " & " << endl;
 	cout << mat8 * mat7 << endl;
-	*/
 
 	double elapsed;
+	elapsed = MatMulSpeedTest<float, 1, 1, 1, 1>();
+	cout << "time 1x1 x 1x1:\t\t " << elapsed * 1000 << " ms" << endl;
 	elapsed = MatMulSpeedTest<float, 2, 2, 2, 2>();
-	cout << "time 2x2 x 2x2:\t" << elapsed * 1000 << " ms" << endl;
+	cout << "time 2x2 x 2x2:\t\t " << elapsed * 1000 << " ms" << endl;
 	elapsed = MatMulSpeedTest<float, 3, 3, 3, 3>();
-	cout << "time 3x3 x 3x3:\t" << elapsed * 1000 << " ms" << endl;
+	cout << "time 3x3 x 3x3:\t\t " << elapsed * 1000 << " ms" << endl;
 	elapsed = MatMulSpeedTest<float, 4, 4, 4, 4>();
-	cout << "time 4x4 x 4x4:\t" << elapsed * 1000 << " ms" << endl;
+	cout << "time 4x4 x 4x4:\t\t " << elapsed * 1000 << " ms" << endl;
 	//elapsed = MatMulSpeedTest<float, 8, 8, 8, 8>();
 	//cout << "time 8x8 x 8x8:\t" << elapsed * 1000 << " ms" << endl;
 	elapsed = MatMulSpeedTest<float, 4, 2, 2, 4>();
-	cout << "time 4x2 x 2x4:\t" << elapsed * 1000 << " ms" << endl;
+	cout << "time 4x2 x 2x4:\t\t " << elapsed * 1000 << " ms" << endl;
 	elapsed = MatMulSpeedTest<float, 2, 4, 4, 2>();
-	cout << "time 2x4 x 4x2:\t" << elapsed * 1000 << " ms" << endl;
+	cout << "time 2x4 x 4x2:\t\t " << elapsed * 1000 << " ms" << endl;
 	elapsed = MatMulSpeedTest<float, 4, 3, 3, 4>();
-	cout << "time 4x3 x 3x4:\t" << elapsed * 1000 << " ms" << endl;
+	cout << "time 4x3 x 3x4:\t\t " << elapsed * 1000 << " ms" << endl;
 	elapsed = MatMulSpeedTest<float, 3, 4, 4, 3>();
-	cout << "time 3x4 x 4x3:\t" << elapsed * 1000 << " ms" << endl;
-	
+	cout << "time 3x4 x 4x3:\t\t " << elapsed * 1000 << " ms" << endl;
+
+	cout << endl;
+
+	elapsed = MatMulSpeedTest<float, 3, 3, 3, 3, eMatrixLayout::COLUMN_MAJOR>();
+	cout << "time 3x3 x 3x3 COLMAJOR: " << elapsed * 1000 << " ms" << endl;
+	elapsed = MatMulSpeedTest<float, 4, 4, 4, 4, eMatrixLayout::COLUMN_MAJOR>();
+	cout << "time 4x4 x 4x4 COLMAJOR: " << elapsed * 1000 << " ms" << endl;
+	elapsed = MatMulSpeedTest<float, 4, 2, 2, 4, eMatrixLayout::COLUMN_MAJOR>();
+	cout << "time 4x2 x 2x4 COLMAJOR: " << elapsed * 1000 << " ms" << endl;
+	elapsed = MatMulSpeedTest<float, 2, 4, 4, 2, eMatrixLayout::COLUMN_MAJOR>();
+	cout << "time 2x4 x 4x2 COLMAJOR: " << elapsed * 1000 << " ms" << endl;
+
+	cout << endl;
+
+	elapsed = MatMulSpeedTest<float, 4, 4, 4, 4, eMatrixLayout::ROW_MAJOR, eMatrixLayout::COLUMN_MAJOR>();
+	cout << "time 4x4 x 4x4 ROW*COL: " << elapsed * 1000 << " ms" << endl;
+
 
 	return 0;
+#endif
 }

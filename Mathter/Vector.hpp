@@ -14,7 +14,7 @@ namespace mathter {
 
 // Vector
 
-template <class T, int D>
+template <class T, int Dim, bool Packed = false>
 class Vector;
 
 
@@ -25,15 +25,32 @@ enum class eMatrixOrder {
 	FOLLOW_VECTOR,
 };
 
+enum class eMatrixLayout {
+	ROW_MAJOR,
+	COLUMN_MAJOR,
+};
+
+
 template <class T, class U>
 using MatMulElemT = decltype(T() * U() + T() + U());
 
-template <class T, int Columns, int Rows, eMatrixOrder Order = eMatrixOrder::FOLLOW_VECTOR>
+template <class T, int Columns, int Rows, eMatrixOrder Order = eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout Layout = eMatrixLayout::ROW_MAJOR, bool Packed = false>
 class Matrix;
 
-template <class T, class U, int Match, int Rows1, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, class V, class>
-auto operator*(const Matrix<T, Match, Rows1, Order1>& lhs, const Matrix<U, Columns2, Match, Order2>& rhs)
-->Matrix<V, Columns2, Rows1, Order1>;
+template <class T, class U, int Match, int Rows1, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, bool Packed, class V>
+auto operator*(const Matrix<T, Match, Rows1, Order1, eMatrixLayout::ROW_MAJOR, Packed>& lhs, 
+			   const Matrix<U, Columns2, Match, Order2, eMatrixLayout::ROW_MAJOR, Packed>& rhs)
+	->Matrix<V, Columns2, Rows1, Order1, eMatrixLayout::ROW_MAJOR, Packed>;
+
+template <class T, class U, int Match, int Rows1, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, bool Packed, class V>
+auto operator*(const Matrix<T, Match, Rows1, Order1, eMatrixLayout::ROW_MAJOR, Packed>& lhs,
+			   const Matrix<U, Columns2, Match, Order2, eMatrixLayout::COLUMN_MAJOR, Packed>& rhs)
+	->Matrix<V, Columns2, Rows1, Order1, eMatrixLayout::ROW_MAJOR, Packed>;
+
+template <class T, class U, int Match, int Rows1, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, bool Packed, class V>
+auto operator*(const Matrix<T, Match, Rows1, Order1, eMatrixLayout::COLUMN_MAJOR, Packed>& lhs,
+			   const Matrix<U, Columns2, Match, Order2, eMatrixLayout::COLUMN_MAJOR, Packed>& rhs)
+	->Matrix<V, Columns2, Rows1, Order1, eMatrixLayout::COLUMN_MAJOR, Packed>;
 
 
 //------------------------------------------------------------------------------
@@ -50,64 +67,61 @@ auto operator*(const Matrix<T, Match, Rows1, Order1>& lhs, const Matrix<U, Colum
 // Vector general data container
 //------------------------------------------------------------------------------
 
-template <class T, int D>
+template <class T, int Dim, bool Packed>
 class VectorSpec {
-	template <class T, class U, int Match, int Rows1, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, class V, class>
-	friend auto operator*(const Matrix<T, Match, Rows1, Order1>& lhs, const Matrix<U, Columns2, Match, Order2>& rhs)
-		->Matrix<V, Columns2, Rows1, Order1>;
 public:
-	T data[D];
+	T data[Dim];
 
 	VectorSpec() = default;
 protected:
 	// Assignment
 	inline void spread(T all) {
-		for (int i = 0; i < D; ++i) {
+		for (int i = 0; i < Dim; ++i) {
 			data[i] = all;
 		}
 	}
 
 	// Vector arithmetic
 	inline void mul(const VectorSpec& rhs) {
-		for (int i = 0; i < D; ++i) {
+		for (int i = 0; i < Dim; ++i) {
 			data[i] *= rhs.data[i];
 		}
 	}
 	inline void div(const VectorSpec& rhs) {
-		for (int i = 0; i < D; ++i) {
+		for (int i = 0; i < Dim; ++i) {
 			data[i] /= rhs.data[i];
 		};
 	}
 	inline void add(const VectorSpec& rhs) {
-		for (int i = 0; i < D; ++i) {
+		for (int i = 0; i < Dim; ++i) {
 			data[i] += rhs.data[i];
 		}
 	}
 	inline void sub(const VectorSpec& rhs) {
-		for (int i = 0; i < D; ++i) {
+		for (int i = 0; i < Dim; ++i) {
 			data[i] -= rhs.data[i];
 		}
 	}
 
 	// Scalar arithmetic
 	inline void mul(T rhs) {
-		for (int i = 0; i < D; ++i) {
+		for (int i = 0; i < Dim; ++i) {
 			data[i] *= rhs;
 		}
 	}
 	inline void div(T rhs) {
 		T rcprhs = T(1) / rhs;
-		for (int i = 0; i < D; ++i) {
+		for (int i = 0; i < Dim; ++i) {
 			data[i] *= rcprhs;
 		}
 	}
 	inline void add(T rhs) {
-		for (int i = 0; i < D; ++i) {
+		for (int i = 0; i < Dim; ++i) {
 			data[i] += rhs;
 		}
 	}
 	inline void sub(T rhs) {
-		for (int i = 0; i < D; ++i) {
+		for (int i = 0; i < Dim; ++i) {
 			data[i] -= rhs;
 		}
 	}
@@ -115,7 +129,7 @@ protected:
 	// Misc
 	inline float dot(const VectorSpec& rhs) const {
 		float sum = 0.0f;
-		for (int i = 0; i < D; ++i) {
+		for (int i = 0; i < Dim; ++i) {
 			sum += data[i] * rhs.data[i];
 		}
 		return sum;
@@ -127,11 +141,8 @@ protected:
 // Vector 2D data container
 //------------------------------------------------------------------------------
 
-template <class T>
-class VectorSpec<T, 2> {
-	template <class T, class U, int Match, int Rows1, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, class V, class>
-	friend auto operator*(const Matrix<T, Match, Rows1, Order1>& lhs, const Matrix<U, Columns2, Match, Order2>& rhs)
-		->Matrix<V, Columns2, Rows1, Order1>;
+template <class T, bool Packed>
+class VectorSpec<T, 2, Packed> {
 public:
 	union {
 		struct {
@@ -150,19 +161,19 @@ protected:
 	}
 
 	// Vector arithmetic
-	inline void mul(const VectorSpec<T, 2>& rhs) {
+	inline void mul(const VectorSpec& rhs) {
 		this->x *= rhs.x;
 		this->y *= rhs.y;
 	}
-	inline void div(const VectorSpec<T, 2>& rhs) {
+	inline void div(const VectorSpec& rhs) {
 		this->x /= rhs.x;
 		this->y /= rhs.y;
 	}
-	inline void add(const VectorSpec<T, 2>& rhs) {
+	inline void add(const VectorSpec& rhs) {
 		this->x += rhs.x;
 		this->y += rhs.y;
 	}
-	inline void sub(const VectorSpec<T, 2>& rhs) {
+	inline void sub(const VectorSpec& rhs) {
 		this->x -= rhs.x;
 		this->y -= rhs.y;
 	}
@@ -186,7 +197,7 @@ protected:
 	}
 
 	// Misc
-	inline float dot(const VectorSpec<T, 2>& rhs) const {
+	inline float dot(const VectorSpec& rhs) const {
 		float sum = this->x * rhs.x;
 		sum += this->y * rhs.y;
 		return sum;
@@ -197,11 +208,8 @@ protected:
 // Vector 3D data container
 //------------------------------------------------------------------------------
 
-template <class T>
-class VectorSpec<T, 3> {
-	template <class T, class U, int Match, int Rows1, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, class V, class>
-	friend auto operator*(const Matrix<T, Match, Rows1, Order1>& lhs, const Matrix<U, Columns2, Match, Order2>& rhs)
-		->Matrix<V, Columns2, Rows1, Order1>;
+template <class T, bool Packed>
+class VectorSpec<T, 3, Packed> {
 public:
 	union {
 		struct {
@@ -212,7 +220,7 @@ public:
 
 	VectorSpec() = default;
 
-	inline static Vector<T, 3> Cross(const Vector<T, 3>& lhs, const Vector<T, 3>& rhs);
+	inline static Vector<T, 3, Packed> Cross(const Vector<T, 3, Packed>& lhs, const Vector<T, 3, Packed>& rhs);
 protected:
 	// Assignment
 	inline void spread(T all) {
@@ -222,22 +230,22 @@ protected:
 	}
 
 	// Vector arithmetic
-	inline void mul(const VectorSpec<T, 3>& rhs) {
+	inline void mul(const VectorSpec& rhs) {
 		this->x *= rhs.x;
 		this->y *= rhs.y;
 		this->z *= rhs.z;
 	}
-	inline void div(const VectorSpec<T, 3>& rhs) {
+	inline void div(const VectorSpec& rhs) {
 		this->x /= rhs.x;
 		this->y /= rhs.y;
 		this->z /= rhs.z;
 	}
-	inline void add(const VectorSpec<T, 3>& rhs) {
+	inline void add(const VectorSpec& rhs) {
 		this->x += rhs.x;
 		this->y += rhs.y;
 		this->z += rhs.z;
 	}
-	inline void sub(const VectorSpec<T, 3>& rhs) {
+	inline void sub(const VectorSpec& rhs) {
 		this->x -= rhs.x;
 		this->y -= rhs.y;
 		this->z -= rhs.z;
@@ -266,7 +274,7 @@ protected:
 	}
 
 	// Misc
-	float dot(const VectorSpec<T, 4>& rhs) const {
+	float dot(const VectorSpec& rhs) const {
 		float sum = this->x * rhs.x;
 		sum += this->y * rhs.y;
 		sum += this->z * rhs.z;
@@ -279,11 +287,8 @@ protected:
 // Vector 4D data container
 //------------------------------------------------------------------------------
 
-template <class T>
-class VectorSpec<T, 4> {
-	template <class T, class U, int Match, int Rows1, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, class V, class>
-	friend auto operator*(const Matrix<T, Match, Rows1, Order1>& lhs, const Matrix<U, Columns2, Match, Order2>& rhs)
-		->Matrix<V, Columns2, Rows1, Order1>;
+template <class T, bool Packed>
+class VectorSpec<T, 4, Packed> {
 public:
 	union {
 		struct {
@@ -302,25 +307,25 @@ protected:
 	}
 
 	// Vector arithmetic
-	inline void mul(const VectorSpec<T, 4>& rhs) {
+	inline void mul(const VectorSpec& rhs) {
 		this->x *= rhs.x;
 		this->y *= rhs.y;
 		this->z *= rhs.z;
 		this->w *= rhs.w;
 	}
-	inline void div(const VectorSpec<T, 4>& rhs) {
+	inline void div(const VectorSpec& rhs) {
 		this->x /= rhs.x;
 		this->y /= rhs.y;
 		this->z /= rhs.z;
 		this->w /= rhs.w;
 	}
-	inline void add(const VectorSpec<T, 4>& rhs) {
+	inline void add(const VectorSpec& rhs) {
 		this->x += rhs.x;
 		this->y += rhs.y;
 		this->z += rhs.z;
 		this->w += rhs.w;
 	}
-	inline void sub(const VectorSpec<T, 4>& rhs) {
+	inline void sub(const VectorSpec& rhs) {
 		this->x -= rhs.x;
 		this->y -= rhs.y;
 		this->z -= rhs.z;
@@ -354,7 +359,7 @@ protected:
 	}
 
 	// Misc
-	inline float dot(const VectorSpec<T, 4>& rhs) const {
+	inline float dot(const VectorSpec& rhs) const {
 		float sum = this->x * rhs.x;
 		sum += this->y * rhs.y;
 		sum += this->z * rhs.z;
@@ -369,10 +374,7 @@ protected:
 //------------------------------------------------------------------------------
 
 template <>
-class VectorSpec<float, 3> {
-	template <class T, class U, int Match, int Rows1, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, class V, class>
-	friend auto operator*(const Matrix<T, Match, Rows1, Order1>& lhs, const Matrix<U, Columns2, Match, Order2>& rhs)
-		->Matrix<V, Columns2, Rows1, Order1>;
+class VectorSpec<float, 3, false> {
 public:
 	VectorSpec() { simd.v[3] = 0.0f; }
 
@@ -392,16 +394,16 @@ protected:
 	}
 
 	// Vector arithmetic
-	inline void mul(const VectorSpec<float, 3>& rhs) {
+	inline void mul(const VectorSpec<float, 3, false>& rhs) {
 		simd = Simd4f::mul(simd, rhs.simd);
 	}
-	inline void div(const VectorSpec<float, 3>& rhs) {
+	inline void div(const VectorSpec<float, 3, false>& rhs) {
 		simd = Simd4f::div(simd, rhs.simd);
 	}
-	inline void add(const VectorSpec<float, 3>& rhs) {
+	inline void add(const VectorSpec<float, 3, false>& rhs) {
 		simd = Simd4f::add(simd, rhs.simd);
 	}
-	inline void sub(const VectorSpec<float, 3>& rhs) {
+	inline void sub(const VectorSpec<float, 3, false>& rhs) {
 		simd = Simd4f::sub(simd, rhs.simd);
 	}
 
@@ -420,7 +422,7 @@ protected:
 	}
 
 	// Misc
-	inline float dot(const VectorSpec<float, 3>& rhs) const {
+	inline float dot(const VectorSpec<float, 3, false>& rhs) const {
 		return Simd4f::dot(simd, rhs.simd); // both w should be 0
 	}
 };
@@ -431,10 +433,7 @@ protected:
 //------------------------------------------------------------------------------
 
 template <>
-class VectorSpec<float, 4> {
-	template <class T, class U, int Match, int Rows1, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, class V, class>
-	friend auto operator*(const Matrix<T, Match, Rows1, Order1>& lhs, const Matrix<U, Columns2, Match, Order2>& rhs)
-		->Matrix<V, Columns2, Rows1, Order1>;
+class VectorSpec<float, 4, false> {
 public:
 	VectorSpec() = default;
 
@@ -452,16 +451,16 @@ protected:
 	}
 
 	// Vector arithmetic
-	inline void mul(const VectorSpec<float, 4>& rhs) {
+	inline void mul(const VectorSpec<float, 4, false>& rhs) {
 		simd = Simd4f::mul(simd, rhs.simd);
 	}
-	inline void div(const VectorSpec<float, 4>& rhs) {
+	inline void div(const VectorSpec<float, 4, false>& rhs) {
 		simd = Simd4f::div(simd, rhs.simd);
 	}
-	inline void add(const VectorSpec<float, 4>& rhs) {
+	inline void add(const VectorSpec<float, 4, false>& rhs) {
 		simd = Simd4f::add(simd, rhs.simd);
 	}
-	inline void sub(const VectorSpec<float, 4>& rhs) {
+	inline void sub(const VectorSpec<float, 4, false>& rhs) {
 		simd = Simd4f::sub(simd, rhs.simd);
 	}
 
@@ -480,7 +479,7 @@ protected:
 	}
 
 	// Misc
-	inline float dot(const VectorSpec<float, 4>& rhs) const {
+	inline float dot(const VectorSpec<float, 4, false>& rhs) const {
 		return Simd4f::dot(simd, rhs.simd);
 	}
 };
@@ -543,8 +542,8 @@ template <class Arg>
 struct IsVector {
 	static constexpr bool value = false;
 };
-template <class Ta, int Da>
-struct IsVector<Vector<Ta, Da>> {
+template <class T, int Dim, bool Packed>
+struct IsVector<Vector<T, Dim, Packed>> {
 	static constexpr bool value = true;
 };
 template <class Arg>
@@ -557,8 +556,8 @@ struct IsMatrix {
 	static constexpr bool value = false;
 };
 
-template <class T, int Columns, int Rows, eMatrixOrder Order>
-struct IsMatrix<Matrix<T, Columns, Rows, Order>> {
+template <class T, int Columns, int Rows, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+struct IsMatrix<Matrix<T, Columns, Rows, Order, Layout, Packed>> {
 	static constexpr bool value = true;
 };
 
@@ -577,9 +576,9 @@ template <class U, int Along = 0>
 struct DimensionOf {
 	static constexpr int value = 1;
 };
-template <class Ta, int Da>
-struct DimensionOf<Vector<Ta, Da>, 0> {
-	static constexpr int value = Da;
+template <class T, int Dim, bool Packed>
+struct DimensionOf<Vector<T, Dim, Packed>, 0> {
+	static constexpr int value = Dim;
 };
 
 // Sum dimensions of arguments
@@ -605,8 +604,24 @@ struct SumDimensions<> {
 // General Vector class - no specializations needed
 //------------------------------------------------------------------------------
 
-template <class T, int D>
-class Vector : public VectorSpec<T, D> {
+template <class T, int Dim, bool Packed>
+class Vector : public VectorSpec<T, Dim, Packed> {
+	static_assert(Dim >= 1, "Dimension must be positive integer.");
+
+	template <class T, class U, int Match, int Rows1, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, bool Packed, class V>
+	friend auto operator*(const Matrix<T, Match, Rows1, Order1, eMatrixLayout::ROW_MAJOR, Packed>& lhs,
+				   const Matrix<U, Columns2, Match, Order2, eMatrixLayout::ROW_MAJOR, Packed>& rhs)
+		->Matrix<V, Columns2, Rows1, Order1, eMatrixLayout::ROW_MAJOR, Packed>;
+
+	template <class T, class U, int Match, int Rows1, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, bool Packed, class V>
+	friend auto operator*(const Matrix<T, Match, Rows1, Order1, eMatrixLayout::ROW_MAJOR, Packed>& lhs,
+						  const Matrix<U, Columns2, Match, Order2, eMatrixLayout::COLUMN_MAJOR, Packed>& rhs)
+		->Matrix<V, Columns2, Rows1, Order1, eMatrixLayout::ROW_MAJOR, Packed>;
+
+	template <class T, class U, int Match, int Rows1, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, bool Packed, class V>
+	friend auto operator*(const Matrix<T, Match, Rows1, Order1, eMatrixLayout::COLUMN_MAJOR, Packed>& lhs,
+				   const Matrix<U, Columns2, Match, Order2, eMatrixLayout::COLUMN_MAJOR, Packed>& rhs)
+		->Matrix<V, Columns2, Rows1, Order1, eMatrixLayout::COLUMN_MAJOR, Packed>;
 public:
 	//--------------------------------------------
 	// Data constructors
@@ -618,12 +633,12 @@ public:
 
 	// All element same ctor
 	explicit Vector(T all) {
-		VectorSpec<T, D>::spread(all);
+		VectorSpec<T, Dim, Packed>::spread(all);
 	}
 
 	// T array ctor
 	explicit Vector(T* data) {
-		for (int i = 0; i < D; ++i) {
+		for (int i = 0; i < Dim; ++i) {
 			this->data[i] = data[i];
 		}
 	}
@@ -638,21 +653,21 @@ public:
 	// Scalar concat constructor
 	template <class H1, class H2, class... Scalars, typename std::enable_if<impl::All<impl::IsScalar, H1, H2, Scalars...>::value, int>::type = 0>
 	Vector(H1 h1, H2 h2, Scalars... scalars) {
-		static_assert(impl::SumDimensions<H1, H2, Scalars...>::value <= D, "Arguments exceed vector dimension.");
+		static_assert(impl::SumDimensions<H1, H2, Scalars...>::value <= Dim, "Arguments exceed vector dimension.");
 		Assign(0, h1, h2, scalars...);
 	}
 
 	// Generalized concat constructor
 	template <class H1, class... Mixed, typename std::enable_if<impl::Any<impl::IsVector, H1, Mixed...>::value, int>::type = 0>
 	Vector(const H1& h1, const Mixed&... mixed) {
-		static_assert(impl::SumDimensions<H1, Mixed...>::value <= D, "Arguments exceed vector dimension.");
+		static_assert(impl::SumDimensions<H1, Mixed...>::value <= Dim, "Arguments exceed vector dimension.");
 		Assign(0, h1, mixed...);
 	}
 
 	// Scalar concat set
 	template <class... Scalars, typename std::enable_if<((sizeof...(Scalars) > 1) && impl::All<impl::IsScalar, Scalars...>::value), int>::type = 0>
 	Vector& Set(Scalars... scalars) {
-		static_assert(impl::SumDimensions<Scalars...>::value <= D, "Arguments exceed vector dimension.");
+		static_assert(impl::SumDimensions<Scalars...>::value <= Dim, "Arguments exceed vector dimension.");
 		Assign(0, scalars...);
 		return *this;
 	}
@@ -660,14 +675,14 @@ public:
 	// Generalized concat set
 	template <class... Mixed, typename std::enable_if<(sizeof...(Mixed) > 0) && impl::Any<impl::IsVector, Mixed...>::value, int>::type = 0>
 	Vector& Set(const Mixed&... mixed) {
-		static_assert(impl::SumDimensions<Mixed...>::value <= D, "Arguments exceed vector dimension.");
+		static_assert(impl::SumDimensions<Mixed...>::value <= Dim, "Arguments exceed vector dimension.");
 		Assign(0, mixed...);
 		return *this;
 	}
 
 	// Set all members to certain type
 	Vector& Spread(T all) {
-		VectorSpec<T, D>::spread(all);
+		VectorSpec<T, Dim, Packed>::spread(all);
 		return *this;
 	}
 
@@ -676,7 +691,7 @@ public:
 	//--------------------------------------------
 
 	constexpr int Dimension() const {
-		return D;
+		return Dim;
 	}
 
 
@@ -710,13 +725,13 @@ public:
 		return data;
 	}
 	const T* cend() const {
-		return data + D;
+		return data + Dim;
 	}
 	const T* end() const {
-		return data + D;
+		return data + Dim;
 	}
 	T* end() {
-		return data + D;
+		return data + Dim;
 	}
 
 
@@ -734,7 +749,7 @@ public:
 
 	bool operator==(const Vector& rhs) const {
 		bool same = data[0] == rhs.data[0];
-		for (int i = 1; i < D; ++i) {
+		for (int i = 1; i < Dim; ++i) {
 			same = same && data[i] == rhs.data[i];
 		}
 		return same;
@@ -747,7 +762,7 @@ public:
 	template <class = typename std::enable_if<std::is_floating_point<T>::value>::type>
 	bool AlmostEqual(const Vector& rhs) const {
 		bool same = true;
-		for (int i = 0; i < D; ++i) {
+		for (int i = 0; i < Dim; ++i) {
 			T d1 = data[i], d2 = rhs.data[i];
 			if (d1 < 1e-38 && d2 < 1e-38) {
 				continue;
@@ -812,29 +827,29 @@ public:
 
 	// Vector assign arithmetic w/ different type
 	template <class U, class = typename std::enable_if<!std::is_same<T, U>::value>::type>
-	inline Vector& operator*=(const Vector<U, D>& rhs) {
-		for (int i = 0; i < D; ++i)
+	inline Vector& operator*=(const Vector<U, Dim>& rhs) {
+		for (int i = 0; i < Dim; ++i)
 			(*this)[i] *= rhs[i];
 		return *this;
 	}
 
 	template <class U, class = typename std::enable_if<!std::is_same<T, U>::value>::type>
-	inline Vector& operator/=(const Vector<U, D>& rhs) {
-		for (int i = 0; i < D; ++i)
+	inline Vector& operator/=(const Vector<U, Dim>& rhs) {
+		for (int i = 0; i < Dim; ++i)
 			(*this)[i] /= rhs[i];
 		return *this;
 	}
 
 	template <class U, class = typename std::enable_if<!std::is_same<T, U>::value>::type>
-	inline Vector& operator+=(const Vector<U, D>& rhs) {
-		for (int i = 0; i < D; ++i)
+	inline Vector& operator+=(const Vector<U, Dim>& rhs) {
+		for (int i = 0; i < Dim; ++i)
 			(*this)[i] += rhs[i];
 		return *this;
 	}
 
 	template <class U, class = typename std::enable_if<!std::is_same<T, U>::value>::type>
-	inline Vector& operator-=(const Vector<U, D>& rhs) {
-		for (int i = 0; i < D; ++i)
+	inline Vector& operator-=(const Vector<U, Dim>& rhs) {
+		for (int i = 0; i < Dim; ++i)
 			(*this)[i] -= rhs[i];
 		return *this;
 	}
@@ -861,9 +876,9 @@ public:
 	}
 
 	template <class U, typename std::enable_if<!std::is_same<T, U>::value, int>::type = 0>
-	static auto Dot(const Vector& lhs, const Vector<U, D>& rhs) {
+	static auto Dot(const Vector& lhs, const Vector<U, Dim>& rhs) {
 		auto s = lhs.data[0] * rhs.data[0];
-		for (int i = 1; i < D; ++i) {
+		for (int i = 1; i < Dim; ++i) {
 			s = lhs.data[i] * rhs.data[i] + s;
 		}
 	}
@@ -912,7 +927,7 @@ protected:
 
 	// Assign terminator, fill stuff with zeros
 	void Assign(int idx) {
-		for (; idx < D; idx++) {
+		for (; idx < Dim; idx++) {
 			data[idx] = T(0);
 		}
 	}
@@ -924,29 +939,29 @@ protected:
 //------------------------------------------------------------------------------
 
 // Vector copy arithmetic
-template <class T, int D>
-inline Vector<T, D> operator*(const Vector<T, D>& lhs, const Vector<T, D>& rhs) {
+template <class T, int Dim>
+inline Vector<T, Dim> operator*(const Vector<T, Dim>& lhs, const Vector<T, Dim>& rhs) {
 	auto tmp = lhs;
 	tmp *= rhs;
 	return tmp;
 }
 
-template <class T, int D>
-inline Vector<T, D> operator/(const Vector<T, D>& lhs, const Vector<T, D>& rhs) {
+template <class T, int Dim>
+inline Vector<T, Dim> operator/(const Vector<T, Dim>& lhs, const Vector<T, Dim>& rhs) {
 	auto tmp = lhs;
 	tmp /= rhs;
 	return tmp;
 }
 
-template <class T, int D>
-inline Vector<T, D> operator+(const Vector<T, D>& lhs, const Vector<T, D>& rhs) {
+template <class T, int Dim>
+inline Vector<T, Dim> operator+(const Vector<T, Dim>& lhs, const Vector<T, Dim>& rhs) {
 	auto tmp = lhs;
 	tmp += rhs;
 	return tmp;
 }
 
-template <class T, int D>
-inline Vector<T, D> operator-(const Vector<T, D>& lhs, const Vector<T, D>& rhs) {
+template <class T, int Dim>
+inline Vector<T, Dim> operator-(const Vector<T, Dim>& lhs, const Vector<T, Dim>& rhs) {
 	auto tmp = lhs;
 	tmp -= rhs;
 	return tmp;
@@ -954,57 +969,57 @@ inline Vector<T, D> operator-(const Vector<T, D>& lhs, const Vector<T, D>& rhs) 
 
 
 // Scalar assign arithmetic
-template <class T, int D>
-inline Vector<T, D> operator*(const Vector<T, D>& lhs, T rhs) {
+template <class T, int Dim>
+inline Vector<T, Dim> operator*(const Vector<T, Dim>& lhs, T rhs) {
 	auto tmp = lhs;
 	tmp *= rhs;
 	return tmp;
 }
 
-template <class T, int D>
-inline Vector<T, D> operator/(const Vector<T, D>& lhs, T rhs) {
+template <class T, int Dim>
+inline Vector<T, Dim> operator/(const Vector<T, Dim>& lhs, T rhs) {
 	auto tmp = lhs;
 	tmp /= rhs;
 	return tmp;
 }
 
-template <class T, int D>
-inline Vector<T, D> operator+(const Vector<T, D>& lhs, T rhs) {
+template <class T, int Dim>
+inline Vector<T, Dim> operator+(const Vector<T, Dim>& lhs, T rhs) {
 	auto tmp = lhs;
 	tmp += rhs;
 	return tmp;
 }
 
-template <class T, int D>
-inline Vector<T, D> operator-(const Vector<T, D>& lhs, T rhs) {
+template <class T, int Dim>
+inline Vector<T, Dim> operator-(const Vector<T, Dim>& lhs, T rhs) {
 	auto tmp = lhs;
 	tmp -= rhs;
 	return tmp;
 }
 
-template <class T, int D>
-inline Vector<T, D> operator*(T lhs, const Vector<T, D>& rhs) {
+template <class T, int Dim>
+inline Vector<T, Dim> operator*(T lhs, const Vector<T, Dim>& rhs) {
 	auto tmp = rhs;
 	tmp *= lhs;
 	return tmp;
 }
 
-template <class T, int D>
-inline Vector<T, D> operator/(T lhs, const Vector<T, D>& rhs) {
+template <class T, int Dim>
+inline Vector<T, Dim> operator/(T lhs, const Vector<T, Dim>& rhs) {
 	auto tmp = rhs;
 	tmp /= lhs;
 	return tmp;;
 }
 
-template <class T, int D>
-inline Vector<T, D> operator+(T lhs, const Vector<T, D>& rhs) {
+template <class T, int Dim>
+inline Vector<T, Dim> operator+(T lhs, const Vector<T, Dim>& rhs) {
 	auto tmp = rhs;
 	tmp += lhs;
 	return tmp;
 }
 
-template <class T, int D>
-inline Vector<T, D> operator-(T lhs, const Vector<T, D>& rhs) {
+template <class T, int Dim>
+inline Vector<T, Dim> operator-(T lhs, const Vector<T, Dim>& rhs) {
 	auto tmp = rhs;
 	tmp -= lhs;
 	return tmp;
@@ -1012,34 +1027,34 @@ inline Vector<T, D> operator-(T lhs, const Vector<T, D>& rhs) {
 
 
 // Vector arithmetic with different types
-template <class T, class U, int D, class = typename std::enable_if<!std::is_same<T, U>::value>::type>
-inline auto operator*(const Vector<T, D>& lhs, const Vector<U, D>& rhs) {
-	Vector<decltype(T() * U()), D> ret;
-	for (int i = 0; i < D; ++i)
+template <class T, class U, int Dim, class = typename std::enable_if<!std::is_same<T, U>::value>::type>
+inline auto operator*(const Vector<T, Dim>& lhs, const Vector<U, Dim>& rhs) {
+	Vector<decltype(T() * U()), Dim> ret;
+	for (int i = 0; i < Dim; ++i)
 		ret[i] = lhs[i] * rhs[i];
 	return ret;
 }
 
-template <class T, class U, int D, class = typename std::enable_if<!std::is_same<T, U>::value>::type>
-inline auto operator/(const Vector<T, D>& lhs, const Vector<U, D>& rhs) {
-	Vector<decltype(T() / U()), D> ret;
-	for (int i = 0; i < D; ++i)
+template <class T, class U, int Dim, class = typename std::enable_if<!std::is_same<T, U>::value>::type>
+inline auto operator/(const Vector<T, Dim>& lhs, const Vector<U, Dim>& rhs) {
+	Vector<decltype(T() / U()), Dim> ret;
+	for (int i = 0; i < Dim; ++i)
 		ret[i] = lhs[i] / rhs[i];
 	return ret;
 }
 
-template <class T, class U, int D, class = typename std::enable_if<!std::is_same<T, U>::value>::type>
-inline auto operator+(const Vector<T, D>& lhs, const Vector<U, D>& rhs) {
-	Vector<decltype(T() + U()), D> ret;
-	for (int i = 0; i < D; ++i)
+template <class T, class U, int Dim, class = typename std::enable_if<!std::is_same<T, U>::value>::type>
+inline auto operator+(const Vector<T, Dim>& lhs, const Vector<U, Dim>& rhs) {
+	Vector<decltype(T() + U()), Dim> ret;
+	for (int i = 0; i < Dim; ++i)
 		ret[i] = lhs[i] + rhs[i];
 	return ret;
 }
 
-template <class T, class U, int D, class = typename std::enable_if<!std::is_same<T, U>::value>::type>
-inline auto operator-(const Vector<T, D>& lhs, const Vector<U, D>& rhs) {
-	Vector<decltype(T() - U()), D> ret;
-	for (int i = 0; i < D; ++i)
+template <class T, class U, int Dim, class = typename std::enable_if<!std::is_same<T, U>::value>::type>
+inline auto operator-(const Vector<T, Dim>& lhs, const Vector<U, Dim>& rhs) {
+	Vector<decltype(T() - U()), Dim> ret;
+	for (int i = 0; i < Dim; ++i)
 		ret[i] = lhs[i] - rhs[i];
 	return ret;
 }
@@ -1049,16 +1064,17 @@ inline auto operator-(const Vector<T, D>& lhs, const Vector<U, D>& rhs) {
 // Special functions
 //------------------------------------------------------------------------------
 
-template <class T>
-Vector<T, 3> VectorSpec<T, 3>::Cross(const Vector<T, 3>& lhs, const Vector<T, 3>& rhs) {
+template <class T, bool Packed>
+Vector<T, 3, Packed> VectorSpec<T, 3, Packed>::Cross(const Vector<T, 3, Packed>& lhs, const Vector<T, 3, Packed>& rhs) {
 	return Vector<T, 3>(lhs.y * rhs.z - lhs.z * rhs.y,
 						lhs.z * rhs.x - lhs.x * rhs.z,
 						lhs.x * rhs.y - lhs.y * rhs.x);
 }
 
 
+// Unpacked version
 // TODO: accelerate with simd
-inline Vector<float, 3> VectorSpec<float, 3>::Cross(const Vector<float, 3>& lhs, const Vector<float, 3>& rhs) {
+inline Vector<float, 3> VectorSpec<float, 3, false>::Cross(const Vector<float, 3>& lhs, const Vector<float, 3>& rhs) {
 	return Vector<float, 3>(lhs.y * rhs.z - lhs.z * rhs.y,
 							lhs.z * rhs.x - lhs.x * rhs.z,
 							lhs.x * rhs.y - lhs.y * rhs.x);
@@ -1069,11 +1085,11 @@ inline Vector<float, 3> VectorSpec<float, 3>::Cross(const Vector<float, 3>& lhs,
 
 
 
-template <class T, int D>
-std::ostream& operator<<(std::ostream& os, const mathter::Vector<T, D>& v) {
+template <class T, int Dim>
+std::ostream& operator<<(std::ostream& os, const mathter::Vector<T, Dim>& v) {
 	os << "[";
-	for (int x = 0; x < D; ++x) {
-		os << v(x) << (x == D - 1 ? "" : "\t");
+	for (int x = 0; x < Dim; ++x) {
+		os << v(x) << (x == Dim - 1 ? "" : "\t");
 	}
 	os << "]";
 	return os;

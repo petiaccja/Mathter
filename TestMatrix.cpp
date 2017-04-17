@@ -87,6 +87,36 @@ TEST(Matrix, MulNonsquare) {
 }
 
 
+TEST(Matrix, MulNonsquareColmajor) {
+	Matrix<float, 2, 4, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR> m = {
+		1,2,
+		3,4,
+		5,6,
+		7,8,
+	};
+	Matrix<float, 4, 2, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR> n = {
+		1,2,3,4,
+		5,6,7,8,
+	};
+	Matrix<float, 2, 2, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR> nm = n*m;
+	Matrix<float, 4, 4, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR> mn = m*n;
+
+	Matrix<float, 2, 2, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR> nmexp = {
+		50,	60,
+		114, 140,
+	};
+	Matrix<float, 4, 4, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR> mnexp = {
+		11,	14,	17,	20,
+		23,	30,	37,	44,
+		35,	46,	57,	68,
+		47,	62,	77,	92,
+	};
+
+	ASSERT_EQ(mn, mnexp);
+	ASSERT_EQ(mn, mnexp);
+}
+
+
 TEST(Matrix, Identity) {
 	Matrix<float, 3, 3> m = Matrix<float, 3, 3>::Identity();
 	Matrix<float, 3, 3> mexp = {
