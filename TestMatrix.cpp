@@ -210,8 +210,7 @@ TEST(Matrix, Rotation2D) {
 		-0.84147, 0.54030, 0,
 		0,0,1,
 	};
-
-
+	
 	ASSERT_TRUE(m.AlmostEqual(mexp));
 	ASSERT_TRUE(m3.AlmostEqual(m3exp));
 }
@@ -241,7 +240,7 @@ TEST(Matrix, RotationPrincipal) {
 
 
 TEST(Matrix, RotationAxisAngle) {
-	auto m = Matrix<float, 3, 3>::Rotation(Vector<float, 3>(1,2,3).Normalized(), 1.0f);
+	auto m = Matrix<float, 3, 3>::RotationAxisAngle(Vector<float, 3>(1,2,3).Normalized(), 1.0f);
 	Matrix<float, 3, 3> mexp = {
 		0.573138, 0.740349, -0.351279, -0.609007, 0.671645, 0.421906, 0.548292, -0.027879, 0.835822
 	};
@@ -257,4 +256,17 @@ TEST(Matrix, Scale) {
 	auto vt2 = v*m;
 
 	ASSERT_EQ(vt1, vt2);
+}
+
+
+TEST(Matrix, Translation) {
+	auto m = Matrix<float, 5, 6>::Translation(Vector<float, 5>{ 1,2,3,4,5 });
+	auto m2 = Matrix<float, 3, 3>::Translation(1, 2);
+	Vector<float, 5> v(1,2,3,4,5);
+	v = (v|1)*m;
+
+	Vector<float, 5> vexp(2,4,6,8,10);
+
+	ASSERT_EQ(v, vexp);
+
 }

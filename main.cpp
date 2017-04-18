@@ -10,7 +10,7 @@
 
 #include <gtest\gtest.h>
 
-//#define RUN_UNIT_TEST
+#define RUN_UNIT_TEST
 
 using namespace std;
 using namespace mathter;

@@ -1,5 +1,15 @@
 #pragma once
 
+// Remove goddamn fucking bullshit crapware winapi macros.
+#if _MSC_VER && defined(min)
+#pragma push_macro("min")
+#pragma push_macro("max")
+#undef min
+#undef max
+#define MATHTER_MINMAX
+#endif
+
+
 #include <type_traits>
 #include <iostream> // debug only
 
@@ -37,60 +47,255 @@ protected:
 
 	// Get element
 	inline T& GetElement(int col, int row) {
-		return GetElement(col, row, std::integral_constant<bool, Layout == eMatrixLayout::ROW_MAJOR>());
+		return GetElementImpl(col, row, std::integral_constant<bool, Layout == eMatrixLayout::ROW_MAJOR>());
 	}
 	inline T GetElement(int col, int row) const {
-		return GetElement(col, row, std::integral_constant<bool, Layout == eMatrixLayout::ROW_MAJOR>());
+		return GetElementImpl(col, row, std::integral_constant<bool, Layout == eMatrixLayout::ROW_MAJOR>());
 	}
-
 private:
-	inline T& GetElement(int col, int row, std::true_type) {
+	inline T& GetElementImpl(int col, int row, std::true_type) {
 		return stripes[row][col];
 	}
-	inline T GetElement(int col, int row, std::true_type) const {
+	inline T GetElementImpl(int col, int row, std::true_type) const {
 		return stripes[row][col];
 	}
-	inline T& GetElement(int col, int row, std::false_type) {
+	inline T& GetElementImpl(int col, int row, std::false_type) {
 		return stripes[col][row];
 	}
-	inline T GetElement(int col, int row, std::false_type) const {
+	inline T GetElementImpl(int col, int row, std::false_type) const {
 		return stripes[col][row];
 	}
 };
 
 
 //------------------------------------------------------------------------------
-// Matrix operations class extending MatrixData by special operations
+// Matrix operations
 //------------------------------------------------------------------------------
 
-template <class T, int Columns, int Rows, eMatrixOrder Order, eMatrixLayout Layout, bool Packed, bool Square = (Columns == Rows)>
-class MatrixOps;
+// Empty
+template <class T>
+class Empty {};
 
+template <bool Enable, class Module>
+using MatrixModule = typename std::conditional<Enable, Module, Empty<Module>>::type;
+
+
+// Square matrices
 template <class T, int Columns, int Rows, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-class MatrixOps<T, Columns, Rows, Order, Layout, Packed, false> : public MatrixData<T, Columns, Rows, Order, Layout, Packed> {
+class MatrixSquare {
+	using MatrixT = Matrix<T, Columns, Rows, Order, Layout, Packed>;
 protected:
-
+	friend class MatrixT;
+	using Inherit = Empty<MatrixSquare>;
 };
 
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-class MatrixOps<T, Dim, Dim, Order, Layout, Packed, true> : public MatrixOps<T, Dim, Dim, Order, Layout, Packed, false> {
-	using MyMatrixT = Matrix<T, Dim, Dim, Order>;
+class MatrixSquare<T, Dim, Dim, Order, Layout, Packed> {
+	using MatrixT = Matrix<T, Dim, Dim, Order, Layout, Packed>;
+	MatrixT& self() { return *static_cast<MatrixT*>(this); }
+	const MatrixT& self() const { return *static_cast<const MatrixT*>(this); }
 public:
 	template <class T2, eMatrixOrder Order2, eMatrixLayout Layout2>
-	MyMatrixT& operator*=(const Matrix<T2, Dim, Dim, Order2, Layout2, Packed>& rhs) {
-		auto& thisMat = static_cast<MyMatrixT&>(*this);
-		thisMat = operator*<T, T2, Dim, Dim, Dim, Order, Order2, Layout, Layout2, Packed, T>(thisMat, rhs);
-		return thisMat;
+	MatrixT& operator*=(const Matrix<T2, Dim, Dim, Order2, Layout2, Packed>& rhs) {
+		self() = operator*<T, T2, Dim, Dim, Dim, Order, Order2, Layout, Layout2, Packed, T>(self(), rhs);
+		return self();
 	}
 
 	T Trace() const;
 	T Determinant() const;
-	MyMatrixT& Transpose();
-	MyMatrixT& Invert();
-	MyMatrixT Inverted() const;
+	MatrixT& Transpose();
+	MatrixT& Invert();
+	MatrixT Inverted() const;
+protected:
+	friend class MatrixT;
+	using Inherit = MatrixSquare;
+};
 
-	static MyMatrixT Identity();
-	MyMatrixT& SetIdentity();
+
+
+// Rotation 2D functions
+template <class T, int Columns, int Rows, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+class MatrixRotation2D {
+	using MatrixT = Matrix<T, Columns, Rows, Order, Layout, Packed>;
+	MatrixT& self() { return *static_cast<MatrixT*>(this); }
+	const MatrixT& self() const { return *static_cast<const MatrixT*>(this); }
+protected:
+	static constexpr bool Enable2DRotation =
+		(Columns == 3 && Rows == 3)
+		|| (Columns == 2 && Rows == 3 && Order == eMatrixOrder::FOLLOW_VECTOR)
+		|| (Columns == 3 && Rows == 2 && Order == eMatrixOrder::PRECEDE_VECTOR)
+		|| (Columns == 2 && Rows == 2);
+public:
+	static MatrixT Rotation(T angle);
+	MatrixT& SetRotation(T angle) { 
+		*this = Rotation(angle);
+		return *this;
+	}
+protected:
+	friend class MatrixT;
+	using Inherit = MatrixModule<Enable2DRotation, MatrixRotation2D>;
+};
+
+
+
+// Rotation 3D functions
+template <class T, int Columns, int Rows, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+class MatrixRotation3D {
+	using MatrixT = Matrix<T, Columns, Rows, Order, Layout, Packed>;
+	MatrixT& self() { return *static_cast<MatrixT*>(this); }
+	const MatrixT& self() const { return *static_cast<const MatrixT*>(this); }
+protected:
+	static constexpr bool Enable3DRotation =
+		(Columns == 4 && Rows == 4)
+		|| (Columns == 3 && Rows == 4 && Order == eMatrixOrder::FOLLOW_VECTOR)
+		|| (Columns == 4 && Rows == 3 && Order == eMatrixOrder::PRECEDE_VECTOR)
+		|| (Columns == 3 && Rows == 3);
+public:
+	// Static rotation
+	template <int Axis>
+	static MatrixT RotationAxis(T angle);
+
+	static MatrixT RotationX(T angle);
+	static MatrixT RotationY(T angle);
+	static MatrixT RotationZ(T angle);
+
+	template <int FirstAxis, int SecondAxis, int ThirdAxis>
+	static MatrixT RotationAxis3(T angle1, T angle2, T angle3);
+
+	static MatrixT RotationEuler(float z1, float x2, float z3);
+	static MatrixT RotationRPY(float x1, float y2, float z3);
+	template <class U>
+	static MatrixT RotationAxisAngle(Vector<U, 3> axis, T angle);
+
+	// Member rotation
+	template <int Axis>
+	MatrixT& SetRotationAxis(T angle) {	self() = Rotation<Axis>(angle); return self(); }
+
+	MatrixT& SetRotationX(T angle) { self() = RotationX(angle); return self(); }
+	MatrixT& SetRotationY(T angle) { self() = RotationY(angle); return self(); }
+	MatrixT& SetRotationZ(T angle) { self() = RotationZ(angle); return self(); }
+
+	template <int FirstAxis, int SecondAxis, int ThirdAxis>
+	MatrixT& SetRotationAxis3(T angle1, T angle2, T angle3) { self() = Rotation<FirstAxis, SecondAxis, ThirdAxis>(angle1, angle2, angle3); return self(); }
+
+	MatrixT& SetRotationEuler(float z1, float x2, float z3) { self() = RotationEuler(z1, x3, z3); return self(); }
+	MatrixT& SetRotationRPY(float x1, float y2, float z3) { self() = RotationRPY(x1, y2, z3); return self(); }
+	template <class U>
+	MatrixT& SetRotationAxisAngle(Vector<U, 3> axis, T angle) { self() = Rotation(axis, angle); return self(); }
+protected:
+	friend class MatrixT;
+	using Inherit = MatrixModule<Enable3DRotation, MatrixRotation3D>;
+};
+
+
+
+// Translation functions
+template <class T, int Columns, int Rows, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+class MatrixTranslation {
+	using MatrixT = Matrix<T, Columns, Rows, Order, Layout, Packed>;
+	MatrixT& self() { return *static_cast<MatrixT*>(this); }
+	const MatrixT& self() const { return *static_cast<const MatrixT*>(this); }
+protected:
+	static constexpr bool EnableTranslation =
+		(Rows < Columns ? Rows : Columns) > 0 &&
+		(Order == eMatrixOrder::FOLLOW_VECTOR && Rows - 1 <= Columns && Columns <= Rows)
+		|| (Order == eMatrixOrder::PRECEDE_VECTOR && Columns - 1 <= Rows && Rows <= Columns);
+	static constexpr int TranslationDim = Rows == Columns ? Rows - 1 : std::min(Rows, Columns);
+public:
+	template <class... Args, typename std::enable_if<(impl::All<impl::IsScalar, Args...>::value), int>::type = 0>
+	static MatrixT Translation(Args&&... args) {
+		static_assert(sizeof...(Args) == TranslationDim, "Number of arguments must match the dimension of translation.");
+
+		MatrixT m;
+		m.SetIdentity();
+		T tableArgs[sizeof...(Args)] = { (T)std::forward<Args>(args)... };
+		if (Order == eMatrixOrder::FOLLOW_VECTOR) {
+			for (int i = 0; i < sizeof...(Args); ++i) {
+				m(i, Rows - 1) = std::move(tableArgs[i]);
+			}
+		}
+		else {
+			for (int i = 0; i < sizeof...(Args); ++i) {
+				m(Columns - 1, i) = std::move(tableArgs[i]);
+			}
+		}
+		return m;
+	}
+
+	template <class Vt, bool Vpacked>
+	static MatrixT Translation(const Vector<Vt, TranslationDim, Vpacked>& translation) {
+		MatrixT m;
+		m.SetIdentity();
+		if (Order == eMatrixOrder::FOLLOW_VECTOR) {
+			for (int i = 0; i < translation.Dimension(); ++i) {
+				m(i, Rows - 1) = translation(i);
+			}
+		}
+		else {
+			for (int i = 0; i < translation.Dimension(); ++i) {
+				m(Columns - 1, i) = translation(i);
+			}
+		}
+		return m;
+	}
+
+	template <class... Args>
+	MatrixT& SetTranslation(Args&&... args) { self() = Translation(std::forward<Args>(args)...); return self(); }
+
+	template <class Vt, bool Vpacked>
+	MatrixT& SetTranslation(const Vector<Vt, TranslationDim, Vpacked>& translation) { self() = Translation(translation); return self(); }
+protected:
+	friend class MatrixT;
+	using Inherit = MatrixModule<EnableTranslation, MatrixTranslation>;
+};
+
+
+// Scale functions
+template <class T, int Columns, int Rows, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+class MatrixScale {
+	using MatrixT = Matrix<T, Columns, Rows, Order, Layout, Packed>;
+	MatrixT& self() { return *static_cast<MatrixT*>(this); }
+	const MatrixT& self() const { return *static_cast<const MatrixT*>(this); }
+public:
+	template <class... Args, typename std::enable_if<(impl::All<impl::IsScalar, Args...>::value), int>::type = 0>
+	static MatrixT Scale(Args&&... args) {
+		static_assert(sizeof...(Args) <= std::min(Rows, Columns), "You must provide scales for dimensions equal to matrix dimension");
+		MatrixT m;
+		m.SetZero();
+		T tableArgs[sizeof...(Args)] = { (T)std::forward<Args>(args)... };
+		int i;
+		for (i = 0; i < sizeof...(Args); ++i) {
+			m(i, i) = std::move(tableArgs[i]);
+		}
+		for (; i < std::min(Rows, Columns); ++i) {
+			m(i, i) = T(1);
+		}
+		return m;
+	}
+
+	template <class Vt, int Vdim, bool Vpacked>
+	static void Scale(const Vector<Vt, Vdim, Vpacked>& scale) {
+		static_assert(Vdim < std::min(Rows, Columns), "Vector dimension must be smaller than or equal to matrix dimension.");
+		MatrixT m;
+		m.SetIdentity();
+		int i;
+		for (i = 0; i < scale.Dimension(); ++i) {
+			m(i, i) = std::move(scale(i));
+		}
+		for (; i < std::min(Rows, Columns); ++i) {
+			m(i, i) = T(1);
+		}
+		return m;
+	}
+
+	template <class... Args>
+	MatrixT& SetScale(Args&&... args) { self() = Scale(std::forward<Args>(args)...); return self(); }
+
+	template <class Vt, int Vdim, bool Vpacked>
+	MatrixT& SetScale(const Vector<Vt, Vdim, Vpacked>& translation) { self() = Scale(translation); return self(); }
+protected:
+	friend class MatrixT;
+	using Inherit = MatrixScale;
 };
 
 
@@ -131,7 +336,14 @@ template <
 //------------------------------------------------------------------------------
 
 template <class T, int Columns, int Rows, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-class Matrix : public MatrixOps<T, Columns, Rows, Order, Layout, Packed> {
+class Matrix 
+	: public MatrixData<T, Columns, Rows, Order, Layout, Packed>,
+	public MatrixSquare<T, Columns, Rows, Order, Layout, Packed>::Inherit,
+	public MatrixRotation2D<T, Columns, Rows, Order, Layout, Packed>::Inherit,
+	public MatrixRotation3D<T, Columns, Rows, Order, Layout, Packed>::Inherit,
+	public MatrixTranslation<T, Columns, Rows, Order, Layout, Packed>::Inherit,
+	public MatrixScale<T, Columns, Rows, Order, Layout, Packed>::Inherit
+{
 	static_assert(Columns >= 1 && Rows >= 1, "Dimensions must be positive integers.");
 protected:
 	using MatrixData<T, Columns, Rows, Order, Layout, Packed>::GetElement;
@@ -303,103 +515,8 @@ public:
 		return *this;
 	}
 
-
-	//--------------------------------------------
-	// Geometry
-	//--------------------------------------------
-
-	// Scale
-	template <class... Args, typename std::enable_if<(impl::All<impl::IsScalar, Args...>::value), int>::type = 0>
-	static Matrix Scale(Args&&... args) {
-		static_assert(sizeof...(Args) <= std::min(Rows, Columns), "You must provide scales for dimensions equal to matrix dimension");
-		Matrix m;
-		m.SetZero();
-		T tableArgs[sizeof...(Args)] = { std::forward<Args>(args)... };
-		for (int i = 0; i < sizeof...(Args); ++i) {
-			m(i, i) = std::move(tableArgs[i]);
-		}
-		return m;
-	}
-
-	template <class U, int Dim>
-	static void Scale(Vector<U, Dim> scale) {
-		static_assert(Dim < std::min(Rows, Columns), "Vector dimension must be smaller than or equal to matrix dimension.");
-		Matrix m;
-		m.SetZero();
-		for (int i = 0; i < scale.Dimension(); ++i) {
-			m(i, i) = std::move(scale(i));
-		}
-		return m;
-	}
-
-	// Static rotation
-	template <class = typename std::enable_if<(2 <= Rows && Rows <= 3 && 2 <= Columns && Columns <= 3)>::type>
-	static Matrix Rotation(T angle);
-
-	template <int Axis, class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
-	static Matrix Rotation(T angle);
-	template <class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
-	static Matrix RotationX(T angle);
-	template <class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
-	static Matrix RotationY(T angle);
-	template <class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
-	static Matrix RotationZ(T angle);
-
-	template <int FirstAxis, int SecondAxis, int ThirdAxis, class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
-	static Matrix Rotation(T angle1, T angle2, T angle3);
-
-	template <class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
-	static Matrix RotationEuler(float z1, float x2, float z3);
-
-	template <class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
-	static Matrix RotationRPY(float x1, float y2, float z3);
-
-	template <class U, class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
-	static Matrix Rotation(Vector<U, 3> axis, T angle);
-
-
-	// Member rotation
-	template <class = typename std::enable_if<(2 <= Rows && Rows <= 3 && 2 <= Columns && Columns <= 3)>::type>
-	Matrix& SetRotation(T angle) { *this = Matrix::Rotation(angle); return *this; }
-
-	template <int Axis, class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
-	Matrix& SetRotation(T angle) { *this = Matrix::Rotation<Axis>(angle); return *this; }
-	template <class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
-	Matrix& SetRotationX(T angle) { *this = Matrix::RotationX(angle); return *this; }
-	template <class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
-	Matrix& SetRotationY(T angle) { *this = Matrix::RotationY(angle); return *this; }
-	template <class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
-	Matrix& SetRotationZ(T angle) { *this = Matrix::RotationZ(angle); return *this; }
-
-	template <int FirstAxis, int SecondAxis, int ThirdAxis, class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
-	Matrix& SetRotation(T angle1, T angle2, T angle3) { *this = Matrix::Rotation<FirstAxis, SecondAxis, ThirdAxis>(angle1, angle2, angle3); return *this; }
-
-	template <class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
-	Matrix& SetRotationEuler(float z1, float x2, float z3) { *this = Matrix::RotationEuler(z1, x2, z3); return *this; }
-
-	template <class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
-	Matrix& SetRotationRPY(float x1, float y2, float z3) { *this = Matrix::RotationRPY(x1, y2, z3); return *this; }
-
-	template <class U, class = typename std::enable_if<(3 <= Rows && Rows <= 4 && 3 <= Columns && Columns <= 4)>::type>
-	Matrix& SetRotation(Vector<U, 3> axis, T angle) { *this = Matrix::Rotation(axis, angle); return *this; }
-
-
-	// Translation
-	template <class... Args, typename std::enable_if<(impl::All<impl::IsScalar, Args...>::value), int>::type = 0>
-	Matrix Translation(Args&&... args) {
-		constexpr int TranslationDim = Order == eMatrixOrder::FOLLOW_VECTOR ? Rows - 1 : Columns - 1;
-		static_assert(sizeof...(Args) == TranslationDim, "Number of arguments must match the dimension of translation.");
-		static_assert(TranslationDim > 0, "1x1 matrices cannot represent translation.");
-
-		Matrix m;
-		if (Order == eMatrixOrder::FOLLOW_VECTOR) {
-			T tableArgs[sizeof...(Args)] = { std::forward<Args>(args)... };
-			for (int i = 0; i < sizeof...(Args); ++i) {
-				m(i, i) = std::move(tableArgs[i]);
-			}
-			return m;
-		}
-	}
+	static Matrix Identity();
+	Matrix& SetIdentity();
 
 
 	//--------------------------------------------
@@ -524,7 +641,6 @@ auto operator*(const Matrix<T, Match, Rows1, Order1, eMatrixLayout::COLUMN_MAJOR
 
 
 
-
 template <class T, class U, int Columns, int Rows, eMatrixOrder Order1, eMatrixOrder Order2, bool Packed, class V>
 auto operator+(const Matrix<T, Columns, Rows, Order1, eMatrixLayout::ROW_MAJOR, Packed>& lhs,
 			   const Matrix<U, Columns, Rows, Order2, eMatrixLayout::ROW_MAJOR, Packed>& rhs)
@@ -580,59 +696,24 @@ Matrix<T, Columns, Rows, Order, Layout, Packed> operator/(Matrix<T, Columns, Row
 
 
 //------------------------------------------------------------------------------
-// MatrixOps : Square matrices
+// General matrix function
 //------------------------------------------------------------------------------
+template <class T, int Columns, int Rows, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+auto Matrix<T, Columns, Rows, Order, Layout, Packed>::Identity() -> Matrix<T, Columns, Rows, Order, Layout, Packed> {
+	Matrix<T, Columns, Rows, Order, Layout, Packed> res;
 
-template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-T MatrixOps<T, Dim, Dim, Order, Layout, Packed, true>::Trace() const {
-	T sum = GetElement(0, 0);
-	for (int i = 1; i < Dim; ++i) {
-		sum += GetElement(i, i);
-	}
-	return sum;
-}
-
-template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-T MatrixOps<T, Dim, Dim, Order, Layout, Packed, true>::Determinant() const {
-	//static_assert(false, "Determinant not implemented yet.");
-	return T();
-}
-
-template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-auto MatrixOps<T, Dim, Dim, Order, Layout, Packed, true>::Transpose() -> MyMatrixT& {
-	static_cast<MyMatrixT&>(*this) = static_cast<MyMatrixT&>(*this).Transposed();
-	return static_cast<MyMatrixT&>(*this);
-}
-
-template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-auto MatrixOps<T, Dim, Dim, Order, Layout, Packed, true>::Invert() -> MyMatrixT& {
-	//static_assert(false, "Inverse not implemented yet.");
-	return static_cast<MyMatrixT&>(*this);
-}
-
-template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-auto MatrixOps<T, Dim, Dim, Order, Layout, Packed, true>::Inverted() const -> MyMatrixT {
-	//static_assert(false, "Inverse not implemented yet.");
-	MyMatrixT copy = static_cast<const MyMatrixT&>(*this);
-	return copy.Invert();
-}
-
-template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-auto MatrixOps<T, Dim, Dim, Order, Layout, Packed, true>::Identity() -> MyMatrixT {
-	MyMatrixT res;
-
-	for (int i = 0; i < Dim; ++i) {
-		static_cast<MatrixOps&>(res).stripes[i].Spread(T(0));
+	res.SetZero();
+	for (int i = 0; i < std::min(Rows, Columns); ++i) {
 		res(i, i) = T(1);
 	}
 
 	return res;
 }
 
-template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-auto MatrixOps<T, Dim, Dim, Order, Layout, Packed, true>::SetIdentity() -> MyMatrixT& {
-	static_cast<MyMatrixT&>(*this) = Identity();
-	return static_cast<MyMatrixT&>(*this);
+template <class T, int Columns, int Rows, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+auto Matrix<T, Columns, Rows, Order, Layout, Packed>::SetIdentity() ->Matrix<T, Columns, Rows, Order, Layout, Packed>& {
+	*this = Identity();
+	return *this;
 }
 
 
@@ -670,16 +751,56 @@ Vector<Vt, Vd, Packed>& operator*=(Vector<Vt, Vd, Packed>& vec, const Matrix<Mt,
 }
 
 
+
+
 //------------------------------------------------------------------------------
-// Geometry
+// Square matrices
 //------------------------------------------------------------------------------
 
+template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+T MatrixSquare<T, Dim, Dim, Order, Layout, Packed>::Trace() const {
+	T sum = self()(0, 0);
+	for (int i = 1; i < Dim; ++i) {
+		sum += self()(i, i);
+	}
+	return sum;
+}
+
+template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+T MatrixSquare<T, Dim, Dim, Order, Layout, Packed>::Determinant() const {
+	//static_assert(false, "Determinant not implemented yet.");
+	return T();
+}
+
+template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+auto MatrixSquare<T, Dim, Dim, Order, Layout, Packed>::Transpose() -> MatrixT& {
+	self() = self().Transposed();
+	return self();
+}
+
+template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+auto MatrixSquare<T, Dim, Dim, Order, Layout, Packed>::Invert() -> MatrixT& {
+	//static_assert(false, "Inverse not implemented yet.");
+	return self();
+}
+
+template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+auto MatrixSquare<T, Dim, Dim, Order, Layout, Packed>::Inverted() const -> MatrixT {
+	//static_assert(false, "Inverse not implemented yet.");
+	MatrixT copy = self();
+	return copy.Invert();
+}
+
+
+
+//------------------------------------------------------------------------------
+// Rotation 2D
+//------------------------------------------------------------------------------
+
+
 template <class T, int Columns, int Rows, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-template <class>
-auto Matrix<T, Columns, Rows, Order, Layout, Packed>::Rotation(T angle) 
--> Matrix<T, Columns, Rows, Order, Layout, Packed>
-{
-	Matrix<T, Columns, Rows, Order, Layout, Packed> m;
+auto MatrixRotation2D<T, Columns, Rows, Order, Layout, Packed>::Rotation(T angle) -> MatrixT {
+	MatrixT m;
 
 	T C = cos(angle);
 	T S = sin(angle);
@@ -693,9 +814,9 @@ auto Matrix<T, Columns, Rows, Order, Layout, Packed>::Rotation(T angle)
 	elem(0, 1) = -S;	elem(1, 1) = C;
 
 	// Rest
-	for (int x = 2; x < m.Width(); ++x) {
-		for (int y = 2; y < m.Height(); ++y) {
-			m(x, y) = (x == y);
+	for (int x = 0; x < m.Width(); ++x) {
+		for (int y = (x < 2 ? 2 : 0); y < m.Height(); ++y) {
+			m(x, y) = T(x == y);
 		}
 	}
 
@@ -703,13 +824,15 @@ auto Matrix<T, Columns, Rows, Order, Layout, Packed>::Rotation(T angle)
 }
 
 
+//------------------------------------------------------------------------------
+// Rotation 3D
+//------------------------------------------------------------------------------
 
 template <class T, int Columns, int Rows, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-template <int Axis, class>
-auto Matrix<T, Columns, Rows, Order, Layout, Packed>::Rotation(T angle)
-	-> Matrix<T, Columns, Rows, Order, Layout, Packed>
+template <int Axis>
+auto MatrixRotation3D<T, Columns, Rows, Order, Layout, Packed>::RotationAxis(T angle) -> MatrixT
 {
-	Matrix<T, Columns, Rows, Order, Layout, Packed> m;
+	MatrixT m;
 
 	T C = cos(angle);
 	T S = sin(angle);
@@ -742,8 +865,8 @@ auto Matrix<T, Columns, Rows, Order, Layout, Packed>::Rotation(T angle)
 
 	// Rest
 	for (int x = 3; x < m.Width(); ++x) {
-		for (int y = 3; y < m.Height(); ++y) {
-			m(x, y) = (x == y);
+		for (int y = (x < 3 ? 3 : 0); y < m.Height(); ++y) {
+			m(x, y) = T(x == y);
 		}
 	}
 
@@ -752,65 +875,53 @@ auto Matrix<T, Columns, Rows, Order, Layout, Packed>::Rotation(T angle)
 
 
 template <class T, int Columns, int Rows, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-template <class>
-auto Matrix<T, Columns, Rows, Order, Layout, Packed>::RotationX(T angle)
-	-> Matrix<T, Columns, Rows, Order, Layout, Packed>
+auto MatrixRotation3D<T, Columns, Rows, Order, Layout, Packed>::RotationX(T angle)-> MatrixT
 {
-	return Rotation<0>(angle);
+	return RotationAxis<0>(angle);
 }
 
 
 template <class T, int Columns, int Rows, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-template <class>
-auto Matrix<T, Columns, Rows, Order, Layout, Packed>::RotationY(T angle)
--> Matrix<T, Columns, Rows, Order, Layout, Packed>
+auto MatrixRotation3D<T, Columns, Rows, Order, Layout, Packed>::RotationY(T angle) -> MatrixT
 {
-	return Rotation<1>(angle);
+	return RotationAxis<1>(angle);
 }
 
 
 template <class T, int Columns, int Rows, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-template <class>
-auto Matrix<T, Columns, Rows, Order, Layout, Packed>::RotationZ(T angle)
--> Matrix<T, Columns, Rows, Order, Layout, Packed>
+auto MatrixRotation3D<T, Columns, Rows, Order, Layout, Packed>::RotationZ(T angle) -> MatrixT
 {
-	return Rotation<2>(angle);
+	return RotationAxis<2>(angle);
 }
 
 
 template <class T, int Columns, int Rows, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-template <int Axis1, int Axis2, int Axis3, class>
-auto Matrix<T, Columns, Rows, Order, Layout, Packed>::Rotation(T angle1, T angle2, T angle3)
--> Matrix<T, Columns, Rows, Order, Layout, Packed>
+template <int Axis1, int Axis2, int Axis3>
+auto MatrixRotation3D<T, Columns, Rows, Order, Layout, Packed>::RotationAxis3(T angle1, T angle2, T angle3) -> MatrixT
 {
-	return Rotation<Axis1>(angle1) * Rotation<Axis2>(angle2) * Rotation<Axis3>(angle3);
+	return RotationAxis<Axis1>(angle1) * RotationAxis<Axis2>(angle2) * RotationAxis<Axis3>(angle3);
 }
 
 
 template <class T, int Columns, int Rows, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-template <class>
-auto Matrix<T, Columns, Rows, Order, Layout, Packed>::RotationEuler(float z1, float x2, float z3)
--> Matrix<T, Columns, Rows, Order, Layout, Packed>
+auto MatrixRotation3D<T, Columns, Rows, Order, Layout, Packed>::RotationEuler(float z1, float x2, float z3) -> MatrixT
 {
-	return Rotation<2, 0, 2>(z1, x2, z3);
+	return RotationAxis3<2, 0, 2>(z1, x2, z3);
 }
 
 
 template <class T, int Columns, int Rows, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-template <class>
-auto Matrix<T, Columns, Rows, Order, Layout, Packed>::RotationRPY(float x1, float y2, float z3)
-	-> Matrix<T, Columns, Rows, Order, Layout, Packed>
+auto MatrixRotation3D<T, Columns, Rows, Order, Layout, Packed>::RotationRPY(float x1, float y2, float z3) -> MatrixT
 {
-	return Rotation<0, 1, 2>(x1, y2, z3);
+	return RotationAxis3<0, 1, 2>(x1, y2, z3);
 }
 
 
 template <class T, int Columns, int Rows, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-template <class U, class>
-auto Matrix<T, Columns, Rows, Order, Layout, Packed>::Rotation(Vector<U, 3> axis, T angle)
-	-> Matrix<T, Columns, Rows, Order, Layout, Packed>
+template <class U>
+auto MatrixRotation3D<T, Columns, Rows, Order, Layout, Packed>::RotationAxisAngle(Vector<U, 3> axis, T angle) -> MatrixT 
 {
-	Matrix<T, Columns, Rows, Order> m;
+	MatrixT m;
 
 	T C = cos(angle);
 	T S = sin(angle);
@@ -838,8 +949,8 @@ auto Matrix<T, Columns, Rows, Order, Layout, Packed>::Rotation(Vector<U, 3> axis
 
 	// Rest
 	for (int x = 3; x < m.Width(); ++x) {
-		for (int y = 3; y < m.Height(); ++y) {
-			m(x, y) = (x == y);
+		for (int y = (x < 3 ? 3 : 0); y < m.Height(); ++y) {
+			m(x, y) = T(x == y);
 		}
 	}
 
@@ -864,3 +975,11 @@ std::ostream& operator<<(std::ostream& os, const mathter::Matrix<T, Columns, Row
 	}
 	return os;
 }
+
+
+
+// Remove goddamn fucking bullshit crapware winapi macros.
+#if defined(MATHTER_MINMAX)
+#pragma pop_macro("min")
+#pragma pop_macro("max")
+#endif
