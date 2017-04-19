@@ -568,6 +568,48 @@ protected:
 // Matrix-Matrix arithmetic
 //------------------------------------------------------------------------------
 
+// Macros for manual matrix multiplication loop unrolling
+
+// Row-major * Row-major
+#define MATHTER_MATMUL_EXPAND(...) __VA_ARGS__
+
+#define MATHTER_MATMUL_RR_FACTOR(X, Y) rhs.stripes[X] * lhs(X, Y)
+
+#define MATHTER_MATMUL_RR_STRIPE_1(Y) MATHTER_MATMUL_RR_FACTOR(0, Y)
+#define MATHTER_MATMUL_RR_STRIPE_2(Y) MATHTER_MATMUL_RR_STRIPE_1(Y) + MATHTER_MATMUL_RR_FACTOR(1, Y)
+#define MATHTER_MATMUL_RR_STRIPE_3(Y) MATHTER_MATMUL_RR_STRIPE_2(Y) + MATHTER_MATMUL_RR_FACTOR(2, Y)
+#define MATHTER_MATMUL_RR_STRIPE_4(Y) MATHTER_MATMUL_RR_STRIPE_3(Y) + MATHTER_MATMUL_RR_FACTOR(3, Y)
+#define MATHTER_MATMUL_RR_STRIPE(CX, Y) MATHTER_MATMUL_EXPAND(MATHTER_MATMUL_RR_STRIPE_ ## CX)(Y)
+
+#define MATHTER_MATMUL_RR_ARRAY_1(CX) result.stripes[0] = MATHTER_MATMUL_RR_STRIPE(CX, 0) ;
+#define MATHTER_MATMUL_RR_ARRAY_2(CX) MATHTER_MATMUL_RR_ARRAY_1(CX) result.stripes[1] = MATHTER_MATMUL_RR_STRIPE(CX, 1) ;
+#define MATHTER_MATMUL_RR_ARRAY_3(CX) MATHTER_MATMUL_RR_ARRAY_2(CX) result.stripes[2] = MATHTER_MATMUL_RR_STRIPE(CX, 2) ;
+#define MATHTER_MATMUL_RR_ARRAY_4(CX) MATHTER_MATMUL_RR_ARRAY_3(CX) result.stripes[3] = MATHTER_MATMUL_RR_STRIPE(CX, 3) ;
+
+#define MATHTER_MATMUL_RR_ARRAY(CX, CY) MATHTER_MATMUL_EXPAND(MATHTER_MATMUL_RR_ARRAY_ ## CY)(CX)
+
+#define MATHTER_MATMUL_RR_UNROLL(MATCH, ROWS1) if (Rows1 == ROWS1 && Match == MATCH ) { MATHTER_MATMUL_RR_ARRAY(MATCH, ROWS1) return result; }
+
+// Column-major * Column-major
+#define MATHTER_MATMUL_CC_FACTOR(X, Y) lhs.stripes[Y] * rhs(X, Y)
+
+#define MATHTER_MATMUL_CC_STRIPE_1(X) MATHTER_MATMUL_CC_FACTOR(X, 0)
+#define MATHTER_MATMUL_CC_STRIPE_2(X) MATHTER_MATMUL_CC_STRIPE_1(X) + MATHTER_MATMUL_CC_FACTOR(X, 1)
+#define MATHTER_MATMUL_CC_STRIPE_3(X) MATHTER_MATMUL_CC_STRIPE_2(X) + MATHTER_MATMUL_CC_FACTOR(X, 2)
+#define MATHTER_MATMUL_CC_STRIPE_4(X) MATHTER_MATMUL_CC_STRIPE_3(X) + MATHTER_MATMUL_CC_FACTOR(X, 3)
+#define MATHTER_MATMUL_CC_STRIPE(CY, X) MATHTER_MATMUL_EXPAND(MATHTER_MATMUL_CC_STRIPE_ ## CY)(X)
+
+#define MATHTER_MATMUL_CC_ARRAY_1(CY) result.stripes[0] = MATHTER_MATMUL_CC_STRIPE(CY, 0) ;
+#define MATHTER_MATMUL_CC_ARRAY_2(CY) MATHTER_MATMUL_CC_ARRAY_1(CY) result.stripes[1] = MATHTER_MATMUL_CC_STRIPE(CY, 1) ;
+#define MATHTER_MATMUL_CC_ARRAY_3(CY) MATHTER_MATMUL_CC_ARRAY_2(CY) result.stripes[2] = MATHTER_MATMUL_CC_STRIPE(CY, 2) ;
+#define MATHTER_MATMUL_CC_ARRAY_4(CY) MATHTER_MATMUL_CC_ARRAY_3(CY) result.stripes[3] = MATHTER_MATMUL_CC_STRIPE(CY, 3) ;
+
+#define MATHTER_MATMUL_CC_ARRAY(CX, CY) MATHTER_MATMUL_EXPAND(MATHTER_MATMUL_CC_ARRAY_ ## CX)(CY)
+
+#define MATHTER_MATMUL_CC_UNROLL(COLUMNS2, MATCH) if (Columns2 == COLUMNS2 && Match == MATCH ) { MATHTER_MATMUL_CC_ARRAY(COLUMNS2, MATCH) return result; }
+
+
+
 template <class T, class U, int Match, int Rows1, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, bool Packed, class V = MatMulElemT<T, U>>
 auto operator*(const Matrix<T, Match, Rows1, Order1, eMatrixLayout::ROW_MAJOR, Packed>& lhs,
 			   const Matrix<U, Columns2, Match, Order2, eMatrixLayout::ROW_MAJOR, Packed>& rhs)
@@ -575,48 +617,17 @@ auto operator*(const Matrix<T, Match, Rows1, Order1, eMatrixLayout::ROW_MAJOR, P
 {
 	Matrix<V, Columns2, Rows1, Order1, eMatrixLayout::ROW_MAJOR, Packed> result;
 
-	// custom acceleration for sluggish 2x2 multiplication
-	// 'if' optimized away at compile time
-	if (Rows1 == 2 && Match == 2 && Columns2 == 2) {
-		Vector<V, 4, Packed> aacc = { lhs(0,0), lhs(0,0), lhs(0,1), lhs(0,1) };
-		Vector<V, 4, Packed> bbdd = { lhs(1,0), lhs(1,0), lhs(1,1), lhs(1,1) };
-		Vector<V, 4, Packed> efef = { rhs(0,0), rhs(1,0), rhs(0,0), rhs(1,0) };
-		Vector<V, 4, Packed> ghgh = { rhs(0,1), rhs(1,1), rhs(0,1), rhs(1,0) };
-		Vector<V, 4, Packed> res = aacc*efef + bbdd*ghgh;
-		result(0, 0) = res(0);
-		result(1, 0) = res(1);
-		result(0, 1) = res(2);
-		result(1, 1) = res(3);
-		return result;
-	}
+	MATHTER_MATMUL_RR_UNROLL(2, 2);
+	MATHTER_MATMUL_RR_UNROLL(2, 3);
+	MATHTER_MATMUL_RR_UNROLL(2, 4);
 
-	//if (Rows1 == 4 && Match == 4 && Columns2 == 4) {
-	//	auto s = rhs.stripes[0];
-	//	result.stripes[0] = s * lhs(0, 0);
-	//	result.stripes[1] = s * lhs(0, 1);
-	//	result.stripes[2] = s * lhs(0, 2);
-	//	result.stripes[3] = s * lhs(0, 3);
+	MATHTER_MATMUL_RR_UNROLL(3, 2);
+	MATHTER_MATMUL_RR_UNROLL(3, 3);
+	MATHTER_MATMUL_RR_UNROLL(3, 4);
 
-	//	s = rhs.stripes[1];
-	//	result.stripes[0] += s * lhs(1, 0);
-	//	result.stripes[1] += s * lhs(1, 1);
-	//	result.stripes[2] += s * lhs(1, 2);
-	//	result.stripes[3] += s * lhs(1, 3);
-
-	//	s = rhs.stripes[2];
-	//	result.stripes[0] += s * lhs(2, 0);
-	//	result.stripes[1] += s * lhs(2, 1);
-	//	result.stripes[2] += s * lhs(2, 2);
-	//	result.stripes[3] += s * lhs(2, 3);
-
-	//	s = rhs.stripes[3];
-	//	result.stripes[0] += s * lhs(3, 0);
-	//	result.stripes[1] += s * lhs(3, 1);
-	//	result.stripes[2] += s * lhs(3, 2);
-	//	result.stripes[3] += s * lhs(3, 3);
-
-	//	return result;
-	//}
+	MATHTER_MATMUL_RR_UNROLL(4, 2);
+	MATHTER_MATMUL_RR_UNROLL(4, 3);
+	MATHTER_MATMUL_RR_UNROLL(4, 4);
 
 	// general algorithm
 	for (int y = 0; y < Rows1; ++y) {
@@ -645,10 +656,7 @@ auto operator*(const Matrix<T, Match, Rows1, Order1, eMatrixLayout::ROW_MAJOR, P
 	}
 
 	return result;
-
-	//return lhs*Matrix<U, Columns2, Match, Order2, eMatrixLayout::ROW_MAJOR, Packed>(rhs);
 }
-
 
 template <class T, class U, int Match, int Rows1, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, bool Packed, class V = MatMulElemT<T, U>>
 auto operator*(const Matrix<T, Match, Rows1, Order1, eMatrixLayout::COLUMN_MAJOR, Packed>& lhs,
@@ -657,20 +665,17 @@ auto operator*(const Matrix<T, Match, Rows1, Order1, eMatrixLayout::COLUMN_MAJOR
 {
 	Matrix<V, Columns2, Rows1, Order1, eMatrixLayout::COLUMN_MAJOR, Packed> result;
 
-	// custom acceleration for sluggish 2x2 multiplication
-	// 'if' optimized away at compile time
-	if (Rows1 == 2 && Match == 2 && Columns2 == 2) {
-		Vector<V, 4, Packed> aacc = { lhs(0,0), lhs(0,0), lhs(0,1), lhs(0,1) };
-		Vector<V, 4, Packed> bbdd = { lhs(1,0), lhs(1,0), lhs(1,1), lhs(1,1) };
-		Vector<V, 4, Packed> efef = { rhs(0,0), rhs(1,0), rhs(0,0), rhs(1,0) };
-		Vector<V, 4, Packed> ghgh = { rhs(0,1), rhs(1,1), rhs(0,1), rhs(1,0) };
-		Vector<V, 4, Packed> res = aacc*efef + bbdd*ghgh;
-		result(0, 0) = res(0);
-		result(1, 0) = res(1);
-		result(0, 1) = res(2);
-		result(1, 1) = res(3);
-		return result;
-	}
+	MATHTER_MATMUL_CC_UNROLL(2, 2);
+	MATHTER_MATMUL_CC_UNROLL(2, 3);
+	MATHTER_MATMUL_CC_UNROLL(2, 4);
+
+	MATHTER_MATMUL_CC_UNROLL(3, 2);
+	MATHTER_MATMUL_CC_UNROLL(3, 3);
+	MATHTER_MATMUL_CC_UNROLL(3, 4);
+
+	MATHTER_MATMUL_CC_UNROLL(4, 2);
+	MATHTER_MATMUL_CC_UNROLL(4, 3);
+	MATHTER_MATMUL_CC_UNROLL(4, 4);	
 
 	// general algorithm
 	for (int x = 0; x < Columns2; ++x) {

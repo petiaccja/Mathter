@@ -20,6 +20,18 @@ using namespace mathter;
 struct PlainMat4 {
 	__m128 stripes[4];
 
+	PlainMat4() = default;
+	PlainMat4(float _11, float _21, float _31, float _41,
+			  float _12, float _22, float _32, float _42,
+			  float _13, float _23, float _33, float _43,
+			  float _14, float _24, float _34, float _44)
+	{
+		(*this)(0, 0) = _11; (*this)(1, 0) = _21; (*this)(2, 0) = _31; (*this)(3, 0) = _41;
+		(*this)(0, 1) = _12; (*this)(1, 1) = _22; (*this)(2, 1) = _32; (*this)(3, 1) = _42;
+		(*this)(0, 2) = _13; (*this)(1, 2) = _23; (*this)(2, 2) = _33; (*this)(3, 2) = _43;
+		(*this)(0, 3) = _14; (*this)(1, 3) = _24; (*this)(2, 3) = _34; (*this)(3, 3) = _44;
+	}
+
 	float& operator()(int x, int y) {
 		return stripes[y].m128_f32[x];
 	}
@@ -28,7 +40,7 @@ struct PlainMat4 {
 	}
 };
 
-PlainMat4 __declspec(noinline) operator*(const PlainMat4& lhs, const PlainMat4& rhs) {
+PlainMat4 operator*(const PlainMat4& lhs, const PlainMat4& rhs) {
 	PlainMat4 res;
 #if 1
 	res.stripes[0] = _mm_mul_ps(rhs.stripes[0], _mm_set1_ps(lhs(0, 0)));
@@ -61,17 +73,17 @@ PlainMat4 __declspec(noinline) operator*(const PlainMat4& lhs, const PlainMat4& 
 			scalarMultiplier = _mm_set1_ps(lhs(x, y));
 			__m128 tmp = _mm_mul_ps(scalarMultiplier, rhs.stripes[x]);
 			res.stripes[y] = _mm_add_ps(tmp, res.stripes[y]);
-		}
+}
 	}
 #endif
 	return res;
 }
 
 std::ostream& operator<<(std::ostream& os, const PlainMat4& mat) {
-	for (int y = 0; y < 3; ++y) {
+	for (int y = 0; y < 4; ++y) {
 		os << "{";
-		for (int x = 0; x < 3; ++x) {
-			os << mat(x, y) << (x == 3 - 1 ? "" : "\t");
+		for (int x = 0; x < 4; ++x) {
+			os << mat(x, y) << (x == 4 - 1 ? "" : "\t");
 		}
 		os << "}\n";
 	}
@@ -79,10 +91,10 @@ std::ostream& operator<<(std::ostream& os, const PlainMat4& mat) {
 }
 
 
-template <class T, int Col1, int Row1, int Col2, int Row2, eMatrixLayout Layout = eMatrixLayout::ROW_MAJOR, eMatrixLayout LayoutRight = Layout>
+template <class T, int Col1, int Row1, int Col2, int Row2, eMatrixLayout Layout = eMatrixLayout::ROW_MAJOR, eMatrixLayout LayoutRight = Layout, bool Packed = false>
 double MatMulSpeedTest() {
-	using LeftT = Matrix<T, Col1, Row1, eMatrixOrder::FOLLOW_VECTOR, Layout>;
-	using RightT = Matrix<T, Col2, Row2, eMatrixOrder::FOLLOW_VECTOR, LayoutRight>;
+	using LeftT = Matrix<T, Col1, Row1, eMatrixOrder::FOLLOW_VECTOR, Layout, Packed>;
+	using RightT = Matrix<T, Col2, Row2, eMatrixOrder::FOLLOW_VECTOR, LayoutRight, Packed>;
 	using ResultT = typename decltype(LeftT()*RightT());
 
 	constexpr int iterationCount = 100'000;
@@ -176,7 +188,7 @@ int main(int argc, char* argv[]) {
 
 	srand(clock());
 	Matrix<float, 4, 4> m1 = {
-		1,2,3,4,
+		rand(),2,3,4,
 		5,6,7,8,
 		9,10,11,12,
 		13,14,15,16
@@ -184,7 +196,13 @@ int main(int argc, char* argv[]) {
 	Matrix<float, 4, 4> m2 = m1*m1;
 	cout << m2;
 
-	PlainMat4 mp1, mp2;
+	PlainMat4 mp1 = {
+		m1(0,0),2,3,4,
+		5,6,7,8,
+		9,10,11,12,
+		13,14,15,16
+	};
+	PlainMat4 mp2;
 	mp2 = mp1*mp1;
 	cout << mp2;
 
@@ -207,8 +225,12 @@ int main(int argc, char* argv[]) {
 	cout << "time 4x4 x 4x4:\t\t " << elapsed * 1000 << " ms" << endl;
 	elapsed = MatMulSpeedTestPlain();
 	cout << "time 4x4 x 4x4 plain:\t " << elapsed * 1000 << " ms" << endl;
+	elapsed = MatMulSpeedTest<float, 4, 4, 4, 4, eMatrixLayout::ROW_MAJOR, eMatrixLayout::ROW_MAJOR, true>();
+	cout << "time 4x4 x 4x4 packed:\t " << elapsed * 1000 << " ms" << endl;
+
 	//elapsed = MatMulSpeedTest<float, 8, 8, 8, 8>();
 	//cout << "time 8x8 x 8x8:\t" << elapsed * 1000 << " ms" << endl;
+
 	elapsed = MatMulSpeedTest<float, 4, 2, 2, 4>();
 	cout << "time 4x2 x 2x4:\t\t " << elapsed * 1000 << " ms" << endl;
 	elapsed = MatMulSpeedTest<float, 2, 4, 4, 2>();

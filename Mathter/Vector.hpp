@@ -232,6 +232,13 @@ protected:
 			lhs.data[i] -= rhs.data[i];
 		}
 	}
+	static inline VectorT fma(const VectorT& mul1, const VectorT& mul2, const VectorT& incr) {
+		VectorT ret;
+		for (int i = 0; i < Dim; ++i) {
+			ret.data[i] = mul1.data[i] * mul2.data[i] + incr.data[i];
+		}
+		return ret;
+	}
 
 	// Scalar arithmetic
 	static inline void mul(VectorT& lhs, T rhs) {
@@ -293,6 +300,11 @@ protected:
 	}
 	static inline void sub(VectorT& lhs, const VectorT& rhs) {
 		lhs.simd = SimdT::sub(lhs.simd, rhs.simd);
+	}
+	static inline VectorT fma(const VectorT& mul1, const VectorT& mul2, const VectorT& incr) {
+		VectorT ret;
+		ret.simd = SimdT::mad(mul1.simd, mul2.simd, incr.simd);
+		return ret;
 	}
 
 	// Scalar arithmetic
@@ -700,6 +712,10 @@ public:
 	inline Vector operator/(T rhs) const { return Vector(*this) /= rhs; }
 	inline Vector operator+(T rhs) const { return Vector(*this) += rhs; }
 	inline Vector operator-(T rhs) const { return Vector(*this) -= rhs; }
+
+	static inline Vector MultiplyAdd(Vector a, Vector b, Vector c) {
+		return fma(a, b, c);
+	}
 
 
 	//--------------------------------------------
