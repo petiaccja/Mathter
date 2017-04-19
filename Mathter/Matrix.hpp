@@ -336,7 +336,7 @@ template <
 //------------------------------------------------------------------------------
 
 template <class T, int Columns, int Rows, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-class Matrix 
+class __declspec(empty_bases) Matrix
 	: public MatrixData<T, Columns, Rows, Order, Layout, Packed>,
 	public MatrixSquare<T, Columns, Rows, Order, Layout, Packed>::Inherit,
 	public MatrixRotation2D<T, Columns, Rows, Order, Layout, Packed>::Inherit,
@@ -349,6 +349,22 @@ protected:
 	using MatrixData<T, Columns, Rows, Order, Layout, Packed>::GetElement;
 	using MatrixData::stripes;
 public:
+	static void DumpLayout(std::ostream& os) {
+		Matrix* ptr = reinterpret_cast<Matrix*>(1000);
+		using T1 = MatrixData<T, Columns, Rows, Order, Layout, Packed>;
+		using T2 = MatrixSquare<T, Columns, Rows, Order, Layout, Packed>::Inherit;
+		using T3 = MatrixRotation2D<T, Columns, Rows, Order, Layout, Packed>::Inherit;
+		using T4 = MatrixRotation3D<T, Columns, Rows, Order, Layout, Packed>::Inherit;
+		using T5 = MatrixTranslation<T, Columns, Rows, Order, Layout, Packed>::Inherit;
+		using T6 = MatrixScale<T, Columns, Rows, Order, Layout, Packed>::Inherit;
+		os << "MatrixData:        " << (intptr_t)static_cast<T1*>(ptr) - 1000 << " -> " << sizeof(T1) << std::endl;
+		os << "MatrixSquare:      " << (intptr_t)static_cast<T2*>(ptr) - 1000 << " -> " << sizeof(T2) << std::endl;
+		os << "MatrixRotation2D:  " << (intptr_t)static_cast<T3*>(ptr) - 1000 << " -> " << sizeof(T3) << std::endl;
+		os << "MatrixRotation3D:  " << (intptr_t)static_cast<T4*>(ptr) - 1000 << " -> " << sizeof(T4) << std::endl;
+		os << "MatrixTranslation: " << (intptr_t)static_cast<T5*>(ptr) - 1000 << " -> " << sizeof(T5) << std::endl;
+		os << "MatrixScale:       " << (intptr_t)static_cast<T6*>(ptr) - 1000 << " -> " << sizeof(T6) << std::endl;
+	}
+
 	//--------------------------------------------
 	// Constructors
 	//--------------------------------------------
@@ -375,6 +391,8 @@ public:
 
 	template <class H, class... Args, typename std::enable_if<impl::All<impl::IsScalar, H, Args...>::value, int>::type = 0>
 	Matrix(H h, Args... args) {
+		static_assert(sizeof(Matrix) == sizeof(stripes), "Compiler did not optimize matrix size.");
+
 		static_assert(1 + sizeof...(Args) == Columns*Rows, "All elements of matrix have to be initialized.");
 		Assign<0, 0>(h, args...);
 	}
@@ -574,11 +592,11 @@ auto operator*(const Matrix<T, Match, Rows1, Order1, eMatrixLayout::ROW_MAJOR, P
 
 	// general algorithm
 	for (int y = 0; y < Rows1; ++y) {
-		result.stripes[y] = lhs(0, y) * rhs.stripes[0];
+		result.stripes[y] = rhs.stripes[0] * lhs(0, y);
 	}
 	for (int x = 1; x < Match; ++x) {
 		for (int y = 0; y < Rows1; ++y) {
-			result.stripes[y] += lhs(x, y) * rhs.stripes[x];
+			result.stripes[y] += rhs.stripes[x] * lhs(x, y);
 		}
 	}
 

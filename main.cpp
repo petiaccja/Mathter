@@ -118,7 +118,8 @@ double MatMulSpeedTest() {
 //#define RUN_UNIT_TEST
 
 int main(int argc, char* argv[]) {
-	cout << sizeof(Vector<float, 4>) << endl;
+	Vector<float, 4, false>::DumpLayout(cout);
+	Matrix<float, 4, 4>::DumpLayout(cout);
 
 	srand(clock());
 	Matrix<float, 4, 4> m1 = {
@@ -130,8 +131,8 @@ int main(int argc, char* argv[]) {
 	Matrix<float, 4, 4> m2 = m1*m1;
 	cout << m2;
 #ifdef RUN_UNIT_TEST
-	//::testing::InitGoogleTest(&argc, argv);
-	//return RUN_ALL_TESTS();
+	::testing::InitGoogleTest(&argc, argv);
+	return RUN_ALL_TESTS();
 
 #else
 	double elapsed;

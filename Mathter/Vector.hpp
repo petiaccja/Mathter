@@ -198,103 +198,77 @@ class VectorOps;
 
 // General vector ops
 template <class T, int Dim, bool Packed>
-class VectorOps<T, Dim, Packed, false> : public VectorData<T, Dim, Packed> {
+class VectorOps<T, Dim, Packed, false> {
 	using VectorT = Vector<T, Dim, Packed>;
-	VectorT& self() { return *static_cast<VectorT*>(this); }
-	const VectorT& self() const { return *static_cast<const VectorT*>(this); }
+
+	VectorT& self() { return *reinterpret_cast<VectorT*>(this); }
+	const VectorT& self() const { return *reinterpret_cast<const VectorT*>(this); }
 public:
-	// Operators
-	VectorT& operator*=(const VectorT& rhs) {
-		mul(rhs);
-		return self();
-	}
-	VectorT& operator+=(const VectorT& rhs) {
-		add(rhs);
-		return self();
-	}
-
-	VectorT operator*(const VectorT& rhs) const {
-		return VectorT(self()) *= rhs;
-	}
-	VectorT operator+(const VectorT& rhs) const {
-		return VectorT(self()) *= rhs;
-	}
-
-
-	VectorT& operator*=(T rhs) {
-		mul(rhs);
-		return self();
-	}
-	VectorT& operator+=(T rhs) {
-		add(rhs);
-		return self();
-	}
-
-	VectorT operator*(T rhs) const {
-		return VectorT(self()) *= rhs;
-	}
-	VectorT operator+(T rhs) const {
-		return VectorT(self()) *= rhs;
-	}
-
-	// Assignment
-	inline void spread(T all) {
+	inline VectorT operator*(T rhs) const { 
+		VectorT copy = self();
 		for (int i = 0; i < Dim; ++i) {
-			data[i] = all;
+			copy.data[i] *= rhs;
 		}
-	}
-
+		return copy;
+	};
 protected:
-	// Vector arithmetic
-	inline void mul(const VectorOps& rhs) {
+	// Assignment
+	static inline void spread(VectorT& lhs, T all) {
 		for (int i = 0; i < Dim; ++i) {
-			data[i] *= rhs.data[i];
+			lhs.data[i] = all;
 		}
 	}
-	inline void div(const VectorOps& rhs) {
+
+	// Vector arithmetic
+	static inline void mul(VectorT& lhs, const VectorT& rhs) {
 		for (int i = 0; i < Dim; ++i) {
-			data[i] /= rhs.data[i];
+			lhs.data[i] *= rhs.data[i];
+		}
+	}
+	static inline void div(VectorT& lhs, const VectorT& rhs) {
+		for (int i = 0; i < Dim; ++i) {
+			lhs.data[i] /= rhs.data[i];
 		};
 	}
-	inline void add(const VectorOps& rhs) {
+	static inline void add(VectorT& lhs, const VectorT& rhs) {
 		for (int i = 0; i < Dim; ++i) {
-			data[i] += rhs.data[i];
+			lhs.data[i] += rhs.data[i];
 		}
 	}
-	inline void sub(const VectorOps& rhs) {
+	static inline void sub(VectorT& lhs, const VectorT& rhs) {
 		for (int i = 0; i < Dim; ++i) {
-			data[i] -= rhs.data[i];
+			lhs.data[i] -= rhs.data[i];
 		}
 	}
 
 	// Scalar arithmetic
-	inline void mul(T rhs) {
+	static inline void mul(VectorT& lhs, T rhs) {
 		for (int i = 0; i < Dim; ++i) {
-			data[i] *= rhs;
+			lhs.data[i] *= rhs;
 		}
 	}
-	inline void div(T rhs) {
+	static inline void div(VectorT& lhs, T rhs) {
 		T rcprhs = T(1) / rhs;
 		for (int i = 0; i < Dim; ++i) {
-			data[i] *= rcprhs;
+			lhs.data[i] *= rcprhs;
 		}
 	}
-	inline void add(T rhs) {
+	static inline void add(VectorT& lhs, T rhs) {
 		for (int i = 0; i < Dim; ++i) {
-			data[i] += rhs;
+			lhs.data[i] += rhs;
 		}
 	}
-	inline void sub(T rhs) {
+	static inline void sub(VectorT& lhs, T rhs) {
 		for (int i = 0; i < Dim; ++i) {
-			data[i] -= rhs;
+			lhs.data[i] -= rhs;
 		}
 	}
 
 	// Misc
-	inline T dot(const VectorOps& rhs) const {
+	static inline T dot(const VectorT& lhs, const VectorT& rhs) {
 		T sum = 0.0f;
 		for (int i = 0; i < Dim; ++i) {
-			sum += data[i] * rhs.data[i];
+			sum += lhs.data[i] * rhs.data[i];
 		}
 		return sum;
 	}
@@ -303,83 +277,55 @@ protected:
 
 // Simd accelerated vector ops
 template <class T, int Dim, bool Packed>
-class VectorOps<T, Dim, Packed, true> : public VectorData<T, Dim, Packed> {
+class VectorOps<T, Dim, Packed, true> {
 	using SimdT = decltype(VectorData<T, Dim, Packed>::simd);
 	using VectorT = Vector<T, Dim, Packed>;
-	VectorT& self() { return *static_cast<VectorT*>(this); }
-	const VectorT& self() const { return *static_cast<const VectorT*>(this); }
+
+	VectorT& self() { return *reinterpret_cast<VectorT*>(this); }
+	const VectorT& self() const { return *reinterpret_cast<const VectorT*>(this); }
 public:
-	// Operators
-	inline VectorT& operator*=(const VectorT& rhs) {
-		simd = SimdT::mul(simd, rhs.simd);
-		return self();
-	}
-	inline VectorT& operator+=(const VectorT& rhs) {
-		simd = SimdT::add(simd, rhs.simd);
-		return self();
-	}
-
-	inline VectorT operator*(const VectorT& rhs) const {
-		return VectorT(self()) *= rhs;
-	}
-	inline VectorT operator+(const VectorT& rhs) const {
-		return VectorT(self()) *= rhs;
-	}
-
-
-	inline VectorT& operator*=(T rhs) {
-		simd = SimdT::mul(simd, rhs);
-		return self();
-	}
-	inline VectorT& operator+=(T rhs) {
-		simd = SimdT::add(simd, rhs);
-		return self();
-	}
-
 	inline VectorT operator*(T rhs) const {
-		return VectorT(self()) *= rhs;
-	}
-	inline VectorT operator+(T rhs) const {
-		return VectorT(self()) *= rhs;
-	}
-
+		VectorT copy;
+		copy.simd = SimdT::mul(self().simd, rhs);
+		return copy;
+	};
 protected:
 	// Assignment
-	inline void spread(T all) {
-		simd = SimdT::spread(all);
+	static inline void spread(VectorT& lhs, T all) {
+		lhs.simd = SimdT::spread(all);
 	}
 
 	// Vector arithmetic
-	inline void mul(const VectorOps& rhs) {
-		simd = SimdT::mul(simd, rhs.simd);
+	static inline void mul(VectorT& lhs, const VectorT& rhs) {
+		lhs.simd = SimdT::mul(lhs.simd, rhs.simd);
 	}
-	inline void div(const VectorOps& rhs) {
-		simd = SimdT::div(simd, rhs.simd);
+	static inline void div(VectorT& lhs, const VectorT& rhs) {
+		lhs.simd = SimdT::div(lhs.simd, rhs.simd);
 	}
-	inline void add(const VectorOps& rhs) {
-		simd = SimdT::add(simd, rhs.simd);
+	static inline void add(VectorT& lhs, const VectorT& rhs) {
+		lhs.simd = SimdT::add(lhs.simd, rhs.simd);
 	}
-	inline void sub(const VectorOps& rhs) {
-		simd = SimdT::sub(simd, rhs.simd);
+	static inline void sub(VectorT& lhs, const VectorT& rhs) {
+		lhs.simd = SimdT::sub(lhs.simd, rhs.simd);
 	}
 
 	// Scalar arithmetic
-	inline void mul(T rhs) {
-		simd = SimdT::mul(simd, rhs);
+	static inline void mul(VectorT& lhs, T rhs) {
+		lhs.simd = SimdT::mul(lhs.simd, rhs);
 	}
-	inline void div(T rhs) {
-		simd = SimdT::div(simd, rhs);
+	static inline void div(VectorT& lhs, T rhs) {
+		lhs.simd = SimdT::div(lhs.simd, rhs);
 	}
-	inline void add(T rhs) {
-		simd = SimdT::add(simd, rhs);
+	static inline void add(VectorT& lhs, T rhs) {
+		lhs.simd = SimdT::add(lhs.simd, rhs);
 	}
-	inline void sub(T rhs) {
-		simd = SimdT::sub(simd, rhs);
+	static inline void sub(VectorT& lhs, T rhs) {
+		lhs.simd = SimdT::sub(lhs.simd, rhs);
 	}
 
 	// Misc
-	inline T dot(const VectorOps& rhs) const {
-		return SimdT::dot<Dim>(simd, rhs.simd);
+	static inline T dot(const VectorT& lhs, const VectorT& rhs) {
+		return SimdT::dot<Dim>(lhs.simd, rhs.simd);
 	}
 };
 
@@ -537,14 +483,22 @@ bool AlmostEqual(T d1, T d2) {
 //------------------------------------------------------------------------------
 
 template <class T, int Dim, bool Packed>
-class Vector : public VectorOps<T, Dim, Packed>, public VectorSpecialOps<T, Dim, Packed> {
+class __declspec(empty_bases) Vector
+	: public VectorData<T, Dim, Packed>,
+	public VectorOps<T, Dim, Packed>, 
+	public VectorSpecialOps<T, Dim, Packed>
+{
 	static_assert(Dim >= 1, "Dimension must be positive integer.");
 public:
-	using VectorOps<T, Dim, Packed>::operator*=;
-	using VectorOps<T, Dim, Packed>::operator+=;
-	using VectorOps<T, Dim, Packed>::operator*;
-	using VectorOps<T, Dim, Packed>::operator+;
+	static void DumpLayout(std::ostream& os) {
+		Vector* ptr = reinterpret_cast<Vector*>(1000);
+		os << "VectorData:       " << (intptr_t)static_cast<VectorData<float, 4, false>*>(ptr) - 1000 << " -> " << sizeof(VectorData<float, 4, false>) << endl;
+		os << "VectorOps:        " << (intptr_t)static_cast<VectorOps<float, 4, false>*>(ptr) - 1000 << " -> " << sizeof(VectorOps<float, 4, false>) << endl;
+		os << "VectorSpecialOps: " << (intptr_t)static_cast<VectorSpecialOps<float, 4, false>*>(ptr) - 1000 << " -> " << sizeof(VectorSpecialOps<float, 4, false>) << endl;
+		os << "Vector:           " << (intptr_t)static_cast<Vector<float, 4, false>*>(ptr) - 1000 << " -> " << sizeof(Vector<float, 4, false>) << endl;
+	}
 
+	using VectorOps::operator*;
 	//--------------------------------------------
 	// Data constructors
 	//--------------------------------------------
@@ -555,7 +509,7 @@ public:
 
 	// All element same ctor
 	explicit Vector(T all) {
-		VectorOps<T, Dim, Packed>::spread(all);
+		VectorOps<T, Dim, Packed>::spread(*this, all);
 	}
 
 	// T array ctor
@@ -605,7 +559,7 @@ public:
 
 	// Set all members to certain type
 	Vector& Spread(T all) {
-		VectorOps<T, Dim, Packed>::spread(all);
+		VectorOps<T, Dim, Packed>::spread(*this, all);
 
 		return *this;
 	}
@@ -700,58 +654,57 @@ public:
 
 
 	// Vector assign arithmetic
-	//inline Vector& operator*=(const Vector& rhs) {
-	//	mul(rhs);
-	//	return *this;
-	//}
-
-	inline Vector& operator/=(const Vector& rhs) {
-		div(rhs);
+	inline Vector& operator*=(const Vector& rhs) {
+		mul(*this, rhs);
 		return *this;
 	}
 
-	//inline Vector& operator+=(const Vector& rhs) {
-	//	add(rhs);
-	//	return *this;
-	//}
+	inline Vector& operator/=(const Vector& rhs) {
+		div(*this, rhs);
+		return *this;
+	}
+
+	inline Vector& operator+=(const Vector& rhs) {
+		add(*this, rhs);
+		return *this;
+	}
 
 	inline Vector& operator-=(const Vector& rhs) {
-		sub(rhs);
+		sub(*this, rhs);
 		return *this;
 	}
 
 	// Vector arithmetic
-	//inline Vector operator*(Vector rhs) const { return Vector(*this) *= rhs; }
-	inline Vector operator/(Vector rhs) const { return Vector(*this) /= rhs; }
-	//inline Vector operator+(Vector rhs) const { return Vector(*this) += rhs; }
-	inline Vector operator-(Vector rhs) const { return Vector(*this) -= rhs; }
-
+	inline Vector operator*(const Vector& rhs) const { return Vector(*this) *= rhs; }
+	inline Vector operator/(const Vector& rhs) const { return Vector(*this) /= rhs; }
+	inline Vector operator+(const Vector& rhs) const { return Vector(*this) += rhs; }
+	inline Vector operator-(const Vector& rhs) const { return Vector(*this) -= rhs; }
 
 	// Scalar assign arithmetic
-	//inline Vector& operator*=(T rhs) {
-	//	mul(rhs);
-	//	return *this;
-	//}
-
-	inline Vector& operator/=(T rhs) {
-		div(rhs);
+	inline Vector& operator*=(T rhs) {
+		mul(*this, rhs);
 		return *this;
 	}
 
-	//inline Vector& operator+=(T rhs) {
-	//	add(rhs);
-	//	return *this;
-	//}
+	inline Vector& operator/=(T rhs) {
+		div(*this, rhs);
+		return *this;
+	}
+
+	inline Vector& operator+=(T rhs) {
+		add(*this, rhs);
+		return *this;
+	}
 
 	inline Vector& operator-=(T rhs) {
-		sub(rhs);
+		sub(*this, rhs);
 		return *this;
 	}
 
 	// Scalar arithmetic
 	//inline Vector operator*(T rhs) const { return Vector(*this) *= rhs; }
 	inline Vector operator/(T rhs) const { return Vector(*this) /= rhs; }
-	//inline Vector operator+(T rhs) const { return Vector(*this) += rhs; }
+	inline Vector operator+(T rhs) const { return Vector(*this) += rhs; }
 	inline Vector operator-(T rhs) const { return Vector(*this) -= rhs; }
 
 
@@ -772,7 +725,7 @@ public:
 
 
 	static T Dot(const Vector& lhs, const Vector& rhs) {
-		return lhs.dot(rhs);
+		return dot(lhs, rhs);
 	}
 
 	template <class U, typename std::enable_if<!std::is_same<T, U>::value, int>::type = 0>
@@ -837,6 +790,7 @@ protected:
 //------------------------------------------------------------------------------
 // External Vector function
 //------------------------------------------------------------------------------
+
 
 // Vector-Scalar arithmetic
 template <class T, int Dim, bool Packed, class U, class = typename std::enable_if<std::is_convertible<U, T>::value>::type>
