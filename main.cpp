@@ -10,7 +10,7 @@
 
 #include <gtest\gtest.h>
 
-#define RUN_UNIT_TEST
+
 
 using namespace std;
 using namespace mathter;
@@ -115,117 +115,25 @@ double MatMulSpeedTest() {
 }
 
 
+//#define RUN_UNIT_TEST
+
 int main(int argc, char* argv[]) {
+	cout << sizeof(Vector<float, 4>) << endl;
+
+	srand(clock());
+	Matrix<float, 4, 4> m1 = {
+		1,2,3,4,
+		5,6,7,8,
+		9,10,11,12,
+		13,14,15,16
+	};
+	Matrix<float, 4, 4> m2 = m1*m1;
+	cout << m2;
 #ifdef RUN_UNIT_TEST
-	::testing::InitGoogleTest(&argc, argv);
-	return RUN_ALL_TESTS();
+	//::testing::InitGoogleTest(&argc, argv);
+	//return RUN_ALL_TESTS();
 
 #else
-	// Vector operator test
-	Vector<float, 4> v1{ 1.f, 2.f, 3.f, 4.f };
-	Vector<float, 4> v2{ 2.f, 3.f, 4.f, 5.f };
-	Vector<float, 4> v3 = v1*v2;
-
-	Vector<float, 8> v4(3, 4, v2, 1, 2);
-	v4.Set(1, 2, 3, 4, 5, 6, 7, 8);
-	v4.Set(v3, v2);
-
-	cout << v3 << endl << endl;
-
-	Vector<float, 3> v(1.0f, 2.0f, 3.0f);
-	Vector<float, 3> u(1);
-	Vector<float, 4> w(v);
-	Vector<float, 3> c(v);
-	v.Set(1, 2, 3);
-	w.Set(2.5f, v);
-
-	Vector<double, 4> wd = w;
-	auto ud = wd + w;
-
-	auto d = Vector<float, 3>::Cross(v, u);
-
-	// Matrix-vector shaped matrix test
-	Matrix<float, 1, 3> matvec;
-	matvec(0) = 1;
-	matvec(1) = 3;
-	matvec(2) = 5;
-	matvec(3) = 7;
-	Vector<float, 3> vec(1, 3, 5);
-	Matrix<float, 3, 4> transform = {
-		3,4,5,
-		1,2,3,
-		6,5,4,
-		2,3,4,
-	};
-	auto matvec_t = transform * matvec;
-	auto vec_t = transform * vec;
-	auto matvec_t2 = matvec.Transposed() * transform.Transposed();
-	auto vec_t2 = vec * transform.Transposed();
-	cout << "Matrix * vec transforms:" << endl;
-	cout << matvec_t << endl
-		<< vec_t << endl
-		<< matvec_t2 << endl
-		<< vec_t2 << endl << endl;
-
-
-
-
-	// Matrix test types
-	using Matrix3x3 = typename std::conditional<false, PlainMat3, Matrix<float, 3, 3>>::type;
-	using Matrix4x4 = Matrix<float, 4, 4>;
-
-
-	// correct test mat4x4
-	cout << "4x4 checks:" << endl;
-	Matrix4x4 mat1 = {
-		1,2,3,3,
-		4,5,6,6,
-		7,8,9,9,
-		7,8,9,9
-	};
-	Matrix4x4 mat2 = {
-		5,4,3,3,
-		6,5,4,4,
-		7,6,5,5,
-		7,6,5,5
-	};
-
-	cout << mat1 * mat2 << endl;
-	cout << mat1 + mat2 << endl;
-
-
-	// correct test mat3x3
-	cout << "3x3 checks:" << endl;
-	Matrix3x3 mat3;
-	Matrix3x3 mat4;
-
-	mat3(0, 0) = 1;		mat3(1, 0) = 2;		mat3(2, 0) = 3;
-	mat3(0, 1) = 4;		mat3(1, 1) = 5;		mat3(2, 1) = 6;
-	mat3(0, 2) = 7;		mat3(1, 2) = 8;		mat3(2, 2) = 9;
-
-	mat4(0, 0) = 5;		mat4(1, 0) = 4;		mat4(2, 0) = 3;
-	mat4(0, 1) = 6;		mat4(1, 1) = 5;		mat4(2, 1) = 4;
-	mat4(0, 2) = 7;		mat4(1, 2) = 6;		mat4(2, 2) = 5;
-
-	cout << mat3 * mat4 << endl;
-
-	// correct test mat4x2 & 2x4
-	Matrix<float, 4, 2> mat7;
-	Matrix<float, 2, 4> mat8;
-
-	mat7(0, 0) = 1;		mat7(1, 0) = 2;		mat7(2, 0) = 3;		mat7(3, 0) = 4;
-	mat7(0, 1) = 5;		mat7(1, 1) = 6;		mat7(2, 1) = 7;		mat7(3, 1) = 8;
-
-	mat8(0, 0) = 1;		mat8(1, 0) = 5;
-	mat8(0, 1) = 2;		mat8(1, 1) = 6;
-	mat8(0, 2) = 3;		mat8(1, 2) = 7;
-	mat8(0, 3) = 4;		mat8(1, 3) = 8;
-
-	cout << mat7 << " x " << endl;
-	cout << mat8 << " = " << endl;
-	cout << mat7 * mat8 << " & " << endl;
-	cout << mat8 * mat7 << endl;
-
 	double elapsed;
 	elapsed = MatMulSpeedTest<float, 1, 1, 1, 1>();
 	cout << "time 1x1 x 1x1:\t\t " << elapsed * 1000 << " ms" << endl;

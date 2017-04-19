@@ -77,10 +77,23 @@ union alignas(16) Simd4f {
 		return res;
 	}
 
+	//static inline float dot(const Simd4f& lhs, const Simd4f& rhs) {
+	//	float sum;
+	//	Simd4f m = mul(lhs, rhs);
+	//	sum = m.v[0] + m.v[1] + m.v[2] + m.v[3];
+	//	return sum;
+	//}
+
+	template <int Count>
 	static inline float dot(const Simd4f& lhs, const Simd4f& rhs) {
+		static_assert(Count <= 4, "Number of elements to dot must be smaller or equal to dimension.");
+		static_assert(0 < Count, "Count must not be zero.");
 		float sum;
 		Simd4f m = mul(lhs, rhs);
-		sum = m.v[0] + m.v[1] + m.v[2] + m.v[3];
+		sum = m.v[0];
+		for (int i = 1; i < Count; ++i) {
+			sum += m.v[i];
+		}
 		return sum;
 	}
 };
