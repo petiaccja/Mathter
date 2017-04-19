@@ -107,7 +107,6 @@ union alignas(16) Simd<float, 4> {
 	__m128 reg;
 	float v[4];
 
-
 	static inline Simd mul(const Simd& lhs, const Simd& rhs) {
 		Simd res;
 		res.reg = _mm_mul_ps(lhs.reg, rhs.reg);

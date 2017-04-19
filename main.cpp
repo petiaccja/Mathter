@@ -17,8 +17,8 @@ using namespace mathter;
 
 
 
-struct PlainMat3 {
-	__m128 stripes[3];
+struct PlainMat4 {
+	__m128 stripes[4];
 
 	float& operator()(int x, int y) {
 		return stripes[y].m128_f32[x];
@@ -28,37 +28,46 @@ struct PlainMat3 {
 	}
 };
 
-PlainMat3 operator*(const PlainMat3& lhs, const PlainMat3& rhs) {
-	PlainMat3 res;
-	//res.stripes[0] = _mm_mul_ps(rhs.stripes[0], _mm_set1_ps(lhs(0, 0)));
-	//res.stripes[1] = _mm_mul_ps(rhs.stripes[0], _mm_set1_ps(lhs(0, 1)));
-	//res.stripes[2] = _mm_mul_ps(rhs.stripes[0], _mm_set1_ps(lhs(0, 2)));
+PlainMat4 __declspec(noinline) operator*(const PlainMat4& lhs, const PlainMat4& rhs) {
+	PlainMat4 res;
+#if 1
+	res.stripes[0] = _mm_mul_ps(rhs.stripes[0], _mm_set1_ps(lhs(0, 0)));
+	res.stripes[1] = _mm_mul_ps(rhs.stripes[0], _mm_set1_ps(lhs(0, 1)));
+	res.stripes[2] = _mm_mul_ps(rhs.stripes[0], _mm_set1_ps(lhs(0, 2)));
+	res.stripes[3] = _mm_mul_ps(rhs.stripes[0], _mm_set1_ps(lhs(0, 3)));
 
-	//res.stripes[0] = _mm_add_ps(res.stripes[0], _mm_mul_ps(rhs.stripes[1], _mm_set1_ps(lhs(1, 0))));
-	//res.stripes[1] = _mm_add_ps(res.stripes[1], _mm_mul_ps(rhs.stripes[1], _mm_set1_ps(lhs(1, 1))));
-	//res.stripes[2] = _mm_add_ps(res.stripes[2], _mm_mul_ps(rhs.stripes[1], _mm_set1_ps(lhs(1, 2))));
+	res.stripes[0] = _mm_add_ps(res.stripes[0], _mm_mul_ps(rhs.stripes[1], _mm_set1_ps(lhs(1, 0))));
+	res.stripes[1] = _mm_add_ps(res.stripes[1], _mm_mul_ps(rhs.stripes[1], _mm_set1_ps(lhs(1, 1))));
+	res.stripes[2] = _mm_add_ps(res.stripes[2], _mm_mul_ps(rhs.stripes[1], _mm_set1_ps(lhs(1, 2))));
+	res.stripes[3] = _mm_add_ps(res.stripes[3], _mm_mul_ps(rhs.stripes[1], _mm_set1_ps(lhs(1, 3))));
 
-	//res.stripes[0] = _mm_add_ps(res.stripes[0], _mm_mul_ps(rhs.stripes[2], _mm_set1_ps(lhs(2, 0))));
-	//res.stripes[1] = _mm_add_ps(res.stripes[1], _mm_mul_ps(rhs.stripes[2], _mm_set1_ps(lhs(2, 1))));
-	//res.stripes[2] = _mm_add_ps(res.stripes[2], _mm_mul_ps(rhs.stripes[2], _mm_set1_ps(lhs(2, 2))));
+	res.stripes[0] = _mm_add_ps(res.stripes[0], _mm_mul_ps(rhs.stripes[2], _mm_set1_ps(lhs(2, 0))));
+	res.stripes[1] = _mm_add_ps(res.stripes[1], _mm_mul_ps(rhs.stripes[2], _mm_set1_ps(lhs(2, 1))));
+	res.stripes[2] = _mm_add_ps(res.stripes[2], _mm_mul_ps(rhs.stripes[2], _mm_set1_ps(lhs(2, 2))));
+	res.stripes[3] = _mm_add_ps(res.stripes[3], _mm_mul_ps(rhs.stripes[2], _mm_set1_ps(lhs(2, 3))));
 
+	res.stripes[0] = _mm_add_ps(res.stripes[0], _mm_mul_ps(rhs.stripes[3], _mm_set1_ps(lhs(3, 0))));
+	res.stripes[1] = _mm_add_ps(res.stripes[1], _mm_mul_ps(rhs.stripes[3], _mm_set1_ps(lhs(3, 1))));
+	res.stripes[2] = _mm_add_ps(res.stripes[2], _mm_mul_ps(rhs.stripes[3], _mm_set1_ps(lhs(3, 2))));
+	res.stripes[3] = _mm_add_ps(res.stripes[3], _mm_mul_ps(rhs.stripes[3], _mm_set1_ps(lhs(3, 3))));
+#else
 	__m128 scalarMultiplier;
-	for (int y = 0; y < 3; ++y) {
+	for (int y = 0; y < 4; ++y) {
 		scalarMultiplier = _mm_set1_ps(lhs(0, y));
 		res.stripes[y] = _mm_mul_ps(scalarMultiplier, rhs.stripes[0]);
 	}
-	for (int x = 1; x < 3; ++x) {
-		for (int y = 0; y < 3; ++y) {
+	for (int x = 1; x < 4; ++x) {
+		for (int y = 0; y < 4; ++y) {
 			scalarMultiplier = _mm_set1_ps(lhs(x, y));
 			__m128 tmp = _mm_mul_ps(scalarMultiplier, rhs.stripes[x]);
 			res.stripes[y] = _mm_add_ps(tmp, res.stripes[y]);
 		}
 	}
-
+#endif
 	return res;
 }
 
-std::ostream& operator<<(std::ostream& os, const PlainMat3& mat) {
+std::ostream& operator<<(std::ostream& os, const PlainMat4& mat) {
 	for (int y = 0; y < 3; ++y) {
 		os << "{";
 		for (int x = 0; x < 3; ++x) {
@@ -115,6 +124,50 @@ double MatMulSpeedTest() {
 }
 
 
+double MatMulSpeedTestPlain() {
+	using LeftT = PlainMat4;
+	using RightT = PlainMat4;
+	using ResultT = typename decltype(LeftT()*RightT());
+
+	constexpr int iterationCount = 100'000;
+	std::vector<LeftT> left(iterationCount);
+	std::vector<RightT> right(iterationCount);
+	std::vector<ResultT> result(iterationCount);
+
+	std::minstd_rand rne;
+	std::uniform_real_distribution<float> rng;
+
+	for (int i = 0; i < iterationCount; ++i) {
+		LeftT& l = left[i];
+		RightT& r = right[i];
+
+		for (int x = 0; x < 4; ++x) {
+			for (int y = 0; y < 4; ++y) {
+				l(x, y) = 2;
+			}
+		}
+		for (int x = 0; x < 4; ++x) {
+			for (int y = 0; y < 4; ++y) {
+				r(x, y) = 2;
+			}
+		}
+	}
+
+	std::chrono::high_resolution_clock::time_point startTime;
+	std::chrono::high_resolution_clock::time_point endTime;
+
+	startTime = std::chrono::high_resolution_clock::now();
+	for (int j = 0; j < 100; ++j) {
+		for (int i = 0; i < iterationCount; ++i) {
+			result[i] = left[i] * right[i];
+		}
+	}
+	endTime = std::chrono::high_resolution_clock::now();
+
+	return chrono::duration_cast<chrono::nanoseconds>(endTime - startTime).count() * 1e-9;
+}
+
+
 //#define RUN_UNIT_TEST
 
 int main(int argc, char* argv[]) {
@@ -130,6 +183,14 @@ int main(int argc, char* argv[]) {
 	};
 	Matrix<float, 4, 4> m2 = m1*m1;
 	cout << m2;
+
+	PlainMat4 mp1, mp2;
+	mp2 = mp1*mp1;
+	cout << mp2;
+
+
+
+
 #ifdef RUN_UNIT_TEST
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
@@ -144,6 +205,8 @@ int main(int argc, char* argv[]) {
 	cout << "time 3x3 x 3x3:\t\t " << elapsed * 1000 << " ms" << endl;
 	elapsed = MatMulSpeedTest<float, 4, 4, 4, 4>();
 	cout << "time 4x4 x 4x4:\t\t " << elapsed * 1000 << " ms" << endl;
+	elapsed = MatMulSpeedTestPlain();
+	cout << "time 4x4 x 4x4 plain:\t " << elapsed * 1000 << " ms" << endl;
 	//elapsed = MatMulSpeedTest<float, 8, 8, 8, 8>();
 	//cout << "time 8x8 x 8x8:\t" << elapsed * 1000 << " ms" << endl;
 	elapsed = MatMulSpeedTest<float, 4, 2, 2, 4>();

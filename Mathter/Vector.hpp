@@ -203,14 +203,6 @@ class VectorOps<T, Dim, Packed, false> {
 
 	VectorT& self() { return *reinterpret_cast<VectorT*>(this); }
 	const VectorT& self() const { return *reinterpret_cast<const VectorT*>(this); }
-public:
-	inline VectorT operator*(T rhs) const { 
-		VectorT copy = self();
-		for (int i = 0; i < Dim; ++i) {
-			copy.data[i] *= rhs;
-		}
-		return copy;
-	};
 protected:
 	// Assignment
 	static inline void spread(VectorT& lhs, T all) {
@@ -283,12 +275,6 @@ class VectorOps<T, Dim, Packed, true> {
 
 	VectorT& self() { return *reinterpret_cast<VectorT*>(this); }
 	const VectorT& self() const { return *reinterpret_cast<const VectorT*>(this); }
-public:
-	inline VectorT operator*(T rhs) const {
-		VectorT copy;
-		copy.simd = SimdT::mul(self().simd, rhs);
-		return copy;
-	};
 protected:
 	// Assignment
 	static inline void spread(VectorT& lhs, T all) {
@@ -498,13 +484,21 @@ public:
 		os << "Vector:           " << (intptr_t)static_cast<Vector<float, 4, false>*>(ptr) - 1000 << " -> " << sizeof(Vector<float, 4, false>) << endl;
 	}
 
-	using VectorOps::operator*;
+	//using VectorOps::operator*;
 	//--------------------------------------------
 	// Data constructors
 	//--------------------------------------------
 
 	// Default ctor
 	Vector() = default;
+
+	Vector(const Vector& rhs) :	VectorData<T, Dim, Packed>(rhs)
+	{}
+
+	Vector& operator=(const Vector& rhs) {
+		VectorData<T, Dim, Packed>::operator=(rhs);
+		return *this;
+	}
 
 
 	// All element same ctor
@@ -702,7 +696,7 @@ public:
 	}
 
 	// Scalar arithmetic
-	//inline Vector operator*(T rhs) const { return Vector(*this) *= rhs; }
+	inline Vector operator*(T rhs) const { return Vector(*this) *= rhs; }
 	inline Vector operator/(T rhs) const { return Vector(*this) /= rhs; }
 	inline Vector operator+(T rhs) const { return Vector(*this) += rhs; }
 	inline Vector operator-(T rhs) const { return Vector(*this) -= rhs; }

@@ -590,6 +590,34 @@ auto operator*(const Matrix<T, Match, Rows1, Order1, eMatrixLayout::ROW_MAJOR, P
 		return result;
 	}
 
+	//if (Rows1 == 4 && Match == 4 && Columns2 == 4) {
+	//	auto s = rhs.stripes[0];
+	//	result.stripes[0] = s * lhs(0, 0);
+	//	result.stripes[1] = s * lhs(0, 1);
+	//	result.stripes[2] = s * lhs(0, 2);
+	//	result.stripes[3] = s * lhs(0, 3);
+
+	//	s = rhs.stripes[1];
+	//	result.stripes[0] += s * lhs(1, 0);
+	//	result.stripes[1] += s * lhs(1, 1);
+	//	result.stripes[2] += s * lhs(1, 2);
+	//	result.stripes[3] += s * lhs(1, 3);
+
+	//	s = rhs.stripes[2];
+	//	result.stripes[0] += s * lhs(2, 0);
+	//	result.stripes[1] += s * lhs(2, 1);
+	//	result.stripes[2] += s * lhs(2, 2);
+	//	result.stripes[3] += s * lhs(2, 3);
+
+	//	s = rhs.stripes[3];
+	//	result.stripes[0] += s * lhs(3, 0);
+	//	result.stripes[1] += s * lhs(3, 1);
+	//	result.stripes[2] += s * lhs(3, 2);
+	//	result.stripes[3] += s * lhs(3, 3);
+
+	//	return result;
+	//}
+
 	// general algorithm
 	for (int y = 0; y < Rows1; ++y) {
 		result.stripes[y] = rhs.stripes[0] * lhs(0, y);
