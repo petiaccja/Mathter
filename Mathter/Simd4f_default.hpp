@@ -2,7 +2,7 @@
 
 
 
-
+// Deprecated
 union Simd4f {
 	float v[4];
 

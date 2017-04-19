@@ -67,8 +67,8 @@ auto operator*(const Matrix<T, Match, Rows1, Order1, eMatrixLayout::COLUMN_MAJOR
 //--------------------------------------
 
 // Function they must have:
-// mul, div, add, sum - vec x vec
-// mul, div, add, sum - vec x scalar
+// mul, div, add, sub | vec x vec
+// mul, div, add, sub | vec x scalar
 // spread
 // dot
 
