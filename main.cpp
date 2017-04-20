@@ -212,9 +212,10 @@ int main(int argc, char* argv[]) {
 #ifdef RUN_UNIT_TEST
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
-
 #else
-	double elapsed;
+
+	double elapsed = -1;
+
 	elapsed = MatMulSpeedTest<float, 1, 1, 1, 1>();
 	cout << "time 1x1 x 1x1:\t\t " << elapsed * 1000 << " ms" << endl;
 	elapsed = MatMulSpeedTest<float, 2, 2, 2, 2>();
@@ -228,8 +229,8 @@ int main(int argc, char* argv[]) {
 	elapsed = MatMulSpeedTest<float, 4, 4, 4, 4, eMatrixLayout::ROW_MAJOR, eMatrixLayout::ROW_MAJOR, true>();
 	cout << "time 4x4 x 4x4 packed:\t " << elapsed * 1000 << " ms" << endl;
 
-	//elapsed = MatMulSpeedTest<float, 8, 8, 8, 8>();
-	//cout << "time 8x8 x 8x8:\t" << elapsed * 1000 << " ms" << endl;
+	elapsed = MatMulSpeedTest<float, 8, 8, 8, 8>();
+	cout << "time 8x8 x 8x8:\t" << elapsed * 1000 << " ms" << endl;
 
 	elapsed = MatMulSpeedTest<float, 4, 2, 2, 4>();
 	cout << "time 4x2 x 2x4:\t\t " << elapsed * 1000 << " ms" << endl;

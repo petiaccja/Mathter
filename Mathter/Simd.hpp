@@ -101,7 +101,7 @@ public:
 		static_assert(0 < Count, "Count must not be zero.");
 		float sum = lhs.v[0] * rhs.v[0];
 		for (int i = 1; i < Count; ++i)
-			res.v[i] = lhs.v[i] * rhs.v[i];
+			sum += lhs.v[i] * rhs.v[i];
 		return sum;
 	}
 

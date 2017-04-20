@@ -164,8 +164,8 @@ public:
 
 	static MatrixT RotationEuler(float z1, float x2, float z3);
 	static MatrixT RotationRPY(float x1, float y2, float z3);
-	template <class U>
-	static MatrixT RotationAxisAngle(Vector<U, 3> axis, T angle);
+	template <class U, bool Vpacked>
+	static MatrixT RotationAxisAngle(const Vector<U, 3, Vpacked>& axis, T angle);
 
 	// Member rotation
 	template <int Axis>
@@ -180,8 +180,8 @@ public:
 
 	MatrixT& SetRotationEuler(float z1, float x2, float z3) { self() = RotationEuler(z1, x3, z3); return self(); }
 	MatrixT& SetRotationRPY(float x1, float y2, float z3) { self() = RotationRPY(x1, y2, z3); return self(); }
-	template <class U>
-	MatrixT& SetRotationAxisAngle(Vector<U, 3> axis, T angle) { self() = Rotation(axis, angle); return self(); }
+	template <class U, bool Vpacked>
+	MatrixT& SetRotationAxisAngle(const Vector<U, 3, Vpacked>& axis, T angle) { self() = Rotation(axis, angle); return self(); }
 protected:
 	friend class MatrixT;
 	using Inherit = MatrixModule<Enable3DRotation, MatrixRotation3D>;
@@ -969,8 +969,8 @@ auto MatrixRotation3D<T, Columns, Rows, Order, Layout, Packed>::RotationRPY(floa
 
 
 template <class T, int Columns, int Rows, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-template <class U>
-auto MatrixRotation3D<T, Columns, Rows, Order, Layout, Packed>::RotationAxisAngle(Vector<U, 3> axis, T angle) -> MatrixT 
+template <class U, bool Vpacked>
+auto MatrixRotation3D<T, Columns, Rows, Order, Layout, Packed>::RotationAxisAngle(const Vector<U, 3, Vpacked>& axis, T angle) -> MatrixT
 {
 	MatrixT m;
 

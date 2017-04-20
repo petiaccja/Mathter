@@ -140,6 +140,15 @@ public:
 	};
 };
 
+template <>
+class VectorData<float, 8, false> {
+public:
+	union {
+		Simd<float, 8> simd;
+		float data[8];
+	};
+};
+
 
 // Small SIMD fp64 vectors
 template <>
