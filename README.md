@@ -1,5 +1,6 @@
 Mathter
 ===
+**It's not really production ready, but keep reading if interested.**
 
 What is this?
 ---
@@ -7,8 +8,6 @@ Yet another math library, as if there wasn't enough of them already.
 [Eigen](http://eigen.tuxfamily.org/), [CML](http://cmldev.net/) and [mathfu](https://github.com/google/mathfu) are all great ones (check them out!), but still, I found annoyances in all of them from a game developer's point of view.
 This library is focused on 3D and 2D game development, and tries to provide an API that is as little pain in the ass as possible.
 However, it's not limited only to games, as scientific aspects are not neglected either.
-
-**It's not really production ready, but keep reading if interested.**
 
 Features
 ---
