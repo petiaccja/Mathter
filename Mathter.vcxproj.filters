@@ -26,6 +26,9 @@
     <ClCompile Include="TestMatrix.cpp">
       <Filter>Test</Filter>
     </ClCompile>
+    <ClCompile Include="TestIntersection.cpp">
+      <Filter>Mathter</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Mathter\Vector.hpp">
@@ -37,17 +40,11 @@
     <ClInclude Include="Mathter\Simd.hpp">
       <Filter>Mathter</Filter>
     </ClInclude>
-    <ClInclude Include="Mathter\Simd4f_default.hpp">
-      <Filter>Mathter</Filter>
-    </ClInclude>
-    <ClInclude Include="Mathter\Simd4f_sse.hpp">
-      <Filter>Mathter</Filter>
-    </ClInclude>
     <ClInclude Include="Mathter\Geometry.hpp">
       <Filter>Mathter</Filter>
     </ClInclude>
-    <ClInclude Include="TestIntersection.cpp">
-      <Filter>Test</Filter>
+    <ClInclude Include="Mathter\Simd_SSE2.hpp">
+      <Filter>Mathter</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

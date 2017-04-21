@@ -173,8 +173,7 @@
     <ClInclude Include="Mathter\Geometry.hpp" />
     <ClInclude Include="Mathter\Matrix.hpp" />
     <ClInclude Include="Mathter\Simd.hpp" />
-    <ClInclude Include="Mathter\Simd4f_default.hpp" />
-    <ClInclude Include="Mathter\Simd4f_sse.hpp" />
+    <ClInclude Include="Mathter\Simd_SSE2.hpp" />
     <ClInclude Include="Mathter\Vector.hpp" />
     <ClCompile Include="TestMatrix.cpp" />
     <ClCompile Include="TestIntersection.cpp" />
