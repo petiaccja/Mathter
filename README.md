@@ -11,12 +11,12 @@ Features
 ---
 - Header-only: just include Mathter/*
 - Configureable
-..* Float, double, int, or roll your own (int, std::complex, and custom not yet verified)
-..* Dimensions as template parameter
-..* Post- and pre-multiplication style for geometrical transforms
-..* Row-major and column-major layout
-..* Tightly pack elements (i.e. no SIMD alignment and padding)
-- Fast: SIMD accelerated, beats the above-mentioned in small (<=4) matrix multiplication
+  - Float, double, int, or roll your own (int, std::complex, and custom not yet verified)
+  - Dimensions as template parameter
+  - Post- and pre-multiplication style for geometrical transforms
+  - Row-major and column-major layout
+  - Tightly pack elements (i.e. no SIMD alignment and padding)
+- Fast: SIMD accelerated, beats the above-mentioned libs in small (<=4) matrix multiplication
 - Vectors, Matrices, associated arithmetic and basic matrix functions
 - Affine transforms: scale, rotation, translation
 - Planes and lines, intersection
@@ -87,10 +87,18 @@ Matrix<float, 4, 3, eMatrixOrder::PRECEDE_VECTOR> M_T = M.Transposed();
 Vector<float, 3> v_transformed2 = M_T*(v | 1);
 ```
 
+To learn more, check out the [documentation](about:blank) (which unfortunately does not exist yet).
+
+
 So how do I use it?
 ---
 Grab the files from Mathter/, add to you include directory, you are done.
-While the interface is clean, The library uses extensive template magic to achieve stuff with less code
+
+While the interface is clean, the library uses extensive template magic to achieve stuff with less code, and it's insides are not for the faint-hearted. It applies to compilers as well, so do not expect much from things older than the VS2015 toolset. There will be GCC and Clang support, but not tested yet.
+
+**TL;DR; You don't. It's not ready yet.**
+
+
 
 
 
