@@ -12,6 +12,7 @@
 
 #include <type_traits>
 #include <iostream> // debug only
+#include <algorithm>
 
 #include "Vector.hpp"
 

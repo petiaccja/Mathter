@@ -165,6 +165,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Example.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TestVector.cpp" />
   </ItemGroup>

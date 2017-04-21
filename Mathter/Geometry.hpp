@@ -1,6 +1,7 @@
 #pragma once
 
-
+#include <cmath>
+#include <limits>
 #include "Vector.hpp"
 
 
@@ -29,9 +30,9 @@ public:
 		base = point1;
 	}
 	template <typename std::enable_if<Dim == 2, int>::type = 0>
-	Line(const Hyperplane<T, 2>& plane)
+	Line(const Hyperplane<T, 2>& plane);
 
-		VectorT Direction() const { return direction; }
+	VectorT Direction() const { return direction; }
 	VectorT Base() const { return base; }
 	VectorT PointAt(T param) const { return base + param*direction; }
 private:
@@ -80,6 +81,11 @@ public:
 	Hyperplane(const VectorT& normal, T scalar) : normal(normal), scalar(scalar) {
 		assert(impl::AlmostEqual(normal.Length(), T(1)));
 	}
+	template <typename std::enable_if<Dim == 2, int>::type = 0>
+	Hyperplane(const Line<T, 2>& line) {
+		normal = { -line.Direction()(1), line.Direction()(0) };
+		scalar = Vector<T, 2>::Dot(normal, line.Base());
+	}
 
 	const VectorT& Normal() const { return normal; }
 	T Scalar() const { return scalar; }
@@ -96,7 +102,7 @@ Line<T, Dim>::Line(const Hyperplane<T, 2>& plane) {
 	T a = plane.Normal()(0);
 	T b = plane.Normal()(1);
 	T div = -(a*a + b*b);
-	base = {a*d/div, b*d/div};
+	base = { a*d / div, b*d / div };
 	direction = { -b, a };
 }
 
@@ -158,7 +164,7 @@ public:
 	bool Intersecting() const { T(0) <= param && param <= T(1); }
 	VectorT Point() const { return lineSegment.Interpol(param); }
 	T InterpolParameter() const { return param; }
-	T LineParameter() const { return param * line.Length(); }
+	T LineParameter() const { return param * lineSegment.Length(); }
 private:
 	LineT lineSegment;
 	T param;
@@ -186,7 +192,6 @@ Intersection<Hyperplane<T, Dim>, Line<T, Dim>>::Intersection(const PlaneT& plane
 	// and ax + by + cz + d = 0 is the plane's equation
 
 	Vector<T, Dim + 1> b;
-	Matrix<T, Dim + 1, Dim + 1> A_inv;
 	Vector<T, Dim + 1> A_inv_t;
 	Vector<T, Dim + 1> x;
 
@@ -206,20 +211,64 @@ Intersection<Hyperplane<T, Dim>, Line<T, Dim>>::Intersection(const PlaneT& plane
 
 
 // 2D line intersection
+// with lines
 template <class T>
 class Intersection<Line<T, 2>, Line<T, 2>> {
 	using LineT = Line<T, 2>;
 public:
-	Intersection(const LineT&, const LineT&);
+	Intersection(const LineT& l1, const LineT& l2) {
+		line2 = l2;
+		auto intersection = Intersect(Hyperplane<T, 2>(l1), l2);
+		param2 = intersection.LineParameter();
+		param1 = isinf(param2) ? std::numeric_limits<T>::infinity() : (intersection.Point() - l1.Base()).Length();
+	}
 
-	bool Intersecting() const;
-	T LineParameter1() const;
-	T LineParameter2() const;
-	Vector<T, 2> Point() const;
+	bool Intersecting() const { return !isinf(param1); }
+	T LineParameter1() const { return param1; }
+	T LineParameter2() const { return param2; }
+	Vector<T, 2> Point() const { return line2.PointAt(param2); }
 private:
 	T param1, param2;
+	LineT line2;
 };
 
+// with hyperplanes
+template <class T>
+class Intersection<Hyperplane<T, 2>, Hyperplane<T, 2>> : public Intersection<Line<T, 2>, Line<T, 2>> {
+public:
+	Intersection(const Hyperplane<T, 2>& p1, const Hyperplane<T, 2>& p2) : Intersection<Line<T, 2>, Line<T, 2>>(p1, p2) {}
+};
+
+
+// line segments
+template <class T>
+class Intersection<LineSegment<T, 2>, LineSegment<T, 2>> {
+public:
+	Intersection(const LineSegment<T, 2>& l1, LineSegment<T, 2>& l2) {
+		lineSegment1 = l1;
+		lineSegment2 = l2;
+		auto intersection = Intersect(l1.Line(), l2.Line());
+		if (intersection.Intersecting()) {
+			param1 = intersection.LineParameter1() / l1.Length();
+			param2 = intersection.LineParameter2() / l2.Length();
+		}
+		else {
+			param1 = param2 = std::numeric_limits<T>::infinity();
+		}
+	}
+
+	bool Intersecting() const { T(0) <= param1 && param2 <= T(1); }
+	Vector<T, 2> Point() const { return lineSegment1.Interpol(param1); }
+	T InterpolParameter1() const { return param1; }
+	T InterpolParameter2() const { return param2; }
+	T LineParameter1() const { return param1 * lineSegment1.Length(); }
+	T LineParameter2() const { return param2 * lineSegment2.Length(); }
+private:
+	T param1;
+	T param2;
+	LineSegment<T, 2> lineSegment1;
+	LineSegment<T, 2> lineSegment2;
+};
 
 
 

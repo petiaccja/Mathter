@@ -23,6 +23,9 @@
     <ClCompile Include="TestMatrix.cpp">
       <Filter>Mathter</Filter>
     </ClCompile>
+    <ClCompile Include="Example.cpp">
+      <Filter>Test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Mathter\Vector.hpp">
