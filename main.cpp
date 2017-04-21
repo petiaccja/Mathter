@@ -180,31 +180,31 @@ double MatMulSpeedTestPlain() {
 }
 
 
-//#define RUN_UNIT_TEST
+#define RUN_UNIT_TEST
 
 int main(int argc, char* argv[]) {
-	Vector<float, 4, false>::DumpLayout(cout);
-	Matrix<float, 4, 4>::DumpLayout(cout);
+	//Vector<float, 4, false>::DumpLayout(cout);
+	//Matrix<float, 4, 4>::DumpLayout(cout);
 
-	srand(clock());
-	Matrix<float, 4, 4> m1 = {
-		rand(),2,3,4,
-		5,6,7,8,
-		9,10,11,12,
-		13,14,15,16
-	};
-	Matrix<float, 4, 4> m2 = m1*m1;
-	cout << m2;
+	//srand(clock());
+	//Matrix<float, 4, 4> m1 = {
+	//	rand(),2,3,4,
+	//	5,6,7,8,
+	//	9,10,11,12,
+	//	13,14,15,16
+	//};
+	//Matrix<float, 4, 4> m2 = m1*m1;
+	//cout << m2;
 
-	PlainMat4 mp1 = {
-		m1(0,0),2,3,4,
-		5,6,7,8,
-		9,10,11,12,
-		13,14,15,16
-	};
-	PlainMat4 mp2;
-	mp2 = mp1*mp1;
-	cout << mp2;
+	//PlainMat4 mp1 = {
+	//	m1(0,0),2,3,4,
+	//	5,6,7,8,
+	//	9,10,11,12,
+	//	13,14,15,16
+	//};
+	//PlainMat4 mp2;
+	//mp2 = mp1*mp1;
+	//cout << mp2;
 
 
 

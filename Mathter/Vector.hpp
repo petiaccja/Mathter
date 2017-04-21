@@ -472,11 +472,12 @@ bool AlmostEqual(T d1, T d2) {
 	if (d1 < 1e-38 && d2 < 1e-38) {
 		return true;
 	}
-	d1 /= pow(T(10), floor(log10(abs(d1))));
-	d2 /= pow(T(10), floor(log10(abs(d2))));
+	T scaler = pow(T(10), floor(log10(abs(d1))));
+	d1 /= scaler;
+	d2 /= scaler;
 	d1 *= 1000.f;
 	d2 *= 1000.f;
-	return floor(d1) == floor(d2);
+	return round(d1) == round(d2);
 }
 
 

@@ -25,11 +25,9 @@ public:
 	Line(const VectorT& base, const VectorT& direction) : direction(direction), base(base) {
 		assert(impl::AlmostEqual(direction.Length(), T(1)));
 	}
-	Line(const VectorT& point1, const VectorT point2) {
-		direction = (point2 - point1).Normalized();
-		base = point1;
+	static Line Through(const VectorT& point1, const VectorT& point2) {
+		return Line(point1, (point2 - point1).Normalized());
 	}
-	template <typename std::enable_if<Dim == 2, int>::type = 0>
 	Line(const Hyperplane<T, 2>& plane);
 
 	VectorT Direction() const { return direction; }
@@ -61,7 +59,7 @@ public:
 	VectorT Interpol(T t) const { return t*point2 + (T(1) - t)*point1; }
 
 	Line<T, Dim> Line() const {
-		return Line<T, Dim>(point1, Direction());
+		return mathter::Line<T, Dim>{point1, Direction()};
 	}
 private:
 	VectorT point1, point2;
@@ -74,15 +72,15 @@ class Hyperplane {
 	using VectorT = Vector<T, Dim>;
 public:
 	Hyperplane() : normal(0), scalar(0) { normal(0) = 1; }
-	Hyperplane(const VectorT& normal, const VectorT& base) : normal(normal) {
+	Hyperplane(const VectorT& base, const VectorT& normal) : normal(normal) {
 		assert(impl::AlmostEqual(normal.Length(), T(1)));
-		scalar = VectorT::Dot(normal, base);
+		scalar = -VectorT::Dot(normal, base);
 	}
 	Hyperplane(const VectorT& normal, T scalar) : normal(normal), scalar(scalar) {
 		assert(impl::AlmostEqual(normal.Length(), T(1)));
 	}
-	template <typename std::enable_if<Dim == 2, int>::type = 0>
 	Hyperplane(const Line<T, 2>& line) {
+		static_assert(Dim == 2, "Plane dimension must be two, which is a line.");
 		normal = { -line.Direction()(1), line.Direction()(0) };
 		scalar = Vector<T, 2>::Dot(normal, line.Base());
 	}
@@ -96,8 +94,9 @@ private:
 
 
 template <class T, int Dim>
-template <typename std::enable_if<Dim == 2, int>::type>
 Line<T, Dim>::Line(const Hyperplane<T, 2>& plane) {
+	static_assert(Dim == 2, "Line dimension must be two, since it a plane in 2 dimensional space.");
+
 	// Intersect plane's line with line through origo perpendicular to plane to find suitable base
 	T a = plane.Normal()(0);
 	T b = plane.Normal()(1);
@@ -161,7 +160,7 @@ public:
 		param = intersection.LineParameter() / line.Length();
 	}
 
-	bool Intersecting() const { T(0) <= param && param <= T(1); }
+	bool Intersecting() const { return T(0) <= param && param <= T(1); }
 	VectorT Point() const { return lineSegment.Interpol(param); }
 	T InterpolParameter() const { return param; }
 	T LineParameter() const { return param * lineSegment.Length(); }
@@ -193,19 +192,18 @@ Intersection<Hyperplane<T, Dim>, Line<T, Dim>>::Intersection(const PlaneT& plane
 
 	Vector<T, Dim + 1> b;
 	Vector<T, Dim + 1> A_inv_t;
-	Vector<T, Dim + 1> x;
 
 	// Fill up 'b'
 	b = plane.Scalar() | line.Base();
 
 	// Fill up 'A_inv_t', which is the last line of A^-1, used to calculate 't'
-	A_inv_t = -1 | plane.Normal();
+	A_inv_t = 1 | plane.Normal();
 
 	// Compute result of the equation
 	T scaler = VectorT::Dot(line.Direction(), plane.Normal());
-	T x_t = VectorT::Dot(A_inv_t, b);
+	T x_t = decltype(b)::Dot(A_inv_t, b);
 	T t = x_t / scaler;
-	param = t;
+	param = -t;
 }
 
 
@@ -244,7 +242,7 @@ public:
 template <class T>
 class Intersection<LineSegment<T, 2>, LineSegment<T, 2>> {
 public:
-	Intersection(const LineSegment<T, 2>& l1, LineSegment<T, 2>& l2) {
+	Intersection(const LineSegment<T, 2>& l1, const LineSegment<T, 2>& l2) {
 		lineSegment1 = l1;
 		lineSegment2 = l2;
 		auto intersection = Intersect(l1.Line(), l2.Line());
@@ -257,7 +255,7 @@ public:
 		}
 	}
 
-	bool Intersecting() const { T(0) <= param1 && param2 <= T(1); }
+	bool Intersecting() const { return T(0) <= param1 && param2 <= T(1); }
 	Vector<T, 2> Point() const { return lineSegment1.Interpol(param1); }
 	T InterpolParameter1() const { return param1; }
 	T InterpolParameter2() const { return param2; }

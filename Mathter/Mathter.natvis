@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+  
   <Type Name="mathter::Vector&lt;*&gt;">
     <DisplayString Condition="$T2==1">[{*data}]</DisplayString>
     <DisplayString Condition="$T2==2">[{*data}, {*(data+1)}]</DisplayString>
@@ -14,6 +15,7 @@
       </ArrayItems>
     </Expand>
   </Type>
+  
   <Type Name="mathter::Matrix&lt;*&gt;">
     <DisplayString>{{columns={$T2} rows={$T3}}}</DisplayString>
     <Expand>
@@ -24,5 +26,12 @@
         <ValuePointer>stripes</ValuePointer>
       </ArrayItems>
     </Expand>
-  </Type>  
+  </Type>
+
+  <Type Name="mathter::Hyperplane&lt;*&gt;">
+    <DisplayString Condition="$T2==3">{normal.x} x + {normal.y} y + {normal.z} z + {scalar} = 0</DisplayString>
+  </Type>
+  <Type Name="mathter::Line&lt;*&gt;">
+    <DisplayString>[v] = {base} + {direction} t</DisplayString>
+  </Type>
 </AutoVisualizer>

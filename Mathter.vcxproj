@@ -177,6 +177,7 @@
     <ClInclude Include="Mathter\Simd4f_sse.hpp" />
     <ClInclude Include="Mathter\Vector.hpp" />
     <ClCompile Include="TestMatrix.cpp" />
+    <ClCompile Include="TestIntersection.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="Mathter\Mathter.natvis" />

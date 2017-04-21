@@ -20,10 +20,10 @@
     <ClCompile Include="TestVector.cpp">
       <Filter>Test</Filter>
     </ClCompile>
-    <ClCompile Include="TestMatrix.cpp">
-      <Filter>Mathter</Filter>
-    </ClCompile>
     <ClCompile Include="Example.cpp">
+      <Filter>Test</Filter>
+    </ClCompile>
+    <ClCompile Include="TestMatrix.cpp">
       <Filter>Test</Filter>
     </ClCompile>
   </ItemGroup>
@@ -45,6 +45,9 @@
     </ClInclude>
     <ClInclude Include="Mathter\Geometry.hpp">
       <Filter>Mathter</Filter>
+    </ClInclude>
+    <ClInclude Include="TestIntersection.cpp">
+      <Filter>Test</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
