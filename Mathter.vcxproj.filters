@@ -40,6 +40,9 @@
     <ClInclude Include="Mathter\Simd4f_sse.hpp">
       <Filter>Mathter</Filter>
     </ClInclude>
+    <ClInclude Include="Mathter\Geometry.hpp">
+      <Filter>Mathter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="Mathter\Mathter.natvis">

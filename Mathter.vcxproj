@@ -169,6 +169,7 @@
     <ClCompile Include="TestVector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Mathter\Geometry.hpp" />
     <ClInclude Include="Mathter\Matrix.hpp" />
     <ClInclude Include="Mathter\Simd.hpp" />
     <ClInclude Include="Mathter\Simd4f_default.hpp" />
