@@ -681,12 +681,12 @@ auto operator*(const Matrix<T, Rows1, Match, Order1, eMatrixLayout::COLUMN_MAJOR
 	MATHTER_MATMUL_CC_UNROLL(4, 4);	
 
 	// general algorithm
-	for (int x = 0; x < Columns2; ++x) {
-		result.stripes[x] = lhs.stripes[0] * rhs(x, 0);
+	for (int j = 0; j < Columns2; ++j) {
+		result.stripes[j] = lhs.stripes[0] * rhs(0, j);
 	}
-	for (int y = 1; y < Match; ++y) {
-		for (int x = 0; x < Columns2; ++x) {
-			result.stripes[x] += lhs.stripes[y] * rhs(x, y);
+	for (int i = 1; i < Match; ++i) {
+		for (int j = 0; j < Columns2; ++j) {
+			result.stripes[j] += lhs.stripes[i] * rhs(i, j);
 		}
 	}
 
@@ -857,6 +857,13 @@ void MatrixSquare<T, Dim, Dim, Order, Layout, Packed>::DecomposeLU(MatrixT& L, M
 	}
 	for (int j = 1; j < n; ++j) {
 		u(0, j) = A(0, j) / L(0, 0);
+	}
+
+	for (int j = 1; j < n-1; ++j) {
+		for (int i = j; i < n; ++i) {
+			L(i, j) = A(i, j);
+			//for (int k = 0; j<)
+		}
 	}
 }
 

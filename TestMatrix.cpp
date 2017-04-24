@@ -5,9 +5,12 @@
 
 using namespace mathter;
 
+template <class T, int Rows, int Columns, eMatrixOrder Order = eMatrixOrder::FOLLOW_VECTOR, bool Packed = false>
+using MatrixC = Matrix<T, Rows, Columns, Order, eMatrixLayout::COLUMN_MAJOR, Packed>;
 
 
-TEST(Matrix, CtorIndex) {
+
+TEST(Matrix, Ctor_And_Indexer_R) {
 	Matrix<float, 3, 3> m = {
 		1,2,3,
 		4,5,6,
@@ -22,7 +25,22 @@ TEST(Matrix, CtorIndex) {
 }
 
 
-TEST(Matrix, MulSquare) {
+TEST(Matrix, Ctor_And_Indexer_C) {
+	MatrixC<float, 3, 3> m = {
+		1,2,3,
+		4,5,6,
+		7,8,9,
+	};
+	MatrixC<float, 3, 3> n;
+	n(0, 0) = 1;	n(0, 1) = 2;	n(0, 2) = 3;
+	n(1, 0) = 4;	n(1, 1) = 5;	n(1, 2) = 6;
+	n(2, 0) = 7;	n(2, 1) = 8;	n(2, 2) = 9;
+
+	ASSERT_EQ(m, n);
+}
+
+
+TEST(Matrix, Multiply_Square_RR) {
 	Matrix<float, 3, 3> m = {
 		1,2,3,
 		4,5,6,
@@ -58,7 +76,7 @@ TEST(Matrix, MulSquare) {
 }
 
 
-TEST(Matrix, MulNonsquare) {
+TEST(Matrix, Multiply_NonSquare_RR) {
 	Matrix<float, 4, 2> m = {
 		1,2,
 		3,4,
@@ -88,25 +106,61 @@ TEST(Matrix, MulNonsquare) {
 }
 
 
-TEST(Matrix, MulNonsquareColmajor) {
-	Matrix<float, 4, 2, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR> m = {
+TEST(Matrix, Multiply_Square_CC) {
+	MatrixC<float, 3, 3> m = {
+		1,2,3,
+		4,5,6,
+		7,8,9,
+	};
+	m = m*m;
+	MatrixC<float, 3, 3> mexp = {
+		30, 36, 42,
+		66, 81, 96,
+		102,126,150,
+	};
+
+
+	MatrixC<double, 5, 5> n = {
+		1,2,3,4,5,
+		6,7,8,9,10,
+		11,12,13,14,15,
+		16,17,18,19,20,
+		21,22,23,24,25,
+	};
+	n = n*n;
+	MatrixC<double, 5, 5> nexp = {
+		215,	230,	245,	260,	275,
+		490,	530,	570,	610,	650,
+		765,	830,	895,	960,	1025,
+		1040,	1130,	1220,	1310,	1400,
+		1315,	1430,	1545,	1660,	1775,
+	};
+
+
+	ASSERT_EQ(m, mexp);
+	ASSERT_EQ(n, nexp);
+}
+
+
+TEST(Matrix, Multiply_NonSquare_CC) {
+	MatrixC<float, 4, 2> m = {
 		1,2,
 		3,4,
 		5,6,
 		7,8,
 	};
-	Matrix<float, 2, 4, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR> n = {
+	MatrixC<float, 2, 4> n = {
 		1,2,3,4,
 		5,6,7,8,
 	};
-	Matrix<float, 2, 2, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR> nm = n*m;
-	Matrix<float, 4, 4, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR> mn = m*n;
+	MatrixC<float, 2, 2> nm = n*m;
+	MatrixC<float, 4, 4> mn = m*n;
 
-	Matrix<float, 2, 2, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR> nmexp = {
+	MatrixC<float, 2, 2> nmexp = {
 		50,	60,
 		114, 140,
 	};
-	Matrix<float, 4, 4, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR> mnexp = {
+	MatrixC<float, 4, 4> mnexp = {
 		11,	14,	17,	20,
 		23,	30,	37,	44,
 		35,	46,	57,	68,
@@ -116,6 +170,55 @@ TEST(Matrix, MulNonsquareColmajor) {
 	ASSERT_EQ(mn, mnexp);
 	ASSERT_EQ(mn, mnexp);
 }
+
+
+TEST(Matrix, Multiply_Square_RC) {
+	Matrix<float, 3, 3> mr = {
+		1,2,3,
+		4,5,6,
+		7,8,9,
+	};
+	MatrixC<float, 3, 3> mc = {
+		1,2,3,
+		4,5,6,
+		7,8,9,
+	};
+	auto m = mr*mc;
+	Matrix<float, 3, 3> mexp = {
+		30, 36, 42,
+		66, 81, 96,
+		102,126,150,
+	};
+
+
+	Matrix<double, 5, 5> nr = {
+		1,2,3,4,5,
+		6,7,8,9,10,
+		11,12,13,14,15,
+		16,17,18,19,20,
+		21,22,23,24,25,
+	};
+	MatrixC<double, 5, 5> nc = {
+		1,2,3,4,5,
+		6,7,8,9,10,
+		11,12,13,14,15,
+		16,17,18,19,20,
+		21,22,23,24,25,
+	};
+	auto n = nr*nc;
+	Matrix<double, 5, 5> nexp = {
+		215,	230,	245,	260,	275,
+		490,	530,	570,	610,	650,
+		765,	830,	895,	960,	1025,
+		1040,	1130,	1220,	1310,	1400,
+		1315,	1430,	1545,	1660,	1775,
+	};
+
+
+	ASSERT_EQ(m, mexp);
+	ASSERT_EQ(n, nexp);
+}
+
 
 
 TEST(Matrix, Identity) {
