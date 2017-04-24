@@ -27,7 +27,7 @@
       <Filter>Test</Filter>
     </ClCompile>
     <ClCompile Include="TestIntersection.cpp">
-      <Filter>Mathter</Filter>
+      <Filter>Test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

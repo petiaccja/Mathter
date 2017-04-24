@@ -74,7 +74,7 @@ public:
 	Hyperplane() : normal(0), scalar(0) { normal(0) = 1; }
 	Hyperplane(const VectorT& base, const VectorT& normal) : normal(normal) {
 		assert(impl::AlmostEqual(normal.Length(), T(1)));
-		scalar = -VectorT::Dot(normal, base);
+		scalar = VectorT::Dot(normal, base);
 	}
 	Hyperplane(const VectorT& normal, T scalar) : normal(normal), scalar(scalar) {
 		assert(impl::AlmostEqual(normal.Length(), T(1)));
@@ -87,6 +87,11 @@ public:
 
 	const VectorT& Normal() const { return normal; }
 	T Scalar() const { return scalar; }
+
+	template <bool Packed>
+	T Distance(const Vector<T, Dim, Packed>& point) {
+		return Dot(point, normal) - scalar;
+	}
 private:
 	VectorT normal;
 	T scalar;
@@ -100,9 +105,10 @@ Line<T, Dim>::Line(const Hyperplane<T, 2>& plane) {
 	// Intersect plane's line with line through origo perpendicular to plane to find suitable base
 	T a = plane.Normal()(0);
 	T b = plane.Normal()(1);
-	T div = -(a*a + b*b);
+	T d = plane.Scalar();
+	T div = (a*a + b*b);
 	base = { a*d / div, b*d / div };
-	direction = { -b, a };
+	direction = { b, -a };
 }
 
 
@@ -194,7 +200,7 @@ Intersection<Hyperplane<T, Dim>, Line<T, Dim>>::Intersection(const PlaneT& plane
 	Vector<T, Dim + 1> A_inv_t;
 
 	// Fill up 'b'
-	b = plane.Scalar() | line.Base();
+	b = -plane.Scalar() | line.Base();
 
 	// Fill up 'A_inv_t', which is the last line of A^-1, used to calculate 't'
 	A_inv_t = 1 | plane.Normal();

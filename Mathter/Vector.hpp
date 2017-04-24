@@ -834,6 +834,32 @@ inline Vector<T, Dim, Packed> operator-(U lhs, const Vector<T, Dim, Packed>& rhs
 }
 
 
+
+//------------------------------------------------------------------------------
+// Common vector operations as globals
+//------------------------------------------------------------------------------
+
+
+template <class T, class U, int Dim, bool Packed1, bool Packed2>
+auto Dot(const Vector<T, Dim, Packed1>& lhs, const Vector<U, Dim, Packed2>& rhs) {
+	return Vector<T, Dim, Packed1>::Dot(lhs, rhs);
+}
+
+
+template <class T, class U, bool Packed1, bool Packed2>
+auto Cross(const Vector<T, 3, Packed1>& lhs, const Vector<U, 3, Packed2>& rhs) {
+	return Vector<T, 3, Packed1>::Cross(lhs, rhs);
+}
+
+
+template <class T, class U, int Dim, bool Packed1, bool Packed2>
+auto Distance(const Vector<T, Dim, Packed1>& lhs, const Vector<U, Dim, Packed2>& rhs) {
+	return (lhs - rhs).Length();
+}
+
+
+
+
 } // namespace mathter
 
 

@@ -6,7 +6,7 @@
     <DisplayString Condition="$T2==2">[{*data}, {*(data+1)}]</DisplayString>
     <DisplayString Condition="$T2==3">[{*data}, {*(data+1)}, {*(data+2)}]</DisplayString>
     <DisplayString Condition="$T2==4">[{*data}, {*(data+1)}, {*(data+2)}, {*(data+3)}]</DisplayString>
-    <DisplayString Condition="$T2>4">dim={$T2}  [{*data}, {*(data+1)}, ..., {*(data+$T2-1)}]</DisplayString>
+    <DisplayString Condition="$T2&gt;4">dim={$T2}  [{*data}, {*(data+1)}, ..., {*(data+$T2-1)}]</DisplayString>
     <Expand>
       <Item Name="[dimension]" ExcludeView="simple">$T2</Item>
       <ArrayItems>
@@ -29,8 +29,13 @@
   </Type>
 
   <Type Name="mathter::Hyperplane&lt;*&gt;">
-    <DisplayString Condition="$T2==3">{normal.x} x + {normal.y} y + {normal.z} z + {scalar} = 0</DisplayString>
-  </Type>
+    <DisplayString Condition="$T2==3">{normal.x} x + {normal.y} y + {normal.z} z = {scalar}</DisplayString>
+    <DisplayString Condition="$T2==2">{normal.x} x + {normal.y} y = {scalar}</DisplayString>
+    <Expand>
+      <Item Name="[normal]">normal</Item>
+      <Item Name="[scalar]">scalar</Item>
+    </Expand>
+  </Type> 
   <Type Name="mathter::Line&lt;*&gt;">
     <DisplayString>[v] = {base} + {direction} t</DisplayString>
   </Type>

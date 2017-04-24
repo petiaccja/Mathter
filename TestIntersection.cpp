@@ -37,14 +37,40 @@ TEST(Intersect, LineSegment_Plane_3D) {
 }
 
 
+TEST(Intersect, Line_Hyperplane) {
+	Line<float, 2> line1 = Line<float, 2>::Through({ 0 - 100,0 }, { 2 - 100,3 });
+	Line<float, 2> line2 = Line<float, 2>::Through({ 0 - 100,3 }, { 2 - 100,0 });
+
+	line2 = Hyperplane<float, 2>(line1);
+
+	Hyperplane<float, 2> plane1(line1);
+	Hyperplane<float, 2> plane2(line2);
+
+	ASSERT_TRUE(plane1.Normal().AlmostEqual(plane2.Normal()));
+	ASSERT_FLOAT_EQ(plane1.Scalar(), plane2.Scalar());
+}
+
+
 TEST(Intersect, Line_Line_2D) {
-	Line<float, 2> line1 = Line<float, 2>::Through({ 0,0 }, { 2,3 });
-	Line<float, 2> line2 = Line<float, 2>::Through({ 0,3 }, { 2,0 });
+	Line<float, 2> line1 = Line<float, 2>::Through({ 0-100,0 }, { 2-100,3 });
+	Line<float, 2> line2 = Line<float, 2>::Through({ 0-100,3 }, { 2-100,0 });
+
+	auto inter = Intersect(line1, line2);
+	auto point = inter.Point();
+
+	ASSERT_TRUE(inter.Intersecting());
+	ASSERT_TRUE(point.AlmostEqual({ 1.0f-100, 1.5f }));
+}
+
+
+TEST(Intersect, LineSegment_To_Line) {
+	Line<float, 2> line1 = LineSegment<float, 2>({ 0-100,0 }, { 2-100,3 }).Line();
+	Line<float, 2> line2 = LineSegment<float, 2>({ 0-100,3 }, { 2-100,0 }).Line();
 
 	auto inter = Intersect(line1, line2);
 
 	ASSERT_TRUE(inter.Intersecting());
-	ASSERT_TRUE(inter.Point().AlmostEqual({ 1.0f, 1.5f }));
+	ASSERT_TRUE(inter.Point().AlmostEqual({ 1.0f-100, 1.5f }));
 }
 
 
