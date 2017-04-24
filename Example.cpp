@@ -1,3 +1,4 @@
+#pragma warning(disable: 4244)
 #include "Mathter/Vector.hpp" // vectors
 #include "Mathter/Matrix.hpp" // matrices
 #include "Mathter/Geometry.hpp" // lines, planes, intersection
@@ -18,7 +19,7 @@ void foo() {
 	Vector<double, 6> w6 = { u,v }; // 4,5,6,1,2,3
 
 	
-	Matrix<float, 3, 4, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, false> M =
+	Matrix<float, 4, 3, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, false> M =
 	{
 		1,	2,	3,
 		4,	5,	6,
@@ -30,7 +31,7 @@ void foo() {
 	M.SetTranslation(10, 10, 10);
 	Vector<float, 3> v_transformed1 = (v | 1)*M;
 	
-	Matrix<float, 4, 3, eMatrixOrder::PRECEDE_VECTOR> M_T = M.Transposed();
+	Matrix<float, 3, 4, eMatrixOrder::PRECEDE_VECTOR> M_T = M.Transposed();
 	Vector<float, 3> v_transformed2 = M_T*(v | 1);
 
 

@@ -1,3 +1,4 @@
+#pragma warning(disable: 4244)
 #include <gtest\gtest.h>
 
 #include "Mathter\Matrix.hpp"
@@ -58,13 +59,13 @@ TEST(Matrix, MulSquare) {
 
 
 TEST(Matrix, MulNonsquare) {
-	Matrix<float, 2, 4> m = {
+	Matrix<float, 4, 2> m = {
 		1,2,
 		3,4,
 		5,6,
 		7,8,
 	};
-	Matrix<float, 4, 2> n = {
+	Matrix<float, 2, 4> n = {
 		1,2,3,4,
 		5,6,7,8,
 	};
@@ -88,13 +89,13 @@ TEST(Matrix, MulNonsquare) {
 
 
 TEST(Matrix, MulNonsquareColmajor) {
-	Matrix<float, 2, 4, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR> m = {
+	Matrix<float, 4, 2, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR> m = {
 		1,2,
 		3,4,
 		5,6,
 		7,8,
 	};
-	Matrix<float, 4, 2, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR> n = {
+	Matrix<float, 2, 4, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR> n = {
 		1,2,3,4,
 		5,6,7,8,
 	};
@@ -129,8 +130,8 @@ TEST(Matrix, Identity) {
 }
 
 TEST(Matrix, Zero) {
-	Matrix<float, 4, 3> m = Matrix<float, 4, 3>::Zero();
-	Matrix<float, 4, 3> mexp = {
+	Matrix<float, 3, 4> m = Matrix<float, 3, 4>::Zero();
+	Matrix<float, 3, 4> mexp = {
 		0,0,0,0,
 		0,0,0,0,
 		0,0,0,0,
@@ -141,14 +142,14 @@ TEST(Matrix, Zero) {
 
 
 TEST(Matrix, Transpose) {
-	Matrix<float, 2, 4> m = {
+	Matrix<float, 4, 2> m = {
 		1,2,
 		3,4,
 		5,6,
 		7,8,
 	};
-	Matrix<float, 4, 2> mT = m.Transposed();
-	Matrix<float, 4, 2> mexp = {
+	Matrix<float, 2, 4> mT = m.Transposed();
+	Matrix<float, 2, 4> mexp = {
 		1,3,5,7,
 		2,4,6,8,
 	};
@@ -260,7 +261,7 @@ TEST(Matrix, Scale) {
 
 
 TEST(Matrix, Translation) {
-	auto m = Matrix<float, 5, 6>::Translation(Vector<float, 5>{ 1,2,3,4,5 });
+	auto m = Matrix<float, 6, 5>::Translation(Vector<float, 5>{ 1,2,3,4,5 });
 	auto m2 = Matrix<float, 3, 3>::Translation(1, 2);
 	Vector<float, 5> v(1,2,3,4,5);
 	v = (v|1)*m;

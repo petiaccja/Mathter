@@ -91,10 +91,10 @@ std::ostream& operator<<(std::ostream& os, const PlainMat4& mat) {
 }
 
 
-template <class T, int Col1, int Row1, int Col2, int Row2, eMatrixLayout Layout = eMatrixLayout::ROW_MAJOR, eMatrixLayout LayoutRight = Layout, bool Packed = false>
+template <class T, int Row1, int Col1, int Row2, int Col2, eMatrixLayout Layout = eMatrixLayout::ROW_MAJOR, eMatrixLayout LayoutRight = Layout, bool Packed = false>
 double MatMulSpeedTest() {
-	using LeftT = Matrix<T, Col1, Row1, eMatrixOrder::FOLLOW_VECTOR, Layout, Packed>;
-	using RightT = Matrix<T, Col2, Row2, eMatrixOrder::FOLLOW_VECTOR, LayoutRight, Packed>;
+	using LeftT = Matrix<T, Row1, Col1, eMatrixOrder::FOLLOW_VECTOR, Layout, Packed>;
+	using RightT = Matrix<T, Row2, Col2, eMatrixOrder::FOLLOW_VECTOR, LayoutRight, Packed>;
 	using ResultT = typename decltype(LeftT()*RightT());
 
 	constexpr int iterationCount = 100'000;
@@ -111,12 +111,12 @@ double MatMulSpeedTest() {
 
 		for (int x = 0; x < Col1; ++x) {
 			for (int y = 0; y < Row1; ++y) {
-				l(x, y) = 2;
+				l(y, x) = 2;
 			}
 		}
 		for (int x = 0; x < Col2; ++x) {
 			for (int y = 0; y < Row2; ++y) {
-				r(x, y) = 2;
+				r(y, x) = 2;
 			}
 		}
 	}
