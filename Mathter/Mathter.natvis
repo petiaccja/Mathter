@@ -17,11 +17,15 @@
   </Type>
   
   <Type Name="mathter::Matrix&lt;*&gt;">
-    <DisplayString>{{columns={$T2} rows={$T3}}}</DisplayString>
+    <DisplayString>{{rows={$T2}, columns={$T3}}}</DisplayString>
     <Expand>
-      <Item Name="[columns]" ExcludeView="simple">$T2</Item>
-      <Item Name="[rows]" ExcludeView="simple">$T3</Item>
-      <ArrayItems>
+      <Item Name="[rows]" ExcludeView="simple">$T2</Item>
+      <Item Name="[columns]" ExcludeView="simple">$T3</Item>
+      <ArrayItems Condition="$T5==0">
+        <Size>$T2</Size>
+        <ValuePointer>stripes</ValuePointer>
+      </ArrayItems>
+      <ArrayItems Condition="$T5==1">
         <Size>$T3</Size>
         <ValuePointer>stripes</ValuePointer>
       </ArrayItems>

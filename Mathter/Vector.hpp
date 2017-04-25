@@ -412,8 +412,8 @@ struct IsMatrix {
 	static constexpr bool value = false;
 };
 
-template <class T, int Columns, int Rows, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-struct IsMatrix<Matrix<T, Columns, Rows, Order, Layout, Packed>> {
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+struct IsMatrix<Matrix<T, Rows, Columns, Order, Layout, Packed>> {
 	static constexpr bool value = true;
 };
 
@@ -455,6 +455,9 @@ struct SumDimensions<> {
 template <class T>
 bool AlmostEqual(T d1, T d2) {
 	if (d1 < 1e-38 && d2 < 1e-38) {
+		return true;
+	}
+	if (d1 == 0 && d2 < 1e-4 || d2 == 0 && d1 < 1e-4) {
 		return true;
 	}
 	T scaler = pow(T(10), floor(log10(abs(d1))));
@@ -672,6 +675,14 @@ public:
 
 	inline Vector& operator-=(const Vector& rhs) {
 		sub(*this, rhs);
+		return *this;
+	}
+
+	inline Vector operator-() const {
+		return (*this) * T(-1);
+	}
+
+	inline Vector operator+() const {
 		return *this;
 	}
 

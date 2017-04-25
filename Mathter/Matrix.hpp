@@ -81,6 +81,30 @@ template <bool Enable, class Module>
 using MatrixModule = typename std::conditional<Enable, Module, Empty<Module>>::type;
 
 
+// Decompositions
+template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+class DecompositionLU {
+	using MatrixT = Matrix<T, Dim, Dim, Order, Layout, Packed>;
+public:
+	DecompositionLU(const MatrixT& arg) {
+		arg.DecomposeLU(L, U);
+		T prod = L(0, 0);
+		T sum = abs(prod);
+		for (int i = 1; i < Dim; ++i) {
+			prod *= L(i, i);
+			sum += abs(L(i, i));
+		}
+		sum /= Dim;
+		solvable = abs(prod) / sum > T(1e-6);
+	}
+
+	bool Solve(Vector<float, Dim, Packed>& x, const Vector<T, Dim, Packed>& b);
+
+	MatrixT L, U;
+	bool solvable;
+};
+
+
 // Square matrices
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 class MatrixSquare {
@@ -108,7 +132,10 @@ public:
 	MatrixT& Invert();
 	MatrixT Inverted() const;
 
-	void DecomposeLU(MatrixT& L, MatrixT& U);
+	void DecomposeLU(MatrixT& L, MatrixT& U) const;
+	mathter::DecompositionLU<T, Dim, Order, Layout, Packed> DecompositionLU() const {
+		return mathter::DecompositionLU<T, Dim, Order, Layout, Packed>(self());
+	}
 protected:
 	friend class MatrixT;
 	using Inherit = MatrixSquare;
@@ -205,7 +232,7 @@ protected:
 		|| (Order == eMatrixOrder::PRECEDE_VECTOR && Columns - 1 <= Rows && Rows <= Columns);
 	static constexpr int TranslationDim = Rows == Columns ? Rows - 1 : std::min(Rows, Columns);
 public:
-	template <class... Args, typename std::enable_if<(impl::All<impl::IsScalar, Args...>::value), int>::type = 0>
+	template <class... Args, typename std::enable_if<(impl::All<impl::IsScalar, typename std::decay<Args>::type...>::value), int>::type = 0>
 	static MatrixT Translation(Args&&... args) {
 		static_assert(sizeof...(Args) == TranslationDim, "Number of arguments must match the dimension of translation.");
 
@@ -351,6 +378,9 @@ class __declspec(empty_bases) Matrix
 protected:
 	using MatrixData<T, Rows, Columns, Order, Layout, Packed>::GetElement;
 	using MatrixData::stripes;
+
+	template <class T2, int Dim, eMatrixOrder Order2, eMatrixLayout Layout2, bool Packed2>
+	friend class mathter::DecompositionLU;
 public:
 	static void DumpLayout(std::ostream& os) {
 		Matrix* ptr = reinterpret_cast<Matrix*>(1000);
@@ -822,8 +852,14 @@ T MatrixSquare<T, Dim, Dim, Order, Layout, Packed>::Trace() const {
 
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 T MatrixSquare<T, Dim, Dim, Order, Layout, Packed>::Determinant() const {
-	//static_assert(false, "Determinant not implemented yet.");
-	return T();
+	// only works for Crout's algorithm, where U's diagonal is 1s
+	MatrixT L, U;
+	self().DecomposeLU(L, U);
+	T prod = L(0, 0);
+	for (int i = 1; i < L.RowCount(); ++i) {
+		prod *= L(i, i);
+	}
+	return prod;
 }
 
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
@@ -834,36 +870,77 @@ auto MatrixSquare<T, Dim, Dim, Order, Layout, Packed>::Transpose() -> MatrixT& {
 
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 auto MatrixSquare<T, Dim, Dim, Order, Layout, Packed>::Invert() -> MatrixT& {
-	//static_assert(false, "Inverse not implemented yet.");
+	*this = Inverted();
 	return self();
 }
 
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 auto MatrixSquare<T, Dim, Dim, Order, Layout, Packed>::Inverted() const -> MatrixT {
-	//static_assert(false, "Inverse not implemented yet.");
-	MatrixT copy = self();
-	return copy.Invert();
+	MatrixT ret;
+
+	mathter::DecompositionLU<T, Dim, Order, Layout, Packed> LU = self().DecompositionLU();
+
+	Vector<T, Dim, Packed> b(0);
+	Vector<T, Dim, Packed> x;
+	for (int col = 0; col < Dim; ++col) {
+		b(std::max(0, col - 1)) = 0;
+		b(col) = 1;
+		LU.Solve(x, b);
+		for (int i = 0; i < Dim; ++i) {
+			ret(i, col) = x(i);
+		}
+	}
+
+	return ret;
 }
 
 
+// From: https://www.gamedev.net/resources/_/technical/math-and-physics/matrix-inversion-using-lu-decomposition-r3637
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-void MatrixSquare<T, Dim, Dim, Order, Layout, Packed>::DecomposeLU(MatrixT& L, MatrixT& U) {
-	const auto& A = *this;
+void MatrixSquare<T, Dim, Dim, Order, Layout, Packed>::DecomposeLU(MatrixT& L, MatrixT& U) const {
+	const auto& A = self();
 	constexpr int n = Dim;
+
+	for (int i = 0; i < n; ++i) {
+		for (int j = i + 1; j < n; ++j) {
+			L(i, j) = 0;
+		}
+		for (int j = 0; j <= i; ++j) {
+			U(i, j) = i == j;
+		}
+	}
 
 	// Crout's algorithm
 	for (int i = 0; i < n; ++i) {
 		L(i, 0) = A(i, 0);
 	}
 	for (int j = 1; j < n; ++j) {
-		u(0, j) = A(0, j) / L(0, 0);
+		U(0, j) = A(0, j) / L(0, 0);
 	}
 
 	for (int j = 1; j < n-1; ++j) {
 		for (int i = j; i < n; ++i) {
-			L(i, j) = A(i, j);
-			//for (int k = 0; j<)
+			float Lij;
+			Lij = A(i, j);
+			for (int k = 0; k <= j - 1; ++k) {
+				Lij -= L(i, k)*U(k, j);
+			}
+			L(i, j) = Lij;
 		}
+		for (int k = j; k < n; ++k) {
+			float Ujk;
+			Ujk = A(j, k);
+			for (int i = 0; i <= j - 1; ++i) {
+				Ujk -= L(j, i)*U(i, k);
+			}
+			Ujk /= L(j, j);
+			U(j, k) = Ujk;
+		}
+	}
+
+	L(n - 1, n - 1) = A(n - 1, n - 1);
+	for (int k = 0; k < n - 1; ++k) {
+		L(n - 1, n - 1) -= L(n - 1, k)*U(k, n - 1);
 	}
 }
 
@@ -1032,6 +1109,63 @@ auto MatrixRotation3D<T, Rows, Columns, Order, Layout, Packed>::RotationAxisAngl
 	return m;
 }
 
+
+//------------------------------------------------------------------------------
+// Decompositions
+//------------------------------------------------------------------------------
+
+template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+bool DecompositionLU<T, Dim, Order, Layout, Packed>::Solve(Vector<float, Dim, Packed>& x, const Vector<T, Dim, Packed>& b) {
+	if (!solvable) {
+		for (int i = 0; i < Dim; ++i) {
+			x(i) = T(0);
+		}
+		return false;
+	}
+	
+	// Solve Ld = b
+	Matrix<T, Dim, Dim + 1, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, Packed> L_b;
+
+	for (int i = 0; i < Dim; ++i) {
+		for (int j = 0; j < Dim; ++j) {
+			L_b(i, j) = L(i, j);
+		}
+		L_b(i, Dim) = b(i);
+	}
+
+	for (int i = 0; i < Dim - 1; ++i) {
+		for (int i2 = i + 1; i2 < Dim; ++i2) {
+			L_b.stripes[i] /= L_b(i, i);
+			T coeff = L_b(i2, i);
+			L_b.stripes[i2] -= L_b.stripes[i] * coeff;
+		}
+	}
+	L_b.stripes[Dim - 1] /= L_b(Dim - 1, Dim - 1);
+
+	// Solve Ux = d
+	Matrix<T, Dim, Dim + 1, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, Packed> U_d;
+	for (int i = 0; i < Dim; ++i) {
+		for (int j = 0; j < Dim; ++j) {
+			U_d(i, j) = U(i, j);
+		}
+		U_d(i, Dim) = L_b(i, Dim);
+	}
+
+	// only works for Crout's algorithm, where U's diagonal is 1s
+	for (int i = Dim - 1; i > 0; --i) {
+		for (int i2 = i - 1; i2 >= 0; --i2) {
+			T coeff = U_d(i2, i);
+			U_d.stripes[i2] -= U_d.stripes[i] * coeff;
+		}
+	}
+
+	// Output resulting vector
+	for (int i = 0; i < Dim; ++i) {
+		x(i) = U_d(i, Dim);
+	}
+
+	return true;
+}
 
 
 } // namespace mathter

@@ -244,6 +244,39 @@ TEST(Matrix, Zero) {
 }
 
 
+TEST(Matrix, LU_Decomp) {
+	Matrix<float, 3, 3> A = {
+		3, -0.1f, -0.2f,
+		0.1f, 7, -0.3f,
+		0.3f, -0.2f, 10
+	};
+
+	Matrix<float, 3, 3> L, U;
+	A.DecomposeLU(L, U);
+
+	auto Mprod = L*U;
+
+	ASSERT_TRUE(A.AlmostEqual(Mprod));
+}
+
+
+TEST(Matrix, LU_Solve) {
+	Matrix<float, 3, 3> A = {
+		3, -0.1f, -0.2f,
+		0.1f, 7, -0.3f,
+		0.3f, -0.2f, 10
+	};
+	Vector<float, 3> b = { 7.85, -19.3, 71.4 };
+	Vector<float, 3> x;
+	Vector<float, 3> xexp = {3, -2.5, 7};
+
+	bool solved = A.DecompositionLU().Solve(x, b);
+
+	ASSERT_TRUE(solved);
+	ASSERT_TRUE(x.AlmostEqual(xexp));
+}
+
+
 TEST(Matrix, Transpose) {
 	Matrix<float, 4, 2> m = {
 		1,2,
@@ -270,6 +303,14 @@ TEST(Matrix, Determinant) {
 	float det = m.Determinant();
 
 	ASSERT_FLOAT_EQ(det, 9.0f);
+
+	m = {
+		1,2,3,
+		4,5,6,
+		7,8,9
+	};
+	det = m.Determinant();
+	ASSERT_FLOAT_EQ(det, 0.0f);
 }
 
 
@@ -298,7 +339,20 @@ TEST(Matrix, Inverse) {
 		-0.333333,	1.444444,	-0.777778,
 	};
 
+	Matrix<float, 5, 5> n = {
+		1,56,8,4,3,
+		4,2,7,8,4,
+		1,5,7,4,3,
+		9,5,3,8,4,
+		7,2,83,46,4,		
+	};
+	Matrix<float, 5, 5> nI = n.Inverted();
+	Matrix<float, 5, 5> iden = n*nI;
+	Matrix<float, 5, 5> idenexp;
+	idenexp.SetIdentity();
+
 	ASSERT_TRUE(mexp.AlmostEqual(mI));
+	ASSERT_TRUE(idenexp.AlmostEqual(iden));
 }
 
 
@@ -366,11 +420,11 @@ TEST(Matrix, Scale) {
 TEST(Matrix, Translation) {
 	auto m = Matrix<float, 6, 5>::Translation(Vector<float, 5>{ 1,2,3,4,5 });
 	auto m2 = Matrix<float, 3, 3>::Translation(1, 2);
+	auto m3 = Matrix<float, 3, 3>::Translation(Vector<float, 2>(1, 2));
 	Vector<float, 5> v(1,2,3,4,5);
 	v = (v|1)*m;
 
 	Vector<float, 5> vexp(2,4,6,8,10);
 
 	ASSERT_EQ(v, vexp);
-
 }

@@ -8,6 +8,8 @@
 #include <vector>
 #include <random>
 
+#include <conio.h>
+
 #include <gtest\gtest.h>
 
 
@@ -211,7 +213,9 @@ int main(int argc, char* argv[]) {
 
 #ifdef RUN_UNIT_TEST
 	::testing::InitGoogleTest(&argc, argv);
-	return RUN_ALL_TESTS();
+	auto ret = RUN_ALL_TESTS();
+	_getch();
+	return ret;
 #else
 
 	double elapsed = -1;
