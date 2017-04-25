@@ -332,7 +332,7 @@ TEST(Matrix, Inverse) {
 		4,5,6,
 		7,8,9,
 	};
-	Matrix<float, 3, 3> mI = m.Inverted();
+	Matrix<float, 3, 3> mI = m.Inverse();
 	Matrix<float, 3, 3> mexp = {
 		-0.333333,	-1.222222,	0.888889,
 		0.666667,	-0.555556,	0.222222,
@@ -346,7 +346,7 @@ TEST(Matrix, Inverse) {
 		9,5,3,8,4,
 		7,2,83,46,4,		
 	};
-	Matrix<float, 5, 5> nI = n.Inverted();
+	Matrix<float, 5, 5> nI = n.Inverse();
 	Matrix<float, 5, 5> iden = n*nI;
 	Matrix<float, 5, 5> idenexp;
 	idenexp.SetIdentity();

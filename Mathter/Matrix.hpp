@@ -130,7 +130,7 @@ public:
 	T Determinant() const;
 	MatrixT& Transpose();
 	MatrixT& Invert();
-	MatrixT Inverted() const;
+	MatrixT Inverse() const;
 
 	void DecomposeLU(MatrixT& L, MatrixT& U) const;
 	mathter::DecompositionLU<T, Dim, Order, Layout, Packed> DecompositionLU() const {
@@ -870,12 +870,12 @@ auto MatrixSquare<T, Dim, Dim, Order, Layout, Packed>::Transpose() -> MatrixT& {
 
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 auto MatrixSquare<T, Dim, Dim, Order, Layout, Packed>::Invert() -> MatrixT& {
-	*this = Inverted();
+	*this = Inverse();
 	return self();
 }
 
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-auto MatrixSquare<T, Dim, Dim, Order, Layout, Packed>::Inverted() const -> MatrixT {
+auto MatrixSquare<T, Dim, Dim, Order, Layout, Packed>::Inverse() const -> MatrixT {
 	MatrixT ret;
 
 	mathter::DecompositionLU<T, Dim, Order, Layout, Packed> LU = self().DecompositionLU();
