@@ -4,32 +4,24 @@ Mathter
 
 What is this?
 ---
-Yet another math library, as if there wasn't enough of them already.
-[Eigen](http://eigen.tuxfamily.org/), [CML](http://cmldev.net/) and [mathfu](https://github.com/google/mathfu) are all great ones (check them out!), but still, I found annoyances in all of them from a game developer's point of view.
-This library is focused on 3D and 2D game development, and tries to provide an API that is as little pain in the ass as possible.
-However, it's not limited only to games, as scientific aspects are not neglected either.
+Mathter is a linear algebra library focused on 2D and 3D game development. It uses the latest C++ features to provide a painless and highy configurable API. As of now, only fixed-size vectors and matrices are supported.
 
 Features
 ---
 - Header-only: just include Mathter/*
 - Configureable
-  - Float, double, int, or roll your own (int, std::complex, and custom not yet verified)
-  - Dimensions as template parameter
+  - Float, double, int, or roll your own (only float and double is tested as of now)
+  - Dimensions as template parameters
   - Post- and pre-multiplication style for geometrical transforms
-  - Row-major and column-major layout
-  - Tightly pack elements (i.e. no SIMD alignment and padding)
-- Fast: SIMD accelerated, beats the above-mentioned libs in small (<=4) matrix multiplication
-- Vectors, Matrices, associated arithmetic and basic matrix functions
-- Affine transforms: scale, rotation, translation
-- Planes and lines, intersection
-
-**To come (in that order, presumably):**
-- LU decomposition, determinant, inverse
-- Projective transforms
-- Quaternions
-- Std::complex and user types
-- Singular value decomposition
-- Dynamically sized vectors and matrices
+  - Row-major and column-major memory layout
+  - Tightly pack elements (no SIMD alignment and padding)
+- Fast: SIMD accelerated, loops unrolled for small matrices
+- Vectors and Matrix arithmetic
+- Common matrix operations
+- Geometrical transforms (projective coming soon)
+- Hyperplanes, parametric lines, intersection
+- Matrix decompositions (LU (SVD coming soon)
+- Quaternions (coming soon)
 
 Examples
 ---
@@ -67,7 +59,7 @@ Matrices have many parameters:
 - Row-major (default) or column-major storage (Layout)
 - Enable tight packing (for uploading to GPU or serialization)
 ```c++
-Matrix<float, 3, 4, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, false> M =
+Matrix<float, 4, 3, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, false> M =
 {
 	1,	2,	3,
 	4,	5,	6,
@@ -86,11 +78,9 @@ Notice we had to append a one to the vector to apply the translation. Since this
 
 The other way around:
 ```c++
-Matrix<float, 4, 3, eMatrixOrder::PRECEDE_VECTOR> M_T = M.Transposed();
+Matrix<float, 3, 4, eMatrixOrder::PRECEDE_VECTOR> M_T = M.Transposed();
 Vector<float, 3> v_transformed2 = M_T*(v | 1);
 ```
-
-To learn more, check out the [documentation](http://lmgtfy.com/?q=lack+of+documentation) (which unfortunately does not exist yet).
 
 
 So how do I use it?
