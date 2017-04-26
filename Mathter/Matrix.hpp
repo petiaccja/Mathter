@@ -329,10 +329,25 @@ protected:
 };
 
 
+
+// View and projection transforms
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+class MatrixProjective {
+	using MatrixT = Matrix<T, Rows, Columns, Order, Layout, Packed>;
+	MatrixT& self() { return *static_cast<MatrixT*>(this); }
+	const MatrixT& self() const { return *static_cast<const MatrixT*>(this); }
+public:
+
+};
+
+
+
+
 //------------------------------------------------------------------------------
 // Global Matrix function prototypes
 //------------------------------------------------------------------------------
 
+// Same layout
 template <
 	class T,
 	class U,
@@ -340,11 +355,14 @@ template <
 	int Columns,
 	eMatrixOrder Order1,
 	eMatrixOrder Order2,
+	eMatrixLayout SameLayout,
 	bool Packed,
-	class V = decltype(T() + U())>
-	Matrix<U, Rows, Columns, Order1, eMatrixLayout::ROW_MAJOR, Packed> operator+(
-		const Matrix<T, Rows, Columns, Order1, eMatrixLayout::ROW_MAJOR, Packed>&,
-		const Matrix<U, Rows, Columns, Order2, eMatrixLayout::ROW_MAJOR, Packed>&);
+	class V = decltype(T() + U())
+>
+Matrix<U, Rows, Columns, Order1, SameLayout, Packed> operator+(
+	const Matrix<T, Rows, Columns, Order1, SameLayout, Packed>&,
+	const Matrix<U, Rows, Columns, Order2, SameLayout, Packed>&);
+
 
 template <
 	class T,
@@ -353,11 +371,50 @@ template <
 	int Columns,
 	eMatrixOrder Order1,
 	eMatrixOrder Order2,
+	eMatrixLayout SameLayout,
 	bool Packed,
-	class V = decltype(T() + U())>
-	Matrix<U, Rows, Columns, Order1, eMatrixLayout::ROW_MAJOR, Packed> operator-(
-		const Matrix<T, Rows, Columns, Order1, eMatrixLayout::ROW_MAJOR, Packed>&,
-		const Matrix<U, Rows, Columns, Order2, eMatrixLayout::ROW_MAJOR, Packed>&);
+	class V = decltype(T() - U())
+>
+Matrix<U, Rows, Columns, Order1, SameLayout, Packed> operator-(
+	const Matrix<T, Rows, Columns, Order1, SameLayout, Packed>&,
+	const Matrix<U, Rows, Columns, Order2, SameLayout, Packed>&);
+
+
+// Opposite layout
+template <
+	class T,
+	class U,
+	int Rows,
+	int Columns,
+	eMatrixOrder Order1,
+	eMatrixOrder Order2,
+	eMatrixLayout Layout1,
+	eMatrixLayout Layout2,
+	bool Packed,
+	class V = decltype(T() + U()),
+	class = typename std::enable_if<Layout1 != Layout2>::type
+>
+Matrix<U, Rows, Columns, Order1, Layout1, Packed> operator+(
+	const Matrix<T, Rows, Columns, Order1, Layout1, Packed>&,
+	const Matrix<U, Rows, Columns, Order2, Layout2, Packed>&);
+
+template <
+	class T,
+	class U,
+	int Rows,
+	int Columns,
+	eMatrixOrder Order1,
+	eMatrixOrder Order2,
+	eMatrixLayout Layout1,
+	eMatrixLayout Layout2,
+	bool Packed,
+	class V = decltype(T() - U()),
+	class = typename std::enable_if<Layout1 != Layout2>::type
+>
+Matrix<U, Rows, Columns, Order1, Layout1, Packed> operator-(
+	const Matrix<T, Rows, Columns, Order1, Layout1, Packed>&,
+	const Matrix<U, Rows, Columns, Order2, Layout2, Packed>&);
+
 
 
 
@@ -474,8 +531,10 @@ public:
 	template <eMatrixOrder Order2, eMatrixLayout Layout2, bool Packed2, class = typename std::enable_if<std::is_floating_point<T>::value>::type>
 	bool AlmostEqual(const Matrix<T, Rows, Columns, Order2, Layout2, Packed2>& rhs) const {
 		bool equal = true;
-		for (int i = 0; i < StripeCount; ++i) {
-			equal = equal && stripes[i].AlmostEqual(rhs.stripes[i]);
+		for (int i = 0; i < RowCount(); ++i) {
+			for (int j = 0; j < ColumnCount(); ++j) {
+				equal = equal && impl::AlmostEqual((*this)(i, j), rhs(i, j));
+			}
 		}
 		return equal;
 	}
@@ -486,17 +545,17 @@ public:
 
 	// Non-modifying external operators
 
-	// Addition row-row
-	template <class T, class U, int Rows, int Columns, eMatrixOrder Order1, eMatrixOrder Order2, bool Packed, class V>
-	friend auto operator+(const Matrix<T, Rows, Columns, Order1, eMatrixLayout::ROW_MAJOR, Packed>& lhs,
-						  const Matrix<U, Rows, Columns, Order2, eMatrixLayout::ROW_MAJOR, Packed>& rhs)
-		->Matrix<U, Rows, Columns, Order1, eMatrixLayout::ROW_MAJOR, Packed>;
+	// Same layout
+	template <class T, class U, int Rows, int Columns, eMatrixOrder Order1, eMatrixOrder Order2, eMatrixLayout SameLayout, bool Packed, class V>
+	friend Matrix<U, Rows, Columns, Order1, SameLayout, Packed> operator+(
+		const Matrix<T, Rows, Columns, Order1, SameLayout, Packed>&,
+		const Matrix<U, Rows, Columns, Order2, SameLayout, Packed>&);
 
-	// Subtraction row-row
-	template <class T, class U, int Rows, int Columns, eMatrixOrder Order1, eMatrixOrder Order2, bool Packed, class V>
-	friend auto operator-(const Matrix<T, Rows, Columns, Order1, eMatrixLayout::ROW_MAJOR, Packed>& lhs,
-						  const Matrix<U, Rows, Columns, Order2, eMatrixLayout::ROW_MAJOR, Packed>& rhs)
-		->Matrix<U, Rows, Columns, Order1, eMatrixLayout::ROW_MAJOR, Packed>;
+	template <class T, class U, int Rows, int Columns, eMatrixOrder Order1, eMatrixOrder Order2, eMatrixLayout SameLayout, bool Packed, class V>
+	friend Matrix<U, Rows, Columns, Order1, SameLayout, Packed> operator-(
+		const Matrix<T, Rows, Columns, Order1, SameLayout, Packed>&,
+		const Matrix<U, Rows, Columns, Order2, SameLayout, Packed>&);
+	
 
 	// Multiplication row-row
 	template <class T, class U, int Rows1, int Match, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, bool Packed, class V>
@@ -516,7 +575,29 @@ public:
 				   const Matrix<U, Match, Columns2, Order2, eMatrixLayout::COLUMN_MAJOR, Packed>& rhs)
 		->Matrix<V, Rows1, Columns2, Order1, eMatrixLayout::COLUMN_MAJOR, Packed>;
 
+
+	// Scalar multiplication
+	Matrix operator*(T s) const {
+		return Matrix(*this) *= s;
+	}
+
+	Matrix operator/(T s) const {
+		return Matrix(*this) /= s;
+	}
+
+	// Unary signs
+	Matrix operator+() const {
+		return Matrix(*this);
+	}
+
+	Matrix operator-() const {
+		return Matrix(*this) *= T(-1);
+	}
+
+
 	// Internal modifying operators
+
+	// Addition, subtraction
 	template <class U, eMatrixOrder Order2, eMatrixLayout Layout2>
 	Matrix& operator+=(const Matrix<U, Rows, Columns, Order2, Layout2, Packed>& rhs) {
 		*this = operator+<T, U, Rows, Columns, Order, Order2, Layout2, Packed, T>(*this, rhs);
@@ -725,55 +806,76 @@ auto operator*(const Matrix<T, Rows1, Match, Order1, eMatrixLayout::COLUMN_MAJOR
 
 
 
-template <class T, class U, int Rows, int Columns, eMatrixOrder Order1, eMatrixOrder Order2, bool Packed, class V>
-auto operator+(const Matrix<T, Rows, Columns, Order1, eMatrixLayout::ROW_MAJOR, Packed>& lhs,
-			   const Matrix<U, Rows, Columns, Order2, eMatrixLayout::ROW_MAJOR, Packed>& rhs)
-	-> Matrix<U, Rows, Columns, Order1, eMatrixLayout::ROW_MAJOR, Packed>
+// Same layout
+template <class T, class U, int Rows, int Columns, eMatrixOrder Order1, eMatrixOrder Order2, eMatrixLayout SameLayout, bool Packed, class V>
+Matrix<U, Rows, Columns, Order1, SameLayout, Packed> operator+(
+	const Matrix<T, Rows, Columns, Order1, SameLayout, Packed>& lhs,
+	const Matrix<U, Rows, Columns, Order2, SameLayout, Packed>& rhs)
 {
-	Matrix<U, Rows, Columns, Order1, eMatrixLayout::ROW_MAJOR, Packed> result;
-	for (int i = 0; i < Rows; ++i) {
+	Matrix<U, Rows, Columns, Order1, SameLayout, Packed> result;
+	for (int i = 0; i < result.StripeCount; ++i) {
 		result.stripes[i] = lhs.stripes[i] + rhs.stripes[i];
 	}
 	return result;
 }
 
-template <class T, class U, int Rows, int Columns, eMatrixOrder Order1, eMatrixOrder Order2, bool Packed, class V>
-auto operator-(const Matrix<T, Rows, Columns, Order1, eMatrixLayout::ROW_MAJOR, Packed>& lhs,
-			   const Matrix<U, Rows, Columns, Order2, eMatrixLayout::ROW_MAJOR, Packed>& rhs)
-	->Matrix<U, Rows, Columns,  Order1, eMatrixLayout::ROW_MAJOR, Packed>
+template <class T, class U, int Rows, int Columns, eMatrixOrder Order1, eMatrixOrder Order2, eMatrixLayout SameLayout, bool Packed, class V>
+Matrix<U, Rows, Columns, Order1, SameLayout, Packed> operator-(
+	const Matrix<T, Rows, Columns, Order1, SameLayout, Packed>& lhs,
+	const Matrix<U, Rows, Columns, Order2, SameLayout, Packed>& rhs)
 {
-	Matrix<U, Rows, Columns, Order1, eMatrixLayout::ROW_MAJOR, Packed> result;
-	for (int i = 0; i < Rows; ++i) {
+	Matrix<U, Rows, Columns, Order1, SameLayout, Packed> result;
+	for (int i = 0; i < result.StripeCount; ++i) {
 		result.stripes[i] = lhs.stripes[i] - rhs.stripes[i];
 	}
 	return result;
 }
+
+
+// Opposite layout
+template <class T, class U, int Rows, int Columns, eMatrixOrder Order1, eMatrixOrder Order2, eMatrixLayout Layout1, eMatrixLayout Layout2, bool Packed, class V, class>
+Matrix<U, Rows, Columns, Order1, Layout1, Packed> operator+(
+	const Matrix<T, Rows, Columns, Order1, Layout1, Packed>& lhs,
+	const Matrix<U, Rows, Columns, Order2, Layout2, Packed>& rhs)
+{
+	Matrix<U, Rows, Columns, Order1, Layout1, Packed> result;
+	for (int i = 0; i < result.RowCount(); ++i) {
+		for (int j = 0; j < result.ColumnCount(); ++j) {
+			result(i, j) = lhs(i, j) + rhs(i, j);
+		}
+	}
+	return result;
+}
+
+template <class T, class U, int Rows, int Columns, eMatrixOrder Order1, eMatrixOrder Order2, eMatrixLayout Layout1, eMatrixLayout Layout2, bool Packed, class V, class>
+Matrix<U, Rows, Columns, Order1, Layout1, Packed> operator-(
+	const Matrix<T, Rows, Columns, Order1, Layout1, Packed>& lhs,
+	const Matrix<U, Rows, Columns, Order2, Layout2, Packed>& rhs)
+{
+	Matrix<U, Rows, Columns, Order1, Layout1, Packed> result;
+	for (int i = 0; i < result.RowCount(); ++i) {
+		for (int j = 0; j < result.ColumnCount(); ++j) {
+			result(i, j) = lhs(i, j) - rhs(i, j);
+		}
+	}
+	return result;
+}
+
+
 
 //------------------------------------------------------------------------------
 // Matrix-Scalar arithmetic
 //------------------------------------------------------------------------------
 
 
-template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-Matrix<T, Rows, Columns, Order, Layout, Packed> operator*(T s, Matrix<T, Rows, Columns, Order, Layout, Packed> mat) {
+template <class U, class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed, class = typename std::enable_if<impl::IsScalar<U>::value>::type>
+Matrix<T, Rows, Columns, Order, Layout, Packed> operator*(U s, Matrix<T, Rows, Columns, Order, Layout, Packed> mat) {
 	mat *= s;
 	return mat;
 }
 
-template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-Matrix<T, Rows, Columns, Order, Layout, Packed> operator/(T s, Matrix<T, Rows, Columns, Order, Layout, Packed> mat) {
-	mat /= s;
-	return mat;
-}
-
-template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-Matrix<T, Rows, Columns, Order, Layout, Packed> operator*(Matrix<T, Rows, Columns, Order, Layout, Packed> mat, T s) {
-	mat *= s;
-	return mat;
-}
-
-template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-Matrix<T, Rows, Columns, Order, Layout, Packed> operator/(Matrix<T, Rows, Columns, Order, Layout, Packed> mat, T s) {
+template <class U, class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed, class = typename std::enable_if<impl::IsScalar<U>::value>::type>
+Matrix<T, Rows, Columns, Order, Layout, Packed> operator/(U s, Matrix<T, Rows, Columns, Order, Layout, Packed> mat) {
 	mat /= s;
 	return mat;
 }

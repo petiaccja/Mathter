@@ -40,6 +40,72 @@ TEST(Matrix, Ctor_And_Indexer_C) {
 }
 
 
+TEST(Matrix, Add_RR_CC_CR_RC) {
+	Matrix<float, 3, 3> m1 = {
+		1,2,3,
+		4,5,6,
+		7,8,9,
+	};
+	MatrixC<float, 3, 3> m2 = {
+		7,6,5,
+		4,3,2,
+		1,0,-1,
+	};
+
+	Matrix<float, 3, 3> rexp;
+	MatrixC<float, 3, 3> cexp;
+
+	rexp = {
+		8,8,8,
+		8,8,8,
+		8,8,8,
+	};
+	ASSERT_TRUE(rexp.AlmostEqual(m1 + m2));
+
+	cexp = rexp;
+	ASSERT_TRUE(cexp.AlmostEqual(m2 + m1));
+
+	rexp = m1 * 2;
+	ASSERT_TRUE(rexp.AlmostEqual(m1 + m1));
+	
+	cexp = 2 * m2;
+	ASSERT_TRUE(cexp.AlmostEqual(m2 + m2));
+}
+
+
+TEST(Matrix, Sub_RR_CC_CR_RC) {
+	Matrix<float, 3, 3> m1 = {
+		1,2,3,
+		4,5,6,
+		7,8,9,
+	};
+	MatrixC<float, 3, 3> m2 = {
+		2,3,4,
+		5,6,7,
+		8,9,10,
+	};
+
+	Matrix<float, 3, 3> rexp;
+	MatrixC<float, 3, 3> cexp;
+
+	rexp = {
+		-1, -1, -1,
+		-1, -1, -1,
+		-1, -1, -1,
+	};
+	ASSERT_TRUE(rexp.AlmostEqual(m1 - m2));
+
+	cexp = -rexp;
+	ASSERT_TRUE(cexp.AlmostEqual(m2 - m1));
+
+	rexp = m1 * 0;
+	ASSERT_TRUE(rexp.AlmostEqual(m1 - m1));
+
+	cexp = 0 * m2;
+	ASSERT_TRUE(cexp.AlmostEqual(m2 - m2));
+}
+
+
 TEST(Matrix, Multiply_Square_RR) {
 	Matrix<float, 3, 3> m = {
 		1,2,3,
