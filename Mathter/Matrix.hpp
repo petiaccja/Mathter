@@ -932,7 +932,7 @@ Vector<Rt, Mrow, Packed> operator*(const Matrix<Mt, Mrow, Vd, Morder, eMatrixLay
 // v*=M
 template <class Vt, class Mt, int Vd, eMatrixOrder Morder, eMatrixLayout Layout, bool Packed>
 Vector<Vt, Vd, Packed>& operator*=(Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd, Vd, Morder, Layout, Packed>& mat) {
-	vec = operator*<Vt, Mt, Vd, Vd, Morder, Layout, Packed, Vt>(vec, mat);
+	vec = operator*<Vt, Mt, Vd, Vd, Morder, Packed, Vt>(vec, mat);
 	return vec;
 }
 

@@ -761,6 +761,10 @@ public:
 		return sqrt(LengthSquared());
 	}
 
+
+	//template <class... Args>
+	//static Vector<T, Dim, Packed> Cross(Args&&... args);
+
 protected:
 	//--------------------------------------------
 	// Helpers
@@ -853,6 +857,12 @@ auto Distance(const Vector<T, Dim, Packed1>& lhs, const Vector<U, Dim, Packed2>&
 	return (lhs - rhs).Length();
 }
 
+
+//template <class T, int Dim, bool Packed>
+//template <class... Args>
+//static Vector<T, Dim, Packed> Vector<T, Dim, Packed>::Cross(Args&&... args) {
+//	static_assert(false, "Cross product not implemented yet for higher dimensions.");
+//}
 
 
 
