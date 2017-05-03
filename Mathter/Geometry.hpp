@@ -275,5 +275,45 @@ private:
 };
 
 
+// line segment vs line2d
+template <class T>
+class Intersection<LineSegment<T, 2>, Line<T, 2>> {
+public:
+	Intersection(const LineSegment<T, 2>& line1, const Line<T, 2>& line2) {
+		auto inter = Intersect(line1.Line(), line2);
+		if (inter.Intersecting() && inter.LineParameter1() < line1.Length()) {
+			param1 = inter.LineParameter1();
+			param2 = inter.LineParameter2();
+		}
+		else {
+			param1 = param2 = std::numeric_limits<T>::infinity();
+		}
+	}
+
+	bool Intersecting() const { return !isinf(param1); }
+	Vector<T, 2> Point() const { return line1.Line().PointAt(param1); }
+	T LineParameter1() const { return param1; }
+	T InterpolParameter1() const { return param1 / line1.Length(); }
+	T LineParameter2() const { return param2; }
+private:
+	T param1;
+	T param2;
+	LineSegment<T, 2> line1;
+};
+
+template <class T>
+class Intersection<Line<T, 2>, LineSegment<T, 2>> : private Intersection<LineSegment<T, 2>, Line<T, 2>> {
+public:
+	Intersection(const Line<T, 2>& line1, const LineSegment<T, 2>& line2)
+		: Intersection<LineSegment<T, 2>, Line<T, 2>>(line2, line1) {}
+
+	using Intersection<LineSegment<T, 2>, Line<T, 2>>::Intersecting;
+	using Intersection<LineSegment<T, 2>, Line<T, 2>>::Point;
+
+	T LineParameter1() const { return Intersection<LineSegment<T, 2>, Line<T, 2>>::LineParameter2(); }
+	T InterpolParameter2() const { return Intersection<LineSegment<T, 2>, Line<T, 2>>::InterpolParameter1(); }
+	T LineParameter2() const { return Intersection<LineSegment<T, 2>, Line<T, 2>>::LineParameter1(); }
+};
+
 
 } // namespace mathter
