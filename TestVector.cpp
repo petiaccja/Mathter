@@ -120,3 +120,30 @@ TEST(Vector, Cross) {
 
 	ASSERT_EQ(r, rexp);
 }
+
+
+TEST(Vector, CrossND) {
+	// Simple 3D cross product
+	Vector<float, 3> a(1, 2, 3);
+	Vector<float, 3> b(4, 5, 6);
+	Vector<float, 3> r = Vector<float, 3>::Cross(a, b);
+	Vector<float, 3> rexp(-3, 6, -3);
+
+	ASSERT_EQ(r, rexp);
+
+	// 2D cross product, that is, rotate by 90 degree
+	Vector<float, 2> a2(1, 2);
+	Vector<float, 2> r2 = a2.Cross(a2);
+	Vector<float, 2> r2exp(-2, 1);
+
+	ASSERT_TRUE(r2.AlmostEqual(r2exp));
+
+	// 4D cross product
+	Vector<float, 4> a4(1, 2, 3, 4);
+	Vector<float, 4> b4(4, 2, 6, 3);
+	Vector<float, 4> c4(3, 6, 4, -9);
+	Vector<float, 4> r4 = Cross(a4, b4, c4);
+
+	float dotprod = abs(Dot(a4, r4)) + abs(Dot(b4, r4)) + abs(Dot(c4, r4));
+	ASSERT_TRUE(dotprod < 1e-5f);
+}

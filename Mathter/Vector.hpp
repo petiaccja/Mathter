@@ -327,7 +327,22 @@ protected:
 //------------------------------------------------------------------------------
 
 template <class T, int Dim, bool Packed>
-class VectorSpecialOps {};
+class VectorSpecialOps {
+	using VectorT = Vector<T, Dim, Packed>;
+public:
+	template <class... Args>
+	static VectorT Cross(Args&&... args);
+};
+
+template <class T, bool Packed>
+class VectorSpecialOps<T, 2, Packed> {
+	using VectorT = Vector<T, 2, Packed>;
+public:
+	static VectorT Cross(const VectorT& lhs) {
+		return VectorT(-lhs.y,
+					   lhs.x);
+	}
+};
 
 template <class T, bool Packed>
 class VectorSpecialOps<T, 3, Packed> {
@@ -761,10 +776,6 @@ public:
 		return sqrt(LengthSquared());
 	}
 
-
-	//template <class... Args>
-	//static Vector<T, Dim, Packed> Cross(Args&&... args);
-
 protected:
 	//--------------------------------------------
 	// Helpers
@@ -846,9 +857,14 @@ auto Dot(const Vector<T, Dim, Packed1>& lhs, const Vector<U, Dim, Packed2>& rhs)
 }
 
 
-template <class T, class U, bool Packed1, bool Packed2>
-auto Cross(const Vector<T, 3, Packed1>& lhs, const Vector<U, 3, Packed2>& rhs) {
-	return Vector<T, 3, Packed1>::Cross(lhs, rhs);
+//template <class T, class U, bool Packed1, bool Packed2>
+//auto Cross(const Vector<T, 3, Packed1>& lhs, const Vector<U, 3, Packed2>& rhs) {
+//	return Vector<T, 3, Packed1>::Cross(lhs, rhs);
+//}
+
+template <class Head, class... Vectors>
+auto Cross(const Head& head, const Vectors&... vectors) {
+	return Head::Cross(head, vectors...);
 }
 
 
@@ -857,16 +873,6 @@ auto Distance(const Vector<T, Dim, Packed1>& lhs, const Vector<U, Dim, Packed2>&
 	return (lhs - rhs).Length();
 }
 
-
-//template <class T, int Dim, bool Packed>
-//template <class... Args>
-//static Vector<T, Dim, Packed> Vector<T, Dim, Packed>::Cross(Args&&... args) {
-//	static_assert(false, "Cross product not implemented yet for higher dimensions.");
-//}
-
-
-
-} // namespace mathter
 
 
 //------------------------------------------------------------------------------
@@ -903,6 +909,53 @@ mathter::Vector<T, Dim + 1, Packed> operator|(U lhs, const mathter::Vector<T, Di
 	}
 	return ret;
 }
+
+
+
+} // namespace mathter
+
+
+
+// Generalized cross-product unfortunately needs matrix determinant.
+#include "Matrix.hpp"
+
+namespace mathter {
+
+template <class T, int Dim, bool Packed>
+template <class... Args>
+auto VectorSpecialOps<T, Dim, Packed>::Cross(Args&&... args) -> VectorT {
+	static_assert(sizeof...(args) == Dim - 1, "Number of arguments must be dimension-1.");
+
+	VectorT vectors[sizeof...(Args)] = { args... };
+
+	VectorT result;
+	Matrix<T, Dim - 1, Dim - 1> detCalc;
+
+	// Calculate elements of result on-by-one
+	int sign = 2 * (Dim % 2) - 1;
+	for (int base = 0; base < result.Dimension(); ++base, sign *= -1) {
+		// Fill up sub-matrix the determinant of which yields the coefficient of base-vector.
+		for (int j = 0; j < base; ++j) {
+			for (int i = 0; i < detCalc.RowCount(); ++i) {
+				detCalc(i, j) = vectors[i][j];
+			}
+		}
+		for (int j = base + 1; j < result.Dimension(); ++j) {
+			for (int i = 0; i < detCalc.RowCount(); ++i) {
+				detCalc(i, j-1) = vectors[i][j];
+			}
+		}
+
+		T coefficient = T(sign) * detCalc.Determinant();
+		result(base) = coefficient;		
+	}
+
+	return result;
+}
+
+} // namespace mathter
+
+
 
 
 //------------------------------------------------------------------------------

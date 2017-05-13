@@ -18,7 +18,6 @@ using namespace std;
 using namespace mathter;
 
 
-
 struct PlainMat4 {
 	__m128 stripes[4];
 
