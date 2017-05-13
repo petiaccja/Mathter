@@ -1,3 +1,8 @@
+//==============================================================================
+// This software is distributed under The Unlicense. 
+// For more information, please refer to <http://unlicense.org/>
+//==============================================================================
+
 #pragma once
 
 #include <cstdint>
