@@ -32,6 +32,7 @@ Features
 - Matrices:
   - Arithmetic operators
   - Common: trace, determinant, inverse, transpose
+  - Transforms: translation, scale, various rotations, perspective and orthographic projection, camera view, (reflect, higher D rotations TBA)
   - Decomposition: LU decomposition, (SVD TBA)
 - Geometry:
   - Hyperplane-line and line segment intersection
