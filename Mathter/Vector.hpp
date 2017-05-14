@@ -16,6 +16,7 @@
 
 #include <type_traits>
 #include <iostream>
+#include <array>
 
 #include "Simd.hpp"
 
@@ -50,6 +51,139 @@ using MatMulElemT = decltype(T() * U() + T() + U());
 
 template <class T, int Columns, int Rows, eMatrixOrder Order = eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout Layout = eMatrixLayout::ROW_MAJOR, bool Packed = false>
 class Matrix;
+
+
+
+//------------------------------------------------------------------------------
+// Template magic helper classes
+//------------------------------------------------------------------------------
+
+namespace impl {
+
+template <template <class> class Cond, class... T>
+struct All;
+
+template <template <class> class Cond, class Head, class... Rest>
+struct All<Cond, Head, Rest...> {
+	static constexpr bool value = Cond<Head>::value && All<Cond, Rest...>::value;
+};
+
+template <template <class> class Cond>
+struct All<Cond> {
+	static constexpr bool value = true;
+};
+
+
+template <template <class> class Cond, class... T>
+struct Any;
+
+template <template <class> class Cond, class Head, class... Rest>
+struct Any<Cond, Head, Rest...> {
+	static constexpr bool value = Cond<Head>::value || Any<Cond, Rest...>::value;
+};
+
+template <template <class> class Cond>
+struct Any<Cond> {
+	static constexpr bool value = false;
+};
+
+
+
+template <class... T>
+struct TypeList {};
+
+template <class Tl1, class Tl2>
+struct ConcatTypeList;
+
+template <class... T, class... U>
+struct ConcatTypeList<TypeList<T...>, TypeList<U...>> {
+	using type = TypeList<T..., U...>;
+};
+
+template <class T, int N>
+struct RepeatType {
+	using type = typename std::conditional<N <= 0, TypeList<>, typename ConcatTypeList<TypeList<T>, typename RepeatType<T, N - 1>::type>::type>::type;
+};
+
+
+// Decide if type is Scalar, Vector or Matrix
+template <class Arg>
+struct IsVector {
+	static constexpr bool value = false;
+};
+template <class T, int Dim, bool Packed>
+struct IsVector<Vector<T, Dim, Packed>> {
+	static constexpr bool value = true;
+};
+template <class Arg>
+struct NotVector {
+	static constexpr bool value = !IsVector<Arg>::value;
+};
+
+template <class T>
+struct IsMatrix {
+	static constexpr bool value = false;
+};
+
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+struct IsMatrix<Matrix<T, Rows, Columns, Order, Layout, Packed>> {
+	static constexpr bool value = true;
+};
+
+template <class T>
+struct NotMatrix {
+	static constexpr bool value = !IsMatrix<T>::value;
+};
+
+template <class T>
+struct IsScalar {
+	static constexpr bool value = !IsMatrix<T>::value && !IsVector<T>::value;
+};
+
+// Dimension of an argument (add dynamically sized vectors later)
+template <class U, int Along = 0>
+struct DimensionOf {
+	static constexpr int value = 1;
+};
+template <class T, int Dim, bool Packed>
+struct DimensionOf<Vector<T, Dim, Packed>, 0> {
+	static constexpr int value = Dim;
+};
+
+// Sum dimensions of arguments
+template <class... Rest>
+struct SumDimensions;
+
+template <class Head, class... Rest>
+struct SumDimensions<Head, Rest...> {
+	static constexpr int value = DimensionOf<Head>::value > 0 ? DimensionOf<Head>::value + SumDimensions<Rest...>::value : -1;
+};
+
+template <>
+struct SumDimensions<> {
+	static constexpr int value = 0;
+};
+
+
+template <class T>
+bool AlmostEqual(T d1, T d2) {
+	if (d1 < 1e-38 && d2 < 1e-38) {
+		return true;
+	}
+	if (d1 == 0 && d2 < 1e-4 || d2 == 0 && d1 < 1e-4) {
+		return true;
+	}
+	T scaler = pow(T(10), floor(log10(abs(d1))));
+	d1 /= scaler;
+	d2 /= scaler;
+	d1 *= 1000.f;
+	d2 *= 1000.f;
+	return round(d1) == round(d2);
+}
+
+
+} // namespace impl
+
 
 
 //------------------------------------------------------------------------------
@@ -336,16 +470,22 @@ class VectorSpecialOps {
 	using VectorT = Vector<T, Dim, Packed>;
 public:
 	template <class... Args>
-	static VectorT Cross(Args&&... args);
+	static VectorT Cross(const VectorT& head, Args&&... args);
+
+	static VectorT Cross(const std::array<const VectorT*, Dim - 1>& args);
 };
 
 template <class T, bool Packed>
 class VectorSpecialOps<T, 2, Packed> {
 	using VectorT = Vector<T, 2, Packed>;
 public:
-	static VectorT Cross(const VectorT& lhs) {
-		return VectorT(-lhs.y,
-					   lhs.x);
+	static VectorT Cross(const VectorT& arg) {
+		return VectorT(-arg.y,
+					   arg.x);
+	}
+
+	static VectorT Cross(const std::array<const VectorT*, 1>& arg) {
+		return Cross(*(arg[0]));
 	}
 };
 
@@ -358,139 +498,11 @@ public:
 					   lhs.z * rhs.x - lhs.x * rhs.z,
 					   lhs.x * rhs.y - lhs.y * rhs.x);
 	}
-};
 
-
-//------------------------------------------------------------------------------
-// Template magic helper classes
-//------------------------------------------------------------------------------
-
-namespace impl {
-
-template <template <class> class Cond, class... T>
-struct All;
-
-template <template <class> class Cond, class Head, class... Rest>
-struct All<Cond, Head, Rest...> {
-	static constexpr bool value = Cond<Head>::value && All<Cond, Rest...>::value;
-};
-
-template <template <class> class Cond>
-struct All<Cond> {
-	static constexpr bool value = true;
-};
-
-
-template <template <class> class Cond, class... T>
-struct Any;
-
-template <template <class> class Cond, class Head, class... Rest>
-struct Any<Cond, Head, Rest...> {
-	static constexpr bool value = Cond<Head>::value || Any<Cond, Rest...>::value;
-};
-
-template <template <class> class Cond>
-struct Any<Cond> {
-	static constexpr bool value = false;
-};
-
-
-
-template <class... T>
-struct TypeList {};
-
-template <class Tl1, class Tl2>
-struct ConcatTypeList;
-
-template <class... T, class... U>
-struct ConcatTypeList<TypeList<T...>, TypeList<U...>> {
-	using type = TypeList<T..., U...>;
-};
-
-template <class T, int N>
-struct RepeatType {
-	using type = typename std::conditional<N <= 0, TypeList<>, typename ConcatTypeList<TypeList<T>, typename RepeatType<T, N - 1>::type>::type>::type;
-};
-
-
-// Decide if type is Scalar, Vector or Matrix
-template <class Arg>
-struct IsVector {
-	static constexpr bool value = false;
-};
-template <class T, int Dim, bool Packed>
-struct IsVector<Vector<T, Dim, Packed>> {
-	static constexpr bool value = true;
-};
-template <class Arg>
-struct NotVector {
-	static constexpr bool value = !IsVector<Arg>::value;
-};
-
-template <class T>
-struct IsMatrix {
-	static constexpr bool value = false;
-};
-
-template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-struct IsMatrix<Matrix<T, Rows, Columns, Order, Layout, Packed>> {
-	static constexpr bool value = true;
-};
-
-template <class T>
-struct NotMatrix {
-	static constexpr bool value = !IsMatrix<T>::value;
-};
-
-template <class T>
-struct IsScalar {
-	static constexpr bool value = !IsMatrix<T>::value && !IsVector<T>::value;
-};
-
-// Dimension of an argument (add dynamically sized vectors later)
-template <class U, int Along = 0>
-struct DimensionOf {
-	static constexpr int value = 1;
-};
-template <class T, int Dim, bool Packed>
-struct DimensionOf<Vector<T, Dim, Packed>, 0> {
-	static constexpr int value = Dim;
-};
-
-// Sum dimensions of arguments
-template <class... Rest>
-struct SumDimensions;
-
-template <class Head, class... Rest>
-struct SumDimensions<Head, Rest...> {
-	static constexpr int value = DimensionOf<Head>::value > 0 ? DimensionOf<Head>::value + SumDimensions<Rest...>::value : -1;
-};
-
-template <>
-struct SumDimensions<> {
-	static constexpr int value = 0;
-};
-
-
-template <class T>
-bool AlmostEqual(T d1, T d2) {
-	if (d1 < 1e-38 && d2 < 1e-38) {
-		return true;
+	static VectorT Cross(const std::array<const VectorT*, 2>& args) {
+		return Cross(*(args[0]), *(args[1]));
 	}
-	if (d1 == 0 && d2 < 1e-4 || d2 == 0 && d1 < 1e-4) {
-		return true;
-	}
-	T scaler = pow(T(10), floor(log10(abs(d1))));
-	d1 /= scaler;
-	d2 /= scaler;
-	d1 *= 1000.f;
-	d2 *= 1000.f;
-	return round(d1) == round(d2);
-}
-
-
-} // namespace impl
-
+};
 
 
 
@@ -514,7 +526,6 @@ public:
 		os << "Vector:           " << (intptr_t)static_cast<Vector<float, 4, false>*>(ptr) - 1000 << " -> " << sizeof(Vector<float, 4, false>) << endl;
 	}
 
-	//using VectorOps::operator*;
 	//--------------------------------------------
 	// Data constructors
 	//--------------------------------------------
@@ -544,6 +555,17 @@ public:
 		}
 	}
 
+	//--------------------------------------------
+	// Homogeneous up- and downcast
+	//--------------------------------------------
+
+	explicit operator Vector<T, Dim - 1, Packed>() {
+		return Vector<T, Dim - 1, Packed>(this->data);
+	}
+
+	explicit operator Vector<T, Dim + 1, Packed>() {
+		return Vector<T, Dim + 1, Packed>(*this, 1);
+	}
 
 	//--------------------------------------------
 	// Copy, assignment, set
@@ -552,16 +574,16 @@ public:
 	// NOTE: somehow msvc 2015 is buggy and cannot compile sizeof... checks for ctors as in Set
 
 	// Scalar concat constructor
-	template <class H1, class H2, class... Scalars, typename std::enable_if<impl::All<impl::IsScalar, H1, H2, Scalars...>::value, int>::type = 0>
+	template <class H1, class H2, class... Scalars, typename std::enable_if<impl::All<impl::IsScalar, H1, H2, Scalars...>::value && impl::SumDimensions<H1, H2, Scalars...>::value == Dim, int>::type = 0>
 	Vector(H1 h1, H2 h2, Scalars... scalars) {
-		static_assert(impl::SumDimensions<H1, H2, Scalars...>::value == Dim, "Arguments must match vector dimension.");
+		//static_assert(impl::SumDimensions<H1, H2, Scalars...>::value == Dim, "Arguments must match vector dimension.");
 		Assign(0, h1, h2, scalars...);
 	}
 
 	// Generalized concat constructor
-	template <class H1, class... Mixed, typename std::enable_if<impl::Any<impl::IsVector, H1, Mixed...>::value, int>::type = 0>
+	template <class H1, class... Mixed, typename std::enable_if<impl::Any<impl::IsVector, H1, Mixed...>::value && impl::SumDimensions<H1, Mixed...>::value == Dim, int>::type = 0>
 	Vector(const H1& h1, const Mixed&... mixed) {
-		static_assert(impl::SumDimensions<H1, Mixed...>::value == Dim, "Arguments must match vector dimension.");
+		//static_assert(impl::SumDimensions<H1, Mixed...>::value == Dim, "Arguments must match vector dimension.");
 		Assign(0, h1, mixed...);
 	}
 
@@ -835,11 +857,6 @@ inline Vector<T, Dim, Packed> operator*(U lhs, const Vector<T, Dim, Packed>& rhs
 }
 
 template <class T, int Dim, bool Packed, class U, class = typename std::enable_if<std::is_convertible<U, T>::value>::type>
-inline Vector<T, Dim, Packed> operator/(U lhs, const Vector<T, Dim, Packed>& rhs) {
-	return rhs / (T)lhs;
-}
-
-template <class T, int Dim, bool Packed, class U, class = typename std::enable_if<std::is_convertible<U, T>::value>::type>
 inline Vector<T, Dim, Packed> operator+(U lhs, const Vector<T, Dim, Packed>& rhs) {
 	return rhs + (T)lhs;
 }
@@ -847,6 +864,14 @@ inline Vector<T, Dim, Packed> operator+(U lhs, const Vector<T, Dim, Packed>& rhs
 template <class T, int Dim, bool Packed, class U, class = typename std::enable_if<std::is_convertible<U, T>::value>::type>
 inline Vector<T, Dim, Packed> operator-(U lhs, const Vector<T, Dim, Packed>& rhs) {
 	return rhs - (T)lhs;
+}
+
+// Divide scalar by vector
+template <class T, int Dim, bool Packed, class U, class = typename std::enable_if<std::is_convertible<U, T>::value>::type>
+inline Vector<T, Dim, Packed> operator/(U lhs, const Vector<T, Dim, Packed>& rhs) {
+	Vector<T, Dim, Packed> res(lhs);
+	res /= rhs;
+	return res;
 }
 
 
@@ -862,20 +887,25 @@ auto Dot(const Vector<T, Dim, Packed1>& lhs, const Vector<U, Dim, Packed2>& rhs)
 }
 
 
-//template <class T, class U, bool Packed1, bool Packed2>
-//auto Cross(const Vector<T, 3, Packed1>& lhs, const Vector<U, 3, Packed2>& rhs) {
-//	return Vector<T, 3, Packed1>::Cross(lhs, rhs);
-//}
+template <class T, int Dim, bool Packed, class... Vectors>
+auto Cross(const Vector<T, Dim, Packed>& head, const Vectors&... vectors) {
+	return Vector<T, Dim, Packed>::Cross(head, vectors...);
+}
 
-template <class Head, class... Vectors>
-auto Cross(const Head& head, const Vectors&... vectors) {
-	return Head::Cross(head, vectors...);
+template <class T, int Dim, bool Packed>
+auto Cross(const std::array<const Vector<T, Dim, Packed>*, Dim - 1>& vectors) {
+	return Vector<T, Dim, Packed>::Cross(vectors);
 }
 
 
 template <class T, class U, int Dim, bool Packed1, bool Packed2>
 auto Distance(const Vector<T, Dim, Packed1>& lhs, const Vector<U, Dim, Packed2>& rhs) {
 	return (lhs - rhs).Length();
+}
+
+template <class T, int Dim, int Packed>
+auto Normalized(const Vector<T, Dim, Packed>& arg) {
+	return arg.Normalized();
 }
 
 
@@ -926,13 +956,9 @@ mathter::Vector<T, Dim + 1, Packed> operator|(U lhs, const mathter::Vector<T, Di
 
 namespace mathter {
 
+
 template <class T, int Dim, bool Packed>
-template <class... Args>
-auto VectorSpecialOps<T, Dim, Packed>::Cross(Args&&... args) -> VectorT {
-	static_assert(sizeof...(args) == Dim - 1, "Number of arguments must be dimension-1.");
-
-	VectorT vectors[sizeof...(Args)] = { args... };
-
+auto VectorSpecialOps<T, Dim, Packed>::Cross(const std::array<const VectorT*, Dim - 1>& args) -> VectorT {
 	VectorT result;
 	Matrix<T, Dim - 1, Dim - 1> detCalc;
 
@@ -942,21 +968,32 @@ auto VectorSpecialOps<T, Dim, Packed>::Cross(Args&&... args) -> VectorT {
 		// Fill up sub-matrix the determinant of which yields the coefficient of base-vector.
 		for (int j = 0; j < base; ++j) {
 			for (int i = 0; i < detCalc.RowCount(); ++i) {
-				detCalc(i, j) = vectors[i][j];
+				detCalc(i, j) = (*(args[i]))[j];
 			}
 		}
 		for (int j = base + 1; j < result.Dimension(); ++j) {
 			for (int i = 0; i < detCalc.RowCount(); ++i) {
-				detCalc(i, j-1) = vectors[i][j];
+				detCalc(i, j - 1) = (*(args[i]))[j];
 			}
 		}
 
 		T coefficient = T(sign) * detCalc.Determinant();
-		result(base) = coefficient;		
+		result(base) = coefficient;
 	}
 
 	return result;
 }
+
+
+template <class T, int Dim, bool Packed>
+template <class... Args>
+auto VectorSpecialOps<T, Dim, Packed>::Cross(const VectorT& head, Args&&... args) -> VectorT {
+	static_assert(1 + sizeof...(args) == Dim - 1, "Number of arguments must be (Dimension - 1).");
+
+	std::array<const VectorT*, Dim - 1> vectors = { &head, &args... };
+	return Cross(vectors);
+}
+
 
 } // namespace mathter
 

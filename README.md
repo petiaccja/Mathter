@@ -1,27 +1,47 @@
 Mathter
 ===
-**It's not really production ready, but keep reading if interested.**
+**As the code is fresh, it is subject to interface changes and may contain bugs.**
 
 What is this?
 ---
-Mathter is a linear algebra library focused on 2D and 3D game development. It uses the latest C++ features to provide a painless and highy configurable API. As of now, only fixed-size vectors and matrices are supported.
+Mathter is a linear algebra library focused on 3D game development.
+Most other math libraries use a certain set of conventions for vectors and matrices.
+Even if you are lucky enough to have these documented, they are most certainly
+not *your* conventions. Getting fed up with this was the primary motive to
+write another library. You can tell Mathter to use *your* own conventions
+by setting a few template parameters, and you get it all generated for you
+thanks to C++ template (dark) magic.
 
 Features
 ---
+- (To Be Added (TBA) features in parentheses)
 - Header-only: just include Mathter/*
-- Configureable
-  - Float, double, int, or roll your own (only float and double is tested as of now)
-  - Dimensions as template parameters
-  - Post- and pre-multiplication style for geometrical transforms
-  - Row-major and column-major memory layout
-  - Tightly pack elements (no SIMD alignment and padding)
-- Fast: SIMD accelerated, loops unrolled for small matrices
-- Vectors and Matrix arithmetic
-- Common matrix operations
-- Geometrical transforms (projective coming soon)
-- Hyperplanes, parametric lines, intersection
-- Matrix decompositions (LU (SVD coming soon)
-- Quaternions (coming soon)
+- Vectors, Matrices, (Quaternions TBA), Hyperplanes, Parametric lines
+- In any dimension
+- Configurable:
+  - Base data type: float, double, (int, std::complex, custom TBA)
+  - Dimension
+  - Preferred multiplication order: vector*matrix or matrix*vector
+  - Memory layout: row-major and column-major matrices
+  - Tight packing: removes alignment requirements and padding from between elements (disables SIMD as well)
+- SIMD acceleration, optimized for small matrices
+- Vectors:
+  - Arithmetic operators
+  - Dot product, cross product (in higher dimensions as well)
+  - Concatenation
+- Matrices:
+  - Arithmetic operators
+  - Common: trace, determinant, inverse, transpose
+  - Decomposition: LU decomposition, (SVD TBA)
+- Geometry:
+  - Hyperplane-line and line segment intersection
+  - Line-line, line segment-line segment intersection in 2D
+  - Distance from plane (line and line segment TBA)
+
+Shortcomings:
+- Dimensions specified only at compile time
+- Slow compilation: explicit template specialization in your project solves this
+
 
 Examples
 ---
@@ -53,8 +73,8 @@ You might want to disable compiler warnings for this.
 
 Matrices have many parameters:
 - Scalar type (T)
-- Number of columns, or **width** (Columns)
-- Number of rows, or **height** (Rows)
+- Number of rows, or **width** (Columns)
+- Number of columns, or **height** (Rows)
 - Geometrical transformation matrices written after (row-vector)(default) or before (column-vector) the vector (Order)
 - Row-major (default) or column-major storage (Layout)
 - Enable tight packing (for uploading to GPU or serialization)
@@ -74,7 +94,7 @@ Let's transform a vector:
 M.SetTranslation(10, 10, 10);
 Vector<float, 3> v_transformed1 = (v | 1)*M;
 ```
-Notice we had to append a one to the vector to apply the translation. Since this is not necesserily efficient and nice, I might add implicit extension to vector-matrix multiplication.
+Notice we had to append a one to the vector to apply the translation. If you leave it off, it is automatically appended during multiplication.
 
 The other way around:
 ```c++
@@ -87,10 +107,17 @@ So how do I use it?
 ---
 Grab the files from Mathter/, add to you include directory, you are done.
 
-While the interface is clean, the library uses extensive template magic to achieve stuff with less code, and it's insides are not for the faint-hearted. It applies to compilers as well, so do not expect much from things older than the VS2015 toolset. There will be GCC and Clang support, but not tested yet.
+A new compiler that supports C++14 is required. It works with MSVC 2015 and 2017.
+Clang and GCC support will be added, but not officially supported at the moment (it may work though).
 
-**TL;DR; You don't. It's not ready yet.**
+Be aware that the code is fresh, meaning it is subject to bugs and interface changes.
 
+
+License
+---
+This code is distrubuted under The Unlicense.
+It translates as "do whatever the hell you want with the code, without getting you ass kicked".
+You are encouraged (but not required) to indicate the source of this software.
 
 
 

@@ -15,6 +15,7 @@ using MatrixC = Matrix<T, Rows, Columns, Order, eMatrixLayout::COLUMN_MAJOR, Pac
 
 
 
+
 TEST(Matrix, Ctor_And_Indexer_R) {
 	Matrix<float, 3, 3> m = {
 		1,2,3,
@@ -549,4 +550,32 @@ TEST(Matrix, Perspective) {
 
 	ASSERT_TRUE(ndcFrustum[0].AlmostEqual({ -1, -1, 1, 1 }));
 	ASSERT_TRUE(ndcFrustum[1].AlmostEqual({ 1, 1, -1, 1 }));
+}
+
+TEST(Matrix, Orthographic) {
+	Vector<float, 3> worldFrustum[2] = {
+		{ -0.25f, -0.44444444f, 0.5f },
+		{ 5.0f, 8.8888888f, 10.f }
+	};
+	Vector<float, 3> ndcFrustum[2];
+
+	// Z forward
+	auto m = Matrix<float, 4, 4>::Orthographic(worldFrustum[0], worldFrustum[1], 0, 1);
+	ndcFrustum[0] = worldFrustum[0] * m;
+	ndcFrustum[1] = worldFrustum[1] * m;
+
+	ASSERT_TRUE(ndcFrustum[0].AlmostEqual({ -1, -1, 0 }));
+	ASSERT_TRUE(ndcFrustum[1].AlmostEqual({ 1, 1, 1 }));
+}
+
+
+TEST(Matrix, View) {
+	auto m = Matrix<float, 4, 4>::LookAt({ -6,-5,-5 }, { -1,0,0 }, Vector<float, 3>{0, 0, 1});
+
+	Vector<float, 3> p = { 0, -1, 0 };
+	Vector<float, 3> pt = p*m;
+	Vector<float, 3> pexp = { sqrt(2),0,8.66025403 };
+	float d = m.Determinant();
+
+	ASSERT_TRUE(pexp.AlmostEqual(pt));	
 }

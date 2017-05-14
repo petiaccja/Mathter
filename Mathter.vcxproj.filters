@@ -52,4 +52,8 @@
       <Filter>VSNatvis</Filter>
     </Natvis>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="LICENCE" />
+    <None Include="README.md" />
+  </ItemGroup>
 </Project>
