@@ -12,6 +12,9 @@
     <Filter Include="VSNatvis">
       <UniqueIdentifier>{1ca05e65-3c90-4833-9184-5dbdd5dbbeb6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Mathter\Swizzle">
+      <UniqueIdentifier>{2e2465d8-549e-40ba-9a53-51fbcbc33842}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -45,6 +48,18 @@
     </ClInclude>
     <ClInclude Include="Mathter\Simd_SSE2.hpp">
       <Filter>Mathter</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathter\Swizzle\Swizzle_1.inc.hpp">
+      <Filter>Mathter\Swizzle</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathter\Swizzle\Swizzle_2.inc.hpp">
+      <Filter>Mathter\Swizzle</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathter\Swizzle\Swizzle_3.inc.hpp">
+      <Filter>Mathter\Swizzle</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathter\Swizzle\Swizzle_4.inc.hpp">
+      <Filter>Mathter\Swizzle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

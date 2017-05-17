@@ -269,3 +269,12 @@ int main(int argc, char* argv[]) {
 	return 0;
 #endif
 }
+
+
+
+void CompileTest_() {
+	Vector<int, 2> sw (1,2);
+	sw = sw.yx;
+	Vector<int, 4> sw4 = sw.xxyy;
+	//sw4.xyzw = sw4.zwxy;
+}

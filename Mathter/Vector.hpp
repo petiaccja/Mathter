@@ -190,6 +190,27 @@ bool AlmostEqual(T d1, T d2) {
 // Vector data containers
 //------------------------------------------------------------------------------
 
+template <class T, int... Indices>
+class Swizzle {
+	static constexpr int Dim = sizeof...(Indices);
+	T* data() { return reinterpret_cast<T*>(this); }
+	const T* data() const { return reinterpret_cast<const T*>(this); }
+public:
+	operator Vector<T, sizeof...(Indices), false>() const;
+	operator Vector<T, sizeof...(Indices), true>() const;
+
+	Swizzle& operator=(const Vector<T, sizeof...(Indices), false>& rhs);
+	Swizzle& operator=(const Vector<T, sizeof...(Indices), true>& rhs);
+protected:
+	void Assign() {}
+
+	template <int Index, int... Rest>
+	void Assign(T* rhs) {
+		data()[Index] = rhs;
+		return Assign<Rest...>(rhs + 1);
+	}
+};
+
 // Function they must have:
 // mul, div, add, sub | vec x vec
 // mul, div, add, sub | vec x scalar
@@ -207,28 +228,34 @@ public:
 // Small vectors with x,y,z,w members
 template <class T, bool Packed>
 class VectorData<T, 2, Packed> {
+	using ST = T;
 public:
 	union {
 		struct { T x, y; };
 		T data[2];
+#include "Swizzle/Swizzle_2.inc.hpp"
 	};
 };
 
 template <class T, bool Packed>
 class VectorData<T, 3, Packed> {
+	using ST = T;
 public:
 	union {
 		struct { T x, y, z; };
 		T data[3];
+#include "Swizzle/Swizzle_3.inc.hpp"
 	};
 };
 
 template <class T, bool Packed>
 class VectorData<T, 4, Packed> {
+	using ST = T;
 public:
 	union {
 		struct { T x, y, z, w; };
 		T data[4];
+#include "Swizzle/Swizzle_4.inc.hpp"
 	};
 };
 
@@ -993,6 +1020,32 @@ auto VectorSpecialOps<T, Dim, Packed>::Cross(const VectorT& head, Args&&... args
 	std::array<const VectorT*, Dim - 1> vectors = { &head, &args... };
 	return Cross(vectors);
 }
+
+
+
+//------------------------------------------------------------------------------
+// Swizzle
+//------------------------------------------------------------------------------
+template <class T, int... Indices>
+Swizzle<T, Indices...>::operator Vector<T, sizeof...(Indices), false>() const {
+	return Vector<T, sizeof...(Indices), false>(data()[Indices]...);
+}
+template <class T, int... Indices>
+Swizzle<T, Indices...>::operator Vector<T, sizeof...(Indices), true>() const {
+	return Vector<T, sizeof...(Indices), true>(data()[Indices]...);
+}
+
+template <class T, int... Indices>
+Swizzle<T, Indices...>& Swizzle<T, Indices...>::operator=(const Vector<T, sizeof...(Indices), false>& rhs) {
+	Assign<Indices...>(rhs.data);
+	return *this;
+}
+template <class T, int... Indices>
+Swizzle<T, Indices...>& Swizzle<T, Indices...>::operator=(const Vector<T, sizeof...(Indices), true>& rhs) {
+	Assign<Indices...>(rhs.data);
+	return *this;
+}
+
 
 
 } // namespace mathter
