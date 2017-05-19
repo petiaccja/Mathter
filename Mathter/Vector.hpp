@@ -32,6 +32,10 @@ namespace mathter {
 template <class T, int Dim, bool Packed = false>
 class Vector;
 
+// Swizzle
+template <class T, int... Indices>
+class Swizzle;
+
 
 // Matrix
 
@@ -120,16 +124,32 @@ struct NotVector {
 	static constexpr bool value = !IsVector<Arg>::value;
 };
 
+template <class Arg>
+struct IsSwizzle {
+	static constexpr bool value = false;
+};
+template <class T, int... Indices>
+struct IsSwizzle<Swizzle<T, Indices...>> {
+	static constexpr bool value = true;
+};
+template <class Arg>
+struct NotSwizzle {
+	static constexpr bool value = !IsSwizzle<Arg>::value;
+};
+
+template <class Arg>
+struct IsVectorOrSwizzle {
+	static constexpr bool value = IsVector<Arg>::value || IsSwizzle<Arg>::value;
+};
+
 template <class T>
 struct IsMatrix {
 	static constexpr bool value = false;
 };
-
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 struct IsMatrix<Matrix<T, Rows, Columns, Order, Layout, Packed>> {
 	static constexpr bool value = true;
 };
-
 template <class T>
 struct NotMatrix {
 	static constexpr bool value = !IsMatrix<T>::value;
@@ -137,7 +157,7 @@ struct NotMatrix {
 
 template <class T>
 struct IsScalar {
-	static constexpr bool value = !IsMatrix<T>::value && !IsVector<T>::value;
+	static constexpr bool value = !IsMatrix<T>::value && !IsVector<T>::value && !IsSwizzle<T>::value;
 };
 
 // Dimension of an argument (add dynamically sized vectors later)
@@ -148,6 +168,10 @@ struct DimensionOf {
 template <class T, int Dim, bool Packed>
 struct DimensionOf<Vector<T, Dim, Packed>, 0> {
 	static constexpr int value = Dim;
+};
+template <class T, int... Indices>
+struct DimensionOf<Swizzle<T, Indices...>> {
+	static constexpr int value = sizeof...(Indices);
 };
 
 // Sum dimensions of arguments
@@ -192,6 +216,7 @@ bool AlmostEqual(T d1, T d2) {
 
 template <class T, int... Indices>
 class Swizzle {
+	static constexpr int IndexTable[] = { Indices... };
 	static constexpr int Dim = sizeof...(Indices);
 	T* data() { return reinterpret_cast<T*>(this); }
 	const T* data() const { return reinterpret_cast<const T*>(this); }
@@ -201,12 +226,26 @@ public:
 
 	Swizzle& operator=(const Vector<T, sizeof...(Indices), false>& rhs);
 	Swizzle& operator=(const Vector<T, sizeof...(Indices), true>& rhs);
+
+	template <class T2, int... Indices2, typename std::enable_if<sizeof...(Indices) == sizeof...(Indices2), int>::type = 0>
+	Swizzle& operator=(const Swizzle<T2, Indices2...>& rhs) {
+		*this = Vector<T, sizeof...(Indices2), false>(rhs);
+		return *this;
+	}
+
+	T& operator[](int idx) {
+		return data()[IndexTable[idx]];
+	}
+	T operator[](int idx) const {
+		return data()[IndexTable[idx]];
+	}
 protected:
-	void Assign() {}
+	template <int... Rest, class = std::enable_if<sizeof...(Rest)==0>::type>
+	void Assign(const T*) {}
 
 	template <int Index, int... Rest>
-	void Assign(T* rhs) {
-		data()[Index] = rhs;
+	void Assign(const T* rhs) {
+		data()[Index] = *rhs;
 		return Assign<Rest...>(rhs + 1);
 	}
 };
@@ -603,14 +642,12 @@ public:
 	// Scalar concat constructor
 	template <class H1, class H2, class... Scalars, typename std::enable_if<impl::All<impl::IsScalar, H1, H2, Scalars...>::value && impl::SumDimensions<H1, H2, Scalars...>::value == Dim, int>::type = 0>
 	Vector(H1 h1, H2 h2, Scalars... scalars) {
-		//static_assert(impl::SumDimensions<H1, H2, Scalars...>::value == Dim, "Arguments must match vector dimension.");
 		Assign(0, h1, h2, scalars...);
 	}
 
 	// Generalized concat constructor
-	template <class H1, class... Mixed, typename std::enable_if<impl::Any<impl::IsVector, H1, Mixed...>::value && impl::SumDimensions<H1, Mixed...>::value == Dim, int>::type = 0>
+	template <class H1, class... Mixed, typename std::enable_if<impl::Any<impl::IsVectorOrSwizzle, H1, Mixed...>::value && impl::SumDimensions<H1, Mixed...>::value == Dim, int>::type = 0>
 	Vector(const H1& h1, const Mixed&... mixed) {
-		//static_assert(impl::SumDimensions<H1, Mixed...>::value == Dim, "Arguments must match vector dimension.");
 		Assign(0, h1, mixed...);
 	}
 
@@ -623,7 +660,7 @@ public:
 	}
 
 	// Generalized concat set
-	template <class... Mixed, typename std::enable_if<(sizeof...(Mixed) > 0) && impl::Any<impl::IsVector, Mixed...>::value, int>::type = 0>
+	template <class... Mixed, typename std::enable_if<(sizeof...(Mixed) > 0) && impl::Any<impl::IsVectorOrSwizzle, Mixed...>::value, int>::type = 0>
 	Vector& Set(const Mixed&... mixed) {
 		static_assert(impl::SumDimensions<Mixed...>::value == Dim, "Arguments must match vector dimension.");
 		Assign(0, mixed...);
@@ -840,9 +877,13 @@ protected:
 	struct GetVectorElement {
 		static U Get(const U& u, int idx) { return u; }
 	};
-	template <class U, int E>
-	struct GetVectorElement<Vector<U, E>> {
-		static U Get(const Vector<U, E>& u, int idx) { return u.data[idx]; }
+	template <class U, int E, bool Packed>
+	struct GetVectorElement<Vector<U, E, Packed>> {
+		static U Get(const Vector<U, E, Packed>& u, int idx) { return u.data[idx]; }
+	};
+	template <class U, int... Indices>
+	struct GetVectorElement<Swizzle<U, Indices...>> {
+		static U Get(const Swizzle<T, Indices...>& u, int idx) { return u[idx]; }
 	};
 
 	// Assign
@@ -854,7 +895,7 @@ protected:
 	}
 
 	// Generalized concat assign
-	template <class Head, class... Mixed, typename std::enable_if<impl::Any<impl::IsVector, Head, Mixed...>::value, int>::type = 0>
+	template <class Head, class... Mixed, typename std::enable_if<impl::Any<impl::IsVectorOrSwizzle, Head, Mixed...>::value, int>::type = 0>
 	void Assign(int idx, const Head& head, const Mixed&... mixed) {
 		for (int i = 0; i < impl::DimensionOf<Head>::value; ++i) {
 			data[idx] = GetVectorElement<Head>::Get(head, i);
@@ -972,6 +1013,13 @@ mathter::Vector<T, Dim + 1, Packed> operator|(U lhs, const mathter::Vector<T, Di
 	return ret;
 }
 
+template <class T1, int... Indices1, class T2, int... Indices2>
+Vector<T1, sizeof...(Indices2)+sizeof...(Indices2), false> operator|(const Swizzle<T1, Indices1...>& lhs, const Swizzle<T2, Indices2...>& rhs) {
+	return Vector<T1, sizeof...(Indices1), false>(lhs) | Vector<T1, sizeof...(Indices2), false>(rhs);
+}
+
+
+
 
 
 } // namespace mathter
@@ -1037,12 +1085,24 @@ Swizzle<T, Indices...>::operator Vector<T, sizeof...(Indices), true>() const {
 
 template <class T, int... Indices>
 Swizzle<T, Indices...>& Swizzle<T, Indices...>::operator=(const Vector<T, sizeof...(Indices), false>& rhs) {
-	Assign<Indices...>(rhs.data);
+	if (data() != rhs.data) {
+		Assign<Indices...>(rhs.data);
+	}
+	else {
+		Vector<T, sizeof...(Indices), false> tmp = rhs;
+		*this = tmp;
+	}
 	return *this;
 }
 template <class T, int... Indices>
 Swizzle<T, Indices...>& Swizzle<T, Indices...>::operator=(const Vector<T, sizeof...(Indices), true>& rhs) {
-	Assign<Indices...>(rhs.data);
+	if (data() != rhs.data) {
+		Assign<Indices...>(rhs.data);
+	}
+	else {
+		Vector<T, sizeof...(Indices), false> tmp = rhs;
+		*this = tmp;
+	}
 	return *this;
 }
 

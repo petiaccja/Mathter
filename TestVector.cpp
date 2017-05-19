@@ -152,3 +152,26 @@ TEST(Vector, CrossND) {
 	float dotprod = abs(Dot(a4, r4)) + abs(Dot(b4, r4)) + abs(Dot(c4, r4));
 	ASSERT_TRUE(dotprod < 1e-5f);
 }
+
+
+TEST(Vector, Swizzle) {
+	Vector<int, 3> v1 = { 1,2,3 };
+	Vector<int, 6> v2 = { v1.zx, v1.yzyx };
+	Vector<int, 6> v3 = v1.zyx | v1.zyx;
+	Vector<int, 6> v2exp = { 3,1,2,3,2,1 };
+	Vector<int, 6> v3exp = { 3,2,1,3,2,1 };
+
+	ASSERT_EQ(v2, v2exp);
+	ASSERT_EQ(v3, v3exp);
+
+	Vector<int, 4> v4{ 1,2,3,4 };
+	v4.yxwz = v4.wzyx; // wzxy=4321 -> v4=3412
+	Vector<int, 4> v4exp = { 3, 4, 1, 2 };
+
+	ASSERT_EQ(v4, v4exp);
+
+	v4 = { 1,2,3,4 };
+	v4 = v4.xxzz;
+	v4exp = { 1,1,3,3 };
+	ASSERT_EQ(v4, v4exp);
+}
