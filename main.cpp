@@ -79,7 +79,7 @@ PlainMat4 operator*(const PlainMat4& lhs, const PlainMat4& rhs) {
 			scalarMultiplier = _mm_set1_ps(lhs(x, y));
 			__m128 tmp = _mm_mul_ps(scalarMultiplier, rhs.stripes[x]);
 			res.stripes[y] = _mm_add_ps(tmp, res.stripes[y]);
-}
+		}
 	}
 #endif
 	return res;
@@ -186,6 +186,7 @@ double MatMulSpeedTestPlain() {
 }
 
 
+
 #define RUN_UNIT_TEST
 
 int main(int argc, char* argv[]) {
@@ -273,8 +274,14 @@ int main(int argc, char* argv[]) {
 
 
 void CompileTest_() {
-	Vector<int, 2> sw (1,2);
+	Vector<int, 2> sw(1, 2);
 	sw = sw.yx;
 	Vector<int, 4> sw4 = sw.xxyy;
 	//sw4.xyzw = sw4.zwxy;
+}
+void JustToTestCompilation() {
+	Vector<int, 4> iv1 = { 1,2,3,4 };
+	Vector<int, 4> iv2 = { -2,-3,-4,-5 };
+	auto iv3 = iv1 + iv2;
+	auto iv4 = iv1 | iv2;
 }
