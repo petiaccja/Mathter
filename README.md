@@ -19,7 +19,7 @@ Features
 - Vectors, Matrices, (Quaternions TBA), Hyperplanes, Parametric lines
 - In any dimension
 - Configurable:
-  - Base data type: float, double, (int, std::complex, custom TBA)
+  - Base data type: float, double, integer (std::complex, custom TBA)
   - Dimension
   - Preferred multiplication order: vector*matrix or matrix*vector
   - Memory layout: row-major and column-major matrices
@@ -29,6 +29,7 @@ Features
   - Arithmetic operators
   - Dot product, cross product (in higher dimensions as well)
   - Concatenation
+  - Swizzle operators
 - Matrices:
   - Arithmetic operators
   - Common: trace, determinant, inverse, transpose
@@ -37,7 +38,7 @@ Features
 - Geometry:
   - Hyperplane-line and line segment intersection
   - Line-line, line segment-line segment intersection in 2D
-  - Distance from plane (line and line segment TBA)
+  - Distance from plane (distance from line and line segment TBA)
 
 Shortcomings:
 - Dimensions specified only at compile time
