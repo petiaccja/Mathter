@@ -1017,8 +1017,22 @@ template <class T1, int... Indices1, class T2, int... Indices2>
 Vector<T1, sizeof...(Indices2)+sizeof...(Indices2), false> operator|(const Swizzle<T1, Indices1...>& lhs, const Swizzle<T2, Indices2...>& rhs) {
 	return Vector<T1, sizeof...(Indices1), false>(lhs) | Vector<T1, sizeof...(Indices2), false>(rhs);
 }
-
-
+template <class T1, int... Indices1, class T2, int Dim, bool Packed>
+Vector<T1, sizeof...(Indices1)+Dim, Packed> operator|(const Swizzle<T1, Indices1...>& lhs, const Vector<T2, Dim, Packed>& rhs) {
+	return Vector<T1, sizeof...(Indices1), Packed>(lhs) | rhs;
+}
+template <class T1, int... Indices1, class T2, int Dim, bool Packed>
+Vector<T1, sizeof...(Indices1)+Dim, Packed> operator|(const Vector<T2, Dim, Packed>& lhs, const Swizzle<T1, Indices1...>& rhs) {
+	return lhs | Vector<T1, sizeof...(Indices1), false>(rhs);
+}
+template <class T1, int... Indices1, class U>
+Vector<T1, sizeof...(Indices1)+1, false> operator|(const Swizzle<T1, Indices1...>& lhs, U rhs) {
+	return Vector<T1, sizeof...(Indices1), false>(lhs) | rhs;
+}
+template <class T1, int... Indices1, class U>
+Vector<T1, sizeof...(Indices1)+1, false> operator|(U lhs, const Swizzle<T1, Indices1...>& rhs) {
+	return lhs | Vector<T1, sizeof...(Indices1), false>(rhs);
+}
 
 
 

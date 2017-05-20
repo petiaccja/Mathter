@@ -174,4 +174,7 @@ TEST(Vector, Swizzle) {
 	v4 = v4.xxzz;
 	v4exp = { 1,1,3,3 };
 	ASSERT_EQ(v4, v4exp);
+
+	v4 = v1.zyx | 1.0f;
+	v4 = 1.0f | v1.zyx;
 }
