@@ -187,7 +187,7 @@ double MatMulSpeedTestPlain() {
 
 
 
-#define RUN_UNIT_TEST
+//#define RUN_UNIT_TEST
 
 int main(int argc, char* argv[]) {
 	//Vector<float, 4, false>::DumpLayout(cout);

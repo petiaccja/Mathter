@@ -510,7 +510,7 @@ TEST(Matrix, Perspective) {
 	Vector<float, 4> ndcFrustum[2];
 
 	// Z forward
-	auto m = Matrix<float, 4, 4>::Perspective(53.13010235/180.f*3.1415926f, 16.f/9.f, 0.5, 10, 0, 1);
+	auto m = Matrix<float, 4, 4>::Perspective(53.13010235f/180.f*3.1415926f, 16.f/9.f, 0.5f, 10, 0, 1);
 	ndcFrustum[0] = worldFrustum[0] * m;
 	ndcFrustum[1] = worldFrustum[1] * m;
 	ndcFrustum[0] /= ndcFrustum[0].w;
@@ -520,7 +520,7 @@ TEST(Matrix, Perspective) {
 	ASSERT_TRUE(ndcFrustum[1].AlmostEqual({ 1, 1, 1, 1 }));
 
 	// Z backward in NDC
-	m = Matrix<float, 4, 4>::Perspective(53.13010235 / 180.f*3.1415926f, 16.f / 9.f, 0.5, 10, 1, -1);
+	m = Matrix<float, 4, 4>::Perspective(53.13010235f / 180.f*3.1415926f, 16.f / 9.f, 0.5f, 10, 1, -1);
 	ndcFrustum[0] = worldFrustum[0] * m;
 	ndcFrustum[1] = worldFrustum[1] * m;
 	ndcFrustum[0] /= ndcFrustum[0].w;
@@ -530,7 +530,7 @@ TEST(Matrix, Perspective) {
 	ASSERT_TRUE(ndcFrustum[1].AlmostEqual({ 1, 1, -1, 1 }));
 
 	// Z backward in world
-	m = Matrix<float, 4, 4>::Perspective(53.13010235 / 180.f*3.1415926f, 16.f / 9.f, -0.5, -10, 0, 1);
+	m = Matrix<float, 4, 4>::Perspective(53.13010235f / 180.f*3.1415926f, 16.f / 9.f, -0.5f, -10, 0, 1);
 	worldFrustum[0].z *= -1;
 	worldFrustum[1].z *= -1;
 	ndcFrustum[0] = worldFrustum[0] * m;
@@ -542,7 +542,7 @@ TEST(Matrix, Perspective) {
 	ASSERT_TRUE(ndcFrustum[1].AlmostEqual({ 1, 1, 1, 1 }));
 
 	// Z backward in world && NDC
-	m = Matrix<float, 4, 4>::Perspective(53.13010235 / 180.f*3.1415926f, 16.f / 9.f, -0.5, -10, 1, -1);
+	m = Matrix<float, 4, 4>::Perspective(53.13010235f / 180.f*3.1415926f, 16.f / 9.f, -0.5f, -10, 1, -1);
 	ndcFrustum[0] = worldFrustum[0] * m;
 	ndcFrustum[1] = worldFrustum[1] * m;
 	ndcFrustum[0] /= ndcFrustum[0].w;

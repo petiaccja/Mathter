@@ -5,7 +5,7 @@
 
 #pragma once
 
-// Remove goddamn fucking bullshit crapware winapi macros.
+// To remove goddamn fucking bullshit crapware winapi macros.
 #if _MSC_VER && defined(min)
 #pragma push_macro("min")
 #pragma push_macro("max")
@@ -14,9 +14,26 @@
 #define MATHTER_MINMAX
 #endif
 
+// To enable Empty Base Class Optimization (EBCO) in MSVC.
+// Why the fuck do I even have to manually enable it???
+#ifdef _MSC_VER
+#define MATHTER_EBCO __declspec(empty_bases)
+#endif
+
+// No, we don't support older compilers.
+#if _MSC_VER < 1900
+#error Visual Studio 2015 Update 2 or later version are supported.
+#endif
+
+// The rest of the code is free from obscene comments, as far as I remember.
+// No guarantees.
+
+
+
 #include <type_traits>
 #include <iostream>
 #include <array>
+#include <cstdint>
 
 #include "Simd.hpp"
 
@@ -206,6 +223,18 @@ bool AlmostEqual(T d1, T d2) {
 }
 
 
+// Check if base class's pointer equals that of derived when static_casted
+template <class Base, class Derived>
+class BasePtrEquals {
+	static Derived instance;
+	static constexpr void* base = static_cast<void*>(static_cast<Base*>(&instance));
+public:
+	static constexpr bool value = base == static_cast<void*>(&instance);
+};
+template <class Base, class Derived>
+Derived BasePtrEquals<Base, Derived>::instance;
+
+
 } // namespace impl
 
 
@@ -239,6 +268,11 @@ public:
 	T operator[](int idx) const {
 		return data()[IndexTable[idx]];
 	}
+
+	template <bool Packed = false>
+	const auto ToVector() const {
+		return Vector<T, sizeof...(Indices), Packed>(*this);
+	}
 protected:
 	template <int... Rest, class = std::enable_if<sizeof...(Rest)==0>::type>
 	void Assign(const T*) {}
@@ -250,7 +284,7 @@ protected:
 	}
 };
 
-// Function they must have:
+// Functions they must have:
 // mul, div, add, sub | vec x vec
 // mul, div, add, sub | vec x scalar
 // spread
@@ -302,31 +336,37 @@ public:
 // Small SIMD fp32 vectors
 template <>
 class VectorData<float, 2, false> {
+	using ST = float;
 public:
 	union {
 		Simd<float, 2> simd;
 		struct { float x, y; };
 		float data[2];
+#include "Swizzle/Swizzle_2.inc.hpp"
 	};
 };
 
 template <>
 class VectorData<float, 3, false> {
+	using ST = float;
 public:
 	union {
 		Simd<float, 4> simd;
 		struct { float x, y, z; };
 		float data[3];
+#include "Swizzle/Swizzle_3.inc.hpp"
 	};
 };
 
 template <>
 class VectorData<float, 4, false> {
+	using ST = float;
 public:
 	union {
 		Simd<float, 4> simd;
 		struct { float x, y, z, w; };
 		float data[4];
+#include "Swizzle/Swizzle_4.inc.hpp"
 	};
 };
 
@@ -343,31 +383,37 @@ public:
 // Small SIMD fp64 vectors
 template <>
 class VectorData<double, 2, false> {
+	using ST = double;
 public:
 	union {
 		Simd<double, 2> simd;
 		struct { double x, y; };
 		double data[2];
+#include "Swizzle/Swizzle_2.inc.hpp"
 	};
 };
 
 template <>
 class VectorData<double, 3, false> {
+	using ST = double;
 public:
 	union {
 		Simd<double, 4> simd;
 		struct { double x, y, z; };
 		double data[3];
+#include "Swizzle/Swizzle_3.inc.hpp"
 	};
 };
 
 template <>
 class VectorData<double, 4, false> {
+	using ST = double;
 public:
 	union {
 		Simd<double, 4> simd;
 		struct { double x, y, z, w; };
 		double data[4];
+#include "Swizzle/Swizzle_4.inc.hpp"
 	};
 };
 
@@ -531,8 +577,12 @@ protected:
 // Vector special operations
 //------------------------------------------------------------------------------
 
+// Note: VectorSpecialOps inherits from VectorOps instead of making
+// Vector directly inherit from both because MSVC sucks hard with EBCO, and bloats
+// Vector with useless bullshit twice the size it should be.
+
 template <class T, int Dim, bool Packed>
-class VectorSpecialOps {
+class VectorSpecialOps : public VectorOps<T, Dim, Packed> {
 	using VectorT = Vector<T, Dim, Packed>;
 public:
 	template <class... Args>
@@ -542,7 +592,7 @@ public:
 };
 
 template <class T, bool Packed>
-class VectorSpecialOps<T, 2, Packed> {
+class VectorSpecialOps<T, 2, Packed> : public VectorOps<T, 2, Packed> {
 	using VectorT = Vector<T, 2, Packed>;
 public:
 	static VectorT Cross(const VectorT& arg) {
@@ -556,7 +606,7 @@ public:
 };
 
 template <class T, bool Packed>
-class VectorSpecialOps<T, 3, Packed> {
+class VectorSpecialOps<T, 3, Packed> : public VectorOps<T, 3, Packed> {
 	using VectorT = Vector<T, 3, Packed>;
 public:
 	static VectorT Cross(const VectorT& lhs, const VectorT& rhs) {
@@ -577,12 +627,21 @@ public:
 //------------------------------------------------------------------------------
 
 template <class T, int Dim, bool Packed>
-class __declspec(empty_bases) Vector
-	: public VectorData<T, Dim, Packed>,
-	public VectorOps<T, Dim, Packed>, 
-	public VectorSpecialOps<T, Dim, Packed>
+class MATHTER_EBCO Vector
+	: public VectorSpecialOps<T, Dim, Packed>,
+	public VectorData<T, Dim, Packed>
 {
 	static_assert(Dim >= 1, "Dimension must be positive integer.");
+
+	// Make a call to this function in EVERY constructor of the Vector class.
+	// These checks must be put in a separate function instead of class scope because the full definition
+	// of the Vector class is required to determine memory layout.
+	void CheckLayoutContraints() {
+		static_assert(sizeof(Vector<T, Dim, Packed>) == sizeof(VectorData<T, Dim, Packed>), "Your compiler did not optimize vector class' size. Do you have empty base optimization enabled?");
+		static_assert(impl::BasePtrEquals<VectorData<T, Dim, Packed>, Vector>::value, "Your compiler did not lay out derived class' memory correctly. Empty base class' offset must be zero in derived.");
+		static_assert(impl::BasePtrEquals<VectorOps<T, Dim, Packed>, Vector>::value, "Your compiler did not lay out derived class' memory correctly. Empty base class' offset must be zero in derived.");
+		static_assert(impl::BasePtrEquals<VectorSpecialOps<T, Dim, Packed>, Vector>::value, "Your compiler did not lay out derived class' memory correctly. Empty base class' offset must be zero in derived.");
+	}
 public:
 	static void DumpLayout(std::ostream& os) {
 		Vector* ptr = reinterpret_cast<Vector*>(1000);
@@ -597,10 +656,13 @@ public:
 	//--------------------------------------------
 
 	// Default ctor
-	Vector() = default;
+	Vector() { 
+		CheckLayoutContraints(); 
+	}
 
-	Vector(const Vector& rhs) :	VectorData<T, Dim, Packed>(rhs)
-	{}
+	Vector(const Vector& rhs) :	VectorData<T, Dim, Packed>(rhs)	{ 
+		CheckLayoutContraints();
+	}
 
 	Vector& operator=(const Vector& rhs) {
 		VectorData<T, Dim, Packed>::operator=(rhs);
@@ -610,12 +672,14 @@ public:
 
 	// All element same ctor
 	explicit Vector(T all) {
+		CheckLayoutContraints();
 		VectorOps<T, Dim, Packed>::spread(*this, all);
 	}
 
 	// T array ctor
 	template <class U>
 	explicit Vector(const U* data) {
+		CheckLayoutContraints();
 		for (int i = 0; i < Dim; ++i) {
 			this->data[i] = data[i];
 		}
@@ -642,12 +706,14 @@ public:
 	// Scalar concat constructor
 	template <class H1, class H2, class... Scalars, typename std::enable_if<impl::All<impl::IsScalar, H1, H2, Scalars...>::value && impl::SumDimensions<H1, H2, Scalars...>::value == Dim, int>::type = 0>
 	Vector(H1 h1, H2 h2, Scalars... scalars) {
+		CheckLayoutContraints();
 		Assign(0, h1, h2, scalars...);
 	}
 
 	// Generalized concat constructor
 	template <class H1, class... Mixed, typename std::enable_if<impl::Any<impl::IsVectorOrSwizzle, H1, Mixed...>::value && impl::SumDimensions<H1, Mixed...>::value == Dim, int>::type = 0>
 	Vector(const H1& h1, const Mixed&... mixed) {
+		CheckLayoutContraints();
 		Assign(0, h1, mixed...);
 	}
 
