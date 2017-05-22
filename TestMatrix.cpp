@@ -466,6 +466,15 @@ TEST(Matrix, RotationPrincipal) {
 		0.540302, 0.841471, 0.000000, -0.841471, 0.540302, 0.000000, 0.000000, 0.000000, 1.000000
 	};
 	ASSERT_TRUE(m.AlmostEqual(mexp));
+
+	auto m4 = Matrix<float, 4, 4>::RotationZ(1.f);
+	Matrix<float, 4,4> m4exp = {
+		0.540302, 0.841471, 0.000000, 0,
+		-0.841471, 0.540302, 0.000000, 0,
+		0.000000, 0.000000, 1.000000, 0,
+		0,0,0,1
+	};
+	ASSERT_TRUE(m4.AlmostEqual(m4exp));
 }
 
 
@@ -475,6 +484,15 @@ TEST(Matrix, RotationAxisAngle) {
 		0.573138, 0.740349, -0.351279, -0.609007, 0.671645, 0.421906, 0.548292, -0.027879, 0.835822
 	};
 	ASSERT_TRUE(m.AlmostEqual(mexp));
+
+	auto m4 = Matrix<float, 4, 4>::RotationAxisAngle(Vector<float, 3>(1, 2, 3).Normalized(), 1.0f);
+	Matrix<float, 4, 4> m4exp = {
+		0.573138, 0.740349, -0.351279, 0,
+		-0.609007, 0.671645, 0.421906, 0,
+		0.548292, -0.027879, 0.835822, 0,
+		0,		0,			0,		1
+	};
+	ASSERT_TRUE(m4.AlmostEqual(m4exp));
 }
 
 
