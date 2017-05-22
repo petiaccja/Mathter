@@ -8,21 +8,99 @@
 
 #include "Mathter\Matrix.hpp"
 
+#include <random>
+
 using namespace mathter;
+
 
 template <class T, int Rows, int Columns, eMatrixOrder Order = eMatrixOrder::FOLLOW_VECTOR, bool Packed = false>
 using MatrixC = Matrix<T, Rows, Columns, Order, eMatrixLayout::COLUMN_MAJOR, Packed>;
 
 
+int Ranint() {
+	static std::mt19937 rne;
+	static std::uniform_int_distribution<int> rng(0, 100);
+	return rng(rne);
+}
+
+//------------------------------------------------------------------------------
+// Helper macros
+//------------------------------------------------------------------------------
+
+// Test with every combination of Order and Layout
+#define CALL_LAYOUTxORDER(Name, Case) \
+TEST(Name, Case) { \
+Name##_##Case<eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR>(); \
+Name##_##Case<eMatrixOrder::PRECEDE_VECTOR, eMatrixLayout::ROW_MAJOR>(); \
+Name##_##Case<eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR>(); \
+Name##_##Case<eMatrixOrder::PRECEDE_VECTOR, eMatrixLayout::COLUMN_MAJOR>(); \
+}
+
+#define TEST_LAYOUTxORDER(Name, Case) \
+template <eMatrixOrder Order, eMatrixLayout Layout> \
+void Name##_##Case(); \
+CALL_LAYOUTxORDER(Name, Case) \
+template <eMatrixOrder Order, eMatrixLayout Layout> \
+void Name##_##Case()
 
 
-TEST(Matrix, Ctor_And_Indexer_R) {
-	Matrix<float, 3, 3> m = {
+// Test with every combination of Layout pairs
+#define CALL_LAYOUT_SQUARED(Name, Case) \
+TEST(Name, Case) { \
+Name##_##Case<eMatrixLayout::ROW_MAJOR,		eMatrixLayout::ROW_MAJOR>(); \
+Name##_##Case<eMatrixLayout::ROW_MAJOR,		eMatrixLayout::COLUMN_MAJOR>(); \
+Name##_##Case<eMatrixLayout::COLUMN_MAJOR,	eMatrixLayout::ROW_MAJOR>(); \
+Name##_##Case<eMatrixLayout::COLUMN_MAJOR,	eMatrixLayout::COLUMN_MAJOR>(); \
+}
+
+#define TEST_LAYOUT_SQUARED(Name, Case) \
+template <eMatrixLayout Layout1, eMatrixLayout Layout2> \
+void Name##_##Case(); \
+CALL_LAYOUT_SQUARED(Name, Case) \
+template <eMatrixLayout Layout1, eMatrixLayout Layout2> \
+void Name##_##Case()
+
+// Test with every combination of Order and Layout pairs
+#define CALL_LAYOUTxORDER_SQUARED(Name, Case) \
+TEST(Name, Case) { \
+Name##_##Case<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
+Name##_##Case<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
+Name##_##Case<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
+Name##_##Case<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
+Name##_##Case<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
+Name##_##Case<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
+Name##_##Case<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
+Name##_##Case<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
+Name##_##Case<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
+Name##_##Case<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
+Name##_##Case<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
+Name##_##Case<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
+Name##_##Case<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
+Name##_##Case<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
+Name##_##Case<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
+Name##_##Case<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
+}
+
+#define TEST_LAYOUTxORDER_SQUARED(Name, Case) \
+template <eMatrixOrder Order1, eMatrixLayout Layout1, eMatrixOrder Order2, eMatrixLayout Layout2> \
+void Name##_##Case(); \
+CALL_LAYOUTxORDER_SQUARED(Name, Case) \
+template <eMatrixOrder Order1, eMatrixLayout Layout1, eMatrixOrder Order2, eMatrixLayout Layout2> \
+void Name##_##Case()
+
+
+
+//------------------------------------------------------------------------------
+// Matrix tests
+//------------------------------------------------------------------------------
+
+TEST_LAYOUTxORDER(Matrix, CtorIndexer) {
+	Matrix<float, 3, 3, Order, Layout> m = {
 		1,2,3,
 		4,5,6,
 		7,8,9,
 	};
-	Matrix<float, 3, 3> n;
+	Matrix<float, 3, 3, Order, Layout> n;
 	n(0, 0) = 1;	n(0, 1) = 2;	n(0, 2) = 3;
 	n(1, 0) = 4;	n(1, 1) = 5;	n(1, 2) = 6;
 	n(2, 0) = 7;	n(2, 1) = 8;	n(2, 2) = 9;
@@ -31,84 +109,75 @@ TEST(Matrix, Ctor_And_Indexer_R) {
 }
 
 
-TEST(Matrix, Ctor_And_Indexer_C) {
-	MatrixC<float, 3, 3> m = {
+
+TEST_LAYOUT_SQUARED(Matrix, Add) {
+	Matrix<float, 3, 3, eMatrixOrder::FOLLOW_VECTOR, Layout1> m1 = {
 		1,2,3,
 		4,5,6,
 		7,8,9,
 	};
-	MatrixC<float, 3, 3> n;
-	n(0, 0) = 1;	n(0, 1) = 2;	n(0, 2) = 3;
-	n(1, 0) = 4;	n(1, 1) = 5;	n(1, 2) = 6;
-	n(2, 0) = 7;	n(2, 1) = 8;	n(2, 2) = 9;
-
-	ASSERT_EQ(m, n);
-}
-
-
-TEST(Matrix, Add_RR_CC_CR_RC) {
-	Matrix<float, 3, 3> m1 = {
-		1,2,3,
-		4,5,6,
-		7,8,9,
-	};
-	MatrixC<float, 3, 3> m2 = {
+	Matrix<float, 3, 3, eMatrixOrder::FOLLOW_VECTOR, Layout2> m2 = {
 		7,6,5,
 		4,3,2,
 		1,0,-1,
 	};
 
-	Matrix<float, 3, 3> rexp;
-	MatrixC<float, 3, 3> cexp;
-
-	rexp = {
+	decltype(m1 + m2) rexp = {
 		8,8,8,
 		8,8,8,
 		8,8,8,
 	};
-	ASSERT_TRUE(rexp.AlmostEqual(m1 + m2));
 
-	cexp = rexp;
-	ASSERT_TRUE(cexp.AlmostEqual(m2 + m1));
-
-	rexp = m1 * 2;
-	ASSERT_TRUE(rexp.AlmostEqual(m1 + m1));
-	
-	cexp = 2 * m2;
-	ASSERT_TRUE(cexp.AlmostEqual(m2 + m2));
+	ASSERT_EQ(m1 + m2, rexp);
 }
 
 
-TEST(Matrix, Sub_RR_CC_CR_RC) {
-	Matrix<float, 3, 3> m1 = {
+TEST_LAYOUT_SQUARED(Matrix, Sub) {
+	Matrix<float, 3, 3, eMatrixOrder::FOLLOW_VECTOR, Layout1> m1 = {
 		1,2,3,
 		4,5,6,
 		7,8,9,
 	};
-	MatrixC<float, 3, 3> m2 = {
+	Matrix<float, 3, 3, eMatrixOrder::FOLLOW_VECTOR, Layout2> m2 = {
 		2,3,4,
 		5,6,7,
 		8,9,10,
 	};
 
-	Matrix<float, 3, 3> rexp;
-	MatrixC<float, 3, 3> cexp;
-
-	rexp = {
+	decltype(m1 - m2) rexp = {
 		-1, -1, -1,
 		-1, -1, -1,
 		-1, -1, -1,
 	};
-	ASSERT_TRUE(rexp.AlmostEqual(m1 - m2));
 
-	cexp = -rexp;
-	ASSERT_TRUE(cexp.AlmostEqual(m2 - m1));
+	ASSERT_EQ(m1 - m2, rexp);
+}
 
-	rexp = m1 * 0;
-	ASSERT_TRUE(rexp.AlmostEqual(m1 - m1));
 
-	cexp = 0 * m2;
-	ASSERT_TRUE(cexp.AlmostEqual(m2 - m2));
+TEST_LAYOUT_SQUARED(Matrix, MulSquare) {
+	Matrix<float, 3, 3, eMatrixOrder::FOLLOW_VECTOR, Layout1> m = {
+
+	};
+	Matrix<float, 3, 3, eMatrixOrder::FOLLOW_VECTOR, Layout2> n = {
+
+	};
+	decltype(m*n) exp = {
+
+	}
+
+	ASSERT_EQ(m*n, exp);
+
+	Matrix<float, 5, 5, eMatrixOrder::FOLLOW_VECTOR, Layout1> m = {
+
+	};
+	Matrix<float, 5, 5, eMatrixOrder::FOLLOW_VECTOR, Layout2> n = {
+
+	};
+	decltype(m*n) exp = {
+
+	}
+
+	ASSERT_EQ(m*n, exp);
 }
 
 
