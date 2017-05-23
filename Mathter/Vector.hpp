@@ -911,6 +911,11 @@ public:
 		return v;
 	}
 
+	bool IsNormalized() {
+		T n = LengthSquared();
+		return T(0.9999) <= n && n <= T(1.0001);
+	}
+
 
 	static T Dot(const Vector& lhs, const Vector& rhs) {
 		return dot(lhs, rhs);

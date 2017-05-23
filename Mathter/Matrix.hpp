@@ -244,6 +244,16 @@ public:
 	MatrixT& SetRotationRPY(float x1, float y2, float z3) { self() = RotationRPY(x1, y2, z3); return self(); }
 	template <class U, bool Vpacked>
 	MatrixT& SetRotationAxisAngle(const Vector<U, 3, Vpacked>& axis, T angle) { self() = Rotation(axis, angle); return self(); }
+
+	bool IsRotationMatrix3D() const {
+		Vector<T, 3> rows[3] = {
+			{ (*this)(0,0), (*this)(0,1), (*this)(0,2) },
+			{ (*this)(1,0), (*this)(1,1), (*this)(1,2) },
+			{ (*this)(2,0), (*this)(2,1), (*this)(2,2) },
+		};
+		return (std::abs(rows[0] * rows[1]) + std::abs(rows[0] * rows[2]) + std::abs(rows[1] * rows[2])) < T(0.0001)
+			&& rows[0].IsNormalized() && rows[1].IsNormalized() && rows[2].IsNormalized();
+	}
 protected:
 	friend class MatrixT;
 	using Inherit = MatrixModule<Enable3DRotation, MatrixRotation3D>;

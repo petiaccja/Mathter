@@ -35,6 +35,9 @@
     <ClCompile Include="Measure.cpp">
       <Filter>Test</Filter>
     </ClCompile>
+    <ClCompile Include="TestQuaternion.cpp">
+      <Filter>Test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Mathter\Vector.hpp">
