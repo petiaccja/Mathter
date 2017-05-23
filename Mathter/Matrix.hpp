@@ -382,7 +382,7 @@ class MatrixProjectiveBase {
 protected:
 	using MatrixT = Matrix<T, Dim, Dim, Order, Layout, Packed>;
 public:
-	static MatrixT Perspective(T fovX, Vector<T, Dim-2, Packed> ratios, T nearPlane, T farPlane, T projNearPlane = 0, T projFarPlane = 1) {
+	static MatrixT Perspective(T fovX, const Vector<T, Dim-2, Packed>& ratios, T nearPlane, T farPlane, T projNearPlane = 0, T projFarPlane = 1) {
 		assert((nearPlane < 0 && farPlane < nearPlane) || (0 < nearPlane && nearPlane < farPlane));
 
 		MatrixT m;
@@ -400,11 +400,11 @@ public:
 		T C = nearPlane < 0 ? -1 : 1;
 		T A = C*(f*F - n*N) / (F - N);
 		T B = C*F*N*(n - f) / (F - N);
-		ratios /= ratios(0);
+		Vector<T, Dim-2, Packed> adjRatios = ratios / ratios(0);
 		T w = tan(T(0.5)*fovX);
-		ratios /= w;
-		for (int i = 0; i < ratios.Dimension(); ++i) {
-			m(i, i) = ratios(i);
+		adjRatios /= w;
+		for (int i = 0; i < adjRatios.Dimension(); ++i) {
+			m(i, i) = adjRatios(i);
 		}
 		m(m.RowCount() - 2, m.ColumnCount() - 2) = A;
 		if (Order == eMatrixOrder::FOLLOW_VECTOR) {
@@ -536,7 +536,7 @@ public:
 		MatrixT matrix;
 		VectorT columns[SpaceDim];
 		std::array<const VectorT*, SpaceDim - 1> crossTable = {};
-		for (int i = 0; i < bases.size(); ++i) {
+		for (int i = 0; i < (int)bases.size(); ++i) {
 			crossTable[i] = &bases[i];
 		}
 		crossTable.back() = &columns[SpaceDim - 1];
@@ -1148,14 +1148,26 @@ Matrix<T1, Dim, Dim, Order1, Layout1, Packed>& operator*=(Matrix<T1, Dim, Dim, O
 	return lhs;
 }
 
+#define MATHTER_MATADD_SAME_ARRAY_1(OP) result.stripes[0] = lhs.stripes[0] OP rhs.stripes[0];
+#define MATHTER_MATADD_SAME_ARRAY_2(OP) MATHTER_MATADD_SAME_ARRAY_1(OP) result.stripes[1] = lhs.stripes[1] OP rhs.stripes[1];
+#define MATHTER_MATADD_SAME_ARRAY_3(OP) MATHTER_MATADD_SAME_ARRAY_2(OP) result.stripes[2] = lhs.stripes[2] OP rhs.stripes[2];
+#define MATHTER_MATADD_SAME_ARRAY_4(OP) MATHTER_MATADD_SAME_ARRAY_3(OP) result.stripes[3] = lhs.stripes[3] OP rhs.stripes[3];
+#define MATHTER_MATADD_SAME_UNROLL(S, OP) if (result.StripeCount == S) { MATHTER_MATMUL_EXPAND(MATHTER_MATADD_SAME_ARRAY_ ## S)(OP) return result; }
 
-// Same layout
+
+// Add & sub same layout
 template <class T, class U, int Rows, int Columns, eMatrixOrder Order1, eMatrixOrder Order2, eMatrixLayout SameLayout, bool Packed, class V>
 Matrix<U, Rows, Columns, Order1, SameLayout, Packed> operator+(
 	const Matrix<T, Rows, Columns, Order1, SameLayout, Packed>& lhs,
 	const Matrix<U, Rows, Columns, Order2, SameLayout, Packed>& rhs)
 {
 	Matrix<U, Rows, Columns, Order1, SameLayout, Packed> result;
+
+	MATHTER_MATADD_SAME_UNROLL(1, +);
+	MATHTER_MATADD_SAME_UNROLL(2, +);
+	MATHTER_MATADD_SAME_UNROLL(3, +);
+	MATHTER_MATADD_SAME_UNROLL(4, +);
+
 	for (int i = 0; i < result.StripeCount; ++i) {
 		result.stripes[i] = lhs.stripes[i] + rhs.stripes[i];
 	}
@@ -1168,6 +1180,12 @@ Matrix<U, Rows, Columns, Order1, SameLayout, Packed> operator-(
 	const Matrix<U, Rows, Columns, Order2, SameLayout, Packed>& rhs)
 {
 	Matrix<U, Rows, Columns, Order1, SameLayout, Packed> result;
+
+	MATHTER_MATADD_SAME_UNROLL(1, -);
+	MATHTER_MATADD_SAME_UNROLL(2, -);
+	MATHTER_MATADD_SAME_UNROLL(3, -);
+	MATHTER_MATADD_SAME_UNROLL(4, -);
+
 	for (int i = 0; i < result.StripeCount; ++i) {
 		result.stripes[i] = lhs.stripes[i] - rhs.stripes[i];
 	}
@@ -1175,7 +1193,7 @@ Matrix<U, Rows, Columns, Order1, SameLayout, Packed> operator-(
 }
 
 
-// Opposite layout
+// Add & sub opposite layout
 template <class T, class U, int Rows, int Columns, eMatrixOrder Order1, eMatrixOrder Order2, eMatrixLayout Layout1, eMatrixLayout Layout2, bool Packed, class V, class>
 Matrix<U, Rows, Columns, Order1, Layout1, Packed> operator+(
 	const Matrix<T, Rows, Columns, Order1, Layout1, Packed>& lhs,
@@ -1212,15 +1230,13 @@ Matrix<U, Rows, Columns, Order1, Layout1, Packed> operator-(
 
 
 template <class U, class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed, class = typename std::enable_if<impl::IsScalar<U>::value>::type>
-Matrix<T, Rows, Columns, Order, Layout, Packed> operator*(U s, Matrix<T, Rows, Columns, Order, Layout, Packed> mat) {
-	mat *= s;
-	return mat;
+Matrix<T, Rows, Columns, Order, Layout, Packed> operator*(U s, const Matrix<T, Rows, Columns, Order, Layout, Packed>& mat) {
+	return mat * s;
 }
 
 template <class U, class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed, class = typename std::enable_if<impl::IsScalar<U>::value>::type>
-Matrix<T, Rows, Columns, Order, Layout, Packed> operator/(U s, Matrix<T, Rows, Columns, Order, Layout, Packed> mat) {
-	mat /= s;
-	return mat;
+Matrix<T, Rows, Columns, Order, Layout, Packed> operator/(U s, const Matrix<T, Rows, Columns, Order, Layout, Packed>& mat) {
+	return mat / s;
 }
 
 

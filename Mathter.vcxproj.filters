@@ -32,6 +32,9 @@
     <ClCompile Include="TestIntersection.cpp">
       <Filter>Test</Filter>
     </ClCompile>
+    <ClCompile Include="Measure.cpp">
+      <Filter>Test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Mathter\Vector.hpp">
@@ -60,6 +63,12 @@
     </ClInclude>
     <ClInclude Include="Mathter\Swizzle\Swizzle_4.inc.hpp">
       <Filter>Mathter\Swizzle</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathter\Quaternion.hpp">
+      <Filter>Mathter</Filter>
+    </ClInclude>
+    <ClInclude Include="Measure.hpp">
+      <Filter>Test</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

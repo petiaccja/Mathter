@@ -19,7 +19,11 @@
 template <class T, int Dim>
 union Simd {
 	static_assert(Dim == 2 || Dim == 4 || Dim == 8, "Dimension must be 2, 4, or 8.");
-	static_assert(std::is_same<T, float>::value || std::is_same<T, double>::value, "Type must be float or double.");
+	static_assert(std::is_same<T, float>::value 
+				  || std::is_same<T, double>::value
+				  || std::is_same<T, int32_t>::value
+				  || std::is_same<T, int64_t>::value,
+				  "Type must be float, double, in32 or int64.");
 public:
 	T v[Dim];
 
@@ -51,28 +55,28 @@ public:
 		return res;
 	}
 
-	static inline Simd mul(const Simd& lhs, float rhs) {
+	static inline Simd mul(const Simd& lhs, T rhs) {
 		Simd res;
 		for (int i = 0; i < Dim; ++i)
 			res.v[i] = lhs.v[i] * rhs;
 		return res;
 	}
 
-	static inline Simd div(const Simd& lhs, float rhs) {
+	static inline Simd div(const Simd& lhs, T rhs) {
 		Simd res;
 		for (int i = 0; i < Dim; ++i)
 			res.v[i] = lhs.v[i] / rhs;
 		return res;
 	}
 
-	static inline Simd add(const Simd& lhs, float rhs) {
+	static inline Simd add(const Simd& lhs, T rhs) {
 		Simd res;
 		for (int i = 0; i < Dim; ++i)
 			res.v[i] = lhs.v[i] + rhs;
 		return res;
 	}
 
-	static inline Simd sub(const Simd& lhs, float rhs) {
+	static inline Simd sub(const Simd& lhs, T rhs) {
 		Simd res;
 		for (int i = 0; i < Dim; ++i)
 			res.v[i] = lhs.v[i] - rhs;
@@ -83,7 +87,7 @@ public:
 		return add(mul(a, b), c);
 	}
 
-	static inline Simd spread(float value) {
+	static inline Simd spread(T value) {
 		Simd res;
 		for (int i = 0; i < Dim; ++i)
 			res.v[i] = value;
@@ -101,10 +105,10 @@ public:
 	}
 
 	template <int Count = Dim>
-	static inline float dot(const Simd& lhs, const Simd& rhs) {
+	static inline T dot(const Simd& lhs, const Simd& rhs) {
 		static_assert(Count <= Dim, "Number of elements to dot must be smaller or equal to dimension.");
 		static_assert(0 < Count, "Count must not be zero.");
-		float sum = lhs.v[0] * rhs.v[0];
+		T sum = lhs.v[0] * rhs.v[0];
 		for (int i = 1; i < Count; ++i)
 			sum += lhs.v[i] * rhs.v[i];
 		return sum;

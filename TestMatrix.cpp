@@ -27,6 +27,36 @@ int Ranint() {
 // Helper macros
 //------------------------------------------------------------------------------
 
+// Test for both layouts
+#define CALL_LAYOUT(Name, Case) \
+TEST(Name, Case) { \
+Name##_##Case<eMatrixLayout::ROW_MAJOR>(); \
+Name##_##Case<eMatrixLayout::COLUMN_MAJOR>(); \
+}
+
+#define TEST_LAYOUT(Name, Case) \
+template <eMatrixLayout Layout> \
+void Name##_##Case(); \
+CALL_LAYOUT(Name, Case) \
+template <eMatrixLayout Layout> \
+void Name##_##Case()
+
+
+// Test for both orders
+#define CALL_ORDER(Name, Case) \
+TEST(Name, Case) { \
+Name##_##Case<eMatrixOrder::FOLLOW_VECTOR>(); \
+Name##_##Case<eMatrixOrder::PRECEDE_VECTOR>(); \
+}
+
+#define TEST_ORDER(Name, Case) \
+template <eMatrixOrder Order> \
+void Name##_##Case(); \
+CALL_ORDER(Name, Case) \
+template <eMatrixOrder Order> \
+void Name##_##Case()
+
+
 // Test with every combination of Order and Layout
 #define CALL_LAYOUTxORDER(Name, Case) \
 TEST(Name, Case) { \
@@ -105,7 +135,7 @@ TEST_LAYOUTxORDER(Matrix, CtorIndexer) {
 	n(1, 0) = 4;	n(1, 1) = 5;	n(1, 2) = 6;
 	n(2, 0) = 7;	n(2, 1) = 8;	n(2, 2) = 9;
 
-	ASSERT_EQ(m, n);
+	ASSERT_TRUE(m == n);
 }
 
 
@@ -128,7 +158,7 @@ TEST_LAYOUT_SQUARED(Matrix, Add) {
 		8,8,8,
 	};
 
-	ASSERT_EQ(m1 + m2, rexp);
+	ASSERT_TRUE(m1 + m2 == rexp);
 }
 
 
@@ -150,216 +180,53 @@ TEST_LAYOUT_SQUARED(Matrix, Sub) {
 		-1, -1, -1,
 	};
 
-	ASSERT_EQ(m1 - m2, rexp);
+	ASSERT_TRUE(m1 - m2 == rexp);
 }
 
 
 TEST_LAYOUT_SQUARED(Matrix, MulSquare) {
 	Matrix<float, 3, 3, eMatrixOrder::FOLLOW_VECTOR, Layout1> m = {
-
+		1,	2,	3,
+		4,	5,	6,
+		7,	8,	9
 	};
 	Matrix<float, 3, 3, eMatrixOrder::FOLLOW_VECTOR, Layout2> n = {
-
+		5,	6,	8,
+		1,	3,	5,
+		7,	8,	4
 	};
 	decltype(m*n) exp = {
-
-	}
-
-	ASSERT_EQ(m*n, exp);
-
-	Matrix<float, 5, 5, eMatrixOrder::FOLLOW_VECTOR, Layout1> m = {
-
+		28,	36,	30,
+		67,	87,	81,
+		106,138,132
 	};
-	Matrix<float, 5, 5, eMatrixOrder::FOLLOW_VECTOR, Layout2> n = {
 
+	ASSERT_TRUE(m*n == exp);
+
+	Matrix<float, 5, 5, eMatrixOrder::FOLLOW_VECTOR, Layout1> m5 = {
+		1,	2,	3,	4,	5 ,
+		6,	7,	8,	9,	10,
+		11,	12,	13,	14,	15,
+		16,	17,	18,	19,	20,
+		21,	22,	23,	24,	25
 	};
-	decltype(m*n) exp = {
+	Matrix<float, 5, 5, eMatrixOrder::FOLLOW_VECTOR, Layout2> n5 = {
+		9,	8,	7,	6,	5,
+		4,	2,	7,	3,	5,
+		3,	6,	2,	7,	2,
+		9,	4,	1,	4,	7,
+		5,	7,	5,	5,	1
+	};
+	decltype(m5*n5) exp5 = {
+		87,	81,	56,	74,	54,
+		237,216,166,199,154,
+		387,351,276,324,254,
+		537,486,386,449,354,
+		687,621,496,574,454
+	};
 
-	}
-
-	ASSERT_EQ(m*n, exp);
+	ASSERT_TRUE(m5*n5 == exp5);
 }
-
-
-TEST(Matrix, Multiply_Square_RR) {
-	Matrix<float, 3, 3> m = {
-		1,2,3,
-		4,5,6,
-		7,8,9,
-	};
-	m = m*m;
-	Matrix<float, 3, 3> mexp = {
-		30, 36, 42,
-		66, 81, 96,
-		102,126,150,
-	};
-
-
-	Matrix<double, 5, 5> n = {
-		1,2,3,4,5,
-		6,7,8,9,10,
-		11,12,13,14,15,
-		16,17,18,19,20,
-		21,22,23,24,25,
-	};
-	n = n*n;
-	Matrix<double, 5, 5> nexp = {
-		215,	230,	245,	260,	275,
-		490,	530,	570,	610,	650,
-		765,	830,	895,	960,	1025,
-		1040,	1130,	1220,	1310,	1400,
-		1315,	1430,	1545,	1660,	1775,
-	};
-
-
-	ASSERT_EQ(m, mexp);
-	ASSERT_EQ(n, nexp);
-}
-
-
-TEST(Matrix, Multiply_NonSquare_RR) {
-	Matrix<float, 4, 2> m = {
-		1,2,
-		3,4,
-		5,6,
-		7,8,
-	};
-	Matrix<float, 2, 4> n = {
-		1,2,3,4,
-		5,6,7,8,
-	};
-	Matrix<float, 2, 2> nm = n*m;
-	Matrix<float, 4, 4> mn = m*n;
-
-	Matrix<float, 2, 2> nmexp = {
-		50,	60,
-		114, 140,
-	};
-	Matrix<float, 4, 4> mnexp = {
-		11,	14,	17,	20,
-		23,	30,	37,	44,
-		35,	46,	57,	68,
-		47,	62,	77,	92,
-	};
-
-	ASSERT_EQ(mn, mnexp);
-	ASSERT_EQ(mn, mnexp);
-}
-
-
-TEST(Matrix, Multiply_Square_CC) {
-	MatrixC<float, 3, 3> m = {
-		1,2,3,
-		4,5,6,
-		7,8,9,
-	};
-	m = m*m;
-	MatrixC<float, 3, 3> mexp = {
-		30, 36, 42,
-		66, 81, 96,
-		102,126,150,
-	};
-
-
-	MatrixC<double, 5, 5> n = {
-		1,2,3,4,5,
-		6,7,8,9,10,
-		11,12,13,14,15,
-		16,17,18,19,20,
-		21,22,23,24,25,
-	};
-	n = n*n;
-	MatrixC<double, 5, 5> nexp = {
-		215,	230,	245,	260,	275,
-		490,	530,	570,	610,	650,
-		765,	830,	895,	960,	1025,
-		1040,	1130,	1220,	1310,	1400,
-		1315,	1430,	1545,	1660,	1775,
-	};
-
-
-	ASSERT_EQ(m, mexp);
-	ASSERT_EQ(n, nexp);
-}
-
-
-TEST(Matrix, Multiply_NonSquare_CC) {
-	MatrixC<float, 4, 2> m = {
-		1,2,
-		3,4,
-		5,6,
-		7,8,
-	};
-	MatrixC<float, 2, 4> n = {
-		1,2,3,4,
-		5,6,7,8,
-	};
-	MatrixC<float, 2, 2> nm = n*m;
-	MatrixC<float, 4, 4> mn = m*n;
-
-	MatrixC<float, 2, 2> nmexp = {
-		50,	60,
-		114, 140,
-	};
-	MatrixC<float, 4, 4> mnexp = {
-		11,	14,	17,	20,
-		23,	30,	37,	44,
-		35,	46,	57,	68,
-		47,	62,	77,	92,
-	};
-
-	ASSERT_EQ(mn, mnexp);
-	ASSERT_EQ(mn, mnexp);
-}
-
-
-TEST(Matrix, Multiply_Square_RC) {
-	Matrix<float, 3, 3> mr = {
-		1,2,3,
-		4,5,6,
-		7,8,9,
-	};
-	MatrixC<float, 3, 3> mc = {
-		1,2,3,
-		4,5,6,
-		7,8,9,
-	};
-	auto m = mr*mc;
-	Matrix<float, 3, 3> mexp = {
-		30, 36, 42,
-		66, 81, 96,
-		102,126,150,
-	};
-
-
-	Matrix<double, 5, 5> nr = {
-		1,2,3,4,5,
-		6,7,8,9,10,
-		11,12,13,14,15,
-		16,17,18,19,20,
-		21,22,23,24,25,
-	};
-	MatrixC<double, 5, 5> nc = {
-		1,2,3,4,5,
-		6,7,8,9,10,
-		11,12,13,14,15,
-		16,17,18,19,20,
-		21,22,23,24,25,
-	};
-	auto n = nr*nc;
-	Matrix<double, 5, 5> nexp = {
-		215,	230,	245,	260,	275,
-		490,	530,	570,	610,	650,
-		765,	830,	895,	960,	1025,
-		1040,	1130,	1220,	1310,	1400,
-		1315,	1430,	1545,	1660,	1775,
-	};
-
-
-	ASSERT_EQ(m, mexp);
-	ASSERT_EQ(n, nexp);
-}
-
 
 
 TEST(Matrix, Identity) {
@@ -369,8 +236,17 @@ TEST(Matrix, Identity) {
 		0,1,0,
 		0,0,1,
 	};
+	
+	ASSERT_TRUE(m == mexp);
 
-	ASSERT_EQ(m, mexp);
+	Matrix<float, 3, 5> m5 = Matrix<float, 3, 5>::Identity();
+	Matrix<float, 3, 5> mexp5 = {
+		1,0,0,0,0,
+		0,1,0,0,0,
+		0,0,1,0,0,
+	};
+
+	ASSERT_TRUE(m5 == mexp5);
 }
 
 TEST(Matrix, Zero) {
@@ -381,7 +257,7 @@ TEST(Matrix, Zero) {
 		0,0,0,0,
 	};
 
-	ASSERT_EQ(m, mexp);
+	ASSERT_TRUE(m == mexp);
 }
 
 
@@ -395,8 +271,14 @@ TEST(Matrix, LU_Decomp) {
 	Matrix<float, 3, 3> L, U;
 	A.DecomposeLU(L, U);
 
-	auto Mprod = L*U;
+	for (int i = 0; i < A.RowCount(); ++i) {
+		for (int j = 0; j < i - 1; ++j) {
+			ASSERT_FLOAT_EQ(U(i, j), 0.0f);
+			ASSERT_FLOAT_EQ(L(j, i), 0.0f);
+		}
+	}
 
+	auto Mprod = L*U;
 	ASSERT_TRUE(A.AlmostEqual(Mprod));
 }
 
@@ -431,12 +313,12 @@ TEST(Matrix, Transpose) {
 		2,4,6,8,
 	};
 
-	ASSERT_EQ(mT, mexp);
+	ASSERT_TRUE(mT == mexp);
 }
 
 
-TEST(Matrix, Determinant) {
-	Matrix<float, 3, 3> m = {
+TEST_LAYOUT(Matrix, Determinant) {
+	Matrix<float, 3, 3, eMatrixOrder::FOLLOW_VECTOR, Layout> m = {
 		1,3,2,
 		4,5,6,
 		7,8,9,
@@ -452,11 +334,21 @@ TEST(Matrix, Determinant) {
 	};
 	det = m.Determinant();
 	ASSERT_FLOAT_EQ(det, 0.0f);
+
+	Matrix<double, 5, 5, eMatrixOrder::FOLLOW_VECTOR, Layout> m5 = {
+		5, 7, 3, 6, 4,
+		4, 7, 4, 6, 3,
+		6, 2, 8, 9, 7,
+		1, 2, 7, 4, 8,
+		5, 9, 7, 1, 5
+	};
+	det = m5.Determinant();
+	ASSERT_FLOAT_EQ(det, 4134);
 }
 
 
-TEST(Matrix, Trace) {
-	Matrix<float, 3, 3> m = {
+TEST_LAYOUT(Matrix, Trace) {
+	Matrix<float, 3, 3, eMatrixOrder::FOLLOW_VECTOR, Layout> m = {
 		1,3,2,
 		4,5,6,
 		7,8,9,
@@ -464,6 +356,16 @@ TEST(Matrix, Trace) {
 	float trace = m.Trace();
 
 	ASSERT_FLOAT_EQ(trace, 15.f);
+
+	Matrix<double, 5, 5, eMatrixOrder::FOLLOW_VECTOR, Layout> m5 = {
+		5, 7, 3, 6, 4,
+		4, 7, 4, 6, 3,
+		6, 2, 8, 9, 7,
+		1, 2, 7, 4, 8,
+		5, 9, 7, 1, 5
+	};
+	trace = m5.Trace();
+	ASSERT_FLOAT_EQ(trace, 29);
 }
 
 
@@ -516,28 +418,36 @@ TEST(Matrix, Rotation2D) {
 
 
 TEST(Matrix, RotationPrincipal) {
-	auto m = Matrix<float, 3, 3>::RotationX(1.f);
+	auto m1 = Matrix<float, 3, 3>::RotationX(1.f);
 	Matrix<float, 3, 3> mexp = {
-		1.000000, 0.000000, 0.000000, 0.000000, 0.540302, 0.841471, 0.000000, -0.841471, 0.540302
+		1.000000, 0.000000, 0.000000,
+		0.000000, 0.540302, 0.841471,
+		0.000000, -0.841471, 0.540302
 	};
-	ASSERT_TRUE(m.AlmostEqual(mexp));
+	ASSERT_TRUE(m1.AlmostEqual(mexp));
 
 
-	m = Matrix<float, 3, 3>::RotationY(1.f);
-	mexp = {
-		0.540302, 0.000000, -0.841471, 0.000000, 1.000000, 0.000000, 0.841471, 0.000000, 0.540302
+	auto m2 = Matrix<float, 4, 3>::RotationY(1.f);
+	Matrix<float, 4, 3> m2exp = {
+		0.540302, 0.000000, -0.841471,
+		0.000000, 1.000000, 0.000000,
+		0.841471, 0.000000, 0.540302,
+		0,			 0,			0
 	};
-	ASSERT_TRUE(m.AlmostEqual(mexp));
+	ASSERT_TRUE(m2.AlmostEqual(m2exp));
 
 
-	m = Matrix<float, 3, 3>::RotationZ(1.f);
-	mexp = {
-		0.540302, 0.841471, 0.000000, -0.841471, 0.540302, 0.000000, 0.000000, 0.000000, 1.000000
+	auto m3 = Matrix<float, 3, 4, eMatrixOrder::PRECEDE_VECTOR>::RotationZ(1.f);
+	Matrix<float, 4, 3> m3exp = {
+		0.540302, 0.841471, 0.000000,
+		-0.841471, 0.540302, 0.000000,
+		0.000000, 0.000000, 1.000000,
+		0,			0,			0
 	};
-	ASSERT_TRUE(m.AlmostEqual(mexp));
+	ASSERT_TRUE(m3.AlmostEqual(m3exp.Transposed()));
 
 	auto m4 = Matrix<float, 4, 4>::RotationZ(1.f);
-	Matrix<float, 4,4> m4exp = {
+	Matrix<float, 4, 4> m4exp = {
 		0.540302, 0.841471, 0.000000, 0,
 		-0.841471, 0.540302, 0.000000, 0,
 		0.000000, 0.000000, 1.000000, 0,
@@ -572,20 +482,39 @@ TEST(Matrix, Scale) {
 	auto vt1 = v*Vector<float, 5>{ 1, 2, 3, 4, 5 };
 	auto vt2 = v*m;
 
-	ASSERT_EQ(vt1, vt2);
+	ASSERT_TRUE(vt1 == vt2);
 }
 
 
 TEST(Matrix, Translation) {
 	auto m = Matrix<float, 6, 5>::Translation(Vector<float, 5>{ 1,2,3,4,5 });
-	auto m2 = Matrix<float, 3, 3>::Translation(1, 2);
-	auto m3 = Matrix<float, 3, 3>::Translation(Vector<float, 2>(1, 2));
 	Vector<float, 5> v(1,2,3,4,5);
-	v = (v|1)*m;
-
+	v = v*m;
 	Vector<float, 5> vexp(2,4,6,8,10);
+	ASSERT_TRUE(v == vexp);
+	
+	auto m2 = Matrix<float, 3, 3>::Translation(1, 2);
+	Matrix<float, 3, 3> m2exp = {
+		1,0,0,
+		0,1,0,
+		1,2,1,
+	};
+	ASSERT_TRUE(m2 == m2exp);
 
-	ASSERT_EQ(v, vexp);
+	auto m3 = Matrix<float, 3, 2>::Translation(Vector<float, 2>(1, 2));
+	Matrix<float, 3, 2> m3exp = {
+		1,0,
+		0,1,
+		1,2,
+	};
+	ASSERT_TRUE(m3 == m3exp);
+
+	auto m4 = Matrix<float, 2, 3, eMatrixOrder::PRECEDE_VECTOR>::Translation(Vector<float, 2>(1, 2));
+	Matrix<float, 2, 3, eMatrixOrder::PRECEDE_VECTOR> m4exp = {
+		1,0,1,
+		0,1,2
+	};
+	ASSERT_TRUE(m4 == m4exp);
 }
 
 

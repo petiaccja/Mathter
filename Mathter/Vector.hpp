@@ -891,7 +891,7 @@ public:
 	inline Vector operator+(T rhs) const { return Vector(*this) += rhs; }
 	inline Vector operator-(T rhs) const { return Vector(*this) -= rhs; }
 
-	static inline Vector MultiplyAdd(Vector a, Vector b, Vector c) {
+	static inline Vector MultiplyAdd(const Vector& a, const Vector& b, const Vector& c) {
 		return fma(a, b, c);
 	}
 
