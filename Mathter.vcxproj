@@ -181,6 +181,7 @@
     <ClInclude Include="Mathter\Swizzle\Swizzle_2.inc.hpp" />
     <ClInclude Include="Mathter\Swizzle\Swizzle_3.inc.hpp" />
     <ClInclude Include="Mathter\Swizzle\Swizzle_4.inc.hpp" />
+    <ClInclude Include="Mathter\Utility.hpp" />
     <ClInclude Include="Mathter\Vector.hpp" />
     <ClCompile Include="TestMatrix.cpp" />
     <ClCompile Include="TestIntersection.cpp" />

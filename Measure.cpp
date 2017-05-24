@@ -8,6 +8,7 @@
 
 #include "Mathter/Vector.hpp"
 #include "Mathter/Matrix.hpp"
+#include "Mathter/Quaternion.hpp"
 
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
@@ -22,6 +23,7 @@
 
 using namespace std;
 using namespace mathter;
+
 
 
 template <class Type, int Rows1, int Columns1, eMatrixLayout Layout1, int Rows2 = Columns1, int Columns2 = Rows1, eMatrixLayout Layout2 = Layout1, bool Packed = false>
@@ -69,6 +71,7 @@ double MeasureMatrixMultiplication(double* cycles = nullptr) {
 }
 
 
+
 template <class Type, int Rows, int Columns, eMatrixLayout Layout, bool Packed = false>
 double MeasureMatrixAddition(double* cycles = nullptr) {
 	using MatrixT = Matrix<Type, Rows, Columns, eMatrixOrder::FOLLOW_VECTOR, Layout, Packed>;
@@ -96,6 +99,139 @@ double MeasureMatrixAddition(double* cycles = nullptr) {
 	for (int j = 0; j < repeatCount; ++j) {
 		for (int i = 0; i < iterationCount; ++i) {
 			result[i] = left[i] + right[i];
+		}
+	}
+#ifdef _MSC_VER
+	endCycle = (int64_t)__rdtsc();
+#endif
+	endTime = std::chrono::high_resolution_clock::now();
+
+
+	if (cycles) {
+		*cycles = double(endCycle - startCycle) / iterationCount / repeatCount;
+	}
+	double totalTime = chrono::duration_cast<chrono::nanoseconds>(endTime - startTime).count() * 1e-9;
+	return totalTime / iterationCount / repeatCount;
+}
+
+
+
+template <class Type, int VDim, int MDim, eMatrixLayout Layout, bool Packed>
+double MeasureVectorMatrixMultiplication(double* cycles) {
+	using MatrixT = Matrix<Type, MDim, MDim, eMatrixOrder::FOLLOW_VECTOR, Layout, Packed>;
+	using VectorT = Vector<Type, VDim, Packed>;
+
+	constexpr int repeatCount = 50;
+	constexpr int iterationCount = 100'000;
+	std::vector<VectorT> left(iterationCount);
+	std::vector<MatrixT> right(iterationCount);
+	std::vector<VectorT> result(iterationCount);
+
+
+	memset(left.data(), 2, left.size() * sizeof(VectorT));
+	memset(right.data(), 3, right.size() * sizeof(MatrixT));
+
+
+	std::chrono::high_resolution_clock::time_point startTime;
+	std::chrono::high_resolution_clock::time_point endTime;
+	int64_t startCycle = 0, endCycle = -1;
+
+
+	startTime = std::chrono::high_resolution_clock::now();
+#ifdef _MSC_VER
+	startCycle = (int64_t)__rdtsc();
+#endif
+	for (int j = 0; j < repeatCount; ++j) {
+		for (int i = 0; i < iterationCount; ++i) {
+			result[i] = left[i] * right[i];
+		}
+	}
+#ifdef _MSC_VER
+	endCycle = (int64_t)__rdtsc();
+#endif
+	endTime = std::chrono::high_resolution_clock::now();
+
+
+	if (cycles) {
+		*cycles = double(endCycle - startCycle) / iterationCount / repeatCount;
+	}
+	double totalTime = chrono::duration_cast<chrono::nanoseconds>(endTime - startTime).count() * 1e-9;
+	return totalTime / iterationCount / repeatCount;
+}
+
+
+
+template <class Type, bool Packed>
+double MeasureVectorQuatMultiplication(double* cycles) {
+	using QuatT = Quaternion<Type, Packed>;
+	using VectorT = Vector<Type, 3, Packed>;
+
+	constexpr int repeatCount = 50;
+	constexpr int iterationCount = 100'000;
+	std::vector<VectorT> left(iterationCount);
+	std::vector<QuatT> right(iterationCount);
+	std::vector<VectorT> result(iterationCount);
+
+
+	memset(left.data(), 2, left.size() * sizeof(VectorT));
+	memset(right.data(), 3, right.size() * sizeof(QuatT));
+
+
+	std::chrono::high_resolution_clock::time_point startTime;
+	std::chrono::high_resolution_clock::time_point endTime;
+	int64_t startCycle = 0, endCycle = -1;
+
+
+	startTime = std::chrono::high_resolution_clock::now();
+#ifdef _MSC_VER
+	startCycle = (int64_t)__rdtsc();
+#endif
+	for (int j = 0; j < repeatCount; ++j) {
+		for (int i = 0; i < iterationCount; ++i) {
+			result[i] = left[i] * right[i];
+		}
+	}
+#ifdef _MSC_VER
+	endCycle = (int64_t)__rdtsc();
+#endif
+	endTime = std::chrono::high_resolution_clock::now();
+
+
+	if (cycles) {
+		*cycles = double(endCycle - startCycle) / iterationCount / repeatCount;
+	}
+	double totalTime = chrono::duration_cast<chrono::nanoseconds>(endTime - startTime).count() * 1e-9;
+	return totalTime / iterationCount / repeatCount;
+}
+
+
+template <class Type, bool Packed>
+double MeasureQuatMultiplication(double* cycles) {
+	using QuatT = Quaternion<Type, Packed>;
+
+	constexpr int repeatCount = 50;
+	constexpr int iterationCount = 100'000;
+	std::vector<QuatT> left(iterationCount);
+	std::vector<QuatT> right(iterationCount);
+	std::vector<QuatT> result(iterationCount);
+
+
+	memset(left.data(), 2, left.size() * sizeof(QuatT));
+	memset(right.data(), 3, right.size() * sizeof(QuatT));
+
+
+	std::chrono::high_resolution_clock::time_point startTime;
+	std::chrono::high_resolution_clock::time_point endTime;
+	int64_t startCycle = 0, endCycle = -1;
+
+
+	startTime = std::chrono::high_resolution_clock::now();
+#ifdef _MSC_VER
+	startCycle = (int64_t)__rdtsc();
+#endif
+	for (int j = 0; j < repeatCount; ++j) {
+		for (int i = 0; i < iterationCount; ++i) {
+			result[i] = left[i] * right[i];
 		}
 	}
 #ifdef _MSC_VER
@@ -235,6 +371,126 @@ void Measure() {
 		cout << endl;
 	}
 	cout << endl;
+
+
+	// Vector-Matrix measures
+	std::string vecmatMulLabels[6] = {
+		"type", "dim", "layout", "packed", "time/op", "\tcycles"
+	};
+
+	constexpr int vecmatMulNumCases = 4;
+	std::string vecmatMulConfigs[vecmatMulNumCases][4] = {
+		{ "float",	"3*3x3",	"R",	"F" },
+		{ "float",	"4*4x4",	"R",	"F" },
+		{ "float",	"3*4x4",	"R",	"F" },
+		{ "float",	"4*4x4",	"R",	"T" },
+	};
+	std::array<double, vecmatMulNumCases> vecmatMulCycles;
+	std::array<double, vecmatMulNumCases> vecmatMulTimes = {
+		MeasureVectorMatrixMultiplication<float, 3, 3, ROW, false>(&vecmatMulCycles[0]),
+		MeasureVectorMatrixMultiplication<float, 4, 4, ROW, false>(&vecmatMulCycles[1]),
+		MeasureVectorMatrixMultiplication<float, 3, 4, ROW, false>(&vecmatMulCycles[2]),
+		MeasureVectorMatrixMultiplication<float, 4, 4, ROW, true>(&vecmatMulCycles[3]),
+	};
+
+	cout << "[Vector-matrix multiplication]" << endl;
+	for (auto label : vecmatMulLabels) {
+		cout << label << "\t";
+	}
+	cout << endl;
+	for (int i = 0; i < 8 * 9; ++i) {
+		cout << "-";
+	}
+	cout << endl;
+
+	for (int i = 0; i < vecmatMulNumCases; ++i) {
+		for (auto config : vecmatMulConfigs[i]) {
+			cout << config << "\t";
+		}
+		printf("%-6.02f ns\t", vecmatMulTimes[i] * 1e9);
+		printf("%.02f\t", vecmatMulCycles[i]);
+		cout << endl;
+	}
+	cout << endl;
+
+
+	// Vector-Quaternion measures
+	std::string vecquatMulLabels[6] = {
+		"type", "packed", "time/op", "\tcycles"
+	};
+
+	constexpr int vecquatMulNumCases = 3;
+	std::string vecquatMulConfigs[vecquatMulNumCases][2] = {
+		{ "float",	"F" },
+		{ "double",	"F" },
+		{ "float",	"T" },
+	};
+	std::array<double, vecquatMulNumCases> vecquatMulCycles;
+	std::array<double, vecquatMulNumCases> vecquatMulTimes = {
+		MeasureVectorQuatMultiplication<float, false>(&vecquatMulCycles[0]),
+		MeasureVectorQuatMultiplication<double, false>(&vecquatMulCycles[1]),
+		MeasureVectorQuatMultiplication<float, true>(&vecquatMulCycles[2]),
+	};
+
+	cout << "[Vector-quaternion multiplication]" << endl;
+	for (auto label : vecquatMulLabels) {
+		cout << label << "\t";
+	}
+	cout << endl;
+	for (int i = 0; i < 8 * 9; ++i) {
+		cout << "-";
+	}
+	cout << endl;
+
+	for (int i = 0; i < vecquatMulNumCases; ++i) {
+		for (auto config : vecquatMulConfigs[i]) {
+			cout << config << "\t";
+		}
+		printf("%-6.02f ns\t", vecquatMulTimes[i] * 1e9);
+		printf("%.02f\t", vecquatMulCycles[i]);
+		cout << endl;
+	}
+	cout << endl;
+
+
+	// Quaternion-Quaternion measures
+	std::string quatMulLabels[6] = {
+		"type", "packed", "time/op", "\tcycles"
+	};
+
+	constexpr int quatMulNumCases = 3;
+	std::string quatMulConfigs[quatMulNumCases][2] = {
+		{ "float",	"F" },
+		{ "double",	"F" },
+		{ "float",	"T" },
+	};
+	std::array<double, quatMulNumCases> quatMulCycles;
+	std::array<double, quatMulNumCases> quatMulTimes = {
+		MeasureQuatMultiplication<float, false>(&quatMulCycles[0]),
+		MeasureQuatMultiplication<double, false>(&quatMulCycles[1]),
+		MeasureQuatMultiplication<float, true>(&quatMulCycles[2]),
+	};
+
+	cout << "[Quaternion product]" << endl;
+	for (auto label : quatMulLabels) {
+		cout << label << "\t";
+	}
+	cout << endl;
+	for (int i = 0; i < 8 * 9; ++i) {
+		cout << "-";
+	}
+	cout << endl;
+
+	for (int i = 0; i < quatMulNumCases; ++i) {
+		for (auto config : quatMulConfigs[i]) {
+			cout << config << "\t";
+		}
+		printf("%-6.02f ns\t", quatMulTimes[i] * 1e9);
+		printf("%.02f\t", quatMulCycles[i]);
+		cout << endl;
+	}
+	cout << endl;
+
 
 	// Estimate CPU frequency
 	double sumTime = std::accumulate(mulTimes.begin(), mulTimes.end(), 0.0);

@@ -73,6 +73,9 @@
     <ClInclude Include="Measure.hpp">
       <Filter>Test</Filter>
     </ClInclude>
+    <ClInclude Include="Mathter\Utility.hpp">
+      <Filter>Mathter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="Mathter\Mathter.natvis">
