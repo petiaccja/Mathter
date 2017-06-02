@@ -140,14 +140,14 @@ public:
 	Quaternion operator*(const Quaternion& rhs) const {
 		return Quaternion(*this) *= rhs;
 	}
-	Quaternion operator*(T s) {
-		return Quaternion(*this) * s;
+	Quaternion operator*(T s) const {
+		return Quaternion(*this) *= s;
 	}
-	Quaternion operator/(T s) {
-		return Quaternion(*this) / s;
+	Quaternion operator/(T s) const {
+		return Quaternion(*this) /= s;
 	}
 
-	Quaternion operator-() {
+	Quaternion operator-() const {
 		return Quaternion(-vec);
 	}
 
@@ -369,13 +369,13 @@ protected:
 
 
 
-template <class T, bool Packed, class U, class = typename std::enable_if<std::is_same<U, Quaternion<T, Packed>>::value>::type>
+template <class T, bool Packed, class U, class = typename std::enable_if<!std::is_same<U, Quaternion<T, Packed>>::value>::type>
 Quaternion<T, Packed> operator*(U s, const Quaternion<T, Packed>& rhs) {
-	return Quaternion<T>(*this) * s;
+	return rhs * s;
 }
-template <class T, bool Packed, class U, class = typename std::enable_if<std::is_same<U, Quaternion<T, Packed>>::value>::type>
+template <class T, bool Packed, class U, class = typename std::enable_if<!std::is_same<U, Quaternion<T, Packed>>::value>::type>
 Quaternion<T, Packed> operator/(U s, const Quaternion<T, Packed>& rhs) {
-	return Quaternion<T>(*this) / s;
+	return rhs / s;
 }
 
 template <class T, bool Packed, class U, class = typename std::enable_if<!impl::IsQuaternion<U>::value>::type>

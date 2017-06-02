@@ -591,7 +591,19 @@ TEST(Matrix, View) {
 	Vector<float, 3> p = { 0, -1, 0 };
 	Vector<float, 3> pt = p*m;
 	Vector<float, 3> pexp = { sqrt(2),0,8.66025403 };
-	float d = m.Determinant();
-
 	ASSERT_TRUE(pexp.AlmostEqual(pt));	
+
+	m = Matrix<float, 4, 4>::LookAt({ 0,0,0 }, { 0,5,0 }, Vector<float, 3>{0, 0, 1}, true, false, false);
+	p = { 1, 4, 1 };
+	pt = p*m;
+	pexp = { 1, 1, 4 };
+
+	ASSERT_TRUE(pexp.AlmostEqual(pt));
+
+	m = Matrix<float, 4, 4>::LookAt({ 0,0,0 }, { 5,0,0 }, Vector<float, 3>{0, 0, 1}, true, false, false);
+	p = { 1, 4, 1 };
+	pt = p*m;
+	pexp = { -4, 1, 1 };
+
+	ASSERT_TRUE(pexp.AlmostEqual(pt));
 }

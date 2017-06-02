@@ -624,13 +624,13 @@ public:
 	}
 
 	// Specialization for 2D
-	template <class =std::enable_if<SpaceDim == 2, int>::type>
+	template <class = typename std::enable_if<SpaceDim == 2, int>::type>
 	static MatrixT LookAt(const VectorT& eye, const VectorT& target, bool positiveYForward = true, bool flipX = false) {
 		return LookAt(eye, target, {}, { flipX, positiveYForward });
 	}
 
 	// Specialization for 3D
-	template <class = std::enable_if<SpaceDim == 3, int>::type>
+	template <class = typename std::enable_if<SpaceDim == 3, int>::type>
 	static MatrixT LookAt(const VectorT& eye, const VectorT& target, const VectorT& up, bool positiveZForward = true, bool flipX = false, bool flipY = false) {
 		return LookAt(eye, target, { up }, { flipX, flipY, positiveZForward });
 	}
