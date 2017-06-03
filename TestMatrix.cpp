@@ -520,8 +520,8 @@ TEST(Matrix, Translation) {
 
 TEST(Matrix, Perspective) {
 	Vector<float, 4> worldFrustum[2] = {
-		{ -0.25f, -0.44444444f, 0.5f, 1 },
-		{ 5.0f, 8.8888888f, 10.f, 1 }
+		{ -0.25f, -0.140625f, 0.5f, 1 },
+		{ 5.0f, 2.8125f, 10.f, 1 }
 	};
 	Vector<float, 4> ndcFrustum[2];
 

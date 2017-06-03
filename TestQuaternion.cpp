@@ -16,8 +16,6 @@ using namespace mathter;
 
 
 TEST(Quaternion, Ctor) {
-
-
 	Quaternion<float> q1(1, 2, 3, 4);
 	ASSERT_EQ(q1.w, 1);
 	ASSERT_EQ(q1.x, 2);
