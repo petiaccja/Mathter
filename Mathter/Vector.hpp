@@ -236,14 +236,21 @@ bool AlmostEqual(T d1, T d2) {
 // Check if base class's pointer equals that of derived when static_casted
 template <class Base, class Derived>
 class BasePtrEquals {
+#if _MSC_VER > 1910
 	static Derived instance;
 	static constexpr void* base = static_cast<void*>(static_cast<Base*>(&instance));
 public:
 	static constexpr bool value = base == static_cast<void*>(&instance);
+#else
+public:
+	static constexpr bool value = true;
+#endif
 };
+
+#if _MSC_VER > 1910
 template <class Base, class Derived>
 Derived BasePtrEquals<Base, Derived>::instance;
-
+#endif
 
 } // namespace impl
 
