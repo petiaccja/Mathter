@@ -478,6 +478,7 @@ TEST(Matrix, RotationAxisAngle) {
 TEST(Matrix, Scale) {
 	auto m = Matrix<float, 5, 5>::Scale(1, 2, 3, 4, 5);
 	Vector<float, 5> v(2, 6, 3, 7, 5);
+	auto m3 = Matrix<float, 3, 3>::Scale(Vector<float, 3>{1, 2, 3});
 
 	auto vt1 = v*Vector<float, 5>{ 1, 2, 3, 4, 5 };
 	auto vt2 = v*m;
