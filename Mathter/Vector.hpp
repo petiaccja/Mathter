@@ -978,7 +978,7 @@ protected:
 	// Scalar concat assign
 	template <class Head, class... Scalars, typename std::enable_if<impl::All<impl::IsScalar, Head, Scalars...>::value, int>::type = 0>
 	void Assign(int idx, Head head, Scalars... scalars) {
-		data[idx] = head;
+		data[idx] = (T)head;
 		Assign(idx + 1, scalars...);
 	}
 
