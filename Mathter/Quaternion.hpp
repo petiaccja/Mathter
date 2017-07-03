@@ -16,7 +16,7 @@ namespace mathter {
 
 template <class T, bool Packed = false>
 class Quaternion {
-	static constexpr bool SimdAccelerated = HasSimd<Vector<T, 4, Packed>>::value;
+	static constexpr bool SimdAccelerated = impl::HasSimd<Vector<T, 4, Packed>>::value;
 public:
 	union {
 		struct { T s, i, j, k; };

@@ -110,11 +110,13 @@ private:
 //------------------------------------------------------------------------------
 
 // Empty
-template <class T>
-class Empty {};
+namespace impl {
+	template <class T>
+	class Empty {};
 
-template <bool Enable, class Module>
-using MatrixModule = typename std::conditional<Enable, Module, Empty<Module>>::type;
+	template <bool Enable, class Module>
+	using MatrixModule = typename std::conditional<Enable, Module, Empty<Module>>::type;
+}
 
 
 //--------------------------------------
@@ -151,7 +153,7 @@ class MatrixSquare {
 	using MatrixT = Matrix<T, Rows, Columns, Order, Layout, Packed>;
 protected:
 	friend class MatrixT;
-	using Inherit = Empty<MatrixSquare>;
+	using Inherit = impl::Empty<MatrixSquare>;
 };
 
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
@@ -198,7 +200,7 @@ public:
 	}
 protected:
 	friend class MatrixT;
-	using Inherit = MatrixModule<Enable2DRotation, MatrixRotation2D>;
+	using Inherit = impl::MatrixModule<Enable2DRotation, MatrixRotation2D>;
 };
 
 
@@ -260,7 +262,7 @@ public:
 	}
 protected:
 	friend class MatrixT;
-	using Inherit = MatrixModule<Enable3DRotation, MatrixRotation3D>;
+	using Inherit = impl::MatrixModule<Enable3DRotation, MatrixRotation3D>;
 };
 
 
@@ -323,7 +325,7 @@ public:
 	MatrixT& SetTranslation(const Vector<Vt, TranslationDim, Vpacked>& translation) { self() = Translation(translation); return self(); }
 protected:
 	friend class MatrixT;
-	using Inherit = MatrixModule<EnableTranslation, MatrixTranslation>;
+	using Inherit = impl::MatrixModule<EnableTranslation, MatrixTranslation>;
 };
 
 
@@ -388,7 +390,7 @@ class MatrixPerspective {
 	using MatrixT = Matrix<T, Rows, Columns, Order, Layout, Packed>;
 protected:
 	friend class MatrixT;
-	using Inherit = Empty<MatrixPerspective>;
+	using Inherit = impl::Empty<MatrixPerspective>;
 };
 
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
@@ -440,7 +442,7 @@ template <class T, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 class MatrixPerspective<T, 1,1, Order, Layout, Packed> {
 protected:
 	friend class Matrix<T, 1, 1, Order, Layout, Packed>;
-	using Inherit = Empty<MatrixPerspective>;
+	using Inherit = impl::Empty<MatrixPerspective>;
 };
 
 // 2x2 matrices : no projection
@@ -448,7 +450,7 @@ template <class T, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 class MatrixPerspective<T, 2, 2, Order, Layout, Packed> {
 protected:
 	friend class Matrix<T, 2, 2, Order, Layout, Packed>;
-	using Inherit = Empty<MatrixPerspective>;
+	using Inherit = impl::Empty<MatrixPerspective>;
 };
 
 // 3x3 matrices: 2D->1D projection
@@ -545,7 +547,7 @@ public:
 	}
 protected:
 	friend class MatrixT;
-	using Inherit = MatrixModule<EnableView, MatrixOrthographic>;
+	using Inherit = impl::MatrixModule<EnableView, MatrixOrthographic>;
 };
 
 
@@ -636,7 +638,7 @@ public:
 	}
 protected:
 	friend class MatrixT;
-	using Inherit = MatrixModule<EnableView, MatrixView>;
+	using Inherit = impl::MatrixModule<EnableView, MatrixView>;
 };
 
 

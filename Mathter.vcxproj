@@ -135,7 +135,6 @@
       <AssemblerListingLocation>$(SolutionDir)\AsmList\</AssemblerListingLocation>
       <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -157,7 +156,6 @@
       <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
