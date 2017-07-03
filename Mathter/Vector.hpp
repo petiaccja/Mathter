@@ -15,7 +15,7 @@
 #endif
 
 // To enable Empty Base Class Optimization (EBCO) in MSVC.
-// Why the fuck do I even have to manually enable it???
+// Why the fuck do I even have to manually enable it??? Get you shit together Microsoft!
 #ifdef _MSC_VER
 #define MATHTER_EBCO __declspec(empty_bases)
 #endif
@@ -42,7 +42,7 @@
 namespace mathter {
 
 //------------------------------------------------------------------------------
-// Pre-declarations
+// Pre-declarations.
 //------------------------------------------------------------------------------
 
 // Vector
@@ -71,9 +71,12 @@ class Matrix;
 template <class T, bool Packed>
 class Quaternion;
 
+// Dynamically sized things
+constexpr int DYNAMIC = -1;
+
 
 //------------------------------------------------------------------------------
-// Template magic helper classes
+// Template magic helper classes.
 //------------------------------------------------------------------------------
 
 namespace impl {
@@ -124,7 +127,7 @@ struct RepeatType {
 };
 
 
-// Decide if type is Scalar, Vector or Matrix
+// Decide if type is Scalar, Vector or Matrix.
 template <class Arg>
 struct IsVector {
 	static constexpr bool value = false;
@@ -188,7 +191,7 @@ struct IsScalar {
 	static constexpr bool value = !IsMatrix<T>::value && !IsVector<T>::value && !IsSwizzle<T>::value && !IsQuaternion<T>::value;
 };
 
-// Dimension of an argument (add dynamically sized vectors later)
+// Dimension of an argument (add dynamically sized vectors later).
 template <class U, int Along = 0>
 struct DimensionOf {
 	static constexpr int value = 1;
@@ -202,13 +205,13 @@ struct DimensionOf<Swizzle<T, Indices...>> {
 	static constexpr int value = sizeof...(Indices);
 };
 
-// Sum dimensions of arguments
+// Sum dimensions of arguments.
 template <class... Rest>
 struct SumDimensions;
 
 template <class Head, class... Rest>
 struct SumDimensions<Head, Rest...> {
-	static constexpr int value = DimensionOf<Head>::value > 0 ? DimensionOf<Head>::value + SumDimensions<Rest...>::value : -1;
+	static constexpr int value = DimensionOf<Head>::value > 0 ? DimensionOf<Head>::value + SumDimensions<Rest...>::value : DYNAMIC;
 };
 
 template <>
@@ -217,8 +220,9 @@ struct SumDimensions<> {
 };
 
 
+// Specialization for floats.
 template <class T>
-bool AlmostEqual(T d1, T d2) {
+bool AlmostEqual(T d1, T d2, std::true_type) {
 	if (d1 < 1e-38 && d2 < 1e-38) {
 		return true;
 	}
@@ -228,13 +232,26 @@ bool AlmostEqual(T d1, T d2) {
 	T scaler = pow(T(10), floor(log10(abs(d1))));
 	d1 /= scaler;
 	d2 /= scaler;
-	d1 *= 1000.f;
-	d2 *= 1000.f;
+	d1 *= T(1000.0);
+	d2 *= T(1000.0);
 	return round(d1) == round(d2);
 }
 
+// Specialization for int, complex and custom types: simple equality.
+template <class T>
+bool AlmostEqual(T d1, T d2, std::false_type) {
+	return d1 == d2;
+}
 
-// Check if base class's pointer equals that of derived when static_casted
+// Check equivalence with tolerance.
+template <class T>
+bool AlmostEqual(T d1, T d2) {
+	return AlmostEqual(d1, d2, std::integral_constant<bool, std::is_floating_point<T>::value>());
+}
+
+
+// Check if base class's pointer equals that of derived when static_casted.
+// This is supposedly not standard C++, so it's only enabled for compiler that like it.
 template <class Base, class Derived>
 class BasePtrEquals {
 #if _MSC_VER > 1910
@@ -261,6 +278,13 @@ Derived BasePtrEquals<Base, Derived>::instance;
 // Vector data containers
 //------------------------------------------------------------------------------
 
+
+/// <summary>
+/// Enables element swizzling for vectors.
+/// To access swizzlers, use the xx, xy, xyz and similar elements of vectors.
+/// Swizzlers can be used with assignments, concatenation and casting and constructors.
+/// To perform arithmetic, cast swizzlers to corresponding vector type.
+/// </summary>
 template <class T, int... Indices>
 class Swizzle {
 	static constexpr int IndexTable[] = { Indices... };
@@ -268,7 +292,9 @@ class Swizzle {
 	T* data() { return reinterpret_cast<T*>(this); }
 	const T* data() const { return reinterpret_cast<const T*>(this); }
 public:
+	/// <summary> Builds the swizzled vector object. </summary>
 	operator Vector<T, sizeof...(Indices), false>() const;
+	/// <summary> Builds the swizzled vector object. </summary>
 	operator Vector<T, sizeof...(Indices), true>() const;
 
 	Swizzle& operator=(const Vector<T, sizeof...(Indices), false>& rhs);
@@ -280,13 +306,16 @@ public:
 		return *this;
 	}
 
+	/// <summary> Returns the nth element of the swizzled vector. Example: v.zxy[2] returns y. </summary>
 	T& operator[](int idx) {
 		return data()[IndexTable[idx]];
 	}
+	/// <summary> Returns the nth element of the swizzled vector. Example: v.zxy[2] returns y. </summary>
 	T operator[](int idx) const {
 		return data()[IndexTable[idx]];
 	}
 
+	/// <summary> Builds the swizzled vector object. </summary>
 	template <bool Packed = false>
 	const auto ToVector() const {
 		return Vector<T, Dim, Packed>(*this);
@@ -302,11 +331,12 @@ protected:
 	}
 };
 
-// Functions they must have:
-// mul, div, add, sub | vec x vec
-// mul, div, add, sub | vec x scalar
-// spread
-// dot
+
+// Mental note to myself:
+// The C++ standard requires std::complex numbers to be like
+// class complex { T real; T imag; }
+// so they can be cast to an array of T and indexed even for real and odd for imag parts.
+
 
 // General
 template <class T, int Dim, bool Packed>
@@ -443,7 +473,7 @@ public:
 
 
 template <class T>
-struct has_simd {
+struct HasSimd {
 	template <class U>
 	static std::false_type test(...) { return {}; }
 
@@ -455,7 +485,7 @@ struct has_simd {
 };
 
 
-template <class T, int Dim, bool Packed, bool = has_simd<VectorData<T, Dim, Packed>>::value>
+template <class T, int Dim, bool Packed, bool = HasSimd<VectorData<T, Dim, Packed>>::value>
 class VectorOps;
 
 
@@ -591,6 +621,14 @@ protected:
 };
 
 
+// Dynamic vector ops
+template <class T, bool Packed>
+class VectorOps<T, DYNAMIC, Packed, false>;
+template <class T, bool Packed>
+class VectorOps<T, DYNAMIC, Packed, true>;
+
+
+
 //------------------------------------------------------------------------------
 // Vector special operations
 //------------------------------------------------------------------------------
@@ -641,7 +679,7 @@ public:
 
 
 //------------------------------------------------------------------------------
-// General Vector class - no specializations needed
+// General vector class
 //------------------------------------------------------------------------------
 
 template <class T, int Dim, bool Packed = false>
@@ -670,10 +708,17 @@ public:
 	}
 
 	//--------------------------------------------
+	// Properties
+	//--------------------------------------------
+	constexpr int Dimension() const {
+		return Dim;
+	}
+
+	//--------------------------------------------
 	// Data constructors
 	//--------------------------------------------
 
-	// Default ctor
+	/// <summary> Construct the vector without zero-initializing elements. </summary>
 	Vector() { 
 		CheckLayoutContraints(); 
 	}
@@ -688,13 +733,14 @@ public:
 	}
 
 
-	// All element same ctor
+	/// <summary> Sets all elements to the same value. </summary>
 	explicit Vector(T all) {
 		CheckLayoutContraints();
 		VectorOps<T, Dim, Packed>::spread(*this, all);
 	}
 
-	// T array ctor
+	/// <summary> Constructs the vector from an array of elements.
+	/// The number of elements must be the same as the vector's dimension. </summary>
 	template <class U>
 	explicit Vector(const U* data) {
 		CheckLayoutContraints();
@@ -707,10 +753,14 @@ public:
 	// Homogeneous up- and downcast
 	//--------------------------------------------
 
+	/// <summary> Strips the last element of the vector. </summary>
+	/// <remarks> Use it to switch between homogeneous and simple coordinates. </remarks>
 	explicit operator Vector<T, Dim - 1, Packed>() {
 		return Vector<T, Dim - 1, Packed>(this->data);
 	}
 
+	/// <summary> Appeds a 1 to the end of the vector. </summary>
+	/// <remarks> Use it to switch between homogeneous and simple coordinates. </remarks>
 	explicit operator Vector<T, Dim + 1, Packed>() {
 		return Vector<T, Dim + 1, Packed>(*this, 1);
 	}
@@ -721,21 +771,27 @@ public:
 
 	// NOTE: somehow msvc 2015 is buggy and cannot compile sizeof... checks for ctors as in Set
 
-	// Scalar concat constructor
+	/// <summary> Initializes the vector to the given scalar elements. </summary>
+	/// <remarks> Number of arguments must equal vector dimension.
+	///		Types of arguments may differ from vector's underlying type, in which case explicit cast is performed. </remarks>
 	template <class H1, class H2, class... Scalars, typename std::enable_if<impl::All<impl::IsScalar, H1, H2, Scalars...>::value && impl::SumDimensions<H1, H2, Scalars...>::value == Dim, int>::type = 0>
 	Vector(H1 h1, H2 h2, Scalars... scalars) {
 		CheckLayoutContraints();
 		Assign(0, h1, h2, scalars...);
 	}
 
-	// Generalized concat constructor
+	/// <summary> Initializes the vector by concatenating given scalar and vector arguments. </summary>
+	/// <remarks> Sum of the dimension of arguments must equal vector dimension. 
+	///		Types of arguments may differ from vector's underlying type, in which case explicit cast is performed. </remarks>
 	template <class H1, class... Mixed, typename std::enable_if<impl::Any<impl::IsVectorOrSwizzle, H1, Mixed...>::value && impl::SumDimensions<H1, Mixed...>::value == Dim, int>::type = 0>
 	Vector(const H1& h1, const Mixed&... mixed) {
 		CheckLayoutContraints();
 		Assign(0, h1, mixed...);
 	}
 
-	// Scalar concat set
+	/// <summary> Sets the vector's elements to the given scalars. </summary>
+	/// <remarks> Number of arguments must equal vector dimension.
+	///		Types of arguments may differ from vector's underlying type, in which case explicit cast is performed. </remarks>
 	template <class... Scalars, typename std::enable_if<((sizeof...(Scalars) > 1) && impl::All<impl::IsScalar, Scalars...>::value), int>::type = 0>
 	Vector& Set(Scalars... scalars) {
 		static_assert(impl::SumDimensions<Scalars...>::value == Dim, "Arguments must match vector dimension.");
@@ -743,7 +799,9 @@ public:
 		return *this;
 	}
 
-	// Generalized concat set
+	/// <summary> Sets the vector's elements by concatenating given scalar and vector arguments. </summary>
+	/// <remarks> Sum of the dimension of arguments must equal vector dimension. 
+	///		Types of arguments may differ from vector's underlying type, in which case explicit cast is performed. </remarks>
 	template <class... Mixed, typename std::enable_if<(sizeof...(Mixed) > 0) && impl::Any<impl::IsVectorOrSwizzle, Mixed...>::value, int>::type = 0>
 	Vector& Set(const Mixed&... mixed) {
 		static_assert(impl::SumDimensions<Mixed...>::value == Dim, "Arguments must match vector dimension.");
@@ -751,19 +809,11 @@ public:
 		return *this;
 	}
 
-	// Set all members to certain type
+	/// <summary> Sets all elements of the vector to the given value. </summary>
 	Vector& Spread(T all) {
 		VectorOps<T, Dim, Packed>::spread(*this, all);
 
 		return *this;
-	}
-
-	//--------------------------------------------
-	// Properties
-	//--------------------------------------------
-
-	constexpr int Dimension() const {
-		return Dim;
 	}
 
 
@@ -831,7 +881,10 @@ public:
 		return !operator==(rhs);
 	}
 
-	template <class = typename std::enable_if<std::is_floating_point<T>::value>::type>
+	/// <summary> Returns true if the elements of the vector are close to each other. </summary>
+	/// <remarks> Note that this is not well-defined and is mostly used for unit tests
+	///		and debugging. As such, you should not rely on it, and should rather implement
+	///		one for your specific needs. </remarks>
 	bool AlmostEqual(const Vector& rhs) const {
 		bool same = true;
 		for (int i = 0; i < Dim; ++i) {
@@ -918,27 +971,32 @@ public:
 	// Common functions
 	//--------------------------------------------
 
+	/// <summary> Makes a unit vector, but keeps direction. </summary> 
 	void Normalize() {
 		T l = Length();
 		operator/=(l);
 	}
 
+	/// <summary> Returns the unit vector having the same direction, without modifying the object. </summary>
 	Vector Normalized() const {
 		Vector v = *this;
 		v.Normalize();
 		return v;
 	}
 
+	/// <summary> Checks if the vector is unit vector. There's some tolerance due to floating points. </summary>
 	bool IsNormalized() const {
 		T n = LengthSquared();
 		return T(0.9999) <= n && n <= T(1.0001);
 	}
 
 
+	/// <summary> Returns the scalar product of the two vectors. </summary>
 	static T Dot(const Vector& lhs, const Vector& rhs) {
 		return dot(lhs, rhs);
 	}
 
+	/// <summary> Returns the scalar product of the two vectors. </summary>
 	template <class T2, bool Packed2, typename std::enable_if<!std::is_same<T, T2>::value, int>::type = 0>
 	static auto Dot(const Vector& lhs, const Vector<T2, Dim, Packed2>& rhs) {
 		auto s = lhs.data[0] * rhs.data[0];
@@ -947,21 +1005,24 @@ public:
 		}
 	}
 
-
+	/// <summary> Returns the squared length of the vector. </summary>
 	T LengthSquared() const {
 		return Dot(*this, *this);
 	}
 
+	/// <summary> Returns the length of the vector. </summary> 
 	T Length() const {
 		return sqrt(LengthSquared());
 	}
 
+	/// <summary> Returns the element-wise minimum of arguments </summary>
 	static Vector Min(const Vector& lhs, const Vector& rhs) {
 		Vector res;
 		for (int i = 0; i < Dimension(); ++i) {
 			res[i] = std::min(lhs[i], rhs[i]);
 		}
 	}
+	/// <summary> Returns the element-wise maximum of arguments </summary>
 	static Vector Max(const Vector& lhs, const Vector& rhs) {
 		Vector res;
 		for (int i = 0; i < Dimension(); ++i) {
@@ -1033,10 +1094,10 @@ inline Vector<T, Dim, Packed> operator+(U lhs, const Vector<T, Dim, Packed>& rhs
 
 template <class T, int Dim, bool Packed, class U, class = typename std::enable_if<std::is_convertible<U, T>::value>::type>
 inline Vector<T, Dim, Packed> operator-(U lhs, const Vector<T, Dim, Packed>& rhs) {
-	return rhs - (T)lhs;
+	return Vector<T, Dim, Packed>(lhs) - rhs;
 }
 
-// Divide scalar by vector
+/// <summary> Elementwise division of the vector having the numerator as all elements by the denominator.
 template <class T, int Dim, bool Packed, class U, class = typename std::enable_if<std::is_convertible<U, T>::value>::type>
 inline Vector<T, Dim, Packed> operator/(U lhs, const Vector<T, Dim, Packed>& rhs) {
 	Vector<T, Dim, Packed> res(lhs);
