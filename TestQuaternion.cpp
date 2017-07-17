@@ -180,3 +180,20 @@ TEST(Quaternion, Chaining) {
 
 
 
+TEST(Quaternion, ExpLog) {
+	Quaternion<float> q(1.0f, 2.0f, 0.5f, -0.7f);
+
+	Quaternion<float> p = Quaternion<float>::Exp(Quaternion<float>::Log(q));
+	
+	ASSERT_TRUE(q.AlmostEqual(p));
+}
+
+
+TEST(Quaternion, Pow) {
+	Quaternion<float> q(1.0f, 2.0f, 0.5f, -0.7f);
+
+	Quaternion<float> p = Quaternion<float>::Pow(q, 3);
+	Quaternion<float> pexp = q*q*q;
+
+	ASSERT_TRUE(p.AlmostEqual(pexp));
+}

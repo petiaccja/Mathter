@@ -55,18 +55,26 @@ public:
 	template <class U, bool P>
 	Quaternion(const Quaternion<U, P>& rhs) : vec(rhs.vec) {}
 
+	/// <summary> Convert a rotation matrix to equivalent quaternion. </summary>
+	/// <remarks> Matrix must be in SO(3). </remarks>
 	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 	explicit Quaternion(const Matrix<U, 3, 3, Order, Layout, Packed>& rhs) {
 		FromMatrix(rhs);
 	}
+	/// <summary> Convert a rotation matrix to equivalent quaternion. </summary>
+	/// <remarks> Matrix must be in SO(3). Translation part is ignored. </remarks>
 	template <class U, eMatrixLayout Layout, bool Packed>
 	explicit Quaternion(const Matrix<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, Packed>& rhs) {
 		FromMatrix(rhs);
 	}
+	/// <summary> Convert a rotation matrix to equivalent quaternion. </summary>
+	/// <remarks> Matrix must be in SO(3). Translation part is ignored. </remarks>
 	template <class U, eMatrixLayout Layout, bool Packed>
 	explicit Quaternion(const Matrix<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, Packed>& rhs) {
 		FromMatrix(rhs);
 	}
+	/// <summary> Convert a rotation matrix to equivalent quaternion. </summary>
+	/// <remarks> Matrix must be in SO(3). Translation part is ignored. </remarks>
 	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 	explicit Quaternion(const Matrix<U, 4, 4, Order, Layout, Packed>& rhs) {
 		FromMatrix(rhs);
@@ -82,6 +90,7 @@ public:
 		return *this;
 	}
 
+	/// <summary> Convert from quaternion with different base type and packing. </summary>
 	template <class U, bool P>
 	Quaternion& operator=(const Quaternion<U, P>& rhs) {
 		vec = rhs.vec;
@@ -89,21 +98,29 @@ public:
 	}
 
 
+	/// <summary> Convert a rotation matrix to equivalent quaternion. </summary>
+	/// <remarks> Matrix must be in SO(3). </remarks>
 	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 	Quaternion& operator=(const Matrix<U, 3, 3, Order, Layout, Packed>& rhs) {
 		FromMatrix(rhs);
 		return *this;
 	}
+	/// <summary> Convert a rotation matrix to equivalent quaternion. </summary>
+	/// <remarks> Matrix must be in SO(3). Translation part is ignored. </remarks>
 	template <class U, eMatrixLayout Layout, bool Packed>
 	Quaternion& operator=(const Matrix<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, Packed>& rhs) {
 		FromMatrix(rhs);
 		return *this;
 	}
+	/// <summary> Convert a rotation matrix to equivalent quaternion. </summary>
+	/// <remarks> Matrix must be in SO(3). Translation part is ignored. </remarks>
 	template <class U, eMatrixLayout Layout, bool Packed>
 	Quaternion& operator=(const Matrix<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, Packed>& rhs) {
 		FromMatrix(rhs);
 		return *this;
 	}
+	/// <summary> Convert a rotation matrix to equivalent quaternion. </summary>
+	/// <remarks> Matrix must be in SO(3). Translation part is ignored. </remarks>
 	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 	Quaternion& operator=(const Matrix<U, 4, 4, Order, Layout, Packed>& rhs) {
 		FromMatrix(rhs);
@@ -115,6 +132,7 @@ public:
 	// Alternate constructions
 	//-----------------------------------------------
 
+	/// <summary> Creates a quaternion that performs a rotation of <paramref name="angle"/> radians around <paramref name="axis"/> </summary>
 	template <bool VPacked>
 	static Quaternion AxisAngle(const Vector<T, 3, VPacked>& axis, T angle) {
 		angle *= T(0.5);
@@ -125,46 +143,59 @@ public:
 	//-----------------------------------------------
 	// Arithmetic
 	//-----------------------------------------------
+
+	/// <summary> Mathematical quaternion addition. </summary>
 	Quaternion& operator+=(const Quaternion& rhs) {
 		vec += rhs.vec;
 		return *this;
 	}
 
+	/// <summary> Mathematical quaternion subtraction. </summary>
 	Quaternion& operator-=(const Quaternion& rhs) {
 		vec -= rhs.vec;
 		return *this;
 	}
 
+	/// <summary> Mathematical quaternion product according to distributive law. </summary>
 	Quaternion& operator*=(const Quaternion& rhs) {
 		*this = Product<SimdAccelerated>(*this, rhs);
 		return *this;
 	}
 
+	/// <summary> Multiply all coefficients of the quaternion by <paramref name="s"/>. </summary>
 	Quaternion& operator*=(T s) {
 		vec *= s;
 		return *this;
 	}
+	/// <summary> Divide all coefficients of the quaternion by <paramref name="s"/>. </summary>
 	Quaternion& operator/=(T s) {
 		*this *= T(1) / s;
 		return *this;
 	}
 
+	/// <summary> Mathematical quaternion addition. </summary>
 	Quaternion operator+(const Quaternion& rhs) const {
 		return Quaternion(*this) += rhs;
 	}
+	/// <summary> Mathematical quaternion subtraction. </summary>
 	Quaternion operator-(const Quaternion& rhs) const {
 		return Quaternion(*this) -= rhs;
 	}
+	/// <summary> Mathematical quaternion product according to distributive law. </summary>
 	Quaternion operator*(const Quaternion& rhs) const {
 		return Quaternion(*this) *= rhs;
 	}
+	/// <summary> Multiply all coefficients of the quaternion by <paramref name="s"/>. </summary>
 	Quaternion operator*(T s) const {
 		return Quaternion(*this) *= s;
 	}
+	/// <summary> Divide all coefficients of the quaternion by <paramref name="s"/>. </summary>
 	Quaternion operator/(T s) const {
 		return Quaternion(*this) /= s;
 	}
 
+	/// <summary> Negates all elements of the quaternion. </summary> 
+	/// <remarks> Funnily, it's going to represent the same rotation. </summary>
 	Quaternion operator-() const {
 		return Quaternion(-vec);
 	}
@@ -172,60 +203,115 @@ public:
 	//-----------------------------------------------
 	// Comparison
 	//-----------------------------------------------
+
+	/// <summary> Check exact equality of coefficients. </summary>
 	bool operator==(const Quaternion& rhs) const {
 		return vec == rhs.vec;
 	}
+	/// <summary> Check exact unequality of coefficients. </summary>
 	bool operator!=(const Quaternion& rhs) const {
 		return !(*this == rhs);
 	}
+	/// <summary> Check equality with some tolerance for floats. </summary>
 	bool AlmostEqual(const Quaternion& rhs) const {
 		return vec.AlmostEqual(rhs.vec);
 	}
 
+	//-----------------------------------------------
+	// Mathematically named functions
+	//-----------------------------------------------
+
+	T Abs() const {
+		return vec.Length();
+	}
+
+	Quaternion Conjugate() const {
+		return Inverse();
+	}
+
+	static Quaternion Exp(const Quaternion& q) {
+		auto a = q.ScalarPart();
+		auto v = q.VectorPart();
+		T mag = v.Length();
+		T es = exp(a);
+
+		Quaternion ret = {cos(mag), v*(sin(mag)/mag)};
+		ret *= es;
+
+		return ret;
+	}
+
+	static Quaternion Log(const Quaternion& q) {
+		auto magq = q.Length();
+		auto vn = q.VectorPart().Normalized();
+		
+		Quaternion ret = { log(magq), vn*acos(q.s / magq) };
+		return ret;
+	}
+
+	static Quaternion Pow(const Quaternion& q, T a) {
+		return Exp(a*Log(q));
+	}
 
 	//-----------------------------------------------
 	// Functions
 	//-----------------------------------------------
 
+	/// <summary> Returns the absolute value of the quaternion. </summary>
+	/// <remarks> Just like complex numbers, it's the length of the vector formed by the coefficients. </remarks>
 	T Length() const {
-		return vec.Length();
+		return Abs();
 	}
+	/// <summary> Returns the square of the absolute value. </summary>
+	/// <remarks> Just like complex numbers, it's the square of the length of the vector formed by the coefficients.
+	///			This is much faster than <see cref="Length">. </remarks>
 	T LengthSquared() const {
 		return vec.LengthSquared();
 	}
 
+	/// <summary> Returns the unit quaternion of the same direction. Does not change this object. </summary>
 	Quaternion Normalized() const {
 		return Quaternion(vec.Normalized());
 	}
+	/// <summary> Makes this a unit quaternion. </summary>
 	Quaternion& Normalize() {
 		vec.Normalize();
 		return *this;
 	}
 
+	/// <summary> Reverses the direction of the rotation. </summary>
 	Quaternion& Invert() {
 		vec *= Vector<T, 4, Packed>{ T(1), T(-1), T(-1), T(-1) };
 		return *this;
 	}
+	/// <summary> Returns the quaternion of opposite rotation. </summary>
 	Quaternion Inverse() const {
 		return Quaternion(*this).Invert();
 	}
 
+	/// <summary> Check if the quaternion is a unit quaternion, with some tolerance for floats. </summary>
 	bool IsNormalized() const {
 		T n = LengthSquared();
 		return T(0.9999) <= n && n <= T(1.0001);
 	}
 
+	/// <summary> Returns the scalar part (w) of (w + xi + yj + zk). </summary>
 	const T ScalarPart() const {
 		return s;
 	}
+	/// <summary> Returns the vector part (x, y, z) of (w + xi + yj + zk). </summary>
 	const Vector<T, 3, Packed> VectorPart() const {
 		return { x, y, z };
 	}
 
+	/// <summary> Returns the angle of the rotation represented by quaternion. </summary>
+	/// <remarks> Only valid for unit quaternions. </remarks>
 	const T Angle() const {
 		assert(IsNormalized());
 		return 2 * std::acos(s);
 	}
+	/// <summary> Returns the axis of rotation represented by quaternion. </summary>
+	/// <remarks> Only valid for unit quaternions. Returns (1,0,0) for near 180 degree rotations. </remarks>
 	const Vector<T, 3, Packed> Axis() const {
 		assert(IsNormalized());
 		auto direction = VectorPart();
@@ -238,18 +324,23 @@ public:
 	//-----------------------------------------------
 	// Matrix conversions
 	//-----------------------------------------------
+
+	/// <summary> Creates a rotation matrix equivalent to the quaternion. </summary>
 	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 	explicit operator Matrix<U, 3, 3, Order, Layout, Packed>() const {
 		return ToMatrix<U, 3, 3, Order, Layout, Packed>();
 	}
+	/// <summary> Creates a rotation matrix equivalent to the quaternion. </summary>
 	template <class U, eMatrixLayout Layout, bool Packed>
 	explicit operator Matrix<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, Packed>() const {
 		return ToMatrix<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, Packed>();
 	}
+	/// <summary> Creates a rotation matrix equivalent to the quaternion. </summary>
 	template <class U, eMatrixLayout Layout, bool Packed>
 	explicit operator Matrix<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, Packed>() const {
 		return ToMatrix<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, Packed>();
 	}
+	/// <summary> Creates a rotation matrix equivalent to the quaternion. </summary>
 	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 	explicit operator Matrix<U, 4, 4, Order, Layout, Packed>() const {
 		return ToMatrix<U, 4, 4, Order, Layout, Packed>();
@@ -258,6 +349,8 @@ public:
 	//-----------------------------------------------
 	// Truncate to vector
 	//-----------------------------------------------
+
+	/// <summary> Truncates the quaternion to the vector part (x, y, z). </summary>
 	template <class U, bool Packed>
 	explicit operator Vector<U, 3, Packed>() const {
 		return { x, y, z };
@@ -267,25 +360,29 @@ public:
 	//-----------------------------------------------
 	// Apply to vector
 	//-----------------------------------------------
+
+	/// <summary> Rotates (and scales) vector by quaternion. </summary>
 	template <bool Packed>
 	Vector<T, 3, Packed> operator*(const Vector<T, 3, Packed>& vec) const {
 		// sandwich product
 		return Vector<T, 3, Packed>((*this)*Quaternion(vec)*Inverse());
 	}
 
+	/// <summary> Rotates (and scales) vector by quaternion. </summary>
 	template <bool Packed>
 	friend Vector<T, 3, Packed> operator*(const Vector<T, 3, Packed>& vec, const Quaternion& q) {
 		// sandwich product
 		return Vector<T, 3, Packed>(q*Quaternion(vec)*q.Inverse());
 	}
 
-
+	/// <summary> Rotates (and scales) vector by quaternion. </summary>
 	template <bool Packed>
 	friend Vector<T, 3, Packed>& operator*=(Vector<T, 3, Packed>& vec, const Quaternion& q) {
 		// sandwich product
 		return vec = Vector<T, 3, Packed>(q*Quaternion(vec)*q.Inverse());
 	}
 
+	/// <summary> Rotates (and scales) vector by quaternion. </summary>
 	template <bool Packed>
 	Vector<T, 3, Packed> operator()(const Vector<T, 3, Packed>& vec) const {
 		// sandwich product
@@ -387,15 +484,18 @@ protected:
 
 
 
+/// <summary> Multiplies all coefficients of the quaternion by <paramref name="s"/>. </summary>
 template <class T, bool Packed, class U, class = typename std::enable_if<!std::is_same<U, Quaternion<T, Packed>>::value>::type>
 Quaternion<T, Packed> operator*(U s, const Quaternion<T, Packed>& rhs) {
 	return rhs * s;
 }
+/// <summary> Divides all coefficients of the quaternion by <paramref name="s"/>. </summary>
 template <class T, bool Packed, class U, class = typename std::enable_if<!std::is_same<U, Quaternion<T, Packed>>::value>::type>
 Quaternion<T, Packed> operator/(U s, const Quaternion<T, Packed>& rhs) {
 	return rhs / s;
 }
 
+/// <summary> Adds a real to the real part of the quaternion. </summary>
 template <class T, bool Packed, class U, class = typename std::enable_if<!impl::IsQuaternion<U>::value>::type>
 Quaternion<T, Packed> operator+(const U& lhs, const Quaternion<T, Packed>& rhs) {
 	return Quaternion<T, Packed>(rhs.w + lhs, rhs.x, rhs.y, rhs.z);
@@ -403,7 +503,9 @@ Quaternion<T, Packed> operator+(const U& lhs, const Quaternion<T, Packed>& rhs) 
 
 
 
+// Helpers to write quaternion in paper-style such as (1 + 2_i + 3_j + 4_k). Slow performance, be careful.
 namespace quat_literals {
+
 
 inline Quaternion<long double> operator "" _i(unsigned long long int arg) {
 	return Quaternion<long double>(0, (long double)arg, 0, 0);
@@ -425,8 +527,7 @@ inline Quaternion<long double> operator "" _k(long double arg) {
 	return Quaternion<long double>(0, 0, 0, arg);
 }
 
-};
-
+} // namespace quat_literals
 
 
 } // namespace mathter
