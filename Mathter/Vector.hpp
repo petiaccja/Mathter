@@ -18,10 +18,12 @@
 // Why the fuck do I even have to manually enable it??? Get you shit together Microsoft!
 #ifdef _MSC_VER
 #define MATHTER_EBCO __declspec(empty_bases)
+#else
+#define MATHTER_EBCO
 #endif
 
 // No, we don't support older compilers.
-#if _MSC_VER < 1900
+#if _MSC_VER && _MSC_VER < 1900
 #error Visual Studio 2015 Update 2 or later version are supported.
 #endif
 
@@ -35,6 +37,7 @@
 #include <array>
 #include <cstdint>
 #include <algorithm>
+#include <cmath>
 
 #include "Simd.hpp"
 
@@ -248,7 +251,7 @@ bool AlmostEqual(T d1, T d2, std::true_type) {
 	if (d1 == 0 && d2 < 1e-4 || d2 == 0 && d1 < 1e-4) {
 		return true;
 	}
-	T scaler = pow(T(10), floor(log10(abs(d1))));
+	T scaler = pow(T(10), floor(std::log10(std::abs(d1))));
 	d1 /= scaler;
 	d2 /= scaler;
 	d1 *= T(1000.0);
@@ -355,7 +358,7 @@ public:
 		return Vector<T, Dim, Packed>(*this);
 	}
 protected:
-	template <int... Rest, class = std::enable_if<sizeof...(Rest)==0>::type>
+	template <int... Rest, class = typename std::enable_if<sizeof...(Rest)==0>::type>
 	void Assign(const T*) {}
 
 	template <int Index, int... Rest>
@@ -651,7 +654,7 @@ protected:
 
 	// Misc
 	static inline T dot(const VectorT& lhs, const VectorT& rhs) {
-		return SimdT::dot<Dim>(lhs.simd, rhs.simd);
+		return SimdT::template dot<Dim>(lhs.simd, rhs.simd);
 	}
 };
 
@@ -764,11 +767,14 @@ class MATHTER_EBCO Vector
 public:
 	static void DumpLayout(std::ostream& os) {
 		Vector* ptr = reinterpret_cast<Vector*>(1000);
-		os << "VectorData:       " << (intptr_t)static_cast<VectorData<T, 4, false>*>(ptr) - 1000 << " -> " << sizeof(VectorData<T, 4, false>) << endl;
-		os << "VectorOps:        " << (intptr_t)static_cast<VectorOps<T, 4, false>*>(ptr) - 1000 << " -> " << sizeof(VectorOps<T, 4, false>) << endl;
-		os << "VectorSpecialOps: " << (intptr_t)static_cast<VectorSpecialOps<T, 4, false>*>(ptr) - 1000 << " -> " << sizeof(VectorSpecialOps<T, 4, false>) << endl;
-		os << "Vector:           " << (intptr_t)static_cast<Vector<T, 4, false>*>(ptr) - 1000 << " -> " << sizeof(Vector<T, 4, false>) << endl;
+		os << "VectorData:       " << (intptr_t)static_cast<VectorData<T, 4, false>*>(ptr) - 1000 << " -> " << sizeof(VectorData<T, 4, false>) << std::endl;
+		os << "VectorOps:        " << (intptr_t)static_cast<VectorOps<T, 4, false>*>(ptr) - 1000 << " -> " << sizeof(VectorOps<T, 4, false>) << std::endl;
+		os << "VectorSpecialOps: " << (intptr_t)static_cast<VectorSpecialOps<T, 4, false>*>(ptr) - 1000 << " -> " << sizeof(VectorSpecialOps<T, 4, false>) << std::endl;
+		os << "Vector:           " << (intptr_t)static_cast<Vector<T, 4, false>*>(ptr) - 1000 << " -> " << sizeof(Vector<T, 4, false>) << std::endl;
 	}
+
+
+	using VectorData<T, Dim, Packed>::data;
 
 	//--------------------------------------------
 	// Properties
@@ -980,25 +986,25 @@ public:
 	// Vector assign arithmetic
 	/// <summary> Elementwise (Hadamard) vector product. </summary>
 	inline Vector& operator*=(const Vector& rhs) {
-		mul(*this, rhs);
+		this->mul(*this, rhs);
 		return *this;
 	}
 
 	/// <summary> Elementwise vector division. </summary>
 	inline Vector& operator/=(const Vector& rhs) {
-		div(*this, rhs);
+		this->div(*this, rhs);
 		return *this;
 	}
 
 	/// <summary> Elementwise vector addition. </summary>
 	inline Vector& operator+=(const Vector& rhs) {
-		add(*this, rhs);
+		this->add(*this, rhs);
 		return *this;
 	}
 
 	/// <summary> Elementwise vector subtraction. </summary>
 	inline Vector& operator-=(const Vector& rhs) {
-		sub(*this, rhs);
+		this->sub(*this, rhs);
 		return *this;
 	}
 
@@ -1025,25 +1031,25 @@ public:
 	// Scalar assign arithmetic
 	/// <summary> Scales the vector by <paramref name="rhs"/>. </summary>
 	inline Vector& operator*=(T rhs) {
-		mul(*this, rhs);
+		this->mul(*this, rhs);
 		return *this;
 	}
 
 	/// <summary> Scales the vector by 1/<paramref name="rhs"/>. </summary>
 	inline Vector& operator/=(T rhs) {
-		div(*this, rhs);
+		this->div(*this, rhs);
 		return *this;
 	}
 
 	/// <summary> Adds <paramref name="rhs"/> to each element of the vector. </summary>
 	inline Vector& operator+=(T rhs) {
-		add(*this, rhs);
+		this->add(*this, rhs);
 		return *this;
 	}
 
 	/// <summary> Subtracts <paramref name="rhs"/> from each element of the vector. </summary>
 	inline Vector& operator-=(T rhs) {
-		sub(*this, rhs);
+		this->sub(*this, rhs);
 		return *this;
 	}
 
@@ -1089,7 +1095,7 @@ public:
 
 	/// <summary> Returns the scalar product of the two vectors. </summary>
 	static T Dot(const Vector& lhs, const Vector& rhs) {
-		return dot(lhs, rhs);
+		return Vector::dot(lhs, rhs);
 	}
 
 	/// <summary> Returns the scalar product of the two vectors. </summary>
@@ -1136,9 +1142,9 @@ protected:
 	struct GetVectorElement {
 		static U Get(const U& u, int idx) { return u; }
 	};
-	template <class U, int E, bool Packed>
-	struct GetVectorElement<Vector<U, E, Packed>> {
-		static U Get(const Vector<U, E, Packed>& u, int idx) { return u.data[idx]; }
+	template <class T2, int D2, bool P2>
+	struct GetVectorElement<Vector<T2, D2, P2>> {
+		static T2 Get(const Vector<T2, D2, P2>& u, int idx) { return u.data[idx]; }
 	};
 	template <class U, int... Indices>
 	struct GetVectorElement<Swizzle<U, Indices...>> {
@@ -1238,7 +1244,7 @@ auto Distance(const Vector<T, Dim, Packed1>& lhs, const Vector<U, Dim, Packed2>&
 }
 
 /// <summary> Returns the normalized version of <paramref name="arg">. </summary>
-template <class T, int Dim, int Packed>
+template <class T, int Dim, bool Packed>
 auto Normalized(const Vector<T, Dim, Packed>& arg) {
 	return arg.Normalized();
 }
@@ -1335,7 +1341,7 @@ namespace mathter {
 template <class T, int Dim, bool Packed>
 auto VectorSpecialOps<T, Dim, Packed>::Cross(const std::array<const VectorT*, Dim - 1>& args) -> VectorT {
 	VectorT result;
-	Matrix<T, Dim - 1, Dim - 1> detCalc;
+	Matrix<T, Dim - 1, Dim - 1, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, false> detCalc;
 
 	// Calculate elements of result on-by-one
 	int sign = 2 * (Dim % 2) - 1;

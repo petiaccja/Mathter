@@ -4,7 +4,7 @@
 //==============================================================================
 
 #pragma warning(disable: 4244)
-#include <gtest\gtest.h>
+#include <gtest/gtest.h>
 
 #include "Mathter/Geometry.hpp"
 

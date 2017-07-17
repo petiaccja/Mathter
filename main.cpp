@@ -5,8 +5,8 @@
 
 #pragma warning(disable: 4244)
 
-#include "Mathter\Vector.hpp"
-#include "Mathter\Matrix.hpp"
+#include "Mathter/Vector.hpp"
+#include "Mathter/Matrix.hpp"
 #include "Measure.hpp"
 
 #include <iostream>
@@ -14,9 +14,15 @@
 #include <vector>
 #include <random>
 
+#ifdef _MSC_VER
 #include <conio.h>
+#else
+#include <iostream>
+char _getch() { return std::cin.get(); }
+#endif
 
-#include <gtest\gtest.h>
+
+#include <gtest/gtest.h>
 
 
 
@@ -40,10 +46,10 @@ struct PlainMat4 {
 	}
 
 	float& operator()(int x, int y) {
-		return stripes[y].m128_f32[x];
+		return reinterpret_cast<float*>(&stripes[y])[x];
 	}
 	float operator()(int x, int y) const {
-		return stripes[y].m128_f32[x];
+		return reinterpret_cast<const float*>(&stripes[y])[x];
 	}
 };
 
@@ -88,7 +94,7 @@ std::ostream& operator<<(std::ostream& os, const PlainMat4& mat) {
 double MatMulSpeedTestPlain() {
 	using LeftT = PlainMat4;
 	using RightT = PlainMat4;
-	using ResultT = typename decltype(LeftT()*RightT());
+	using ResultT = decltype(LeftT()*RightT());
 
 	constexpr int iterationCount = 100'000;
 	std::vector<LeftT> left(iterationCount);

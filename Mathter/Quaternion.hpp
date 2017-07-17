@@ -41,13 +41,13 @@ public:
 	Quaternion(const Quaternion& rhs) : vec(rhs.vec) {}
 
 	/// <summary> Set values directly. </summary>
-	Quaternion(T scalar, T x, T y, T z) : s(scalar), x(x), y(y), z(z) {}
+	Quaternion(T scalar, T x, T y, T z) : w(scalar), x(x), y(y), z(z) {}
 
 	/// <summary> Sets the scalar part (w) and the vector part (xyz). This is not <see cref="AxisAngle"/> rotation. </summary>
-	Quaternion(T scalar, const Vector<T, 3, true>& vector) : s(scalar), x(vector.x), y(vector.y), z(vector.z) {}
+	Quaternion(T scalar, const Vector<T, 3, true>& vector) : w(scalar), x(vector.x), y(vector.y), z(vector.z) {}
 
 	/// <summary> Sets the scalar part (w) and the vector part (xyz). This is not <see cref="AxisAngle"/> rotation. </summary>
-	Quaternion(T scalar, const Vector<T, 3, false>& vector) : s(scalar), x(vector.x), y(vector.y), z(vector.z) {}
+	Quaternion(T scalar, const Vector<T, 3, false>& vector) : w(scalar), x(vector.x), y(vector.y), z(vector.z) {}
 
 	/// <summary> Sets the scalar part to zero, and the vector part to given argument. </summary>
 	explicit Quaternion(const Vector<T, 3, true>& vector) : Quaternion(0, vector) {}
@@ -57,26 +57,26 @@ public:
 
 	/// <summary> Convert a rotation matrix to equivalent quaternion. </summary>
 	/// <remarks> Matrix must be in SO(3). </remarks>
-	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-	explicit Quaternion(const Matrix<U, 3, 3, Order, Layout, Packed>& rhs) {
+	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool PackedA>
+	explicit Quaternion(const Matrix<U, 3, 3, Order, Layout, PackedA>& rhs) {
 		FromMatrix(rhs);
 	}
 	/// <summary> Convert a rotation matrix to equivalent quaternion. </summary>
 	/// <remarks> Matrix must be in SO(3). Translation part is ignored. </remarks>
-	template <class U, eMatrixLayout Layout, bool Packed>
-	explicit Quaternion(const Matrix<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, Packed>& rhs) {
+	template <class U, eMatrixLayout Layout, bool PackedA>
+	explicit Quaternion(const Matrix<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, PackedA>& rhs) {
 		FromMatrix(rhs);
 	}
 	/// <summary> Convert a rotation matrix to equivalent quaternion. </summary>
 	/// <remarks> Matrix must be in SO(3). Translation part is ignored. </remarks>
-	template <class U, eMatrixLayout Layout, bool Packed>
-	explicit Quaternion(const Matrix<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, Packed>& rhs) {
+	template <class U, eMatrixLayout Layout, bool PackedA>
+	explicit Quaternion(const Matrix<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, PackedA>& rhs) {
 		FromMatrix(rhs);
 	}
 	/// <summary> Convert a rotation matrix to equivalent quaternion. </summary>
 	/// <remarks> Matrix must be in SO(3). Translation part is ignored. </remarks>
-	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-	explicit Quaternion(const Matrix<U, 4, 4, Order, Layout, Packed>& rhs) {
+	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool PackedA>
+	explicit Quaternion(const Matrix<U, 4, 4, Order, Layout, PackedA>& rhs) {
 		FromMatrix(rhs);
 	}
 protected:
@@ -100,29 +100,29 @@ public:
 
 	/// <summary> Convert a rotation matrix to equivalent quaternion. </summary>
 	/// <remarks> Matrix must be in SO(3). </remarks>
-	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-	Quaternion& operator=(const Matrix<U, 3, 3, Order, Layout, Packed>& rhs) {
+	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool PackedA>
+	Quaternion& operator=(const Matrix<U, 3, 3, Order, Layout, PackedA>& rhs) {
 		FromMatrix(rhs);
 		return *this;
 	}
 	/// <summary> Convert a rotation matrix to equivalent quaternion. </summary>
 	/// <remarks> Matrix must be in SO(3). Translation part is ignored. </remarks>
-	template <class U, eMatrixLayout Layout, bool Packed>
-	Quaternion& operator=(const Matrix<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, Packed>& rhs) {
+	template <class U, eMatrixLayout Layout, bool PackedA>
+	Quaternion& operator=(const Matrix<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, PackedA>& rhs) {
 		FromMatrix(rhs);
 		return *this;
 	}
 	/// <summary> Convert a rotation matrix to equivalent quaternion. </summary>
 	/// <remarks> Matrix must be in SO(3). Translation part is ignored. </remarks>
-	template <class U, eMatrixLayout Layout, bool Packed>
-	Quaternion& operator=(const Matrix<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, Packed>& rhs) {
+	template <class U, eMatrixLayout Layout, bool PackedA>
+	Quaternion& operator=(const Matrix<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, PackedA>& rhs) {
 		FromMatrix(rhs);
 		return *this;
 	}
 	/// <summary> Convert a rotation matrix to equivalent quaternion. </summary>
 	/// <remarks> Matrix must be in SO(3). Translation part is ignored. </remarks>
-	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-	Quaternion& operator=(const Matrix<U, 4, 4, Order, Layout, Packed>& rhs) {
+	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool PackedA>
+	Quaternion& operator=(const Matrix<U, 4, 4, Order, Layout, PackedA>& rhs) {
 		FromMatrix(rhs);
 		return *this;
 	}
@@ -326,24 +326,24 @@ public:
 	//-----------------------------------------------
 
 	/// <summary> Creates a rotation matrix equivalent to the quaternion. </summary>
-	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-	explicit operator Matrix<U, 3, 3, Order, Layout, Packed>() const {
-		return ToMatrix<U, 3, 3, Order, Layout, Packed>();
+	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool PackedA>
+	explicit operator Matrix<U, 3, 3, Order, Layout, PackedA>() const {
+		return ToMatrix<U, 3, 3, Order, Layout, PackedA>();
 	}
 	/// <summary> Creates a rotation matrix equivalent to the quaternion. </summary>
-	template <class U, eMatrixLayout Layout, bool Packed>
-	explicit operator Matrix<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, Packed>() const {
-		return ToMatrix<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, Packed>();
+	template <class U, eMatrixLayout Layout, bool PackedA>
+	explicit operator Matrix<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, PackedA>() const {
+		return ToMatrix<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, PackedA>();
 	}
 	/// <summary> Creates a rotation matrix equivalent to the quaternion. </summary>
-	template <class U, eMatrixLayout Layout, bool Packed>
-	explicit operator Matrix<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, Packed>() const {
-		return ToMatrix<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, Packed>();
+	template <class U, eMatrixLayout Layout, bool PackedA>
+	explicit operator Matrix<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, PackedA>() const {
+		return ToMatrix<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, PackedA>();
 	}
 	/// <summary> Creates a rotation matrix equivalent to the quaternion. </summary>
-	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-	explicit operator Matrix<U, 4, 4, Order, Layout, Packed>() const {
-		return ToMatrix<U, 4, 4, Order, Layout, Packed>();
+	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool PackedA>
+	explicit operator Matrix<U, 4, 4, Order, Layout, PackedA>() const {
+		return ToMatrix<U, 4, 4, Order, Layout, PackedA>();
 	}
 
 	//-----------------------------------------------
@@ -351,8 +351,8 @@ public:
 	//-----------------------------------------------
 
 	/// <summary> Truncates the quaternion to the vector part (x, y, z). </summary>
-	template <class U, bool Packed>
-	explicit operator Vector<U, 3, Packed>() const {
+	template <class U, bool PackedA>
+	explicit operator Vector<U, 3, PackedA>() const {
 		return { x, y, z };
 	}
 
@@ -362,41 +362,41 @@ public:
 	//-----------------------------------------------
 
 	/// <summary> Rotates (and scales) vector by quaternion. </summary>
-	template <bool Packed>
-	Vector<T, 3, Packed> operator*(const Vector<T, 3, Packed>& vec) const {
+	template <bool PackedA>
+	Vector<T, 3, PackedA> operator*(const Vector<T, 3, PackedA>& vec) const {
 		// sandwich product
-		return Vector<T, 3, Packed>((*this)*Quaternion(vec)*Inverse());
+		return Vector<T, 3, PackedA>((*this)*Quaternion(vec)*Inverse());
 	}
 
 	/// <summary> Rotates (and scales) vector by quaternion. </summary>
-	template <bool Packed>
-	friend Vector<T, 3, Packed> operator*(const Vector<T, 3, Packed>& vec, const Quaternion& q) {
+	template <bool PackedA>
+	friend Vector<T, 3, PackedA> operator*(const Vector<T, 3, PackedA>& vec, const Quaternion& q) {
 		// sandwich product
-		return Vector<T, 3, Packed>(q*Quaternion(vec)*q.Inverse());
+		return Vector<T, 3, PackedA>(q*Quaternion(vec)*q.Inverse());
 	}
 
 	/// <summary> Rotates (and scales) vector by quaternion. </summary>
-	template <bool Packed>
-	friend Vector<T, 3, Packed>& operator*=(Vector<T, 3, Packed>& vec, const Quaternion& q) {
+	template <bool PackedA>
+	friend Vector<T, 3, PackedA>& operator*=(Vector<T, 3, PackedA>& vec, const Quaternion& q) {
 		// sandwich product
-		return vec = Vector<T, 3, Packed>(q*Quaternion(vec)*q.Inverse());
+		return vec = Vector<T, 3, PackedA>(q*Quaternion(vec)*q.Inverse());
 	}
 
 	/// <summary> Rotates (and scales) vector by quaternion. </summary>
-	template <bool Packed>
-	Vector<T, 3, Packed> operator()(const Vector<T, 3, Packed>& vec) const {
+	template <bool PackedA>
+	Vector<T, 3, PackedA> operator()(const Vector<T, 3, PackedA>& vec) const {
 		// sandwich product
-		return (Vector<T, 3, Packed>)(q*Quaternion(vec)*q.Inverse());
+		return (Vector<T, 3, PackedA>)((*this)*Quaternion(vec)*Inverse());
 	}
 
 protected:
 	//-----------------------------------------------
 	// Matrix conversion helpers
 	//-----------------------------------------------
-	template <class U, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-	Matrix<U, Rows, Columns, Order, Layout, Packed> ToMatrix() const {
+	template <class U, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool PackedA>
+	Matrix<U, Rows, Columns, Order, Layout, PackedA> ToMatrix() const {
 		assert(IsNormalized());
-		Matrix<U, Rows, Columns, Order, Layout, Packed> mat;
+		Matrix<U, Rows, Columns, Order, Layout, PackedA> mat;
 		auto elem = [&mat](int i, int j) -> U& {
 			return Order == eMatrixOrder::PRECEDE_VECTOR ? mat(i, j) : mat(j, i);
 		};
@@ -414,8 +414,8 @@ protected:
 		return mat;
 	}
 
-	template <class U, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-	void FromMatrix(const Matrix<U, Rows, Columns, Order, Layout, Packed>& mat) {
+	template <class U, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool PackedA>
+	void FromMatrix(const Matrix<U, Rows, Columns, Order, Layout, PackedA>& mat) {
 		assert(mat.IsRotationMatrix3D());
 		auto elem = [&mat](int i, int j) -> U {
 			return Order == eMatrixOrder::PRECEDE_VECTOR ? mat(i, j) : mat(j, i);
@@ -428,7 +428,7 @@ protected:
 	}
 
 	template <bool SimdAccelerated>
-	inline static Quaternion Product(const Quaternion& lhs, const Quaternion& rhs) {
+	inline static typename std::enable_if<!SimdAccelerated, Quaternion>::type Product(const Quaternion& lhs, const Quaternion& rhs) {
 		Quaternion ret;
 		ret.w = lhs.s*rhs.s - lhs.x*rhs.x - lhs.y*rhs.y - lhs.z*rhs.z;
 		ret.x = lhs.s*rhs.x + lhs.x*rhs.s + lhs.y*rhs.z - lhs.z*rhs.y;
@@ -437,8 +437,9 @@ protected:
 		return ret;
 	}
 
-	template <>
-	inline static Quaternion Product<true>(const Quaternion& lhs, const Quaternion& rhs) {
+
+	template <bool SimdAccelerated>
+	inline static typename std::enable_if<SimdAccelerated, Quaternion>::type Product(const Quaternion& lhs, const Quaternion& rhs) {
 		Quaternion ret;
 		using SimdT = Simd<T, 4>;
 
@@ -452,35 +453,36 @@ protected:
 
 		// [ 3, 2, 1, 0 ]
 		// [ 0, 3, 2, 1 ]
-		SimdT t0 = SimdT::shuffle<0,0,0,0>(dabc);
-		SimdT t1 = SimdT::shuffle<3,0,1,2>(wxyz);
+		SimdT t0 = SimdT::template shuffle<0,0,0,0>(dabc);
+		SimdT t1 = SimdT::template shuffle<3,0,1,2>(wxyz);
 
-		SimdT t2 = SimdT::shuffle<1,1,1,1>(dabc);
-		SimdT t3 = SimdT::shuffle<2,1,0,3>(wxyz);
+		SimdT t2 = SimdT::template shuffle<1,1,1,1>(dabc);
+		SimdT t3 = SimdT::template shuffle<2,1,0,3>(wxyz);
 
-		SimdT t4 = SimdT::shuffle<2,2,2,2>(dabc);
-		SimdT t5 = SimdT::shuffle<3,1,0,2>(wxyz);
+		SimdT t4 = SimdT::template shuffle<2,2,2,2>(dabc);
+		SimdT t5 = SimdT::template shuffle<3,1,0,2>(wxyz);
 
 		SimdT m0 = SimdT::mul(t0, t1);
 		SimdT m1 = SimdT::mul(t2, t3);
 		SimdT m2 = SimdT::mul(t4, t5);
 
-		SimdT t6 = SimdT::shuffle<3,3,3,3>(dabc);
-		SimdT t7 = SimdT::shuffle<0,3,1,2>(wxyz);
+		SimdT t6 = SimdT::template shuffle<3,3,3,3>(dabc);
+		SimdT t7 = SimdT::template shuffle<0,3,1,2>(wxyz);
 
 		SimdT m3 = SimdT::mul(t6, t7);
 
 		SimdT e = SimdT::add(m0, SimdT::mul(alternate, m1));
-		e = SimdT::shuffle<1, 3, 0, 2>(e);
+		e = SimdT::template shuffle<1, 3, 0, 2>(e);
 		e = SimdT::add(e, SimdT::mul(alternate, m2));
-		e = SimdT::shuffle<2, 0, 1, 3>(e);
+		e = SimdT::template shuffle<2, 0, 1, 3>(e);
 		e = SimdT::add(e, SimdT::mul(alternate, m3));
-		e = SimdT::shuffle<3, 1, 0, 2>(e);
+		e = SimdT::template shuffle<3, 1, 0, 2>(e);
 
 		ret.vec.simd = e;
 		return ret;
 	}
 };
+
 
 
 

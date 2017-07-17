@@ -4,9 +4,9 @@
 //==============================================================================
 
 #pragma warning(disable: 4244)
-#include <gtest\gtest.h>
+#include <gtest/gtest.h>
 
-#include "Mathter\Vector.hpp"
+#include "Mathter/Vector.hpp"
 
 using namespace mathter;
 
@@ -149,7 +149,7 @@ TEST(Vector, CrossND) {
 	Vector<float, 4> c4(3, 6, 4, -9);
 	Vector<float, 4> r4 = Cross(a4, b4, c4);
 
-	float dotprod = abs(Dot(a4, r4)) + abs(Dot(b4, r4)) + abs(Dot(c4, r4));
+	float dotprod = std::abs(Dot(a4, r4)) + std::abs(Dot(b4, r4)) + std::abs(Dot(c4, r4));
 	ASSERT_TRUE(dotprod < 1e-5f);
 }
 

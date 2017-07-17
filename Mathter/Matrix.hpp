@@ -129,13 +129,13 @@ public:
 	DecompositionLU(const MatrixT& arg) {
 		arg.DecomposeLU(L, U);
 		T prod = L(0, 0);
-		T sum = abs(prod);
+		T sum = std::abs(prod);
 		for (int i = 1; i < Dim; ++i) {
 			prod *= L(i, i);
-			sum += abs(L(i, i));
+			sum += std::abs(L(i, i));
 		}
 		sum /= Dim;
-		solvable = abs(prod) / sum > T(1e-6);
+		solvable = std::abs(prod) / sum > T(1e-6);
 	}
 
 	bool Solve(Vector<float, Dim, Packed>& x, const Vector<T, Dim, Packed>& b);
@@ -151,8 +151,8 @@ public:
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 class MatrixSquare {
 	using MatrixT = Matrix<T, Rows, Columns, Order, Layout, Packed>;
-protected:
-	friend class MatrixT;
+public:
+	friend MatrixT;
 	using Inherit = impl::Empty<MatrixSquare>;
 };
 
@@ -172,8 +172,8 @@ public:
 	mathter::DecompositionLU<T, Dim, Order, Layout, Packed> DecompositionLU() const {
 		return mathter::DecompositionLU<T, Dim, Order, Layout, Packed>(self());
 	}
-protected:
-	friend class MatrixT;
+public:
+	friend MatrixT;
 	using Inherit = MatrixSquare;
 };
 
@@ -198,8 +198,8 @@ public:
 		*this = Rotation(angle);
 		return *this;
 	}
-protected:
-	friend class MatrixT;
+public:
+	friend MatrixT;
 	using Inherit = impl::MatrixModule<Enable2DRotation, MatrixRotation2D>;
 };
 
@@ -237,16 +237,16 @@ public:
 
 	// Member rotation
 	template <int Axis>
-	MatrixT& SetRotationAxis(T angle) {	self() = Rotation<Axis>(angle); return self(); }
+	MatrixT& SetRotationAxis(T angle) {	self() = RotationAxis<Axis>(angle); return self(); }
 
 	MatrixT& SetRotationX(T angle) { self() = RotationX(angle); return self(); }
 	MatrixT& SetRotationY(T angle) { self() = RotationY(angle); return self(); }
 	MatrixT& SetRotationZ(T angle) { self() = RotationZ(angle); return self(); }
 
 	template <int FirstAxis, int SecondAxis, int ThirdAxis>
-	MatrixT& SetRotationAxis3(T angle1, T angle2, T angle3) { self() = Rotation<FirstAxis, SecondAxis, ThirdAxis>(angle1, angle2, angle3); return self(); }
+	MatrixT& SetRotationAxis3(T angle1, T angle2, T angle3) { self() = RotationAxis3<FirstAxis, SecondAxis, ThirdAxis>(angle1, angle2, angle3); return self(); }
 
-	MatrixT& SetRotationEuler(float z1, float x2, float z3) { self() = RotationEuler(z1, x3, z3); return self(); }
+	MatrixT& SetRotationEuler(float z1, float x2, float z3) { self() = RotationEuler(z1, x2, z3); return self(); }
 	MatrixT& SetRotationRPY(float x1, float y2, float z3) { self() = RotationRPY(x1, y2, z3); return self(); }
 	template <class U, bool Vpacked>
 	MatrixT& SetRotationAxisAngle(const Vector<U, 3, Vpacked>& axis, T angle) { self() = Rotation(axis, angle); return self(); }
@@ -260,8 +260,8 @@ public:
 		return (std::abs(Dot(rows[0], rows[1])) + std::abs(Dot(rows[0], rows[2])) + std::abs(Dot(rows[1], rows[2]))) < T(0.0001)
 			&& rows[0].IsNormalized() && rows[1].IsNormalized() && rows[2].IsNormalized();
 	}
-protected:
-	friend class MatrixT;
+public:
+	friend MatrixT;
 	using Inherit = impl::MatrixModule<Enable3DRotation, MatrixRotation3D>;
 };
 
@@ -323,8 +323,8 @@ public:
 
 	template <class Vt, bool Vpacked>
 	MatrixT& SetTranslation(const Vector<Vt, TranslationDim, Vpacked>& translation) { self() = Translation(translation); return self(); }
-protected:
-	friend class MatrixT;
+public:
+	friend MatrixT;
 	using Inherit = impl::MatrixModule<EnableTranslation, MatrixTranslation>;
 };
 
@@ -374,8 +374,8 @@ public:
 
 	template <class Vt, int Vdim, bool Vpacked>
 	MatrixT& SetScale(const Vector<Vt, Vdim, Vpacked>& translation) { self() = Scale(translation); return self(); }
-protected:
-	friend class MatrixT;
+public:
+	friend MatrixT;
 	using Inherit = MatrixScale;
 };
 
@@ -388,8 +388,8 @@ protected:
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 class MatrixPerspective {
 	using MatrixT = Matrix<T, Rows, Columns, Order, Layout, Packed>;
-protected:
-	friend class MatrixT;
+public:
+	friend MatrixT;
 	using Inherit = impl::Empty<MatrixPerspective>;
 };
 
@@ -397,6 +397,8 @@ template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packe
 class MatrixProjectiveBase {
 protected:
 	using MatrixT = Matrix<T, Dim, Dim, Order, Layout, Packed>;
+	MatrixT& self() { return *static_cast<MatrixT*>(this); }
+	const MatrixT& self() const { return *static_cast<const MatrixT*>(this); }
 public:
 	static MatrixT Perspective(T fovX, const Vector<T, Dim-2, Packed>& ratios, T nearPlane, T farPlane, T projNearPlane = 0, T projFarPlane = 1) {
 		assert((nearPlane < 0 && farPlane < nearPlane) || (0 < nearPlane && nearPlane < farPlane));
@@ -408,7 +410,7 @@ public:
 		// 0 h 0 0
 		// 0 0 A B
 		// 0 0 C 0
-		fovX = abs(fovX);
+		fovX = std::abs(fovX);
 		T N = nearPlane;
 		T F = farPlane;
 		T n = projNearPlane;
@@ -440,15 +442,15 @@ public:
 // 1x1matrices: no projection
 template <class T, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 class MatrixPerspective<T, 1,1, Order, Layout, Packed> {
-protected:
-	friend class Matrix<T, 1, 1, Order, Layout, Packed>;
+public:
+	friend Matrix<T, 1, 1, Order, Layout, Packed>;
 	using Inherit = impl::Empty<MatrixPerspective>;
 };
 
 // 2x2 matrices : no projection
 template <class T, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 class MatrixPerspective<T, 2, 2, Order, Layout, Packed> {
-protected:
+public:
 	friend class Matrix<T, 2, 2, Order, Layout, Packed>;
 	using Inherit = impl::Empty<MatrixPerspective>;
 };
@@ -470,8 +472,8 @@ public:
 		self() = Perspective(fov, nearPlane, farPlane, projNearPlane, projFarPlane);
 		return self();
 	}
-protected:
-	friend class MatrixT;
+public:
+	friend MatrixT;
 	using Inherit = MatrixPerspective;
 };
 
@@ -486,14 +488,14 @@ class MatrixPerspective<T, 4, 4, Order, Layout, Packed>
 public:
 	static MatrixT Perspective(T fov, T aspectRatio, T nearPlane, T farPlane, T projNearPlane = 0, T projFarPlane = 1) {
 		return MatrixProjectiveBase<T, 4, Order, Layout, Packed>::Perspective(
-			abs(fov), Vector<T, 2, Packed>{ fov < 0 ? -1 : 1, T(1)/aspectRatio}, nearPlane, farPlane, projNearPlane, projFarPlane);
+			std::abs(fov), Vector<T, 2, Packed>{ fov < 0 ? -1 : 1, T(1)/aspectRatio}, nearPlane, farPlane, projNearPlane, projFarPlane);
 	}
 	MatrixT& SetPerspective(T fov, T aspectRatio, T nearPlane, T farPlane, T projNearPlane = 0, T projFarPlane = 1) {
 		self() = Perspective(fov, aspectRatio, nearPlane, farPlane, projNearPlane, projFarPlane);
 		return self();
 	}
-protected:
-	friend class MatrixT;
+public:
+	friend MatrixT;
 	using Inherit = MatrixPerspective;
 };
 
@@ -505,8 +507,8 @@ class MatrixPerspective<T, Dim, Dim, Order, Layout, Packed>
 	using MatrixT = Matrix<T, Dim, Dim, Order, Layout, Packed>;
 	MatrixT& self() { return *static_cast<MatrixT*>(this); }
 	const MatrixT& self() const { return *static_cast<const MatrixT*>(this); }
-protected:
-	friend class MatrixT;
+public:
+	friend MatrixT;
 	using Inherit = MatrixPerspective;
 };
 
@@ -545,8 +547,8 @@ public:
 		self() = Orthographic(minBounds, maxBounds, projNearPlane, projFarPlane);
 		return self();
 	}
-protected:
-	friend class MatrixT;
+public:
+	friend MatrixT;
 	using Inherit = impl::MatrixModule<EnableView, MatrixOrthographic>;
 };
 
@@ -626,18 +628,18 @@ public:
 	}
 
 	// Specialization for 2D
-	template <class =std::enable_if<SpaceDim == 2, int>::type>
-	static MatrixT LookAt(const VectorT& eye, const VectorT& target, bool positiveYForward = true, bool flipX = false) {
+	template <class Q = MatrixT>
+	static typename std::enable_if<SpaceDim == 2, Q>::type LookAt(const VectorT& eye, const VectorT& target, bool positiveYForward = true, bool flipX = false) {
 		return LookAt(eye, target, {}, { flipX, positiveYForward });
 	}
 
 	// Specialization for 3D
-	template <class = std::enable_if<SpaceDim == 3, int>::type>
-	static MatrixT LookAt(const VectorT& eye, const VectorT& target, const VectorT& up, bool positiveZForward = true, bool flipX = false, bool flipY = false) {
+	template <class Q = MatrixT>
+	static typename std::enable_if<SpaceDim == 3, Q>::type LookAt(const VectorT& eye, const VectorT& target, const VectorT& up, bool positiveZForward = true, bool flipX = false, bool flipY = false) {
 		return LookAt(eye, target, { up }, { flipX, flipY, positiveZForward });
 	}
-protected:
-	friend class MatrixT;
+public:
+	friend MatrixT;
 	using Inherit = impl::MatrixModule<EnableView, MatrixView>;
 };
 
@@ -739,14 +741,14 @@ class MATHTER_EBCO Matrix
 	// These checks must be put in a separate function instead of class scope because the full definition
 	// of the Matrix class is required to determine memory layout.
 	void CheckLayoutContraints() {
-		using Module1 = MatrixSquare<T, Rows, Columns, Order, Layout, Packed>::Inherit;
-		using Module2 = MatrixRotation2D<T, Rows, Columns, Order, Layout, Packed>::Inherit;
-		using Module3 = MatrixRotation3D<T, Rows, Columns, Order, Layout, Packed>::Inherit;
-		using Module4 = MatrixTranslation<T, Rows, Columns, Order, Layout, Packed>::Inherit;
-		using Module5 = MatrixScale<T, Rows, Columns, Order, Layout, Packed>::Inherit;
-		using Module6 = MatrixPerspective<T, Rows, Columns, Order, Layout, Packed>::Inherit;
-		using Module7 = MatrixOrthographic<T, Rows, Columns, Order, Layout, Packed>::Inherit;
-		using Module8 = MatrixView<T, Rows, Columns, Order, Layout, Packed>::Inherit;
+		using Module1 = typename MatrixSquare<T, Rows, Columns, Order, Layout, Packed>::Inherit;
+		using Module2 = typename MatrixRotation2D<T, Rows, Columns, Order, Layout, Packed>::Inherit;
+		using Module3 = typename MatrixRotation3D<T, Rows, Columns, Order, Layout, Packed>::Inherit;
+		using Module4 = typename MatrixTranslation<T, Rows, Columns, Order, Layout, Packed>::Inherit;
+		using Module5 = typename MatrixScale<T, Rows, Columns, Order, Layout, Packed>::Inherit;
+		using Module6 = typename MatrixPerspective<T, Rows, Columns, Order, Layout, Packed>::Inherit;
+		using Module7 = typename MatrixOrthographic<T, Rows, Columns, Order, Layout, Packed>::Inherit;
+		using Module8 = typename MatrixView<T, Rows, Columns, Order, Layout, Packed>::Inherit;
 		static_assert(sizeof(Matrix) == sizeof(MatrixData<T, Rows, Columns, Order, Layout, Packed>), "Your compiler did not optimize matrix class' size. Do you have empty base optimization enabled?");
 		static_assert(impl::BasePtrEquals<Module1, Matrix>::value, "Your compiler did not lay out derived class' memory correctly. Empty base class' offset must be zero in derived.");
 		static_assert(impl::BasePtrEquals<Module2, Matrix>::value, "Your compiler did not lay out derived class' memory correctly. Empty base class' offset must be zero in derived.");
@@ -759,7 +761,8 @@ class MATHTER_EBCO Matrix
 	}
 protected:
 	using MatrixData<T, Rows, Columns, Order, Layout, Packed>::GetElement;
-	using MatrixData::stripes;
+	using MatrixData<T, Rows, Columns, Order, Layout, Packed>::stripes;
+	using MatrixData<T, Rows, Columns, Order, Layout, Packed>::StripeCount;
 
 	template <class T2, int Dim, eMatrixOrder Order2, eMatrixLayout Layout2, bool Packed2>
 	friend class mathter::DecompositionLU;
@@ -767,11 +770,11 @@ public:
 	static void DumpLayout(std::ostream& os) {
 		Matrix* ptr = reinterpret_cast<Matrix*>(1000);
 		using T1 = MatrixData<T, Rows, Columns, Order, Layout, Packed>;
-		using T2 = MatrixSquare<T, Rows, Columns, Order, Layout, Packed>::Inherit;
-		using T3 = MatrixRotation2D<T, Rows, Columns, Order, Layout, Packed>::Inherit;
-		using T4 = MatrixRotation3D<T, Rows, Columns, Order, Layout, Packed>::Inherit;
-		using T5 = MatrixTranslation<T, Rows, Columns, Order, Layout, Packed>::Inherit;
-		using T6 = MatrixScale<T, Rows, Columns, Order, Layout, Packed>::Inherit;
+		using T2 = typename MatrixSquare<T, Rows, Columns, Order, Layout, Packed>::Inherit;
+		using T3 = typename MatrixRotation2D<T, Rows, Columns, Order, Layout, Packed>::Inherit;
+		using T4 = typename MatrixRotation3D<T, Rows, Columns, Order, Layout, Packed>::Inherit;
+		using T5 = typename MatrixTranslation<T, Rows, Columns, Order, Layout, Packed>::Inherit;
+		using T6 = typename MatrixScale<T, Rows, Columns, Order, Layout, Packed>::Inherit;
 		os << "MatrixData:        " << (intptr_t)static_cast<T1*>(ptr) - 1000 << " -> " << sizeof(T1) << std::endl;
 		os << "MatrixSquare:      " << (intptr_t)static_cast<T2*>(ptr) - 1000 << " -> " << sizeof(T2) << std::endl;
 		os << "MatrixRotation2D:  " << (intptr_t)static_cast<T3*>(ptr) - 1000 << " -> " << sizeof(T3) << std::endl;
@@ -779,6 +782,9 @@ public:
 		os << "MatrixTranslation: " << (intptr_t)static_cast<T5*>(ptr) - 1000 << " -> " << sizeof(T5) << std::endl;
 		os << "MatrixScale:       " << (intptr_t)static_cast<T6*>(ptr) - 1000 << " -> " << sizeof(T6) << std::endl;
 	}
+
+	using MatrixData<T, Rows, Columns, Order, Layout, Packed>::RowCount;
+	using MatrixData<T, Rows, Columns, Order, Layout, Packed>::ColumnCount;
 
 	//--------------------------------------------
 	// Constructors
@@ -832,12 +838,12 @@ public:
 	}
 
 	// Column and row vector simple indexing
-	template <class = typename std::enable_if<(Columns == 1 && Rows > 1) || (Columns > 1 && Rows == 1)>::type>
-	T& operator()(int idx) {
+	template <class Q = T>
+	typename std::enable_if<(Columns == 1 && Rows > 1) || (Columns > 1 && Rows == 1), Q>::type& operator()(int idx) {
 		return GetElement(Rows == 1 ? 0 : idx, Columns == 1 ? 0 : idx);
 	}
-	template <class = typename std::enable_if<(Columns == 1 && Rows > 1) || (Columns > 1 && Rows == 1)>::type>
-	T operator()(int idx) const {
+	template <class Q = T>
+	typename std::enable_if<(Columns == 1 && Rows > 1) || (Columns > 1 && Rows == 1), Q>::type operator()(int idx) const {
 		return GetElement(Rows == 1 ? 0 : idx, Columns == 1 ? 0 : idx);
 	}
 
@@ -877,40 +883,40 @@ public:
 	// Non-modifying external operators
 
 	// Same layout
-	template <class T, class U, int Rows, int Columns, eMatrixOrder Order1, eMatrixOrder Order2, eMatrixLayout SameLayout, bool Packed, class V>
-	friend Matrix<U, Rows, Columns, Order1, SameLayout, Packed> operator+(
-		const Matrix<T, Rows, Columns, Order1, SameLayout, Packed>&,
-		const Matrix<U, Rows, Columns, Order2, SameLayout, Packed>&);
+	template <class T1, class T2, int RowsA, int ColumnsA, eMatrixOrder Order1, eMatrixOrder Order2, eMatrixLayout SameLayout, bool PackedA, class V>
+	friend Matrix<T2, RowsA, ColumnsA, Order1, SameLayout, PackedA> operator+(
+		const Matrix<T1, RowsA, ColumnsA, Order1, SameLayout, PackedA>&,
+		const Matrix<T2, RowsA, ColumnsA, Order2, SameLayout, PackedA>&);
 
-	template <class T, class U, int Rows, int Columns, eMatrixOrder Order1, eMatrixOrder Order2, eMatrixLayout SameLayout, bool Packed, class V>
-	friend Matrix<U, Rows, Columns, Order1, SameLayout, Packed> operator-(
-		const Matrix<T, Rows, Columns, Order1, SameLayout, Packed>&,
-		const Matrix<U, Rows, Columns, Order2, SameLayout, Packed>&);
+	template <class T1, class T2, int RowsA, int ColumnsA, eMatrixOrder Order1, eMatrixOrder Order2, eMatrixLayout SameLayout, bool PackedA, class V>
+	friend Matrix<T2, RowsA, ColumnsA, Order1, SameLayout, PackedA> operator-(
+		const Matrix<T1, RowsA, ColumnsA, Order1, SameLayout, PackedA>&,
+		const Matrix<T2, RowsA, ColumnsA, Order2, SameLayout, PackedA>&);
 	
 
 	// Multiplication row-row
-	template <class T, class U, int Rows1, int Match, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, bool Packed, class V>
-	friend auto operator*(const Matrix<T, Rows1, Match, Order1, eMatrixLayout::ROW_MAJOR, Packed>& lhs,
-						  const Matrix<U, Match, Columns2, Order2, eMatrixLayout::ROW_MAJOR, Packed>& rhs)
-		->Matrix<V, Rows1, Columns2, Order1, eMatrixLayout::ROW_MAJOR, Packed>;
+	template <class T1, class T2, int Rows1, int Match, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, bool PackedA, class V>
+	friend auto operator*(const Matrix<T1, Rows1, Match, Order1, eMatrixLayout::ROW_MAJOR, PackedA>& lhs,
+						  const Matrix<T2, Match, Columns2, Order2, eMatrixLayout::ROW_MAJOR, PackedA>& rhs)
+		->Matrix<V, Rows1, Columns2, Order1, eMatrixLayout::ROW_MAJOR, PackedA>;
 
 	// Multiplication row-col
-	template <class T, class U, int Rows1, int Match, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, bool Packed, class V>
-	friend auto operator*(const Matrix<T, Rows1, Match, Order1, eMatrixLayout::ROW_MAJOR, Packed>& lhs,
-						  const Matrix<U, Match, Columns2, Order2, eMatrixLayout::COLUMN_MAJOR, Packed>& rhs)
-		->Matrix<V, Rows1, Columns2, Order1, eMatrixLayout::ROW_MAJOR, Packed>;
+	template <class T1, class T2, int Rows1, int Match, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, bool PackedA, class V>
+	friend auto operator*(const Matrix<T1, Rows1, Match, Order1, eMatrixLayout::ROW_MAJOR, PackedA>& lhs,
+						  const Matrix<T2, Match, Columns2, Order2, eMatrixLayout::COLUMN_MAJOR, PackedA>& rhs)
+		->Matrix<V, Rows1, Columns2, Order1, eMatrixLayout::ROW_MAJOR, PackedA>;
 
 	// Multiplication col-col
-	template <class T, class U, int Rows1, int Match, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, bool Packed, class V>
-	friend auto operator*(const Matrix<T, Rows1, Match, Order1, eMatrixLayout::COLUMN_MAJOR, Packed>& lhs,
-				   const Matrix<U, Match, Columns2, Order2, eMatrixLayout::COLUMN_MAJOR, Packed>& rhs)
-		->Matrix<V, Rows1, Columns2, Order1, eMatrixLayout::COLUMN_MAJOR, Packed>;
+	template <class T1, class T2, int Rows1, int Match, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, bool PackedA, class V>
+	friend auto operator*(const Matrix<T1, Rows1, Match, Order1, eMatrixLayout::COLUMN_MAJOR, PackedA>& lhs,
+				   const Matrix<T2, Match, Columns2, Order2, eMatrixLayout::COLUMN_MAJOR, PackedA>& rhs)
+		->Matrix<V, Rows1, Columns2, Order1, eMatrixLayout::COLUMN_MAJOR, PackedA>;
 
 	// Multiplication col-row
-	template <class T, class U, int Rows1, int Match, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, bool Packed, class V>
-	friend auto operator*(const Matrix<T, Rows1, Match, Order1, eMatrixLayout::COLUMN_MAJOR, Packed>& lhs,
-						  const Matrix<U, Match, Columns2, Order2, eMatrixLayout::ROW_MAJOR, Packed>& rhs)
-		->Matrix<V, Rows1, Columns2, Order1, eMatrixLayout::COLUMN_MAJOR, Packed>;
+	template <class T1, class T2, int Rows1, int Match, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, bool PackedA, class V>
+	friend auto operator*(const Matrix<T1, Rows1, Match, Order1, eMatrixLayout::COLUMN_MAJOR, PackedA>& lhs,
+						  const Matrix<T2, Match, Columns2, Order2, eMatrixLayout::ROW_MAJOR, PackedA>& rhs)
+		->Matrix<V, Rows1, Columns2, Order1, eMatrixLayout::COLUMN_MAJOR, PackedA>;
 
 
 	// Scalar multiplication
@@ -937,12 +943,12 @@ public:
 	// Addition, subtraction
 	template <class U, eMatrixOrder Order2, eMatrixLayout Layout2>
 	Matrix& operator+=(const Matrix<U, Rows, Columns, Order2, Layout2, Packed>& rhs) {
-		*this = operator+<T, U, Rows, Columns, Order, Order2, Layout2, Packed, T>(*this, rhs);
+		*this = mathter::operator+<T, U, Rows, Columns, Order, Order2, Layout2, Packed, T>(*this, rhs);
 	}
 
 	template <class U, eMatrixOrder Order2, eMatrixLayout Layout2>
 	Matrix& operator-=(const Matrix<U, Rows, Columns, Order2, Layout2, Packed>& rhs) {
-		*this = operator-<T, U, Rows, Columns, Order, Order2, Layout2, Packed, T>(*this, rhs);
+		*this = mathter::operator-<T, U, Rows, Columns, Order, Order2, Layout2, Packed, T>(*this, rhs);
 	}
 
 	// Scalar multiplication
@@ -991,11 +997,11 @@ public:
 	//--------------------------------------------
 	// Matrix-vector arithmetic
 	//--------------------------------------------
-	template <class Vt, class Mt, int Vd, int Mcol, eMatrixOrder Morder, bool Packed, class Rt>
-	friend Vector<Rt, Mcol, Packed> operator*(const Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd, Mcol, Morder, eMatrixLayout::ROW_MAJOR, Packed>& mat);
+	template <class Vt, class Mt, int Vd, int Mcol, eMatrixOrder Morder, bool PackedA, class Rt>
+	friend Vector<Rt, Mcol, PackedA> operator*(const Vector<Vt, Vd, PackedA>& vec, const Matrix<Mt, Vd, Mcol, Morder, eMatrixLayout::ROW_MAJOR, PackedA>& mat);
 
-	template <class Vt, class Mt, int Vd, int Mrow, eMatrixOrder Morder, bool Packed, class Rt>
-	friend Vector<Rt, Mrow, Packed> operator*(const Matrix<Mt, Mrow, Vd, Morder, eMatrixLayout::ROW_MAJOR, Packed>& mat, const Vector<Vt, Vd, Packed>& vec);
+	template <class Vt, class Mt, int Vd, int Mrow, eMatrixOrder Morder, bool PackedA, class Rt>
+	friend Vector<Rt, Mrow, PackedA> operator*(const Matrix<Mt, Mrow, Vd, Morder, eMatrixLayout::ROW_MAJOR, PackedA>& mat, const Vector<Vt, Vd, PackedA>& vec);
 
 
 protected:
@@ -1378,7 +1384,7 @@ Vector<Rt, Mrow, Packed> operator*(const Matrix<Mt, Mrow, Vd, Morder, eMatrixLay
 
 template <class Vt, class Mt, int Vd, int Mrow, eMatrixOrder Morder, bool Packed, class Rt = MatMulElemT<Vt, Mt>>
 Vector<Rt, Mrow, Packed> operator*(const Matrix<Mt, Mrow, Vd, Morder, eMatrixLayout::COLUMN_MAJOR, Packed>& mat, const Vector<Vt, Vd, Packed>& vec) {
-	Vector<Rt, Mcol, Packed> result;
+	Vector<Rt, Mrow, Packed> result;
 
 	MATHTER_VECMAT_UNROLL(1);
 	MATHTER_VECMAT_UNROLL(2);

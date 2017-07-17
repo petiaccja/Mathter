@@ -205,16 +205,19 @@ union alignas(16) Simd<float, 8> {
 		reg1 = _mm_mul_ps(lhs.reg[0], rhs.reg[0]);
 		reg2 = _mm_mul_ps(lhs.reg[1], rhs.reg[1]);
 
-		for (int i = Dim - 1; i >= Count && i >= 4; --i) {
-			reg2.m128_f32[i] = 0.0f;
+		for (int i = 7; i >= Count && i >= 4; --i) {
+			reinterpret_cast<float*>(&reg2)[i] = 0.0f;
 		}
 		for (int i = 3; i >= Count && i >= 0; --i) {
-			reg1.m128_f32[i] = 0.0f;
+			reinterpret_cast<float*>(&reg1)[i] = 0.0f;
 		}
 
 		float sum;
 		reg1 = _mm_add_ps(reg1, reg2);
-		sum = reg1.m128_f32[0] + reg1.m128_f32[1] + reg1.m128_f32[2] + reg1.m128_f32[3];
+		sum = reinterpret_cast<float*>(&reg1)[0]
+			  + reinterpret_cast<float*>(&reg1)[1]
+			  + reinterpret_cast<float*>(&reg1)[2]
+			  + reinterpret_cast<float*>(&reg1)[3];
 
 		return sum;
 	}
@@ -333,7 +336,7 @@ union alignas(16) Simd<double, 2> {
 	template <int i0, int i1>
 	static inline Simd shuffle(Simd arg) {
 		Simd ret;
-		ret.regi = _mm_shuffle_pd(arg.reg, arg.reg, _MM_SHUFFLE2(i0, i1));
+		ret.reg = _mm_shuffle_pd(arg.reg, arg.reg, _MM_SHUFFLE2(i0, i1));
 		return ret;
 	}
 };
@@ -431,19 +434,19 @@ union alignas(16) Simd<double, 4> {
 		static_assert(Count <= 4, "Number of elements to dot must be smaller or equal to dimension.");
 		static_assert(0 < Count, "Count must not be zero.");
 		__m128d reg1, reg2;
-		reg1 = _mm_mul_ps(lhs.reg[0], rhs.reg[0]);
-		reg2 = _mm_mul_ps(lhs.reg[1], rhs.reg[1]);
+		reg1 = _mm_mul_pd(lhs.reg[0], rhs.reg[0]);
+		reg2 = _mm_mul_pd(lhs.reg[1], rhs.reg[1]);
 
-		for (int i = Dim - 1; i >= Count && i >= 2; --i) {
-			reg2.m128_f32[i] = 0.0f;
+		for (int i = 3; i >= Count && i >= 2; --i) {
+			reinterpret_cast<float*>(&reg2)[i] = 0.0f;
 		}
 		for (int i = 1; i >= Count && i >= 0; --i) {
-			reg1.m128_f32[i] = 0.0f;
+			reinterpret_cast<float*>(&reg1)[i] = 0.0f;
 		}
 
 		double sum;
-		reg1 = _mm_add_ps(reg1, reg2);
-		sum = reg1.m128d_f64[0] + reg1.m128d_f64[1];
+		reg1 = _mm_add_pd(reg1, reg2);
+		sum = reinterpret_cast<float*>(&reg1)[0] + reinterpret_cast<float*>(&reg1)[1];
 
 		return sum;
 	}

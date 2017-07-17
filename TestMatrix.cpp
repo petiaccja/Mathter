@@ -4,9 +4,9 @@
 //==============================================================================
 
 #pragma warning(disable: 4244)
-#include <gtest\gtest.h>
+#include <gtest/gtest.h>
 
-#include "Mathter\Matrix.hpp"
+#include "Mathter/Matrix.hpp"
 
 #include <random>
 

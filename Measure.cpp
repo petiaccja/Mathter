@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <numeric>
+#include <cstring>
 
 #include "Mathter/Vector.hpp"
 #include "Mathter/Matrix.hpp"
@@ -30,7 +31,7 @@ template <class Type, int Rows1, int Columns1, eMatrixLayout Layout1, int Rows2 
 double MeasureMatrixMultiplication(double* cycles = nullptr) {
 	using LeftT = Matrix<Type, Rows1, Columns1, eMatrixOrder::FOLLOW_VECTOR, Layout1, Packed>;
 	using RightT = Matrix<Type, Rows2, Columns2, eMatrixOrder::FOLLOW_VECTOR, Layout2, Packed>;
-	using ResultT = typename decltype(LeftT()*RightT());
+	using ResultT = decltype(LeftT()*RightT());
 
 	constexpr int repeatCount = 50;
 	constexpr int iterationCount = 100'000;
