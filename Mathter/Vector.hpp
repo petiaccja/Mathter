@@ -368,6 +368,9 @@ protected:
 	}
 };
 
+template <class T, int... Indices>
+constexpr int Swizzle<T, Indices...>::IndexTable[];
+
 
 // Mental note to myself:
 // The C++ standard requires std::complex numbers to be like

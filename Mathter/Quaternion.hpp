@@ -235,7 +235,7 @@ public:
 		T mag = v.Length();
 		T es = exp(a);
 
-		Quaternion ret = {cos(mag), v*(sin(mag)/mag)};
+		Quaternion ret = {std::cos(mag), v*(std::sin(mag)/mag)};
 		ret *= es;
 
 		return ret;
@@ -245,7 +245,7 @@ public:
 		auto magq = q.Length();
 		auto vn = q.VectorPart().Normalized();
 		
-		Quaternion ret = { log(magq), vn*acos(q.s / magq) };
+		Quaternion ret = { std::log(magq), vn*acos(q.s / magq) };
 		return ret;
 	}
 
