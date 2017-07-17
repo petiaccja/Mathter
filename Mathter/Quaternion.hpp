@@ -14,6 +14,14 @@
 namespace mathter {
 
 
+/// <summary> Allows you to do quaternion math and represent rotation in a compact way. </summary>
+/// <typeparam name="T"> The scalar type of w, x, y and z. Use a builtin or custom floating or fixed point type. </typeparam>
+/// <typeparam name="Packed"> If true, tightly packs quaternion members and disables padding due to overalignment in arrays. 
+///		Disables SIMD optimization. </typeparam>
+/// <remarks>
+/// These are plain mathematical quaternions, so expect the operations to work as mathematically defined.
+/// There are helper functions to represent rotation with quaternions.
+/// </remarks>
 template <class T, bool Packed = false>
 class Quaternion {
 	static constexpr bool SimdAccelerated = impl::HasSimd<Vector<T, 4, Packed>>::value;
@@ -27,11 +35,21 @@ public:
 	//-----------------------------------------------
 	// Constructors
 	//-----------------------------------------------
+	/// <summary> Does NOT zero-initialize values. </summary>
 	Quaternion() {}
+
 	Quaternion(const Quaternion& rhs) : vec(rhs.vec) {}
+
+	/// <summary> Set values directly. </summary>
 	Quaternion(T scalar, T x, T y, T z) : s(scalar), x(x), y(y), z(z) {}
+
+	/// <summary> Sets the scalar part (w) and the vector part (xyz). This is not <see cref="AxisAngle"/> rotation. </summary>
 	Quaternion(T scalar, const Vector<T, 3, true>& vector) : s(scalar), x(vector.x), y(vector.y), z(vector.z) {}
+
+	/// <summary> Sets the scalar part (w) and the vector part (xyz). This is not <see cref="AxisAngle"/> rotation. </summary>
 	Quaternion(T scalar, const Vector<T, 3, false>& vector) : s(scalar), x(vector.x), y(vector.y), z(vector.z) {}
+
+	/// <summary> Sets the scalar part to zero, and the vector part to given argument. </summary>
 	explicit Quaternion(const Vector<T, 3, true>& vector) : Quaternion(0, vector) {}
 
 	template <class U, bool P>
