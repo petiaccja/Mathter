@@ -2371,6 +2371,8 @@ inline const char* StrNCpy(char* dest, const char* src, size_t n) {
 // StrError() aren't needed on Windows CE at this time and thus not
 // defined there.
 
+#if !__clang__ // had to add this because of visual studio + clang, don't ask why
+
 #if !GTEST_OS_WINDOWS_MOBILE && !GTEST_OS_WINDOWS_PHONE && !GTEST_OS_WINDOWS_RT
 inline int ChDir(const char* dir) { return chdir(dir); }
 #endif
@@ -2394,6 +2396,36 @@ inline int Write(int fd, const void* buf, unsigned int count) {
 inline int Close(int fd) { return close(fd); }
 inline const char* StrError(int errnum) { return strerror(errnum); }
 #endif
+
+#else
+
+#if !GTEST_OS_WINDOWS_MOBILE && !GTEST_OS_WINDOWS_PHONE && !GTEST_OS_WINDOWS_RT
+inline int ChDir(const char* dir) { return _chdir(dir); }
+#endif
+inline FILE* FOpen(const char* path, const char* mode) {
+	return fopen(path, mode);
+}
+#if !GTEST_OS_WINDOWS_MOBILE
+inline FILE *FReopen(const char* path, const char* mode, FILE* stream) {
+	return freopen(path, mode, stream);
+}
+inline FILE* FDOpen(int fd, const char* mode) { return _fdopen(fd, mode); }
+#endif
+inline int FClose(FILE* fp) { return fclose(fp); }
+#if !GTEST_OS_WINDOWS_MOBILE
+inline int Read(int fd, void* buf, unsigned int count) {
+	return static_cast<int>(_read(fd, buf, count));
+}
+inline int Write(int fd, const void* buf, unsigned int count) {
+	return static_cast<int>(_write(fd, buf, count));
+}
+inline int Close(int fd) { return _close(fd); }
+inline const char* StrError(int errnum) { return strerror(errnum); }
+#endif
+
+#endif
+
+
 inline const char* GetEnv(const char* name) {
 #if GTEST_OS_WINDOWS_MOBILE || GTEST_OS_WINDOWS_PHONE | GTEST_OS_WINDOWS_RT
   // We are on Windows CE, which has no environment variables.

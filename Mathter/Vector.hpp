@@ -248,7 +248,7 @@ bool AlmostEqual(T d1, T d2, std::true_type) {
 	if (d1 < 1e-38 && d2 < 1e-38) {
 		return true;
 	}
-	if (d1 == 0 && d2 < 1e-4 || d2 == 0 && d1 < 1e-4) {
+	if ((d1 == 0 && d2 < 1e-4) || (d2 == 0 && d1 < 1e-4)) {
 		return true;
 	}
 	T scaler = pow(T(10), floor(std::log10(std::abs(d1))));
@@ -1123,14 +1123,14 @@ public:
 	/// <summary> Returns the element-wise minimum of arguments </summary>
 	static Vector Min(const Vector& lhs, const Vector& rhs) {
 		Vector res;
-		for (int i = 0; i < Dimension(); ++i) {
+		for (int i = 0; i < lhs.Dimension(); ++i) {
 			res[i] = std::min(lhs[i], rhs[i]);
 		}
 	}
 	/// <summary> Returns the element-wise maximum of arguments </summary>
 	static Vector Max(const Vector& lhs, const Vector& rhs) {
 		Vector res;
-		for (int i = 0; i < Dimension(); ++i) {
+		for (int i = 0; i < lhs.Dimension(); ++i) {
 			res[i] = std::max(lhs[i], rhs[i]);
 		}
 	}

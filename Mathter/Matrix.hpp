@@ -277,8 +277,8 @@ class MatrixTranslation {
 protected:
 	static constexpr bool EnableTranslation =
 		(Rows < Columns ? Rows : Columns) > 0 &&
-		(Order == eMatrixOrder::FOLLOW_VECTOR && Rows - 1 <= Columns && Columns <= Rows)
-		|| (Order == eMatrixOrder::PRECEDE_VECTOR && Columns - 1 <= Rows && Rows <= Columns);
+		((Order == eMatrixOrder::FOLLOW_VECTOR && Rows - 1 <= Columns && Columns <= Rows)
+		|| (Order == eMatrixOrder::PRECEDE_VECTOR && Columns - 1 <= Rows && Rows <= Columns));
 	static constexpr int TranslationDim = Rows == Columns ? Rows - 1 : std::min(Rows, Columns);
 public:
 	template <class... Args, typename std::enable_if<(impl::All<impl::IsScalar, typename std::decay<Args>::type...>::value), int>::type = 0>
@@ -569,7 +569,7 @@ class MatrixView {
 	using VectorT = Vector<T, SpaceDim, Packed>;
 public:
 	// General function
-	static MatrixT LookAt(const VectorT& eye, const VectorT& target, const std::array<VectorT, SpaceDim - 2>& bases, const std::array<bool, SpaceDim>& flipAxes) {
+	static MatrixT LookAt(const VectorT& eye, const VectorT& target, const std::array<VectorT, std::max(0, SpaceDim - 2)>& bases, const std::array<bool, SpaceDim>& flipAxes) {
 		MatrixT matrix;
 		VectorT columns[SpaceDim];
 		std::array<const VectorT*, SpaceDim - 1> crossTable = {};
@@ -830,20 +830,20 @@ public:
 	//--------------------------------------------
 
 	// General matrix indexing
-	T& operator()(int row, int col) {
+	inline T& operator()(int row, int col) {
 		return GetElement(row, col);
 	}
-	T operator()(int row, int col) const {
+	inline T operator()(int row, int col) const {
 		return GetElement(row, col);
 	}
 
 	// Column and row vector simple indexing
 	template <class Q = T>
-	typename std::enable_if<(Columns == 1 && Rows > 1) || (Columns > 1 && Rows == 1), Q>::type& operator()(int idx) {
+	inline typename std::enable_if<(Columns == 1 && Rows > 1) || (Columns > 1 && Rows == 1), Q>::type& operator()(int idx) {
 		return GetElement(Rows == 1 ? 0 : idx, Columns == 1 ? 0 : idx);
 	}
 	template <class Q = T>
-	typename std::enable_if<(Columns == 1 && Rows > 1) || (Columns > 1 && Rows == 1), Q>::type operator()(int idx) const {
+	inline typename std::enable_if<(Columns == 1 && Rows > 1) || (Columns > 1 && Rows == 1), Q>::type operator()(int idx) const {
 		return GetElement(Rows == 1 ? 0 : idx, Columns == 1 ? 0 : idx);
 	}
 
@@ -884,56 +884,56 @@ public:
 
 	// Same layout
 	template <class T1, class T2, int RowsA, int ColumnsA, eMatrixOrder Order1, eMatrixOrder Order2, eMatrixLayout SameLayout, bool PackedA, class V>
-	friend Matrix<T2, RowsA, ColumnsA, Order1, SameLayout, PackedA> operator+(
+	inline friend Matrix<T2, RowsA, ColumnsA, Order1, SameLayout, PackedA> operator+(
 		const Matrix<T1, RowsA, ColumnsA, Order1, SameLayout, PackedA>&,
 		const Matrix<T2, RowsA, ColumnsA, Order2, SameLayout, PackedA>&);
 
 	template <class T1, class T2, int RowsA, int ColumnsA, eMatrixOrder Order1, eMatrixOrder Order2, eMatrixLayout SameLayout, bool PackedA, class V>
-	friend Matrix<T2, RowsA, ColumnsA, Order1, SameLayout, PackedA> operator-(
+	inline friend Matrix<T2, RowsA, ColumnsA, Order1, SameLayout, PackedA> operator-(
 		const Matrix<T1, RowsA, ColumnsA, Order1, SameLayout, PackedA>&,
 		const Matrix<T2, RowsA, ColumnsA, Order2, SameLayout, PackedA>&);
 	
 
 	// Multiplication row-row
 	template <class T1, class T2, int Rows1, int Match, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, bool PackedA, class V>
-	friend auto operator*(const Matrix<T1, Rows1, Match, Order1, eMatrixLayout::ROW_MAJOR, PackedA>& lhs,
+	inline friend auto operator*(const Matrix<T1, Rows1, Match, Order1, eMatrixLayout::ROW_MAJOR, PackedA>& lhs,
 						  const Matrix<T2, Match, Columns2, Order2, eMatrixLayout::ROW_MAJOR, PackedA>& rhs)
 		->Matrix<V, Rows1, Columns2, Order1, eMatrixLayout::ROW_MAJOR, PackedA>;
 
 	// Multiplication row-col
 	template <class T1, class T2, int Rows1, int Match, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, bool PackedA, class V>
-	friend auto operator*(const Matrix<T1, Rows1, Match, Order1, eMatrixLayout::ROW_MAJOR, PackedA>& lhs,
+	inline friend auto operator*(const Matrix<T1, Rows1, Match, Order1, eMatrixLayout::ROW_MAJOR, PackedA>& lhs,
 						  const Matrix<T2, Match, Columns2, Order2, eMatrixLayout::COLUMN_MAJOR, PackedA>& rhs)
 		->Matrix<V, Rows1, Columns2, Order1, eMatrixLayout::ROW_MAJOR, PackedA>;
 
 	// Multiplication col-col
 	template <class T1, class T2, int Rows1, int Match, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, bool PackedA, class V>
-	friend auto operator*(const Matrix<T1, Rows1, Match, Order1, eMatrixLayout::COLUMN_MAJOR, PackedA>& lhs,
+	inline friend auto operator*(const Matrix<T1, Rows1, Match, Order1, eMatrixLayout::COLUMN_MAJOR, PackedA>& lhs,
 				   const Matrix<T2, Match, Columns2, Order2, eMatrixLayout::COLUMN_MAJOR, PackedA>& rhs)
 		->Matrix<V, Rows1, Columns2, Order1, eMatrixLayout::COLUMN_MAJOR, PackedA>;
 
 	// Multiplication col-row
 	template <class T1, class T2, int Rows1, int Match, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, bool PackedA, class V>
-	friend auto operator*(const Matrix<T1, Rows1, Match, Order1, eMatrixLayout::COLUMN_MAJOR, PackedA>& lhs,
+	inline friend auto operator*(const Matrix<T1, Rows1, Match, Order1, eMatrixLayout::COLUMN_MAJOR, PackedA>& lhs,
 						  const Matrix<T2, Match, Columns2, Order2, eMatrixLayout::ROW_MAJOR, PackedA>& rhs)
 		->Matrix<V, Rows1, Columns2, Order1, eMatrixLayout::COLUMN_MAJOR, PackedA>;
 
 
 	// Scalar multiplication
-	Matrix operator*(T s) const {
+	inline Matrix operator*(T s) const {
 		return Matrix(*this) *= s;
 	}
 
-	Matrix operator/(T s) const {
+	inline Matrix operator/(T s) const {
 		return Matrix(*this) /= s;
 	}
 
 	// Unary signs
-	Matrix operator+() const {
+	inline Matrix operator+() const {
 		return Matrix(*this);
 	}
 
-	Matrix operator-() const {
+	inline Matrix operator-() const {
 		return Matrix(*this) *= T(-1);
 	}
 
@@ -942,23 +942,23 @@ public:
 
 	// Addition, subtraction
 	template <class U, eMatrixOrder Order2, eMatrixLayout Layout2>
-	Matrix& operator+=(const Matrix<U, Rows, Columns, Order2, Layout2, Packed>& rhs) {
+	inline Matrix& operator+=(const Matrix<U, Rows, Columns, Order2, Layout2, Packed>& rhs) {
 		*this = mathter::operator+<T, U, Rows, Columns, Order, Order2, Layout2, Packed, T>(*this, rhs);
 	}
 
 	template <class U, eMatrixOrder Order2, eMatrixLayout Layout2>
-	Matrix& operator-=(const Matrix<U, Rows, Columns, Order2, Layout2, Packed>& rhs) {
+	inline Matrix& operator-=(const Matrix<U, Rows, Columns, Order2, Layout2, Packed>& rhs) {
 		*this = mathter::operator-<T, U, Rows, Columns, Order, Order2, Layout2, Packed, T>(*this, rhs);
 	}
 
 	// Scalar multiplication
-	Matrix& operator*=(T s) {
+	inline Matrix& operator*=(T s) {
 		for (auto& stripe : stripes) {
 			stripe *= s;
 		}
 		return *this;
 	}
-	Matrix& operator/=(T s) {
+	inline Matrix& operator/=(T s) {
 		*this *= (1 / s);
 		return *this;
 	}
@@ -998,10 +998,10 @@ public:
 	// Matrix-vector arithmetic
 	//--------------------------------------------
 	template <class Vt, class Mt, int Vd, int Mcol, eMatrixOrder Morder, bool PackedA, class Rt>
-	friend Vector<Rt, Mcol, PackedA> operator*(const Vector<Vt, Vd, PackedA>& vec, const Matrix<Mt, Vd, Mcol, Morder, eMatrixLayout::ROW_MAJOR, PackedA>& mat);
+	inline friend Vector<Rt, Mcol, PackedA> operator*(const Vector<Vt, Vd, PackedA>& vec, const Matrix<Mt, Vd, Mcol, Morder, eMatrixLayout::ROW_MAJOR, PackedA>& mat);
 
 	template <class Vt, class Mt, int Vd, int Mrow, eMatrixOrder Morder, bool PackedA, class Rt>
-	friend Vector<Rt, Mrow, PackedA> operator*(const Matrix<Mt, Mrow, Vd, Morder, eMatrixLayout::ROW_MAJOR, PackedA>& mat, const Vector<Vt, Vd, PackedA>& vec);
+	inline friend Vector<Rt, Mrow, PackedA> operator*(const Matrix<Mt, Mrow, Vd, Morder, eMatrixLayout::ROW_MAJOR, PackedA>& mat, const Vector<Vt, Vd, PackedA>& vec);
 
 
 protected:
@@ -1067,8 +1067,8 @@ protected:
 
 
 
-template <class T, class U, int Rows1, int Match, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, bool Packed, class V = MatMulElemT<T, U>>
-auto operator*(const Matrix<T, Rows1, Match, Order1, eMatrixLayout::ROW_MAJOR, Packed>& lhs,
+template <class T, class U, int Rows1, int Match, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, bool Packed, class V>
+inline auto operator*(const Matrix<T, Rows1, Match, Order1, eMatrixLayout::ROW_MAJOR, Packed>& lhs,
 			   const Matrix<U, Match, Columns2, Order2, eMatrixLayout::ROW_MAJOR, Packed>& rhs)
 	-> Matrix<V, Rows1, Columns2,  Order1, eMatrixLayout::ROW_MAJOR, Packed>
 {
@@ -1099,8 +1099,8 @@ auto operator*(const Matrix<T, Rows1, Match, Order1, eMatrixLayout::ROW_MAJOR, P
 	return result;
 }
 
-template <class T, class U,  int Rows1, int Match, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, bool Packed, class V = MatMulElemT<T, U>>
-auto operator*(const Matrix<T, Rows1, Match, Order1, eMatrixLayout::ROW_MAJOR, Packed>& lhs,
+template <class T, class U,  int Rows1, int Match, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, bool Packed, class V>
+inline auto operator*(const Matrix<T, Rows1, Match, Order1, eMatrixLayout::ROW_MAJOR, Packed>& lhs,
 			   const Matrix<U, Match, Columns2, Order2, eMatrixLayout::COLUMN_MAJOR, Packed>& rhs)
 	-> Matrix<V, Rows1, Columns2, Order1, eMatrixLayout::ROW_MAJOR, Packed>
 {
@@ -1115,8 +1115,8 @@ auto operator*(const Matrix<T, Rows1, Match, Order1, eMatrixLayout::ROW_MAJOR, P
 	return result;
 }
 
-template <class T, class U, int Rows1, int Match, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, bool Packed, class V = MatMulElemT<T, U>>
-auto operator*(const Matrix<T, Rows1, Match, Order1, eMatrixLayout::COLUMN_MAJOR, Packed>& lhs,
+template <class T, class U, int Rows1, int Match, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, bool Packed, class V>
+inline auto operator*(const Matrix<T, Rows1, Match, Order1, eMatrixLayout::COLUMN_MAJOR, Packed>& lhs,
 			   const Matrix<U, Match, Columns2, Order2, eMatrixLayout::COLUMN_MAJOR, Packed>& rhs)
 	->Matrix<V, Rows1, Columns2, Order1, eMatrixLayout::COLUMN_MAJOR, Packed>
 {
@@ -1147,8 +1147,8 @@ auto operator*(const Matrix<T, Rows1, Match, Order1, eMatrixLayout::COLUMN_MAJOR
 	return result;
 }
 
-template <class T, class U, int Rows1, int Match, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, bool Packed, class V = MatMulElemT<T, U>>
-auto operator*(const Matrix<T, Rows1, Match, Order1, eMatrixLayout::COLUMN_MAJOR, Packed>& lhs,
+template <class T, class U, int Rows1, int Match, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, bool Packed, class V>
+inline auto operator*(const Matrix<T, Rows1, Match, Order1, eMatrixLayout::COLUMN_MAJOR, Packed>& lhs,
 			   const Matrix<U, Match, Columns2, Order2, eMatrixLayout::ROW_MAJOR, Packed>& rhs)
 	->Matrix<V, Rows1, Columns2, Order1, eMatrixLayout::COLUMN_MAJOR, Packed>
 {
@@ -1182,9 +1182,18 @@ auto operator*(const Matrix<T, Rows1, Match, Order1, eMatrixLayout::COLUMN_MAJOR
 }
 
 
+template <class T1, class T2, int Rows1, int Match, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, eMatrixLayout Layout1, eMatrixLayout Layout2, bool PackedA>
+inline auto operator*(const Matrix<T1, Rows1, Match, Order1, Layout1, PackedA>& lhs,
+	const Matrix<T2, Match, Columns2, Order2, Layout2, PackedA>& rhs)
+	->Matrix<MatMulElemT<T1, T2>, Rows1, Columns2, Order1, Layout1, PackedA>
+{
+	return mathter::operator*<T1, T2, Rows1, Match, Columns2, Order1, Order2, PackedA, MatMulElemT<T1, T2>>(lhs, rhs);
+}
+
+
 // Assign-multiply
 template <class T1, class T2, int Dim, eMatrixOrder Order1, eMatrixOrder Order2, eMatrixLayout Layout1, eMatrixLayout Layout2, bool Packed>
-Matrix<T1, Dim, Dim, Order1, Layout1, Packed>& operator*=(Matrix<T1, Dim, Dim, Order1, Layout1, Packed>& lhs, const Matrix<T2, Dim, Dim, Order2, Layout2, Packed>& rhs) {
+inline Matrix<T1, Dim, Dim, Order1, Layout1, Packed>& operator*=(Matrix<T1, Dim, Dim, Order1, Layout1, Packed>& lhs, const Matrix<T2, Dim, Dim, Order2, Layout2, Packed>& rhs) {
 	lhs = operator*<T1, T2, Dim, Dim, Dim, Order1, Order2, Packed, T1>(lhs, rhs);
 	return lhs;
 }
@@ -1198,7 +1207,7 @@ Matrix<T1, Dim, Dim, Order1, Layout1, Packed>& operator*=(Matrix<T1, Dim, Dim, O
 
 // Add & sub same layout
 template <class T, class U, int Rows, int Columns, eMatrixOrder Order1, eMatrixOrder Order2, eMatrixLayout SameLayout, bool Packed, class V>
-Matrix<U, Rows, Columns, Order1, SameLayout, Packed> operator+(
+inline Matrix<U, Rows, Columns, Order1, SameLayout, Packed> operator+(
 	const Matrix<T, Rows, Columns, Order1, SameLayout, Packed>& lhs,
 	const Matrix<U, Rows, Columns, Order2, SameLayout, Packed>& rhs)
 {
@@ -1216,7 +1225,7 @@ Matrix<U, Rows, Columns, Order1, SameLayout, Packed> operator+(
 }
 
 template <class T, class U, int Rows, int Columns, eMatrixOrder Order1, eMatrixOrder Order2, eMatrixLayout SameLayout, bool Packed, class V>
-Matrix<U, Rows, Columns, Order1, SameLayout, Packed> operator-(
+inline Matrix<U, Rows, Columns, Order1, SameLayout, Packed> operator-(
 	const Matrix<T, Rows, Columns, Order1, SameLayout, Packed>& lhs,
 	const Matrix<U, Rows, Columns, Order2, SameLayout, Packed>& rhs)
 {
@@ -1236,7 +1245,7 @@ Matrix<U, Rows, Columns, Order1, SameLayout, Packed> operator-(
 
 // Add & sub opposite layout
 template <class T, class U, int Rows, int Columns, eMatrixOrder Order1, eMatrixOrder Order2, eMatrixLayout Layout1, eMatrixLayout Layout2, bool Packed, class V, class>
-Matrix<U, Rows, Columns, Order1, Layout1, Packed> operator+(
+inline Matrix<U, Rows, Columns, Order1, Layout1, Packed> operator+(
 	const Matrix<T, Rows, Columns, Order1, Layout1, Packed>& lhs,
 	const Matrix<U, Rows, Columns, Order2, Layout2, Packed>& rhs)
 {
@@ -1250,7 +1259,7 @@ Matrix<U, Rows, Columns, Order1, Layout1, Packed> operator+(
 }
 
 template <class T, class U, int Rows, int Columns, eMatrixOrder Order1, eMatrixOrder Order2, eMatrixLayout Layout1, eMatrixLayout Layout2, bool Packed, class V, class>
-Matrix<U, Rows, Columns, Order1, Layout1, Packed> operator-(
+inline Matrix<U, Rows, Columns, Order1, Layout1, Packed> operator-(
 	const Matrix<T, Rows, Columns, Order1, Layout1, Packed>& lhs,
 	const Matrix<U, Rows, Columns, Order2, Layout2, Packed>& rhs)
 {
@@ -1282,7 +1291,7 @@ Matrix<T, Rows, Columns, Order, Layout, Packed> operator/(U s, const Matrix<T, R
 
 
 //------------------------------------------------------------------------------
-// General matrix function
+// General matrix functions
 //------------------------------------------------------------------------------
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 auto Matrix<T, Rows, Columns, Order, Layout, Packed>::Identity() -> Matrix<T, Rows, Columns, Order, Layout, Packed> {
@@ -1322,8 +1331,8 @@ auto Matrix<T, Rows, Columns,  Order, Layout, Packed>::SetIdentity() ->Matrix<T,
 
 
 // v*M
-template <class Vt, class Mt, int Vd, int Mcol, eMatrixOrder Morder, bool Packed, class Rt = MatMulElemT<Vt, Mt>>
-Vector<Rt, Mcol, Packed> operator*(const Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd, Mcol, Morder, eMatrixLayout::ROW_MAJOR, Packed>& mat) {
+template <class Vt, class Mt, int Vd, int Mcol, eMatrixOrder Morder, bool Packed, class Rt>
+inline Vector<Rt, Mcol, Packed> operator*(const Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd, Mcol, Morder, eMatrixLayout::ROW_MAJOR, Packed>& mat) {
 	Vector<Rt, Mcol, Packed> result;
 	
 	MATHTER_VECMAT_UNROLL(1);
@@ -1338,8 +1347,8 @@ Vector<Rt, Mcol, Packed> operator*(const Vector<Vt, Vd, Packed>& vec, const Matr
 	return result;
 }
 
-template <class Vt, class Mt, int Vd, int Mcol, eMatrixOrder Morder, bool Packed, class Rt = MatMulElemT<Vt, Mt>>
-Vector<Rt, Mcol, Packed> operator*(const Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd, Mcol, Morder, eMatrixLayout::COLUMN_MAJOR, Packed>& mat) {
+template <class Vt, class Mt, int Vd, int Mcol, eMatrixOrder Morder, bool Packed, class Rt>
+inline Vector<Rt, Mcol, Packed> operator*(const Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd, Mcol, Morder, eMatrixLayout::COLUMN_MAJOR, Packed>& mat) {
 	Vector<Rt, Mcol, Packed> result;
 
 	MATHTER_VECMAT_DOT_UNROLL(1);
@@ -1353,9 +1362,16 @@ Vector<Rt, Mcol, Packed> operator*(const Vector<Vt, Vd, Packed>& vec, const Matr
 	return result;
 }
 
+template <class Vt, class Mt, int Vd, int Mcol, eMatrixOrder Morder, eMatrixLayout Mlayout, bool Packed>
+inline Vector<MatMulElemT<Vt, Mt>, Mcol, Packed> operator*(const Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd, Mcol, Morder, Mlayout, Packed>& mat) {
+	using Rt = MatMulElemT<Vt, Mt>;
+	return operator*<Vt, Mt, Vd, Mcol, Morder, Packed, Rt>(vec, mat);
+}
+
+
 // (v|1)*M
 template <class Vt, class Mt, int Vd, eMatrixLayout Mlayout, eMatrixOrder Morder, bool Packed, class Rt = MatMulElemT<Vt, Mt>>
-Vector<Rt, Vd, Packed> operator*(const Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd+1, Vd, Morder, Mlayout, Packed>& mat) {
+Vector<Rt, Vd, Packed> operator*(const Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd + 1, Vd, Morder, Mlayout, Packed>& mat) {
 	return (vec | Vt(1))*mat;
 }
 
@@ -1367,8 +1383,8 @@ Vector<Rt, Vd, Packed> operator*(const Vector<Vt, Vd, Packed>& vec, const Matrix
 }
 
 // M*v
-template <class Vt, class Mt, int Vd, int Mrow, eMatrixOrder Morder, bool Packed, class Rt = MatMulElemT<Vt, Mt>>
-Vector<Rt, Mrow, Packed> operator*(const Matrix<Mt, Mrow, Vd, Morder, eMatrixLayout::ROW_MAJOR, Packed>& mat, const Vector<Vt, Vd, Packed>& vec) {
+template <class Vt, class Mt, int Vd, int Mrow, eMatrixOrder Morder, bool Packed, class Rt>
+inline Vector<Rt, Mrow, Packed> operator*(const Matrix<Mt, Mrow, Vd, Morder, eMatrixLayout::ROW_MAJOR, Packed>& mat, const Vector<Vt, Vd, Packed>& vec) {
 	Vector<Rt, Mrow, Packed> result;
 
 	MATHTER_VECMAT_DOT_UNROLL(1);
@@ -1382,8 +1398,8 @@ Vector<Rt, Mrow, Packed> operator*(const Matrix<Mt, Mrow, Vd, Morder, eMatrixLay
 	return result;
 }
 
-template <class Vt, class Mt, int Vd, int Mrow, eMatrixOrder Morder, bool Packed, class Rt = MatMulElemT<Vt, Mt>>
-Vector<Rt, Mrow, Packed> operator*(const Matrix<Mt, Mrow, Vd, Morder, eMatrixLayout::COLUMN_MAJOR, Packed>& mat, const Vector<Vt, Vd, Packed>& vec) {
+template <class Vt, class Mt, int Vd, int Mrow, eMatrixOrder Morder, bool Packed, class Rt>
+inline Vector<Rt, Mrow, Packed> operator*(const Matrix<Mt, Mrow, Vd, Morder, eMatrixLayout::COLUMN_MAJOR, Packed>& mat, const Vector<Vt, Vd, Packed>& vec) {
 	Vector<Rt, Mrow, Packed> result;
 
 	MATHTER_VECMAT_UNROLL(1);
@@ -1397,6 +1413,14 @@ Vector<Rt, Mrow, Packed> operator*(const Matrix<Mt, Mrow, Vd, Morder, eMatrixLay
 	}
 	return result;
 }
+
+template <class Vt, class Mt, int Vd, int Mrow, eMatrixOrder Morder, eMatrixLayout Mlayout, bool Packed>
+Vector<MatMulElemT<Vt, Mt>, Mrow, Packed> operator*(const Matrix<Mt, Mrow, Vd, Morder, Mlayout, Packed>& mat, const Vector<Vt, Vd, Packed>& vec) {
+	using Rt = MatMulElemT<Vt, Mt>;
+	return operator*<Vt, Mt, Vd, Mrow, Morder, Packed, Rt>(mat, vec);
+}
+
+
 
 // M*(v|1)
 template <class Vt, class Mt, int Vd, eMatrixLayout Mlayout, eMatrixOrder Morder, bool Packed, class Rt = MatMulElemT<Vt, Mt>>
