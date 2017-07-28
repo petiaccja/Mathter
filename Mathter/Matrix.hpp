@@ -569,7 +569,7 @@ class MatrixView {
 	using VectorT = Vector<T, SpaceDim, Packed>;
 public:
 	// General function
-	static MatrixT LookAt(const VectorT& eye, const VectorT& target, const std::array<VectorT, std::max(0, SpaceDim - 2)>& bases, const std::array<bool, SpaceDim>& flipAxes) {
+	static MatrixT LookAt(const VectorT& eye, const VectorT& target, const std::array<VectorT, SpaceDim - 2>& bases, const std::array<bool, SpaceDim>& flipAxes) {
 		MatrixT matrix;
 		VectorT columns[SpaceDim];
 		std::array<const VectorT*, SpaceDim - 1> crossTable = {};
