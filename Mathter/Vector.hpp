@@ -545,58 +545,6 @@ protected:
 		}
 	}
 
-	// Vector arithmetic
-	static inline void mul(VectorT& lhs, const VectorT& rhs) {
-		for (int i = 0; i < Dim; ++i) {
-			lhs.data[i] *= rhs.data[i];
-		}
-	}
-	static inline void div(VectorT& lhs, const VectorT& rhs) {
-		for (int i = 0; i < Dim; ++i) {
-			lhs.data[i] /= rhs.data[i];
-		};
-	}
-	static inline void add(VectorT& lhs, const VectorT& rhs) {
-		for (int i = 0; i < Dim; ++i) {
-			lhs.data[i] += rhs.data[i];
-		}
-	}
-	static inline void sub(VectorT& lhs, const VectorT& rhs) {
-		for (int i = 0; i < Dim; ++i) {
-			lhs.data[i] -= rhs.data[i];
-		}
-	}
-	static inline VectorT fma(const VectorT& mul1, const VectorT& mul2, const VectorT& incr) {
-		VectorT ret;
-		for (int i = 0; i < Dim; ++i) {
-			ret.data[i] = mul1.data[i] * mul2.data[i] + incr.data[i];
-		}
-		return ret;
-	}
-
-	// Scalar arithmetic
-	static inline void mul(VectorT& lhs, T rhs) {
-		for (int i = 0; i < Dim; ++i) {
-			lhs.data[i] *= rhs;
-		}
-	}
-	static inline void div(VectorT& lhs, T rhs) {
-		T rcprhs = T(1) / rhs;
-		for (int i = 0; i < Dim; ++i) {
-			lhs.data[i] *= rcprhs;
-		}
-	}
-	static inline void add(VectorT& lhs, T rhs) {
-		for (int i = 0; i < Dim; ++i) {
-			lhs.data[i] += rhs;
-		}
-	}
-	static inline void sub(VectorT& lhs, T rhs) {
-		for (int i = 0; i < Dim; ++i) {
-			lhs.data[i] -= rhs;
-		}
-	}
-
 	// Misc
 	static inline T dot(const VectorT& lhs, const VectorT& rhs) {
 		T sum = 0.0f;
@@ -604,6 +552,106 @@ protected:
 			sum += lhs.data[i] * rhs.data[i];
 		}
 		return sum;
+	}
+
+	// Arithmetic operators
+	/// <summary> Elementwise (Hadamard) vector product. </summary>
+	inline VectorT operator*(const VectorT& rhs) const {
+		VectorT result;
+		for (int i = 0; i < Dim; ++i) {
+			result[i] = self().data[i] * rhs.data[i];
+		}
+		return result;
+	}
+	/// <summary> Elementwise vector division. </summary>
+	inline VectorT operator/(const VectorT& rhs) const {
+		VectorT result;
+		for (int i = 0; i < Dim; ++i) {
+			result[i] = self().data[i] / rhs.data[i];
+		}
+		return result;
+	}
+	/// <summary> Elementwise vector addition. </summary>
+	inline VectorT operator+(const VectorT& rhs) const {
+		VectorT result;
+		for (int i = 0; i < Dim; ++i) {
+			result[i] = self().data[i] + rhs.data[i];
+		}
+		return result;
+	}
+	/// <summary> Elementwise vector subtraction. </summary>
+	inline VectorT operator-(const VectorT& rhs) const {
+		VectorT result;
+		for (int i = 0; i < Dim; ++i) {
+			result[i] = self().data[i] - rhs.data[i];
+		}
+		return result;
+	}
+
+	// Vector assign arithmetic
+	/// <summary> Elementwise (Hadamard) vector product. </summary>
+	inline VectorT& operator*=(const VectorT& rhs) {
+		for (int i = 0; i < Dim; ++i) {
+			self().data[i] *= rhs.data[i];
+		}
+		return self();
+	}
+
+	/// <summary> Elementwise vector division. </summary>
+	inline VectorT& operator/=(const VectorT& rhs) {
+		for (int i = 0; i < Dim; ++i) {
+			self().data[i] /= rhs.data[i];
+		}
+		return self();
+	}
+
+	/// <summary> Elementwise vector addition. </summary>
+	inline VectorT& operator+=(const VectorT& rhs) {
+		for (int i = 0; i < Dim; ++i) {
+			self().data[i] += rhs.data[i];
+		}
+		return self();
+	}
+
+	/// <summary> Elementwise vector subtraction. </summary>
+	inline VectorT& operator-=(const VectorT& rhs) {
+		for (int i = 0; i < Dim; ++i) {
+			self().data[i] -= rhs.data[i];
+		}
+		return self();
+	}
+
+	// Scalar assign arithmetic
+	/// <summary> Scales the vector by <paramref name="rhs"/>. </summary>
+	inline VectorT& operator*=(T rhs) {
+		for (int i = 0; i < Dim; ++i) {
+			self().data[i] *= rhs;
+		}
+		return self();
+	}
+
+	/// <summary> Scales the vector by 1/<paramref name="rhs"/>. </summary>
+	inline VectorT& operator/=(T rhs) {
+		for (int i = 0; i < Dim; ++i) {
+			self().data[i] /= rhs;
+		}
+		return self();
+	}
+
+	/// <summary> Adds <paramref name="rhs"/> to each element of the vector. </summary>
+	inline VectorT& operator+=(T rhs) {
+		for (int i = 0; i < Dim; ++i) {
+			self().data[i] += rhs;
+		}
+		return self();
+	}
+
+	/// <summary> Subtracts <paramref name="rhs"/> from each element of the vector. </summary>
+	inline VectorT& operator-=(T rhs) {
+		for (int i = 0; i < Dim; ++i) {
+			self().data[i] -= rhs;
+		}
+		return self();
 	}
 };
 
@@ -622,42 +670,85 @@ protected:
 		lhs.simd = SimdT::spread(all);
 	}
 
-	// Vector arithmetic
-	static inline void mul(VectorT& lhs, const VectorT& rhs) {
-		lhs.simd = SimdT::mul(lhs.simd, rhs.simd);
-	}
-	static inline void div(VectorT& lhs, const VectorT& rhs) {
-		lhs.simd = SimdT::div(lhs.simd, rhs.simd);
-	}
-	static inline void add(VectorT& lhs, const VectorT& rhs) {
-		lhs.simd = SimdT::add(lhs.simd, rhs.simd);
-	}
-	static inline void sub(VectorT& lhs, const VectorT& rhs) {
-		lhs.simd = SimdT::sub(lhs.simd, rhs.simd);
-	}
-	static inline VectorT fma(const VectorT& mul1, const VectorT& mul2, const VectorT& incr) {
-		VectorT ret;
-		ret.simd = SimdT::mad(mul1.simd, mul2.simd, incr.simd);
-		return ret;
-	}
-
-	// Scalar arithmetic
-	static inline void mul(VectorT& lhs, T rhs) {
-		lhs.simd = SimdT::mul(lhs.simd, rhs);
-	}
-	static inline void div(VectorT& lhs, T rhs) {
-		lhs.simd = SimdT::div(lhs.simd, rhs);
-	}
-	static inline void add(VectorT& lhs, T rhs) {
-		lhs.simd = SimdT::add(lhs.simd, rhs);
-	}
-	static inline void sub(VectorT& lhs, T rhs) {
-		lhs.simd = SimdT::sub(lhs.simd, rhs);
-	}
-
 	// Misc
 	static inline T dot(const VectorT& lhs, const VectorT& rhs) {
 		return SimdT::template dot<Dim>(lhs.simd, rhs.simd);
+	}
+
+	// Arithmetic operators
+	/// <summary> Elementwise (Hadamard) vector product. </summary>
+	inline VectorT operator*(const VectorT& rhs) const {
+		VectorT result;
+		result.simd = SimdT::mul(self().simd, rhs.simd);
+		return result;
+	}
+	/// <summary> Elementwise vector division. </summary>
+	inline VectorT operator/(const VectorT& rhs) const {
+		VectorT result;
+		result.simd = SimdT::div(self().simd, rhs.simd);
+		return result;
+	}
+	/// <summary> Elementwise vector addition. </summary>
+	inline VectorT operator+(const VectorT& rhs) const {
+		VectorT result;
+		result.simd = SimdT::add(self().simd, rhs.simd);
+		return result;
+	}
+	/// <summary> Elementwise vector subtraction. </summary>
+	inline VectorT operator-(const VectorT& rhs) const {
+		VectorT result;
+		result.simd = SimdT::sub(self().simd, rhs.simd);
+		return result;
+	}
+
+	// Vector assign arithmetic
+	/// <summary> Elementwise (Hadamard) vector product. </summary>
+	inline VectorT& operator*=(const VectorT& rhs) {
+		self().simd = SimdT::mul(self().simd, rhs.simd);
+		return self();
+	}
+
+	/// <summary> Elementwise vector division. </summary>
+	inline VectorT& operator/=(const VectorT& rhs) {
+		self().simd = SimdT::div(self().simd, rhs.simd);
+		return self();
+	}
+
+	/// <summary> Elementwise vector addition. </summary>
+	inline VectorT& operator+=(const VectorT& rhs) {
+		self().simd = SimdT::add(self().simd, rhs.simd);
+		return self();
+	}
+
+	/// <summary> Elementwise vector subtraction. </summary>
+	inline VectorT& operator-=(const VectorT& rhs) {
+		self().simd = SimdT::sub(self().simd, rhs.simd);
+		return self();
+	}
+
+	// Scalar assign arithmetic
+	/// <summary> Scales the vector by <paramref name="rhs"/>. </summary>
+	inline VectorT& operator*=(T rhs) {
+		self().simd = SimdT::mul(self().simd, rhs);
+		return self();
+	}
+
+	/// <summary> Scales the vector by 1/<paramref name="rhs"/>. </summary>
+	inline VectorT& operator/=(T rhs) {
+		self().simd = SimdT::div(self().simd, rhs);
+		return self();
+	}
+
+	/// <summary> Adds <paramref name="rhs"/> to each element of the vector. </summary>
+	inline VectorT& operator+=(T rhs) {
+		self().simd = SimdT::add(self().simd, rhs);
+		return self();
+	}
+
+	/// <summary> Subtracts <paramref name="rhs"/> from each element of the vector. </summary>
+	inline VectorT& operator-=(T rhs) {
+		self().simd = SimdT::sub(self().simd, rhs);
+		return self();
 	}
 };
 
@@ -986,31 +1077,6 @@ public:
 	//--------------------------------------------
 
 
-	// Vector assign arithmetic
-	/// <summary> Elementwise (Hadamard) vector product. </summary>
-	inline Vector& operator*=(const Vector& rhs) {
-		this->mul(*this, rhs);
-		return *this;
-	}
-
-	/// <summary> Elementwise vector division. </summary>
-	inline Vector& operator/=(const Vector& rhs) {
-		this->div(*this, rhs);
-		return *this;
-	}
-
-	/// <summary> Elementwise vector addition. </summary>
-	inline Vector& operator+=(const Vector& rhs) {
-		this->add(*this, rhs);
-		return *this;
-	}
-
-	/// <summary> Elementwise vector subtraction. </summary>
-	inline Vector& operator-=(const Vector& rhs) {
-		this->sub(*this, rhs);
-		return *this;
-	}
-
 	/// <summary> Negates all elements of the vector. </summary>
 	inline Vector operator-() const {
 		return (*this) * T(-1);
@@ -1022,39 +1088,16 @@ public:
 	}
 
 	// Vector arithmetic
-	/// <summary> Elementwise (Hadamard) vector product. </summary>
-	inline Vector operator*(const Vector& rhs) const { return Vector(*this) *= rhs; }
-	/// <summary> Elementwise vector division. </summary>
-	inline Vector operator/(const Vector& rhs) const { return Vector(*this) /= rhs; }
-	/// <summary> Elementwise vector addition. </summary>
-	inline Vector operator+(const Vector& rhs) const { return Vector(*this) += rhs; }
-	/// <summary> Elementwise vector subtraction. </summary>
-	inline Vector operator-(const Vector& rhs) const { return Vector(*this) -= rhs; }
+	using VectorOps<T, Dim, Packed>::operator*;
+	using VectorOps<T, Dim, Packed>::operator/;
+	using VectorOps<T, Dim, Packed>::operator+;
+	using VectorOps<T, Dim, Packed>::operator-;
 
-	// Scalar assign arithmetic
-	/// <summary> Scales the vector by <paramref name="rhs"/>. </summary>
-	inline Vector& operator*=(T rhs) {
-		this->mul(*this, rhs);
-		return *this;
-	}
+	using VectorOps<T, Dim, Packed>::operator*=;
+	using VectorOps<T, Dim, Packed>::operator/=;
+	using VectorOps<T, Dim, Packed>::operator+=;
+	using VectorOps<T, Dim, Packed>::operator-=;
 
-	/// <summary> Scales the vector by 1/<paramref name="rhs"/>. </summary>
-	inline Vector& operator/=(T rhs) {
-		this->div(*this, rhs);
-		return *this;
-	}
-
-	/// <summary> Adds <paramref name="rhs"/> to each element of the vector. </summary>
-	inline Vector& operator+=(T rhs) {
-		this->add(*this, rhs);
-		return *this;
-	}
-
-	/// <summary> Subtracts <paramref name="rhs"/> from each element of the vector. </summary>
-	inline Vector& operator-=(T rhs) {
-		this->sub(*this, rhs);
-		return *this;
-	}
 
 	// Scalar arithmetic
 	/// <summary> Scales the vector by <paramref name="rhs"/>. </summary>
