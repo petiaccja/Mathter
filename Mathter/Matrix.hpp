@@ -560,7 +560,7 @@ public:
 //--------------------------------------
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 class MatrixView {
-	static constexpr int SpaceDim = Rows != Columns ? std::min(Rows, Columns) : Rows - 1;
+	static constexpr int SpaceDim = std::max(0, Rows != Columns ? std::min(Rows, Columns) : Rows - 1);
 	static constexpr bool EnableView = (Rows == Columns
 										|| (Order == eMatrixOrder::FOLLOW_VECTOR && Rows - Columns == 1)
 										|| (Order == eMatrixOrder::PRECEDE_VECTOR && Columns - Rows == 1))
