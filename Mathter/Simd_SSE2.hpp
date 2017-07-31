@@ -102,7 +102,7 @@ union alignas(16) Simd<float, 4> {
 	}
 
 	template <int i0, int i1, int i2, int i3>
-	static inline Simd shuffle(Simd arg) {
+	static inline Simd shuffle(const Simd& arg) {
 		Simd ret;
 		ret.regi = _mm_shuffle_epi32(arg.regi, _MM_SHUFFLE(i0, i1, i2, i3));
 		return ret;
@@ -115,7 +115,7 @@ union alignas(16) Simd<float, 4> {
 template <>
 union alignas(16) Simd<float, 8> {
 	__m128 reg[2];
-	float v[4];
+	float v[8];
 
 
 	static inline Simd mul(const Simd& lhs, const Simd& rhs) {
@@ -224,7 +224,7 @@ union alignas(16) Simd<float, 8> {
 
 
 	template <int i0, int i1, int i2, int i3, int i4, int i5, int i6, int i7>
-	static inline Simd shuffle(Simd arg) {
+	static inline Simd shuffle(const Simd& arg) {
 		Simd ret;
 		ret.v[0] = arg.v[i0];
 		ret.v[1] = arg.v[i1];
@@ -334,7 +334,7 @@ union alignas(16) Simd<double, 2> {
 	}
 
 	template <int i0, int i1>
-	static inline Simd shuffle(Simd arg) {
+	static inline Simd shuffle(const Simd& arg) {
 		Simd ret;
 		ret.reg = _mm_shuffle_pd(arg.reg, arg.reg, _MM_SHUFFLE2(i0, i1));
 		return ret;
@@ -344,6 +344,7 @@ union alignas(16) Simd<double, 2> {
 
 
 // Specialization for double4, using SSE
+//*
 template <>
 union alignas(16) Simd<double, 4> {
 	__m128d reg[2];
@@ -453,7 +454,7 @@ union alignas(16) Simd<double, 4> {
 
 
 	template <int i0, int i1, int i2, int i3>
-	static inline Simd shuffle(Simd arg) {
+	static inline Simd shuffle(const Simd& arg) {
 		Simd ret;
 		ret.v[0] = arg.v[i0];
 		ret.v[1] = arg.v[i1];
