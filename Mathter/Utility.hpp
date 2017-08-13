@@ -3,6 +3,9 @@
 
 namespace mathter {
 
+template <class T, int Dim, bool Packed>
+class Vector;
+
 //------------------------------------------------------------------------------
 // Public utility stuff
 //------------------------------------------------------------------------------
@@ -40,12 +43,7 @@ Scalar Clamp(Scalar arg, Scalar lower, Scalar upper) {
 }
 
 template <class T, int Dim, bool Packed>
-Vector<T, Dim, Packed> Clamp(const Vector<T, Dim, Packed>& arg, T lower, T upper) {
-	decltype(arg) ret;
-	for (int i = 0; i < arg.Dimension(); ++i) {
-		ret(i) = Clamp(arg(i), lower, upper);
-	}
-}
+Vector<T, Dim, Packed> Clamp(const Vector<T, Dim, Packed>& arg, T lower, T upper);
 
 template <class Scalar>
 Scalar Saturate(Scalar arg) {
@@ -53,9 +51,7 @@ Scalar Saturate(Scalar arg) {
 }
 
 template <class T, int Dim, bool Packed>
-Vector<T, Dim, Packed> Saturate(const Vector<T, Dim, Packed>& arg) {
-	return Clamp(arg, T(0), T(1));
-}
+Vector<T, Dim, Packed> Saturate(const Vector<T, Dim, Packed>& arg);
 
 
 
@@ -78,5 +74,28 @@ constexpr T ConstexprAbs(T arg) {
 
 } // namespace impl
 
+
+} // namespace mathter
+
+
+
+
+#include "Vector.hpp"
+
+// Implementations of vector clamp functions.
+namespace mathter {
+
+template <class T, int Dim, bool Packed>
+Vector<T, Dim, Packed> Clamp(const Vector<T, Dim, Packed>& arg, T lower, T upper) {
+	decltype(arg) ret;
+	for (int i = 0; i < arg.Dimension(); ++i) {
+		ret(i) = Clamp(arg(i), lower, upper);
+	}
+}
+
+template <class T, int Dim, bool Packed>
+Vector<T, Dim, Packed> Saturate(const Vector<T, Dim, Packed>& arg) {
+	return Clamp(arg, T(0), T(1));
+}
 
 } // namespace mathter

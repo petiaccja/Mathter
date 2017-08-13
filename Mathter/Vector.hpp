@@ -40,6 +40,7 @@
 #include <cmath>
 
 #include "Simd.hpp"
+#include "Utility.hpp"
 
 
 namespace mathter {
