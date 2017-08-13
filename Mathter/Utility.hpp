@@ -3,7 +3,12 @@
 
 namespace mathter {
 
+//------------------------------------------------------------------------------
+// Public utility stuff
+//------------------------------------------------------------------------------
 
+
+// Common mathematical constants
 template <class Scalar>
 class Constants {
 public:
@@ -16,6 +21,7 @@ public:
 };
 
 
+// Radians and degrees
 template <class Scalar>
 Scalar Rad2Deg(Scalar rad) {
 	return rad / Constants<Scalar>::Pi * Scalar(180);
@@ -27,9 +33,37 @@ Scalar Deg2Rad(Scalar deg) {
 }
 
 
+// Clamp and saturate
+template <class Scalar>
+Scalar Clamp(Scalar arg, Scalar lower, Scalar upper) {
+	return std::max(lower, std::min(upper, arg));
+}
+
+template <class T, int Dim, bool Packed>
+Vector<T, Dim, Packed> Clamp(const Vector<T, Dim, Packed>& arg, T lower, T upper) {
+	decltype(arg) ret;
+	for (int i = 0; i < arg.Dimension(); ++i) {
+		ret(i) = Clamp(arg(i), lower, upper);
+	}
+}
+
+template <class Scalar>
+Scalar Saturate(Scalar arg) {
+	return Clamp(arg, Scalar(0), Scalar(1));
+}
+
+template <class T, int Dim, bool Packed>
+Vector<T, Dim, Packed> Saturate(const Vector<T, Dim, Packed>& arg) {
+	return Clamp(arg, T(0), T(1));
+}
 
 
+
+
+
+//------------------------------------------------------------------------------
 // Internal utility stuff.
+//------------------------------------------------------------------------------
 namespace impl {
 
 template <class T>
