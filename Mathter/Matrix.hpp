@@ -158,6 +158,23 @@ public:
 		}
 		return *this;
 	}
+
+
+	// From vector if applicable (for 1*N and N*1 submatrices)
+	template <class U, bool Packed, class = typename std::enable_if<std::min(SRows, SColumns) == 1>::type>
+	Submatrix& operator=(const Vector<U, std::max(SRows, SColumns), Packed>& v) {
+		static_assert(!std::is_const<MatrixT>::value, "Cannot assign to submatrix of const matrix.");
+
+		int k = 0;
+		for (int i = 0; i < SRows; ++i) {
+			for (int j = 0; j < SColumns; ++j) {
+				mat(row + i, col + j) = v(k);
+				++k;
+			}
+		}
+		return *this;
+	}
+
 	
 	template <class MatrixU>
 	Submatrix& operator=(const Submatrix<MatrixU, SRows, SColumns>& rhs) {
@@ -916,6 +933,14 @@ public:
 
 		static_assert(1 + sizeof...(Args) == Columns*Rows, "All elements of matrix have to be initialized.");
 		Assign<0, 0>(h, args...);
+	}
+
+	// From vector if applicable (for 1*N and N*1 matrices)
+	template <class U, bool Packed, class = typename std::enable_if<std::min(Rows, Columns) == 1>::type>
+	explicit Matrix(const Vector<U, std::max(Rows, Columns), Packed>& v){
+		for (int i = 0; i < v.Dimension(); ++i) {
+			(*this)(i) = v(i);
+		}
 	}
 
 

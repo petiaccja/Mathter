@@ -639,6 +639,11 @@ TEST(Matrix, Submatrix) {
 	Matrix<char, 2, 2> sm = m1.Submatrix<2, 2>(3, 0);
 	m2.Submatrix<3, 3>(2, 0) = m1.Submatrix<3, 3>(0, 2);
 	m2.Submatrix<2, 2>(0, 3) = sm;
+	ASSERT_EQ(m2, r);
+
+	m2.Column(4) = Vector<float, 5>('0');
+	r(0, 4) = r(1, 4) = r(2, 4) = r(3, 4) = r(4, 4) = '0';
+	ASSERT_EQ(m2, r);
 
 
 	Vector<char, 3> v = m1.Submatrix<3, 1>(0, 0);
@@ -648,6 +653,9 @@ TEST(Matrix, Submatrix) {
 	vr = {'a', 'b', 'c'};
 	ASSERT_EQ(v, vr);
 
+
+
+
 	// compile error as it should be
 	// v = m1.Submatrix<2, 3>(0, 0);
 
@@ -656,5 +664,4 @@ TEST(Matrix, Submatrix) {
 	//const Matrix<char, 5, 5>& m2c = m2;
 	//m2c.Submatrix<3, 3>(2, 0) = m1.Submatrix<3, 3>(0, 2);
 
-	ASSERT_EQ(m2, r);
 }
