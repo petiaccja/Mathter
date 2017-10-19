@@ -640,6 +640,18 @@ TEST(Matrix, Submatrix) {
 	m2.Submatrix<3, 3>(2, 0) = m1.Submatrix<3, 3>(0, 2);
 	m2.Submatrix<2, 2>(0, 3) = sm;
 
+
+	Vector<char, 3> v = m1.Submatrix<3, 1>(0, 0);
+	Vector<char, 3> vr = { 'a', 'f', 'k' };
+	ASSERT_EQ(v, vr);
+	v = m1.Submatrix<1, 3>(0, 0);
+	vr = {'a', 'b', 'c'};
+	ASSERT_EQ(v, vr);
+
+	// compile error as it should be
+	// v = m1.Submatrix<2, 3>(0, 0);
+
+
 	// compile error as it should be 
 	//const Matrix<char, 5, 5>& m2c = m2;
 	//m2c.Submatrix<3, 3>(2, 0) = m1.Submatrix<3, 3>(0, 2);

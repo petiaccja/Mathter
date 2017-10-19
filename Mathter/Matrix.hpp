@@ -132,6 +132,19 @@ public:
 		return ret;
 	}
 
+	template <class U, bool Packed, class = typename std::enable_if<std::min(SRows, SColumns) == 1>::type>
+	operator Vector<U, std::max(SRows, SColumns), Packed>() const {
+		Vector<U, std::max(SRows, SColumns), Packed> v;
+		int k = 0;
+		for (int i = 0; i < SRows; ++i) {
+			for (int j = 0; j < SColumns; ++j) {
+				v(k) = (*this)(i, j);
+				++k;
+			}
+		}
+		return v;
+	}
+
 
 	template <class U, eMatrixOrder UOrder, eMatrixLayout ULayout, bool UPacked>
 	Submatrix& operator=(const Matrix<U, SRows, SColumns, UOrder, ULayout, UPacked>& rhs) {
@@ -943,6 +956,33 @@ public:
 		assert(Subcolumns + colIdx <= Columns);
 
 		return mathter::Submatrix<const Matrix, Subrows, Subcolumns>(*this, rowIdx, colIdx);
+	}
+
+	auto Column(int colIdx) {
+		return Submatrix<Rows, 1>(0, colIdx);
+	}
+	auto Row(int rowIdx) {
+		return Submatrix<1, Columns>(rowIdx, 0);
+	}
+	auto Column(int colIdx) const {
+		return Submatrix<Rows, 1>(0, colIdx);
+	}
+	auto Row(int rowIdx) const {
+		return Submatrix<1, Columns>(rowIdx, 0);
+	}
+
+	// Conversion to vector if applicable
+	template <class U, bool Packed, class = typename std::enable_if<std::min(Rows, Columns) == 1>::type>
+	explicit operator Vector<U, std::max(Rows, Columns), Packed>() const {
+		Vector<U, std::max(Rows, Columns), Packed> v;
+		int k = 0;
+		for (int i = 0; i < Rows; ++i) {
+			for (int j = 0; j < Columns; ++j) {
+				v(k) = (*this)(i, j);
+				++k;
+			}
+		}
+		return v;
 	}
 
 	//--------------------------------------------
