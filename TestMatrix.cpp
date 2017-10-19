@@ -488,6 +488,7 @@ TEST(Matrix, Scale) {
 
 
 TEST(Matrix, Translation) {
+	auto m33 = Matrix<float, 3, 3>::Translation(1, 2);
 	auto m = Matrix<float, 6, 5>::Translation(Vector<float, 5>{ 1,2,3,4,5 });
 	Vector<float, 5> v(1,2,3,4,5);
 	v = v*m;
@@ -607,4 +608,41 @@ TEST(Matrix, View) {
 	pexp = { -4, 1, 1 };
 
 	ASSERT_TRUE(pexp.AlmostEqual(pt));
+}
+
+
+TEST(Matrix, Submatrix) {
+	Matrix<char, 5, 5>  m1 = {
+		'a','b','c','d','e',
+		'f','g','h','i','j',
+		'k','l','m','n','o',
+		'p','q','r','s','t',
+		'u','v','w','x','y',
+	};
+
+	Matrix<char, 5, 5>  m2 = {
+		'z','z','z','z','z',
+		'z','z','z','z','z',
+		'z','z','z','z','z',
+		'z','z','z','z','z',
+		'z','z','z','z','z',
+	};
+
+	Matrix<char, 5, 5>  r = {
+		'z','z','z','p','q',
+		'z','z','z','u','v',
+		'c','d','e','z','z',
+		'h','i','j','z','z',
+		'm','n','o','z','z',
+	};
+
+	Matrix<char, 2, 2> sm = m1.Submatrix<2, 2>(3, 0);
+	m2.Submatrix<3, 3>(2, 0) = m1.Submatrix<3, 3>(0, 2);
+	m2.Submatrix<2, 2>(0, 3) = sm;
+
+	// compile error as it should be 
+	//const Matrix<char, 5, 5>& m2c = m2;
+	//m2c.Submatrix<3, 3>(2, 0) = m1.Submatrix<3, 3>(0, 2);
+
+	ASSERT_EQ(m2, r);
 }
