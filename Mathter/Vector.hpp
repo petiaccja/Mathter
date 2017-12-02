@@ -953,6 +953,7 @@ public:
 
 	/// <summary> Strips the last element of the vector. </summary>
 	/// <remarks> Use it to switch between homogeneous and simple coordinates. </remarks>
+	template <class T = Vector<T, Dim - 1, Packed>, class = typename std::enable_if<(Dim > 1), Vector<T, Dim-1, Packed>>::type>
 	explicit operator Vector<T, Dim - 1, Packed>() {
 		return Vector<T, Dim - 1, Packed>(this->data);
 	}
