@@ -178,3 +178,39 @@ TEST(Vector, Swizzle) {
 	v4 = v1.zyx | 1.0f;
 	v4 = 1.0f | v1.zyx;
 }
+
+
+TEST(Vector, IOParse) {
+	Vector<float, 3> parsed;
+
+	std::string successCases[] = {
+		"3.14, 2.718, 0.57",
+		"  (3.14,2.718  ,  0.57\t  )  ",
+		"[3.14\t2.718\t0.57]",
+		"{    3.14  2.718, 0.57 } ",
+	};
+	Vector<float, 3> expected{3.14f, 2.718f, 0.57f};
+
+	for (const auto& c : successCases) {
+		const char* end;
+		parsed = strtovec<decltype(parsed)>(c.c_str(), &end);
+		ASSERT_TRUE(end != c.c_str());
+		ASSERT_EQ(parsed, expected);
+	}	
+
+	std::string failureCases[] = {
+		"[3. 14, 2.718, 0.57]", // more elements
+		"(3.1q, 2.718, 0.57\t)", // invalid element
+		"[3.14, 2.718, 0.57}", // unmatching brackets
+		"{ 3.14, 0.57 } ", // not enough elements
+		"[ 3.14, , 2.718, 0.57 ]", // empty elements
+	};
+
+	for (const auto& c : failureCases) {
+		const char* end;
+		parsed = strtovec<float, 3, false>(c.c_str(), &end);
+		ASSERT_TRUE(end == c.c_str());
+	}
+
+	std::cout << parsed << std::endl;
+}

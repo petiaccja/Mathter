@@ -665,3 +665,41 @@ TEST(Matrix, Submatrix) {
 	//m2c.Submatrix<3, 3>(2, 0) = m1.Submatrix<3, 3>(0, 2);
 
 }
+
+
+TEST(Matrix, IOParse) {
+	Matrix<float, 2, 2> parsed;
+
+	std::string successCases[] = {
+		"[3.14, 2.718; 0.57, 6.63]",
+		"[3.14  2.718; 0.57  6.63  ]",
+		"[[3.14, 2.718];\n[0.57, 6.63]]",
+		"3.14, 2.718; 0.57, 6.63   ]",
+	};
+	Matrix<float, 2, 2> expected{ 
+		3.14f, 2.718f, 
+		0.57f, 6.63f 
+	};
+
+	for (const auto& c : successCases) {
+		const char* end;
+		parsed = strtomat<decltype(parsed)>(c.c_str(), &end);
+		ASSERT_TRUE(end != c.c_str());
+		ASSERT_EQ(parsed, expected);
+	}
+
+	std::string failureCases[] = {
+		"[3.14, 2.718\n 0.57, 6.63]", // missing row delimiter
+		"[3.14  2.718h 0.57  6.63  ]", // invalid delimiter
+		"[3.14, 2.718; 0.57, 6.63; 1.38, 6.02]", // too many rows
+		"[3.14, 2.718 ]", // too few rows
+	};
+
+	for (const auto& c : failureCases) {
+		const char* end;
+		parsed = strtomat<decltype(parsed)>(c.c_str(), &end);
+		ASSERT_TRUE(end == c.c_str());
+	}
+
+	std::cout << parsed << std::endl;
+}
