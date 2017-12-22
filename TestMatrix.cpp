@@ -300,6 +300,60 @@ TEST(Matrix, LU_Solve) {
 }
 
 
+TEST(Matrix, SVD_Decomp) {
+	// example from wikipedia SVD article
+	Matrix<float, 5, 4> A1 = Matrix<float, 4, 5>{
+		1, 0, 0, 1, 2,
+		0, 0, 3, 0, 0,
+		0, 0, 0, 0, 0,
+		0, 2, 0, 0, 0,
+	}.Transposed();
+	Matrix<float, 5, 4> U1;
+	Matrix<float, 4, 4> S1;
+	Matrix<float, 4, 4> V1;
+	//Matrix<float, 4, 4> U1exp = {
+	//	0, 0, 1, 0,
+	//	0, 1, 0, 0,
+	//	0, 0, 0, -1,
+	//	1, 0, 0, 0,
+	//};
+	//Matrix<float, 4, 5> S1exp = {
+	//	2, 0, 0, 0, 0,
+	//	0, 3, 0, 0, 0,
+	//	0, 0, sqrt(5.f), 0, 0,
+	//	0, 0, 0, 0, 0,
+	//};
+	//Matrix<float, 5, 5> V1exp = {
+	//	0, 1, 0, 0, 0,
+	//	0, 0, 1, 0, 0,
+	//	sqrt(0.2f), 0, 0, 0, sqrt(0.8f),
+	//	0, 0, 0, 1, 0,
+	//	-sqrt(0.8f), 0, 0, 0, sqrt(0.2f),
+	//};
+
+	A1.DecomposeSVD(U1, S1, V1);
+	//ASSERT_TRUE(U1.AlmostEqual(U1exp));
+	//ASSERT_TRUE(S1.AlmostEqual(S1exp));
+	//ASSERT_TRUE(V1.AlmostEqual(V1exp));
+
+
+	// the same matrix as the LU
+	Matrix<float, 3, 3> A2 = {
+		3, -0.1f, -0.2f,
+		0.1f, 7, -0.3f,
+		0.3f, -0.2f, 10
+	};
+
+	Matrix<float, 3, 3> U2, S2, V2;
+	A2.DecomposeSVD(U2, S2, V2);
+	auto A2assembled = U2*S2*V2.Transposed();
+	ASSERT_TRUE(A2assembled.AlmostEqual(A2));
+
+	
+	1 == 1;
+}
+
+
 TEST(Matrix, Transpose) {
 	Matrix<float, 4, 2> m = {
 		1,2,
