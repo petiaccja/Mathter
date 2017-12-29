@@ -15,6 +15,9 @@
     <Filter Include="Mathter\Swizzle">
       <UniqueIdentifier>{2e2465d8-549e-40ba-9a53-51fbcbc33842}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Mathter\MatrixModules">
+      <UniqueIdentifier>{9c391cb8-2793-468c-89a4-9d455675f586}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -74,6 +77,48 @@
       <Filter>Test</Filter>
     </ClInclude>
     <ClInclude Include="Mathter\Utility.hpp">
+      <Filter>Mathter</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathter\MatrixModules\DecomposeLU.hpp">
+      <Filter>Mathter\MatrixModules</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathter\MatrixModules\DecomposeQR.hpp">
+      <Filter>Mathter\MatrixModules</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathter\MatrixModules\DecomposeSVD.hpp">
+      <Filter>Mathter\MatrixModules</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathter\MatrixModules\MatrixModule.hpp">
+      <Filter>Mathter\MatrixModules</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathter\MatrixModules\Orthographic.hpp">
+      <Filter>Mathter\MatrixModules</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathter\MatrixModules\Perspective.hpp">
+      <Filter>Mathter\MatrixModules</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathter\MatrixModules\Rotation2D.hpp">
+      <Filter>Mathter\MatrixModules</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathter\MatrixModules\Rotation3D.hpp">
+      <Filter>Mathter\MatrixModules</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathter\MatrixModules\Scale.hpp">
+      <Filter>Mathter\MatrixModules</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathter\MatrixModules\Shear.hpp">
+      <Filter>Mathter\MatrixModules</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathter\MatrixModules\Square.hpp">
+      <Filter>Mathter\MatrixModules</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathter\MatrixModules\Translation.hpp">
+      <Filter>Mathter\MatrixModules</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathter\MatrixModules\View.hpp">
+      <Filter>Mathter\MatrixModules</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathter\DefinitionsUtil.hpp">
       <Filter>Mathter</Filter>
     </ClInclude>
   </ItemGroup>

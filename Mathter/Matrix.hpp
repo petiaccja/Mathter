@@ -21,56 +21,10 @@
 #include <array>
 
 #include "Vector.hpp"
+#include "DefinitionsUtil.hpp"
 
 namespace mathter {
 
-enum class eAxis {
-	X = 0,
-	Y = 1,
-	Z = 2,
-};
-
-
-
-namespace impl {
-	template <class T, class U>
-	using MatMulElemT = decltype(T() * U() + T() + U());
-
-	template <class MatrixT>
-	class MatrixPropertiesHelper {};
-
-	template <class T_, int Rows_, int Columns_, eMatrixOrder Order_, eMatrixLayout Layout_, bool Packed_>
-	class MatrixPropertiesHelper<Matrix<T_, Rows_, Columns_, Order_, Layout_, Packed_>> {
-	public:
-		using Type = T_;
-		static constexpr int Rows = Rows_;
-		static constexpr int Columns = Columns_;
-		static constexpr eMatrixOrder Order = Order_;
-		static constexpr eMatrixLayout Layout = Layout_;
-		static constexpr bool Packed = Packed_;
-	};
-
-	template <class MatrixT>
-	class MatrixProperties : public MatrixPropertiesHelper<typename std::decay<MatrixT>::type> {};
-
-
-	template <eMatrixLayout Layout>
-	class OppositeLayout {
-	public:
-		static constexpr eMatrixLayout value = (Layout == eMatrixLayout::ROW_MAJOR ? eMatrixLayout::COLUMN_MAJOR : eMatrixLayout::ROW_MAJOR);
-	};
-
-
-	template <class T>
-	T sign(T arg) {
-		return T(arg > T(0)) - (arg < T(0));
-	}
-
-	template <class T>
-	T sign_nonzero(T arg) {
-		return T(arg >= T(0)) - (arg < T(0));
-	}
-}
 
 
 //------------------------------------------------------------------------------
@@ -198,7 +152,7 @@ public:
 		return *this;
 	}
 
-	
+
 	template <class MatrixU>
 	Submatrix& operator=(const Submatrix<MatrixU, SRows, SColumns>& rhs) {
 		static_assert(!std::is_const<MatrixT>::value, "Cannot assign to submatrix of const matrix.");
@@ -222,7 +176,7 @@ public:
 		static_assert(!std::is_const<MatrixT>::value, "Cannot assign to submatrix of const matrix.");
 		return operator=<MatrixT>(rhs);
 	}
-	
+
 	typename Props::Type& operator()(int row, int col) {
 		return mat(this->row + row, this->col + col);
 	}
@@ -245,11 +199,11 @@ private:
 
 // Empty
 namespace impl {
-	template <class T>
-	class Empty {};
+template <class T>
+class Empty {};
 
-	template <bool Enable, class Module>
-	using MatrixModule = typename std::conditional<Enable, Module, Empty<Module>>::type;
+template <bool Enable, class Module>
+using MatrixModule = typename std::conditional<Enable, Module, Empty<Module>>::type;
 }
 
 
@@ -294,36 +248,11 @@ public:
 //--------------------------------------
 // Square matrices
 //--------------------------------------
-template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-class MatrixSquare {
-	using MatrixT = Matrix<T, Rows, Columns, Order, Layout, Packed>;
-public:
-	friend MatrixT;
-	using Inherit = impl::Empty<MatrixSquare>;
-};
+}
 
-template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-class MatrixSquare<T, Dim, Dim, Order, Layout, Packed> {
-	using MatrixT = Matrix<T, Dim, Dim, Order, Layout, Packed>;
-	MatrixT& self() { return *static_cast<MatrixT*>(this); }
-	const MatrixT& self() const { return *static_cast<const MatrixT*>(this); }
-public:
-	T Trace() const;
-	T Determinant() const;
-	MatrixT& Transpose();
-	MatrixT& Invert();
-	MatrixT Inverse() const;
+#include "MatrixModules/Square.hpp"
 
-	void DecomposeLU(MatrixT& L, MatrixT& U) const;
-	mathter::DecompositionLU<T, Dim, Order, Layout, Packed> DecompositionLU() const {
-		return mathter::DecompositionLU<T, Dim, Order, Layout, Packed>(self());
-	}
-public:
-	friend MatrixT;
-	using Inherit = MatrixSquare;
-};
-
-
+namespace mathter {
 //--------------------------------------
 // Rotation 2D functions
 //--------------------------------------
@@ -1744,113 +1673,6 @@ Vector<Vt, Vd, Packed>& operator*=(Vector<Vt, Vd, Packed>& vec, const Matrix<Mt,
 // Square matrices
 //------------------------------------------------------------------------------
 
-template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-T MatrixSquare<T, Dim, Dim, Order, Layout, Packed>::Trace() const {
-	T sum = self()(0, 0);
-	for (int i = 1; i < Dim; ++i) {
-		sum += self()(i, i);
-	}
-	return sum;
-}
-
-template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-T MatrixSquare<T, Dim, Dim, Order, Layout, Packed>::Determinant() const {
-	// only works for Crout's algorithm, where U's diagonal is 1s
-	MatrixT L, U;
-	self().DecomposeLU(L, U);
-	T prod = L(0, 0);
-	for (int i = 1; i < L.RowCount(); ++i) {
-		prod *= L(i, i);
-	}
-	return prod;
-}
-
-template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-auto MatrixSquare<T, Dim, Dim, Order, Layout, Packed>::Transpose() -> MatrixT& {
-	self() = self().Transposed();
-	return self();
-}
-
-template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-auto MatrixSquare<T, Dim, Dim, Order, Layout, Packed>::Invert() -> MatrixT& {
-	*this = Inverse();
-	return self();
-}
-
-template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-auto MatrixSquare<T, Dim, Dim, Order, Layout, Packed>::Inverse() const -> MatrixT {
-	MatrixT ret;
-
-	mathter::DecompositionLU<T, Dim, Order, Layout, Packed> LU = self().DecompositionLU();
-
-	Vector<T, Dim, Packed> b(0);
-	Vector<T, Dim, Packed> x;
-	for (int col = 0; col < Dim; ++col) {
-		b(std::max(0, col - 1)) = 0;
-		b(col) = 1;
-		LU.Solve(x, b);
-		for (int i = 0; i < Dim; ++i) {
-			ret(i, col) = x(i);
-		}
-	}
-
-	return ret;
-}
-
-
-//------------------------------------------------------------------------------
-// Decompositions
-//------------------------------------------------------------------------------
-
-
-// From: https://www.gamedev.net/resources/_/technical/math-and-physics/matrix-inversion-using-lu-decomposition-r3637
-template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-void MatrixSquare<T, Dim, Dim, Order, Layout, Packed>::DecomposeLU(MatrixT& L, MatrixT& U) const {
-	const auto& A = self();
-	constexpr int n = Dim;
-
-	for (int i = 0; i < n; ++i) {
-		for (int j = i + 1; j < n; ++j) {
-			L(i, j) = 0;
-		}
-		for (int j = 0; j <= i; ++j) {
-			U(i, j) = i == j;
-		}
-	}
-
-	// Crout's algorithm
-	for (int i = 0; i < n; ++i) {
-		L(i, 0) = A(i, 0);
-	}
-	for (int j = 1; j < n; ++j) {
-		U(0, j) = A(0, j) / L(0, 0);
-	}
-
-	for (int j = 1; j < n-1; ++j) {
-		for (int i = j; i < n; ++i) {
-			float Lij;
-			Lij = A(i, j);
-			for (int k = 0; k <= j - 1; ++k) {
-				Lij -= L(i, k)*U(k, j);
-			}
-			L(i, j) = Lij;
-		}
-		for (int k = j; k < n; ++k) {
-			float Ujk;
-			Ujk = A(j, k);
-			for (int i = 0; i <= j - 1; ++i) {
-				Ujk -= L(j, i)*U(i, k);
-			}
-			Ujk /= L(j, j);
-			U(j, k) = Ujk;
-		}
-	}
-
-	L(n - 1, n - 1) = A(n - 1, n - 1);
-	for (int k = 0; k < n - 1; ++k) {
-		L(n - 1, n - 1) -= L(n - 1, k)*U(k, n - 1);
-	}
-}
 
 
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>

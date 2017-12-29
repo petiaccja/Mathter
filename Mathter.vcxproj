@@ -175,6 +175,20 @@
   <ItemGroup>
     <ClInclude Include="Mathter\Geometry.hpp" />
     <ClInclude Include="Mathter\Matrix.hpp" />
+    <ClInclude Include="Mathter\MatrixModules\DecomposeLU.hpp" />
+    <ClInclude Include="Mathter\MatrixModules\DecomposeQR.hpp" />
+    <ClInclude Include="Mathter\MatrixModules\DecomposeSVD.hpp" />
+    <ClInclude Include="Mathter\MatrixModules\MatrixModule.hpp" />
+    <ClInclude Include="Mathter\MatrixModules\Orthographic.hpp" />
+    <ClInclude Include="Mathter\MatrixModules\Perspective.hpp" />
+    <ClInclude Include="Mathter\MatrixModules\Rotation2D.hpp" />
+    <ClInclude Include="Mathter\MatrixModules\Rotation3D.hpp" />
+    <ClInclude Include="Mathter\MatrixModules\Scale.hpp" />
+    <ClInclude Include="Mathter\MatrixModules\Shear.hpp" />
+    <ClInclude Include="Mathter\MatrixModules\Square.hpp" />
+    <ClInclude Include="Mathter\MatrixModules\Translation.hpp" />
+    <ClInclude Include="Mathter\MatrixModules\View.hpp" />
+    <ClInclude Include="Mathter\DefinitionsUtil.hpp" />
     <ClInclude Include="Mathter\Quaternion.hpp" />
     <ClInclude Include="Mathter\Simd.hpp" />
     <ClInclude Include="Mathter\Simd_SSE2.hpp" />
