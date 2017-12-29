@@ -211,6 +211,4 @@ TEST(Vector, IOParse) {
 		parsed = strtovec<float, 3, false>(c.c_str(), &end);
 		ASSERT_TRUE(end == c.c_str());
 	}
-
-	std::cout << parsed << std::endl;
 }

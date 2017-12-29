@@ -249,6 +249,52 @@ double MeasureQuatMultiplication(double* cycles) {
 }
 
 
+template <class Type>
+double MeasureSvd2x2(double* cycles) {
+	constexpr int repeatCount = 50;
+	constexpr int iterationCount = 100'000;
+
+	std::vector<Matrix<Type, 2, 2>> matrices(iterationCount);
+
+	mt19937_64 rne(1000);
+	std::uniform_real_distribution<Type> rng(-1, 1);
+
+	for (auto& M : matrices) {
+		M = {
+			rng(rne), rng(rne),
+			rng(rne), rng(rne)
+		};
+	}
+
+
+	std::chrono::high_resolution_clock::time_point startTime;
+	std::chrono::high_resolution_clock::time_point endTime;
+	int64_t startCycle = 0, endCycle = -1;
+
+	startTime = std::chrono::high_resolution_clock::now();
+#ifdef _MSC_VER
+	startCycle = (int64_t)__rdtsc();
+#endif
+	Type c1, s1, c2, s2, d1, d2;
+	for (int j = 0; j < repeatCount; ++j) {
+		for (auto& M : matrices) {
+			Svd2x2Helper(M, c1, s1, c2, s2, d1, d2);
+		}
+	}
+#ifdef _MSC_VER
+	endCycle = (int64_t)__rdtsc();
+#endif
+	endTime = std::chrono::high_resolution_clock::now();
+
+
+	if (cycles) {
+		*cycles = double(endCycle - startCycle) / iterationCount / repeatCount;
+	}
+	double totalTime = chrono::duration_cast<chrono::nanoseconds>(endTime - startTime).count() * 1e-9;
+	return totalTime / iterationCount / repeatCount;
+}
+
+
 
 void Measure() {
 	constexpr auto ROW = eMatrixLayout::ROW_MAJOR;
@@ -491,6 +537,24 @@ void Measure() {
 		cout << endl;
 	}
 	cout << endl;
+
+
+	// SVD 2x2 measures
+	double svdCycles, svdCyclesDouble;
+	double svdTime, svdTimeDouble;
+	svdTime = MeasureSvd2x2<float>(&svdCycles);
+	svdTimeDouble = MeasureSvd2x2<double>(&svdCyclesDouble);
+
+	cout << "[SVD 2x2]" << endl;
+	cout << "type\t" << "\ttime/op" << "\tcycles" << endl;
+	cout << "float\t";
+	printf("%-6.02f ns\t", svdTime * 1e9);
+	printf("%.02f\t", svdCycles);
+	cout << endl << "double\t";
+	printf("%-6.02f ns\t", svdTimeDouble * 1e9);
+	printf("%.02f\t", svdCyclesDouble);
+
+	cout << endl << endl;
 
 
 	// Estimate CPU frequency

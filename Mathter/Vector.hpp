@@ -1178,10 +1178,8 @@ public:
 
 	/// <summary> Makes a unit vector, but keeps direction. Leans towards (1,0,0...) for nullvectors, costs more. </summary>
 	void SafeNormalize() {
-		T sgnx = (*this)(0) >= T(0.0) ? T(1.0) : T(-1.0);
-		static constexpr T epsilon = T(1) / impl::ConstexprExp10<T>(impl::ConstexprAbs(std::numeric_limits<T>::min_exponent10) / 2);
-		(*this)(0) += sgnx * epsilon;
-		T l = Length();
+		(*this)(0) = std::max((*this)(0), std::numeric_limits<T>::denorm_min());
+		T l = LengthPrecise();
 		operator/=(l);
 	}
 
@@ -1194,7 +1192,7 @@ public:
 
 
 	/// <summary> Returns true if the vector's length is too small for precise calculations (i.e. normalization). </summary>
-	/// <remarks> "Too small" means smaller the square root of the smallest number representable by the underlying scalar. 
+	/// <remarks> "Too small" means smaller than the square root of the smallest number representable by the underlying scalar. 
 	///			This value is ~10^-18 for floats and ~10^-154 for doubles. </remarks>
 	bool IsNullvector() const {
 		static constexpr T epsilon = T(1) / impl::ConstexprExp10<T>(impl::ConstexprAbs(std::numeric_limits<T>::min_exponent10) / 2);
@@ -1226,6 +1224,20 @@ public:
 	T Length() const {
 		return sqrt(LengthSquared());
 	}
+
+	/// <summary> Returns the length of the vector, avoids overflow and underflow, so it's more expensive. </summary>
+	T LengthPrecise() const {
+		T maxElement = (*this)(0);
+		for (int i = 1; i<Dimension(); ++i) {
+			maxElement = std::max(maxElement, (*this)(i));
+		}
+		if (maxElement == T(0)) {
+			return T(0);
+		}
+		auto scaled = (*this)/maxElement;
+		return sqrt(Dot(scaled, scaled))*maxElement;
+	}
+
 
 	/// <summary> Returns the element-wise minimum of arguments </summary>
 	static Vector Min(const Vector& lhs, const Vector& rhs) {

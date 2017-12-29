@@ -59,6 +59,17 @@ namespace impl {
 	public:
 		static constexpr eMatrixLayout value = (Layout == eMatrixLayout::ROW_MAJOR ? eMatrixLayout::COLUMN_MAJOR : eMatrixLayout::ROW_MAJOR);
 	};
+
+
+	template <class T>
+	T sign(T arg) {
+		return T(arg > T(0)) - (arg < T(0));
+	}
+
+	template <class T>
+	T sign_nonzero(T arg) {
+		return T(arg >= T(0)) - (arg < T(0));
+	}
 }
 
 
@@ -998,7 +1009,7 @@ public:
 
 	// From vector if applicable (for 1*N and N*1 matrices)
 	template <class U, bool Packed, class = typename std::enable_if<std::min(Rows, Columns) == 1>::type>
-	explicit Matrix(const Vector<U, std::max(Rows, Columns), Packed>& v){
+	Matrix(const Vector<U, std::max(Rows, Columns), Packed>& v){
 		for (int i = 0; i < v.Dimension(); ++i) {
 			(*this)(i) = v(i);
 		}
@@ -1270,11 +1281,14 @@ public:
 	//--------------------------------------------
 	// Matrix decompositions
 	//--------------------------------------------
-	void DecomposeQR(Matrix& Q, Matrix& R) const;
+	void DecomposeQR(
+		Matrix<T, Rows, Rows, Order, Layout, Packed>& Q,
+		Matrix<T, Rows, Columns, Order, Layout, Packed>& R) const;
 	void DecomposeSVD(
 		Matrix<T, Rows, Columns, Order, Layout, Packed>& Uout, 
 		Matrix<T, Columns, Columns, Order, Layout, Packed>& Sout,
 		Matrix<T, Columns, Columns, Order, Layout, Packed>& Vout) const;
+
 	//--------------------------------------------
 	// Matrix-vector arithmetic
 	//--------------------------------------------
@@ -1840,130 +1854,44 @@ void MatrixSquare<T, Dim, Dim, Order, Layout, Packed>::DecomposeLU(MatrixT& L, M
 
 
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-void Matrix<T, Rows, Columns, Order, Layout, Packed>::DecomposeQR(Matrix& Q, Matrix& R) const {
-	static_assert(false, "QR decomposition not implemented yet.");
-}
+void Matrix<T, Rows, Columns, Order, Layout, Packed>::DecomposeQR(
+	Matrix<T, Rows, Rows, Order, Layout, Packed>& Q,
+	Matrix<T, Rows, Columns, Order, Layout, Packed>& R) const
+{
+	R = *this;
+	Q.SetIdentity();
 
+	Matrix<T, Rows, Rows, Order, Layout, false> Qi;
+	Vector<T, Rows, false> u;
+	Matrix<T, Rows, 1, Order, eMatrixLayout::ROW_MAJOR, false> v;
 
-template <class T>
-T sign(T arg) {
-	return (arg > T(0)) - (arg < T(0));
-}
-
-template <class T>
-T sign_nonzero(T arg) {
-	return (arg >= T(0)) - (arg < T(0));
-}
-
-
-template <class T>
-struct SvdInternals {
-	T z1, z2, t1, t2;
-};
-
-
-
-template <class T>
-SvdInternals<T> Svd2x2Helper(Matrix<T, 2, 2> A, T& c1, T& s1, T& c2, T& s2, T& d1, T& d2, bool flip = false) {
-	T z1, z2, t1, t2;
-	T gamma1, gamma2, numer;
-
-	// elements of A^T*A and A*A^T
-	//*
-	T aa = A(0, 0)*A(0, 0);
-	T bb = A(0, 1)*A(0, 1);
-	T cc = A(1, 0)*A(1, 0);
-	T dd = A(1, 1)*A(1, 1);
-
-	T ac = A(0, 0)*A(1, 0);
-	T bd = A(0, 1)*A(1, 1);
-	T ab = A(0, 0)*A(0, 1);
-	T cd = A(1, 0)*A(1, 1);
-
-
-	// calculate tangents
-	gamma1 = ac + bd;
-	// handle special cases for singular and difficult matrices	
-	numer = ((dd - aa) + (cc - bb)); // numer = beta-alpha = (cc + dd) - (aa + bb), but that's numerically less accurate
-	numer = (numer == 0 && gamma1 == 0) ? 1 : numer;
-	z1 = numer/gamma1;
-
-	gamma2 = ab + cd;
-	numer = ((dd - aa) + (bb - cc));
-	T activeDiag = (aa + dd) > 0 ? 1 : -1;
-	numer = (numer == 0 && gamma2 == 0) ? activeDiag : numer;
-	z2 = numer/gamma2;
-
-
-	t1 = 2/(abs(z1) + sqrt(z1*z1+4));
-	t2 = 2/(abs(z2) + sqrt(z2*z2+4));
-
-	// calculate sines and cosines
-	T c1p = T(1) / sqrt(T(1) + t1*t1);
-	T s1p = c1p*t1;
-	T c2p = T(1) / sqrt(T(1) + t2*t2);
-	T s2p = c2p*t2;
-	// swap them if t1 or t2 is implicitly a cotangent not a tangent
-	bool flip1 = (gamma1 >= 0) != (z1 >= 0);
-	bool flip2 = (gamma2 >= 0) != (z2 >= 0);
-	T negate1 = -sign_nonzero(gamma1);
-	T negate2 = -sign_nonzero(gamma2);
-	c1 = flip1 ? c1p : s1p;
-	s1 = flip1 ? s1p : c1p;
-	c2 = flip2 ? c2p : s2p;
-	s2 = flip2 ? s2p : c2p;
-	c1 *= negate1;
-	c2 *= negate2;
-	//*/
-
-	// other way for tangents
-	/*
-	T a = A(0, 0);
-	T b = A(0, 1);
-	T c = A(1, 0);
-	T d = A(1, 1);
-
-	T p1 = a*a + b*b - c*c - d*d;
-	T p2 = a*a - b*b + c*c - d*d;
-	T p3 = -a*a - b*b + c*c + d*d;
-	T p4 = -a*a + b*b - c*c + d*d;
-
-	T acbd = a*c + b*d;
-	T abcd = a*b + c*d;
-
-	T q = sqrt(4*acbd*acbd + p1*p1);
-
-	if (!flip) {
-		t1 = (p1 + q) / (2*acbd);
-		t2 = (p2 + q) / (2*abcd);
+	for (int col = 0; col<ColumnCount(); ++col) {
+		u = R.Column(col);
+		for (int i = 0; i<col; ++i) {
+			u(i) = T(0);
+		}
+		T alpha = impl::sign(R(col,col)) * u.LengthPrecise();
+		u(col) -= alpha;
+		T norm = u.LengthPrecise();
+		if (norm == 0) {
+			continue;
+		}
+		u /= norm;
+		v = u;
+		Qi = (T(-2)*v)*v.Transposed();
+		for (int i = 0; i<Q.ColumnCount(); ++i) {
+			Qi(i, i) += T(1);
+		}
+		R = Qi*R;
+		Q = Qi*Q;
 	}
-	else {
-		t1 = -(p3 + q) / (2*acbd);
-		t2 = -(p4 + q) / (2*abcd);
-	}
-
-	// calculate sines and cosines
-	c1 = T(1) / sqrt(T(1) + t1*t1);
-	s1 = c1*t1;
-	c2 = T(1) / sqrt(T(1) + t2*t2);
-	s2 = c2*t2;
-	//*/
-	
-
-
-
-
-
-	// calculate diagonals
-	d1 = c2*(A(0, 0)*c1 - A(1, 0)*s1) - s2*(A(0, 1)*c1 - A(1, 1)*s1);
-	d2 = c2*(A(1, 1)*c1 + A(0, 1)*s1) + s2*(A(1, 0)*c1 + A(0, 0)*s1);
-
-	return { 0,0,0,0 };// { z1, z2, t1, t2 };
+	Q = Q.Transposed();	
 }
 
 
+
 template <class T>
-void Qr2x2Helper(const Matrix<T, 2, 2>& A, T& x, T& y, T& z, T& c2, T& s2) {
+void Rq2x2Helper(const Matrix<T, 2, 2>& A, T& x, T& y, T& z, T& c2, T& s2) {
 	T a = A(0, 0);
 	T b = A(0, 1);
 	T c = A(1, 0);
@@ -1983,34 +1911,34 @@ void Qr2x2Helper(const Matrix<T, 2, 2>& A, T& x, T& y, T& z, T& c2, T& s2) {
 	c *= rcmaxden;
 	d *= rcmaxden;
 	
-	T den = sqrt(c*c + d*d);
+	T den = 1/sqrt(c*c + d*d);
 
 	T numx = (-b*c + a*d);
 	T numy = (a*c + b*d);
-	x = numx / den;
-	y = numy / den;
-	z = den*maxden;
+	x = numx * den;
+	y = numy * den;
+	z = maxden/den;
 
-	s2 = -c / den;
-	c2 = d / den;
+	s2 = -c * den;
+	c2 = d * den;
 }
 
 
 template <class T>
-void Svd2x2HelperQR(Matrix<T, 2, 2> A, T& c1, T& s1, T& c2, T& s2, T& d1, T& d2) {
+void Svd2x2Helper(const Matrix<T, 2, 2>& A, T& c1, T& s1, T& c2, T& s2, T& d1, T& d2) {
 	// Calculate RQ decomposition of A
 	T x, y, z;
-	Qr2x2Helper(A, x, y, z, c2, s2);
+	Rq2x2Helper(A, x, y, z, c2, s2);
 
 	// Calculate tangent of rotation on R[x,y;0,z] to diagonalize R^T*R
-	T scaler = T(1)/std::max(abs(x), abs(y));
+	T scaler = T(1)/std::max(abs(x), std::max(abs(y), std::numeric_limits<T>::min()));
 	T x_ = x*scaler, y_ = y*scaler, z_ = z*scaler;
 	T numer = ((z_-x_)*(z_+x_)) + y_*y_;
 	T gamma = x_*y_;
 	gamma = numer == 0 ? 1 : gamma;
 	T zeta = numer/gamma;
 
-	T t = 2*sign_nonzero(zeta)/(abs(zeta) + sqrt(zeta*zeta+4));
+	T t = 2*impl::sign_nonzero(zeta)/(abs(zeta) + sqrt(zeta*zeta+4));
 
 	// Calculate sines and cosines
 	c1 = T(1) / sqrt(T(1) + t*t);
@@ -2034,27 +1962,41 @@ void Svd2x2HelperQR(Matrix<T, 2, 2> A, T& c1, T& s1, T& c2, T& s2, T& d1, T& d2)
 	T usmax1 = d2 > d1 ? usd : usa;
 	T usmax2 = d2 > d1 ? usb : -usc;
 
-	T signd1 = sign_nonzero(x*z);
+	T signd1 = impl::sign_nonzero(x*z);
 	dmax *= d2 > d1 ? signd1 : 1;
 	d2 *= signd1;
+	T rcpdmax = 1/dmax;
 
-	c1 = dmax != 0 ? usmax1 / dmax : 1;
-	s1 = dmax != 0 ? usmax2 / dmax : 0;
+	c1 = dmax != T(0) ? usmax1 * rcpdmax : T(1);
+	s1 = dmax != T(0) ? usmax2 * rcpdmax : T(0);
 }
 
 
-/*
+
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 void Matrix<T, Rows, Columns, Order, Layout, Packed>::DecomposeSVD(
 	Matrix<T, Rows, Columns, Order, Layout, Packed>& Uout,
 	Matrix<T, Columns, Columns, Order, Layout, Packed>& Sout,
 	Matrix<T, Columns, Columns, Order, Layout, Packed>& Vout) const
 {
-	Matrix<T, Rows, Columns, Order, eMatrixLayout::COLUMN_MAJOR, false> B = *this;
+	Matrix<T, Rows, Columns, Order, eMatrixLayout::COLUMN_MAJOR, false> B;
 	Matrix<T, Rows, Columns, Order, eMatrixLayout::COLUMN_MAJOR, false> U;
 	Matrix<T, Columns, Columns, Order, eMatrixLayout::COLUMN_MAJOR, false> V;
-	U.SetIdentity();
-	V.SetIdentity();
+
+	// Precondition with QR if needed
+	if (Rows > Columns) {
+		Matrix<T, Rows, Rows, Order, Layout, false> Q;
+		Matrix<T, Rows, Columns, Order, Layout, false> R;
+		this->DecomposeQR(Q, R);
+		B = R;
+		U = Q.Submatrix<Rows, Columns>(0,0);
+		V.SetIdentity();
+	}
+	else {
+		B = *this;
+		U.SetIdentity();
+		V.SetIdentity();
+	}
 
 	T tolerance = T(1e-6);
 
@@ -2065,7 +2007,7 @@ void Matrix<T, Rows, Columns, Order, Layout, Packed>::DecomposeSVD(
 		s = 0;
 
 		for (int i = 0; i < ColumnCount(); ++i) {
-			for (int j = i; j < ColumnCount(); ++j) {
+			for (int j = i+1; j < ColumnCount(); ++j) {
 				s += B(i, j)*B(i, j) + B(j, i)*B(j, i);
 
 				T s1, c1, s2, c2, d1, d2; // SVD of the submat row,col i,j of B
@@ -2074,32 +2016,39 @@ void Matrix<T, Rows, Columns, Order, Layout, Packed>::DecomposeSVD(
 					B(j, i), B(j, j)
 				};
 				Svd2x2Helper(Bsub, c1, s1, c2, s2, d1, d2);
-				Svd2x2Positive(c1, s1, c2, s2, d1, d2);
-
+				Matrix<T, 2, 2> U_ = {
+					c1, -s1,
+					s1, c1
+				};
+				Matrix<T, 2, 2> V_ = {
+					c2, s2,
+					-s2, c2
+				};
+				auto check = U_*Bsub*V_;
 
 				// Apply givens rotations given by 2x2 SVD to working matrices
 				// B = R(c1,s1)*B*R(c2,-s2)
 				Vector<T, 4, false> givensCoeffs = { c1, -s1, s1, c1 };
 				Vector<T, 4, false> bElems;
 				for (int col = 0; col < B.ColumnCount(); ++col) {
-					bElems.Set(B(i, col), B(i, col), B(j, col), B(j, col));
+					bElems.Set(B(i, col), B(j, col), B(i, col), B(j, col));
 					bElems *= givensCoeffs;
 					B(i, col) = bElems(0) + bElems(1);
 					B(j, col) = bElems(2) + bElems(3);
 				}
 				auto coli = B.stripes[i];
-				B.stripes[i] = c2*coli + s2*B.stripes[j];
-				B.stripes[j] = -s2*coli + c2*B.stripes[j];
+				B.stripes[i] = c2*coli + -s2*B.stripes[j];
+				B.stripes[j] = s2*coli + c2*B.stripes[j];
 
 				// U = U*R(c1,s1);
 				coli = U.stripes[i];
-				U.stripes[i] = c1*coli + s1*U.stripes[j];
-				U.stripes[j] = -s1*coli + c1*U.stripes[j];
+				U.stripes[i] = c1*coli + -s1*U.stripes[j];
+				U.stripes[j] = s1*coli + c1*U.stripes[j];
 
 				// V = V*R(c2,s2);
 				auto coliv = V.stripes[i];
-				V.stripes[i] = c2*coliv + s2*V.stripes[j];
-				V.stripes[j] = -s2*coliv + c2*V.stripes[j];
+				V.stripes[i] = c2*coliv + -s2*V.stripes[j];
+				V.stripes[j] = s2*coliv + c2*V.stripes[j];
 			}
 		}
 	} while (s > tolerance*N);
@@ -2111,87 +2060,7 @@ void Matrix<T, Rows, Columns, Order, Layout, Packed>::DecomposeSVD(
 	}
 	Vout = V.Transposed();
 }
-*/
 
-
-//*
-template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-void Matrix<T, Rows, Columns, Order, Layout, Packed>::DecomposeSVD(
-	Matrix<T, Rows, Columns, Order, Layout, Packed>& Uout,
-	Matrix<T, Columns, Columns, Order, Layout, Packed>& Sout,
-	Matrix<T, Columns, Columns, Order, Layout, Packed>& Vout) const
-{
-	Matrix<T, Rows, Columns, Order, eMatrixLayout::COLUMN_MAJOR, false> U = *this;
-	Matrix<T, Columns, Columns, Order, eMatrixLayout::COLUMN_MAJOR, false> V;
-	V.SetIdentity();
-
-	T tolerance = T(1e-6);
-	T convergence;
-
-	int iter = 15;
-	do {
-		convergence = 0;
-		for (int j = 1; j < ColumnCount(); ++j) {
-			for (int i = 0; i < j; ++i) {
-				// compute submatrix of U^T*U
-				T alpha = U.stripes[i].LengthSquared();
-				T beta = U.stripes[j].LengthSquared();
-				T gamma = Dot(U.stripes[i], U.stripes[j]);
-
-				convergence = std::max(convergence, abs(gamma)/sqrt(alpha*beta));
-
-				// compute diagonalizing submatrix
-				T zeta = (beta - alpha) / (T(2) * gamma);
-				T t = T((zeta > T(0)) - (zeta < T(0))) / (abs(zeta) + sqrt(T(1) + zeta*zeta)); // sgn(zeta) / (...)
-				T c = T(1) / sqrt(T(1) + t*t);
-				T s = c*t;
-
-				//Matrix<T, 2, 2> submat = {
-				//	alpha, gamma,
-				//	gamma, beta
-				//};
-				//Matrix<T, 2, 2> diagonalizer = {
-				//	c, s,
-				//	-s, c
-				//};
-				//auto diag = diagonalizer.Transposed()*submat*diagonalizer;
-				auto Utu = U.Transposed()*U;
-
-				// update column i and j of U
-				auto t2 = U.stripes[i];
-				U.stripes[i] = c*t2 - s*U.stripes[j];
-				U.stripes[j] = s*t2 + c*U.stripes[j];
-
-				// update V
-				auto t3 = V.stripes[i];
-				V.stripes[i] = c*t3 - s*V.stripes[j];
-				V.stripes[j] = s*t3 + c*V.stripes[j];
-
-				Utu = U.Transposed()*U;
-			}
-		}
-	} while (convergence > tolerance);
-
-	auto A_check = U*V.Transposed();
-
-	Sout.SetZero();
-	T Ssum = T(0);
-	for (int i = 0; i < U.ColumnCount(); ++i) {
-		Sout(i, i) = U.stripes[i].Length();
-		Ssum += Sout(i, i);
-	}
-	Ssum /= U.ColumnCount();
-	for (int i = 0; i < U.ColumnCount(); ++i) {
-		T s = Sout(i, i);
-		if (s <= std::numeric_limits<T>::epsilon()*Ssum) {
-			U.stripes[i][i] = T(1.0);
-			s = T(1.0);
-		}
-		Uout.Column(i) = U.stripes[i] / s;
-	}
-	Vout = V;
-}
-//*/
 
 
 //------------------------------------------------------------------------------
