@@ -1,0 +1,37 @@
+#pragma once
+
+#include "MatrixModule.hpp"
+
+
+namespace mathter {
+
+
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+class MatrixShear {
+	using MatrixT = Matrix<T, Rows, Columns, Order, Layout, Packed>;
+	MatrixT& self() { return *static_cast<MatrixT*>(this); }
+	const MatrixT& self() const { return *static_cast<const MatrixT*>(this); }
+	static constexpr bool Enabled = Rows == Columns;
+public:
+	static MatrixT Shear(T slope, int principalAxis, int modulatorAxis) {
+		assert(principalAxis != modulatorAxis);
+		assert(principalAxis < Rows);
+		assert(modulatorAxis < Rows);
+		if (Order == eMatrixOrder::FOLLOW_VECTOR) {
+			self()(modulatorAxis, principalAxis) = slope;
+		}
+		else {
+			self()(principalAxis, modulatorAxis) = slope;
+		}
+	}
+
+	MatrixT& SetScale(T slope, int principalAxis, int modulatorAxis) {
+		self() = Shear(slope, principalAxis, modulatorAxis); return self();
+	}
+public:
+	friend MatrixT;
+	using Inherit = impl::MatrixModule<Enabled, MatrixShear>;
+};
+
+
+}

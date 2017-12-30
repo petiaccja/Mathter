@@ -2,7 +2,31 @@
 
 #include "MatrixModule.hpp"
 
+
 namespace mathter {
+
+
+template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+class DecompositionLU {
+	using MatrixT = Matrix<T, Dim, Dim, Order, Layout, Packed>;
+public:
+	DecompositionLU(const MatrixT& arg) {
+		arg.DecomposeLU(L, U);
+		T prod = L(0, 0);
+		T sum = std::abs(prod);
+		for (int i = 1; i < Dim; ++i) {
+			prod *= L(i, i);
+			sum += std::abs(L(i, i));
+		}
+		sum /= Dim;
+		solvable = std::abs(prod) / sum > T(1e-6);
+	}
+
+	bool Solve(Vector<float, Dim, Packed>& x, const Vector<T, Dim, Packed>& b);
+
+	MatrixT L, U;
+	bool solvable;
+};
 
 
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
@@ -12,6 +36,7 @@ public:
 	friend MatrixT;
 	using Inherit = impl::Empty<MatrixLU>;
 };
+
 
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 class MatrixLU<T, Dim, Dim, Order, Layout, Packed> {
@@ -80,6 +105,58 @@ void MatrixLU<T, Dim, Dim, Order, Layout, Packed>::DecomposeLU(MatrixT& L, Matri
 }
 
 
+template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+bool DecompositionLU<T, Dim, Order, Layout, Packed>::Solve(Vector<float, Dim, Packed>& x, const Vector<T, Dim, Packed>& b) {
+	if (!solvable) {
+		for (int i = 0; i < Dim; ++i) {
+			x(i) = T(0);
+		}
+		return false;
+	}
+
+	// Solve Ld = b
+	Matrix<T, Dim, Dim + 1, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, Packed> L_b;
+
+	for (int i = 0; i < Dim; ++i) {
+		for (int j = 0; j < Dim; ++j) {
+			L_b(i, j) = L(i, j);
+		}
+		L_b(i, Dim) = b(i);
+	}
+
+	for (int i = 0; i < Dim - 1; ++i) {
+		for (int i2 = i + 1; i2 < Dim; ++i2) {
+			L_b.stripes[i] /= L_b(i, i);
+			T coeff = L_b(i2, i);
+			L_b.stripes[i2] -= L_b.stripes[i] * coeff;
+		}
+	}
+	L_b.stripes[Dim - 1] /= L_b(Dim - 1, Dim - 1);
+
+	// Solve Ux = d
+	Matrix<T, Dim, Dim + 1, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, Packed> U_d;
+	for (int i = 0; i < Dim; ++i) {
+		for (int j = 0; j < Dim; ++j) {
+			U_d(i, j) = U(i, j);
+		}
+		U_d(i, Dim) = L_b(i, Dim);
+	}
+
+	// only works for Crout's algorithm, where U's diagonal is 1s
+	for (int i = Dim - 1; i > 0; --i) {
+		for (int i2 = i - 1; i2 >= 0; --i2) {
+			T coeff = U_d(i2, i);
+			U_d.stripes[i2] -= U_d.stripes[i] * coeff;
+		}
+	}
+
+	// Output resulting vector
+	for (int i = 0; i < Dim; ++i) {
+		x(i) = U_d(i, Dim);
+	}
+
+	return true;
+}
 
 
 }
