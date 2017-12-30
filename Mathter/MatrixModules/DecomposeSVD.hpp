@@ -1,3 +1,8 @@
+//==============================================================================
+// This software is distributed under The Unlicense. 
+// For more information, please refer to <http://unlicense.org/>
+//==============================================================================
+
 #pragma once
 
 #include "MatrixModule.hpp"
@@ -8,13 +13,20 @@ namespace mathter {
 
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 class DecompositionSVD {
-	using MatrixT = Matrix<T, Rows, Columns, Order, Layout, Packed>;
-public:
-	DecompositionSVD(const MatrixT& arg) {
+	template <int Rows_, int Columns_>
+	using MatrixT = Matrix<T, Rows_, Columns_, Order, Layout, Packed>;
 
+	static constexpr int Sdim = std::min(Rows, Columns);
+	static constexpr int Udim = Rows;
+	static constexpr int Vdim = Columns;
+public:
+	DecompositionSVD(const MatrixT<Rows, Columns>& arg) {
+		arg.DecomposeSVD(U, S, V);
 	}
 
-	MatrixT U, S, V;
+	MatrixT<Udim, Sdim> U;
+	MatrixT<Sdim, Sdim> S;
+	MatrixT<Sdim, Vdim> V;
 };
 
 
@@ -24,12 +36,40 @@ class MatrixSVD {
 	using MatrixT = Matrix<T, Rows, Columns, Order, Layout, Packed>;
 	MatrixT& self() { return *static_cast<MatrixT*>(this); }
 	const MatrixT& self() const { return *static_cast<const MatrixT*>(this); }
+
+	static constexpr int Sdim = std::min(Rows, Columns);
+	static constexpr int Udim = Rows;
+	static constexpr int Vdim = Columns;
 public:
+	void DecomposeSVD(
+		Matrix<T, Udim, Sdim, Order, Layout, Packed>& Uout,
+		Matrix<T, Sdim, Sdim, Order, Layout, Packed>& Sout,
+		Matrix<T, Sdim, Vdim, Order, Layout, Packed>& Vout) const 
+	{
+		DecomposeSVD(Uout, Sout, Vout, std::integral_constant<bool, (Rows >= Columns)>());
+	}
+
+private:
 	void DecomposeSVD(
 		Matrix<T, Rows, Columns, Order, Layout, Packed>& Uout,
 		Matrix<T, Columns, Columns, Order, Layout, Packed>& Sout,
-		Matrix<T, Columns, Columns, Order, Layout, Packed>& Vout) const;
+		Matrix<T, Columns, Columns, Order, Layout, Packed>& Vout,
+		std::true_type) const;
 
+	void DecomposeSVD(
+		Matrix<T, Rows, Rows, Order, Layout, Packed>& Uout,
+		Matrix<T, Rows, Rows, Order, Layout, Packed>& Sout,
+		Matrix<T, Rows, Columns, Order, Layout, Packed>& Vout,
+		std::false_type) const 
+	{
+		Matrix<T, Columns, Rows, Order, Layout, Packed> U;
+		Matrix<T, Rows, Rows, Order, Layout, Packed> S;
+		Matrix<T, Rows, Rows, Order, Layout, Packed> V;
+		self().Transposed().DecomposeSVD(U, S, V);
+		Vout = U.Transposed();
+		Sout = S;
+		Uout = V.Transposed();
+	}
 public:
 	friend MatrixT;
 	using Inherit = MatrixSVD;
@@ -124,7 +164,8 @@ template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layo
 void MatrixSVD<T, Rows, Columns, Order, Layout, Packed>::DecomposeSVD(
 	Matrix<T, Rows, Columns, Order, Layout, Packed>& Uout,
 	Matrix<T, Columns, Columns, Order, Layout, Packed>& Sout,
-	Matrix<T, Columns, Columns, Order, Layout, Packed>& Vout) const
+	Matrix<T, Columns, Columns, Order, Layout, Packed>& Vout,
+	std::true_type) const
 {
 	Matrix<T, Rows, Columns, Order, eMatrixLayout::COLUMN_MAJOR, false> B;
 	Matrix<T, Rows, Columns, Order, eMatrixLayout::COLUMN_MAJOR, false> U;

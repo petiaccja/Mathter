@@ -351,6 +351,12 @@ TEST(Matrix, SVD_Decomp) {
 	auto A1assembled = U1*S1*V1;
 	ASSERT_TRUE(A1.AlmostEqual(A1assembled));
 
+	Matrix<float, 4, 4> U1T;
+	Matrix<float, 4, 4> S1T;
+	Matrix<float, 4, 5> V1T;
+	A1.Transposed().DecomposeSVD(U1T, S1T, V1T);
+	auto A1Tassembled = U1T*S1T*V1T;
+	ASSERT_TRUE(A1Tassembled.AlmostEqual(A1.Transposed()));
 
 	// the same matrix as the LU
 	Matrix<float, 3, 3> A2 = {

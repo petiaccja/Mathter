@@ -1,3 +1,8 @@
+//==============================================================================
+// This software is distributed under The Unlicense. 
+// For more information, please refer to <http://unlicense.org/>
+//==============================================================================
+
 #pragma once
 
 #include "MatrixModule.hpp"
@@ -24,6 +29,7 @@ class MatrixQR {
 	using MatrixT = Matrix<T, Rows, Columns, Order, Layout, Packed>;
 	MatrixT& self() { return *static_cast<MatrixT*>(this); }
 	const MatrixT& self() const { return *static_cast<const MatrixT*>(this); }
+	static constexpr bool EnableQR = Rows >= Columns;
 public:
 	void DecomposeQR(
 		Matrix<T, Rows, Rows, Order, Layout, Packed>& Q,
@@ -31,7 +37,7 @@ public:
 
 public:
 	friend MatrixT;
-	using Inherit = MatrixQR;
+	using Inherit = impl::MatrixModule<EnableQR, MatrixQR>;
 };
 
 
