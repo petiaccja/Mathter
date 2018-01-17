@@ -180,6 +180,16 @@ TEST(Vector, Swizzle) {
 }
 
 
+TEST(Vector, TruncateExtend) {
+	Vector<float, 3> v(1,2,3);
+	Vector<float, 4> u = (Vector<float, 4>)v;
+	Vector<float, 3> v2 = (Vector<float, 3>)u;
+
+	ASSERT_EQ(u, (Vector<float, 4>(1, 2, 3, 1)));
+	ASSERT_EQ(v, v2);
+}
+
+
 TEST(Vector, IOParse) {
 	Vector<float, 3> parsed;
 

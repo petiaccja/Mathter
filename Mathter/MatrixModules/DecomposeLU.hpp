@@ -203,7 +203,7 @@ void MatrixLU<T, Dim, Dim, Order, Layout, Packed>::DecomposeLUP(MatrixT& L, Matr
 		T p = 0;
 		int largest;
 		for (int i : Range(j,n)) {
-			if (std::abs(U(i,j) > p)) {
+			if (std::abs(U(i,j)) > p) {
 				largest = i;
 				p = std::abs(U(i, j));
 			}

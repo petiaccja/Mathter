@@ -345,9 +345,9 @@ TEST(Matrix, LUP_Solve) {
 
 TEST(Matrix, LUP_Decomp_Singular) {
 	Matrix<float, 3, 3> A = {
-		3, -0, -0.2f,
-		0.3f, 0, 10,
-		0, 0, 0,
+		1, 0, 0,
+		0, 0, 1,
+		0, -1, 0,
 	};
 
 	Matrix<float, 3, 3> L, U;
