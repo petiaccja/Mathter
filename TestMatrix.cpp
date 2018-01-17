@@ -293,10 +293,81 @@ TEST(Matrix, LU_Solve) {
 	Vector<float, 3> x;
 	Vector<float, 3> xexp = {3, -2.5, 7};
 
-	bool solved = A.DecompositionLU().Solve(x, b);
-
-	ASSERT_TRUE(solved);
+	x = A.DecompositionLU().Solve(b);
 	ASSERT_TRUE(x.AlmostEqual(xexp));
+}
+
+
+TEST(Matrix, LUP_Decomp) {
+	Matrix<float, 3, 3> A = {
+		3, -0.1f, -0.2f,
+		0.3f, -0.2f, 10,
+		0.1f, 7, -0.3f,
+	};
+
+	Matrix<float, 3, 3> L, U;
+	Vector<int, 3, false> P;
+	A.DecomposeLUP(L, U, P);
+
+	for (int i = 0; i < A.RowCount(); ++i) {
+		for (int j = 0; j < i - 1; ++j) {
+			ASSERT_FLOAT_EQ(U(i, j), 0.0f);
+			ASSERT_FLOAT_EQ(L(j, i), 0.0f);
+		}
+	}
+
+	Matrix<float, 3, 3> Pm = decltype(Pm)::Zero();
+	for (int i : P) {
+		Pm(i, P(i)) = 1.0f;
+	}
+
+	auto Mprod = Pm.Transposed()*L*U;
+	ASSERT_EQ(A.Approx(), Mprod);
+}
+
+
+TEST(Matrix, LUP_Solve) {
+	Matrix<float, 4,4> A = {
+		1,3,4,6,
+		3,6,2,6,
+		9,2,6,7,
+		6,2,7,5,
+	};
+	Vector<float, 4> b = { 3,4,2,8 };
+	Vector<float, 4> x;
+	Vector<float, 4> xexp = { -94.f/497, 895.f/497, 1000.f/497, -850.f/497 };
+
+	x = A.DecompositionLUP().Solve(b);
+
+	ASSERT_TRUE(x.AlmostEqual(xexp));
+}
+
+
+TEST(Matrix, LUP_Decomp_Singular) {
+	Matrix<float, 3, 3> A = {
+		3, -0, -0.2f,
+		0.3f, 0, 10,
+		0, 0, 0,
+	};
+
+	Matrix<float, 3, 3> L, U;
+	Vector<int, 3, false> P;
+	A.DecomposeLUP(L, U, P);
+
+	for (int i = 0; i < A.RowCount(); ++i) {
+		for (int j = 0; j < i - 1; ++j) {
+			ASSERT_FLOAT_EQ(U(i, j), 0.0f);
+			ASSERT_FLOAT_EQ(L(j, i), 0.0f);
+		}
+	}
+
+	Matrix<float, 3, 3> Pm = decltype(Pm)::Zero();
+	for (int i : P) {
+		Pm(i, P(i)) = 1.0f;
+	}
+
+	auto Mprod = Pm.Transposed()*L*U;
+	ASSERT_EQ(A.Approx(), Mprod);
 }
 
 
@@ -400,7 +471,7 @@ TEST_LAYOUT(Matrix, Determinant) {
 	};
 	float det = m.Determinant();
 
-	ASSERT_FLOAT_EQ(det, 9.0f);
+	ASSERT_TRUE(impl::AlmostEqual(det, 9.0f));
 
 	m = {
 		1,2,3,

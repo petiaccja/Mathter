@@ -34,7 +34,7 @@ TEST(Vector, CtorConcat) {
 
 	Vector<float, 3> a(arg1, 3);
 	Vector<float, 3> b(1, 2, 3);
-	ASSERT_TRUE(a == b);
+	ASSERT_EQ(a.Approx(), b);
 
 	Vector<double, 5> c(arg1, 3, arg3);
 	Vector<double, 5> d(1, 2, 3, 4, 5);

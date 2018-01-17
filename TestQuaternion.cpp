@@ -39,7 +39,7 @@ TEST(Quaternion, Ctor) {
 TEST(Quaternion, AxisAngle) {
 	Quaternion<float> q = Quaternion<float>::AxisAngle(Vector<float, 3>{ 1,2,3 }.Normalized(), 0.83f);
 	Quaternion<float> qexp = { 0.9151163f, 0.107757f, 0.2155141f, 0.3232711f }; 
-	ASSERT_TRUE(q.AlmostEqual(qexp));
+	ASSERT_EQ(q.Approx(), qexp);
 }
 
 TEST(Quaternion, QueryAxisAngle) {
