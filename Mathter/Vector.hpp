@@ -104,6 +104,15 @@ public:
 		return data()[IndexTable[idx]];
 	}
 
+	/// <summary> Returns the nth element of the swizzled vector. Example: v.zxy(2) returns y. </summary>
+	T& operator()(int idx) {
+		return data()[IndexTable[idx]];
+	}
+	/// <summary> Returns the nth element of the swizzled vector. Example: v.zxy(2) returns y. </summary>
+	T operator()(int idx) const {
+		return data()[IndexTable[idx]];
+	}
+
 	/// <summary> Builds the swizzled vector object. </summary>
 	template <bool Packed = false>
 	const auto ToVector() const {
@@ -633,7 +642,7 @@ public:
 	// Data constructors
 	//--------------------------------------------
 
-	/// <summary> Construct the vector. Does NOT zero-initialize elements. </summary>
+	/// <summary> Constructs the vector. Does NOT zero-initialize elements. </summary>
 	Vector() { 
 		CheckLayoutContraints(); 
 	}

@@ -22,6 +22,8 @@ class DecompositionLU {
 private:
 	static Vector<float, Dim, Packed> Solve(const MatrixT& L, const MatrixT& U, const Vector<T, Dim, Packed>& b);
 public:
+	/// <summary> Calculates the LU decomposition of <paramref name="arg"/>
+	///		and stores it for later calculations. </summary>
 	DecompositionLU(const MatrixT& arg) {
 		arg.DecomposeLU(L, U);
 		T prod = L(0, 0);
@@ -53,6 +55,8 @@ template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packe
 class DecompositionLUP {
 	using MatrixT = Matrix<T, Dim, Dim, Order, Layout, Packed>;
 public:
+	/// <summary> Calculates the LUP decomposition of <paramref name="arg"/>
+	///		and stores it for later calculations. </summary>
 	DecompositionLUP(const MatrixT& arg) {
 		arg.DecomposeLUP(L, U, P);
 		T prod = L(0, 0);
