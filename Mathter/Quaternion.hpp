@@ -233,7 +233,7 @@ public:
 		return vec.AlmostEqual(rhs.vec);
 	}
 	auto Approx() const {
-		return mathter::Approx<Quaternion>(*this);
+		return mathter::ApproxHelper<Quaternion>(*this);
 	}
 
 	//-----------------------------------------------

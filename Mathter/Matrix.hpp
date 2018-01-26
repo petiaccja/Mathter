@@ -477,7 +477,7 @@ public:
 		return equal;
 	}
 	auto Approx() const {
-		return mathter::Approx<Matrix>(*this);
+		return mathter::ApproxHelper<Matrix>(*this);
 	}
 
 	//--------------------------------------------

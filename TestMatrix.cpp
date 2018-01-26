@@ -4,7 +4,7 @@
 //==============================================================================
 
 #pragma warning(disable: 4244)
-#include <gtest/gtest.h>
+
 #include <Catch2/catch.hpp>
 
 #include "Mathter/Matrix.hpp"
@@ -28,104 +28,118 @@ int Ranint() {
 // Helper macros
 //------------------------------------------------------------------------------
 
+#define GEN_FUNC_NAME_HELPER2(Name, Cntr) Name ## Cntr
+#define GEN_FUNC_NAME_HELPER1(Name, Cntr) GEN_FUNC_NAME_HELPER2(Name, Cntr)
+#define GEN_FUNC_NAME GEN_FUNC_NAME_HELPER1(_GenFunc_, __COUNTER__)
+
+
+
 // Test for both layouts
-#define CALL_LAYOUT(Name, Case) \
-TEST(Name, Case) { \
-Name##_##Case<eMatrixLayout::ROW_MAJOR>(); \
-Name##_##Case<eMatrixLayout::COLUMN_MAJOR>(); \
+#define CALL_LAYOUT(Name, Case, Funname) \
+TEST_CASE(Name, Case) { \
+Funname<eMatrixLayout::ROW_MAJOR>(); \
+Funname<eMatrixLayout::COLUMN_MAJOR>(); \
 }
 
-#define TEST_LAYOUT(Name, Case) \
+#define TEST_LAYOUT_(Name, Case, Funname) \
 template <eMatrixLayout Layout> \
-void Name##_##Case(); \
-CALL_LAYOUT(Name, Case) \
+void Funname(); \
+CALL_LAYOUT(Name, Case, Funname) \
 template <eMatrixLayout Layout> \
-void Name##_##Case()
+void Funname()
 
+#define TEST_LAYOUT(Name, Case) TEST_LAYOUT_(Name, Case, GEN_FUNC_NAME) 
 
 // Test for both orders
-#define CALL_ORDER(Name, Case) \
-TEST(Name, Case) { \
-Name##_##Case<eMatrixOrder::FOLLOW_VECTOR>(); \
-Name##_##Case<eMatrixOrder::PRECEDE_VECTOR>(); \
+#define CALL_ORDER(Name, Case, Funname) \
+TEST_CASE(Name, Case) { \
+Funname<eMatrixOrder::FOLLOW_VECTOR>(); \
+Funname<eMatrixOrder::PRECEDE_VECTOR>(); \
 }
 
-#define TEST_ORDER(Name, Case) \
+#define TEST_ORDER_(Name, Case, Funname) \
 template <eMatrixOrder Order> \
-void Name##_##Case(); \
-CALL_ORDER(Name, Case) \
+void Funname(); \
+CALL_ORDER(Name, Case, Funname) \
 template <eMatrixOrder Order> \
-void Name##_##Case()
+void Funname()
 
+#define TEST_ORDER(Name, Case) TEST_ORDER_(Name, Case, GEN_FUNC_NAME)
 
 // Test with every combination of Order and Layout
-#define CALL_LAYOUTxORDER(Name, Case) \
-TEST(Name, Case) { \
-Name##_##Case<eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR>(); \
-Name##_##Case<eMatrixOrder::PRECEDE_VECTOR, eMatrixLayout::ROW_MAJOR>(); \
-Name##_##Case<eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR>(); \
-Name##_##Case<eMatrixOrder::PRECEDE_VECTOR, eMatrixLayout::COLUMN_MAJOR>(); \
+#define CALL_LAYOUTxORDER(Name, Case, Funname) \
+TEST_CASE(Name, Case) { \
+Funname<eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR>(); \
+Funname<eMatrixOrder::PRECEDE_VECTOR, eMatrixLayout::ROW_MAJOR>(); \
+Funname<eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR>(); \
+Funname<eMatrixOrder::PRECEDE_VECTOR, eMatrixLayout::COLUMN_MAJOR>(); \
 }
 
-#define TEST_LAYOUTxORDER(Name, Case) \
+#define TEST_LAYOUTxORDER_(Name, Case, Funname) \
 template <eMatrixOrder Order, eMatrixLayout Layout> \
-void Name##_##Case(); \
-CALL_LAYOUTxORDER(Name, Case) \
+void Funname(); \
+CALL_LAYOUTxORDER(Name, Case, Funname) \
 template <eMatrixOrder Order, eMatrixLayout Layout> \
-void Name##_##Case()
+void Funname()
+
+#define TEST_LAYOUTxORDER(Name, Case) TEST_LAYOUTxORDER_(Name, Case, GEN_FUNC_NAME)
 
 
 // Test with every combination of Layout pairs
-#define CALL_LAYOUT_SQUARED(Name, Case) \
-TEST(Name, Case) { \
-Name##_##Case<eMatrixLayout::ROW_MAJOR,		eMatrixLayout::ROW_MAJOR>(); \
-Name##_##Case<eMatrixLayout::ROW_MAJOR,		eMatrixLayout::COLUMN_MAJOR>(); \
-Name##_##Case<eMatrixLayout::COLUMN_MAJOR,	eMatrixLayout::ROW_MAJOR>(); \
-Name##_##Case<eMatrixLayout::COLUMN_MAJOR,	eMatrixLayout::COLUMN_MAJOR>(); \
+#define CALL_LAYOUT_SQUARED(Name, Case, Funname) \
+TEST_CASE(Name, Case) { \
+Funname<eMatrixLayout::ROW_MAJOR,		eMatrixLayout::ROW_MAJOR>(); \
+Funname<eMatrixLayout::ROW_MAJOR,		eMatrixLayout::COLUMN_MAJOR>(); \
+Funname<eMatrixLayout::COLUMN_MAJOR,	eMatrixLayout::ROW_MAJOR>(); \
+Funname<eMatrixLayout::COLUMN_MAJOR,	eMatrixLayout::COLUMN_MAJOR>(); \
 }
 
-#define TEST_LAYOUT_SQUARED(Name, Case) \
+#define TEST_LAYOUT_SQUARED_(Name, Case, Funname) \
 template <eMatrixLayout Layout1, eMatrixLayout Layout2> \
-void Name##_##Case(); \
-CALL_LAYOUT_SQUARED(Name, Case) \
+void Funname(); \
+CALL_LAYOUT_SQUARED(Name, Case, Funname) \
 template <eMatrixLayout Layout1, eMatrixLayout Layout2> \
-void Name##_##Case()
+void Funname()
+
+#define TEST_LAYOUT_SQUARED(Name, Case) TEST_LAYOUT_SQUARED_(Name, Case, GEN_FUNC_NAME)
+
 
 // Test with every combination of Order and Layout pairs
-#define CALL_LAYOUTxORDER_SQUARED(Name, Case) \
-TEST(Name, Case) { \
-Name##_##Case<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
-Name##_##Case<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
-Name##_##Case<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
-Name##_##Case<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
-Name##_##Case<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
-Name##_##Case<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
-Name##_##Case<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
-Name##_##Case<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
-Name##_##Case<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
-Name##_##Case<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
-Name##_##Case<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
-Name##_##Case<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
-Name##_##Case<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
-Name##_##Case<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
-Name##_##Case<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
-Name##_##Case<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
+#define CALL_LAYOUTxORDER_SQUARED(Name, Case, Funname) \
+TEST_CASE(Name, Case) { \
+Funname<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
+Funname<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
+Funname<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
+Funname<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
+Funname<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
+Funname<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
+Funname<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
+Funname<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
+Funname<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
+Funname<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
+Funname<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
+Funname<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
+Funname<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
+Funname<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
+Funname<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
+Funname<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
 }
 
-#define TEST_LAYOUTxORDER_SQUARED(Name, Case) \
+#define TEST_LAYOUTxORDER_SQUARED_(Name, Case, Funname) \
 template <eMatrixOrder Order1, eMatrixLayout Layout1, eMatrixOrder Order2, eMatrixLayout Layout2> \
-void Name##_##Case(); \
-CALL_LAYOUTxORDER_SQUARED(Name, Case) \
+void Funname(); \
+CALL_LAYOUTxORDER_SQUARED(Name, Case, Funname) \
 template <eMatrixOrder Order1, eMatrixLayout Layout1, eMatrixOrder Order2, eMatrixLayout Layout2> \
-void Name##_##Case()
+void Funname()
 
+#define TEST_LAYOUTxORDER_SQUARED(Name, Case) TEST_LAYOUTxORDER_SQUARED_(Name, Case, GEN_FUNC_NAME) 
 
 
 //------------------------------------------------------------------------------
 // Matrix tests
 //------------------------------------------------------------------------------
 
-TEST_LAYOUTxORDER(Matrix, CtorIndexer) {
+TEST_LAYOUTxORDER("Matrix - Constructor & indexer", "[Matrix]") {
 	Matrix<float, 3, 3, Order, Layout> m = {
 		1,2,3,
 		4,5,6,
@@ -136,12 +150,12 @@ TEST_LAYOUTxORDER(Matrix, CtorIndexer) {
 	n(1, 0) = 4;	n(1, 1) = 5;	n(1, 2) = 6;
 	n(2, 0) = 7;	n(2, 1) = 8;	n(2, 2) = 9;
 
-	ASSERT_TRUE(m == n);
+	REQUIRE(m == n);
 }
 
 
 
-TEST_LAYOUT_SQUARED(Matrix, Add) {
+TEST_LAYOUT_SQUARED("Matrix - Addition", "[Matrix]") {
 	Matrix<float, 3, 3, eMatrixOrder::FOLLOW_VECTOR, Layout1> m1 = {
 		1,2,3,
 		4,5,6,
@@ -159,11 +173,11 @@ TEST_LAYOUT_SQUARED(Matrix, Add) {
 		8,8,8,
 	};
 
-	ASSERT_TRUE(m1 + m2 == rexp);
+	REQUIRE(m1 + m2 == rexp);
 }
 
 
-TEST_LAYOUT_SQUARED(Matrix, Sub) {
+TEST_LAYOUT_SQUARED("Matrix - Subtraction", "[Matrix]") {
 	Matrix<float, 3, 3, eMatrixOrder::FOLLOW_VECTOR, Layout1> m1 = {
 		1,2,3,
 		4,5,6,
@@ -181,11 +195,11 @@ TEST_LAYOUT_SQUARED(Matrix, Sub) {
 		-1, -1, -1,
 	};
 
-	ASSERT_TRUE(m1 - m2 == rexp);
+	REQUIRE(m1 - m2 == rexp);
 }
 
 
-TEST_LAYOUT_SQUARED(Matrix, MulSquare) {
+TEST_LAYOUT_SQUARED("Matrix - Multiply square", "[Matrix]") {
 	Matrix<float, 3, 3, eMatrixOrder::FOLLOW_VECTOR, Layout1> m = {
 		1,	2,	3,
 		4,	5,	6,
@@ -202,7 +216,7 @@ TEST_LAYOUT_SQUARED(Matrix, MulSquare) {
 		106,138,132
 	};
 
-	ASSERT_TRUE(m*n == exp);
+	REQUIRE(m*n == exp);
 
 	Matrix<float, 5, 5, eMatrixOrder::FOLLOW_VECTOR, Layout1> m5 = {
 		1,	2,	3,	4,	5 ,
@@ -226,11 +240,11 @@ TEST_LAYOUT_SQUARED(Matrix, MulSquare) {
 		687,621,496,574,454
 	};
 
-	ASSERT_TRUE(m5*n5 == exp5);
+	REQUIRE(m5*n5 == exp5);
 }
 
 
-TEST(Matrix, Identity) {
+TEST_CASE("Matrix - Identity", "[Matrix]") {
 	Matrix<float, 3, 3> m = Matrix<float, 3, 3>::Identity();
 	Matrix<float, 3, 3> mexp = {
 		1,0,0,
@@ -238,7 +252,7 @@ TEST(Matrix, Identity) {
 		0,0,1,
 	};
 	
-	ASSERT_TRUE(m == mexp);
+	REQUIRE(m == mexp);
 
 	Matrix<float, 3, 5> m5 = Matrix<float, 3, 5>::Identity();
 	Matrix<float, 3, 5> mexp5 = {
@@ -247,10 +261,10 @@ TEST(Matrix, Identity) {
 		0,0,1,0,0,
 	};
 
-	ASSERT_TRUE(m5 == mexp5);
+	REQUIRE(m5 == mexp5);
 }
 
-TEST(Matrix, Zero) {
+TEST_CASE("Matrix - Zero", "[Matrix]") {
 	Matrix<float, 3, 4> m = Matrix<float, 3, 4>::Zero();
 	Matrix<float, 3, 4> mexp = {
 		0,0,0,0,
@@ -258,11 +272,11 @@ TEST(Matrix, Zero) {
 		0,0,0,0,
 	};
 
-	ASSERT_TRUE(m == mexp);
+	REQUIRE(m == mexp);
 }
 
 
-TEST(Matrix, LU_Decomp) {
+TEST_CASE("Matrix - LU decomposition", "[Matrix]") {
 	Matrix<float, 3, 3> A = {
 		3, -0.1f, -0.2f,
 		0.1f, 7, -0.3f,
@@ -274,17 +288,17 @@ TEST(Matrix, LU_Decomp) {
 
 	for (int i = 0; i < A.RowCount(); ++i) {
 		for (int j = 0; j < i - 1; ++j) {
-			ASSERT_FLOAT_EQ(U(i, j), 0.0f);
-			ASSERT_FLOAT_EQ(L(j, i), 0.0f);
+			REQUIRE(U(i, j) == Approx(0.0f));
+			REQUIRE(L(j, i) == Approx(0.0f));
 		}
 	}
 
 	auto Mprod = L*U;
-	ASSERT_TRUE(A.AlmostEqual(Mprod));
+	REQUIRE(A.Approx() == Mprod);
 }
 
 
-TEST(Matrix, LU_Solve) {
+TEST_CASE("Matrix - LU solve", "[Matrix]") {
 	Matrix<float, 3, 3> A = {
 		3, -0.1f, -0.2f,
 		0.1f, 7, -0.3f,
@@ -295,11 +309,11 @@ TEST(Matrix, LU_Solve) {
 	Vector<float, 3> xexp = {3, -2.5, 7};
 
 	x = A.DecompositionLU().Solve(b);
-	ASSERT_TRUE(x.AlmostEqual(xexp));
+	REQUIRE(x.Approx() == xexp);
 }
 
 
-TEST(Matrix, LUP_Decomp) {
+TEST_CASE("Matrix - LUP decomposition", "[Matrix]") {
 	Matrix<float, 3, 3> A = {
 		3, -0.1f, -0.2f,
 		0.3f, -0.2f, 10,
@@ -312,8 +326,8 @@ TEST(Matrix, LUP_Decomp) {
 
 	for (int i = 0; i < A.RowCount(); ++i) {
 		for (int j = 0; j < i - 1; ++j) {
-			ASSERT_FLOAT_EQ(U(i, j), 0.0f);
-			ASSERT_FLOAT_EQ(L(j, i), 0.0f);
+			REQUIRE(U(i, j) == Approx(0.0f));
+			REQUIRE(L(j, i) == Approx(0.0f));
 		}
 	}
 
@@ -323,11 +337,11 @@ TEST(Matrix, LUP_Decomp) {
 	}
 
 	auto Mprod = Pm.Transposed()*L*U;
-	ASSERT_EQ(A.Approx(), Mprod);
+	REQUIRE(A.Approx() == Mprod);
 }
 
 
-TEST(Matrix, LUP_Solve) {
+TEST_CASE("Matrix - LUP solve", "[Matrix]") {
 	Matrix<float, 4,4> A = {
 		1,3,4,6,
 		3,6,2,6,
@@ -340,11 +354,11 @@ TEST(Matrix, LUP_Solve) {
 
 	x = A.DecompositionLUP().Solve(b);
 
-	ASSERT_TRUE(x.AlmostEqual(xexp));
+	REQUIRE(x.Approx() == xexp);
 }
 
 
-TEST(Matrix, LUP_Decomp_Singular) {
+TEST_CASE("Matrix - LUP decomposition singular", "[Matrix]") {
 	Matrix<float, 3, 3> A = {
 		1, 0, 0,
 		0, 0, 1,
@@ -357,8 +371,8 @@ TEST(Matrix, LUP_Decomp_Singular) {
 
 	for (int i = 0; i < A.RowCount(); ++i) {
 		for (int j = 0; j < i - 1; ++j) {
-			ASSERT_FLOAT_EQ(U(i, j), 0.0f);
-			ASSERT_FLOAT_EQ(L(j, i), 0.0f);
+			REQUIRE(U(i, j) == Approx(0.0f));
+			REQUIRE(L(j, i) == Approx(0.0f));
 		}
 	}
 
@@ -368,11 +382,11 @@ TEST(Matrix, LUP_Decomp_Singular) {
 	}
 
 	auto Mprod = Pm.Transposed()*L*U;
-	ASSERT_EQ(A.Approx(), Mprod);
+	REQUIRE(A.Approx() == Mprod);
 }
 
 
-TEST(Matrix, QR_Decomp) {
+TEST_CASE("Matrix - QR decomposition", "[Matrix]") {
 	// example from wikipedia SVD article
 	Matrix<float, 5, 4> A1 = Matrix<float, 4, 5>{
 		1, 0, 0, 1, 2,
@@ -385,7 +399,7 @@ TEST(Matrix, QR_Decomp) {
 
 	A1.DecomposeQR(Q1, R1);
 	Matrix<float, 5, 4> A1assembled = Q1*R1;
-	ASSERT_TRUE(A1assembled.AlmostEqual(A1));
+	REQUIRE(A1assembled.Approx() == A1);
 
 
 	// the same matrix as the LU
@@ -403,11 +417,11 @@ TEST(Matrix, QR_Decomp) {
 	A2.DecomposeQR(Q2, R2);
 
 	Matrix<float, 3, 3> A2assembled = Q2*R2;
-	ASSERT_TRUE(A2assembled.AlmostEqual(A2));
+	REQUIRE(A2assembled.Approx() == A2);
 }
 
 
-TEST(Matrix, SVD_Decomp) {
+TEST_CASE("Matrix - SVD", "[Matrix]") {
 	// example from wikipedia SVD article
 	Matrix<float, 5, 4> A1 = Matrix<float, 4, 5>{
 		1, 0, 0, 1, 2,
@@ -421,14 +435,14 @@ TEST(Matrix, SVD_Decomp) {
 
 	A1.DecomposeSVD(U1, S1, V1);
 	auto A1assembled = U1*S1*V1;
-	ASSERT_TRUE(A1.AlmostEqual(A1assembled));
+	REQUIRE(A1.Approx() == A1assembled);
 
 	Matrix<float, 4, 4> U1T;
 	Matrix<float, 4, 4> S1T;
 	Matrix<float, 4, 5> V1T;
 	A1.Transposed().DecomposeSVD(U1T, S1T, V1T);
 	auto A1Tassembled = U1T*S1T*V1T;
-	ASSERT_TRUE(A1Tassembled.AlmostEqual(A1.Transposed()));
+	REQUIRE(A1Tassembled.Approx() == A1.Transposed());
 
 	// the same matrix as the LU
 	Matrix<float, 3, 3> A2 = {
@@ -440,14 +454,11 @@ TEST(Matrix, SVD_Decomp) {
 	Matrix<float, 3, 3> U2, S2, V2;
 	A2.DecomposeSVD(U2, S2, V2);
 	auto A2assembled = U2*S2*V2;
-	ASSERT_TRUE(A2assembled.AlmostEqual(A2));
-
-	
-	1 == 1;
+	REQUIRE(A2assembled.Approx() == A2);
 }
 
 
-TEST(Matrix, Transpose) {
+TEST_CASE("Matrix - Transpose", "[Matrix]") {
 	Matrix<float, 4, 2> m = {
 		1,2,
 		3,4,
@@ -460,11 +471,11 @@ TEST(Matrix, Transpose) {
 		2,4,6,8,
 	};
 
-	ASSERT_TRUE(mT == mexp);
+	REQUIRE(mT == mexp);
 }
 
 
-TEST_LAYOUT(Matrix, Determinant) {
+TEST_LAYOUT("Matrix - Determinant", "[Matrix]") {
 	Matrix<float, 3, 3, eMatrixOrder::FOLLOW_VECTOR, Layout> m = {
 		1,3,2,
 		4,5,6,
@@ -472,7 +483,7 @@ TEST_LAYOUT(Matrix, Determinant) {
 	};
 	float det = m.Determinant();
 
-	ASSERT_TRUE(impl::AlmostEqual(det, 9.0f));
+	REQUIRE(Approx(det) == 9.0f);
 
 	m = {
 		1,2,3,
@@ -480,7 +491,7 @@ TEST_LAYOUT(Matrix, Determinant) {
 		7,8,9
 	};
 	det = m.Determinant();
-	ASSERT_FLOAT_EQ(det, 0.0f);
+	REQUIRE(Approx(det) == 0.0f);
 
 	Matrix<double, 5, 5, eMatrixOrder::FOLLOW_VECTOR, Layout> m5 = {
 		5, 7, 3, 6, 4,
@@ -490,11 +501,11 @@ TEST_LAYOUT(Matrix, Determinant) {
 		5, 9, 7, 1, 5
 	};
 	det = m5.Determinant();
-	ASSERT_FLOAT_EQ(det, 4134);
+	REQUIRE(Approx(det) == 4134);
 }
 
 
-TEST_LAYOUT(Matrix, Trace) {
+TEST_LAYOUT("Matrix - Trace", "[Matrix]") {
 	Matrix<float, 3, 3, eMatrixOrder::FOLLOW_VECTOR, Layout> m = {
 		1,3,2,
 		4,5,6,
@@ -502,7 +513,7 @@ TEST_LAYOUT(Matrix, Trace) {
 	};
 	float trace = m.Trace();
 
-	ASSERT_FLOAT_EQ(trace, 15.f);
+	REQUIRE(Approx(trace) == 15.f);
 
 	Matrix<double, 5, 5, eMatrixOrder::FOLLOW_VECTOR, Layout> m5 = {
 		5, 7, 3, 6, 4,
@@ -512,11 +523,11 @@ TEST_LAYOUT(Matrix, Trace) {
 		5, 9, 7, 1, 5
 	};
 	trace = m5.Trace();
-	ASSERT_FLOAT_EQ(trace, 29);
+	REQUIRE(Approx(trace) == 29);
 }
 
 
-TEST(Matrix, Inverse) {
+TEST_CASE("Matrix - Inverse", "[Matrix]") {
 	Matrix<float, 3, 3> m = {
 		1,3,2,
 		4,5,6,
@@ -541,12 +552,12 @@ TEST(Matrix, Inverse) {
 	Matrix<float, 5, 5> idenexp;
 	idenexp.SetIdentity();
 
-	ASSERT_TRUE(mexp.AlmostEqual(mI));
-	ASSERT_TRUE(idenexp.AlmostEqual(iden));
+	REQUIRE(mexp.Approx() == mI);
+	REQUIRE(idenexp.Approx() == iden);
 }
 
 
-TEST(Matrix, Rotation2D) {
+TEST_CASE("Matrix - Rotation2D", "[Matrix]") {
 	auto m = Matrix<float, 2, 2>::Rotation(1.f);
 	auto m3 = Matrix<float, 3, 3>::Rotation(1.f);
 	Matrix<float, 2, 2> mexp = {
@@ -559,19 +570,19 @@ TEST(Matrix, Rotation2D) {
 		0,0,1,
 	};
 	
-	ASSERT_TRUE(m.AlmostEqual(mexp));
-	ASSERT_TRUE(m3.AlmostEqual(m3exp));
+	REQUIRE(m.Approx() == mexp);
+	REQUIRE(m3.Approx() == m3exp);
 }
 
 
-TEST(Matrix, RotationPrincipal) {
+TEST_CASE("Matrix - RotationPrincipal", "[Matrix]") {
 	auto m1 = Matrix<float, 3, 3>::RotationX(1.f);
 	Matrix<float, 3, 3> mexp = {
 		1.000000, 0.000000, 0.000000,
 		0.000000, 0.540302, 0.841471,
 		0.000000, -0.841471, 0.540302
 	};
-	ASSERT_TRUE(m1.AlmostEqual(mexp));
+	REQUIRE(m1.Approx() == mexp);
 
 
 	auto m2 = Matrix<float, 4, 3>::RotationY(1.f);
@@ -581,7 +592,7 @@ TEST(Matrix, RotationPrincipal) {
 		0.841471, 0.000000, 0.540302,
 		0,			 0,			0
 	};
-	ASSERT_TRUE(m2.AlmostEqual(m2exp));
+	REQUIRE(m2.Approx() == m2exp);
 
 
 	auto m3 = Matrix<float, 3, 4, eMatrixOrder::PRECEDE_VECTOR>::RotationZ(1.f);
@@ -591,7 +602,7 @@ TEST(Matrix, RotationPrincipal) {
 		0.000000, 0.000000, 1.000000,
 		0,			0,			0
 	};
-	ASSERT_TRUE(m3.AlmostEqual(m3exp.Transposed()));
+	REQUIRE(m3.Approx() == m3exp.Transposed());
 
 	auto m4 = Matrix<float, 4, 4>::RotationZ(1.f);
 	Matrix<float, 4, 4> m4exp = {
@@ -600,16 +611,16 @@ TEST(Matrix, RotationPrincipal) {
 		0.000000, 0.000000, 1.000000, 0,
 		0,0,0,1
 	};
-	ASSERT_TRUE(m4.AlmostEqual(m4exp));
+	REQUIRE(m4.Approx() == m4exp);
 }
 
 
-TEST(Matrix, RotationAxisAngle) {
+TEST_CASE("Matrix - RotationAxisAngle", "[Matrix]") {
 	auto m = Matrix<float, 3, 3>::RotationAxisAngle(Vector<float, 3>(1,2,3).Normalized(), 1.0f);
 	Matrix<float, 3, 3> mexp = {
 		0.573138, 0.740349, -0.351279, -0.609007, 0.671645, 0.421906, 0.548292, -0.027879, 0.835822
 	};
-	ASSERT_TRUE(m.AlmostEqual(mexp));
+	REQUIRE(m.Approx() == mexp);
 
 	auto m4 = Matrix<float, 4, 4>::RotationAxisAngle(Vector<float, 3>(1, 2, 3).Normalized(), 1.0f);
 	Matrix<float, 4, 4> m4exp = {
@@ -618,11 +629,11 @@ TEST(Matrix, RotationAxisAngle) {
 		0.548292, -0.027879, 0.835822, 0,
 		0,		0,			0,		1
 	};
-	ASSERT_TRUE(m4.AlmostEqual(m4exp));
+	REQUIRE(m4.Approx() == m4exp);
 }
 
 
-TEST(Matrix, Scale) {
+TEST_CASE("Matrix - Scale", "[Matrix]") {
 	auto m = Matrix<float, 5, 5>::Scale(1, 2, 3, 4, 5);
 	Vector<float, 5> v(2, 6, 3, 7, 5);
 	auto m3 = Matrix<float, 3, 3>::Scale(Vector<float, 3>{1, 2, 3});
@@ -630,17 +641,17 @@ TEST(Matrix, Scale) {
 	auto vt1 = v*Vector<float, 5>{ 1, 2, 3, 4, 5 };
 	auto vt2 = v*m;
 
-	ASSERT_TRUE(vt1 == vt2);
+	REQUIRE(vt1 == vt2);
 }
 
 
-TEST(Matrix, Translation) {
+TEST_CASE("Matrix - Translation", "[Matrix]") {
 	auto m33 = Matrix<float, 3, 3>::Translation(1, 2);
 	auto m = Matrix<float, 6, 5>::Translation(Vector<float, 5>{ 1,2,3,4,5 });
 	Vector<float, 5> v(1,2,3,4,5);
 	v = v*m;
 	Vector<float, 5> vexp(2,4,6,8,10);
-	ASSERT_TRUE(v == vexp);
+	REQUIRE(v == vexp);
 	
 	auto m2 = Matrix<float, 3, 3>::Translation(1, 2);
 	Matrix<float, 3, 3> m2exp = {
@@ -648,7 +659,7 @@ TEST(Matrix, Translation) {
 		0,1,0,
 		1,2,1,
 	};
-	ASSERT_TRUE(m2 == m2exp);
+	REQUIRE(m2 == m2exp);
 
 	auto m3 = Matrix<float, 3, 2>::Translation(Vector<float, 2>(1, 2));
 	Matrix<float, 3, 2> m3exp = {
@@ -656,18 +667,18 @@ TEST(Matrix, Translation) {
 		0,1,
 		1,2,
 	};
-	ASSERT_TRUE(m3 == m3exp);
+	REQUIRE(m3 == m3exp);
 
 	auto m4 = Matrix<float, 2, 3, eMatrixOrder::PRECEDE_VECTOR>::Translation(Vector<float, 2>(1, 2));
 	Matrix<float, 2, 3, eMatrixOrder::PRECEDE_VECTOR> m4exp = {
 		1,0,1,
 		0,1,2
 	};
-	ASSERT_TRUE(m4 == m4exp);
+	REQUIRE(m4 == m4exp);
 }
 
 
-TEST(Matrix, Perspective) {
+TEST_CASE("Matrix - Perspective", "[Matrix]") {
 	Vector<float, 4> worldFrustum[2] = {
 		{ -0.25f, -0.140625f, 0.5f, 1 },
 		{ 5.0f, 2.8125f, 10.f, 1 }
@@ -681,8 +692,8 @@ TEST(Matrix, Perspective) {
 	ndcFrustum[0] /= ndcFrustum[0].w;
 	ndcFrustum[1] /= ndcFrustum[1].w;
 
-	ASSERT_TRUE(ndcFrustum[0].AlmostEqual({ -1, -1, 0, 1 }));
-	ASSERT_TRUE(ndcFrustum[1].AlmostEqual({ 1, 1, 1, 1 }));
+	REQUIRE(ndcFrustum[0].Approx() == Vector<float, 4>{ -1, -1, 0, 1 });
+	REQUIRE(ndcFrustum[1].Approx() == Vector<float, 4>{ 1, 1, 1, 1 });
 
 	// Z backward in NDC
 	m = Matrix<float, 4, 4>::Perspective(53.13010235f / 180.f*3.1415926f, 16.f / 9.f, 0.5f, 10, 1, -1);
@@ -691,8 +702,8 @@ TEST(Matrix, Perspective) {
 	ndcFrustum[0] /= ndcFrustum[0].w;
 	ndcFrustum[1] /= ndcFrustum[1].w;
 
-	ASSERT_TRUE(ndcFrustum[0].AlmostEqual({ -1, -1, 1, 1 }));
-	ASSERT_TRUE(ndcFrustum[1].AlmostEqual({ 1, 1, -1, 1 }));
+	REQUIRE(ndcFrustum[0].Approx() == Vector<float, 4>{ -1, -1, 1, 1 });
+	REQUIRE(ndcFrustum[1].Approx() == Vector<float, 4>{ 1, 1, -1, 1 });
 
 	// Z backward in world
 	m = Matrix<float, 4, 4>::Perspective(53.13010235f / 180.f*3.1415926f, 16.f / 9.f, -0.5f, -10, 0, 1);
@@ -703,8 +714,8 @@ TEST(Matrix, Perspective) {
 	ndcFrustum[0] /= ndcFrustum[0].w;
 	ndcFrustum[1] /= ndcFrustum[1].w;
 
-	ASSERT_TRUE(ndcFrustum[0].AlmostEqual({ -1, -1, 0, 1 }));
-	ASSERT_TRUE(ndcFrustum[1].AlmostEqual({ 1, 1, 1, 1 }));
+	REQUIRE(ndcFrustum[0].Approx() == Vector<float, 4>{ -1, -1, 0, 1 });
+	REQUIRE(ndcFrustum[1].Approx() == Vector<float, 4>{ 1, 1, 1, 1 });
 
 	// Z backward in world && NDC
 	m = Matrix<float, 4, 4>::Perspective(53.13010235f / 180.f*3.1415926f, 16.f / 9.f, -0.5f, -10, 1, -1);
@@ -713,11 +724,11 @@ TEST(Matrix, Perspective) {
 	ndcFrustum[0] /= ndcFrustum[0].w;
 	ndcFrustum[1] /= ndcFrustum[1].w;
 
-	ASSERT_TRUE(ndcFrustum[0].AlmostEqual({ -1, -1, 1, 1 }));
-	ASSERT_TRUE(ndcFrustum[1].AlmostEqual({ 1, 1, -1, 1 }));
+	REQUIRE(ndcFrustum[0].Approx() == Vector<float, 4>{ -1, -1, 1, 1 });
+	REQUIRE(ndcFrustum[1].Approx() == Vector<float, 4>{ 1, 1, -1, 1 });
 }
 
-TEST(Matrix, Orthographic) {
+TEST_CASE("Matrix - Orthographic", "[Matrix]") {
 	Vector<float, 3> worldFrustum[2] = {
 		{ -0.25f, -0.44444444f, 0.5f },
 		{ 5.0f, 8.8888888f, 10.f }
@@ -729,36 +740,36 @@ TEST(Matrix, Orthographic) {
 	ndcFrustum[0] = worldFrustum[0] * m;
 	ndcFrustum[1] = worldFrustum[1] * m;
 
-	ASSERT_TRUE(ndcFrustum[0].AlmostEqual({ -1, -1, 0 }));
-	ASSERT_TRUE(ndcFrustum[1].AlmostEqual({ 1, 1, 1 }));
+	REQUIRE(ndcFrustum[0].Approx() == Vector<float, 3>{ -1, -1, 0 });
+	REQUIRE(ndcFrustum[1].Approx() == Vector<float, 3>{ 1, 1, 1 });
 }
 
 
-TEST(Matrix, View) {
+TEST_CASE("Matrix - View", "[Matrix]") {
 	auto m = Matrix<float, 4, 4>::LookAt({ -6,-5,-5 }, { -1,0,0 }, Vector<float, 3>{0, 0, 1});
 
 	Vector<float, 3> p = { 0, -1, 0 };
 	Vector<float, 3> pt = p*m;
 	Vector<float, 3> pexp = { sqrt(2),0,8.66025403 };
-	ASSERT_TRUE(pexp.AlmostEqual(pt));	
+	REQUIRE(pexp.Approx() == pt);	
 
 	m = Matrix<float, 4, 4>::LookAt({ 0,0,0 }, { 0,5,0 }, Vector<float, 3>{0, 0, 1}, true, false, false);
 	p = { 1, 4, 1 };
 	pt = p*m;
 	pexp = { 1, 1, 4 };
 
-	ASSERT_TRUE(pexp.AlmostEqual(pt));
+	REQUIRE(pexp.Approx() == pt);
 
 	m = Matrix<float, 4, 4>::LookAt({ 0,0,0 }, { 5,0,0 }, Vector<float, 3>{0, 0, 1}, true, false, false);
 	p = { 1, 4, 1 };
 	pt = p*m;
 	pexp = { -4, 1, 1 };
 
-	ASSERT_TRUE(pexp.AlmostEqual(pt));
+	REQUIRE(pexp.Approx() == pt);
 }
 
 
-TEST(Matrix, Submatrix) {
+TEST_CASE("Matrix - Submatrix", "[Matrix]") {
 	Matrix<char, 5, 5>  m1 = {
 		'a','b','c','d','e',
 		'f','g','h','i','j',
@@ -786,19 +797,19 @@ TEST(Matrix, Submatrix) {
 	Matrix<char, 2, 2> sm = m1.Submatrix<2, 2>(3, 0);
 	m2.Submatrix<3, 3>(2, 0) = m1.Submatrix<3, 3>(0, 2);
 	m2.Submatrix<2, 2>(0, 3) = sm;
-	ASSERT_EQ(m2, r);
+	REQUIRE(m2 == r);
 
 	m2.Column(4) = Vector<float, 5>('0');
 	r(0, 4) = r(1, 4) = r(2, 4) = r(3, 4) = r(4, 4) = '0';
-	ASSERT_EQ(m2, r);
+	REQUIRE(m2 == r);
 
 
 	Vector<char, 3> v = m1.Submatrix<3, 1>(0, 0);
 	Vector<char, 3> vr = { 'a', 'f', 'k' };
-	ASSERT_EQ(v, vr);
+	REQUIRE(v == vr);
 	v = m1.Submatrix<1, 3>(0, 0);
 	vr = {'a', 'b', 'c'};
-	ASSERT_EQ(v, vr);
+	REQUIRE(v == vr);
 
 
 
@@ -814,7 +825,7 @@ TEST(Matrix, Submatrix) {
 }
 
 
-TEST(Matrix, IOParse) {
+TEST_CASE("Matrix - IOParse", "[Matrix]") {
 	Matrix<float, 2, 2> parsed;
 
 	std::string successCases[] = {
@@ -831,8 +842,8 @@ TEST(Matrix, IOParse) {
 	for (const auto& c : successCases) {
 		const char* end;
 		parsed = strtomat<decltype(parsed)>(c.c_str(), &end);
-		ASSERT_TRUE(end != c.c_str());
-		ASSERT_EQ(parsed, expected);
+		REQUIRE(end != c.c_str());
+		REQUIRE(parsed == expected);
 	}
 
 	std::string failureCases[] = {
@@ -845,6 +856,6 @@ TEST(Matrix, IOParse) {
 	for (const auto& c : failureCases) {
 		const char* end;
 		parsed = strtomat<decltype(parsed)>(c.c_str(), &end);
-		ASSERT_TRUE(end == c.c_str());
+		REQUIRE(end == c.c_str());
 	}
 }

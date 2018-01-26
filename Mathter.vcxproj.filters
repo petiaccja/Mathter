@@ -26,9 +26,6 @@
     <ClCompile Include="TestVector.cpp">
       <Filter>Test</Filter>
     </ClCompile>
-    <ClCompile Include="Example.cpp">
-      <Filter>Test</Filter>
-    </ClCompile>
     <ClCompile Include="TestMatrix.cpp">
       <Filter>Test</Filter>
     </ClCompile>
@@ -130,5 +127,8 @@
   <ItemGroup>
     <None Include="LICENCE" />
     <None Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="CMakeLists.txt" />
   </ItemGroup>
 </Project>

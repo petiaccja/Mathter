@@ -830,7 +830,7 @@ public:
 		return same;
 	}
 	auto Approx() const {
-		return mathter::Approx<Vector>(*this);
+		return mathter::ApproxHelper<Vector>(*this);
 	}
 
 	//--------------------------------------------

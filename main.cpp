@@ -18,7 +18,6 @@
 char _getch() { return std::cin.get(); }
 #endif
 
-#include <gtest/gtest.h>
 #define CATCH_CONFIG_RUNNER
 #include <Catch2/catch.hpp>
 
@@ -31,13 +30,18 @@ using namespace mathter;
 int main(int argc, char* argv[]) {
 	int ret = Catch::Session().run(argc, argv);
 
-	//::testing::InitGoogleTest(&argc, argv);
-	//auto ret = RUN_ALL_TESTS();
-
 #ifdef NDEBUG
+	cout << endl;
 	cout << "Performance measurements:" << endl << "-------------------------------------------------------" << endl;
 	Measure();
 	cout << endl;
+
+	for (int i : impl::Range(10,0)) {
+		//cout << i << " ";
+	}
+	cout << endl;
+	cout << "Press any key to exit..." << endl;
+	_getch();
 #endif
 	return ret;
 }

@@ -16,11 +16,11 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 endif()
 
 
+# Enumerate sources and create project
 project(Mathter)
 
 set(sources
 	main.cpp
-	Example.cpp
 	Measure.cpp
 	TestIntersection.cpp
 	TestMatrix.cpp
@@ -28,27 +28,14 @@ set(sources
 	TestVector.cpp)
 	
 set(headers
-	Measure.hpp
-	Mathter/Geometry.hpp
-	Mathter/Matrix.hpp
-	Mathter/Quaternion.hpp
-	Mathter/Simd.hpp
-	Mathter/Simd_SSE2.hpp
-	Mathter/Utility.hpp
-	Mathter/Vector.hpp)
+	Measure.hpp)
 	
-add_executable(Mathter ${sources} ${headers})
+file(GLOB mathter_headers Mathter/*.hpp)
+file(GLOB mathter_module_headers Mathter/MatrixModules/*.hpp)
+file(GLOB mathter_swizzle_headers Mathter/Swizzle/*.hpp)
+
+add_executable(Mathter ${sources} ${headers} ${mathter_headers} ${mathter_swizzle_headers})
 include_directories(${CMAKE_SOURCE_DIR}/Lib)
 
-
-
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-	# using Clang
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-	target_link_libraries(Mathter optimized pthread "${CMAKE_SOURCE_DIR}/Lib/gcc/release64/libgtest.a")
-	target_link_libraries(Mathter debug pthread "${CMAKE_SOURCE_DIR}/Lib/gcc/debug64/libgtest.a")
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
-	# using Intel C++
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-	# using Visual Studio C++
-endif()
+# Source groups
+# TODO
