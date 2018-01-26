@@ -36,7 +36,7 @@ public:
 	///		we need multiple up vectors. Unfortunately I can't fucking remember how these
 	///		basis vectors are used, but they are orthogonalized to each-other and to the look vector. 
 	///		I can't remember the order of orthogonalization. </remarks>
-	static MatrixT LookAt(const VectorT& eye, const VectorT& target, const std::array<VectorT, SpaceDim - 2>& bases, const std::array<bool, SpaceDim>& flipAxes) {
+	static MatrixT LookAt(const VectorT& eye, const VectorT& target, const std::array<VectorT, size_t(SpaceDim - 2)>& bases, const std::array<bool, SpaceDim>& flipAxes) {
 		MatrixT matrix;
 		VectorT columns[SpaceDim];
 		std::array<const VectorT*, SpaceDim - 1> crossTable = {};
@@ -132,7 +132,7 @@ public:
 	///		we need multiple up vectors. Unfortunately I can't fucking remember how these
 	///		basis vectors are used, but they are orthogonalized to each-other and to the look vector. 
 	///		I can't remember the order of orthogonalization. </remarks>
-	MatrixT& SetLookAt(const VectorT& eye, const VectorT& target, const std::array<VectorT, SpaceDim - 2>& bases, const std::array<bool, SpaceDim>& flipAxes) {
+	MatrixT& SetLookAt(const VectorT& eye, const VectorT& target, const std::array<VectorT, size_t(SpaceDim - 2)>& bases, const std::array<bool, SpaceDim>& flipAxes) {
 		self() = LookAt(eye, target, bases, flipAxes);
 		return self();
 	}

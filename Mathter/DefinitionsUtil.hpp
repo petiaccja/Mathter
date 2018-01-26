@@ -60,7 +60,7 @@ template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layo
 class Matrix;
 
 template <class MatrixT, int SRows, int SColumns>
-class Submatrix;
+class SubmatrixHelper;
 
 
 // Quaternion
@@ -269,7 +269,7 @@ namespace impl {
 		static constexpr bool value = false;
 	};
 	template <class M, int Rows, int Columns>
-	struct IsSubmatrix<Submatrix<M, Rows, Columns>> {
+	struct IsSubmatrix<SubmatrixHelper<M, Rows, Columns>> {
 		static constexpr bool value = true;
 	};
 	template <class T>

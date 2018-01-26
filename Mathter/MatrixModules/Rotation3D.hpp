@@ -128,7 +128,7 @@ public:
 		};
 		return (std::abs(Dot(rows[0], rows[1])) + std::abs(Dot(rows[0], rows[2])) + std::abs(Dot(rows[1], rows[2]))) < T(0.0005) // rows are orthogonal to each other
 			&& rows[0].IsNormalized() && rows[1].IsNormalized() && rows[2].IsNormalized() // all rows are normalized
-			&& Matrix<T, 3, 3>(self().Submatrix<3,3>(0,0)).Determinant() > 0; // not an improper rotation
+			&& Matrix<T, 3, 3, Order, Layout, Packed>(self().template Submatrix<3,3>(0,0)).Determinant() > 0; // not an improper rotation
 	}
 public:
 	friend MatrixT;
@@ -237,8 +237,8 @@ auto MatrixRotation3D<T, Rows, Columns, Order, Layout, Packed>::RotationAxisAngl
 	T S = sin(angle);
 
 	// 3x3 rotation sub-matrix
-	using RotMat = Matrix<T, 3, 3, eMatrixOrder::FOLLOW_VECTOR>;
-	Matrix<T, 3, 1, eMatrixOrder::FOLLOW_VECTOR> u(axis(0), axis(1), axis(2));
+	using RotMat = Matrix<T, 3, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, Packed>;
+	Matrix<T, 3, 1, eMatrixOrder::FOLLOW_VECTOR, Layout, Packed> u(axis(0), axis(1), axis(2));
 	RotMat cross = {
 		0, -u(2), u(1),
 		u(2), 0, -u(0),

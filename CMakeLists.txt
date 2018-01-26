@@ -34,7 +34,7 @@ file(GLOB mathter_headers Mathter/*.hpp)
 file(GLOB mathter_module_headers Mathter/MatrixModules/*.hpp)
 file(GLOB mathter_swizzle_headers Mathter/Swizzle/*.hpp)
 
-add_executable(Mathter ${sources} ${headers} ${mathter_headers} ${mathter_swizzle_headers})
+add_executable(Mathter ${sources} ${headers} ${mathter_headers} ${mathter_module_headers} ${mathter_swizzle_headers})
 include_directories(${CMAKE_SOURCE_DIR}/Lib)
 
 # Source groups

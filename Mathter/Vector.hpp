@@ -678,7 +678,7 @@ public:
 	//--------------------------------------------
 
 	/// <summary> Creates a homogeneous vector by appending a 1. </summary>
-	template <class T2, bool Packed2, class = typename std::enable_if<(Dim>=2)>::type>
+	template <class T2, bool Packed2, class = typename std::enable_if<(Dim>=2), T2>::type>
 	explicit Vector(const Vector<T2, Dim-1, Packed2>& rhs) : Vector(rhs, 1) {}
 
 	/// <summary> Truncates last coordinate of homogenous vector to create non-homogeneous. </summary>
@@ -1177,55 +1177,6 @@ Vector<T1, sizeof...(Indices1)+1, false> operator|(U lhs, const Swizzle<T1, Indi
 
 
 
-} // namespace mathter
-
-
-
-// Generalized cross-product unfortunately needs matrix determinant.
-#include "Matrix.hpp"
-
-namespace mathter {
-
-
-template <class T, int Dim, bool Packed>
-auto VectorSpecialOps<T, Dim, Packed>::Cross(const std::array<const VectorT*, Dim - 1>& args) -> VectorT {
-	VectorT result;
-	Matrix<T, Dim - 1, Dim - 1, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, false> detCalc;
-
-	// Calculate elements of result on-by-one
-	int sign = 2 * (Dim % 2) - 1;
-	for (int base = 0; base < result.Dimension(); ++base, sign *= -1) {
-		// Fill up sub-matrix the determinant of which yields the coefficient of base-vector.
-		for (int j = 0; j < base; ++j) {
-			for (int i = 0; i < detCalc.RowCount(); ++i) {
-				detCalc(i, j) = (*(args[i]))[j];
-			}
-		}
-		for (int j = base + 1; j < result.Dimension(); ++j) {
-			for (int i = 0; i < detCalc.RowCount(); ++i) {
-				detCalc(i, j - 1) = (*(args[i]))[j];
-			}
-		}
-
-		T coefficient = T(sign) * detCalc.Determinant();
-		result(base) = coefficient;
-	}
-
-	return result;
-}
-
-
-template <class T, int Dim, bool Packed>
-template <class... Args>
-auto VectorSpecialOps<T, Dim, Packed>::Cross(const VectorT& head, Args&&... args) -> VectorT {
-	static_assert(1 + sizeof...(args) == Dim - 1, "Number of arguments must be (Dimension - 1).");
-
-	std::array<const VectorT*, Dim - 1> vectors = { &head, &args... };
-	return Cross(vectors);
-}
-
-
-
 //------------------------------------------------------------------------------
 // Swizzle
 //------------------------------------------------------------------------------
@@ -1378,7 +1329,7 @@ Vector<T, Dim, Packed> strtovec(const char* str, const char** end) {
 
 template <class VectorT>
 VectorT strtovec(const char* str, const char** end) {
-	static_assert(impl::IsVector<VectorT>::value, "This type if not a Vector, dumbass.");
+	static_assert(impl::IsVector<VectorT>::value, "This type is not a Vector, dumbass.");
 
 	return strtovec<
 		typename impl::VectorProperties<VectorT>::Type,
@@ -1391,6 +1342,50 @@ VectorT strtovec(const char* str, const char** end) {
 } // namespace mathter
 
 
+
+// Generalized cross-product unfortunately needs matrix determinant.
+#include "Matrix.hpp"
+
+namespace mathter {
+
+template<class T, int Dim, bool Packed>
+auto VectorSpecialOps<T, Dim, Packed>::Cross(const std::array<const VectorT *, Dim - 1> &args) -> VectorT {
+	VectorT result;
+	Matrix<T, Dim - 1, Dim - 1, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, false> detCalc;
+
+	// Calculate elements of result on-by-one
+	int sign = 2 * (Dim % 2) - 1;
+	for (int base = 0; base < result.Dimension(); ++base, sign *= -1) {
+		// Fill up sub-matrix the determinant of which yields the coefficient of base-vector.
+		for (int j = 0; j < base; ++j) {
+			for (int i = 0; i < detCalc.RowCount(); ++i) {
+				detCalc(i, j) = (*(args[i]))[j];
+			}
+		}
+		for (int j = base + 1; j < result.Dimension(); ++j) {
+			for (int i = 0; i < detCalc.RowCount(); ++i) {
+				detCalc(i, j - 1) = (*(args[i]))[j];
+			}
+		}
+
+		T coefficient = T(sign) * detCalc.Determinant();
+		result(base) = coefficient;
+	}
+
+	return result;
+}
+
+
+template<class T, int Dim, bool Packed>
+template<class... Args>
+auto VectorSpecialOps<T, Dim, Packed>::Cross(const VectorT &head, Args &&... args) -> VectorT {
+	static_assert(1 + sizeof...(args) == Dim - 1, "Number of arguments must be (Dimension - 1).");
+
+	std::array<const VectorT *, Dim - 1> vectors = {&head, &args...};
+	return Cross(vectors);
+}
+
+} // namespace mathter
 
 
   // Remove goddamn fucking bullshit crapware winapi macros.

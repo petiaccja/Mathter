@@ -1,0 +1,125 @@
+-- GCC 7.2 --
+[Initialize]
+Thread set to highest priority.
+
+Running test, please wait...
+
+[Matrix multiplication]
+type    dim1    dim2    layout1 layout2 packed  time/op         cycles
+------------------------------------------------------------------------
+float   2x2     2x2     R       R       F       2.75   ns       9.35
+float   3x3     3x3     R       R       F       9.75   ns       33.15
+float   4x4     4x4     R       R       F       12.51  ns       42.51
+float   4x4     4x4     R       C       F       22.94  ns       77.97
+float   4x4     4x4     C       R       F       11.10  ns       37.72
+float   4x4     4x4     C       C       F       11.20  ns       38.08
+double  4x4     4x4     R       R       F       24.38  ns       82.88
+float   4x3     3x4     R       R       F       11.15  ns       37.91
+float   3x4     4x3     R       R       F       8.74   ns       29.72
+float   3x4     4x3     R       R       T       25.02  ns       85.07
+
+[Matrix addition]
+type    dim     layout  packed  time/op         cycles
+------------------------------------------------------------------------
+float   1x1     R       F       0.35   ns       1.20
+float   2x2     R       F       1.41   ns       4.80
+float   3x3     R       F       7.78   ns       26.45
+float   4x4     R       F       10.76  ns       36.59
+double  4x4     R       F       25.11  ns       85.38
+float   4x3     R       F       11.00  ns       37.41
+float   3x4     R       F       7.52   ns       25.57
+float   3x4     R       T       7.59   ns       25.81
+
+[Vector-matrix multiplication]
+type    dim     layout  packed  time/op         cycles
+------------------------------------------------------------------------
+float   3*3x3   R       F       2.97   ns       10.08
+float   4*4x4   R       F       4.03   ns       13.71
+float   3*4x4   R       F       4.16   ns       14.14
+float   4*4x4   R       T       3.85   ns       13.08
+
+[Vector-quaternion multiplication]
+type    packed  time/op         cycles
+------------------------------------------------------------------------
+float   F       23.60  ns       80.25
+double  F       72.55  ns       246.63
+float   T       8.46   ns       28.75
+
+[Quaternion product]
+type    packed  time/op         cycles
+------------------------------------------------------------------------
+float   F       2.85   ns       9.70
+double  F       36.28  ns       123.35
+float   T       3.01   ns       10.23
+
+[SVD 2x2]
+type            time/op cycles
+float   83.45  ns       283.70
+double  96.26  ns       327.23
+
+Estimated CPU clock frequency: 3.39957 GHz
+
+
+
+-- Clang 5.0.1 --
+[Initialize]
+Thread set to highest priority.
+
+Running test, please wait...
+
+[Matrix multiplication]
+type    dim1    dim2    layout1 layout2 packed  time/op         cycles
+------------------------------------------------------------------------
+float   2x2     2x2     R       R       F       3.83   ns       13.02
+float   3x3     3x3     R       R       F       10.58  ns       35.97
+float   4x4     4x4     R       R       F       15.54  ns       52.84
+float   4x4     4x4     R       C       F       12.59  ns       42.81
+float   4x4     4x4     C       R       F       11.00  ns       37.39
+float   4x4     4x4     C       C       F       10.94  ns       37.20
+double  4x4     4x4     R       R       F       22.50  ns       76.48
+float   4x3     3x4     R       R       F       9.66   ns       32.85
+float   3x4     4x3     R       R       F       8.61   ns       29.28
+float   3x4     4x3     R       R       T       7.58   ns       25.76
+
+[Matrix addition]
+type    dim     layout  packed  time/op         cycles
+------------------------------------------------------------------------
+float   1x1     R       F       0.34   ns       1.16
+float   2x2     R       F       1.52   ns       5.18
+float   3x3     R       F       7.03   ns       23.89
+float   4x4     R       F       10.21  ns       34.71
+double  4x4     R       F       23.32  ns       79.28
+float   4x3     R       F       10.47  ns       35.58
+float   3x4     R       F       6.67   ns       22.67
+float   3x4     R       T       6.76   ns       22.98
+
+[Vector-matrix multiplication]
+type    dim     layout  packed  time/op         cycles
+------------------------------------------------------------------------
+float   3*3x3   R       F       2.85   ns       9.70
+float   4*4x4   R       F       3.96   ns       13.45
+float   3*4x4   R       F       4.37   ns       14.86
+float   4*4x4   R       T       3.74   ns       12.71
+
+[Vector-quaternion multiplication]
+type    packed  time/op         cycles
+------------------------------------------------------------------------
+float   F       8.02   ns       27.27
+double  F       10.84  ns       36.86
+float   T       3.87   ns       13.16
+
+[Quaternion product]
+type    packed  time/op         cycles
+------------------------------------------------------------------------
+float   F       2.83   ns       9.61
+double  F       4.95   ns       16.84
+float   T       3.96   ns       13.47
+
+[SVD 2x2]
+type            time/op cycles
+float   92.17  ns       313.33
+double  105.92 ns       360.08
+
+Estimated CPU clock frequency: 3.39953 GHz
+
+ 

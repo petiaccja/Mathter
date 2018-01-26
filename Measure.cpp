@@ -15,10 +15,17 @@
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
 #include <Windows.h>
+#elif __unix__
+#include <pthread.h>
+#include <sched.h>
 #endif
 
 #ifdef _MSC_VER
 #include <intrin.h>
+#define USE_RDTSC
+#elif __GNUC__
+#include <x86intrin.h>
+#define USE_RDTSC
 #endif
 
 
@@ -50,7 +57,7 @@ double MeasureMatrixMultiplication(double* cycles = nullptr) {
 
 
 	startTime = std::chrono::high_resolution_clock::now();
-#ifdef _MSC_VER
+#ifdef USE_RDTSC
 	startCycle = (int64_t)__rdtsc();
 #endif
 	for (int j = 0; j < repeatCount; ++j) {
@@ -58,7 +65,7 @@ double MeasureMatrixMultiplication(double* cycles = nullptr) {
 			result[i] = left[i] * right[i];
 		}
 	}
-#ifdef _MSC_VER
+#ifdef USE_RDTSC
 	endCycle = (int64_t)__rdtsc();
 #endif
 	endTime = std::chrono::high_resolution_clock::now();
@@ -94,7 +101,7 @@ double MeasureMatrixAddition(double* cycles = nullptr) {
 
 
 	startTime = std::chrono::high_resolution_clock::now();
-#ifdef _MSC_VER
+#ifdef USE_RDTSC
 	startCycle = (int64_t)__rdtsc();
 #endif
 	for (int j = 0; j < repeatCount; ++j) {
@@ -102,7 +109,7 @@ double MeasureMatrixAddition(double* cycles = nullptr) {
 			result[i] = left[i] + right[i];
 		}
 	}
-#ifdef _MSC_VER
+#ifdef USE_RDTSC
 	endCycle = (int64_t)__rdtsc();
 #endif
 	endTime = std::chrono::high_resolution_clock::now();
@@ -139,7 +146,7 @@ double MeasureVectorMatrixMultiplication(double* cycles) {
 
 
 	startTime = std::chrono::high_resolution_clock::now();
-#ifdef _MSC_VER
+#ifdef USE_RDTSC
 	startCycle = (int64_t)__rdtsc();
 #endif
 	for (int j = 0; j < repeatCount; ++j) {
@@ -147,7 +154,7 @@ double MeasureVectorMatrixMultiplication(double* cycles) {
 			result[i] = left[i] * right[i];
 		}
 	}
-#ifdef _MSC_VER
+#ifdef USE_RDTSC
 	endCycle = (int64_t)__rdtsc();
 #endif
 	endTime = std::chrono::high_resolution_clock::now();
@@ -184,7 +191,7 @@ double MeasureVectorQuatMultiplication(double* cycles) {
 
 
 	startTime = std::chrono::high_resolution_clock::now();
-#ifdef _MSC_VER
+#ifdef USE_RDTSC
 	startCycle = (int64_t)__rdtsc();
 #endif
 	for (int j = 0; j < repeatCount; ++j) {
@@ -192,7 +199,7 @@ double MeasureVectorQuatMultiplication(double* cycles) {
 			result[i] = left[i] * right[i];
 		}
 	}
-#ifdef _MSC_VER
+#ifdef USE_RDTSC
 	endCycle = (int64_t)__rdtsc();
 #endif
 	endTime = std::chrono::high_resolution_clock::now();
@@ -227,7 +234,7 @@ double MeasureQuatMultiplication(double* cycles) {
 
 
 	startTime = std::chrono::high_resolution_clock::now();
-#ifdef _MSC_VER
+#ifdef USE_RDTSC
 	startCycle = (int64_t)__rdtsc();
 #endif
 	for (int j = 0; j < repeatCount; ++j) {
@@ -235,7 +242,7 @@ double MeasureQuatMultiplication(double* cycles) {
 			result[i] = left[i] * right[i];
 		}
 	}
-#ifdef _MSC_VER
+#ifdef USE_RDTSC
 	endCycle = (int64_t)__rdtsc();
 #endif
 	endTime = std::chrono::high_resolution_clock::now();
@@ -272,7 +279,7 @@ double MeasureSvd2x2(double* cycles) {
 	int64_t startCycle = 0, endCycle = -1;
 
 	startTime = std::chrono::high_resolution_clock::now();
-#ifdef _MSC_VER
+#ifdef USE_RDTSC
 	startCycle = (int64_t)__rdtsc();
 #endif
 	Type c1, s1, c2, s2, d1, d2;
@@ -281,7 +288,7 @@ double MeasureSvd2x2(double* cycles) {
 			Svd2x2Helper(M, c1, s1, c2, s2, d1, d2);
 		}
 	}
-#ifdef _MSC_VER
+#ifdef USE_RDTSC
 	endCycle = (int64_t)__rdtsc();
 #endif
 	endTime = std::chrono::high_resolution_clock::now();
@@ -311,6 +318,14 @@ void Measure() {
 	cout << endl;
 	success = SetThreadAffinityMask(GetCurrentThread(), 1) != 0;
 	cout << (success ? "Thread is limited to 1st CPU core." : "Failed to set thread affinity - cycle count may be incorrect.");
+	cout << endl << endl;
+#elif __unix__
+	cout << "[Initialize]" << endl;
+	pthread_t this_thread = pthread_self();
+	sched_param params;
+	params.sched_priority = sched_get_priority_max(SCHED_FIFO);
+	int ret = pthread_setschedparam(this_thread, SCHED_FIFO, &params);
+	cout << (ret == 0 ? "Thread set to highest priority." : "Failed to set thread priority class - times may have jitter.");
 	cout << endl << endl;
 #endif
 

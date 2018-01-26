@@ -188,7 +188,7 @@ void MatrixSVD<T, Rows, Columns, Order, Layout, Packed>::DecomposeSVD(
 		Matrix<T, Rows, Columns, Order, Layout, false> R;
 		self().DecomposeQR(Q, R);
 		B = R;
-		U = Q.Submatrix<Rows, Columns>(0, 0);
+		U = Q.template Submatrix<Rows, Columns>(0, 0);
 		V.SetIdentity();
 	}
 	else {
@@ -210,20 +210,11 @@ void MatrixSVD<T, Rows, Columns, Order, Layout, Packed>::DecomposeSVD(
 				s += B(i, j)*B(i, j) + B(j, i)*B(j, i);
 
 				T s1, c1, s2, c2, d1, d2; // SVD of the submat row,col i,j of B
-				Matrix<T, 2, 2> Bsub = {
+				Matrix<T, 2, 2, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, false> Bsub = {
 					B(i, i), B(i, j),
 					B(j, i), B(j, j)
 				};
 				Svd2x2Helper(Bsub, c1, s1, c2, s2, d1, d2);
-				Matrix<T, 2, 2> U_ = {
-					c1, -s1,
-					s1, c1
-				};
-				Matrix<T, 2, 2> V_ = {
-					c2, s2,
-					-s2, c2
-				};
-				auto check = U_*Bsub*V_;
 
 				// Apply givens rotations given by 2x2 SVD to working matrices
 				// B = R(c1,s1)*B*R(c2,-s2)
