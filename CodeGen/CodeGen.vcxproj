@@ -23,7 +23,7 @@
     <ProjectGuid>{E4F4F5F3-F5AB-4C03-BC7D-D60056EFAA1A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>CodeGen</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -72,15 +72,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)\Bin\$(Configuration)_$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)\Bin\Int\$(Configuration)_$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)\Bin\$(Configuration)_$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)\Bin\Int\$(Configuration)_$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)\Bin\$(Configuration)_$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)\Bin\Int\$(Configuration)_$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)\Bin\$(Configuration)_$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)\Bin\Int\$(Configuration)_$(Platform)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

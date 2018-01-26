@@ -5,6 +5,7 @@
 
 #pragma warning(disable: 4244)
 #include <gtest/gtest.h>
+#include <Catch2/catch.hpp>
 
 #include "Mathter/Vector.hpp"
 
