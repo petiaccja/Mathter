@@ -1,3 +1,68 @@
+-- MSVC 19.12.25835 (15.5.5) --
+[Initialize]
+Process set to highest priority.
+Thread set to highest priority.
+Thread is limited to 1st CPU core.
+
+Running test, please wait...
+
+[Matrix multiplication]
+type    dim1    dim2    layout1 layout2 packed  time/op         cycles
+------------------------------------------------------------------------
+float   2x2     2x2     R       R       F       8.38   ns       28.48
+float   3x3     3x3     R       R       F       9.57   ns       32.52
+float   4x4     4x4     R       R       F       14.36  ns       48.82
+float   4x4     4x4     R       C       F       25.91  ns       88.09
+float   4x4     4x4     C       R       F       14.04  ns       47.74
+float   4x4     4x4     C       C       F       14.39  ns       48.91
+double  4x4     4x4     R       R       F       46.69  ns       158.74
+float   4x3     3x4     R       R       F       12.32  ns       41.87
+float   3x4     4x3     R       R       F       10.24  ns       34.80
+float   3x4     4x3     R       R       T       22.22  ns       75.54
+
+[Matrix addition]
+type    dim     layout  packed  time/op         cycles
+------------------------------------------------------------------------
+float   1x1     R       F       0.58   ns       1.96
+float   2x2     R       F       7.00   ns       23.79
+float   3x3     R       F       7.86   ns       26.71
+float   4x4     R       F       12.02  ns       40.86
+double  4x4     R       F       25.32  ns       86.07
+float   4x3     R       F       11.88  ns       40.39
+float   3x4     R       F       8.07   ns       27.43
+float   3x4     R       T       9.07   ns       30.82
+
+[Vector-matrix multiplication]
+type    dim     layout  packed  time/op         cycles
+------------------------------------------------------------------------
+float   3*3x3   R       F       3.44   ns       11.71
+float   4*4x4   R       F       4.59   ns       15.59
+float   3*4x4   R       F       11.44  ns       38.91
+float   4*4x4   R       T       4.71   ns       16.01
+
+[Vector-quaternion multiplication]
+type    packed  time/op         cycles
+------------------------------------------------------------------------
+float   F       11.46  ns       38.97
+double  F       37.94  ns       128.99
+float   T       18.60  ns       63.22
+
+[Quaternion product]
+type    packed  time/op         cycles
+------------------------------------------------------------------------
+float   F       3.42   ns       11.63
+double  F       15.78  ns       53.66
+float   T       5.36   ns       18.23
+
+[SVD 2x2]
+type            time/op cycles
+float   108.15 ns       367.67
+double  125.48 ns       426.58
+
+Estimated CPU clock frequency: 3.39953 GHz
+
+
+
 -- GCC 7.2 --
 [Initialize]
 Thread set to highest priority.
