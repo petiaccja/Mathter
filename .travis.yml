@@ -1,5 +1,8 @@
 language: cpp
 
+sudo: required
+dist: trusty
+
 matrix:
   include:
     # works on Trusty
@@ -7,11 +10,13 @@ matrix:
       addons:
         apt:
           sources:
+            - ubuntu-toolchain-r-test
             - llvm-toolchain-trusty-5.0
           packages:
             - clang-5.0
+            - g++-7
       env:
-        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
+        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0 && CLANG_GCC=/usr/lib/gcc/x86_64-linux-gnu/7.2"
     # works on Precise and Trusty
     - os: linux
       addons:
