@@ -16,7 +16,7 @@ matrix:
             - clang-5.0
             - g++-7
       env:
-        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0 && CLANG_GCC=/usr/lib/gcc/x86_64-linux-gnu/7.2"
+        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
     # works on Precise and Trusty
     - os: linux
       addons:
