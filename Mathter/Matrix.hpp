@@ -104,6 +104,8 @@ class SubmatrixHelper {
 	using Props = impl::MatrixProperties<MatrixT>;
 	template <class, int, int>
 	friend class SubmatrixHelper;
+	static constexpr int VecDim = std::max(SRows, SColumns);
+	static constexpr bool VectorAssignable = std::min(SRows, SColumns) == 1;
 protected:
 	SubmatrixHelper(MatrixT& mat, int row, int col) : mat(mat), row(row), col(col) {}
 
@@ -123,8 +125,8 @@ public:
 		return ret;
 	}
 
-	template <class U, bool Packed2, class = typename std::enable_if<std::min(SRows, SColumns) == 1, U>::type>
-	operator Vector<U, std::max(SRows, SColumns), Packed2>() const {
+	template <class U, bool Packed2, class = typename std::enable_if<VectorAssignable, U>::type>
+	operator Vector<U, VecDim, Packed2>() const {
 		Vector<U, std::max(SRows, SColumns), Packed2> v;
 		int k = 0;
 		for (int i = 0; i < SRows; ++i) {
@@ -152,8 +154,8 @@ public:
 
 
 	// From vector if applicable (for 1*N and N*1 submatrices)
-	template <class U, bool Packed, class = typename std::enable_if<std::min(SRows, SColumns) == 1, U>::type>
-	SubmatrixHelper& operator=(const Vector<U, std::max(SRows, SColumns), Packed>& v) {
+	template <class U, bool Packed, class = typename std::enable_if<VectorAssignable, U>::type>
+	SubmatrixHelper& operator=(const Vector<U, VecDim, Packed>& v) {
 		static_assert(!std::is_const<MatrixT>::value, "Cannot assign to submatrix of const matrix.");
 
 		int k = 0;
@@ -308,6 +310,9 @@ class MATHTER_EBCO Matrix
 	// These checks must be put in a separate function instead of class scope because the full definition
 	// of the Matrix class is required to determine memory layout.
 	void CheckLayoutContraints() const noexcept;
+
+	static constexpr int VecDim = std::max(Rows, Columns);
+	static constexpr bool VectorAssignable = std::min(Rows, Columns) == 1;
 protected:
 	using MatrixData<T, Rows, Columns, Order, Layout, Packed>::GetElement;
 	using MatrixData<T, Rows, Columns, Order, Layout, Packed>::stripes;
@@ -379,8 +384,8 @@ public:
 	}
 
 	// From vector if applicable (for 1*N and N*1 matrices)
-	template <class T2, bool Packed2, class = typename std::enable_if<std::min(Rows, Columns) == 1, T2>::type>
-	Matrix(const Vector<T2, std::max(Rows, Columns), Packed2>& v){
+	template <class T2, bool Packed2, class = typename std::enable_if<VectorAssignable, T2>::type>
+	Matrix(const Vector<T2, VecDim, Packed2>& v){
 		for (int i = 0; i < v.Dimension(); ++i) {
 			(*this)(i) = v(i);
 		}
@@ -440,8 +445,8 @@ public:
 	}
 
 	// Conversion to vector if applicable
-	template <class T2, bool Packed2, class = typename std::enable_if<std::min(Rows, Columns) == 1, T2>::type>
-	explicit operator Vector<T2, std::max(Rows, Columns), Packed2>() const {
+	template <class T2, bool Packed2, class = typename std::enable_if<VectorAssignable, T2>::type>
+	operator Vector<T2, VecDim, Packed2>() const {
 		Vector<T2, std::max(Rows, Columns), Packed2> v;
 		int k = 0;
 		for (int i = 0; i < Rows; ++i) {
