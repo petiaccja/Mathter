@@ -1,8 +1,8 @@
 Mathter
+===
 
 [![Build Status](https://travis-ci.org/petiaccja/Mathter.svg?branch=master)](https://travis-ci.org/petiaccja/Mathter)
 
-===
 **As the code is fresh, it is subject to interface changes and may contain bugs.**
 
 Introduction
