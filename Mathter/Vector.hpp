@@ -37,6 +37,7 @@
 #include <array>
 #include <algorithm>
 #include <cmath>
+#include <cassert>
 
 #include "DefinitionsUtil.hpp"
 
@@ -97,19 +98,23 @@ public:
 
 	/// <summary> Returns the nth element of the swizzled vector. Example: v.zxy[2] returns y. </summary>
 	T& operator[](int idx) {
+		assert(idx < Dim);
 		return data()[IndexTable[idx]];
 	}
 	/// <summary> Returns the nth element of the swizzled vector. Example: v.zxy[2] returns y. </summary>
 	T operator[](int idx) const {
+		assert(idx < Dim);
 		return data()[IndexTable[idx]];
 	}
 
 	/// <summary> Returns the nth element of the swizzled vector. Example: v.zxy(2) returns y. </summary>
 	T& operator()(int idx) {
+		assert(idx < Dim);
 		return data()[IndexTable[idx]];
 	}
 	/// <summary> Returns the nth element of the swizzled vector. Example: v.zxy(2) returns y. </summary>
 	T operator()(int idx) const {
+		assert(idx < Dim);
 		return data()[IndexTable[idx]];
 	}
 
@@ -152,6 +157,14 @@ template <class T, bool Packed>
 class VectorData<T, 2, Packed> {
 	using ST = T;
 public:
+	VectorData() {}
+	VectorData(const VectorData& rhs) {
+		for (int i = 0; i<2; ++i) { data[i] = rhs.data[i]; }
+	}
+	VectorData& operator=(const VectorData& rhs) {
+		for (int i = 0; i<2; ++i) { data[i] = rhs.data[i]; }
+		return *this;
+	}
 	union {
 		struct { T x, y; };
 		T data[2]; /// <summary> Raw array containing the elements. </summary>
@@ -163,6 +176,14 @@ template <class T, bool Packed>
 class VectorData<T, 3, Packed> {
 	using ST = T;
 public:
+	VectorData() {}
+	VectorData(const VectorData& rhs) {
+		for (int i = 0; i<4; ++i) { data[i] = rhs.data[i]; }
+	}
+	VectorData& operator=(const VectorData& rhs) {
+		for (int i = 0; i<4; ++i) { data[i] = rhs.data[i]; }
+		return *this;
+	}
 	union {
 		struct { T x, y, z; };
 		T data[3]; /// <summary> Raw array containing the elements. </summary>
@@ -174,6 +195,14 @@ template <class T, bool Packed>
 class VectorData<T, 4, Packed> {
 	using ST = T;
 public:
+	VectorData() {}
+	VectorData(const VectorData& rhs) {
+		for (int i = 0; i<4; ++i) { data[i] = rhs.data[i]; }
+	}
+	VectorData& operator=(const VectorData& rhs) {
+		for (int i = 0; i<4; ++i) { data[i] = rhs.data[i]; }
+		return *this;
+	}
 	union {
 		struct { T x, y, z, w; };
 		T data[4]; /// <summary> Raw array containing the elements. </summary>
@@ -187,6 +216,9 @@ template <>
 class VectorData<float, 2, false> {
 	using ST = float;
 public:
+	VectorData() {}
+	VectorData(const VectorData& rhs) { simd = rhs.simd; }
+	VectorData& operator=(const VectorData& rhs) { simd = rhs.simd; return *this; }
 	union {
 		Simd<float, 2> simd; /// <summary> Leave this member alone. You can't fuck it up though. </summary>
 		struct { float x, y; };
@@ -199,6 +231,9 @@ template <>
 class VectorData<float, 3, false> {
 	using ST = float;
 public:
+	VectorData() {}
+	VectorData(const VectorData& rhs) { simd = rhs.simd; }
+	VectorData& operator=(const VectorData& rhs) { simd = rhs.simd; return *this; }
 	union {
 		Simd<float, 4> simd; /// <summary> Leave this member alone. You can't fuck it up though. </summary>
 		struct { float x, y, z; };
@@ -211,6 +246,9 @@ template <>
 class VectorData<float, 4, false> {
 	using ST = float;
 public:
+	VectorData() {}
+	VectorData(const VectorData& rhs) { simd = rhs.simd; }
+	VectorData& operator=(const VectorData& rhs) { simd = rhs.simd; return *this; }
 	union {
 		Simd<float, 4> simd; /// <summary> Leave this member alone. You can't fuck it up though. </summary>
 		struct { float x, y, z, w; };
@@ -222,6 +260,9 @@ public:
 template <>
 class VectorData<float, 8, false> {
 public:
+	VectorData() {}
+	VectorData(const VectorData& rhs) { simd = rhs.simd; }
+	VectorData& operator=(const VectorData& rhs) { simd = rhs.simd; return *this; }
 	union {
 		Simd<float, 8> simd; /// <summary> Leave this member alone. You can't fuck it up though. </summary>
 		float data[8]; /// <summary> Raw array containing the elements. </summary>
@@ -234,6 +275,9 @@ template <>
 class VectorData<double, 2, false> {
 	using ST = double;
 public:
+	VectorData() {}
+	VectorData(const VectorData& rhs) { simd = rhs.simd; }
+	VectorData& operator=(const VectorData& rhs) { simd = rhs.simd; return *this; }
 	union {
 		Simd<double, 2> simd; /// <summary> Leave this member alone. You can't fuck it up though. </summary>
 		struct { double x, y; };
@@ -246,6 +290,9 @@ template <>
 class VectorData<double, 3, false> {
 	using ST = double;
 public:
+	VectorData() {}
+	VectorData(const VectorData& rhs) { simd = rhs.simd; }
+	VectorData& operator=(const VectorData& rhs) { simd = rhs.simd; return *this; }
 	union {
 		Simd<double, 4> simd; /// <summary> Leave this member alone. You can't fuck it up though. </summary>
 		struct { double x, y, z; };
@@ -258,6 +305,9 @@ template <>
 class VectorData<double, 4, false> {
 	using ST = double;
 public:
+	VectorData() {}
+	VectorData(const VectorData& rhs) { simd = rhs.simd; }
+	VectorData& operator=(const VectorData& rhs) { simd = rhs.simd; return *this; }
 	union {
 		Simd<double, 4> simd; /// <summary> Leave this member alone. You can't fuck it up though. </summary>
 		struct { double x, y, z, w; };
@@ -744,19 +794,23 @@ public:
 
 	/// <summary> Returns the nth element of the vector. </summary>
 	T operator[](int idx) const {
+		assert(idx < Dimension());
 		return data[idx];
 	}
 	/// <summary> Returns the nth element of the vector. </summary>
 	T& operator[](int idx) {
+		assert(idx < Dimension());
 		return data[idx];
 	}
 
 	/// <summary> Returns the nth element of the vector. </summary>
 	T operator()(int idx) const {
+		assert(idx < Dimension());
 		return data[idx];
 	}
 	/// <summary> Returns the nth element of the vector. </summary>
 	T& operator()(int idx) {
+		assert(idx < Dimension());
 		return data[idx];
 	}
 
@@ -903,7 +957,7 @@ public:
 
 	/// <summary> Makes a unit vector, but keeps direction. Leans towards (1,0,0...) for nullvectors, costs more. </summary>
 	void SafeNormalize() {
-		(*this)(0) = std::max((*this)(0), std::numeric_limits<T>::denorm_min());
+		(*this)(0) = std::abs((*this)(0)) > std::numeric_limits<T>::denorm_min() ? (*this)(0) : std::numeric_limits<T>::denorm_min();
 		T l = LengthPrecise();
 		operator/=(l);
 	}
@@ -938,6 +992,7 @@ public:
 		for (int i = 1; i < Dim; ++i) {
 			s = lhs.data[i] * rhs.data[i] + s;
 		}
+		return s;
 	}
 
 	/// <summary> Returns the squared length of the vector. </summary>
@@ -952,9 +1007,9 @@ public:
 
 	/// <summary> Returns the length of the vector, avoids overflow and underflow, so it's more expensive. </summary>
 	T LengthPrecise() const {
-		T maxElement = (*this)(0);
+		T maxElement = std::abs((*this)(0));
 		for (int i = 1; i<Dimension(); ++i) {
-			maxElement = std::max(maxElement, (*this)(i));
+			maxElement = std::max(maxElement, std::abs((*this)(i)));
 		}
 		if (maxElement == T(0)) {
 			return T(0);

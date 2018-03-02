@@ -1,5 +1,6 @@
 {
   // See https://go.microsoft.com//fwlink//?linkid=834763 for more information about this file.
+  // cmakeCommandArgs = "-T \"Intel C++ Compiler 18.0\""
   "configurations": [
     {
       "name": "x86-Debug",
@@ -8,8 +9,8 @@
       "inheritEnvironments": [ "msvc_x86" ],
       "buildRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build\\${name}",
       "installRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\install\\${name}",
-      "cmakeCommandArgs": "-T \"Intel C++ Compiler 18.0\"",
-      "buildCommandArgs": "-v",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "/verbosity:minimal",
       "ctestCommandArgs": ""
     },
     {
@@ -19,8 +20,8 @@
       "inheritEnvironments": [ "msvc_x86" ],
       "buildRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build\\${name}",
       "installRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\install\\${name}",
-      "cmakeCommandArgs": "-T \"Intel C++ Compiler 18.0\"",
-      "buildCommandArgs": "-v",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "/verbosity:minimal",
       "ctestCommandArgs": ""
     },
     {
@@ -30,8 +31,8 @@
       "inheritEnvironments": [ "msvc_x64_x64" ],
       "buildRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build\\${name}",
       "installRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\install\\${name}",
-      "cmakeCommandArgs": "-T \"Intel C++ Compiler 18.0\"",
-      "buildCommandArgs": "-v",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "/verbosity:minimal",
       "ctestCommandArgs": ""
     },
     {
@@ -41,8 +42,8 @@
       "inheritEnvironments": [ "msvc_x64_x64" ],
       "buildRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build\\${name}",
       "installRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\install\\${name}",
-      "cmakeCommandArgs": "-T \"Intel C++ Compiler 18.0\"",
-      "buildCommandArgs": "-v",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "/verbosity:minimal",
       "ctestCommandArgs": ""
     }
   ]
