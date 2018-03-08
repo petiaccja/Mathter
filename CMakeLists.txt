@@ -1,20 +1,21 @@
 ## Mathter CMake
 
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.1.0)
 
 # Cpp flags
+enable_language(CXX)
 set(CMAKE_CXX_STANDARD 14)
 
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-	# using Clang
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-	# using GCC
+
+if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+
+elseif ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")
 	set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -msse2 -lpthread)
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
-	# using Intel C++
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-	# using Visual Studio C++
-	set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} /Profile)
+elseif ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Intel")
+
+elseif ("${CMAKE_CXX_COMPILER_ID}" MATCHES "MSVC")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
+	set(CMAKE_EXE_LINKER_FLAGS_DEBUG "${CMAKE_EXE_LINKER_FLAGS} /PROFILE")
 endif()
 
 
@@ -40,4 +41,8 @@ add_executable(Mathter ${sources} ${headers} ${mathter_headers} ${mathter_module
 include_directories(${CMAKE_SOURCE_DIR}/Lib)
 
 # Source groups
-# TODO
+source_group("Test" FILES ${sources} ${headers})
+source_group("Mathter" FILES ${mathter_headers})
+source_group("Mathter\\Modules" FILES ${mathter_module_headers})
+source_group("Mathter\\Swizzle" FILES ${mathter_swizzle_headers})
+
