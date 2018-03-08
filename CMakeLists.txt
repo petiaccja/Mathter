@@ -8,11 +8,13 @@ set(CMAKE_CXX_STANDARD 14)
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 	# using Clang
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+	# using GCC
 	set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -msse2 -lpthread)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
 	# using Intel C++
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 	# using Visual Studio C++
+	set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} /Profile)
 endif()
 
 
