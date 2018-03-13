@@ -98,14 +98,14 @@ struct MatrixCases<TypeCases<Types...>, OrderCases<Orders...>, LayoutCases<Layou
 	static constexpr unsigned NumPackings = sizeof...(Packed);
 	static constexpr unsigned NumCombinations = NumTypes * NumOrders * NumLayouts * NumPackings;
 
-	static constexpr mathter::eMatrixOrder order = OrderCases<Orders...>::value<0>;
-	static constexpr mathter::eMatrixLayout layout = LayoutCases<Layouts...>::value<0>;
+	static constexpr mathter::eMatrixOrder order = OrderCases<Orders...>::template value<0>;
+	static constexpr mathter::eMatrixLayout layout = LayoutCases<Layouts...>::template value<0>;
 
 	using OrderCasesT = OrderCases<Orders...>;
 
 	template <int Index>
 	using MatrixT = mathter::Matrix<
-		typename TypeCases<Types...>::type<Index / (NumOrders * NumLayouts * NumPackings)>,
+		typename TypeCases<Types...>::template type<Index / (NumOrders * NumLayouts * NumPackings)>,
 		1, 1,
 		GetValue<Index % (NumOrders * NumLayouts * NumPackings) / (NumLayouts * NumPackings), mathter::eMatrixOrder, Orders...>::value,
 		GetValue<Index % (NumOrders * NumLayouts * NumPackings) % (NumLayouts * NumPackings) / NumPackings, mathter::eMatrixLayout, Layouts...>::value,
@@ -123,19 +123,19 @@ template <int Index, class Cases, template <typename, mathter::eMatrixOrder, mat
 int RunCasesHelper() {
 	if (Index > 0) {
 		Functor<
-			typename Cases::Properties<Index>::Type,
-			Cases::Properties<Index>::Order,
-			Cases::Properties<Index>::Layout,
-			Cases::Properties<Index>::Packed
+			typename Cases::template Properties<Index>::Type,
+			Cases::template Properties<Index>::Order,
+			Cases::template Properties<Index>::Layout,
+			Cases::template Properties<Index>::Packed
 		>()();
 		return 1 + RunCasesHelper<std::max(0, Index - 1), Cases, Functor>();
 	}
 	else {
 		Functor<
-			typename Cases::Properties<Index>::Type,
-			Cases::Properties<Index>::Order,
-			Cases::Properties<Index>::Layout,
-			Cases::Properties<Index>::Packed
+			typename Cases::template Properties<Index>::Type,
+			Cases::template Properties<Index>::Order,
+			Cases::template Properties<Index>::Layout,
+			Cases::template Properties<Index>::Packed
 		>()();
 		return 1;
 	}
@@ -184,13 +184,13 @@ int RunCasesHelper() {
 		int count = RunCasesHelper<
 			Cases2::NumCombinations - 1,
 			Cases2,
-			typename UniFunctorify<
-				typename Cases1::Properties<Index>::Type,
-				Cases1::Properties<Index>::Order,
-				Cases1::Properties<Index>::Layout,
-				Cases1::Properties<Index>::Packed,
+			UniFunctorify<
+				typename Cases1::template Properties<Index>::Type,
+				Cases1::template Properties<Index>::Order,
+				Cases1::template Properties<Index>::Layout,
+				Cases1::template Properties<Index>::Packed,
 				BiFunctor
-			>::UniFunctor
+			>::template UniFunctor
 		>();
 		// Recurse
 		return count + RunCasesHelper<std::max(0, Index - 1), Cases1, Cases2, BiFunctor>();
@@ -200,13 +200,13 @@ int RunCasesHelper() {
 		return RunCasesHelper<
 			Cases2::NumCombinations - 1,
 			Cases2,
-			typename UniFunctorify<
-				typename Cases1::Properties<Index>::Type,
-				Cases1::Properties<Index>::Order,
-				Cases1::Properties<Index>::Layout,
-				Cases1::Properties<Index>::Packed,
+			UniFunctorify<
+				typename Cases1::template Properties<Index>::Type,
+				Cases1::template Properties<Index>::Order,
+				Cases1::template Properties<Index>::Layout,
+				Cases1::template Properties<Index>::Packed,
 				BiFunctor
-			>::UniFunctor
+			>::template UniFunctor
 		>();
 	}
 }
@@ -331,12 +331,12 @@ std::string PrintType() {
 	std::stringstream ss;
 
 	ss << "Matrix<";
-	ss << typeid(typename impl::MatrixProperties<MatrixT>::Type).name() << ", ";
-	ss << impl::MatrixProperties<MatrixT>::Rows << ", ";
-	ss << impl::MatrixProperties<MatrixT>::Columns << ", ";
-	ss << (impl::MatrixProperties<MatrixT>::Order == mathter::eMatrixOrder::FOLLOW_VECTOR ? "FOLLOW_VECTOR" : "PRECEDE_VECTOR") << ", ";
-	ss << (impl::MatrixProperties<MatrixT>::Layout == mathter::eMatrixLayout::ROW_MAJOR ? "ROW_MAJOR" : "COLUMN_MAJOR") << ", ";
-	ss << (impl::MatrixProperties<MatrixT>::Packed ? "true" : "false");
+	ss << typeid(typename mathter::impl::MatrixProperties<MatrixT>::Type).name() << ", ";
+	ss << mathter::impl::MatrixProperties<MatrixT>::Rows << ", ";
+	ss << mathter::impl::MatrixProperties<MatrixT>::Columns << ", ";
+	ss << (mathter::impl::MatrixProperties<MatrixT>::Order == mathter::eMatrixOrder::FOLLOW_VECTOR ? "FOLLOW_VECTOR" : "PRECEDE_VECTOR") << ", ";
+	ss << (mathter::impl::MatrixProperties<MatrixT>::Layout == mathter::eMatrixLayout::ROW_MAJOR ? "ROW_MAJOR" : "COLUMN_MAJOR") << ", ";
+	ss << (mathter::impl::MatrixProperties<MatrixT>::Packed ? "true" : "false");
 	ss << ">";
 
 	return ss.str();
