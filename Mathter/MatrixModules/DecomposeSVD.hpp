@@ -184,8 +184,8 @@ void MatrixSVD<T, Rows, Columns, Order, Layout, Packed>::DecomposeSVD(
 
 	// Precondition with QR if needed
 	if (Rows > Columns) {
-		Matrix<T, Rows, Rows, Order, Layout, false> Q;
-		Matrix<T, Rows, Columns, Order, Layout, false> R;
+		Matrix<T, Rows, Rows, Order, Layout, Packed> Q;
+		Matrix<T, Rows, Columns, Order, Layout, Packed> R;
 		self().DecomposeQR(Q, R);
 		B = R;
 		U = Q.template Submatrix<Rows, Columns>(0, 0);

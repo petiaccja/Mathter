@@ -8,14 +8,12 @@
 #include <Catch2/catch.hpp>
 
 #include "Mathter/Matrix.hpp"
+#include "TestGenerators.hpp"
 
 #include <random>
+#include <complex>
 
 using namespace mathter;
-
-
-template <class T, int Rows, int Columns, eMatrixOrder Order = eMatrixOrder::FOLLOW_VECTOR, bool Packed = false>
-using MatrixC = Matrix<T, Rows, Columns, Order, eMatrixLayout::COLUMN_MAJOR, Packed>;
 
 
 int Ranint() {
@@ -24,144 +22,39 @@ int Ranint() {
 	return rng(rne);
 }
 
-//------------------------------------------------------------------------------
-// Helper macros
-//------------------------------------------------------------------------------
-
-#define GEN_FUNC_NAME_HELPER2(Name, Cntr) Name ## Cntr
-#define GEN_FUNC_NAME_HELPER1(Name, Cntr) GEN_FUNC_NAME_HELPER2(Name, Cntr)
-#define GEN_FUNC_NAME GEN_FUNC_NAME_HELPER1(_GenFunc_, __COUNTER__)
-
-
-
-// Test for both layouts
-#define CALL_LAYOUT(Name, Case, Funname) \
-TEST_CASE(Name, Case) { \
-Funname<eMatrixLayout::ROW_MAJOR>(); \
-Funname<eMatrixLayout::COLUMN_MAJOR>(); \
-}
-
-#define TEST_LAYOUT_(Name, Case, Funname) \
-template <eMatrixLayout Layout> \
-void Funname(); \
-CALL_LAYOUT(Name, Case, Funname) \
-template <eMatrixLayout Layout> \
-void Funname()
-
-#define TEST_LAYOUT(Name, Case) TEST_LAYOUT_(Name, Case, GEN_FUNC_NAME) 
-
-// Test for both orders
-#define CALL_ORDER(Name, Case, Funname) \
-TEST_CASE(Name, Case) { \
-Funname<eMatrixOrder::FOLLOW_VECTOR>(); \
-Funname<eMatrixOrder::PRECEDE_VECTOR>(); \
-}
-
-#define TEST_ORDER_(Name, Case, Funname) \
-template <eMatrixOrder Order> \
-void Funname(); \
-CALL_ORDER(Name, Case, Funname) \
-template <eMatrixOrder Order> \
-void Funname()
-
-#define TEST_ORDER(Name, Case) TEST_ORDER_(Name, Case, GEN_FUNC_NAME)
-
-// Test with every combination of Order and Layout
-#define CALL_LAYOUTxORDER(Name, Case, Funname) \
-TEST_CASE(Name, Case) { \
-Funname<eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR>(); \
-Funname<eMatrixOrder::PRECEDE_VECTOR, eMatrixLayout::ROW_MAJOR>(); \
-Funname<eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR>(); \
-Funname<eMatrixOrder::PRECEDE_VECTOR, eMatrixLayout::COLUMN_MAJOR>(); \
-}
-
-#define TEST_LAYOUTxORDER_(Name, Case, Funname) \
-template <eMatrixOrder Order, eMatrixLayout Layout> \
-void Funname(); \
-CALL_LAYOUTxORDER(Name, Case, Funname) \
-template <eMatrixOrder Order, eMatrixLayout Layout> \
-void Funname()
-
-#define TEST_LAYOUTxORDER(Name, Case) TEST_LAYOUTxORDER_(Name, Case, GEN_FUNC_NAME)
-
-
-// Test with every combination of Layout pairs
-#define CALL_LAYOUT_SQUARED(Name, Case, Funname) \
-TEST_CASE(Name, Case) { \
-Funname<eMatrixLayout::ROW_MAJOR,		eMatrixLayout::ROW_MAJOR>(); \
-Funname<eMatrixLayout::ROW_MAJOR,		eMatrixLayout::COLUMN_MAJOR>(); \
-Funname<eMatrixLayout::COLUMN_MAJOR,	eMatrixLayout::ROW_MAJOR>(); \
-Funname<eMatrixLayout::COLUMN_MAJOR,	eMatrixLayout::COLUMN_MAJOR>(); \
-}
-
-#define TEST_LAYOUT_SQUARED_(Name, Case, Funname) \
-template <eMatrixLayout Layout1, eMatrixLayout Layout2> \
-void Funname(); \
-CALL_LAYOUT_SQUARED(Name, Case, Funname) \
-template <eMatrixLayout Layout1, eMatrixLayout Layout2> \
-void Funname()
-
-#define TEST_LAYOUT_SQUARED(Name, Case) TEST_LAYOUT_SQUARED_(Name, Case, GEN_FUNC_NAME)
-
-
-// Test with every combination of Order and Layout pairs
-#define CALL_LAYOUTxORDER_SQUARED(Name, Case, Funname) \
-TEST_CASE(Name, Case) { \
-Funname<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
-Funname<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
-Funname<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
-Funname<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
-Funname<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
-Funname<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
-Funname<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
-Funname<eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
-Funname<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
-Funname<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
-Funname<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
-Funname<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR,		eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
-Funname<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
-Funname<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::FOLLOW_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
-Funname<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::ROW_MAJOR	>(); \
-Funname<eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR,	eMatrixOrder::PRECEDE_VECTOR,	eMatrixLayout::COLUMN_MAJOR	>(); \
-}
-
-#define TEST_LAYOUTxORDER_SQUARED_(Name, Case, Funname) \
-template <eMatrixOrder Order1, eMatrixLayout Layout1, eMatrixOrder Order2, eMatrixLayout Layout2> \
-void Funname(); \
-CALL_LAYOUTxORDER_SQUARED(Name, Case, Funname) \
-template <eMatrixOrder Order1, eMatrixLayout Layout1, eMatrixOrder Order2, eMatrixLayout Layout2> \
-void Funname()
-
-#define TEST_LAYOUTxORDER_SQUARED(Name, Case) TEST_LAYOUTxORDER_SQUARED_(Name, Case, GEN_FUNC_NAME) 
-
 
 //------------------------------------------------------------------------------
 // Matrix tests
 //------------------------------------------------------------------------------
 
-TEST_LAYOUTxORDER("Matrix - Constructor & indexer", "[Matrix]") {
-	Matrix<float, 3, 3, Order, Layout> m = {
-		1,2,3,
-		4,5,6,
-		7,8,9,
-	};
-	Matrix<float, 3, 3, Order, Layout> n;
-	n(0, 0) = 1;	n(0, 1) = 2;	n(0, 2) = 3;
-	n(1, 0) = 4;	n(1, 1) = 5;	n(1, 2) = 6;
-	n(2, 0) = 7;	n(2, 1) = 8;	n(2, 2) = 9;
 
-	REQUIRE(m == n);
+TEST_CASE_VARIANT("Matrix - Constructor & indexer", "[Matrix]", TypesAll, OrdersAll, LayoutsAll, PackedAll) {
+	SECTION(SECTIONNAME) {
+		MatrixT<3, 3> m = {
+			Type(1), Type(2), Type(3),
+			Type(4), Type(5), Type(6),
+			Type(7), Type(8), Type(9),
+		};
+		MatrixT<3, 3> n;
+		n(0, 0) = Type(1);	n(0, 1) = Type(2);	n(0, 2) = Type(3);
+		n(1, 0) = Type(4);	n(1, 1) = Type(5);	n(1, 2) = Type(6);
+		n(2, 0) = Type(7);	n(2, 1) = Type(8);	n(2, 2) = Type(9);
+
+		REQUIRE(m == n);
+	}
 }
 
 
-
-TEST_LAYOUT_SQUARED("Matrix - Addition", "[Matrix]") {
-	Matrix<float, 3, 3, eMatrixOrder::FOLLOW_VECTOR, Layout1> m1 = {
+TEST_CASE_VARIANT_2("Matrix - Addition", "[Matrix]",
+	TypesFloating, OrdersFollow, LayoutsAll, PackedFalse,
+	TypesFloating, OrdersFollow, LayoutsAll, PackedFalse)
+{
+	MatrixT1<3, 3> m1 = {
 		1,2,3,
 		4,5,6,
 		7,8,9,
 	};
-	Matrix<float, 3, 3, eMatrixOrder::FOLLOW_VECTOR, Layout2> m2 = {
+	MatrixT2<3, 3> m2 = {
 		7,6,5,
 		4,3,2,
 		1,0,-1,
@@ -177,13 +70,16 @@ TEST_LAYOUT_SQUARED("Matrix - Addition", "[Matrix]") {
 }
 
 
-TEST_LAYOUT_SQUARED("Matrix - Subtraction", "[Matrix]") {
-	Matrix<float, 3, 3, eMatrixOrder::FOLLOW_VECTOR, Layout1> m1 = {
+TEST_CASE_VARIANT_2("Matrix - Subtraction", "[Matrix]",
+	TypesFloating, OrdersFollow, LayoutsAll, PackedFalse,
+	TypesFloating, OrdersFollow, LayoutsAll, PackedFalse)
+{
+	MatrixT1<3, 3> m1 = {
 		1,2,3,
 		4,5,6,
 		7,8,9,
 	};
-	Matrix<float, 3, 3, eMatrixOrder::FOLLOW_VECTOR, Layout2> m2 = {
+	MatrixT2<3, 3> m2 = {
 		2,3,4,
 		5,6,7,
 		8,9,10,
@@ -199,48 +95,102 @@ TEST_LAYOUT_SQUARED("Matrix - Subtraction", "[Matrix]") {
 }
 
 
-TEST_LAYOUT_SQUARED("Matrix - Multiply square", "[Matrix]") {
-	Matrix<float, 3, 3, eMatrixOrder::FOLLOW_VECTOR, Layout1> m = {
-		1,	2,	3,
-		4,	5,	6,
-		7,	8,	9
-	};
-	Matrix<float, 3, 3, eMatrixOrder::FOLLOW_VECTOR, Layout2> n = {
-		5,	6,	8,
-		1,	3,	5,
-		7,	8,	4
-	};
-	decltype(m*n) exp = {
-		28,	36,	30,
-		67,	87,	81,
-		106,138,132
-	};
+TEST_CASE_VARIANT_2("Matrix - Multiply square (unpacked)", "[Matrix]",
+	TypesFloating, OrdersFollow, LayoutsAll, PackedFalse,
+	TypesFloating, OrdersFollow, LayoutsAll, PackedFalse)
+{
+	SECTION(SECTIONNAME2) {
+		MatrixT1<3, 3> m = {
+			1,	2,	3,
+			4,	5,	6,
+			7,	8,	9
+		};
+		MatrixT2<3, 3> n = {
+			5,	6,	8,
+			1,	3,	5,
+			7,	8,	4
+		};
+		decltype(m*n) exp = {
+			28,	36,	30,
+			67,	87,	81,
+			106,138,132
+		};
 
-	REQUIRE(m*n == exp);
+		REQUIRE(m*n == exp);
 
-	Matrix<float, 5, 5, eMatrixOrder::FOLLOW_VECTOR, Layout1> m5 = {
-		1,	2,	3,	4,	5 ,
-		6,	7,	8,	9,	10,
-		11,	12,	13,	14,	15,
-		16,	17,	18,	19,	20,
-		21,	22,	23,	24,	25
-	};
-	Matrix<float, 5, 5, eMatrixOrder::FOLLOW_VECTOR, Layout2> n5 = {
-		9,	8,	7,	6,	5,
-		4,	2,	7,	3,	5,
-		3,	6,	2,	7,	2,
-		9,	4,	1,	4,	7,
-		5,	7,	5,	5,	1
-	};
-	decltype(m5*n5) exp5 = {
-		87,	81,	56,	74,	54,
-		237,216,166,199,154,
-		387,351,276,324,254,
-		537,486,386,449,354,
-		687,621,496,574,454
-	};
+		MatrixT1<5, 5> m5 = {
+			1,	2,	3,	4,	5 ,
+			6,	7,	8,	9,	10,
+			11,	12,	13,	14,	15,
+			16,	17,	18,	19,	20,
+			21,	22,	23,	24,	25
+		};
+		MatrixT2<5, 5> n5 = {
+			9,	8,	7,	6,	5,
+			4,	2,	7,	3,	5,
+			3,	6,	2,	7,	2,
+			9,	4,	1,	4,	7,
+			5,	7,	5,	5,	1
+		};
+		decltype(m5*n5) exp5 = {
+			87,	81,	56,	74,	54,
+			237,216,166,199,154,
+			387,351,276,324,254,
+			537,486,386,449,354,
+			687,621,496,574,454
+		};
 
-	REQUIRE(m5*n5 == exp5);
+		REQUIRE(m5*n5 == exp5);
+	}
+}
+
+TEST_CASE_VARIANT_2("Matrix - Multiply square (packed)", "[Matrix]",
+	TypesFloating, OrdersFollow, LayoutsAll, PackedTrue,
+	TypesFloating, OrdersFollow, LayoutsAll, PackedTrue)
+{
+	SECTION(SECTIONNAME2) {
+		MatrixT1<3, 3> m = {
+			1,	2,	3,
+			4,	5,	6,
+			7,	8,	9
+		};
+		MatrixT2<3, 3> n = {
+			5,	6,	8,
+			1,	3,	5,
+			7,	8,	4
+		};
+		decltype(m*n) exp = {
+			28,	36,	30,
+			67,	87,	81,
+			106,138,132
+		};
+
+		REQUIRE(m*n == exp);
+
+		MatrixT1<5, 5> m5 = {
+			1,	2,	3,	4,	5 ,
+			6,	7,	8,	9,	10,
+			11,	12,	13,	14,	15,
+			16,	17,	18,	19,	20,
+			21,	22,	23,	24,	25
+		};
+		MatrixT2<5, 5> n5 = {
+			9,	8,	7,	6,	5,
+			4,	2,	7,	3,	5,
+			3,	6,	2,	7,	2,
+			9,	4,	1,	4,	7,
+			5,	7,	5,	5,	1
+		};
+		decltype(m5*n5) exp5 = {
+			87,	81,	56,	74,	54,
+			237,216,166,199,154,
+			387,351,276,324,254,
+			537,486,386,449,354,
+			687,621,496,574,454
+		};
+
+		REQUIRE(m5*n5 == exp5);
+	}
 }
 
 
@@ -276,85 +226,93 @@ TEST_CASE("Matrix - Zero", "[Matrix]") {
 }
 
 
-TEST_CASE("Matrix - LU decomposition", "[Matrix]") {
-	Matrix<float, 3, 3> A = {
-		3, -0.1f, -0.2f,
-		0.1f, 7, -0.3f,
-		0.3f, -0.2f, 10
-	};
+TEST_CASE_VARIANT("Matrix - LU decomposition", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedAll) {
+	SECTION(SECTIONNAME) {
+		MatrixT<3, 3> A = {
+			3, -0.1, -0.2,
+			0.1, 7, -0.3,
+			0.3, -0.2, 10
+		};
 
-	Matrix<float, 3, 3> L, U;
-	A.DecomposeLU(L, U);
+		MatrixT<3, 3> L, U;
+		A.DecomposeLU(L, U);
 
-	for (int i = 0; i < A.RowCount(); ++i) {
-		for (int j = 0; j < i - 1; ++j) {
-			REQUIRE(U(i, j) == Approx(0.0f));
-			REQUIRE(L(j, i) == Approx(0.0f));
+		for (int i = 0; i < A.RowCount(); ++i) {
+			for (int j = 0; j < i - 1; ++j) {
+				REQUIRE(U(i, j) == Approx(0.0));
+				REQUIRE(L(j, i) == Approx(0.0));
+			}
 		}
+
+		auto Mprod = L * U;
+		REQUIRE(A.Approx() == Mprod);
 	}
-
-	auto Mprod = L*U;
-	REQUIRE(A.Approx() == Mprod);
 }
 
 
-TEST_CASE("Matrix - LU solve", "[Matrix]") {
-	Matrix<float, 3, 3> A = {
-		3, -0.1f, -0.2f,
-		0.1f, 7, -0.3f,
-		0.3f, -0.2f, 10
-	};
-	Vector<float, 3> b = { 7.85, -19.3, 71.4 };
-	Vector<float, 3> x;
-	Vector<float, 3> xexp = {3, -2.5, 7};
+TEST_CASE_VARIANT("Matrix - LU solve", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedAll) {
+	SECTION(SECTIONNAME) {
+		MatrixT<3, 3> A = {
+			3, -0.1f, -0.2f,
+			0.1f, 7, -0.3f,
+			0.3f, -0.2f, 10
+		};
+		Vector<Type, 3, Packed> b = { 7.85, -19.3, 71.4 };
+		Vector<Type, 3, Packed> x;
+		Vector<Type, 3, Packed> xexp = { 3, -2.5, 7 };
 
-	x = A.DecompositionLU().Solve(b);
-	REQUIRE(x.Approx() == xexp);
+		x = A.DecompositionLU().Solve(b);
+		REQUIRE(x.Approx() == xexp);
+	}
 }
 
 
-TEST_CASE("Matrix - LUP decomposition", "[Matrix]") {
-	Matrix<float, 3, 3> A = {
-		3, -0.1f, -0.2f,
-		0.3f, -0.2f, 10,
-		0.1f, 7, -0.3f,
-	};
+TEST_CASE_VARIANT("Matrix - LUP decomposition", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedAll) {
+	SECTION(SECTIONNAME) {
+		MatrixT<3, 3> A = {
+			3, -0.1f, -0.2f,
+			0.3f, -0.2f, 10,
+			0.1f, 7, -0.3f,
+		};
 
-	Matrix<float, 3, 3> L, U;
-	Vector<int, 3, false> P;
-	A.DecomposeLUP(L, U, P);
+		MatrixT<3, 3> L, U;
+		Vector<int, 3, false> P;
+		A.DecomposeLUP(L, U, P);
 
-	for (int i = 0; i < A.RowCount(); ++i) {
-		for (int j = 0; j < i - 1; ++j) {
-			REQUIRE(U(i, j) == Approx(0.0f));
-			REQUIRE(L(j, i) == Approx(0.0f));
+		for (int i = 0; i < A.RowCount(); ++i) {
+			for (int j = 0; j < i - 1; ++j) {
+				REQUIRE(U(i, j) == Approx(0.0f));
+				REQUIRE(L(j, i) == Approx(0.0f));
+			}
 		}
-	}
 
-	Matrix<float, 3, 3> Pm = decltype(Pm)::Zero();
-	for (int i : P) {
-		Pm(i, P(i)) = 1.0f;
-	}
+		MatrixT<3, 3> Pm = decltype(Pm)::Zero();
+		for (int i : P) {
+			Pm(i, P(i)) = 1.0f;
+		}
 
-	auto Mprod = Pm.Transposed()*L*U;
-	REQUIRE(A.Approx() == Mprod);
+		auto Mprod = Pm.Transposed()*L*U;
+		REQUIRE(A.Approx() == Mprod);
+	}
 }
 
 
-TEST_CASE("Matrix - LUP solve", "[Matrix]") {
-	Matrix<float, 4,4> A = {
-		1,3,4,6,
-		3,6,2,6,
-		9,2,6,7,
-		6,2,7,5,
-	};
-	Vector<float, 4> b = { 3,4,2,8 };
-	Vector<float, 4> x;
-	Vector<float, 4> xexp = { -94.f/497, 895.f/497, 1000.f/497, -850.f/497 };
+TEST_CASE_VARIANT("Matrix - LUP solve", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedAll) {
+	SECTION(SECTIONNAME) {
+		MatrixT<4, 4> A = {
+			1,3,4,6,
+			3,6,2,6,
+			9,2,6,7,
+			6,2,7,5,
+		};
+		Vector<Type, 4, Packed> b = { 3,4,2,8 };
+		Vector<Type, 4, Packed> x;
+		Vector<Type, 4, Packed> xexp = { -94.f / 497, 895.f / 497, 1000.f / 497, -850.f / 497 };
 
-	x = A.DecompositionLUP().Solve(b);
+		x = A.DecompositionLUP().Solve(b);
 
-	REQUIRE(x.Approx() == xexp);
+		REQUIRE(x.Approx() == xexp);
+	}
 }
 
 
@@ -386,174 +344,178 @@ TEST_CASE("Matrix - LUP decomposition singular", "[Matrix]") {
 }
 
 
-TEST_CASE("Matrix - QR decomposition", "[Matrix]") {
-	// example from wikipedia SVD article
-	Matrix<float, 5, 4> A1 = Matrix<float, 4, 5>{
-		1, 0, 0, 1, 2,
-		0, 0, 3, 0, 0,
-		0, 0, 0, 0, 0,
-		0, 2, 0, 0, 0,
-	}.Transposed();
-	Matrix<float, 5, 4> R1;
-	Matrix<float, 5, 5> Q1;
+TEST_CASE_VARIANT("Matrix - QR decomposition", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedAll) {
+	SECTION(SECTIONNAME) {
+		// example from wikipedia SVD article
+		MatrixT<5, 4> A1 = MatrixT<4, 5>{
+			1, 0, 0, 1, 2,
+			0, 0, 3, 0, 0,
+			0, 0, 0, 0, 0,
+			0, 2, 0, 0, 0,
+		}.Transposed();
+		MatrixT<5, 4> R1;
+		MatrixT<5, 5> Q1;
 
-	A1.DecomposeQR(Q1, R1);
-	Matrix<float, 5, 4> A1assembled = Q1*R1;
-	REQUIRE(A1assembled.Approx() == A1);
+		A1.DecomposeQR(Q1, R1);
+		MatrixT<5, 4> A1assembled = Q1 * R1;
+		REQUIRE(A1assembled.Approx() == A1);
 
 
-	// the same matrix as the LU
-	Matrix<float, 3, 3> A2 = {
-		3, -0.1f, -0.2f,
-		0.1f, 7, -0.3f,
-		0.3f, -0.2f, 10
-		//12, -51, 4,
-		//6, 167, -68,
-		//-4, 24, -41
-	};
-	Matrix<float, 3, 3> R2;
-	Matrix<float, 3, 3> Q2;
+		// the same matrix as the LU
+		MatrixT<3, 3> A2 = {
+			3, -0.1f, -0.2f,
+			0.1f, 7, -0.3f,
+			0.3f, -0.2f, 10
+			//12, -51, 4,
+			//6, 167, -68,
+			//-4, 24, -41
+		};
+		MatrixT<3, 3> R2;
+		MatrixT<3, 3> Q2;
 
-	A2.DecomposeQR(Q2, R2);
+		A2.DecomposeQR(Q2, R2);
 
-	Matrix<float, 3, 3> A2assembled = Q2*R2;
-	REQUIRE(A2assembled.Approx() == A2);
+		MatrixT<3, 3> A2assembled = Q2 * R2;
+		REQUIRE(A2assembled.Approx() == A2);
+	}
 }
 
 
-TEST_CASE("Matrix - SVD", "[Matrix]") {
-	// example from wikipedia SVD article
-	Matrix<float, 5, 4> A1 = Matrix<float, 4, 5>{
-		1, 0, 0, 1, 2,
-		0, 0, 3, 0, 0,
-		0, 0, 0, 0, 0,
-		0, 2, 0, 0, 0,
-	}.Transposed();
-	Matrix<float, 5, 4> U1;
-	Matrix<float, 4, 4> S1;
-	Matrix<float, 4, 4> V1;
+TEST_CASE_VARIANT("Matrix - SVD", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedAll) {
+	SECTION(SECTIONNAME) {
+		// example from wikipedia SVD article
+		MatrixT<5, 4> A1 = MatrixT<4, 5>{
+			1, 0, 0, 1, 2,
+			0, 0, 3, 0, 0,
+			0, 0, 0, 0, 0,
+			0, 2, 0, 0, 0,
+		}.Transposed();
+		MatrixT<5, 4> U1;
+		MatrixT<4, 4> S1;
+		MatrixT<4, 4> V1;
 
-	A1.DecomposeSVD(U1, S1, V1);
-	auto A1assembled = U1*S1*V1;
-	REQUIRE(A1.Approx() == A1assembled);
+		A1.DecomposeSVD(U1, S1, V1);
+		auto A1assembled = U1 * S1*V1;
+		REQUIRE(A1.Approx() == A1assembled);
 
-	Matrix<float, 4, 4> U1T;
-	Matrix<float, 4, 4> S1T;
-	Matrix<float, 4, 5> V1T;
-	A1.Transposed().DecomposeSVD(U1T, S1T, V1T);
-	auto A1Tassembled = U1T*S1T*V1T;
-	REQUIRE(A1Tassembled.Approx() == A1.Transposed());
+		MatrixT<4, 4> U1T;
+		MatrixT<4, 4> S1T;
+		MatrixT<4, 5> V1T;
+		A1.Transposed().DecomposeSVD(U1T, S1T, V1T);
+		auto A1Tassembled = U1T * S1T*V1T;
+		REQUIRE(A1Tassembled.Approx() == A1.Transposed());
 
-	// the same matrix as the LU
-	Matrix<float, 3, 3> A2 = {
-		3, -0.1f, -0.2f,
-		0.1f, 7, -0.3f,
-		0.3f, -0.2f, 10
-	};
+		// the same matrix as the LU
+		MatrixT<3, 3> A2 = {
+			3, -0.1f, -0.2f,
+			0.1f, 7, -0.3f,
+			0.3f, -0.2f, 10
+		};
 
-	Matrix<float, 3, 3> U2, S2, V2;
-	A2.DecomposeSVD(U2, S2, V2);
-	auto A2assembled = U2*S2*V2;
-	REQUIRE(A2assembled.Approx() == A2);
+		MatrixT<3, 3> U2, S2, V2;
+		A2.DecomposeSVD(U2, S2, V2);
+		auto A2assembled = U2 * S2*V2;
+		REQUIRE(A2assembled.Approx() == A2);
+	}
 }
 
 
-TEST_CASE("Matrix - Transpose", "[Matrix]") {
-	Matrix<float, 4, 2> m = {
-		1,2,
-		3,4,
-		5,6,
-		7,8,
-	};
-	Matrix<float, 2, 4> mT = m.Transposed();
-	Matrix<float, 2, 4> mexp = {
-		1,3,5,7,
-		2,4,6,8,
-	};
+TEST_CASE_VARIANT("Matrix - Transpose", "[Matrix]", TypesAll, OrdersFollow, LayoutsAll, PackedAll) {
+	SECTION(SECTIONNAME) {
+		MatrixT<4, 2> m = {
+			1,2,
+			3,4,
+			5,6,
+			7,8,
+		};
+		MatrixT<2, 4> mT = m.Transposed();
+		MatrixT<2, 4> mexp = {
+			1,3,5,7,
+			2,4,6,8,
+		};
 
-	REQUIRE(mT == mexp);
+		REQUIRE(mT == mexp);
+	}
 }
 
 
-TEST_LAYOUT("Matrix - Determinant", "[Matrix]") {
-	Matrix<float, 3, 3, eMatrixOrder::FOLLOW_VECTOR, Layout> m = {
-		1,3,2,
-		4,5,6,
-		7,8,9,
-	};
-	float det = m.Determinant();
+TEST_CASE_VARIANT("Matrix - Determinant", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedAll) {
+	SECTION(SECTIONNAME) {
+		MatrixT<3, 3> m = {
+			1,3,2,
+			4,5,6,
+			7,8,9,
+		};
+		auto det = m.Determinant();
 
-	REQUIRE(Approx(det) == 9.0f);
+		REQUIRE(Approx(det) == 9.0f);
 
-	m = {
-		1,2,3,
-		4,5,6,
-		7,8,9
-	};
-	det = m.Determinant();
-	REQUIRE(Approx(det) == 0.0f);
-
-	Matrix<double, 5, 5, eMatrixOrder::FOLLOW_VECTOR, Layout> m5 = {
-		5, 7, 3, 6, 4,
-		4, 7, 4, 6, 3,
-		6, 2, 8, 9, 7,
-		1, 2, 7, 4, 8,
-		5, 9, 7, 1, 5
-	};
-	det = m5.Determinant();
-	REQUIRE(Approx(det) == 4134);
+		MatrixT<5, 5> m5 = {
+			5, 7, 3, 6, 4,
+			4, 7, 4, 6, 3,
+			6, 2, 8, 9, 7,
+			1, 2, 7, 4, 8,
+			5, 9, 7, 1, 5
+		};
+		det = m5.Determinant();
+		REQUIRE(Approx(det) == 4134);
+	}
 }
 
 
-TEST_LAYOUT("Matrix - Trace", "[Matrix]") {
-	Matrix<float, 3, 3, eMatrixOrder::FOLLOW_VECTOR, Layout> m = {
-		1,3,2,
-		4,5,6,
-		7,8,9,
-	};
-	float trace = m.Trace();
+TEST_CASE_VARIANT("Matrix - Trace", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedAll) {
+	SECTION(SECTIONNAME) {
+		MatrixT<3, 3> m = {
+			1,3,2,
+			4,5,6,
+			7,8,9,
+		};
+		auto trace = m.Trace();
 
-	REQUIRE(Approx(trace) == 15.f);
+		REQUIRE(Approx(trace) == 15.f);
 
-	Matrix<double, 5, 5, eMatrixOrder::FOLLOW_VECTOR, Layout> m5 = {
-		5, 7, 3, 6, 4,
-		4, 7, 4, 6, 3,
-		6, 2, 8, 9, 7,
-		1, 2, 7, 4, 8,
-		5, 9, 7, 1, 5
-	};
-	trace = m5.Trace();
-	REQUIRE(Approx(trace) == 29);
+		MatrixT<5, 5> m5 = {
+			5, 7, 3, 6, 4,
+			4, 7, 4, 6, 3,
+			6, 2, 8, 9, 7,
+			1, 2, 7, 4, 8,
+			5, 9, 7, 1, 5
+		};
+		trace = m5.Trace();
+		REQUIRE(Approx(trace) == 29);
+	}
 }
 
 
-TEST_CASE("Matrix - Inverse", "[Matrix]") {
-	Matrix<float, 3, 3> m = {
-		1,3,2,
-		4,5,6,
-		7,8,9,
-	};
-	Matrix<float, 3, 3> mI = m.Inverse();
-	Matrix<float, 3, 3> mexp = {
-		-0.333333,	-1.222222,	0.888889,
-		0.666667,	-0.555556,	0.222222,
-		-0.333333,	1.444444,	-0.777778,
-	};
+TEST_CASE_VARIANT("Matrix - Inverse", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedAll) {
+	SECTION(SECTIONNAME) {
+		MatrixT<3, 3> m = {
+			1,3,2,
+			4,5,6,
+			7,8,9,
+		};
+		MatrixT<3, 3> mI = m.Inverse();
+		MatrixT<3, 3> mexp = {
+			-0.333333,	-1.222222,	0.888889,
+			0.666667,	-0.555556,	0.222222,
+			-0.333333,	1.444444,	-0.777778,
+		};
 
-	Matrix<float, 5, 5> n = {
-		1,56,8,4,3,
-		4,2,7,8,4,
-		1,5,7,4,3,
-		9,5,3,8,4,
-		7,2,83,46,4,		
-	};
-	Matrix<float, 5, 5> nI = n.Inverse();
-	Matrix<float, 5, 5> iden = n*nI;
-	Matrix<float, 5, 5> idenexp;
-	idenexp.SetIdentity();
+		MatrixT<5, 5> n = {
+			1,56,8,4,3,
+			4,2,7,8,4,
+			1,5,7,4,3,
+			9,5,3,8,4,
+			7,2,83,46,4,
+		};
+		MatrixT<5, 5> nI = n.Inverse();
+		MatrixT<5, 5> iden = n * nI;
+		MatrixT<5, 5> idenexp;
+		idenexp.SetIdentity();
 
-	REQUIRE(mexp.Approx() == mI);
-	REQUIRE(idenexp.Approx() == iden);
+		REQUIRE(mexp.Approx() == mI);
+		REQUIRE(idenexp.Approx() == iden);
+	}
 }
 
 
@@ -810,9 +772,7 @@ TEST_CASE("Matrix - Submatrix", "[Matrix]") {
 	v = m1.Submatrix<1, 3>(0, 0);
 	vr = {'a', 'b', 'c'};
 	REQUIRE(v == vr);
-
-
-
+	
 
 	// compile error as it should be
 	// v = m1.Submatrix<2, 3>(0, 0);

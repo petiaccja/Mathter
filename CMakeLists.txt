@@ -28,12 +28,14 @@ set(sources
 	TestIntersection.cpp
 	TestMatrix.cpp
 	TestQuaternion.cpp
-	TestVector.cpp)
+	TestVector.cpp
+	TestGenerators.hpp)
 	
 set(headers
 	Measure.hpp)
 	
 file(GLOB mathter_headers Mathter/*.hpp)
+set (mathter_headers ${mathter_headers} Mathter/Mathter.natvis)
 file(GLOB mathter_module_headers Mathter/MatrixModules/*.hpp)
 file(GLOB mathter_swizzle_headers Mathter/Swizzle/*.hpp)
 

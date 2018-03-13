@@ -178,10 +178,10 @@ class VectorData<T, 3, Packed> {
 public:
 	VectorData() {}
 	VectorData(const VectorData& rhs) {
-		for (int i = 0; i<4; ++i) { data[i] = rhs.data[i]; }
+		for (int i = 0; i<3; ++i) { data[i] = rhs.data[i]; }
 	}
 	VectorData& operator=(const VectorData& rhs) {
-		for (int i = 0; i<4; ++i) { data[i] = rhs.data[i]; }
+		for (int i = 0; i<3; ++i) { data[i] = rhs.data[i]; }
 		return *this;
 	}
 	union {
