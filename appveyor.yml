@@ -40,8 +40,7 @@ matrix:
 
 # to add several platforms to build matrix:
 platform:
- - x86
- - x64
+  - x64
 
 # to add several configurations to build matrix:
 configuration:
