@@ -4,6 +4,8 @@ Mathter
 Clang5, GCC7: 
 [![Build Status](https://travis-ci.org/petiaccja/Mathter.svg?branch=master)](https://travis-ci.org/petiaccja/Mathter)
 
+MSVC 2017:
+[![Build status](https://ci.appveyor.com/api/projects/status/6uvfnfgp5paha8kw?svg=true)](https://ci.appveyor.com/project/petiaccja/mathter)
 
 Introduction
 ---
