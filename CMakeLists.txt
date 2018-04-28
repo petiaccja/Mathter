@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD 14)
 if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
 
 elseif ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse2 -lpthread)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse2 -lpthread")
 	if (CMAKE_SYSTEM_NAME MATCHES "Windows")
 		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wa,-mbig-obj")
 	endif()
