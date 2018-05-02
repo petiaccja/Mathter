@@ -8,25 +8,28 @@
 #include <Catch2/catch.hpp>
 
 #include "Mathter/Vector.hpp"
+#include "TestGenerators.hpp"
 
 using namespace mathter;
 
 
 
-TEST_CASE("Vector - CtorAll", "[Vector]") {
-	Vector<float, 3> v(5.f);
+TEST_CASE_VEC_VARIANT("Vector - CtorAll", "[Vector]", TypesReal, PackedAll) {
+	SECTION(SECTIONNAMEVEC) {
+		VectorT<3> v(5);
 
-	REQUIRE(v(0) == 5.0f);
-	REQUIRE(v(1) == 5.0f);
-	REQUIRE(v(2) == 5.0f);
+		REQUIRE(v(0) == 5);
+		REQUIRE(v(1) == 5);
+		REQUIRE(v(2) == 5);
 
-	Vector<double, 5> w(5.0);
+		VectorT<5> w(5);
 
-	REQUIRE(w(0) == 5.0);
-	REQUIRE(w(1) == 5.0);
-	REQUIRE(w(2) == 5.0);
-	REQUIRE(w(3) == 5.0);
-	REQUIRE(w(4) == 5.0);
+		REQUIRE(w(0) == 5);
+		REQUIRE(w(1) == 5);
+		REQUIRE(w(2) == 5);
+		REQUIRE(w(3) == 5);
+		REQUIRE(w(4) == 5);
+	}
 }
 
 TEST_CASE("Vector - CtorConcat", "[Vector]") {
@@ -43,141 +46,159 @@ TEST_CASE("Vector - CtorConcat", "[Vector]") {
 }
 
 
-TEST_CASE("Vector - VectorAdd", "[Vector]") {
-	Vector<float, 3> a(1, 2, 3);
-	Vector<float, 3> b(4, 5, 6);
-	Vector<float, 3> c(5, 7, 9);
+TEST_CASE_VEC_VARIANT("Vector - VectorAdd", "[Vector]", TypesAll, PackedAll) {
+	SECTION(SECTIONNAMEVEC) {
+		VectorT<3> a(1, 2, 3);
+		VectorT<3> b(4, 5, 6);
+		VectorT<3> c(5, 7, 9);
 
-	REQUIRE(a + b == c);
+		REQUIRE(a + b == c);
 
-	Vector<double, 5> d(1, 2, 3, 4, 5);
-	Vector<double, 5> e(4, 5, 6, 7, 8);
-	Vector<double, 5> f(5, 7, 9, 11, 13);
+		VectorT<5> d(1, 2, 3, 4, 5);
+		VectorT<5> e(4, 5, 6, 7, 8);
+		VectorT<5> f(5, 7, 9, 11, 13);
 
-	REQUIRE(d + e == f);
+		REQUIRE(d + e == f);
+	}
 }
 
 
-TEST_CASE("Vector - VectorSub", "[Vector]") {
-	Vector<float, 3> a(1, 2, 3);
-	Vector<float, 3> b(4, 5, 6);
-	Vector<float, 3> c(-3, -3, -3);
+TEST_CASE_VEC_VARIANT("Vector - VectorSub", "[Vector]", TypesAll, PackedAll) {
+	SECTION(SECTIONNAMEVEC) {
+		VectorT<3> a(1, 2, 3);
+		VectorT<3> b(4, 5, 6);
+		VectorT<3> c(-3, -3, -3);
 
-	REQUIRE(a - b == c);
+		REQUIRE(a - b == c);
 
-	Vector<double, 5> d(1, 2, 3, 4, 5);
-	Vector<double, 5> e(4, 5, 6, 7, 8);
-	Vector<double, 5> f(-3, -3, -3, -3, -3);
+		VectorT<5> d(1, 2, 3, 4, 5);
+		VectorT<5> e(4, 5, 6, 7, 8);
+		VectorT<5> f(-3, -3, -3, -3, -3);
 
-	REQUIRE(d - e == f);
+		REQUIRE(d - e == f);
+	}
 }
 
 
 
-TEST_CASE("Vector - VectorMultiply", "[Vector]") {
-	Vector<float, 3> a(1, 2, 3);
-	Vector<float, 3> b(4, 5, 6);
-	Vector<float, 3> c(4, 10, 18);
+TEST_CASE_VEC_VARIANT("Vector - VectorMultiply", "[Vector]", TypesAll, PackedAll) {
+	SECTION(SECTIONNAMEVEC) {
+		VectorT<3> a(1, 2, 3);
+		VectorT<3> b(4, 5, 6);
+		VectorT<3> c(4, 10, 18);
 
-	REQUIRE(a*b == c);
+		REQUIRE(a*b == c);
 
-	Vector<double, 5> d(1, 2, 3, 4, 5);
-	Vector<double, 5> e(4, 5, 6, 7, 8);
-	Vector<double, 5> f(4, 10, 18, 28, 40);
+		VectorT<5> d(1, 2, 3, 4, 5);
+		VectorT<5> e(4, 5, 6, 7, 8);
+		VectorT<5> f(4, 10, 18, 28, 40);
 
-	REQUIRE(d*e == f);
+		REQUIRE(d*e == f);
+	}
 }
 
 
-TEST_CASE("Vector - VectorDiv", "[Vector]") {
-	Vector<float, 3> a(1, 2, 3);
-	Vector<float, 3> b(4, 5, 6);
-	Vector<float, 3> c(0.25f, 0.4f, 0.5f);
+TEST_CASE_VEC_VARIANT("Vector - VectorDiv", "[Vector]", TypesFloating, PackedAll) {
+	SECTION(SECTIONNAMEVEC) {
+		VectorT<3> a(1, 2, 3);
+		VectorT<3> b(4, 5, 6);
+		VectorT<3> c(0.25f, 0.4f, 0.5f);
 
-	REQUIRE(a / b == c);
+		auto ab = a/b;
+		REQUIRE(ab == c.Approx());
 
-	Vector<double, 5> d(2, 6, 6, 12, 10);
-	Vector<double, 5> e(1, 2, 3, 4, 5);
-	Vector<double, 5> f(2, 3, 2, 3, 2);
+		VectorT<5> d(2, 6, 6, 12, 10);
+		VectorT<5> e(1, 2, 3, 4, 5);
+		VectorT<5> f(2, 3, 2, 3, 2);
 
-	REQUIRE(d / e == f);
+		auto de = d/e;
+		REQUIRE(de == f.Approx());
+	}
 }
 
 
-TEST_CASE("Vector - Dot", "[Vector]") {
-	Vector<float, 3> a(1, 2, 3);
-	Vector<float, 3> b(4, 5, 6);
-	float r1 = Vector<float, 3>::Dot(a, b);
+TEST_CASE_VEC_VARIANT("Vector - Dot", "[Vector]", TypesFloating, PackedAll) {
+	SECTION(SECTIONNAMEVEC) {
+		VectorT<3> a(1, 2, 3);
+		VectorT<3> b(4, 5, 6);
+		auto r1 = VectorT<3>::Dot(a, b);
 
-	REQUIRE(r1 == 32);
+		REQUIRE(r1 == 32);
 
-	Vector<double, 5> c(1, 2, 3, 2, 1);
-	Vector<double, 5> d(4, 5, 6, 5, 4);
-	double r2 = Vector<double, 5>::Dot(c, d);
-	REQUIRE(r2 == 46);
+		VectorT<5> c(1, 2, 3, 2, 1);
+		VectorT<5> d(4, 5, 6, 5, 4);
+		auto r2 = VectorT<5>::Dot(c, d);
+		REQUIRE(r2 == 46);
+	}
 }
 
 
-TEST_CASE("Vector - Cross", "[Vector]") {
-	Vector<float, 3> a(1, 2, 3);
-	Vector<float, 3> b(4, 5, 6);
-	Vector<float, 3> r = Vector<float, 3>::Cross(a, b);
-	Vector<float, 3> rexp(-3, 6, -3);
+TEST_CASE_VEC_VARIANT("Vector - Cross", "[Vector]", TypesFloating, PackedAll) {
+	SECTION(SECTIONNAMEVEC) {
+		VectorT<3> a(1, 2, 3);
+		VectorT<3> b(4, 5, 6);
+		VectorT<3> r = VectorT<3>::Cross(a, b);
+		VectorT<3> rexp(-3, 6, -3);
 
-	REQUIRE(r == rexp);
+		REQUIRE(r == rexp);
+	}
 }
 
 
-TEST_CASE("Vector - CrossND", "[Vector]") {
-	// Simple 3D cross product
-	Vector<float, 3> a(1, 2, 3);
-	Vector<float, 3> b(4, 5, 6);
-	Vector<float, 3> r = Vector<float, 3>::Cross(a, b);
-	Vector<float, 3> rexp(-3, 6, -3);
+TEST_CASE_VEC_VARIANT("Vector - CrossND", "[Vector]", TypesFloating, PackedAll) {
+	SECTION(SECTIONNAMEVEC) {
+		// Simple 3D cross product
+		VectorT<3> a(1, 2, 3);
+		VectorT<3> b(4, 5, 6);
+		VectorT<3> r = VectorT<3>::Cross(a, b);
+		VectorT<3> rexp(-3, 6, -3);
 
-	REQUIRE(r == rexp);
+		REQUIRE(r == rexp);
 
-	// 2D cross product, that is, rotate by 90 degree
-	Vector<float, 2> a2(1, 2);
-	Vector<float, 2> r2 = a2.Cross(a2);
-	Vector<float, 2> r2exp(-2, 1);
+		// 2D cross product, that is, rotate by 90 degree
+		VectorT<2> a2(1, 2);
+		VectorT<2> r2 = a2.Cross(a2);
+		VectorT<2> r2exp(-2, 1);
 
-	REQUIRE(r2.Approx() == r2exp);
+		REQUIRE(r2.Approx() == r2exp);
 
-	// 4D cross product
-	Vector<float, 4> a4(1, 2, 3, 4);
-	Vector<float, 4> b4(4, 2, 6, 3);
-	Vector<float, 4> c4(3, 6, 4, -9);
-	Vector<float, 4> r4 = Cross(a4, b4, c4);
+		// 4D cross product
+		VectorT<4> a4(1, 2, 3, 4);
+		VectorT<4> b4(4, 2, 6, 3);
+		VectorT<4> c4(3, 6, 4, -9);
+		VectorT<4> r4 = Cross(a4, b4, c4);
 
-	float dotprod = std::abs(Dot(a4, r4)) + std::abs(Dot(b4, r4)) + std::abs(Dot(c4, r4));
-	REQUIRE(dotprod < 1e-5f);
+		auto dotprod = std::abs(Dot(a4, r4)) + std::abs(Dot(b4, r4)) + std::abs(Dot(c4, r4));
+		REQUIRE(dotprod < 1e-5f);
+	}
 }
 
 
-TEST_CASE("Vector - Swizzle", "[Vector]") {
-	Vector<int, 3> v1 = { 1,2,3 };
-	Vector<int, 6> v2 = { v1.zx, v1.yzyx };
-	Vector<int, 6> v3 = v1.zyx | v1.zyx;
-	Vector<int, 6> v2exp = { 3,1,2,3,2,1 };
-	Vector<int, 6> v3exp = { 3,2,1,3,2,1 };
+TEST_CASE_VEC_VARIANT("Vector - Swizzle", "[Vector]", TypesAll, PackedAll) {
+	SECTION(SECTIONNAMEVEC) {
+		VectorT<3> v1 = { 1,2,3 };
+		VectorT<6> v2 = { v1.zx, v1.yzyx };
+		VectorT<6> v3 = v1.zyx | v1.zyx;
+		VectorT<6> v2exp = { 3,1,2,3,2,1 };
+		VectorT<6> v3exp = { 3,2,1,3,2,1 };
 
-	REQUIRE(v2 == v2exp);
-	REQUIRE(v3 == v3exp);
+		REQUIRE(v2 == v2exp);
+		REQUIRE(v3 == v3exp);
 
-	Vector<int, 4> v4{ 1,2,3,4 };
-	v4.yxwz = v4.wzyx; // wzxy=4321 -> v4=3412
-	Vector<int, 4> v4exp = { 3, 4, 1, 2 };
+		VectorT<4> v4{ 1,2,3,4 };
+		v4.yxwz = v4.wzyx; // wzxy=4321 -> v4=3412
+		VectorT<4> v4exp = { 3, 4, 1, 2 };
 
-	REQUIRE(v4 == v4exp);
+		REQUIRE(v4 == v4exp);
 
-	v4 = { 1,2,3,4 };
-	v4 = v4.xxzz;
-	v4exp = { 1,1,3,3 };
-	REQUIRE(v4 == v4exp);
+		v4 = { 1,2,3,4 };
+		v4 = v4.xxzz;
+		v4exp = { 1,1,3,3 };
+		REQUIRE(v4 == v4exp);
 
-	v4 = v1.zyx | 1.0f;
-	v4 = 1.0f | v1.zyx;
+		v4 = v1.zyx | 1.0f;
+		v4 = 1.0f | v1.zyx;
+	}
 }
 
 

@@ -79,7 +79,7 @@ constexpr int DYNAMIC = -1;
 template <class LinalgClass>
 struct ApproxHelper {
 	ApproxHelper() {}
-	ApproxHelper(LinalgClass object) {
+	explicit ApproxHelper(LinalgClass object) {
 		this->object = object;
 	}
 	LinalgClass object;
@@ -93,7 +93,7 @@ bool operator==(const ApproxHelper<LinalgClass1>& lhs, const LinalgClass2& rhs) 
 
 template <class LinalgClass1, class LinalgClass2>
 bool operator==(const LinalgClass1& lhs, const ApproxHelper<LinalgClass2>& rhs) {
-	return rhs.object.AlmostEqual(rhs);
+	return rhs.object.AlmostEqual(lhs);
 }
 
 template <class LinalgClass1, class LinalgClass2>

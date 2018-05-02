@@ -90,6 +90,10 @@ using PackedTrue = PackingCases<true>;
 template <class TypeCasesT, class OrderCasesT, class LayoutCasesT, class PackingCasesT>
 struct MatrixCases;
 
+template <class TypeCasesT, class PackingCasesT>
+struct VectorCases;
+
+
 template <class... Types, mathter::eMatrixOrder... Orders, mathter::eMatrixLayout... Layouts, bool... Packed>
 struct MatrixCases<TypeCases<Types...>, OrderCases<Orders...>, LayoutCases<Layouts...>, PackingCases<Packed...>> {
 	static constexpr unsigned NumTypes = sizeof...(Types);
@@ -114,6 +118,20 @@ struct MatrixCases<TypeCases<Types...>, OrderCases<Orders...>, LayoutCases<Layou
 
 	template <int Index>
 	using Properties = mathter::impl::MatrixProperties<MatrixT<Index>>;
+};
+
+
+template <class... Types, bool... Packings>
+struct VectorCases<TypeCases<Types...>, PackingCases<Packings...>> {
+	static constexpr unsigned NumTypes = sizeof...(Types);
+	static constexpr unsigned NumPackings = sizeof...(Packings);
+	static constexpr unsigned NumCombinations = NumTypes * NumPackings;
+
+	template <int Index>
+	using Type = typename TypeCases<Types...>::template type<Index / NumPackings>;
+
+	template <int Index>
+	static constexpr bool Packed = GetValue<Index % NumPackings, bool, Packings...>::value;
 };
 
 
@@ -142,13 +160,37 @@ int RunCasesHelper() {
 }
 
 
+template <int Index, class Cases, template <typename, bool> class Functor>
+int RunVectorCasesHelper() {
+	if (Index > 0) {
+		Functor<
+			typename Cases::template Type<Index>,
+			Cases::template Packed<Index>
+		>()();
+		return 1 + RunVectorCasesHelper<std::max(0, Index - 1), Cases, Functor>();
+	}
+	else {
+		Functor<
+			typename Cases::template Type<Index>,
+			Cases::template Packed<Index>
+		>()();
+		return 1;
+	}
+}
+
+
 
 // Run all combinations
-template <class Cases, template <class, mathter::eMatrixOrder, mathter::eMatrixLayout, bool> class Functor>
+template <class Cases, template <typename, mathter::eMatrixOrder, mathter::eMatrixLayout, bool> class Functor>
 int RunCases() {
 	return RunCasesHelper<(int)Cases::NumCombinations - 1, Cases, Functor>();
 }
 
+
+template <class VectorCases, template <typename, bool> class Functor>
+int RunVectorCases() {
+	return RunVectorCasesHelper<(int)VectorCases::NumCombinations - 1, VectorCases, Functor>();
+}
 
 
 template <
@@ -252,6 +294,28 @@ void FUNNAME<Type, Order, Layout, Packed>::operator()() const
 #define TEST_CASE_VARIANT(NAME, TAG, TYPES, ORDERS, LAYOUTS, PACKINGS) TEST_CASE_VARIANT_H(NAME, TAG, TYPES, ORDERS, LAYOUTS, PACKINGS, GEN_FUNC_NAME) 
 
 
+#define TEST_CASE_VEC_VARIANT_H(NAME, TAG, TYPES, PACKINGS, FUNNAME)			\
+template <class Type, bool Packed>												\
+struct FUNNAME {																\
+	template<int Dim>															\
+	using VectorT = Vector<Type, Dim, Packed>;									\
+	using QuatT = Quaternion<Type, Packed>;										\
+	void operator()() const;													\
+};																				\
+TEST_CASE(NAME, TAG) {															\
+	using Cases = VectorCases<													\
+		TYPES,																	\
+		PACKINGS>;																\
+																				\
+	RunVectorCases<Cases, FUNNAME>();													\
+}																				\
+template <class Type, bool Packed>												\
+void FUNNAME<Type, Packed>::operator()() const													
+
+#define TEST_CASE_VEC_VARIANT(NAME, TAG, TYPES, PACKINGS) TEST_CASE_VEC_VARIANT_H(NAME, TAG, TYPES, PACKINGS, GEN_FUNC_NAME) 
+
+
+
 #define TEST_CASE_VARIANT_H_2(NAME, TAG, TYPES1, ORDERS1, LAYOUTS1, PACKINGS1, TYPES2, ORDERS2, LAYOUTS2, PACKINGS2, FUNNAME)	\
 template <class Type1, eMatrixOrder Order1, eMatrixLayout Layout1, bool Packed1,\
 		  class Type2, eMatrixOrder Order2, eMatrixLayout Layout2, bool Packed2>\
@@ -323,6 +387,19 @@ const std::string& SectionName2() {
 #define SECTIONNAME SectionName<Type, Order, Layout, Packed>().c_str()
 #define SECTIONNAME2 SectionName2<Type1, Order1, Layout1, Packed1, Type2, Order2, Layout2, Packed2>().c_str()
 
+
+template <class Type, bool Packed>
+const std::string& SectionNameVec() {
+	std::stringstream ss;
+
+	ss << typeid(Type).name() << ", ";
+	ss << (Packed ? "true" : "false");
+
+	thread_local std::string str; // Ugly hack but who cares?
+	str = ss.str();
+	return str;
+}
+#define SECTIONNAMEVEC SectionNameVec<Type, Packed>().c_str()
 
 
 // Prints the type of a matrix in human-readable form
