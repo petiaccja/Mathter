@@ -762,8 +762,8 @@ inline auto operator*(const Matrix<T, Rows1, Match, Order1, eMatrixLayout::ROW_M
 	for (int i = 0; i < Rows1; ++i) {
 		result.stripes[i] = rhs.stripes[0] * lhs(i, 0);
 	}
-	for (int j = 1; j < Match; ++j) {
-		for (int i = 0; i < Rows1; ++i) {
+	for (int i = 0; i < Rows1; ++i) {
+		for (int j = 1; j < Match; ++j) {
 			result.stripes[i] += rhs.stripes[j] * lhs(i, j);
 		}
 	}

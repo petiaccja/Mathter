@@ -13,6 +13,12 @@
 using namespace mathter;
 
 
+using Ray3 = Ray<float, 3>;
+using Vec3 = Vector<float, 3>;
+using Vec4 = Vector<float, 4>;
+using Triangle = Triangle3D<float>;
+
+
 TEST_CASE("Intersection - Line-plane 3D", "[Intersection]") {
 	Hyperplane<float, 3> plane({ 1,2,3 }, Vector<float, 3>{ 3,2,1 }.Normalized());
 	Line<float, 3> line({ -2, 3, 4 }, Vector<float, 3>{ -2, 3, 1 }.Normalized());
@@ -96,3 +102,64 @@ TEST_CASE("Intersection - LineSegment-LineSegment", "[Intersection]") {
 
 	REQUIRE_FALSE(interFail.Intersecting());
 }
+
+
+TEST_CASE("Ray - construction", "[Ray-triangle intersect]") {
+	Ray3 ray{ Vec3(1,2,3), Vec3(2,4,6).Normalized() };
+	REQUIRE(ray.Direction().Approx() == Vec3(2, 4, 6).Normalized());
+	REQUIRE(ray.Base().Approx() == Vec3(1, 2, 3));
+}
+
+
+TEST_CASE("Ray-tri - aligned hit", "[Ray-triangle intersect]") {
+	Ray3 ray{ Vec3(0.5f, 0.0f, 0.5f), Vec3(0,1,0) };
+	Triangle tri{ {0,1,0}, {0.5f, 1,1}, {1,1,0} };
+
+	auto intersection = Intersect(ray, tri);
+	REQUIRE(intersection.IsIntersecting() == true);
+	REQUIRE(intersection.Point().Approx() == Vec3(0.5f, 1.0f, 0.5f));
+}
+
+
+TEST_CASE("Ray-tri - aligned miss", "[Ray-triangle intersect]") {
+	Ray3 ray{ Vec3(1.5f, 0.0f, 0.5f), Vec3(0,1,0) };
+	Triangle tri{ { 0,1,0 },{ 0.5f, 1,1 },{ 1,1,0 } };
+
+	auto intersection = Intersect(ray, tri);
+	REQUIRE(intersection.IsIntersecting() == false);
+}
+
+
+TEST_CASE("Ray-tri - interpol position", "[Ray-triangle intersect]") {
+	Ray3 ray{ Vec3(0.35f, 0.0f, 0.55f), Vec3(0,1,0) };
+	Triangle tri{ { 0,1,0 },{ 0.5f, 1,1 },{ 1,1,0 } };
+
+	auto intersection = Intersect(ray, tri);
+	REQUIRE(intersection.IsIntersecting() == true);
+
+	Vec3 pxpos = intersection.Interpolate(tri.a, tri.b, tri.c);
+	REQUIRE(pxpos.Approx() == intersection.Point());
+}
+
+
+TEST_CASE("Ray-tri - interpol property", "[Ray-triangle intersect]") {
+	Ray3 ray{ Vec3(0.45f, 0.0f, 0.55f), Vec3(0,1,0) };
+	Triangle tri{ { 0,1,0 },{ 0.5f, 1,1 },{ 1,1,0 } };
+
+	auto intersection = Intersect(ray, tri);
+	REQUIRE(intersection.IsIntersecting() == true);
+
+	Vec4 colors[3] = {
+		{1, 0, 0, 1},
+		{0, 1, 0, 1},
+		{0, 0, 1, 1},
+	};
+
+	Vec4 pxcolor = intersection.Interpolate(colors[0], colors[1], colors[2]);
+	REQUIRE(pxcolor.y > pxcolor.z);
+	REQUIRE(pxcolor.x > pxcolor.z);
+	REQUIRE(pxcolor.y > pxcolor.x);
+	REQUIRE(Approx(pxcolor.w) == 1);
+}
+
+

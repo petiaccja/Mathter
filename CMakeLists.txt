@@ -32,7 +32,8 @@ set(sources
 	TestMatrix.cpp
 	TestQuaternion.cpp
 	TestVector.cpp
-	TestGenerators.hpp)
+	TestGenerators.hpp
+	TestGeometry.cpp)
 	
 set(headers
 	Measure.hpp)
