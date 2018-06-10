@@ -328,7 +328,7 @@ namespace impl {
 	// Specialization for floats.
 	template <class T>
 	bool AlmostEqual(T d1, T d2, std::true_type) {
-		if (d1 < 1e-38 && d2 < 1e-38) {
+		if (std::abs(d1) < 1e-38 && std::abs(d2) < 1e-38) {
 			return true;
 		}
 		if ((d1 == 0 && d2 < 1e-4) || (d2 == 0 && d1 < 1e-4)) {
