@@ -1154,12 +1154,12 @@ auto Normalized(const Vector<T, Dim, Packed>& arg) {
 }
 
 /// <summary> Return the elementwise minimum of the arguments. </summary>
-template <class T, int Dim, int Packed>
+template <class T, int Dim, bool Packed>
 auto Min(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
 	return Vector<T, Dim, Packed>::Min(lhs, rhs);
 }
 /// <summary> Return the elementwise maximum of the arguments. </summary>
-template <class T, int Dim, int Packed>
+template <class T, int Dim, bool Packed>
 auto Max(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
 	return Vector<T, Dim, Packed>::Max(lhs, rhs);
 }
