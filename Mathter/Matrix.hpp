@@ -567,11 +567,13 @@ public:
 	template <class U, eMatrixOrder Order2, eMatrixLayout Layout2>
 	inline Matrix& operator+=(const Matrix<U, Rows, Columns, Order2, Layout2, Packed>& rhs) {
 		*this = mathter::operator+<T, U, Rows, Columns, Order, Order2, Layout2, Packed, T>(*this, rhs);
+		return *this;
 	}
 
 	template <class U, eMatrixOrder Order2, eMatrixLayout Layout2>
 	inline Matrix& operator-=(const Matrix<U, Rows, Columns, Order2, Layout2, Packed>& rhs) {
 		*this = mathter::operator-<T, U, Rows, Columns, Order, Order2, Layout2, Packed, T>(*this, rhs);
+		return *this;
 	}
 
 	// Scalar multiplication

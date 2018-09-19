@@ -420,6 +420,24 @@ TEST_CASE_VARIANT("Matrix - SVD", "[Matrix]", TypesFloating, OrdersFollow, Layou
 }
 
 
+TEST_CASE("Matrix - SVD Identity", "[Matrix]") {
+	Matrix<float, 2, 2> m;
+	m.SetIdentity();
+
+	auto svd = m.DecompositionSVD();
+	REQUIRE(svd.U == Matrix<float, 2, 2>::Identity().Approx());
+	REQUIRE(svd.S == Matrix<float, 2, 2>::Identity().Approx());
+	REQUIRE(svd.V == Matrix<float, 2, 2>::Identity().Approx());
+
+	Matrix<float, 4, 4> m4;
+	m4.SetIdentity();
+	auto svd4 = m4.DecompositionSVD();
+	REQUIRE(svd4.U == Matrix<float, 4, 4>::Identity().Approx());
+	REQUIRE(svd4.S == Matrix<float, 4, 4>::Identity().Approx());
+	REQUIRE(svd4.V == Matrix<float, 4, 4>::Identity().Approx());
+}
+
+
 TEST_CASE_VARIANT("Matrix - Transpose", "[Matrix]", TypesAll, OrdersFollow, LayoutsAll, PackedAll) {
 	SECTION(SECTIONNAME) {
 		MatrixT<4, 2> m = {
