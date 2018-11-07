@@ -445,11 +445,6 @@ class BezierCurve {
 	static_assert(Order >= 1, "Bezier curve must have order n>=1.");
 public:
 	using VectorT = Vector<T, Dim, false>;
-	
-	BezierCurve() = default;
-
-	template <class... Args>
-	BezierCurve(Args... args) : p{args...} {}
 
 	VectorT operator()(T t) const {
 		return EvalInterpolRecurse(t);
@@ -464,12 +459,12 @@ public:
 
 
 template <class T, int Dim, int Order>
-auto BezierCurve<T, Dim, Order>::EvalInterpolRecurse(T t) -> VectorT {
-	std::array<VectorT, Order+1> reduction;
+auto BezierCurve<T, Dim, Order>::EvalInterpolRecurse(T t) const -> VectorT {
+	std::array<VectorT, Order+1> reduction = p;
 
 	T u = T(1) - t;
 
-	for (int i=0; i<=Dim; ++i) {
+	for (int i=Order; i>=1; --i) {
 		for (int j=1; j<=i; ++j) {
 			reduction[j-1] = u*reduction[j-1] + t*reduction[j];
 		}
