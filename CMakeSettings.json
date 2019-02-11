@@ -1,50 +1,52 @@
-{
-  // See https://go.microsoft.com//fwlink//?linkid=834763 for more information about this file.
-  // cmakeCommandArgs = "-T \"Intel C++ Compiler 18.0\""
+﻿{
   "configurations": [
     {
       "name": "x86-Debug",
-      "generator": "Visual Studio 15 2017",
+      "generator": "Ninja",
       "configurationType": "Debug",
       "inheritEnvironments": [ "msvc_x86" ],
       "buildRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build\\${name}",
       "installRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\install\\${name}",
       "cmakeCommandArgs": "",
-      "buildCommandArgs": "/verbosity:minimal",
-      "ctestCommandArgs": ""
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "variables": []
     },
     {
       "name": "x86-Release",
-      "generator": "Visual Studio 15 2017",
+      "generator": "Ninja",
       "configurationType": "RelWithDebInfo",
       "inheritEnvironments": [ "msvc_x86" ],
       "buildRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build\\${name}",
       "installRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\install\\${name}",
       "cmakeCommandArgs": "",
-      "buildCommandArgs": "/verbosity:minimal",
-      "ctestCommandArgs": ""
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "variables": []
     },
     {
       "name": "x64-Debug",
-      "generator": "Visual Studio 15 2017",
+      "generator": "Ninja",
       "configurationType": "Debug",
       "inheritEnvironments": [ "msvc_x64_x64" ],
       "buildRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build\\${name}",
       "installRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\install\\${name}",
       "cmakeCommandArgs": "",
-      "buildCommandArgs": "/verbosity:minimal",
-      "ctestCommandArgs": ""
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "variables": []
     },
     {
       "name": "x64-Release",
-      "generator": "Visual Studio 15 2017",
+      "generator": "Ninja",
       "configurationType": "RelWithDebInfo",
       "inheritEnvironments": [ "msvc_x64_x64" ],
       "buildRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build\\${name}",
       "installRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\install\\${name}",
       "cmakeCommandArgs": "",
-      "buildCommandArgs": "/verbosity:minimal",
-      "ctestCommandArgs": ""
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "variables": []
     }
   ]
 }

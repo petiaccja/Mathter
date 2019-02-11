@@ -43,8 +43,8 @@ set (mathter_headers ${mathter_headers} Mathter/Mathter.natvis)
 file(GLOB mathter_module_headers Mathter/MatrixModules/*.hpp)
 file(GLOB mathter_swizzle_headers Mathter/Swizzle/*.hpp)
 
-add_executable(Mathter ${sources} ${headers} ${mathter_headers} ${mathter_module_headers} ${mathter_swizzle_headers})
 include_directories(${CMAKE_SOURCE_DIR}/Lib)
+add_executable(Mathter ${sources} ${headers} ${mathter_headers} ${mathter_module_headers} ${mathter_swizzle_headers})
 
 # Source groups
 source_group("Test" FILES ${sources} ${headers})

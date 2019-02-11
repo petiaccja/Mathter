@@ -12,6 +12,7 @@
 
 
 using namespace mathter;
+using namespace quat_literals;
 
 // Expected results based on:
 // http://www.andre-gaschler.com/rotationconverter/
@@ -148,8 +149,6 @@ TEST_CASE_VEC_VARIANT("Quaternion - AddSub", "[Quaternion]", TypesFloating, Pack
 
 TEST_CASE_VEC_VARIANT("Quaternion - Product", "[Quaternion]", TypeCases<double>, PackingCases<false>) {
 	SECTION(SECTIONNAMEVEC) {
-		using namespace quat_literals;
-
 		QuatT q1 = { 1,2,3,4 };
 		QuatT q2 = { 4,5,6,3 };
 		QuatT q3 = q1 * q2;
