@@ -36,12 +36,9 @@ int main(int argc, char* argv[]) {
 	Measure();
 	cout << endl;
 
-	for (int i : impl::Range(10,0)) {
-		//cout << i << " ";
-	}
-	cout << endl;
-	cout << "Press any key to exit..." << endl;
-	_getch();
+	//cout << endl;
+	//cout << "Press any key to exit..." << endl;
+	//_getch();
 #endif
 	return ret;
 }
