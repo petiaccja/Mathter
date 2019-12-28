@@ -990,7 +990,7 @@ public:
 		if (length == 0) {
 			*this = degenerate;
 		}
-		return operator/=(length);
+		operator/=(length);
 	}
 
 	/// <summary> Returns the unit vector having the same direction, without modifying the object. Leans towards (1,0,0...) for nullvectors, costs more. </summary>
