@@ -6,6 +6,7 @@
 #pragma once
 
 #include "MatrixModule.hpp"
+#include <algorithm>
 
 
 namespace mathter {
