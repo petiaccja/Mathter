@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "../DefinitionsUtil.hpp"
+#include "../Common/Definitions.hpp"
 
 
 // Selective inclusion of matrix module

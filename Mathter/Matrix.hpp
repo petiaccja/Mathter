@@ -21,7 +21,8 @@
 #include <array>
 
 #include "Vector.hpp"
-#include "DefinitionsUtil.hpp"
+#include "Common/Definitions.hpp"
+#include "Common/Traits.hpp"
 
 
 #include "MatrixModules/DecomposeLU.hpp"
@@ -105,7 +106,7 @@ private:
 template <class MatrixT, int SRows, int SColumns>
 class SubmatrixHelper {
 	friend MatrixT;
-	using Props = impl::MatrixProperties<MatrixT>;
+	using Props = traits::MatrixTraits<MatrixT>;
 	template <class, int, int>
 	friend class SubmatrixHelper;
 	static constexpr int VecDim = std::max(SRows, SColumns);
@@ -179,12 +180,13 @@ public:
 
 		// If *this and rhs reference the same matrix, aliasing must be resolved.
 		if ((void*)&mat == (void*)&rhs.mat) {
-			Matrix<typename impl::MatrixProperties<MatrixU>::Type,
+			Matrix<typename traits::MatrixTraits<MatrixU>::Type,
 					SRows,
 					SColumns,
-					impl::MatrixProperties<MatrixU>::Order,
-					impl::MatrixProperties<MatrixU>::Layout,
-					impl::MatrixProperties<MatrixU>::Packed> tmpmat;
+				   traits::MatrixTraits<MatrixU>::Order,
+				   traits::MatrixTraits<MatrixU>::Layout,
+				   traits::MatrixTraits<MatrixU>::Packed>
+				tmpmat;
 			tmpmat = rhs;
 			operator=(tmpmat);
 		}
@@ -310,10 +312,6 @@ class MATHTER_EBCO Matrix
 	public MatrixView<T, Rows, Columns, Order, Layout, Packed>::Inherit
 {
 	static_assert(Columns >= 1 && Rows >= 1, "Dimensions must be positive integers.");
-	// Make a call to this function in EVERY constructor of the Matrix class.
-	// These checks must be put in a separate function instead of class scope because the full definition
-	// of the Matrix class is required to determine memory layout.
-	void CheckLayoutContraints() const noexcept;
 
 	static constexpr int VecDim = std::max(Rows, Columns);
 	static constexpr bool VectorAssignable = std::min(Rows, Columns) == 1;
@@ -353,14 +351,11 @@ public:
 	// Constructors
 	//--------------------------------------------
 
-	Matrix() {
-		CheckLayoutContraints();
-	}
+	Matrix() = default;
 	
 	// From same multiplication order
 	template <class T2, eMatrixLayout Layout2, bool Packed2>
 	Matrix(const Matrix<T2, Rows, Columns, Order, Layout2, Packed2>& rhs) {
-		CheckLayoutContraints();
 		for (int i = 0; i < RowCount(); ++i) {
 			for (int j = 0; j < ColumnCount(); ++j) {
 				(*this)(i, j) = rhs(i, j);
@@ -371,7 +366,6 @@ public:
 	// From opposite multiplication order
 	template <class T2, eMatrixLayout Layout2, bool Packed2>
 	Matrix(const Matrix<T2, Columns, Rows, Order == eMatrixOrder::FOLLOW_VECTOR ? eMatrixOrder::PRECEDE_VECTOR : eMatrixOrder::FOLLOW_VECTOR, Layout2, Packed2>& rhs) {
-		CheckLayoutContraints();
 		for (int i = 0; i < RowCount(); ++i) {
 			for (int j = 0; j < ColumnCount(); ++j) {
 				(*this)(i, j) = rhs(j, i); // Transpose argument
@@ -379,10 +373,8 @@ public:
 		}
 	}
 
-	template <class H, class... Args, typename std::enable_if<impl::All<impl::IsScalar, H, Args...>::value, int>::type = 0>
+	template <class H, class... Args, typename std::enable_if<traits::All<traits::IsScalar, H, Args...>::value, int>::type = 0>
 	Matrix(H h, Args... args) {
-		CheckLayoutContraints();
-
 		static_assert(1 + sizeof...(Args) == Columns*Rows, "All elements of matrix have to be initialized.");
 		Assign<0, 0>(h, args...);
 	}
@@ -483,30 +475,7 @@ public:
 	bool operator!=(const Matrix<T, Rows, Columns, Order2, Layout2, Packed2>& rhs) const {
 		return !(*this == rhs);
 	}
-
-	template <eMatrixOrder Order2, eMatrixLayout Layout2, bool Packed2>
-	bool AlmostEqual(const Matrix<T, Rows, Columns, Order2, Layout2, Packed2>& rhs, std::true_type) const {
-		bool equal = true;
-		for (int i = 0; i < RowCount(); ++i) {
-			for (int j = 0; j < ColumnCount(); ++j) {
-				equal = equal && impl::AlmostEqual((*this)(i, j), rhs(i, j));
-			}
-		}
-		return equal;
-	}
-	template <eMatrixOrder Order2, eMatrixLayout Layout2, bool Packed2>
-	bool AlmostEqual(const Matrix<T, Rows, Columns, Order2, Layout2, Packed2>& rhs, std::false_type) const {
-		return *this == rhs;
-	};
-	template <eMatrixOrder Order2, eMatrixLayout Layout2, bool Packed2>
-	bool AlmostEqual(const Matrix<T, Rows, Columns, Order2, Layout2, Packed2>& rhs) const {
-		return AlmostEqual(rhs, std::integral_constant<bool, std::is_floating_point<T>::value>());
-	};
-
-	auto Approx() const {
-		return mathter::ApproxHelper<Matrix>(*this);
-	}
-
+	
 	//--------------------------------------------
 	// Arithmetic
 	//--------------------------------------------
@@ -612,7 +581,7 @@ public:
 	}
 
 	template <class T2, eMatrixOrder Order2>
-	inline Matrix& MulElementwise(const Matrix<T2, Rows, Columns, Order2, impl::OppositeLayout<Layout>::value, Packed>& rhs) {
+	inline Matrix& MulElementwise(const Matrix<T2, Rows, Columns, Order2, traits::OppositeLayout<Layout>::value, Packed>& rhs) {
 		for (int i = 0; i < RowCount(); ++i) {
 			for (int j = 0; j < ColumnCount(); ++j) {
 				(*this)(i, j) *= rhs(i, j);
@@ -630,7 +599,7 @@ public:
 	}
 
 	template <class T2, eMatrixOrder Order2>
-	inline Matrix& DivElementwise(const Matrix<T2, Rows, Columns, Order2, impl::OppositeLayout<Layout>::value, Packed>& rhs) {
+	inline Matrix& DivElementwise(const Matrix<T2, Rows, Columns, Order2, traits::OppositeLayout<Layout>::value, Packed>& rhs) {
 		for (int i = 0; i < RowCount(); ++i) {
 			for (int j = 0; j < ColumnCount(); ++j) {
 				(*this)(i, j) /= rhs(i, j);
@@ -656,7 +625,7 @@ public:
 	static Matrix Zero() {
 		Matrix m;
 		for (auto& stripe : m.stripes) {
-			stripe.Spread(T(0));
+			Fill(stripe, T(0));
 		}
 		return m;
 	}
@@ -874,9 +843,8 @@ inline auto operator*(const Matrix<T, Rows1, Match, Order1, eMatrixLayout::COLUM
 template <class T1, class T2, int Rows1, int Match, int Columns2, eMatrixOrder Order1, eMatrixOrder Order2, eMatrixLayout Layout1, eMatrixLayout Layout2, bool PackedA>
 inline auto operator*(const Matrix<T1, Rows1, Match, Order1, Layout1, PackedA>& lhs,
 	const Matrix<T2, Match, Columns2, Order2, Layout2, PackedA>& rhs)
-	->Matrix<impl::MatMulElemT<T1, T2>, Rows1, Columns2, Order1, Layout1, PackedA>
-{
-	return mathter::operator*<T1, T2, Rows1, Match, Columns2, Order1, Order2, PackedA, impl::MatMulElemT<T1, T2>>(lhs, rhs);
+	-> Matrix<traits::MatMulElemT<T1, T2>, Rows1, Columns2, Order1, Layout1, PackedA> {
+	return mathter::operator*<T1, T2, Rows1, Match, Columns2, Order1, Order2, PackedA, traits::MatMulElemT<T1, T2>>(lhs, rhs);
 }
 
 
@@ -968,12 +936,12 @@ inline Matrix<U, Rows, Columns, Order1, Layout1, Packed> operator-(
 //------------------------------------------------------------------------------
 
 
-template <class U, class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed, class = typename std::enable_if<impl::IsScalar<U>::value>::type>
+template <class U, class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed, class = typename std::enable_if<traits::IsScalar<U>::value>::type>
 Matrix<T, Rows, Columns, Order, Layout, Packed> operator*(U s, const Matrix<T, Rows, Columns, Order, Layout, Packed>& mat) {
 	return mat * s;
 }
 
-template <class U, class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed, class = typename std::enable_if<impl::IsScalar<U>::value>::type>
+template <class U, class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed, class = typename std::enable_if<traits::IsScalar<U>::value>::type>
 Matrix<T, Rows, Columns, Order, Layout, Packed> operator/(U s, const Matrix<T, Rows, Columns, Order, Layout, Packed>& mat) {
 	return mat / s;
 }
@@ -1052,19 +1020,19 @@ inline Vector<Rt, Mcol, Packed> operator*(const Vector<Vt, Vd, Packed>& vec, con
 }
 
 template <class Vt, class Mt, int Vd, int Mcol, eMatrixOrder Morder, eMatrixLayout Mlayout, bool Packed>
-inline Vector<impl::MatMulElemT<Vt, Mt>, Mcol, Packed> operator*(const Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd, Mcol, Morder, Mlayout, Packed>& mat) {
-	using Rt = impl::MatMulElemT<Vt, Mt>;
+inline Vector<traits::MatMulElemT<Vt, Mt>, Mcol, Packed> operator*(const Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd, Mcol, Morder, Mlayout, Packed>& mat) {
+	using Rt = traits::MatMulElemT<Vt, Mt>;
 	return operator*<Vt, Mt, Vd, Mcol, Morder, Packed, Rt>(vec, mat);
 }
 
 
 // (v|1)*M
-template <class Vt, class Mt, int Vd, eMatrixLayout Mlayout, eMatrixOrder Morder, bool Packed, class Rt = impl::MatMulElemT<Vt, Mt>>
+template <class Vt, class Mt, int Vd, eMatrixLayout Mlayout, eMatrixOrder Morder, bool Packed, class Rt = traits::MatMulElemT<Vt, Mt>>
 Vector<Rt, Vd, Packed> operator*(const Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd + 1, Vd, Morder, Mlayout, Packed>& mat) {
 	return (vec | Vt(1))*mat;
 }
 
-template <class Vt, class Mt, int Vd, eMatrixLayout Mlayout, eMatrixOrder Morder, bool Packed, class Rt = impl::MatMulElemT<Vt, Mt>>
+template <class Vt, class Mt, int Vd, eMatrixLayout Mlayout, eMatrixOrder Morder, bool Packed, class Rt = traits::MatMulElemT<Vt, Mt>>
 Vector<Rt, Vd, Packed> operator*(const Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd + 1, Vd + 1, Morder, Mlayout, Packed>& mat) {
 	auto res = (vec | Vt(1))*mat;
 	res /= res(res.Dimension() - 1);
@@ -1104,20 +1072,20 @@ inline Vector<Rt, Mrow, Packed> operator*(const Matrix<Mt, Mrow, Vd, Morder, eMa
 }
 
 template <class Vt, class Mt, int Vd, int Mrow, eMatrixOrder Morder, eMatrixLayout Mlayout, bool Packed>
-Vector<impl::MatMulElemT<Vt, Mt>, Mrow, Packed> operator*(const Matrix<Mt, Mrow, Vd, Morder, Mlayout, Packed>& mat, const Vector<Vt, Vd, Packed>& vec) {
-	using Rt = impl::MatMulElemT<Vt, Mt>;
+Vector<traits::MatMulElemT<Vt, Mt>, Mrow, Packed> operator*(const Matrix<Mt, Mrow, Vd, Morder, Mlayout, Packed>& mat, const Vector<Vt, Vd, Packed>& vec) {
+	using Rt = traits::MatMulElemT<Vt, Mt>;
 	return operator*<Vt, Mt, Vd, Mrow, Morder, Packed, Rt>(mat, vec);
 }
 
 
 
 // M*(v|1)
-template <class Vt, class Mt, int Vd, eMatrixLayout Mlayout, eMatrixOrder Morder, bool Packed, class Rt = impl::MatMulElemT<Vt, Mt>>
+template <class Vt, class Mt, int Vd, eMatrixLayout Mlayout, eMatrixOrder Morder, bool Packed, class Rt = traits::MatMulElemT<Vt, Mt>>
 Vector<Rt, Vd, Packed> operator*(const Matrix<Mt, Vd, Vd + 1, Morder, Mlayout, Packed>& mat, const Vector<Vt, Vd, Packed>& vec) {
 	return mat*(vec | Vt(1));
 }
 
-template <class Vt, class Mt, int Vd, eMatrixLayout Mlayout, eMatrixOrder Morder, bool Packed, class Rt = impl::MatMulElemT<Vt, Mt>>
+template <class Vt, class Mt, int Vd, eMatrixLayout Mlayout, eMatrixOrder Morder, bool Packed, class Rt = traits::MatMulElemT<Vt, Mt>>
 Vector<Rt, Vd, Packed> operator*(const Matrix<Mt, Vd + 1, Vd + 1, Morder, Mlayout, Packed>& mat, const Vector<Vt, Vd, Packed>& vec) {
 	auto res = (vec | Vt(1))*mat;
 	res /= res(res.Dimension() - 1);
@@ -1149,134 +1117,6 @@ Matrix<T1, Rows, Columns, O1, L1, Packed> DivElementwise(
 {
 	Matrix<T1, Rows, Columns, O1, L1, Packed> ret = lhs;
 	return ret.DivElementwise(rhs);
-}
-
-
-//------------------------------------------------------------------------------
-// Layout compile time check
-//------------------------------------------------------------------------------
-
-template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-void Matrix<T, Rows, Columns, Order, Layout, Packed>::CheckLayoutContraints() const noexcept {
-	// This list is not up to date!
-	using Module1 = typename MatrixSquare<T, Rows, Columns, Order, Layout, Packed>::Inherit;
-	using Module2 = typename MatrixRotation2D<T, Rows, Columns, Order, Layout, Packed>::Inherit;
-	using Module3 = typename MatrixRotation3D<T, Rows, Columns, Order, Layout, Packed>::Inherit;
-	using Module4 = typename MatrixTranslation<T, Rows, Columns, Order, Layout, Packed>::Inherit;
-	using Module5 = typename MatrixScale<T, Rows, Columns, Order, Layout, Packed>::Inherit;
-	using Module9 = typename MatrixShear<T, Rows, Columns, Order, Layout, Packed>::Inherit;
-	using Module6 = typename MatrixPerspective<T, Rows, Columns, Order, Layout, Packed>::Inherit;
-	using Module7 = typename MatrixOrthographic<T, Rows, Columns, Order, Layout, Packed>::Inherit;
-	using Module8 = typename MatrixView<T, Rows, Columns, Order, Layout, Packed>::Inherit;
-	static_assert(sizeof(Matrix) == sizeof(MatrixData<T, Rows, Columns, Order, Layout, Packed>), "Your compiler did not optimize matrix class' size. Do you have empty base optimization enabled?");
-
-	static_assert(impl::BasePtrEquals<Module1, Matrix>::value, "Your compiler did not lay out derived class' memory correctly. Empty base class' offset must be zero in derived.");
-	static_assert(impl::BasePtrEquals<Module2, Matrix>::value, "Your compiler did not lay out derived class' memory correctly. Empty base class' offset must be zero in derived.");
-	static_assert(impl::BasePtrEquals<Module3, Matrix>::value, "Your compiler did not lay out derived class' memory correctly. Empty base class' offset must be zero in derived.");
-	static_assert(impl::BasePtrEquals<Module4, Matrix>::value, "Your compiler did not lay out derived class' memory correctly. Empty base class' offset must be zero in derived.");
-	static_assert(impl::BasePtrEquals<Module5, Matrix>::value, "Your compiler did not lay out derived class' memory correctly. Empty base class' offset must be zero in derived.");
-	static_assert(impl::BasePtrEquals<Module6, Matrix>::value, "Your compiler did not lay out derived class' memory correctly. Empty base class' offset must be zero in derived.");
-	static_assert(impl::BasePtrEquals<Module7, Matrix>::value, "Your compiler did not lay out derived class' memory correctly. Empty base class' offset must be zero in derived.");
-	static_assert(impl::BasePtrEquals<Module8, Matrix>::value, "Your compiler did not lay out derived class' memory correctly. Empty base class' offset must be zero in derived.");
-	static_assert(impl::BasePtrEquals<Module9, Matrix>::value, "Your compiler did not lay out derived class' memory correctly. Empty base class' offset must be zero in derived.");
-}
-
-
-//------------------------------------------------------------------------------
-// IO
-//------------------------------------------------------------------------------
-
-
-template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-std::ostream& operator<<(std::ostream& os, const Matrix<T, Rows, Columns, Order, Layout, Packed>& mat) {
-	os << "[";
-	for (int i = 0; i < mat.Height(); ++i) {
-		for (int j = 0; j < mat.Width(); ++j) {
-			os << mat(i, j) << (j == mat.Width() - 1 ? "" : ", ");
-		}
-		if (i < Rows - 1) {
-			os << "; ";
-		}
-	}
-	os << "]";
-	return os;
-}
-
-
-template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-Matrix<T, Rows, Columns, Order, Layout, Packed> strtomat(const char* str, const char** end) {
-	using MatrixT = Matrix<T, Rows, Columns, Order, Layout, Packed>;
-	using VectorT = Vector<T, Columns, Packed>;
-	MatrixT ret;
-
-	const char* strproc = str;
-
-	// parse initial bracket if any
-	strproc = impl::StripSpaces(strproc);
-	if (*strproc == '\0') {
-		*end = str;
-		return ret;
-	}
-
-	char startBracket = *strproc;
-	char endBracket;
-	bool hasBrackets = false;
-	switch (startBracket) {
-		case '(': endBracket = ')'; hasBrackets = true; ++strproc; break;
-		case '[': endBracket = ']'; hasBrackets = true; ++strproc; break;
-		case '{': endBracket = '}'; hasBrackets = true; ++strproc; break;
-	}
-
-	// parse rows
-	for (int i = 0; i < Rows; ++i) {
-		const char* rowend;
-		VectorT row = strtovec<VectorT>(strproc, &rowend);
-		if (rowend == strproc) {
-			*end = str;
-			return ret;
-		}
-		else {
-			ret.Row(i) = row;
-			strproc = rowend;
-		}
-		strproc = impl::StripSpaces(strproc);
-		if (i < Rows - 1) {
-			if (*strproc == ';') {
-				++strproc;
-			}
-			else {
-				*end = str;
-				return ret;
-			}
-		}
-	}
-
-	// parse ending bracket corresponding to initial bracket
-	if (hasBrackets) {
-		strproc = impl::StripSpaces(strproc);
-		if (*strproc != endBracket) {
-			*end = str;
-			return ret;
-		}
-		++strproc;
-	}
-
-	*end = strproc;
-	return ret;
-}
-
-template <class MatrixT>
-MatrixT strtomat(const char* str, const char** end) {
-	static_assert(impl::IsMatrix<MatrixT>::value, "This type if not a matrix, dumbass.");
-	
-	return strtomat<
-		typename impl::MatrixProperties<MatrixT>::Type,
-		impl::MatrixProperties<MatrixT>::Rows,
-		impl::MatrixProperties<MatrixT>::Columns,
-		impl::MatrixProperties<MatrixT>::Order,
-		impl::MatrixProperties<MatrixT>::Layout,
-		impl::MatrixProperties<MatrixT>::Packed>
-		(str, end);
 }
 
 

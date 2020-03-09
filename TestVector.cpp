@@ -8,6 +8,7 @@
 #include <Catch2/catch.hpp>
 
 #include "Mathter/Vector.hpp"
+#include "Mathter/Approx.hpp"
 #include "TestGenerators.hpp"
 
 using namespace mathter;
@@ -38,7 +39,7 @@ TEST_CASE("Vector - CtorConcat", "[Vector]") {
 
 	Vector<float, 3> a(arg1, 3);
 	Vector<float, 3> b(1, 2, 3);
-	REQUIRE(a.Approx() == b);
+	REQUIRE(ApproxVec(a) == b);
 
 	Vector<double, 5> c(arg1, 3, arg3);
 	Vector<double, 5> d(1, 2, 3, 4, 5);
@@ -105,14 +106,14 @@ TEST_CASE_VEC_VARIANT("Vector - VectorDiv", "[Vector]", TypesFloating, PackedAll
 		VectorT<3> c(0.25f, 0.4f, 0.5f);
 
 		auto ab = a/b;
-		REQUIRE(ab == c.Approx());
+		REQUIRE(ab == ApproxVec(c));
 
 		VectorT<5> d(2, 6, 6, 12, 10);
 		VectorT<5> e(1, 2, 3, 4, 5);
 		VectorT<5> f(2, 3, 2, 3, 2);
 
 		auto de = d/e;
-		REQUIRE(de == f.Approx());
+		REQUIRE(de == ApproxVec(f));
 	}
 }
 
@@ -137,7 +138,7 @@ TEST_CASE_VEC_VARIANT("Vector - Cross", "[Vector]", TypesFloating, PackedAll) {
 	SECTION(SECTIONNAMEVEC) {
 		VectorT<3> a(1, 2, 3);
 		VectorT<3> b(4, 5, 6);
-		VectorT<3> r = VectorT<3>::Cross(a, b);
+		VectorT<3> r = Cross(a, b);
 		VectorT<3> rexp(-3, 6, -3);
 
 		REQUIRE(r == rexp);
@@ -150,17 +151,17 @@ TEST_CASE_VEC_VARIANT("Vector - CrossND", "[Vector]", TypesFloating, PackedAll) 
 		// Simple 3D cross product
 		VectorT<3> a(1, 2, 3);
 		VectorT<3> b(4, 5, 6);
-		VectorT<3> r = VectorT<3>::Cross(a, b);
+		VectorT<3> r = Cross(a, b);
 		VectorT<3> rexp(-3, 6, -3);
 
 		REQUIRE(r == rexp);
 
 		// 2D cross product, that is, rotate by 90 degree
 		VectorT<2> a2(1, 2);
-		VectorT<2> r2 = a2.Cross(a2);
+		VectorT<2> r2 = Cross(a2);
 		VectorT<2> r2exp(-2, 1);
 
-		REQUIRE(r2.Approx() == r2exp);
+		REQUIRE(ApproxVec(r2) == r2exp);
 
 		// 4D cross product
 		VectorT<4> a4(1, 2, 3, 4);

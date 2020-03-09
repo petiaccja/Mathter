@@ -66,7 +66,7 @@ public:
 		// flip columns
 		for (int i = 0; i < SpaceDim; ++i) {
 			if (flipAxes[i]) {
-				columns[i] *= -1;
+				columns[i] *= -T(1);
 			}
 		}
 

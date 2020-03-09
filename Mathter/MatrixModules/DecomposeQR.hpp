@@ -6,6 +6,7 @@
 #pragma once
 
 #include "MatrixModule.hpp"
+#include "../Common/MathUtil.hpp"
 
 
 namespace mathter {
@@ -71,7 +72,7 @@ void MatrixQR<T, Rows, Columns, Order, Layout, Packed>::DecomposeQR(
 		for (int i = 0; i<col; ++i) {
 			u(i) = T(0);
 		}
-		T alpha = impl::sign(R(col, col)) * u.LengthPrecise();
+		T alpha = sign(R(col, col)) * u.LengthPrecise();
 		u(col) -= alpha;
 		T norm = u.LengthPrecise();
 		if (norm == 0) {

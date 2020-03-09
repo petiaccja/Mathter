@@ -136,7 +136,7 @@ void Svd2x2Helper(const Matrix<T, 2, 2, Order, Layout, Packed>& A, T& c1, T& s1,
 	numer = numer == 0 ? std::numeric_limits<T>::infinity() : numer;
 	T zeta = numer/gamma;
 
-	T t = 2*impl::sign_nonzero(zeta)/(abs(zeta) + sqrt(zeta*zeta+4));
+	T t = 2*sign_nonzero(zeta)/(abs(zeta) + sqrt(zeta*zeta+4));
 
 	// Calculate sines and cosines
 	c1 = T(1) / sqrt(T(1) + t*t);
@@ -160,7 +160,7 @@ void Svd2x2Helper(const Matrix<T, 2, 2, Order, Layout, Packed>& A, T& c1, T& s1,
 	T usmax1 = d2 > d1 ? usd : usa;
 	T usmax2 = d2 > d1 ? usb : -usc;
 
-	T signd1 = impl::sign_nonzero(x*z);
+	T signd1 = sign_nonzero(x*z);
 	dmax *= d2 > d1 ? signd1 : 1;
 	d2 *= signd1;
 	T rcpdmax = 1/dmax;

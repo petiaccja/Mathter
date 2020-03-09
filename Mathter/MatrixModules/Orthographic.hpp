@@ -34,7 +34,7 @@ public:
 		VectorT volumeSize = maxBounds - minBounds;
 		VectorT scale = T(2) / volumeSize;
 		scale[scale.Dimension() - 1] *= T(0.5)*(projFarPlane - projNearPlane);
-		VectorT offset = -(maxBounds + minBounds) / 2 * scale;
+		VectorT offset = -(maxBounds + minBounds) / T(2) * scale;
 		offset[offset.Dimension() - 1] += (projFarPlane + projNearPlane) / 2;
 
 		MatrixT ret;

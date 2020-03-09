@@ -8,6 +8,7 @@
 #include <Catch2/catch.hpp>
 
 #include "Mathter/Geometry.hpp"
+#include "Mathter/Approx.hpp"
 
 
 using namespace mathter;
@@ -29,7 +30,7 @@ TEST_CASE("Intersection - Line-plane 3D", "[Intersection]") {
 	Vector<float, 3> expected(-14, 21, 10);
 	float angle = 90 - acos(Vector<float, 3>::Dot(plane.Normal(), line.Direction()))*180.f / 3.1415926f;
 	float distance = (point - line.Base()).Length();
-	REQUIRE(point.Approx() == expected);
+	REQUIRE(ApproxVec(point) == expected);
 }
 
 
@@ -44,7 +45,7 @@ TEST_CASE("Intersection - LineSegment-plane 3D", "[Intersection]") {
 	REQUIRE(interSucceed.Intersecting());
 	float paramexp = 0.666666f;
 	REQUIRE(interSucceed.InterpolParameter() == Approx(paramexp));
-	REQUIRE(interSucceed.Point().Approx() == Vector<float, 3>(-14, 21, 10));
+	REQUIRE(ApproxVec(interSucceed.Point()) == Vector<float, 3>(-14, 21, 10));
 
 	REQUIRE_FALSE(interFail.Intersecting());
 }
@@ -59,7 +60,7 @@ TEST_CASE("Intersection - Line-hyperplane", "[Intersection]") {
 	Hyperplane<float, 2> plane1(line1);
 	Hyperplane<float, 2> plane2(line2);
 
-	REQUIRE(plane1.Normal().Approx() == plane2.Normal());
+	REQUIRE(ApproxVec(plane1.Normal()) == plane2.Normal());
 	REQUIRE(Approx(plane1.Scalar()) == plane2.Scalar());
 }
 
@@ -72,7 +73,7 @@ TEST_CASE("Intersection - Line-line 2D", "[Intersection]") {
 	auto point = inter.Point();
 
 	REQUIRE(inter.Intersecting());
-	REQUIRE(point.Approx() == Vector<float, 2>{ 1.0f-100, 1.5f });
+	REQUIRE(ApproxVec(point) == Vector<float, 2>{ 1.0f-100, 1.5f });
 }
 
 
@@ -83,7 +84,7 @@ TEST_CASE("Intersection - LineSegment-line", "[Intersection]") {
 	auto inter = Intersect(line1, line2);
 
 	REQUIRE(inter.Intersecting());
-	REQUIRE(inter.Point().Approx() == Vector<float, 2>{ 1.0f-100, 1.5f });
+	REQUIRE(ApproxVec(inter.Point()) == Vector<float, 2>{ 1.0f-100, 1.5f });
 }
 
 
@@ -98,7 +99,7 @@ TEST_CASE("Intersection - LineSegment-LineSegment", "[Intersection]") {
 	REQUIRE(interSuc.Intersecting());
 	REQUIRE(interSuc.InterpolParameter1() == Approx(0.5f));
 	REQUIRE(interSuc.InterpolParameter2() == Approx(0.5f));
-	REQUIRE(interSuc.Point().Approx() == Vector<float, 2>{ 1.0f, 1.5f });
+	REQUIRE(ApproxVec(interSuc.Point()) == Vector<float, 2>{ 1.0f, 1.5f });
 
 	REQUIRE_FALSE(interFail.Intersecting());
 }
@@ -106,8 +107,8 @@ TEST_CASE("Intersection - LineSegment-LineSegment", "[Intersection]") {
 
 TEST_CASE("Ray - construction", "[Ray-triangle intersect]") {
 	Ray3 ray{ Vec3(1,2,3), Vec3(2,4,6).Normalized() };
-	REQUIRE(ray.Direction().Approx() == Vec3(2, 4, 6).Normalized());
-	REQUIRE(ray.Base().Approx() == Vec3(1, 2, 3));
+	REQUIRE(ApproxVec(ray.Direction()) == Vec3(2, 4, 6).Normalized());
+	REQUIRE(ApproxVec(ray.Base()) == Vec3(1, 2, 3));
 }
 
 
@@ -117,7 +118,7 @@ TEST_CASE("Ray-tri - aligned hit", "[Ray-triangle intersect]") {
 
 	auto intersection = Intersect(ray, tri);
 	REQUIRE(intersection.IsIntersecting() == true);
-	REQUIRE(intersection.Point().Approx() == Vec3(0.5f, 1.0f, 0.5f));
+	REQUIRE(ApproxVec(intersection.Point()) == Vec3(0.5f, 1.0f, 0.5f));
 }
 
 
@@ -138,7 +139,7 @@ TEST_CASE("Ray-tri - interpol position", "[Ray-triangle intersect]") {
 	REQUIRE(intersection.IsIntersecting() == true);
 
 	Vec3 pxpos = intersection.Interpolate(tri.a, tri.b, tri.c);
-	REQUIRE(pxpos.Approx() == intersection.Point());
+	REQUIRE(ApproxVec(pxpos) == intersection.Point());
 }
 
 

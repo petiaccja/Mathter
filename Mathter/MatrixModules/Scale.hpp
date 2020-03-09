@@ -20,7 +20,7 @@ public:
 	/// <summary> Creates a scaling matrix. </summary>
 	/// <param name="scales"> A list of scalars corresponding to scaling on respective axes. </summary>
 	/// <remarks> The number of arguments must be less than or equal to the matrix dimension. </remarks>
-	template <class... Args, typename std::enable_if<(impl::All<impl::IsScalar, typename std::decay<Args>::type...>::value), int>::type = 0>
+	template <class... Args, typename std::enable_if<(traits::All<traits::IsScalar, typename std::decay<Args>::type...>::value), int>::type = 0>
 	static MatrixT Scale(Args&&... scales) {
 		static_assert(sizeof...(Args) <= std::min(Rows, Columns), "You must provide scales for dimensions less than or equal to matrix dimension");
 		MatrixT m;

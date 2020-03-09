@@ -8,6 +8,7 @@
 #include <Catch2/catch.hpp>
 
 #include "Mathter/Geometry.hpp"
+#include "Mathter/Approx.hpp"
 
 using namespace mathter;
 
@@ -21,5 +22,5 @@ TEST_CASE("Bezier curve", "[Geometry]") {
 
 	auto point = curve(0.5f);
 	Vector<float, 2> exp = {1, 1};
-	REQUIRE(point.Approx() == exp);
+	REQUIRE(ApproxVec(point) == exp);
 }

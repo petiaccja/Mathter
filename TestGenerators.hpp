@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Mathter/DefinitionsUtil.hpp"
+#include "Mathter/Common/Definitions.hpp"
 
 #include <type_traits>
 #include <typeinfo>
@@ -117,7 +117,7 @@ struct MatrixCases<TypeCases<Types...>, OrderCases<Orders...>, LayoutCases<Layou
 	>;
 
 	template <int Index>
-	using Properties = mathter::impl::MatrixProperties<MatrixT<Index>>;
+	using Properties = mathter::traits::MatrixTraits<MatrixT<Index>>;
 };
 
 
@@ -403,17 +403,17 @@ const std::string& SectionNameVec() {
 
 
 // Prints the type of a matrix in human-readable form
-template <class MatrixT, std::enable_if_t<mathter::impl::IsMatrix<MatrixT>::value, int> = 0>
+template <class MatrixT, std::enable_if_t<mathter::traits::IsMatrix<MatrixT>::value, int> = 0>
 std::string PrintType() {
 	std::stringstream ss;
 
 	ss << "Matrix<";
-	ss << typeid(typename mathter::impl::MatrixProperties<MatrixT>::Type).name() << ", ";
-	ss << mathter::impl::MatrixProperties<MatrixT>::Rows << ", ";
-	ss << mathter::impl::MatrixProperties<MatrixT>::Columns << ", ";
-	ss << (mathter::impl::MatrixProperties<MatrixT>::Order == mathter::eMatrixOrder::FOLLOW_VECTOR ? "FOLLOW_VECTOR" : "PRECEDE_VECTOR") << ", ";
-	ss << (mathter::impl::MatrixProperties<MatrixT>::Layout == mathter::eMatrixLayout::ROW_MAJOR ? "ROW_MAJOR" : "COLUMN_MAJOR") << ", ";
-	ss << (mathter::impl::MatrixProperties<MatrixT>::Packed ? "true" : "false");
+	ss << typeid(typename mathter::traits::MatrixTraits<MatrixT>::Type).name() << ", ";
+	ss << mathter::traits::MatrixTraits<MatrixT>::Rows << ", ";
+	ss << mathter::traits::MatrixTraits<MatrixT>::Columns << ", ";
+	ss << (mathter::traits::MatrixTraits<MatrixT>::Order == mathter::eMatrixOrder::FOLLOW_VECTOR ? "FOLLOW_VECTOR" : "PRECEDE_VECTOR") << ", ";
+	ss << (mathter::traits::MatrixTraits<MatrixT>::Layout == mathter::eMatrixLayout::ROW_MAJOR ? "ROW_MAJOR" : "COLUMN_MAJOR") << ", ";
+	ss << (mathter::traits::MatrixTraits<MatrixT>::Packed ? "true" : "false");
 	ss << ">";
 
 	return ss.str();

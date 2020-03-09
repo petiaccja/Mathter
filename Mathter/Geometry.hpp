@@ -111,11 +111,11 @@ class Hyperplane {
 public:
 	Hyperplane() : normal(0), scalar(0) { normal(0) = 1; }
 	Hyperplane(const VectorT& base, const VectorT& normal) : normal(normal) {
-		assert(impl::AlmostEqual(normal.Length(), T(1)));
+		assert(normal.IsNormalized());
 		scalar = VectorT::Dot(normal, base);
 	}
 	Hyperplane(const VectorT& normal, T scalar) : normal(normal), scalar(scalar) {
-		assert(impl::AlmostEqual(normal.Length(), T(1)));
+		assert(normal.IsNormalized());
 	}
 	Hyperplane(const Line<T, 2>& line) {
 		static_assert(Dim == 2, "Plane dimension must be two, which is a line.");

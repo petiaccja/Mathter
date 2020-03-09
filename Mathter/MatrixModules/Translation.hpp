@@ -25,7 +25,7 @@ protected:
 public:
 	/// <summary> Creates a translation matrix. </summary>
 	/// <param name="translations"> A list of scalars that specify movement along repsective axes. </param>
-	template <class... Args, typename std::enable_if<(impl::All<impl::IsScalar, typename std::decay<Args>::type...>::value), int>::type = 0>
+	template <class... Args, typename std::enable_if<(traits::All<traits::IsScalar, typename std::decay<Args>::type...>::value), int>::type = 0>
 	static MatrixT Translation(Args&&... translations) {
 		static_assert(sizeof...(Args) == TranslationDim, "Number of arguments must match the dimension of translation.");
 

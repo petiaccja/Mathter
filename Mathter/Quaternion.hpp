@@ -1,14 +1,18 @@
 //==============================================================================
-// This software is distributed under The Unlicense. 
+// This software is distributed under The Unlicense.
 // For more information, please refer to <http://unlicense.org/>
 //==============================================================================
 
 #pragma once
 
 
-#include "Vector.hpp"
-#include <limits>
+#include "Common/Traits.hpp"
+#include "Common/MathUtil.hpp"
 #include "Utility.hpp"
+#include "Vector.hpp"
+#include "Matrix.hpp"
+
+#include <limits>
 
 
 namespace mathter {
@@ -16,7 +20,7 @@ namespace mathter {
 
 /// <summary> Allows you to do quaternion math and represent rotation in a compact way. </summary>
 /// <typeparam name="T"> The scalar type of w, x, y and z. Use a builtin or custom floating or fixed point type. </typeparam>
-/// <typeparam name="Packed"> If true, tightly packs quaternion members and disables padding due to overalignment in arrays. 
+/// <typeparam name="Packed"> If true, tightly packs quaternion members and disables padding due to overalignment in arrays.
 ///		Disables SIMD optimization. </typeparam>
 /// <remarks>
 /// These are plain mathematical quaternions, so expect the operations to work as mathematically defined.
@@ -24,11 +28,16 @@ namespace mathter {
 /// </remarks>
 template <class T, bool Packed = false>
 class Quaternion {
-	static constexpr bool SimdAccelerated = impl::HasSimd<Vector<T, 4, Packed>>::value;
+	static constexpr bool SimdAccelerated = traits::HasSimd<Vector<T, 4, Packed>>::value;
+
 public:
 	union {
-		struct { T s, i, j, k; };
-		struct { T w, x, y, z; };
+		struct {
+			T s, i, j, k;
+		};
+		struct {
+			T w, x, y, z;
+		};
 		Vector<T, 4, Packed> vec;
 	};
 
@@ -79,8 +88,10 @@ public:
 	explicit Quaternion(const Matrix<U, 4, 4, Order, Layout, PackedA>& rhs) {
 		FromMatrix(rhs);
 	}
+
 protected:
 	explicit Quaternion(const Vector<T, 4, false>& vec) : vec(vec) {}
+
 public:
 	//-----------------------------------------------
 	// Assignment
@@ -210,7 +221,7 @@ public:
 		return Quaternion(*this) /= s;
 	}
 
-	/// <summary> Negates all elements of the quaternion. </summary> 
+	/// <summary> Negates all elements of the quaternion. </summary>
 	/// <remarks> Funnily, it's going to represent the same rotation. </summary>
 	Quaternion operator-() const {
 		return Quaternion(-vec);
@@ -227,13 +238,6 @@ public:
 	/// <summary> Check exact unequality of coefficients. </summary>
 	bool operator!=(const Quaternion& rhs) const {
 		return !(*this == rhs);
-	}
-	/// <summary> Check equality with some tolerance for floats. </summary>
-	bool AlmostEqual(const Quaternion& rhs) const {
-		return vec.AlmostEqual(rhs.vec);
-	}
-	auto Approx() const {
-		return mathter::ApproxHelper<Quaternion>(*this);
 	}
 
 	//-----------------------------------------------
@@ -254,7 +258,7 @@ public:
 		T mag = v.Length();
 		T es = exp(a);
 
-		Quaternion ret = {std::cos(mag), v*(std::sin(mag)/mag)};
+		Quaternion ret = { std::cos(mag), v * (std::sin(mag) / mag) };
 		ret *= es;
 
 		return ret;
@@ -263,13 +267,13 @@ public:
 	static Quaternion Log(const Quaternion& q) {
 		auto magq = q.Length();
 		auto vn = q.VectorPart().Normalized();
-		
-		Quaternion ret = { std::log(magq), vn*acos(q.s / magq) };
+
+		Quaternion ret = { std::log(magq), vn * acos(q.s / magq) };
 		return ret;
 	}
 
 	static Quaternion Pow(const Quaternion& q, T a) {
-		return Exp(a*Log(q));
+		return Exp(a * Log(q));
 	}
 
 	//-----------------------------------------------
@@ -326,7 +330,7 @@ public:
 	/// <summary> Returns the angle of the rotation represented by quaternion. </summary>
 	/// <remarks> Only valid for unit quaternions. </remarks>
 	const T Angle() const {
-		return impl::sign_nonzero(s) * 2 * std::acos(Clamp(abs(s)/Length(), T(-1), T(1)));
+		return sign_nonzero(s) * 2 * std::acos(Clamp(abs(s) / Length(), T(-1), T(1)));
 	}
 	/// <summary> Returns the axis of rotation represented by quaternion. </summary>
 	/// <remarks> Only valid for unit quaternions. Returns (1,0,0) for near 180 degree rotations. </remarks>
@@ -379,28 +383,28 @@ public:
 	template <bool PackedA>
 	Vector<T, 3, PackedA> operator*(const Vector<T, 3, PackedA>& vec) const {
 		// sandwich product
-		return Vector<T, 3, PackedA>((*this)*Quaternion(vec)*Inverse());
+		return Vector<T, 3, PackedA>((*this) * Quaternion(vec) * Inverse());
 	}
 
 	/// <summary> Rotates (and scales) vector by quaternion. </summary>
 	template <bool PackedA>
 	friend Vector<T, 3, PackedA> operator*(const Vector<T, 3, PackedA>& vec, const Quaternion& q) {
 		// sandwich product
-		return Vector<T, 3, PackedA>(q*Quaternion(vec)*q.Inverse());
+		return Vector<T, 3, PackedA>(q * Quaternion(vec) * q.Inverse());
 	}
 
 	/// <summary> Rotates (and scales) vector by quaternion. </summary>
 	template <bool PackedA>
 	friend Vector<T, 3, PackedA>& operator*=(Vector<T, 3, PackedA>& vec, const Quaternion& q) {
 		// sandwich product
-		return vec = Vector<T, 3, PackedA>(q*Quaternion(vec)*q.Inverse());
+		return vec = Vector<T, 3, PackedA>(q * Quaternion(vec) * q.Inverse());
 	}
 
 	/// <summary> Rotates (and scales) vector by quaternion. </summary>
 	template <bool PackedA>
 	Vector<T, 3, PackedA> operator()(const Vector<T, 3, PackedA>& vec) const {
 		// sandwich product
-		return (Vector<T, 3, PackedA>)((*this)*Quaternion(vec)*Inverse());
+		return (Vector<T, 3, PackedA>)((*this) * Quaternion(vec) * Inverse());
 	}
 
 protected:
@@ -414,9 +418,15 @@ protected:
 		auto elem = [&mat](int i, int j) -> U& {
 			return Order == eMatrixOrder::PRECEDE_VECTOR ? mat(i, j) : mat(j, i);
 		};
-		elem(0, 0) = 1 - 2 * (j*j + k*k);	elem(0, 1) = 2 * (i*j - k*s);		elem(0, 2) = 2 * (i*k + j*s);
-		elem(1, 0) = 2 * (i*j + k*s);		elem(1, 1) = 1 - 2 * (i*i + k*k);	elem(1, 2) = 2 * (j*k - i*s);
-		elem(2, 0) = 2 * (i*k - j*s);		elem(2, 1) = 2 * (j*k + i*s);		elem(2, 2) = 1 - 2 * (i*i + j*j);
+		elem(0, 0) = 1 - 2 * (j * j + k * k);
+		elem(0, 1) = 2 * (i * j - k * s);
+		elem(0, 2) = 2 * (i * k + j * s);
+		elem(1, 0) = 2 * (i * j + k * s);
+		elem(1, 1) = 1 - 2 * (i * i + k * k);
+		elem(1, 2) = 2 * (j * k - i * s);
+		elem(2, 0) = 2 * (i * k - j * s);
+		elem(2, 1) = 2 * (j * k + i * s);
+		elem(2, 2) = 1 - 2 * (i * i + j * j);
 
 		// Rest
 		for (int j = 0; j < mat.Width(); ++j) {
@@ -444,10 +454,10 @@ protected:
 	template <bool SimdAccelerated>
 	inline static typename std::enable_if<!SimdAccelerated, Quaternion>::type Product(const Quaternion& lhs, const Quaternion& rhs) {
 		Quaternion ret;
-		ret.w = lhs.s*rhs.s - lhs.x*rhs.x - lhs.y*rhs.y - lhs.z*rhs.z;
-		ret.x = lhs.s*rhs.x + lhs.x*rhs.s + lhs.y*rhs.z - lhs.z*rhs.y;
-		ret.y = lhs.s*rhs.y - lhs.x*rhs.z + lhs.y*rhs.s + lhs.z*rhs.x;
-		ret.z = lhs.s*rhs.z + lhs.x*rhs.y - lhs.y*rhs.x + lhs.z*rhs.s;
+		ret.w = lhs.s * rhs.s - lhs.x * rhs.x - lhs.y * rhs.y - lhs.z * rhs.z;
+		ret.x = lhs.s * rhs.x + lhs.x * rhs.s + lhs.y * rhs.z - lhs.z * rhs.y;
+		ret.y = lhs.s * rhs.y - lhs.x * rhs.z + lhs.y * rhs.s + lhs.z * rhs.x;
+		ret.z = lhs.s * rhs.z + lhs.x * rhs.y - lhs.y * rhs.x + lhs.z * rhs.s;
 		return ret;
 	}
 
@@ -467,21 +477,21 @@ protected:
 
 		// [ 3, 2, 1, 0 ]
 		// [ 0, 3, 2, 1 ]
-		SimdT t0 = SimdT::template shuffle<0,0,0,0>(dabc);
-		SimdT t1 = SimdT::template shuffle<3,0,1,2>(wxyz);
+		SimdT t0 = SimdT::template shuffle<0, 0, 0, 0>(dabc);
+		SimdT t1 = SimdT::template shuffle<3, 0, 1, 2>(wxyz);
 
-		SimdT t2 = SimdT::template shuffle<1,1,1,1>(dabc);
-		SimdT t3 = SimdT::template shuffle<2,1,0,3>(wxyz);
+		SimdT t2 = SimdT::template shuffle<1, 1, 1, 1>(dabc);
+		SimdT t3 = SimdT::template shuffle<2, 1, 0, 3>(wxyz);
 
-		SimdT t4 = SimdT::template shuffle<2,2,2,2>(dabc);
-		SimdT t5 = SimdT::template shuffle<3,1,0,2>(wxyz);
+		SimdT t4 = SimdT::template shuffle<2, 2, 2, 2>(dabc);
+		SimdT t5 = SimdT::template shuffle<3, 1, 0, 2>(wxyz);
 
 		SimdT m0 = SimdT::mul(t0, t1);
 		SimdT m1 = SimdT::mul(t2, t3);
 		SimdT m2 = SimdT::mul(t4, t5);
 
-		SimdT t6 = SimdT::template shuffle<3,3,3,3>(dabc);
-		SimdT t7 = SimdT::template shuffle<0,3,1,2>(wxyz);
+		SimdT t6 = SimdT::template shuffle<3, 3, 3, 3>(dabc);
+		SimdT t7 = SimdT::template shuffle<0, 3, 1, 2>(wxyz);
 
 		SimdT m3 = SimdT::mul(t6, t7);
 
@@ -499,7 +509,6 @@ protected:
 
 
 
-
 /// <summary> Multiplies all coefficients of the quaternion by <paramref name="s"/>. </summary>
 template <class T, bool Packed, class U, class = typename std::enable_if<!std::is_same<U, Quaternion<T, Packed>>::value>::type>
 Quaternion<T, Packed> operator*(U s, const Quaternion<T, Packed>& rhs) {
@@ -512,7 +521,7 @@ Quaternion<T, Packed> operator/(U s, const Quaternion<T, Packed>& rhs) {
 }
 
 /// <summary> Adds a real to the real part of the quaternion. </summary>
-template <class T, bool Packed, class U, class = typename std::enable_if<!impl::IsQuaternion<U>::value>::type>
+template <class T, bool Packed, class U, class = typename std::enable_if<!traits::IsQuaternion<U>::value>::type>
 Quaternion<T, Packed> operator+(const U& lhs, const Quaternion<T, Packed>& rhs) {
 	return Quaternion<T, Packed>(rhs.w + lhs, rhs.x, rhs.y, rhs.z);
 }
@@ -523,25 +532,25 @@ Quaternion<T, Packed> operator+(const U& lhs, const Quaternion<T, Packed>& rhs) 
 namespace quat_literals {
 
 
-inline Quaternion<long double> operator "" _i(unsigned long long int arg) {
-	return Quaternion<long double>(0, (long double)arg, 0, 0);
-}
-inline Quaternion<long double> operator "" _j(unsigned long long int arg) {
-	return Quaternion<long double>(0, 0, (long double)arg, 0);
-}
-inline Quaternion<long double> operator "" _k(unsigned long long int arg) {
-	return Quaternion<long double>(0, 0, 0, (long double)arg);
-}
+	inline Quaternion<long double> operator"" _i(unsigned long long int arg) {
+		return Quaternion<long double>(0, (long double)arg, 0, 0);
+	}
+	inline Quaternion<long double> operator"" _j(unsigned long long int arg) {
+		return Quaternion<long double>(0, 0, (long double)arg, 0);
+	}
+	inline Quaternion<long double> operator"" _k(unsigned long long int arg) {
+		return Quaternion<long double>(0, 0, 0, (long double)arg);
+	}
 
-inline Quaternion<long double> operator "" _i(long double arg) {
-	return Quaternion<long double>(0, arg, 0, 0);
-}
-inline Quaternion<long double> operator "" _j(long double arg) {
-	return Quaternion<long double>(0, 0, arg, 0);
-}
-inline Quaternion<long double> operator "" _k(long double arg) {
-	return Quaternion<long double>(0, 0, 0, arg);
-}
+	inline Quaternion<long double> operator"" _i(long double arg) {
+		return Quaternion<long double>(0, arg, 0, 0);
+	}
+	inline Quaternion<long double> operator"" _j(long double arg) {
+		return Quaternion<long double>(0, 0, arg, 0);
+	}
+	inline Quaternion<long double> operator"" _k(long double arg) {
+		return Quaternion<long double>(0, 0, 0, arg);
+	}
 
 } // namespace quat_literals
 
@@ -549,10 +558,10 @@ inline Quaternion<long double> operator "" _k(long double arg) {
 template <class T, bool Packed>
 std::ostream& operator<<(std::ostream& os, const Quaternion<T, Packed>& q) {
 	os << "["
-		<< q.Angle() * T(180.0) / T(3.1415926535897932384626)
-		<< " deg @ "
-		<< q.Axis()
-		<< "]";
+	   << q.Angle() * T(180.0) / T(3.1415926535897932384626)
+	   << " deg @ "
+	   << q.Axis()
+	   << "]";
 	return os;
 }
 

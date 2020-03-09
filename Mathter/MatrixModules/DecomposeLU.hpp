@@ -6,6 +6,7 @@
 #pragma once
 
 #include "MatrixModule.hpp"
+#include "../Common/Range.hpp"
 
 
 namespace mathter {
@@ -191,8 +192,6 @@ void MatrixLU<T, Dim, Dim, Order, Layout, Packed>::DecomposeLUP(MatrixT& L, Matr
 
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 void MatrixLU<T, Dim, Dim, Order, Layout, Packed>::DecomposeLUP(MatrixT& L, MatrixT& U, Vector<int, Dim, false>& P, int& parity) const {
-	using impl::Range;
-
 	U = self();
 
 	int n = self().RowCount();
@@ -286,8 +285,6 @@ Vector<float, Dim, Packed> DecompositionLU<T, Dim, Order, Layout, Packed>::Solve
 
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 Vector<float, Dim, Packed> DecompositionLUP<T, Dim, Order, Layout, Packed>::Solve(const Vector<T, Dim, Packed>& b) const {
-	using impl::Range;
-
 	// Permute b
 	Vector<T, Dim, Packed> bp;
 	for (int i : Range(0, P.Dimension())) {

@@ -8,6 +8,7 @@
 #include <Catch2/catch.hpp>
 
 #include "Mathter/Matrix.hpp"
+#include "Mathter/Approx.hpp"
 #include "TestGenerators.hpp"
 
 #include <random>
@@ -45,16 +46,14 @@ TEST_CASE_VARIANT("Matrix - Constructor & indexer", "[Matrix]", TypesAll, Orders
 }
 
 
-TEST_CASE_VARIANT_2("Matrix - Addition", "[Matrix]",
-	TypesFloating, OrdersFollow, LayoutsAll, PackedFalse,
-	TypesFloating, OrdersFollow, LayoutsAll, PackedFalse)
+TEST_CASE_VARIANT("Matrix - Addition", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedFalse)
 {
-	MatrixT1<3, 3> m1 = {
+	MatrixT<3, 3> m1 = {
 		1,2,3,
 		4,5,6,
 		7,8,9,
 	};
-	MatrixT2<3, 3> m2 = {
+	MatrixT<3, 3> m2 = {
 		7,6,5,
 		4,3,2,
 		1,0,-1,
@@ -70,16 +69,14 @@ TEST_CASE_VARIANT_2("Matrix - Addition", "[Matrix]",
 }
 
 
-TEST_CASE_VARIANT_2("Matrix - Subtraction", "[Matrix]",
-	TypesFloating, OrdersFollow, LayoutsAll, PackedFalse,
-	TypesFloating, OrdersFollow, LayoutsAll, PackedFalse)
+TEST_CASE_VARIANT("Matrix - Subtraction", "[Matrix]",	TypesFloating, OrdersFollow, LayoutsAll, PackedFalse)
 {
-	MatrixT1<3, 3> m1 = {
+	MatrixT<3, 3> m1 = {
 		1,2,3,
 		4,5,6,
 		7,8,9,
 	};
-	MatrixT2<3, 3> m2 = {
+	MatrixT<3, 3> m2 = {
 		2,3,4,
 		5,6,7,
 		8,9,10,
@@ -95,17 +92,15 @@ TEST_CASE_VARIANT_2("Matrix - Subtraction", "[Matrix]",
 }
 
 
-TEST_CASE_VARIANT_2("Matrix - Multiply square (unpacked)", "[Matrix]",
-	TypesFloating, OrdersFollow, LayoutsAll, PackedFalse,
-	TypesFloating, OrdersFollow, LayoutsAll, PackedFalse)
+TEST_CASE_VARIANT("Matrix - Multiply square (unpacked)", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedFalse)
 {
-	SECTION(SECTIONNAME2) {
-		MatrixT1<3, 3> m = {
+	SECTION(SECTIONNAME) {
+		MatrixT<3, 3> m = {
 			1,	2,	3,
 			4,	5,	6,
 			7,	8,	9
 		};
-		MatrixT2<3, 3> n = {
+		MatrixT<3, 3> n = {
 			5,	6,	8,
 			1,	3,	5,
 			7,	8,	4
@@ -118,14 +113,14 @@ TEST_CASE_VARIANT_2("Matrix - Multiply square (unpacked)", "[Matrix]",
 
 		REQUIRE(m*n == exp);
 
-		MatrixT1<5, 5> m5 = {
+		MatrixT<5, 5> m5 = {
 			1,	2,	3,	4,	5 ,
 			6,	7,	8,	9,	10,
 			11,	12,	13,	14,	15,
 			16,	17,	18,	19,	20,
 			21,	22,	23,	24,	25
 		};
-		MatrixT2<5, 5> n5 = {
+		MatrixT<5, 5> n5 = {
 			9,	8,	7,	6,	5,
 			4,	2,	7,	3,	5,
 			3,	6,	2,	7,	2,
@@ -144,17 +139,15 @@ TEST_CASE_VARIANT_2("Matrix - Multiply square (unpacked)", "[Matrix]",
 	}
 }
 
-TEST_CASE_VARIANT_2("Matrix - Multiply square (packed)", "[Matrix]",
-	TypesFloating, OrdersFollow, LayoutsAll, PackedTrue,
-	TypesFloating, OrdersFollow, LayoutsAll, PackedTrue)
+TEST_CASE_VARIANT("Matrix - Multiply square (packed)", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedTrue)
 {
-	SECTION(SECTIONNAME2) {
-		MatrixT1<3, 3> m = {
+	SECTION(SECTIONNAME) {
+		MatrixT<3, 3> m = {
 			1,	2,	3,
 			4,	5,	6,
 			7,	8,	9
 		};
-		MatrixT2<3, 3> n = {
+		MatrixT<3, 3> n = {
 			5,	6,	8,
 			1,	3,	5,
 			7,	8,	4
@@ -167,14 +160,14 @@ TEST_CASE_VARIANT_2("Matrix - Multiply square (packed)", "[Matrix]",
 
 		REQUIRE(m*n == exp);
 
-		MatrixT1<5, 5> m5 = {
+		MatrixT<5, 5> m5 = {
 			1,	2,	3,	4,	5 ,
 			6,	7,	8,	9,	10,
 			11,	12,	13,	14,	15,
 			16,	17,	18,	19,	20,
 			21,	22,	23,	24,	25
 		};
-		MatrixT2<5, 5> n5 = {
+		MatrixT<5, 5> n5 = {
 			9,	8,	7,	6,	5,
 			4,	2,	7,	3,	5,
 			3,	6,	2,	7,	2,
@@ -245,7 +238,7 @@ TEST_CASE_VARIANT("Matrix - LU decomposition", "[Matrix]", TypesFloating, Orders
 		}
 
 		auto Mprod = L * U;
-		REQUIRE(A.Approx() == Mprod);
+		REQUIRE(ApproxVec(A) == Mprod);
 	}
 }
 
@@ -262,7 +255,7 @@ TEST_CASE_VARIANT("Matrix - LU solve", "[Matrix]", TypesFloating, OrdersFollow, 
 		Vector<Type, 3, Packed> xexp = { 3, -2.5, 7 };
 
 		x = A.DecompositionLU().Solve(b);
-		REQUIRE(x.Approx() == xexp);
+		REQUIRE(ApproxVec(x) == xexp);
 	}
 }
 
@@ -292,7 +285,7 @@ TEST_CASE_VARIANT("Matrix - LUP decomposition", "[Matrix]", TypesFloating, Order
 		}
 
 		auto Mprod = Pm.Transposed()*L*U;
-		REQUIRE(A.Approx() == Mprod);
+		REQUIRE(ApproxVec(A) == Mprod);
 	}
 }
 
@@ -311,7 +304,7 @@ TEST_CASE_VARIANT("Matrix - LUP solve", "[Matrix]", TypesFloating, OrdersFollow,
 
 		x = A.DecompositionLUP().Solve(b);
 
-		REQUIRE(x.Approx() == xexp);
+		REQUIRE(ApproxVec(x) == xexp);
 	}
 }
 
@@ -340,7 +333,7 @@ TEST_CASE("Matrix - LUP decomposition singular", "[Matrix]") {
 	}
 
 	auto Mprod = Pm.Transposed()*L*U;
-	REQUIRE(A.Approx() == Mprod);
+	REQUIRE(ApproxVec(A) == Mprod);
 }
 
 
@@ -358,7 +351,7 @@ TEST_CASE_VARIANT("Matrix - QR decomposition", "[Matrix]", TypesFloating, Orders
 
 		A1.DecomposeQR(Q1, R1);
 		MatrixT<5, 4> A1assembled = Q1 * R1;
-		REQUIRE(A1assembled.Approx() == A1);
+		REQUIRE(ApproxVec(A1assembled) == A1);
 
 
 		// the same matrix as the LU
@@ -376,7 +369,7 @@ TEST_CASE_VARIANT("Matrix - QR decomposition", "[Matrix]", TypesFloating, Orders
 		A2.DecomposeQR(Q2, R2);
 
 		MatrixT<3, 3> A2assembled = Q2 * R2;
-		REQUIRE(A2assembled.Approx() == A2);
+		REQUIRE(ApproxVec(A2assembled) == A2);
 	}
 }
 
@@ -396,14 +389,14 @@ TEST_CASE_VARIANT("Matrix - SVD", "[Matrix]", TypesFloating, OrdersFollow, Layou
 
 		A1.DecomposeSVD(U1, S1, V1);
 		auto A1assembled = U1 * S1*V1;
-		REQUIRE(A1.Approx() == A1assembled);
+		REQUIRE(ApproxVec(A1) == A1assembled);
 
 		MatrixT<4, 4> U1T;
 		MatrixT<4, 4> S1T;
 		MatrixT<4, 5> V1T;
 		A1.Transposed().DecomposeSVD(U1T, S1T, V1T);
 		auto A1Tassembled = U1T * S1T*V1T;
-		REQUIRE(A1Tassembled.Approx() == A1.Transposed());
+		REQUIRE(ApproxVec(A1Tassembled) == A1.Transposed());
 
 		// the same matrix as the LU
 		MatrixT<3, 3> A2 = {
@@ -415,7 +408,7 @@ TEST_CASE_VARIANT("Matrix - SVD", "[Matrix]", TypesFloating, OrdersFollow, Layou
 		MatrixT<3, 3> U2, S2, V2;
 		A2.DecomposeSVD(U2, S2, V2);
 		auto A2assembled = U2 * S2*V2;
-		REQUIRE(A2assembled.Approx() == A2);
+		REQUIRE(ApproxVec(A2assembled) == A2);
 	}
 }
 
@@ -425,16 +418,16 @@ TEST_CASE("Matrix - SVD Identity", "[Matrix]") {
 	m.SetIdentity();
 
 	auto svd = m.DecompositionSVD();
-	REQUIRE(svd.U == Matrix<float, 2, 2>::Identity().Approx());
-	REQUIRE(svd.S == Matrix<float, 2, 2>::Identity().Approx());
-	REQUIRE(svd.V == Matrix<float, 2, 2>::Identity().Approx());
+	REQUIRE(svd.U == ApproxVec(Matrix<float, 2, 2>::Identity()));
+	REQUIRE(svd.S == ApproxVec(Matrix<float, 2, 2>::Identity()));
+	REQUIRE(svd.V == ApproxVec(Matrix<float, 2, 2>::Identity()));
 
 	Matrix<float, 4, 4> m4;
 	m4.SetIdentity();
 	auto svd4 = m4.DecompositionSVD();
-	REQUIRE(svd4.U == Matrix<float, 4, 4>::Identity().Approx());
-	REQUIRE(svd4.S == Matrix<float, 4, 4>::Identity().Approx());
-	REQUIRE(svd4.V == Matrix<float, 4, 4>::Identity().Approx());
+	REQUIRE(svd4.U == ApproxVec(Matrix<float, 4, 4>::Identity()));
+	REQUIRE(svd4.S == ApproxVec(Matrix<float, 4, 4>::Identity()));
+	REQUIRE(svd4.V == ApproxVec(Matrix<float, 4, 4>::Identity()));
 }
 
 
@@ -531,8 +524,8 @@ TEST_CASE_VARIANT("Matrix - Inverse", "[Matrix]", TypesFloating, OrdersFollow, L
 		MatrixT<5, 5> idenexp;
 		idenexp.SetIdentity();
 
-		REQUIRE(mexp.Approx() == mI);
-		REQUIRE(idenexp.Approx() == iden);
+		REQUIRE(ApproxVec(mexp) == mI);
+		REQUIRE(ApproxVec(idenexp) == iden);
 	}
 }
 
@@ -550,8 +543,8 @@ TEST_CASE("Matrix - Rotation2D", "[Matrix]") {
 		0,0,1,
 	};
 	
-	REQUIRE(m.Approx() == mexp);
-	REQUIRE(m3.Approx() == m3exp);
+	REQUIRE(ApproxVec(m) == mexp);
+	REQUIRE(ApproxVec(m3) == m3exp);
 }
 
 
@@ -562,7 +555,7 @@ TEST_CASE("Matrix - RotationPrincipal", "[Matrix]") {
 		0.000000, 0.540302, 0.841471,
 		0.000000, -0.841471, 0.540302
 	};
-	REQUIRE(m1.Approx() == mexp);
+	REQUIRE(ApproxVec(m1) == mexp);
 
 
 	auto m2 = Matrix<float, 4, 3>::RotationY(1.f);
@@ -572,7 +565,7 @@ TEST_CASE("Matrix - RotationPrincipal", "[Matrix]") {
 		0.841471, 0.000000, 0.540302,
 		0,			 0,			0
 	};
-	REQUIRE(m2.Approx() == m2exp);
+	REQUIRE(ApproxVec(m2) == m2exp);
 
 
 	auto m3 = Matrix<float, 3, 4, eMatrixOrder::PRECEDE_VECTOR>::RotationZ(1.f);
@@ -582,7 +575,7 @@ TEST_CASE("Matrix - RotationPrincipal", "[Matrix]") {
 		0.000000, 0.000000, 1.000000,
 		0,			0,			0
 	};
-	REQUIRE(m3.Approx() == m3exp.Transposed());
+	REQUIRE(ApproxVec(m3) == m3exp.Transposed());
 
 	auto m4 = Matrix<float, 4, 4>::RotationZ(1.f);
 	Matrix<float, 4, 4> m4exp = {
@@ -591,7 +584,7 @@ TEST_CASE("Matrix - RotationPrincipal", "[Matrix]") {
 		0.000000, 0.000000, 1.000000, 0,
 		0,0,0,1
 	};
-	REQUIRE(m4.Approx() == m4exp);
+	REQUIRE(ApproxVec(m4) == m4exp);
 }
 
 
@@ -600,7 +593,7 @@ TEST_CASE("Matrix - RotationAxisAngle", "[Matrix]") {
 	Matrix<float, 3, 3> mexp = {
 		0.573138, 0.740349, -0.351279, -0.609007, 0.671645, 0.421906, 0.548292, -0.027879, 0.835822
 	};
-	REQUIRE(m.Approx() == mexp);
+	REQUIRE(ApproxVec(m) == mexp);
 
 	auto m4 = Matrix<float, 4, 4>::RotationAxisAngle(Vector<float, 3>(1, 2, 3).Normalized(), 1.0f);
 	Matrix<float, 4, 4> m4exp = {
@@ -609,7 +602,7 @@ TEST_CASE("Matrix - RotationAxisAngle", "[Matrix]") {
 		0.548292, -0.027879, 0.835822, 0,
 		0,		0,			0,		1
 	};
-	REQUIRE(m4.Approx() == m4exp);
+	REQUIRE(ApproxVec(m4) == m4exp);
 }
 
 
@@ -672,8 +665,8 @@ TEST_CASE("Matrix - Perspective", "[Matrix]") {
 	ndcFrustum[0] /= ndcFrustum[0].w;
 	ndcFrustum[1] /= ndcFrustum[1].w;
 
-	REQUIRE(ndcFrustum[0].Approx() == Vector<float, 4>{ -1, -1, 0, 1 });
-	REQUIRE(ndcFrustum[1].Approx() == Vector<float, 4>{ 1, 1, 1, 1 });
+	REQUIRE(ApproxVec(ndcFrustum[0]) == Vector<float, 4>{ -1, -1, 0, 1 });
+	REQUIRE(ApproxVec(ndcFrustum[1]) == Vector<float, 4>{ 1, 1, 1, 1 });
 
 	// Z backward in NDC
 	m = Matrix<float, 4, 4>::Perspective(53.13010235f / 180.f*3.1415926f, 16.f / 9.f, 0.5f, 10, 1, -1);
@@ -682,8 +675,8 @@ TEST_CASE("Matrix - Perspective", "[Matrix]") {
 	ndcFrustum[0] /= ndcFrustum[0].w;
 	ndcFrustum[1] /= ndcFrustum[1].w;
 
-	REQUIRE(ndcFrustum[0].Approx() == Vector<float, 4>{ -1, -1, 1, 1 });
-	REQUIRE(ndcFrustum[1].Approx() == Vector<float, 4>{ 1, 1, -1, 1 });
+	REQUIRE(ApproxVec(ndcFrustum[0]) == Vector<float, 4>{ -1, -1, 1, 1 });
+	REQUIRE(ApproxVec(ndcFrustum[1]) == Vector<float, 4>{ 1, 1, -1, 1 });
 
 	// Z backward in world
 	m = Matrix<float, 4, 4>::Perspective(53.13010235f / 180.f*3.1415926f, 16.f / 9.f, -0.5f, -10, 0, 1);
@@ -694,8 +687,8 @@ TEST_CASE("Matrix - Perspective", "[Matrix]") {
 	ndcFrustum[0] /= ndcFrustum[0].w;
 	ndcFrustum[1] /= ndcFrustum[1].w;
 
-	REQUIRE(ndcFrustum[0].Approx() == Vector<float, 4>{ -1, -1, 0, 1 });
-	REQUIRE(ndcFrustum[1].Approx() == Vector<float, 4>{ 1, 1, 1, 1 });
+	REQUIRE(ApproxVec(ndcFrustum[0]) == Vector<float, 4>{ -1, -1, 0, 1 });
+	REQUIRE(ApproxVec(ndcFrustum[1]) == Vector<float, 4>{ 1, 1, 1, 1 });
 
 	// Z backward in world && NDC
 	m = Matrix<float, 4, 4>::Perspective(53.13010235f / 180.f*3.1415926f, 16.f / 9.f, -0.5f, -10, 1, -1);
@@ -704,8 +697,8 @@ TEST_CASE("Matrix - Perspective", "[Matrix]") {
 	ndcFrustum[0] /= ndcFrustum[0].w;
 	ndcFrustum[1] /= ndcFrustum[1].w;
 
-	REQUIRE(ndcFrustum[0].Approx() == Vector<float, 4>{ -1, -1, 1, 1 });
-	REQUIRE(ndcFrustum[1].Approx() == Vector<float, 4>{ 1, 1, -1, 1 });
+	REQUIRE(ApproxVec(ndcFrustum[0]) == Vector<float, 4>{ -1, -1, 1, 1 });
+	REQUIRE(ApproxVec(ndcFrustum[1]) == Vector<float, 4>{ 1, 1, -1, 1 });
 }
 
 TEST_CASE("Matrix - Orthographic", "[Matrix]") {
@@ -720,8 +713,8 @@ TEST_CASE("Matrix - Orthographic", "[Matrix]") {
 	ndcFrustum[0] = worldFrustum[0] * m;
 	ndcFrustum[1] = worldFrustum[1] * m;
 
-	REQUIRE(ndcFrustum[0].Approx() == Vector<float, 3>{ -1, -1, 0 });
-	REQUIRE(ndcFrustum[1].Approx() == Vector<float, 3>{ 1, 1, 1 });
+	REQUIRE(ApproxVec(ndcFrustum[0]) == Vector<float, 3>{ -1, -1, 0 });
+	REQUIRE(ApproxVec(ndcFrustum[1]) == Vector<float, 3>{ 1, 1, 1 });
 }
 
 
@@ -731,21 +724,21 @@ TEST_CASE("Matrix - View", "[Matrix]") {
 	Vector<float, 3> p = { 0, -1, 0 };
 	Vector<float, 3> pt = p*m;
 	Vector<float, 3> pexp = { sqrt(2),0,8.66025403 };
-	REQUIRE(pexp.Approx() == pt);	
+	REQUIRE(ApproxVec(pexp) == pt);	
 
 	m = Matrix<float, 4, 4>::LookAt({ 0,0,0 }, { 0,5,0 }, Vector<float, 3>{0, 0, 1}, true, false, false);
 	p = { 1, 4, 1 };
 	pt = p*m;
 	pexp = { 1, 1, 4 };
 
-	REQUIRE(pexp.Approx() == pt);
+	REQUIRE(ApproxVec(pexp) == pt);
 
 	m = Matrix<float, 4, 4>::LookAt({ 0,0,0 }, { 5,0,0 }, Vector<float, 3>{0, 0, 1}, true, false, false);
 	p = { 1, 4, 1 };
 	pt = p*m;
 	pexp = { -4, 1, 1 };
 
-	REQUIRE(pexp.Approx() == pt);
+	REQUIRE(ApproxVec(pexp) == pt);
 }
 
 

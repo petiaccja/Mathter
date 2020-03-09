@@ -8,6 +8,7 @@
 #include <Catch2/catch.hpp>
 
 #include "Mathter/Quaternion.hpp"
+#include "Mathter/Approx.hpp"
 #include "TestGenerators.hpp"
 
 
@@ -45,7 +46,7 @@ TEST_CASE_VEC_VARIANT("Quaternion - AxisAngle", "[Quaternion]", TypesFloating, P
 	SECTION(SECTIONNAMEVEC) {
 		QuatT q = QuatT::AxisAngle(VectorT<3>{ 1, 2, 3 }.Normalized(), 0.83f);
 		QuatT qexp = { 0.9151163f, 0.107757f, 0.2155141f, 0.3232711f };
-		REQUIRE(q.Approx() == qexp);
+		REQUIRE(ApproxVec(q) == qexp);
 	}
 }
 
@@ -57,13 +58,13 @@ TEST_CASE_VEC_VARIANT("Quaternion - QueryAxisAngle", "[Quaternion]", TypesFloati
 
 		QuatT q = QuatT::AxisAngle(axis, angle);
 
-		REQUIRE(axis.Approx() == q.Axis());
+		REQUIRE(ApproxVec(axis) == q.Axis());
 		REQUIRE(Approx(angle) == q.Angle());
 
 		q = { 1, 0, 0, 0 };
 		axis = { 1, 0, 0 };
 		auto qaxis = q.Axis();
-		REQUIRE(axis.Approx() == q.Axis());
+		REQUIRE(ApproxVec(axis) == q.Axis());
 		REQUIRE(Approx(0.0f) == q.Angle());
 	}
 }
@@ -100,12 +101,12 @@ TEST_CASE_VEC_VARIANT("Quaternion - ToMatrix", "[Quaternion]", TypesFloating, Pa
 		};
 		Matrix<Type, 4, 4, eMatrixOrder::FOLLOW_VECTOR> m442exp = m441exp;
 
-		REQUIRE(m331.Approx() == m331exp);
-		REQUIRE(m332.Approx() == m332exp);
-		REQUIRE(m34.Approx() == m34exp);
-		REQUIRE(m43.Approx() == m43exp);
-		REQUIRE(m441.Approx() == m441exp);
-		REQUIRE(m441.Approx() == m441exp);
+		REQUIRE(ApproxVec(m331) == m331exp);
+		REQUIRE(ApproxVec(m332) == m332exp);
+		REQUIRE(ApproxVec(m34) == m34exp);
+		REQUIRE(ApproxVec(m43) == m43exp);
+		REQUIRE(ApproxVec(m441) == m441exp);
+		REQUIRE(ApproxVec(m441) == m441exp);
 	}
 }
 
@@ -121,12 +122,12 @@ TEST_CASE_VEC_VARIANT("Quaternion - FromMatrix", "[Quaternion]", TypesFloating, 
 		Matrix<Type, 4, 4, eMatrixOrder::PRECEDE_VECTOR> m441 = (decltype(m441))q;
 		Matrix<Type, 4, 4, eMatrixOrder::FOLLOW_VECTOR> m442 = (decltype(m442))q;
 
-		REQUIRE(q.Approx() == QuatT(m331));
-		REQUIRE(q.Approx() == QuatT(m332));
-		REQUIRE(q.Approx() == QuatT(m43));
-		REQUIRE(q.Approx() == QuatT(m34));
-		REQUIRE(q.Approx() == QuatT(m441));
-		REQUIRE(q.Approx() == QuatT(m442));
+		REQUIRE(ApproxVec(q) == QuatT(m331));
+		REQUIRE(ApproxVec(q) == QuatT(m332));
+		REQUIRE(ApproxVec(q) == QuatT(m43));
+		REQUIRE(ApproxVec(q) == QuatT(m34));
+		REQUIRE(ApproxVec(q) == QuatT(m441));
+		REQUIRE(ApproxVec(q) == QuatT(m442));
 	}
 }
 
@@ -140,8 +141,8 @@ TEST_CASE_VEC_VARIANT("Quaternion - AddSub", "[Quaternion]", TypesFloating, Pack
 		QuatT q3exp = { 5,7,9,7 };
 		QuatT q4exp = { -3,-3,-3,1 };
 
-		REQUIRE(q3exp.Approx() == q3);
-		REQUIRE(q4exp.Approx() == q4);
+		REQUIRE(ApproxVec(q3exp) == q3);
+		REQUIRE(ApproxVec(q4exp) == q4);
 	}
 }
 
@@ -154,7 +155,7 @@ TEST_CASE_VEC_VARIANT("Quaternion - Product", "[Quaternion]", TypeCases<double>,
 		QuatT q3 = q1 * q2;
 		QuatT q3exp = -36 + -2_i + 32_j + 16_k; // dont use this notation, I wrote it just for fun
 
-		REQUIRE(q3exp.Approx() == q3);
+		REQUIRE(ApproxVec(q3exp) == q3);
 	}
 }
 
@@ -169,7 +170,7 @@ TEST_CASE_VEC_VARIANT("Quaternion - VectorRotation", "[Quaternion]", TypesFloati
 		auto v1 = v*q;
 		auto v2 = v*M;
 
-		REQUIRE(v1.Approx() == v2);
+		REQUIRE(ApproxVec(v1) == v2);
 	}
 }
 
@@ -193,7 +194,7 @@ TEST_CASE_VEC_VARIANT("Quaternion - Chaining", "[Quaternion]", TypesFloating, Pa
 		auto v1 = v*(q2*q1);
 		auto v2 = v*(M1*M2);
 
-		REQUIRE(v1.Approx() == v2);
+		REQUIRE(ApproxVec(v1) == v2);
 	}
 }
 
@@ -205,7 +206,7 @@ TEST_CASE_VEC_VARIANT("Quaternion - ExpLog", "[Quaternion]", TypesFloating, Pack
 
 		QuatT p = QuatT::Exp(QuatT::Log(q));
 
-		REQUIRE(q.Approx() == p);
+		REQUIRE(ApproxVec(q) == p);
 	}
 }
 
@@ -217,6 +218,6 @@ TEST_CASE_VEC_VARIANT("Quaternion - Pow", "[Quaternion]", TypesFloating, PackedA
 		QuatT p = QuatT::Pow(q, 3);
 		QuatT pexp = q*q*q;
 
-		REQUIRE(p.Approx() == pexp);
+		REQUIRE(ApproxVec(p) == pexp);
 	}
 }
