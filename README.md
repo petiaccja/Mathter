@@ -144,6 +144,17 @@ Installation
 Mathter is **header-only**, you only need to add the Mathter folder to your include path. You will **need a C++17 compliant compiler** to use the library. Builds on Clang5, GCC7 and MSVC 2017.
 
 
+Contribution
+---
+First of all, please just go ahead and use the code. It took a lot of time to write and the more people use it the more it was worth.
+
+**Report bugs**: This library powers my game engine, so it is very much usable. Despite that, the code is fresh, so it is not bug-free. If you find anything, **file an issue** on GitHub or **make a PR**.
+
+**Request features**: Something is still annoying in the syntax? Something still missing? **File an issue**.
+
+**Contribute code**: Why not add another matrix decomposition? You only need a new file in the Decompositions folder and use the existing ones as templates. Why not add support for more vectorization? You only have to add extra code to the SIMD folder, the organization is straight-forward. Is that very important transform missing? Look no further than the Transforms folder. If you are feeling codey, just **make a pull-request**.
+
+
 License
 ---
 This code is distrubuted under **The Unlicense**. (I may change it MIT or something, but it will always be just as permissive.)
