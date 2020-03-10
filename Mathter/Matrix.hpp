@@ -17,19 +17,20 @@
 
 #include "Common/Definitions.hpp"
 #include "Common/Traits.hpp"
+
 #include "MatrixModules/DecomposeLU.hpp"
 #include "MatrixModules/DecomposeQR.hpp"
 #include "MatrixModules/DecomposeSVD.hpp"
 #include "MatrixModules/Square.hpp"
 
-#include "Matrix/OrthographicBuilder.hpp"
-#include "Matrix/PerspectiveBuilder.hpp"
-#include "Matrix/Rotation2DBuilder.hpp"
-#include "Matrix/Rotation3DBuilder.hpp"
-#include "Matrix/ScaleBuilder.hpp"
-#include "Matrix/ShearBuilder.hpp"
-#include "Matrix/TranslationBuilder.hpp"
-#include "Matrix/ViewBuilder.hpp"
+#include "Transforms/OrthographicBuilder.hpp"
+#include "Transforms/PerspectiveBuilder.hpp"
+#include "Transforms/Rotation2DBuilder.hpp"
+#include "Transforms/Rotation3DBuilder.hpp"
+#include "Transforms/ScaleBuilder.hpp"
+#include "Transforms/ShearBuilder.hpp"
+#include "Transforms/TranslationBuilder.hpp"
+#include "Transforms/ViewBuilder.hpp"
 
 #include "Vector.hpp"
 
