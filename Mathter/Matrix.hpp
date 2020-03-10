@@ -18,9 +18,9 @@
 #include "Common/Definitions.hpp"
 #include "Common/Traits.hpp"
 
-#include "MatrixModules/DecomposeLU.hpp"
-#include "MatrixModules/DecomposeQR.hpp"
-#include "MatrixModules/DecomposeSVD.hpp"
+#include "Decompositions/DecomposeLU.hpp"
+#include "Decompositions/DecomposeQR.hpp"
+#include "Decompositions/DecomposeSVD.hpp"
 #include "MatrixModules/Square.hpp"
 
 #include "Transforms/OrthographicBuilder.hpp"
@@ -227,7 +227,6 @@ private:
 template <class T, int Rows, int Columns, eMatrixOrder Order = eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout Layout = eMatrixLayout::ROW_MAJOR, bool Packed = false>
 class MATHTER_EBCO Matrix
 	: public MatrixData<T, Rows, Columns, Order, Layout, Packed>,
-	  public MatrixLU<T, Rows, Columns, Order, Layout, Packed>::Inherit,
 	  public MatrixSquare<T, Rows, Columns, Order, Layout, Packed>::Inherit {
 	static_assert(Columns >= 1 && Rows >= 1, "Dimensions must be positive integers.");
 
@@ -236,11 +235,7 @@ class MATHTER_EBCO Matrix
 
 protected:
 	using MatrixData<T, Rows, Columns, Order, Layout, Packed>::GetElement;
-
-
-	template <class T2, int Dim, eMatrixOrder Order2, eMatrixLayout Layout2, bool Packed2>
-	friend class mathter::DecompositionLU;
-
+	
 	template <class T2, int Rows2, int Columns2, eMatrixOrder Order2, eMatrixLayout Layout2, bool Packed2>
 	friend class Matrix;
 

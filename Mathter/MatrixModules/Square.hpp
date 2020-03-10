@@ -58,10 +58,8 @@ T MatrixSquare<T, Dim, Dim, Order, Layout, Packed>::Trace() const {
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 T MatrixSquare<T, Dim, Dim, Order, Layout, Packed>::Determinant() const {
 	// only works if L's diagonal is 1s
-	MatrixT L, U;
-	Vector<int, Dim, false> P;
 	int parity;
-	self().DecomposeLUP(L, U, P, parity);
+	auto [L, U, P] = DecomposeLUP(self(), parity);
 	T prod = U(0, 0);
 	for (int i = 1; i < U.RowCount(); ++i) {
 		prod *= U(i, i);
@@ -85,7 +83,7 @@ template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packe
 auto MatrixSquare<T, Dim, Dim, Order, Layout, Packed>::Inverse() const -> MatrixT {
 	MatrixT ret;
 
-	auto LUP = self().DecompositionLUP();
+	auto LUP = DecomposeLUP(self());
 
 	Vector<T, Dim, Packed> b(0);
 	Vector<T, Dim, Packed> x;

@@ -228,8 +228,7 @@ TEST_CASE_VARIANT("Matrix - LU decomposition", "[Matrix]", TypesFloating, Orders
 			0.3, -0.2, 10
 		};
 
-		MatrixT<3, 3> L, U;
-		A.DecomposeLU(L, U);
+		auto [L, U] = DecomposeLU(A);
 
 		for (int i = 0; i < A.RowCount(); ++i) {
 			for (int j = 0; j < i - 1; ++j) {
@@ -255,7 +254,7 @@ TEST_CASE_VARIANT("Matrix - LU solve", "[Matrix]", TypesFloating, OrdersFollow, 
 		Vector<Type, 3, Packed> x;
 		Vector<Type, 3, Packed> xexp = { 3, -2.5, 7 };
 
-		x = A.DecompositionLU().Solve(b);
+		x = DecomposeLU(A).Solve(b);
 		REQUIRE(ApproxVec(x) == xexp);
 	}
 }
@@ -269,9 +268,7 @@ TEST_CASE_VARIANT("Matrix - LUP decomposition", "[Matrix]", TypesFloating, Order
 			0.1f, 7, -0.3f,
 		};
 
-		MatrixT<3, 3> L, U;
-		Vector<int, 3, false> P;
-		A.DecomposeLUP(L, U, P);
+		auto [L, U, P] = DecomposeLUP(A);
 
 		for (int i = 0; i < A.RowCount(); ++i) {
 			for (int j = 0; j < i - 1; ++j) {
@@ -303,7 +300,7 @@ TEST_CASE_VARIANT("Matrix - LUP solve", "[Matrix]", TypesFloating, OrdersFollow,
 		Vector<Type, 4, Packed> x;
 		Vector<Type, 4, Packed> xexp = { -94.f / 497, 895.f / 497, 1000.f / 497, -850.f / 497 };
 
-		x = A.DecompositionLUP().Solve(b);
+		x = DecomposeLUP(A).Solve(b);
 
 		REQUIRE(ApproxVec(x) == xexp);
 	}
@@ -317,9 +314,7 @@ TEST_CASE("Matrix - LUP decomposition singular", "[Matrix]") {
 		0, -1, 0,
 	};
 
-	Matrix<float, 3, 3> L, U;
-	Vector<int, 3, false> P;
-	A.DecomposeLUP(L, U, P);
+	auto [L, U, P] = DecomposeLUP(A);
 
 	for (int i = 0; i < A.RowCount(); ++i) {
 		for (int j = 0; j < i - 1; ++j) {
