@@ -7,7 +7,7 @@
 
 #include "../Common/Definitions.hpp"
 #include "../Common/Traits.hpp"
-#include "../Simd.hpp"
+#include "../SIMD/Simd.hpp"
 #include "../Common/MathUtil.hpp"
 
 #include <algorithm>
