@@ -1,0 +1,328 @@
+#pragma once
+
+
+#include "../Matrix.hpp"
+#include "../Vector.hpp"
+
+
+namespace mathter {
+
+
+template <class T>
+class Rotation3DAxisBuilder {
+public:
+	Rotation3DAxisBuilder(const T& angle, int axis) : angle(angle), axis(axis) {}
+	Rotation3DAxisBuilder& operator=(const Rotation3DAxisBuilder&) = delete;
+
+	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
+	operator Matrix<U, 4, 4, Order, Layout, MPacked>() const {
+		Matrix<U, 4, 4, Order, Layout, MPacked> m;
+		Set(m);
+		return m;
+	}
+
+	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
+	operator Matrix<U, 3, 3, Order, Layout, MPacked>() const {
+		Matrix<U, 3, 3, Order, Layout, MPacked> m;
+		Set(m);
+		return m;
+	}
+
+	template <class U, eMatrixLayout Layout, bool MPacked>
+	operator Matrix<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, MPacked>() const {
+		Matrix<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, MPacked> m;
+		Set(m);
+		return m;
+	}
+
+	template <class U, eMatrixLayout Layout, bool MPacked>
+	operator Matrix<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, MPacked>() const {
+		Matrix<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, MPacked> m;
+		Set(m);
+		return m;
+	}
+
+private:
+	template <class U, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
+	void Set(Matrix<U, Rows, Columns, Order, Layout, MPacked>& m) const {
+		T C = cos(angle);
+		T S = sin(angle);
+
+		auto elem = [&m](int i, int j) -> T& {
+			return Order == eMatrixOrder::FOLLOW_VECTOR ? m(i, j) : m(j, i);
+		};
+
+		assert(0 <= axis && axis < 3, "You may choose X=0, Y=1 or Z=2 axes.");
+
+		// Indices according to follow vector order
+		if (axis == 0) {
+			// Rotate around X
+			elem(0, 0) = 1;
+			elem(0, 1) = 0;
+			elem(0, 2) = 0;
+			elem(1, 0) = 0;
+			elem(1, 1) = C;
+			elem(1, 2) = S;
+			elem(2, 0) = 0;
+			elem(2, 1) = -S;
+			elem(2, 2) = C;
+		}
+		else if (axis == 1) {
+			// Rotate around Y
+			elem(0, 0) = C;
+			elem(0, 1) = 0;
+			elem(0, 2) = -S;
+			elem(1, 0) = 0;
+			elem(1, 1) = 1;
+			elem(1, 2) = 0;
+			elem(2, 0) = S;
+			elem(2, 1) = 0;
+			elem(2, 2) = C;
+		}
+		else {
+			// Rotate around Z
+			elem(0, 0) = C;
+			elem(0, 1) = S;
+			elem(0, 2) = 0;
+			elem(1, 0) = -S;
+			elem(1, 1) = C;
+			elem(1, 2) = 0;
+			elem(2, 0) = 0;
+			elem(2, 1) = 0;
+			elem(2, 2) = 1;
+		}
+
+		// Rest
+		for (int j = 0; j < m.ColumnCount(); ++j) {
+			for (int i = (j < 3 ? 3 : 0); i < m.RowCount(); ++i) {
+				m(i, j) = T(j == i);
+			}
+		}
+	}
+
+	float angle;
+	int axis;
+};
+
+/// <summary> Rotates around coordinate axis. </summary>
+/// <param name="axis"> 0 for X, 1 for Y, 2 for Z and so on... </param>
+/// <param name="angle"> Angle of rotation in radians. </param>
+/// <remarks> Positive angles rotate according to the right-hand rule in right-handed
+///		coordinate systems (left-handed likewise).
+template <class T>
+auto RotationAxis(T angle, int axis) {
+	return Rotation3DAxisBuilder(angle, axis);
+}
+
+/// <summary> Rotates around coordinate axis. </summary>
+/// <typeparam name="Axis"> 0 for X, 1 for Y, 2 for Z and so on... </typeparam>
+/// <param name="angle"> Angle of rotation in radians. </param>
+/// <remarks> Positive angles rotate according to the right-hand rule in right-handed
+///		coordinate systems (left-handed likewise).
+template <int Axis, class T>
+auto RotationAxis(T angle) {
+	return Rotation3DAxisBuilder(angle, Axis);
+}
+
+
+/// <summary> Rotates around the X axis according to the right (left) hand rule. </summary>
+/// <param name="angle"> Angle of rotation in radians. </param>
+template <class T>
+auto RotationX(T angle) {
+	return RotationAxis<0>(angle);
+}
+
+/// <summary> Rotates around the Y axis according to the right (left) hand rule. </summary>
+/// <param name="angle"> Angle of rotation in radians. </param>
+template <class T>
+auto RotationY(T angle) {
+	return RotationAxis<1>(angle);
+}
+
+/// <summary> Rotates around the Z axis according to the right (left) hand rule. </summary>
+/// <param name="angle"> Angle of rotation in radians. </param>
+template <class T>
+auto RotationZ(T angle) {
+	return RotationAxis<2>(angle);
+}
+
+
+
+template <class T>
+class Rotation3DTriAxisBuilder {
+public:
+	Rotation3DTriAxisBuilder(const std::array<T, 3>& angles, std::array<int, 3> axes) : angles(angles), axes(axes) {}
+	Rotation3DTriAxisBuilder& operator=(const Rotation3DTriAxisBuilder&) = delete;
+
+	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
+	operator Matrix<U, 4, 4, Order, Layout, MPacked>() const {
+		Matrix<U, 4, 4, Order, Layout, MPacked> m;
+		Set(m);
+		return m;
+	}
+
+	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
+	operator Matrix<U, 3, 3, Order, Layout, MPacked>() const {
+		Matrix<U, 3, 3, Order, Layout, MPacked> m;
+		Set(m);
+		return m;
+	}
+
+	template <class U, eMatrixLayout Layout, bool MPacked>
+	operator Matrix<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, MPacked>() const {
+		Matrix<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, MPacked> m;
+		Set(m);
+		return m;
+	}
+
+	template <class U, eMatrixLayout Layout, bool MPacked>
+	operator Matrix<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, MPacked>() const {
+		Matrix<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, MPacked> m;
+		Set(m);
+		return m;
+	}
+
+private:
+	template <class U, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
+	void Set(Matrix<U, Rows, Columns, Order, Layout, MPacked>& m) const {
+		using MatT = Matrix<U, 3,3, Order, Layout, MPacked>;
+		if constexpr (Order == eMatrixOrder::FOLLOW_VECTOR) {
+			m.Submatrix<3, 3>(0, 0) = MatT(RotationAxis(angles[0], axes[0])) * MatT(RotationAxis(angles[1], axes[1])) * MatT(RotationAxis(angles[2], axes[2]));
+		}
+		else {
+			m.Submatrix<3, 3>(0, 0) = MatT(RotationAxis(angles[2], axes[2])) * MatT(RotationAxis(angles[1], axes[1])) * MatT(RotationAxis(angles[0], axes[0]));
+		}
+		
+		// Rest
+		for (int j = 0; j < m.ColumnCount(); ++j) {
+			for (int i = (j < 3 ? 3 : 0); i < m.RowCount(); ++i) {
+				m(i, j) = T(j == i);
+			}
+		}
+	}
+
+	const std::array<T, 3>& angles;
+	const std::array<int, 3> axes;
+};
+
+
+
+/// <summary> Rotates around three axes in succession. </summary>
+/// <remarks> Axes: 0 for X, 1 for Y and 2 for Z.
+///		Angles in radians. </remarks>
+template <int FirstAxis, int SecondAxis, int ThirdAxis, class T>
+auto RotationAxis3(T angle1, T angle2, T angle3) {
+	return Rotation3DAxisBuilder(std::array<T, 3>{ angle1, angle2, angle3 }, std::array<int, 3>{ FirstAxis, SecondAxis, ThirdAxis });
+}
+
+/// <summary> Rotation matrix from Euler angles. Rotations are Z-X-Z. </summary>
+/// <param name="z1"> Angle of the first rotation around Z in radians. </param>
+/// <param name="x2"> Angle of the second rotation around X in radians. </param>
+/// <param name="z3"> Angle of the third rotation around Z in radians. </param>
+template <class T>
+auto RotationEuler(T z1, T x2, T z3) {
+	return RotationAxis3<2, 0, 2>(z1, x2, z3);
+}
+
+/// <summary> Rotation matrix from roll-pitch-yaw angles. Rotations are X-Y-Z. </summary>
+/// <param name="z1"> Angle of the first rotation around X in radians. </param>
+/// <param name="x2"> Angle of the second rotation around Y in radians. </param>
+/// <param name="z3"> Angle of the third rotation around Z in radians. </param>
+template <class T>
+auto RotationRPY(T x1, T y2, T z3) {
+	return RotationAxis3<0, 1, 2>(x1, y2, z3);
+}
+
+
+
+
+template <class T, bool Packed>
+class Rotation3DAxisAngleBuilder {
+public:
+	Rotation3DAxisAngleBuilder(const Vector<T, 3, Packed>& axis, T angle) : axis(axis), angle(angle) {}
+	Rotation3DAxisAngleBuilder& operator=(const Rotation3DAxisAngleBuilder&) = delete;
+
+	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
+	operator Matrix<U, 4, 4, Order, Layout, MPacked>() const {
+		Matrix<U, 4, 4, Order, Layout, MPacked> m;
+		Set(m);
+		return m;
+	}
+
+	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
+	operator Matrix<U, 3, 3, Order, Layout, MPacked>() const {
+		Matrix<U, 3, 3, Order, Layout, MPacked> m;
+		Set(m);
+		return m;
+	}
+
+	template <class U, eMatrixLayout Layout, bool MPacked>
+	operator Matrix<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, MPacked>() const {
+		Matrix<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, MPacked> m;
+		Set(m);
+		return m;
+	}
+
+	template <class U, eMatrixLayout Layout, bool MPacked>
+	operator Matrix<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, MPacked>() const {
+		Matrix<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, MPacked> m;
+		Set(m);
+		return m;
+	}
+
+private:
+	template <class U, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
+	void Set(Matrix<U, Rows, Columns, Order, Layout, MPacked>& m) const {
+		assert(axis.IsNormalized());
+
+		T C = cos(angle);
+		T S = sin(angle);
+
+		// 3x3 rotation sub-matrix
+		using RotMat = Matrix<T, 3, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, Packed>;
+		Matrix<T, 3, 1, eMatrixOrder::FOLLOW_VECTOR, Layout, Packed> u(axis(0), axis(1), axis(2));
+		RotMat cross = {
+			0, -u(2), u(1),
+			u(2), 0, -u(0),
+			-u(1), u(0), 0
+		};
+		RotMat rot = C * RotMat::Identity() + S * cross + (1 - C) * (u * u.Transposed());
+
+
+		// Elements
+		auto elem = [&m](int i, int j) -> T& {
+			return Order == eMatrixOrder::PRECEDE_VECTOR ? m(i, j) : m(j, i);
+		};
+		for (int j = 0; j < 3; ++j) {
+			for (int i = 0; i < 3; ++i) {
+				elem(i, j) = rot(i, j);
+			}
+		}
+
+		// Rest
+		for (int j = 0; j < m.Width(); ++j) {
+			for (int i = (j < 3 ? 3 : 0); i < m.Height(); ++i) {
+				m(i, j) = T(j == i);
+			}
+		}
+	}
+
+	const Vector<T, 3, Packed>& axis;
+	const T angle;
+};
+
+
+
+
+/// <summary> Rotates around an arbitrary axis. </summary>
+/// <param name="axis"> Axis of rotation, must be normalized. </param>
+/// <param name="angle"> Angle of rotation in radians. </param>
+/// <remarks> Right-hand (left-hand) rule is followed in right-handed (left-handed) systems. </remarks>
+template <class T, bool Vpacked>
+auto RotationAxisAngle(const Vector<T, 3, Vpacked>& axis, T angle) {
+	return Rotation3DAxisAngleBuilder(axis, angle);
+}
+
+
+
+} // namespace mathter

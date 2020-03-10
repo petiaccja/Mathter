@@ -14,6 +14,8 @@
 #include <random>
 #include <complex>
 
+#include "Mathter/Matrix/TranslationBuilder.hpp"
+
 using namespace mathter;
 
 
@@ -619,8 +621,8 @@ TEST_CASE("Matrix - Scale", "[Matrix]") {
 
 
 TEST_CASE("Matrix - Translation", "[Matrix]") {
-	auto m33 = Matrix<float, 3, 3>::Translation(1, 2);
-	auto m = Matrix<float, 6, 5>::Translation(Vector<float, 5>{ 1,2,3,4,5 });
+	Matrix<float, 3, 3> m33 = Translation(1, 2);
+	Matrix<float, 6, 5> m = Translation(Vector<float, 5>{ 1, 2, 3, 4, 5 });
 	Vector<float, 5> v(1,2,3,4,5);
 	v = v*m;
 	Vector<float, 5> vexp(2,4,6,8,10);

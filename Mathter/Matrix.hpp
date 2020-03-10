@@ -285,9 +285,10 @@ public:
 		}
 	}
 
-	template <class H, class... Args, typename std::enable_if<traits::All<traits::IsScalar, H, Args...>::value, int>::type = 0>
+	template <class H, class... Args,
+			  typename std::enable_if<traits::All<traits::IsScalar, H, Args...>::value, int>::type = 0,
+			  typename std::enable_if<1 + sizeof...(Args) == Rows * Columns, int>::type = 0>
 	Matrix(H h, Args... args) {
-		static_assert(1 + sizeof...(Args) == Columns * Rows, "All elements of matrix have to be initialized.");
 		Assign<0, 0>(h, args...);
 	}
 
