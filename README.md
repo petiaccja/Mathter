@@ -11,7 +11,7 @@ Introduction
 ---
 Mathter is a **linear algebra** library with focus on **game development**, however it may be useful for other applications where **small-matrix** linear algebra or **3D** coordinate calculations are needed.
 
-Yet another 3D math library...? I wrote Mathter because non of the libraries I tried used the conventions I wanted, and each of them had something about the syntax that bugged me. So will Mathter support you convetions? Yes, it supports everything through templates. Will Mathter's syntax bug you? Yes, it will, but it was designed to do it as little as possible. Read on for details.
+Yet another 3D math library...? I wrote Mathter because non of the libraries I tried used the conventions I wanted, and each of them had something about the syntax that bugged me. So will Mathter support your convetions? Yes, it supports everything through templates. Will Mathter's syntax bug you? Yes, it will, but it was designed to do it as little as possible. Read on for details.
 
 Features
 ---
