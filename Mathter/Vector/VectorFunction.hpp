@@ -87,7 +87,7 @@ Vector<T, Dim, Packed> SafeNormalize(const Vector<T, Dim, Packed>& v, const Vect
 	assert(IsNormalized(degenerate));
 	T length = LengthPrecise(v);
 	if (length == 0) {
-		v = degenerate;
+		return degenerate;
 	}
 	return v / length;
 }

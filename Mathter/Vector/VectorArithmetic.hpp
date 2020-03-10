@@ -255,4 +255,74 @@ inline Vector<T, Dim, Packed> operator+(const Vector<T, Dim, Packed>& arg) {
 	return arg;
 }
 
+//------------------------------------------------------------------------------
+// Swizzle ops
+//------------------------------------------------------------------------------
+
+template <class T, int Dim, bool Packed, int... Indices>
+std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>> operator*(const Vector<T, Dim, Packed>& v, const Swizzle<T, Indices...>& s) {
+	return v * decltype(v)(s);
+}
+
+template <class T, int Dim, bool Packed, int... Indices>
+std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>> operator/(const Vector<T, Dim, Packed>& v, const Swizzle<T, Indices...>& s) {
+	return v / decltype(v)(s);
+}
+
+template <class T, int Dim, bool Packed, int... Indices>
+std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>> operator+(const Vector<T, Dim, Packed>& v, const Swizzle<T, Indices...>& s) {
+	return v + decltype(v)(s);
+}
+
+template <class T, int Dim, bool Packed, int... Indices>
+std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>> operator-(const Vector<T, Dim, Packed>& v, const Swizzle<T, Indices...>& s) {
+	return v - decltype(v)(s);
+}
+
+
+
+template <class T, int Dim, bool Packed, int... Indices>
+std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>> operator*(const Swizzle<T, Indices...>& s, const Vector<T, Dim, Packed>& v) {
+	return decltype(v)(s) * v;
+}
+
+template <class T, int Dim, bool Packed, int... Indices>
+std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>> operator/(const Swizzle<T, Indices...>& s, const Vector<T, Dim, Packed>& v) {
+	return decltype(v)(s) / v;
+}
+
+template <class T, int Dim, bool Packed, int... Indices>
+std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>> operator+(const Swizzle<T, Indices...>& s, const Vector<T, Dim, Packed>& v) {
+	return decltype(v)(s) + v;
+}
+
+template <class T, int Dim, bool Packed, int... Indices>
+std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>> operator-(const Swizzle<T, Indices...>& s, const Vector<T, Dim, Packed>& v) {
+	return decltype(v)(s) - v;
+}
+
+
+
+template <class T, int Dim, bool Packed, int... Indices>
+std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>>& operator*=(const Vector<T, Dim, Packed>& v, const Swizzle<T, Indices...>& s) {
+	return v *= decltype(v)(s);
+}
+
+template <class T, int Dim, bool Packed, int... Indices>
+std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>>& operator/=(const Vector<T, Dim, Packed>& v, const Swizzle<T, Indices...>& s) {
+	return v /= decltype(v)(s);
+}
+
+template <class T, int Dim, bool Packed, int... Indices>
+std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>>& operator+=(const Vector<T, Dim, Packed>& v, const Swizzle<T, Indices...>& s) {
+	return v += decltype(v)(s);
+}
+
+template <class T, int Dim, bool Packed, int... Indices>
+std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>>& operator-=(const Vector<T, Dim, Packed>& v, const Swizzle<T, Indices...>& s) {
+	return v -= decltype(v)(s);
+}
+
+
+
 } // namespace mathter

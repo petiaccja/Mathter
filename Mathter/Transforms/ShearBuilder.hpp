@@ -25,7 +25,7 @@ private:
 	template <class U, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
 	void Set(Matrix<U, Rows, Columns, Order, Layout, MPacked>& m) const {
 		assert(principalAxis != modulatorAxis);
-		m.SetIdentity();
+		m = Identity();
 		if constexpr (Order == eMatrixOrder::FOLLOW_VECTOR) {
 			assert(modulatorAxis < Rows);
 			assert(principalAxis < Columns);
@@ -36,7 +36,6 @@ private:
 			assert(modulatorAxis < Columns);
 			m(principalAxis, modulatorAxis) = slope;
 		}
-		return m;
 	}
 
 	const T slope;
