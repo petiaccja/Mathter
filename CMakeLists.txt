@@ -39,7 +39,8 @@ set(sources
 	TestQuaternion.cpp
 	TestVector.cpp
 	TestGenerators.hpp
-	TestGeometry.cpp)
+	TestGeometry.cpp
+	Example.cpp)
 	
 set(headers
 	Measure.hpp)
