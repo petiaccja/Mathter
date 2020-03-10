@@ -10,3 +10,4 @@
 #include "Quaternion/QuaternionFunction.hpp"
 #include "Quaternion/QuaternionVectorArithmetic.hpp"
 #include "Quaternion/QuaternionCompare.hpp"
+#include "Quaternion/QuaternionLiterals.hpp"

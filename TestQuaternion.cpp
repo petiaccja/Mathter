@@ -204,7 +204,7 @@ TEST_CASE_VEC_VARIANT("Quaternion - ExpLog", "[Quaternion]", TypesFloating, Pack
 	SECTION(SECTIONNAMEVEC) {
 		QuatT q(1.0f, 2.0f, 0.5f, -0.7f);
 
-		QuatT p = QuatT::Exp(QuatT::Log(q));
+		QuatT p = Exp(Log(q));
 
 		REQUIRE(ApproxVec(q) == p);
 	}
@@ -215,7 +215,7 @@ TEST_CASE_VEC_VARIANT("Quaternion - Pow", "[Quaternion]", TypesFloating, PackedA
 	SECTION(SECTIONNAMEVEC) {
 		QuatT q(1.0f, 2.0f, 0.5f, -0.7f);
 
-		QuatT p = QuatT::Pow(q, 3);
+		QuatT p = Pow(q, Type(3));
 		QuatT pexp = q*q*q;
 
 		REQUIRE(ApproxVec(p) == pexp);
