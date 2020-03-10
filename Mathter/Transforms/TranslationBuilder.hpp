@@ -1,8 +1,9 @@
 #pragma once
 
 
-#include "../Matrix.hpp"
+#include "../Matrix/MatrixImpl.hpp"
 #include "../Vector.hpp"
+#include "IdentityBuilder.hpp"
 
 
 namespace mathter {
@@ -38,7 +39,7 @@ public:
 private:
 	template <class U, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
 	void Set(Matrix<U, Rows, Columns, Order, Layout, MPacked>& m) const {
-		m.SetIdentity();
+		m = Identity();
 		if constexpr (Order == eMatrixOrder::FOLLOW_VECTOR) {
 			for (int i = 0; i < translation.Dimension(); ++i) {
 				m(Rows - 1, i) = translation(i);

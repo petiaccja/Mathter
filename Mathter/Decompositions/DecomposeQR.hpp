@@ -6,6 +6,8 @@
 #pragma once
 
 #include "../Common/MathUtil.hpp"
+#include "../Transforms/ZeroBuilder.hpp"
+#include "../Transforms/IdentityBuilder.hpp"
 
 
 namespace mathter {
@@ -36,7 +38,7 @@ auto DecomposeQR(Matrix<T, Rows, Columns, Order, Layout, Packed> m) {
 	Matrix<T, Rows, Columns, Order, Layout, Packed> R;
 
 	R = m;
-	Q.SetIdentity();
+	Q = Identity();
 
 	Matrix<T, Rows, Rows, Order, Layout, Packed> Qi;
 	Vector<T, Rows, Packed> u;
@@ -55,14 +57,14 @@ auto DecomposeQR(Matrix<T, Rows, Columns, Order, Layout, Packed> m) {
 		}
 		u /= norm;
 		v = u;
-		Qi = (T(-2) * v) * v.Transposed();
+		Qi = (T(-2) * v) * Transpose(v);
 		for (int i = 0; i < Q.ColumnCount(); ++i) {
 			Qi(i, i) += T(1);
 		}
 		R = Qi * R;
 		Q = Qi * Q;
 	}
-	Q = Q.Transposed();
+	Q = Transpose(Q);
 
 	return DecompositionQR<T, Rows, Columns, Order, Layout, Packed>{ Q, R };
 }

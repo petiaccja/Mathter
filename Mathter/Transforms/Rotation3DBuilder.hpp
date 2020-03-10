@@ -1,8 +1,10 @@
 #pragma once
 
 
-#include "../Matrix.hpp"
+#include "../Matrix/MatrixImpl.hpp"
+#include "../Matrix/MatrixFunction.hpp"
 #include "../Vector.hpp"
+#include "IdentityBuilder.hpp"
 
 
 namespace mathter {
@@ -285,7 +287,7 @@ private:
 			u(2), 0, -u(0),
 			-u(1), u(0), 0
 		};
-		RotMat rot = C * RotMat::Identity() + S * cross + (1 - C) * (u * u.Transposed());
+		RotMat rot = C * RotMat(Identity()) + S * cross + (1 - C) * (u * Transpose(u));
 
 
 		// Elements
@@ -335,7 +337,7 @@ bool IsRotationMatrix3D(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m
 	};
 	return (std::abs(Dot(rows[0], rows[1])) + std::abs(Dot(rows[0], rows[2])) + std::abs(Dot(rows[1], rows[2]))) < T(0.0005) // rows are orthogonal to each other
 		   && rows[0].IsNormalized() && rows[1].IsNormalized() && rows[2].IsNormalized() // all rows are normalized
-		   && Matrix<T, 3, 3, Order, Layout, Packed>(m.template Submatrix<3, 3>(0, 0)).Determinant() > 0; // not an improper rotation
+		   && Determinant(Matrix<T, 3, 3, Order, Layout, Packed>(m.template Submatrix<3, 3>(0, 0))) > 0; // not an improper rotation
 }
 
 

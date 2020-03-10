@@ -1,9 +1,9 @@
 #pragma once
 
 
-#include "../Matrix.hpp"
+#include "../Matrix/MatrixImpl.hpp"
 #include "../Vector.hpp"
-
+#include "IdentityBuilder.hpp"
 
 namespace mathter {
 
@@ -29,7 +29,7 @@ private:
 	void Set(Matrix<U, Rows, Columns, Order, Layout, MPacked>& m) const {
 		assert((nearPlane < 0 && farPlane < nearPlane) || (0 < nearPlane && nearPlane < farPlane));
 
-		m.SetZero();
+		m = Zero();
 		// Layout be like (precede_vector):
 		// w 0 0 0
 		// 0 h 0 0

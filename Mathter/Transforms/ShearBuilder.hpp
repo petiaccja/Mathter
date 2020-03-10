@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include "../Matrix.hpp"
+#include "../Matrix/MatrixImpl.hpp"
 #include "../Vector.hpp"
 
 

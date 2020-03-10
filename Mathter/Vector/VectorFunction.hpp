@@ -144,7 +144,7 @@ auto Cross(const std::array<const Vector<T, Dim, Packed>*, Dim - 1>& args) -> Ve
 			}
 		}
 
-		T coefficient = T(sign) * detCalc.Determinant();
+		T coefficient = T(sign) * Determinant(detCalc);
 		result(base) = coefficient;
 	}
 

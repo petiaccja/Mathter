@@ -1,8 +1,9 @@
 #pragma once
 
 
-#include "../Matrix.hpp"
+#include "../Matrix/MatrixImpl.hpp"
 #include "../Vector.hpp"
+#include "IdentityBuilder.hpp"
 
 
 namespace mathter {
@@ -46,7 +47,7 @@ public:
 private:
 	template <class U, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
 	void Set(Matrix<U, Rows, Columns, Order, Layout, MPacked>& m) const {
-		m.SetIdentity();
+		m = Identity();
 		int i;
 		for (i = 0; i < scale.Dimension(); ++i) {
 			m(i, i) = std::move(scale(i));

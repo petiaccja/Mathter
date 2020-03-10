@@ -1,8 +1,9 @@
 #pragma once
 
 
-#include "../Matrix.hpp"
+#include "../Matrix/MatrixImpl.hpp"
 #include "../Vector.hpp"
+#include "IdentityBuilder.hpp"
 
 
 namespace mathter {
@@ -49,7 +50,7 @@ private:
 		VectorT offset = -(maxBounds + minBounds) / T(2) * scale;
 		offset[offset.Dimension() - 1] += (projFarPlane + projNearPlane) / 2;
 
-		m.SetIdentity();
+		m = Identity();
 		for (int i = 0; i < scale.Dimension(); ++i) {
 			m(i, i) = scale(i);
 			(Order == eMatrixOrder::FOLLOW_VECTOR ? m(scale.Dimension(), i) : m(i, scale.Dimension())) = offset(i);

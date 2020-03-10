@@ -127,17 +127,17 @@ namespace impl {
 			auto [Q, R] = DecomposeQR(m);
 			B = R;
 			U = Q.template Submatrix<Rows, Columns>(0, 0);
-			V.SetIdentity();
+			V = Identity();
 		}
 		else {
 			B = m;
-			U.SetIdentity();
-			V.SetIdentity();
+			U = Identity();
+			V = Identity();
 		}
 
 		T tolerance = T(1e-6);
 
-		T N = B.NormSquared();
+		T N = NormSquared(B);
 		T s;
 
 		do {
@@ -182,18 +182,18 @@ namespace impl {
 		} while (s > tolerance * N);
 
 		Matrix<T, Columns, Columns, Order, Layout, Packed> Sout;
-		Sout.SetZero();
+		Sout = Zero();
 		for (int i = 0; i < B.ColumnCount(); ++i) {
 			Sout(i, i) = B(i, i);
 		}
 
-		return DecompositionSVD<T, Rows, Columns, Order, Layout, Packed>(U, Sout, V.Transposed());
+		return DecompositionSVD<T, Rows, Columns, Order, Layout, Packed>(U, Sout, Transpose(V));
 	}
 
 	template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 	auto DecomposeSVD(Matrix<T, Rows, Columns, Order, Layout, Packed> m, std::false_type) {
-		auto [U, S, V] = DecomposeSVD(m.Transposed(), std::true_type{});
-		return DecompositionSVD<T, Rows, Columns, Order, Layout, Packed>(V.Transposed(), S, U.Transposed());
+		auto [U, S, V] = DecomposeSVD(Transpose(m), std::true_type{});
+		return DecompositionSVD<T, Rows, Columns, Order, Layout, Packed>(Transpose(V), S, Transpose(U));
 	}
 
 
