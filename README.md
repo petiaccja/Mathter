@@ -146,7 +146,7 @@ Mathter is **header-only**, you only need to add the Mathter folder to your incl
 
 Contribution
 ---
-First of all, please just go ahead and use the code. It took a lot of time to write and the more people use it the more it was worth.
+First of all, please just go ahead and use the code. It took a lot of time to write and the more people use it the more it was worth the time.
 
 **Report bugs**: This library powers my game engine, so it is very much usable. Despite that, the code is fresh, so it is not bug-free. If you find anything, **file an issue** on GitHub or **make a PR**.
 
