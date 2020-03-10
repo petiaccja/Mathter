@@ -59,7 +59,7 @@ Features
   - If it makes sense, it compiles (if it doesn't make sense, it doesn't compile)
   - Implicit conversions at many places, for convenience
   - Concise and powerful syntax via some C++ magic
-  - Prefers mathematical notation (i.e. quaternions are chained qr = q3*q2*q1)
+  - Prefers mathematical notation (i.e. quaternions are chained qr = q3\*q2\*q1)
   - Many things are generalized to higher dimensions (i.e. hyperplanes, N-dimensional transforms & functions), but interfaces are not compromised
 
 For details, browse [Mathter's wiki](https://github.com/petiaccja/Mathter/wiki).
