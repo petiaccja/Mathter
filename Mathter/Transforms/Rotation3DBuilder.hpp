@@ -1,8 +1,9 @@
 #pragma once
 
 
-#include "../Matrix/MatrixImpl.hpp"
 #include "../Matrix/MatrixFunction.hpp"
+#include "../Matrix/MatrixImpl.hpp"
+#include "../Quaternion/QuaternionImpl.hpp"
 #include "../Vector.hpp"
 #include "IdentityBuilder.hpp"
 
@@ -43,6 +44,9 @@ public:
 		Set(m);
 		return m;
 	}
+
+	template <class U, bool QPacked>
+	operator Quaternion<U, QPacked>() const;
 
 private:
 	template <class U, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
@@ -105,6 +109,8 @@ private:
 	float angle;
 	int axis;
 };
+
+
 
 /// <summary> Rotates around coordinate axis. </summary>
 /// <param name="axis"> 0 for X, 1 for Y, 2 for Z and so on... </param>
@@ -183,6 +189,9 @@ public:
 		Set(m);
 		return m;
 	}
+
+	template <class U, bool QPacked>
+	operator Quaternion<U, QPacked>() const;
 
 private:
 	template <class U, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
@@ -271,6 +280,9 @@ public:
 		return m;
 	}
 
+	template <class U, bool QPacked>
+	operator Quaternion<U, QPacked>() const;
+
 private:
 	template <class U, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
 	void Set(Matrix<U, Rows, Columns, Order, Layout, MPacked>& m) const {
@@ -312,8 +324,6 @@ private:
 	const T angle;
 };
 
-
-
 /// <summary> Rotates around an arbitrary axis. </summary>
 /// <param name="axis"> Axis of rotation, must be normalized. </param>
 /// <param name="angle"> Angle of rotation in radians. </param>
@@ -339,6 +349,34 @@ bool IsRotationMatrix3D(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m
 		   && rows[0].IsNormalized() && rows[1].IsNormalized() && rows[2].IsNormalized() // all rows are normalized
 		   && Determinant(Matrix<T, 3, 3, Order, Layout, Packed>(m.template Submatrix<3, 3>(0, 0))) > 0; // not an improper rotation
 }
+
+
+template <class T>
+template <class U, bool QPacked>
+Rotation3DAxisBuilder<T>::operator Quaternion<U, QPacked>() const {
+	using QuatT = Quaternion<U, QPacked>;
+	switch (axis) {
+		case 0: return QuatT(RotationAxisAngle(Vector<U, 3, QPacked>(1, 0, 0), angle));
+		case 1: return QuatT(RotationAxisAngle(Vector<U, 3, QPacked>(0, 1, 0), angle));
+		case 2: return QuatT(RotationAxisAngle(Vector<U, 3, QPacked>(0, 0, 1), angle));
+	}
+	assert(false);
+}
+
+template <class T>
+template <class U, bool QPacked>
+Rotation3DTriAxisBuilder<T>::operator Quaternion<U, QPacked>() const {
+	using QuatT = Quaternion<U, QPacked>;
+	return QuatT(RotationAxis(angles[2], axes[2])) * QuatT(RotationAxis(angles[1], axes[1])) * QuatT(RotationAxis(angles[0], axes[0]));
+}
+
+template <class T, bool Packed>
+template <class U, bool QPacked>
+Rotation3DAxisAngleBuilder<T, Packed>::operator Quaternion<U, QPacked>() const {
+	auto halfAngle = angle * T(0.5);
+	return Quaternion(cos(halfAngle), axis * sin(halfAngle));
+}
+
 
 
 } // namespace mathter

@@ -8,7 +8,7 @@
 #include <Catch2/catch.hpp>
 
 #include "Mathter/Geometry.hpp"
-#include "Mathter/Approx.hpp"
+#include "Mathter/Common/Approx.hpp"
 
 
 using namespace mathter;

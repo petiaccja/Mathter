@@ -247,5 +247,15 @@ MatrixT strtomat(const char* str, const char** end) {
 
 
 
+template <class T, bool Packed>
+std::ostream& operator<<(std::ostream& os, const Quaternion<T, Packed>& q) {
+	os << "["
+	   << q.Angle() * T(180.0) / T(3.1415926535897932384626)
+	   << " deg @ "
+	   << q.Axis()
+	   << "]";
+	return os;
+}
+
 
 } // namespace mathter

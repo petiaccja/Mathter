@@ -2,9 +2,9 @@
 
 
 // Specialization for floats.
-#include "IoStream.hpp"
-#include "Matrix.hpp"
-#include "Vector.hpp"
+#include "../IoStream.hpp"
+#include "../Matrix.hpp"
+#include "../Vector.hpp"
 
 #include <type_traits>
 

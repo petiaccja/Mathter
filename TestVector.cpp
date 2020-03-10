@@ -8,7 +8,7 @@
 #include <Catch2/catch.hpp>
 
 #include "Mathter/Vector.hpp"
-#include "Mathter/Approx.hpp"
+#include "Mathter/Common/Approx.hpp"
 #include "TestGenerators.hpp"
 
 using namespace mathter;

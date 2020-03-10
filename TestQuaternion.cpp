@@ -8,7 +8,7 @@
 #include <Catch2/catch.hpp>
 
 #include "Mathter/Quaternion.hpp"
-#include "Mathter/Approx.hpp"
+#include "Mathter/Common/Approx.hpp"
 #include "TestGenerators.hpp"
 
 
@@ -44,7 +44,7 @@ TEST_CASE_VEC_VARIANT("Quaternion - Ctor", "[Quaternion]", TypesFloating, Packed
 
 TEST_CASE_VEC_VARIANT("Quaternion - AxisAngle", "[Quaternion]", TypesFloating, PackedAll) {
 	SECTION(SECTIONNAMEVEC) {
-		QuatT q = QuatT::AxisAngle(VectorT<3>{ 1, 2, 3 }.Normalized(), 0.83f);
+		QuatT q = RotationAxisAngle(VectorT<3>{ 1, 2, 3 }.Normalized(), 0.83f);
 		QuatT qexp = { 0.9151163f, 0.107757f, 0.2155141f, 0.3232711f };
 		REQUIRE(ApproxVec(q) == qexp);
 	}
@@ -56,7 +56,7 @@ TEST_CASE_VEC_VARIANT("Quaternion - QueryAxisAngle", "[Quaternion]", TypesFloati
 		axis.Normalize();
 		float angle = 0.83f;
 
-		QuatT q = QuatT::AxisAngle(axis, angle);
+		QuatT q = RotationAxisAngle(axis, angle);
 
 		REQUIRE(ApproxVec(axis) == q.Axis());
 		REQUIRE(Approx(angle) == q.Angle());
@@ -162,7 +162,7 @@ TEST_CASE_VEC_VARIANT("Quaternion - Product", "[Quaternion]", TypeCases<double>,
 
 TEST_CASE_VEC_VARIANT("Quaternion - VectorRotation", "[Quaternion]", TypesFloating, PackedAll) {
 	SECTION(SECTIONNAMEVEC) {
-		auto q = QuatT::AxisAngle(VectorT<3>{ 1, 2, 3 }.Normalized(), 0.83f);
+		QuatT q = RotationAxisAngle(VectorT<3>{ 1, 2, 3 }.Normalized(), 0.83f);
 		Matrix<Type, 3, 3, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, Packed> M = RotationAxisAngle(VectorT<3>{ 1, 2, 3 }.Normalized(), 0.83f);
 
 		VectorT<3> v = { 3,2,6 };
@@ -184,8 +184,8 @@ TEST_CASE_VEC_VARIANT("Quaternion - Chaining", "[Quaternion]", TypesFloating, Pa
 		float angle1 = 0.83f;
 		float angle2 = 1.92f;
 
-		QuatT q1 = QuatT::AxisAngle(axis1, angle1);
-		QuatT q2 = QuatT::AxisAngle(axis2, angle2);
+		QuatT q1 = RotationAxisAngle(axis1, angle1);
+		QuatT q2 = RotationAxisAngle(axis2, angle2);
 		Matrix<Type, 3, 3, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, Packed> M1 = RotationAxisAngle(axis1, angle1);
 		Matrix<Type, 3, 3, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, Packed> M2 = RotationAxisAngle(axis2, angle2);
 
