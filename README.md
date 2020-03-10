@@ -22,7 +22,7 @@ Features
 - Template parametrization & convention configurations:
   - T: any scalar type can be specified for Vectors, Matrices, etc. (int, float, double, complex). Of course, some of these make no sense for all operations.
   - Dimensions: vector length, matrix row and column count.
-  - Order: whether transform matrices (i.e. scale, rotate) should act as v*M or M*v.
+  - Order: whether transform matrices (i.e. scale, rotate) should act as v\*M or M\*v.
   - Layout: row-major or column major layout for matrices.
   - Packed: disable SIMD, forced alignment, and pack vector/matrix elements tightly in memory. Use Packed=true to handle GPU uploads.
 - Mathematical primitives:
@@ -30,11 +30,11 @@ Features
   - Matrices [m(row,col)]
   - Quaternions [q.w, q.x, q.y, q.z]
 - Arithmetic:
-  - Vector*Vector
-  - Vector*Matrix
-  - Vector*Quat
-  - Matrix*Matrix
-  - Quat*Quat
+  - Vector\*Vector
+  - Vector\*Matrix
+  - Vector\*Quat
+  - Matrix\*Matrix
+  - Quat\*Quat
 - Transformations (they are N-dimensional):
   - Rotation (only 2D, 3D), scale, translation, orthographic projection, perspective projection, camera look-at, shear
 - Common functions:
