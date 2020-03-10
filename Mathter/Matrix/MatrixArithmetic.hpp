@@ -113,7 +113,7 @@ inline auto operator*(const Matrix<T, Rows1, Match, Order1, eMatrixLayout::ROW_M
 
 	for (int j = 0; j < Columns2; ++j) {
 		for (int i = 0; i < Rows1; ++i) {
-			result(i, j) = Vector<T, Match, Packed>::Dot(lhs.stripes[i], rhs.stripes[j]);
+			result(i, j) = Dot(lhs.stripes[i], rhs.stripes[j]);
 		}
 	}
 

@@ -44,7 +44,7 @@ TEST_CASE_VEC_VARIANT("Quaternion - Ctor", "[Quaternion]", TypesFloating, Packed
 
 TEST_CASE_VEC_VARIANT("Quaternion - AxisAngle", "[Quaternion]", TypesFloating, PackedAll) {
 	SECTION(SECTIONNAMEVEC) {
-		QuatT q = RotationAxisAngle(VectorT<3>{ 1, 2, 3 }.Normalized(), 0.83f);
+		QuatT q = RotationAxisAngle(Normalize(VectorT<3>{ 1, 2, 3 }), 0.83f);
 		QuatT qexp = { 0.9151163f, 0.107757f, 0.2155141f, 0.3232711f };
 		REQUIRE(ApproxVec(q) == qexp);
 	}
@@ -53,7 +53,7 @@ TEST_CASE_VEC_VARIANT("Quaternion - AxisAngle", "[Quaternion]", TypesFloating, P
 TEST_CASE_VEC_VARIANT("Quaternion - QueryAxisAngle", "[Quaternion]", TypesFloating, PackedAll) {
 	SECTION(SECTIONNAMEVEC) {
 		VectorT<3> axis = { 1,2,3 };
-		axis.Normalize();
+		axis = Normalize(axis);
 		float angle = 0.83f;
 
 		QuatT q = RotationAxisAngle(axis, angle);
@@ -162,8 +162,8 @@ TEST_CASE_VEC_VARIANT("Quaternion - Product", "[Quaternion]", TypeCases<double>,
 
 TEST_CASE_VEC_VARIANT("Quaternion - VectorRotation", "[Quaternion]", TypesFloating, PackedAll) {
 	SECTION(SECTIONNAMEVEC) {
-		QuatT q = RotationAxisAngle(VectorT<3>{ 1, 2, 3 }.Normalized(), 0.83f);
-		Matrix<Type, 3, 3, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, Packed> M = RotationAxisAngle(VectorT<3>{ 1, 2, 3 }.Normalized(), 0.83f);
+		QuatT q = RotationAxisAngle(Normalize(VectorT<3>{ 1, 2, 3 }), 0.83f);
+		Matrix<Type, 3, 3, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, Packed> M = RotationAxisAngle(Normalize(VectorT<3>{ 1, 2, 3 }), 0.83f);
 
 		VectorT<3> v = { 3,2,6 };
 
@@ -179,8 +179,8 @@ TEST_CASE_VEC_VARIANT("Quaternion - Chaining", "[Quaternion]", TypesFloating, Pa
 	SECTION(SECTIONNAMEVEC) {
 		VectorT<3> axis1 = { 1,2,3 };
 		VectorT<3> axis2 = { 3,1,2 };
-		axis1.Normalize();
-		axis2.Normalize();
+		axis1 = Normalize(axis1);
+		axis2 = Normalize(axis2);
 		float angle1 = 0.83f;
 		float angle2 = 1.92f;
 

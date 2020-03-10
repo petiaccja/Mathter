@@ -67,7 +67,7 @@ template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layo
 T NormSquared(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) {
 	T sum = T(0);
 	for (auto& stripe : m.stripes) {
-		sum += stripe.LengthSquared();
+		sum += LengthSquared(stripe);
 	}
 	sum /= (m.RowCount() * m.ColumnCount());
 	return sum;

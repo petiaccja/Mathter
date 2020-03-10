@@ -21,23 +21,23 @@ using Triangle = Triangle3D<float>;
 
 
 TEST_CASE("Intersection - Line-plane 3D", "[Intersection]") {
-	Hyperplane<float, 3> plane({ 1,2,3 }, Vector<float, 3>{ 3,2,1 }.Normalized());
-	Line<float, 3> line({ -2, 3, 4 }, Vector<float, 3>{ -2, 3, 1 }.Normalized());
+	Hyperplane<float, 3> plane({ 1, 2, 3 }, Normalize(Vector<float, 3>{ 3, 2, 1 }));
+	Line<float, 3> line({ -2, 3, 4 }, Normalize(Vector<float, 3>{ -2, 3, 1 }));
 
 	auto intersection = Intersect(plane, line);
 	REQUIRE(intersection.Intersecting());
 	Vector<float, 3> point = intersection.Point();
 	Vector<float, 3> expected(-14, 21, 10);
-	float angle = 90 - acos(Vector<float, 3>::Dot(plane.Normal(), line.Direction()))*180.f / 3.1415926f;
-	float distance = (point - line.Base()).Length();
+	float angle = 90 - acos(Dot(plane.Normal(), line.Direction()))*180.f / 3.1415926f;
+	float distance = Length(point - line.Base());
 	REQUIRE(ApproxVec(point) == expected);
 }
 
 
 TEST_CASE("Intersection - LineSegment-plane 3D", "[Intersection]") {
-	Hyperplane<float, 3> plane({ 1,2,3 }, Vector<float, 3>{ 3, 2, 1 }.Normalized());
-	LineSegment<float, 3> succeedLine({ -2, 3, 4 }, Vector<float, 3>{ -2, 3, 1 }.Normalized(), 22.45f * 1.5f);
-	LineSegment<float, 3> failLine({ -2, 3, 4 }, Vector<float, 3>{ -2, 3, 1 }.Normalized(), 22.45f * 0.8f);
+	Hyperplane<float, 3> plane({ 1, 2, 3 }, Normalize(Vector<float, 3>{ 3, 2, 1 }));
+	LineSegment<float, 3> succeedLine({ -2, 3, 4 }, Normalize(Vector<float, 3>{ -2, 3, 1 }), 22.45f * 1.5f);
+	LineSegment<float, 3> failLine({ -2, 3, 4 }, Normalize(Vector<float, 3>{ -2, 3, 1 }), 22.45f * 0.8f);
 
 	auto interSucceed = Intersect(plane, succeedLine);
 	auto interFail = Intersect(plane, failLine);
@@ -106,8 +106,8 @@ TEST_CASE("Intersection - LineSegment-LineSegment", "[Intersection]") {
 
 
 TEST_CASE("Ray - construction", "[Ray-triangle intersect]") {
-	Ray3 ray{ Vec3(1,2,3), Vec3(2,4,6).Normalized() };
-	REQUIRE(ApproxVec(ray.Direction()) == Vec3(2, 4, 6).Normalized());
+	Ray3 ray{ Vec3(1, 2, 3), Normalize(Vec3(2, 4, 6)) };
+	REQUIRE(ApproxVec(ray.Direction()) == Normalize(Vec3(2, 4, 6)));
 	REQUIRE(ApproxVec(ray.Base()) == Vec3(1, 2, 3));
 }
 

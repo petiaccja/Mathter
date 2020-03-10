@@ -49,9 +49,9 @@ auto DecomposeQR(Matrix<T, Rows, Columns, Order, Layout, Packed> m) {
 		for (int i = 0; i < col; ++i) {
 			u(i) = T(0);
 		}
-		T alpha = sign(R(col, col)) * u.LengthPrecise();
+		T alpha = sign(R(col, col)) * LengthPrecise(u);
 		u(col) -= alpha;
-		T norm = u.LengthPrecise();
+		T norm = LengthPrecise(u);
 		if (norm == 0) {
 			continue;
 		}

@@ -13,6 +13,7 @@
 #include "../Vector.hpp"
 
 #include <limits>
+#include <cmath>
 
 
 namespace mathter {
@@ -151,13 +152,13 @@ public:
 	/// <summary> Returns the angle of the rotation represented by quaternion. </summary>
 	/// <remarks> Only valid for unit quaternions. </remarks>
 	const T Angle() const {
-		return sign_nonzero(s) * 2 * std::acos(Clamp(abs(s) / vec.Length(), T(-1), T(1)));
+		return sign_nonzero(s) * 2 * std::acos(std::clamp(abs(s) / Length(vec), T(-1), T(1)));
 	}
 	/// <summary> Returns the axis of rotation represented by quaternion. </summary>
 	/// <remarks> Only valid for unit quaternions. Returns (1,0,0) for near 180 degree rotations. </remarks>
 	const Vector<T, 3, Packed> Axis() const {
 		auto direction = VectorPart();
-		return direction.SafeNormalized();
+		return SafeNormalize(direction);
 	}
 
 	//-----------------------------------------------
@@ -201,7 +202,7 @@ protected:
 	//-----------------------------------------------
 	template <class U, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool PackedA>
 	Matrix<U, Rows, Columns, Order, Layout, PackedA> ToMatrix() const {
-		assert(vec.IsNormalized());
+		assert(IsNormalized(vec));
 		Matrix<U, Rows, Columns, Order, Layout, PackedA> mat;
 		auto elem = [&mat](int i, int j) -> U& {
 			return Order == eMatrixOrder::PRECEDE_VECTOR ? mat(i, j) : mat(j, i);

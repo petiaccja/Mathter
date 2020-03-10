@@ -7,7 +7,7 @@ namespace mathter {
 /// <summary> The euclidean length of the vector of the 4 elements of the quaternion. </summary>
 template <class T, bool Packed>
 T Abs(const Quaternion<T, Packed>& q) {
-	return q.vec.Length();
+	return Length(q.vec);
 }
 
 /// <summary> Negates the imaginary values of the quaternion. </summary>
@@ -21,7 +21,7 @@ template <class T, bool Packed>
 Quaternion<T, Packed> Exp(const Quaternion<T, Packed>& q) {
 	auto a = q.ScalarPart();
 	auto v = q.VectorPart();
-	T mag = v.Length();
+	T mag = Length(v);
 	T es = exp(a);
 
 	Quaternion<T, Packed> ret = { std::cos(mag), v * (std::sin(mag) / mag) };
@@ -34,7 +34,7 @@ Quaternion<T, Packed> Exp(const Quaternion<T, Packed>& q) {
 template <class T, bool Packed>
 Quaternion<T, Packed> Log(const Quaternion<T, Packed>& q) {
 	auto magq = Length(q);
-	auto vn = q.VectorPart().Normalized();
+	auto vn = Normalize(q.VectorPart());
 
 	Quaternion ret = { std::log(magq), vn * acos(q.s / magq) };
 	return ret;
@@ -51,7 +51,7 @@ Quaternion<T, Packed> Pow(const Quaternion<T, Packed>& q, T a) {
 ///			This is much faster than <see cref="Length">. </remarks>
 template <class T, bool Packed>
 T LengthSquared(const Quaternion<T, Packed>& q) {
-	return q.vec.LengthSquared();
+	return LengthSquared(q.vec);
 }
 
 /// <summary> Returns the absolute value of the quaternion. </summary>

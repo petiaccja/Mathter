@@ -54,11 +54,11 @@ private:
 
 		// calculate columns of the rotation matrix
 		int j = Dim - 1;
-		columns[j] = Normalized(eye - target); // right-handed: camera look towards -Z
+		columns[j] = Normalize(eye - target); // right-handed: camera look towards -Z
 		do {
 			--j;
 
-			columns[Dim - j - 2] = Normalized(Cross(crossTable));
+			columns[Dim - j - 2] = Normalize(Cross(crossTable));
 
 			// shift bases
 			for (int s = 0; s < j; ++s) {

@@ -122,13 +122,13 @@ TEST_CASE_VEC_VARIANT("Vector - Dot", "[Vector]", TypesFloating, PackedAll) {
 	SECTION(SECTIONNAMEVEC) {
 		VectorT<3> a(1, 2, 3);
 		VectorT<3> b(4, 5, 6);
-		auto r1 = VectorT<3>::Dot(a, b);
+		auto r1 = Dot(a, b);
 
 		REQUIRE(r1 == 32);
 
 		VectorT<5> c(1, 2, 3, 2, 1);
 		VectorT<5> d(4, 5, 6, 5, 4);
-		auto r2 = VectorT<5>::Dot(c, d);
+		auto r2 = Dot(c, d);
 		REQUIRE(r2 == 46);
 	}
 }

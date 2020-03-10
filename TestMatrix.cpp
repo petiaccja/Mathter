@@ -757,13 +757,13 @@ TEST_CASE("Matrix - RotationPrincipal", "[Matrix]") {
 
 
 TEST_CASE("Matrix - RotationAxisAngle", "[Matrix]") {
-	Matrix<float, 3, 3> m = RotationAxisAngle(Vector<float, 3>(1, 2, 3).Normalized(), 1.0f);
+	Matrix<float, 3, 3> m = RotationAxisAngle(Normalize(Vector<float, 3>(1, 2, 3)), 1.0f);
 	Matrix<float, 3, 3> mexp = {
 		0.573138, 0.740349, -0.351279, -0.609007, 0.671645, 0.421906, 0.548292, -0.027879, 0.835822
 	};
 	REQUIRE(ApproxVec(m) == mexp);
 
-	Matrix<float, 4, 4> m4 = RotationAxisAngle(Vector<float, 3>(1, 2, 3).Normalized(), 1.0f);
+	Matrix<float, 4, 4> m4 = RotationAxisAngle(Normalize(Vector<float, 3>(1, 2, 3)), 1.0f);
 	Matrix<float, 4, 4> m4exp = {
 		0.573138, 0.740349, -0.351279, 0,
 		-0.609007, 0.671645, 0.421906, 0,

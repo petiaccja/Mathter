@@ -286,7 +286,7 @@ public:
 private:
 	template <class U, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
 	void Set(Matrix<U, Rows, Columns, Order, Layout, MPacked>& m) const {
-		assert(axis.IsNormalized());
+		assert(IsNormalized(axis));
 
 		T C = cos(angle);
 		T S = sin(angle);
@@ -346,7 +346,7 @@ bool IsRotationMatrix3D(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m
 		{ m(2, 0), m(2, 1), m(2, 2) },
 	};
 	return (std::abs(Dot(rows[0], rows[1])) + std::abs(Dot(rows[0], rows[2])) + std::abs(Dot(rows[1], rows[2]))) < T(0.0005) // rows are orthogonal to each other
-		   && rows[0].IsNormalized() && rows[1].IsNormalized() && rows[2].IsNormalized() // all rows are normalized
+		   && IsNormalized(rows[0]) && IsNormalized(rows[1]) && IsNormalized(rows[2]) // all rows are normalized
 		   && Determinant(Matrix<T, 3, 3, Order, Layout, Packed>(m.template Submatrix<3, 3>(0, 0))) > 0; // not an improper rotation
 }
 

@@ -13,10 +13,88 @@
 
 namespace mathter {
 
-
-// Misc
+	   	 
+/// <summary> Returns true if the vector's length is too small for precise calculations (i.e. normalization). </summary>
+/// <remarks> "Too small" means smaller than the square root of the smallest number representable by the underlying scalar.
+///			This value is ~10^-18 for floats and ~10^-154 for doubles. </remarks>
 template <class T, int Dim, bool Packed>
-inline void Fill(Vector<T, Dim, Packed>& lhs, T all) {
+bool IsNullvector(const Vector<T, Dim, Packed>& v) {
+	static constexpr T epsilon = T(1) / ConstexprExp10<T>(ConstexprAbs(std::numeric_limits<T>::min_exponent10) / 2);
+	T length = Length(v);
+	return length < epsilon;
+}
+
+/// <summary> Returns the squared length of the vector. </summary>
+template <class T, int Dim, bool Packed>
+T LengthSquared(const Vector<T, Dim, Packed>& v) {
+	return Dot(v, v);
+}
+
+/// <summary> Returns the length of the vector. </summary>
+template <class T, int Dim, bool Packed>
+T Length(const Vector<T, Dim, Packed>& v) {
+	return (T)sqrt((T)LengthSquared(v));
+}
+
+/// <summary> Returns the length of the vector, avoids overflow and underflow, so it's more expensive. </summary>
+template <class T, int Dim, bool Packed>
+T LengthPrecise(const Vector<T, Dim, Packed>& v) {
+	T maxElement = std::abs(v(0));
+	for (int i = 1; i < v.Dimension(); ++i) {
+		maxElement = std::max(maxElement, std::abs(v(i)));
+	}
+	if (maxElement == T(0)) {
+		return T(0);
+	}
+	auto scaled = v / maxElement;
+	return sqrt(Dot(scaled, scaled)) * maxElement;
+}
+
+/// <summary> Returns the euclidean distance between to vectors. </summary>
+template <class T, class U, int Dim, bool Packed1, bool Packed2>
+auto Distance(const Vector<T, Dim, Packed1>& lhs, const Vector<U, Dim, Packed2>& rhs) {
+	return (lhs - rhs).Length();
+}
+
+/// <summary> Makes a unit vector, but keeps direction. </summary>
+template <class T, int Dim, bool Packed>
+Vector<T, Dim, Packed> Normalize(const Vector<T, Dim, Packed>& v) {
+	assert(!IsNullvector(v));
+	T l = Length(v);
+	return v / l;
+}
+
+/// <summary> Checks if the vector is unit vector. There's some tolerance due to floating points. </summary>
+template <class T, int Dim, bool Packed>
+bool IsNormalized(const Vector<T, Dim, Packed>& v) {
+	T n = LengthSquared(v);
+	return T(0.9999) <= n && n <= T(1.0001);
+}
+
+/// <summary> Makes a unit vector, but keeps direction. Leans towards (1,0,0...) for nullvectors, costs more. </summary>
+template <class T, int Dim, bool Packed>
+Vector<T, Dim, Packed> SafeNormalize(const Vector<T, Dim, Packed>& v) {
+	Vector<T, Dim, Packed> vmod = v;
+	vmod(0) = std::abs(v(0)) > std::numeric_limits<T>::denorm_min() ? v(0) : std::numeric_limits<T>::denorm_min();
+	T l = LengthPrecise(vmod);
+	return vmod / l;
+}
+
+/// <summary> Makes a unit vector, but keeps direction. Leans towards <paramref name="degenerate"/> for nullvectors, costs more. </summary>
+/// <param name="degenerate"> Must be a unit vector. </param>
+template <class T, int Dim, bool Packed>
+Vector<T, Dim, Packed> SafeNormalize(const Vector<T, Dim, Packed>& v, const Vector<T, Dim, Packed>& degenerate) {
+	assert(IsNormalized(degenerate));
+	T length = LengthPrecise(v);
+	if (length == 0) {
+		v = degenerate;
+	}
+	return v / length;
+}
+
+/// <summary> Sets all elements of the vector to the same value. </summary>
+template <class T, int Dim, bool Packed>
+void Fill(Vector<T, Dim, Packed>& lhs, T all) {
 	if constexpr (!traits::HasSimd<Vector<T, Dim, Packed>>::value) {
 		for (auto& v : lhs) {
 			v = all;
@@ -28,8 +106,9 @@ inline void Fill(Vector<T, Dim, Packed>& lhs, T all) {
 	}
 }
 
+/// <summary> Calculates the scalar product (dot product) of the two arguments. </summary>
 template <class T, int Dim, bool Packed>
-inline T Dot(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
+T Dot(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
 	if constexpr (!traits::HasSimd<Vector<T, Dim, Packed>>::value) {
 		T sum = T(0);
 		for (int i = 0; i < Dim; ++i) {
@@ -102,18 +181,6 @@ Vector<T, Dim, Packed> Max(const Vector<T, Dim, Packed>& lhs, const Vector<T, Di
 	return res;
 }
 
-
-/// <summary> Returns the euclidean distance between to vectors. </summary>
-template <class T, class U, int Dim, bool Packed1, bool Packed2>
-auto Distance(const Vector<T, Dim, Packed1>& lhs, const Vector<U, Dim, Packed2>& rhs) {
-	return (lhs - rhs).Length();
-}
-
-/// <summary> Returns the normalized version of <paramref name="arg">. </summary>
-template <class T, int Dim, bool Packed>
-auto Normalized(const Vector<T, Dim, Packed>& arg) {
-	return arg.Normalized();
-}
 
 } // namespace mathter
 
