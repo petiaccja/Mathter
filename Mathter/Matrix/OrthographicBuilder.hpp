@@ -52,10 +52,8 @@ private:
 		m.SetIdentity();
 		for (int i = 0; i < scale.Dimension(); ++i) {
 			m(i, i) = scale(i);
-			(Order == eMatrixOrder::FOLLOW_VECTOR ? ret(scale.Dimension(), i) : ret(i, scale.Dimension())) = offset(i);
+			(Order == eMatrixOrder::FOLLOW_VECTOR ? m(scale.Dimension(), i) : m(i, scale.Dimension())) = offset(i);
 		}
-
-		return m;
 	}
 
 	const Vector<T, Dim, Packed> minBounds, maxBounds;

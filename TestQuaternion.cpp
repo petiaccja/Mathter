@@ -163,7 +163,7 @@ TEST_CASE_VEC_VARIANT("Quaternion - Product", "[Quaternion]", TypeCases<double>,
 TEST_CASE_VEC_VARIANT("Quaternion - VectorRotation", "[Quaternion]", TypesFloating, PackedAll) {
 	SECTION(SECTIONNAMEVEC) {
 		auto q = QuatT::AxisAngle(VectorT<3>{ 1, 2, 3 }.Normalized(), 0.83f);
-		auto M = Matrix<Type, 3, 3, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, Packed>::RotationAxisAngle(VectorT<3>{ 1, 2, 3 }.Normalized(), 0.83f);
+		Matrix<Type, 3, 3, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, Packed> M = RotationAxisAngle(VectorT<3>{ 1, 2, 3 }.Normalized(), 0.83f);
 
 		VectorT<3> v = { 3,2,6 };
 
@@ -186,8 +186,8 @@ TEST_CASE_VEC_VARIANT("Quaternion - Chaining", "[Quaternion]", TypesFloating, Pa
 
 		QuatT q1 = QuatT::AxisAngle(axis1, angle1);
 		QuatT q2 = QuatT::AxisAngle(axis2, angle2);
-		auto M1 = Matrix<Type, 3, 3, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, Packed>::RotationAxisAngle(axis1, angle1);
-		auto M2 = Matrix<Type, 3, 3, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, Packed>::RotationAxisAngle(axis2, angle2);
+		Matrix<Type, 3, 3, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, Packed> M1 = RotationAxisAngle(axis1, angle1);
+		Matrix<Type, 3, 3, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, Packed> M2 = RotationAxisAngle(axis2, angle2);
 
 		VectorT<3> v = { 3,2,6 };
 

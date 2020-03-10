@@ -20,15 +20,17 @@
 #include "MatrixModules/DecomposeLU.hpp"
 #include "MatrixModules/DecomposeQR.hpp"
 #include "MatrixModules/DecomposeSVD.hpp"
-#include "MatrixModules/Orthographic.hpp"
-#include "MatrixModules/Perspective.hpp"
-#include "MatrixModules/Rotation2D.hpp"
-#include "MatrixModules/Rotation3D.hpp"
-#include "MatrixModules/Scale.hpp"
-#include "MatrixModules/Shear.hpp"
 #include "MatrixModules/Square.hpp"
-#include "MatrixModules/Translation.hpp"
-#include "MatrixModules/View.hpp"
+
+#include "Matrix/OrthographicBuilder.hpp"
+#include "Matrix/PerspectiveBuilder.hpp"
+#include "Matrix/Rotation2DBuilder.hpp"
+#include "Matrix/Rotation3DBuilder.hpp"
+#include "Matrix/ScaleBuilder.hpp"
+#include "Matrix/ShearBuilder.hpp"
+#include "Matrix/TranslationBuilder.hpp"
+#include "Matrix/ViewBuilder.hpp"
+
 #include "Vector.hpp"
 
 #include <algorithm>
@@ -227,15 +229,7 @@ class MATHTER_EBCO Matrix
 	  public MatrixLU<T, Rows, Columns, Order, Layout, Packed>::Inherit,
 	  public MatrixQR<T, Rows, Columns, Order, Layout, Packed>::Inherit,
 	  public MatrixSVD<T, Rows, Columns, Order, Layout, Packed>::Inherit,
-	  public MatrixOrthographic<T, Rows, Columns, Order, Layout, Packed>::Inherit,
-	  public MatrixPerspective<T, Rows, Columns, Order, Layout, Packed>::Inherit,
-	  public MatrixRotation2D<T, Rows, Columns, Order, Layout, Packed>::Inherit,
-	  public MatrixRotation3D<T, Rows, Columns, Order, Layout, Packed>::Inherit,
-	  public MatrixScale<T, Rows, Columns, Order, Layout, Packed>::Inherit,
-	  public MatrixShear<T, Rows, Columns, Order, Layout, Packed>::Inherit,
-	  public MatrixSquare<T, Rows, Columns, Order, Layout, Packed>::Inherit,
-	  public MatrixTranslation<T, Rows, Columns, Order, Layout, Packed>::Inherit,
-	  public MatrixView<T, Rows, Columns, Order, Layout, Packed>::Inherit {
+	  public MatrixSquare<T, Rows, Columns, Order, Layout, Packed>::Inherit {
 	static_assert(Columns >= 1 && Rows >= 1, "Dimensions must be positive integers.");
 
 	static constexpr int VecDim = std::max(Rows, Columns);

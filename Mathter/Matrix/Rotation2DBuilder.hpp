@@ -8,7 +8,7 @@
 namespace mathter {
 
 
-template <class T, bool Packed>
+template <class T>
 class Rotation2DBuilder {
 public:
 	Rotation2DBuilder(const T& angle) : angle(angle) {}

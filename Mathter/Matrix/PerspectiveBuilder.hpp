@@ -11,14 +11,15 @@ namespace mathter {
 template <class T, int Dim, bool Packed>
 class PerspectiveBuilder {
 	static_assert(!std::is_integral_v<T>);
+
 public:
-	PerspectiveBuilder(T fovX, const Vector<T, Dim - 2, Packed>& ratios, T nearPlane, T farPlane, T projNearPlane = 0, T projFarPlane = 1)
+	PerspectiveBuilder(T fovX, const Vector<T, Dim - 1, Packed>& ratios, T nearPlane, T farPlane, T projNearPlane = 0, T projFarPlane = 1)
 		: fovX(fovX), ratios(ratios), nearPlane(nearPlane), farPlane(farPlane), projNearPlane(projNearPlane), projFarPlane(projFarPlane) {}
 	PerspectiveBuilder& operator=(const PerspectiveBuilder&) = delete;
 
 	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
-	operator Matrix<U, Dim, Dim, Order, Layout, MPacked>() const {
-		Matrix<U, Dim, Dim, Order, Layout, MPacked> m;
+	operator Matrix<U, Dim + 1, Dim + 1, Order, Layout, MPacked>() const {
+		Matrix<U, Dim + 1, Dim + 1, Order, Layout, MPacked> m;
 		Set(m);
 		return m;
 	}
@@ -34,7 +35,7 @@ private:
 		// 0 h 0 0
 		// 0 0 A B
 		// 0 0 C 0
-		fovX = std::abs(fovX);
+		auto absFovX = std::abs(fovX);
 		T N = nearPlane;
 		T F = farPlane;
 		T n = projNearPlane;
@@ -42,8 +43,8 @@ private:
 		T C = nearPlane < T(0) ? T(-1) : T(1);
 		T A = C * (f * F - n * N) / (F - N);
 		T B = C * F * N * (n - f) / (F - N);
-		Vector<T, Dim - 2, Packed> adjRatios = ratios(0) / ratios;
-		T w = tan(T(0.5) * fovX);
+		Vector<T, Dim - 1, Packed> adjRatios = ratios(0) / ratios;
+		T w = tan(T(0.5) * absFovX);
 		adjRatios /= w;
 		for (int i = 0; i < adjRatios.Dimension(); ++i) {
 			m(i, i) = adjRatios(i);
@@ -54,15 +55,14 @@ private:
 		}
 		m(m.RowCount() - 2, m.ColumnCount() - 1) = B;
 		m(m.RowCount() - 1, m.ColumnCount() - 2) = C;
-		return m;
 	}
 
-	T fovX;
-	Vector<T, Dim - 2, Packed> ratios;
-	T nearPlane;
-	T farPlane;
-	T projNearPlane = 0;
-	T projFarPlane = 1;
+	const T fovX;
+	const Vector<T, Dim - 1, Packed> ratios;
+	const T nearPlane;
+	const T farPlane;
+	const T projNearPlane = 0;
+	const T projFarPlane = 1;
 };
 
 
@@ -74,10 +74,10 @@ private:
 /// <param name="projNearPlane"> The near plane is taken here after projection. </param>
 /// <param name="projFarPlane"> The far plane is taken here after projection. </param>
 /// <remarks> Post-projection near and far planes can be inverted. Negative ratios invert image. </remarks>
-template <class T, int Dim, bool Packed>
-auto Perspective(T fovX, const Vector<T, Dim - 2, Packed>& ratios, T nearPlane, T farPlane, T projNearPlane = 0, T projFarPlane = 1) {
+template <class T, int DimMinus1, bool Packed>
+auto Perspective(T fovX, const Vector<T, DimMinus1, Packed>& ratios, T nearPlane, T farPlane, T projNearPlane = T(0), T projFarPlane = T(1)) {
 	using NonIntegral = std::conditional_t<std::is_integral_v<T>, float, T>;
-	return PerspectiveBuilder<NonIntegral, Dim, Packed>{ fovX, ratios, nearPlane, farPlane, projNearPlane, projFarPlane };
+	return PerspectiveBuilder<NonIntegral, DimMinus1 + 1, Packed>{ fovX, ratios, nearPlane, farPlane, projNearPlane, projFarPlane };
 }
 
 
@@ -89,8 +89,8 @@ auto Perspective(T fovX, const Vector<T, Dim - 2, Packed>& ratios, T nearPlane, 
 /// <param name="projFarPlane"> Far plane is taken here after projection. </param>
 /// <remarks> Post-projection bounds may be inverted. </remarks>
 template <class T>
-auto Perspective(T fov, T nearPlane, T farPlane, T projNearPlane = 0, T projFarPlane = 1) {
-	return Perspective(abs(fov), Vector<T, 1, false>{ fov < 0 ? -1 : 1 }, nearPlane, farPlane, projNearPlane, projFarPlane);
+auto Perspective(T fov, T nearPlane, T farPlane, T projNearPlane = T(0), T projFarPlane = T(1)) {
+	return Perspective(std::abs(fov), Vector<T, 1, false>{ fov < 0 ? -1 : 1 }, nearPlane, farPlane, projNearPlane, projFarPlane);
 }
 
 
@@ -103,7 +103,7 @@ auto Perspective(T fov, T nearPlane, T farPlane, T projNearPlane = 0, T projFarP
 /// <param name="projFarPlane"/> Far plane is taken here after projection. </param>
 /// <remarks> Post-projection bounds may be inverted. </summary>
 template <class T>
-auto Perspective(T fov, T aspectRatio, T nearPlane, T farPlane, T projNearPlane = 0, T projFarPlane = 1) {
+auto Perspective(T fov, T aspectRatio, T nearPlane, T farPlane, T projNearPlane = T(0), T projFarPlane = T(1)) {
 	return Perspective(std::abs(fov), Vector<T, 2, false>{ fov < 0 ? -1 : 1, T(1) / aspectRatio }, nearPlane, farPlane, projNearPlane, projFarPlane);
 }
 

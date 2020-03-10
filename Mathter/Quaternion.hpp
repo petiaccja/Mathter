@@ -440,7 +440,7 @@ protected:
 
 	template <class U, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool PackedA>
 	void FromMatrix(const Matrix<U, Rows, Columns, Order, Layout, PackedA>& mat) {
-		assert(mat.IsRotationMatrix3D());
+		assert(IsRotationMatrix3D(mat));
 		auto elem = [&mat](int i, int j) -> U {
 			return Order == eMatrixOrder::PRECEDE_VECTOR ? mat(i, j) : mat(j, i);
 		};

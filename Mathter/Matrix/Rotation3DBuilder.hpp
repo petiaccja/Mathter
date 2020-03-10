@@ -52,7 +52,7 @@ private:
 			return Order == eMatrixOrder::FOLLOW_VECTOR ? m(i, j) : m(j, i);
 		};
 
-		assert(0 <= axis && axis < 3, "You may choose X=0, Y=1 or Z=2 axes.");
+		assert(0 <= axis && axis < 3);
 
 		// Indices according to follow vector order
 		if (axis == 0) {
@@ -185,14 +185,14 @@ public:
 private:
 	template <class U, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
 	void Set(Matrix<U, Rows, Columns, Order, Layout, MPacked>& m) const {
-		using MatT = Matrix<U, 3,3, Order, Layout, MPacked>;
+		using MatT = Matrix<U, 3, 3, Order, Layout, MPacked>;
 		if constexpr (Order == eMatrixOrder::FOLLOW_VECTOR) {
 			m.Submatrix<3, 3>(0, 0) = MatT(RotationAxis(angles[0], axes[0])) * MatT(RotationAxis(angles[1], axes[1])) * MatT(RotationAxis(angles[2], axes[2]));
 		}
 		else {
 			m.Submatrix<3, 3>(0, 0) = MatT(RotationAxis(angles[2], axes[2])) * MatT(RotationAxis(angles[1], axes[1])) * MatT(RotationAxis(angles[0], axes[0]));
 		}
-		
+
 		// Rest
 		for (int j = 0; j < m.ColumnCount(); ++j) {
 			for (int i = (j < 3 ? 3 : 0); i < m.RowCount(); ++i) {
@@ -232,7 +232,6 @@ template <class T>
 auto RotationRPY(T x1, T y2, T z3) {
 	return RotationAxis3<0, 1, 2>(x1, y2, z3);
 }
-
 
 
 
@@ -313,16 +312,31 @@ private:
 
 
 
-
 /// <summary> Rotates around an arbitrary axis. </summary>
 /// <param name="axis"> Axis of rotation, must be normalized. </param>
 /// <param name="angle"> Angle of rotation in radians. </param>
 /// <remarks> Right-hand (left-hand) rule is followed in right-handed (left-handed) systems. </remarks>
-template <class T, bool Vpacked>
-auto RotationAxisAngle(const Vector<T, 3, Vpacked>& axis, T angle) {
-	return Rotation3DAxisAngleBuilder(axis, angle);
+template <class T, bool Vpacked, class U>
+auto RotationAxisAngle(const Vector<T, 3, Vpacked>& axis, U angle) {
+	return Rotation3DAxisAngleBuilder(axis, T(angle));
 }
 
+
+/// <summary> Determines if the matrix is a proper rotation matrix. </summary>
+/// <remarks> Proper rotation matrices are orthogonal and have a determinant of +1. </remarks>
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+bool IsRotationMatrix3D(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) {
+	static_assert(Rows == 3 || Rows == 4);
+	static_assert(Columns == 3 || Columns == 4);
+	Vector<T, 3> rows[3] = {
+		{ m(0, 0), m(0, 1), m(0, 2) },
+		{ m(1, 0), m(1, 1), m(1, 2) },
+		{ m(2, 0), m(2, 1), m(2, 2) },
+	};
+	return (std::abs(Dot(rows[0], rows[1])) + std::abs(Dot(rows[0], rows[2])) + std::abs(Dot(rows[1], rows[2]))) < T(0.0005) // rows are orthogonal to each other
+		   && rows[0].IsNormalized() && rows[1].IsNormalized() && rows[2].IsNormalized() // all rows are normalized
+		   && Matrix<T, 3, 3, Order, Layout, Packed>(m.template Submatrix<3, 3>(0, 0)).Determinant() > 0; // not an improper rotation
+}
 
 
 } // namespace mathter
