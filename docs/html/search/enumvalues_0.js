@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['column_5fmajor',['COLUMN_MAJOR',['../namespacemathter.html#aa43cfd54adea35fd8286213c5d198336ada7520ed89bff27b02664af80951c6b0',1,'mathter']]]
+  ['brace',['BRACE',['../namespacemathter.html#a5229d739adb6492fcb269f0168b72724aa978f79663129bdb1ab765185b15a9b2',1,'mathter']]],
+  ['bracket',['BRACKET',['../namespacemathter.html#a5229d739adb6492fcb269f0168b72724a62c2198c66464d0dc1b231ef327c09fa',1,'mathter']]]
 ];

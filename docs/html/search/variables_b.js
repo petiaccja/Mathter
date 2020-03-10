@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['y',['y',['../classmathter_1_1_quaternion.html#aab2391922ff84713e23ac35293551630',1,'mathter::Quaternion']]]
+  ['q',['Q',['../classmathter_1_1_decomposition_q_r.html#a080e1077276bac75577b4267d16c7003',1,'mathter::DecompositionQR']]]
 ];

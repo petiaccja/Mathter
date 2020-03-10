@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['height',['Height',['../classmathter_1_1_matrix_data.html#a4c32b42850f846eac2ac273d8663b0ae',1,'mathter::MatrixData']]],
-  ['hyperplane',['Hyperplane',['../classmathter_1_1_hyperplane.html#ae16abee863eb4c130400ce380d9636ac',1,'mathter::Hyperplane::Hyperplane()'],['../classmathter_1_1_hyperplane.html#a2bef199ecd87884cc120cef1ad8bb759',1,'mathter::Hyperplane::Hyperplane(const VectorT &amp;base, const VectorT &amp;normal)'],['../classmathter_1_1_hyperplane.html#acc7b2492e23a7c0b7764f9319dbe8a7c',1,'mathter::Hyperplane::Hyperplane(const VectorT &amp;normal, T scalar)'],['../classmathter_1_1_hyperplane.html#a59eccdca22327e5334c0a233e4adec62',1,'mathter::Hyperplane::Hyperplane(const Line&lt; T, 2 &gt; &amp;line)']]]
+  ['gett',['GetT',['../classmathter_1_1_intersection_3_01_ray_3_01_t_00_013_01_4_00_01_triangle3_d_3_01_t_01_4_01_4.html#a2ed4a806f07ef918fee35e00de53f4a5',1,'mathter::Intersection&lt; Ray&lt; T, 3 &gt;, Triangle3D&lt; T &gt; &gt;']]],
+  ['getu',['GetU',['../classmathter_1_1_intersection_3_01_ray_3_01_t_00_013_01_4_00_01_triangle3_d_3_01_t_01_4_01_4.html#a184980af7a42aee6b588c4da5d874904',1,'mathter::Intersection&lt; Ray&lt; T, 3 &gt;, Triangle3D&lt; T &gt; &gt;']]],
+  ['getv',['GetV',['../classmathter_1_1_intersection_3_01_ray_3_01_t_00_013_01_4_00_01_triangle3_d_3_01_t_01_4_01_4.html#abc3d3c3d0c2dbddee64c7a21994ba73c',1,'mathter::Intersection&lt; Ray&lt; T, 3 &gt;, Triangle3D&lt; T &gt; &gt;']]]
 ];

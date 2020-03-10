@@ -1,13 +1,6 @@
 var searchData=
 [
-  ['intersection',['Intersection',['../classmathter_1_1_intersection.html',1,'mathter']]],
-  ['intersection_3c_20hyperplane_3c_20t_2c_202_20_3e_2c_20hyperplane_3c_20t_2c_202_20_3e_20_3e',['Intersection&lt; Hyperplane&lt; T, 2 &gt;, Hyperplane&lt; T, 2 &gt; &gt;',['../classmathter_1_1_intersection_3_01_hyperplane_3_01_t_00_012_01_4_00_01_hyperplane_3_01_t_00_012_01_4_01_4.html',1,'mathter']]],
-  ['intersection_3c_20hyperplane_3c_20t_2c_20dim_20_3e_2c_20line_3c_20t_2c_20dim_20_3e_20_3e',['Intersection&lt; Hyperplane&lt; T, Dim &gt;, Line&lt; T, Dim &gt; &gt;',['../classmathter_1_1_intersection_3_01_hyperplane_3_01_t_00_01_dim_01_4_00_01_line_3_01_t_00_01_dim_01_4_01_4.html',1,'mathter']]],
-  ['intersection_3c_20hyperplane_3c_20t_2c_20dim_20_3e_2c_20linesegment_3c_20t_2c_20dim_20_3e_20_3e',['Intersection&lt; Hyperplane&lt; T, Dim &gt;, LineSegment&lt; T, Dim &gt; &gt;',['../classmathter_1_1_intersection_3_01_hyperplane_3_01_t_00_01_dim_01_4_00_01_line_segment_3_01_t_00_01_dim_01_4_01_4.html',1,'mathter']]],
-  ['intersection_3c_20line_3c_20t_2c_202_20_3e_2c_20line_3c_20t_2c_202_20_3e_20_3e',['Intersection&lt; Line&lt; T, 2 &gt;, Line&lt; T, 2 &gt; &gt;',['../classmathter_1_1_intersection_3_01_line_3_01_t_00_012_01_4_00_01_line_3_01_t_00_012_01_4_01_4.html',1,'mathter']]],
-  ['intersection_3c_20line_3c_20t_2c_202_20_3e_2c_20linesegment_3c_20t_2c_202_20_3e_20_3e',['Intersection&lt; Line&lt; T, 2 &gt;, LineSegment&lt; T, 2 &gt; &gt;',['../classmathter_1_1_intersection_3_01_line_3_01_t_00_012_01_4_00_01_line_segment_3_01_t_00_012_01_4_01_4.html',1,'mathter']]],
-  ['intersection_3c_20line_3c_20t_2c_20dim_20_3e_2c_20hyperplane_3c_20t_2c_20dim_20_3e_20_3e',['Intersection&lt; Line&lt; T, Dim &gt;, Hyperplane&lt; T, Dim &gt; &gt;',['../classmathter_1_1_intersection_3_01_line_3_01_t_00_01_dim_01_4_00_01_hyperplane_3_01_t_00_01_dim_01_4_01_4.html',1,'mathter']]],
-  ['intersection_3c_20linesegment_3c_20t_2c_202_20_3e_2c_20line_3c_20t_2c_202_20_3e_20_3e',['Intersection&lt; LineSegment&lt; T, 2 &gt;, Line&lt; T, 2 &gt; &gt;',['../classmathter_1_1_intersection_3_01_line_segment_3_01_t_00_012_01_4_00_01_line_3_01_t_00_012_01_4_01_4.html',1,'mathter']]],
-  ['intersection_3c_20linesegment_3c_20t_2c_202_20_3e_2c_20linesegment_3c_20t_2c_202_20_3e_20_3e',['Intersection&lt; LineSegment&lt; T, 2 &gt;, LineSegment&lt; T, 2 &gt; &gt;',['../classmathter_1_1_intersection_3_01_line_segment_3_01_t_00_012_01_4_00_01_line_segment_3_01_t_00_012_01_4_01_4.html',1,'mathter']]],
-  ['intersection_3c_20linesegment_3c_20t_2c_20dim_20_3e_2c_20hyperplane_3c_20t_2c_20dim_20_3e_20_3e',['Intersection&lt; LineSegment&lt; T, Dim &gt;, Hyperplane&lt; T, Dim &gt; &gt;',['../classmathter_1_1_intersection_3_01_line_segment_3_01_t_00_01_dim_01_4_00_01_hyperplane_3_01_t_00_01_dim_01_4_01_4.html',1,'mathter']]]
+  ['concattypelist',['ConcatTypeList',['../structmathter_1_1traits_1_1_concat_type_list.html',1,'mathter::traits']]],
+  ['concattypelist_3c_20typelist_3c_20t_2e_2e_2e_20_3e_2c_20typelist_3c_20u_2e_2e_2e_20_3e_20_3e',['ConcatTypeList&lt; TypeList&lt; T... &gt;, TypeList&lt; U... &gt; &gt;',['../structmathter_1_1traits_1_1_concat_type_list_3_01_type_list_3_01_t_8_8_8_01_4_00_01_type_list_3_01_u_8_8_8_01_4_01_4.html',1,'mathter::traits']]],
+  ['constants',['Constants',['../classmathter_1_1_constants.html',1,'mathter']]]
 ];

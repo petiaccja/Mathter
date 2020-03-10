@@ -23,7 +23,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Mathter
    </div>
-   <div id="projectbrief">Aconfigurable3Dmathlibraryforgamedevelopers.</div>
+   <div id="projectbrief">A configurable 3D math library for game developers.</div>
   </td>
  </tr>
  </tbody>
@@ -65,18 +65,30 @@ $(function() {
 <li>Data()
 : <a class="el" href="classmathter_1_1_vector.html#a8f779b72069d2dd0ba56418290318a7f">mathter::Vector&lt; T, Dim, Packed &gt;</a>
 </li>
-<li>DecomposeLU()
-: <a class="el" href="classmathter_1_1_matrix_square_3_01_t_00_01_dim_00_01_dim_00_01_order_00_01_layout_00_01_packed_01_4.html#ad92c04e8c36afd8028706cd4d501710d">mathter::MatrixSquare&lt; T, Dim, Dim, Order, Layout, Packed &gt;</a>
-</li>
 <li>DecompositionLU()
-: <a class="el" href="classmathter_1_1_decomposition_l_u.html#ae81bb6b5cfe643143aed63624561e12b">mathter::DecompositionLU&lt; T, Dim, Order, Layout, Packed &gt;</a>
-, <a class="el" href="classmathter_1_1_matrix_square_3_01_t_00_01_dim_00_01_dim_00_01_order_00_01_layout_00_01_packed_01_4.html#a3fa781bec1457e38969d92d9cc63a523">mathter::MatrixSquare&lt; T, Dim, Dim, Order, Layout, Packed &gt;</a>
+: <a class="el" href="classmathter_1_1_decomposition_l_u.html#a892a1bad9f780617cda1149f92916049">mathter::DecompositionLU&lt; T, Dim, Order, Layout, Packed &gt;</a>
 </li>
-<li>Determinant()
-: <a class="el" href="classmathter_1_1_matrix_square_3_01_t_00_01_dim_00_01_dim_00_01_order_00_01_layout_00_01_packed_01_4.html#a3783d6013a3f8eac579777f7e9590e45">mathter::MatrixSquare&lt; T, Dim, Dim, Order, Layout, Packed &gt;</a>
+<li>DecompositionLUP
+: <a class="el" href="classmathter_1_1_decomposition_l_u.html#ae4499b0481e1d914fa1447cf8306cd25">mathter::DecompositionLU&lt; T, Dim, Order, Layout, Packed &gt;</a>
+, <a class="el" href="classmathter_1_1_decomposition_l_u_p.html#a234f7ba7a6c15ef58a8884116cd0f9ed">mathter::DecompositionLUP&lt; T, Dim, Order, Layout, Packed &gt;</a>
+</li>
+<li>DecompositionQR()
+: <a class="el" href="classmathter_1_1_decomposition_q_r.html#a777a2cd3603b298e5410ff72f71a29d4">mathter::DecompositionQR&lt; T, Rows, Columns, Order, Layout, Packed &gt;</a>
+</li>
+<li>DecompositionSVD()
+: <a class="el" href="classmathter_1_1_decomposition_s_v_d.html#aa99c43f9e32009fd3a1cbd70358df377">mathter::DecompositionSVD&lt; T, Rows, Columns, Order, Layout, Packed &gt;</a>
+</li>
+<li>difference_type
+: <a class="el" href="classmathter_1_1_range_helper_1_1iterator.html#ac400c6a0259773717014eff0fb521567">mathter::RangeHelper&lt; T &gt;::iterator</a>
+</li>
+<li>Dim
+: <a class="el" href="classmathter_1_1traits_1_1_vector_traits_helper_3_01_vector_3_01_t___00_01_dim___00_01_packed___01_4_01_4.html#afe8775672043d642d22a1beaa921c16a">mathter::traits::VectorTraitsHelper&lt; Vector&lt; T_, Dim_, Packed_ &gt; &gt;</a>
 </li>
 <li>Dimension()
 : <a class="el" href="classmathter_1_1_vector.html#a3193410f1ef77f63d2ad6712eebb903f">mathter::Vector&lt; T, Dim, Packed &gt;</a>
+</li>
+<li>direction
+: <a class="el" href="classmathter_1_1_line.html#a21188a632df6471ed38bcfc1a2fdd0d8">mathter::Line&lt; T, Dim &gt;</a>
 </li>
 <li>Direction()
 : <a class="el" href="classmathter_1_1_line.html#abf7dbc8c5e99cd8c43f1c446b6b8e168">mathter::Line&lt; T, Dim &gt;</a>
@@ -86,21 +98,18 @@ $(function() {
 : <a class="el" href="classmathter_1_1_hyperplane.html#a519eb90db05dbda2e291cc7fba482fd1">mathter::Hyperplane&lt; T, Dim &gt;</a>
 </li>
 <li>div()
-: <a class="el" href="union_simd.html#a1ce8972a031812bfc03cd5c07454cf16">Simd&lt; T, Dim &gt;</a>
-, <a class="el" href="union_simd_3_01float_00_014_01_4.html#a1e064127314f2a099a89e0e94bf15201">Simd&lt; float, 4 &gt;</a>
-, <a class="el" href="union_simd_3_01float_00_018_01_4.html#ad8f20b3c3a1b4b8c736614cffe472963">Simd&lt; float, 8 &gt;</a>
-</li>
-<li>Dot()
-: <a class="el" href="classmathter_1_1_vector.html#a5f58dab4091ba4f3bac679059e844931">mathter::Vector&lt; T, Dim, Packed &gt;</a>
+: <a class="el" href="unionmathter_1_1_simd.html#a9a31db63242fb4d03c5d883b95205fb3">mathter::Simd&lt; T, Dim &gt;</a>
+, <a class="el" href="unionmathter_1_1_simd_3_01double_00_012_01_4.html#ae589958f27e23c1759f3c44717626838">mathter::Simd&lt; double, 2 &gt;</a>
+, <a class="el" href="unionmathter_1_1_simd_3_01double_00_014_01_4.html#a4199f201cf75308e3bfa4ee3fc8bd3c4">mathter::Simd&lt; double, 4 &gt;</a>
+, <a class="el" href="unionmathter_1_1_simd_3_01float_00_014_01_4.html#a97c9a7dc648eb701cbce463f84388ee9">mathter::Simd&lt; float, 4 &gt;</a>
+, <a class="el" href="unionmathter_1_1_simd_3_01float_00_018_01_4.html#ad97758d8a45bd3fab42585b913974d5c">mathter::Simd&lt; float, 8 &gt;</a>
 </li>
 <li>dot()
-: <a class="el" href="union_simd.html#a3c72ec1e6b67fb859f7469baa70e2f77">Simd&lt; T, Dim &gt;</a>
-, <a class="el" href="union_simd_3_01float_00_014_01_4.html#a16403955cd2def45faf8439be0c7340c">Simd&lt; float, 4 &gt;</a>
-, <a class="el" href="union_simd_3_01float_00_018_01_4.html#a474bb5872c0781c7239ed1070a5f2e9a">Simd&lt; float, 8 &gt;</a>
-</li>
-<li>DumpLayout()
-: <a class="el" href="classmathter_1_1_matrix.html#a04b6b4f6d700e1a71e5be35e3c94be95">mathter::Matrix&lt; T, Rows, Columns, Order, Layout, Packed &gt;</a>
-, <a class="el" href="classmathter_1_1_vector.html#ada41d8aeddd1bd2c07c5f5addb4b3c9c">mathter::Vector&lt; T, Dim, Packed &gt;</a>
+: <a class="el" href="unionmathter_1_1_simd.html#ae07a6facb9841cd89e4f6b18b2d20548">mathter::Simd&lt; T, Dim &gt;</a>
+, <a class="el" href="unionmathter_1_1_simd_3_01double_00_012_01_4.html#a14932af63148e983aac5157f88616aa9">mathter::Simd&lt; double, 2 &gt;</a>
+, <a class="el" href="unionmathter_1_1_simd_3_01double_00_014_01_4.html#a56de7d317cde63f349ee280682cefa29">mathter::Simd&lt; double, 4 &gt;</a>
+, <a class="el" href="unionmathter_1_1_simd_3_01float_00_014_01_4.html#ae977a7777606a74231962c3091102f24">mathter::Simd&lt; float, 4 &gt;</a>
+, <a class="el" href="unionmathter_1_1_simd_3_01float_00_018_01_4.html#a1f50cffca76887127afd5b35fa85681f">mathter::Simd&lt; float, 8 &gt;</a>
 </li>
 </ul>
 </div><!-- contents -->

@@ -23,7 +23,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Mathter
    </div>
-   <div id="projectbrief">Aconfigurable3Dmathlibraryforgamedevelopers.</div>
+   <div id="projectbrief">A configurable 3D math library for game developers.</div>
   </td>
  </tr>
  </tbody>
@@ -65,13 +65,15 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="classmathter_1_1_matrix_data-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">mathter::MatrixData&lt; T, Rows, Columns, Order, Layout, Packed &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="_matrix_8hpp_source.html">Matrix.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="_matrix_impl_8hpp_source.html">MatrixImpl.hpp</a>&gt;</code></p>
 <div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for mathter::MatrixData&lt; T, Rows, Columns, Order, Layout, Packed &gt;:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
@@ -82,19 +84,36 @@ $(function() {
   <map id="mathter::MatrixData_3C_20T_2C_20Rows_2C_20Columns_2C_20Order_2C_20Layout_2C_20Packed_20_3E_map" name="mathter::MatrixData_3C_20T_2C_20Rows_2C_20Columns_2C_20Order_2C_20Layout_2C_20Packed_20_3E_map">
 <area href="classmathter_1_1_matrix.html" alt="mathter::Matrix&lt; T, Rows, Columns, Order, Layout, Packed &gt;" shape="rect" coords="0,56,388,80"/>
 <area href="classmathter_1_1_matrix.html" alt="mathter::Matrix&lt; T, Dim, Dim, Order, Layout, Packed &gt;" shape="rect" coords="398,56,786,80"/>
+<area href="classmathter_1_1_matrix.html" alt="mathter::Matrix&lt; T, Rows, Rows, Order, Layout, Packed &gt;" shape="rect" coords="796,56,1184,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a803ffee553e6b685d1b8906fc9ea9438"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathter_1_1_matrix_data.html#a803ffee553e6b685d1b8906fc9ea9438">ColumnCount</a> () const</td></tr>
+<tr class="memdesc:a803ffee553e6b685d1b8906fc9ea9438"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of columns of the matrix.  <a href="#a803ffee553e6b685d1b8906fc9ea9438">More...</a><br /></td></tr>
 <tr class="separator:a803ffee553e6b685d1b8906fc9ea9438"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8661a67a7083bef90e0fe16295942da1"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathter_1_1_matrix_data.html#a8661a67a7083bef90e0fe16295942da1">RowCount</a> () const</td></tr>
+<tr class="memdesc:a8661a67a7083bef90e0fe16295942da1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of rows of the matrix.  <a href="#a8661a67a7083bef90e0fe16295942da1">More...</a><br /></td></tr>
 <tr class="separator:a8661a67a7083bef90e0fe16295942da1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e04486b4bf9c5a51a47622837ea2321"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathter_1_1_matrix_data.html#a2e04486b4bf9c5a51a47622837ea2321">Width</a> () const</td></tr>
+<tr class="memdesc:a2e04486b4bf9c5a51a47622837ea2321"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of columns of the matrix.  <a href="#a2e04486b4bf9c5a51a47622837ea2321">More...</a><br /></td></tr>
 <tr class="separator:a2e04486b4bf9c5a51a47622837ea2321"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c32b42850f846eac2ac273d8663b0ae"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathter_1_1_matrix_data.html#a4c32b42850f846eac2ac273d8663b0ae">Height</a> () const</td></tr>
+<tr class="memdesc:a4c32b42850f846eac2ac273d8663b0ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of rows of the matrix.  <a href="#a4c32b42850f846eac2ac273d8663b0ae">More...</a><br /></td></tr>
 <tr class="separator:a4c32b42850f846eac2ac273d8663b0ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a83d6498b0f696cf3963330f3f672d8be"><td class="memItemLeft" align="right" valign="top">std::array&lt; <a class="el" href="classmathter_1_1_vector.html">Vector</a>&lt; T, <a class="el" href="classmathter_1_1_matrix_data.html#a53ec9d0df8a364ab77905e0d541937df">StripeDim</a>, Packed &gt;, <a class="el" href="classmathter_1_1_matrix_data.html#a215778fe0f99b548c1f88f610a9b039b">StripeCount</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathter_1_1_matrix_data.html#a83d6498b0f696cf3963330f3f672d8be">stripes</a></td></tr>
+<tr class="separator:a83d6498b0f696cf3963330f3f672d8be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:a53ec9d0df8a364ab77905e0d541937df"><td class="memItemLeft" align="right" valign="top">static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathter_1_1_matrix_data.html#a53ec9d0df8a364ab77905e0d541937df">StripeDim</a> = Layout == <a class="el" href="namespacemathter.html#aa43cfd54adea35fd8286213c5d198336a21541962976d7709c26e9cd8385bd648">eMatrixLayout::ROW_MAJOR</a> ? Columns : Rows</td></tr>
+<tr class="separator:a53ec9d0df8a364ab77905e0d541937df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a215778fe0f99b548c1f88f610a9b039b"><td class="memItemLeft" align="right" valign="top">static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathter_1_1_matrix_data.html#a215778fe0f99b548c1f88f610a9b039b">StripeCount</a> = Layout == <a class="el" href="namespacemathter.html#aa43cfd54adea35fd8286213c5d198336a21541962976d7709c26e9cd8385bd648">eMatrixLayout::ROW_MAJOR</a> ? Rows : Columns</td></tr>
+<tr class="separator:a215778fe0f99b548c1f88f610a9b039b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a803ffee553e6b685d1b8906fc9ea9438"></a>
@@ -103,7 +122,7 @@ Public Member Functions</h2></td></tr>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T , int Rows, int Columns, eMatrixOrder Order = eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout Layout = eMatrixLayout::ROW_MAJOR, bool Packed = false&gt; </div>
+template&lt;class T, int Rows, int Columns, eMatrixOrder Order = eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout Layout = eMatrixLayout::ROW_MAJOR, bool Packed = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -122,6 +141,8 @@ template&lt;class T , int Rows, int Columns, eMatrixOrder Order = eMatrixOrder::
 </table>
 </div><div class="memdoc">
 
+<p>Returns the number of columns of the matrix. </p>
+
 </div>
 </div>
 <a id="a4c32b42850f846eac2ac273d8663b0ae"></a>
@@ -130,7 +151,7 @@ template&lt;class T , int Rows, int Columns, eMatrixOrder Order = eMatrixOrder::
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T , int Rows, int Columns, eMatrixOrder Order = eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout Layout = eMatrixLayout::ROW_MAJOR, bool Packed = false&gt; </div>
+template&lt;class T, int Rows, int Columns, eMatrixOrder Order = eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout Layout = eMatrixLayout::ROW_MAJOR, bool Packed = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -149,6 +170,8 @@ template&lt;class T , int Rows, int Columns, eMatrixOrder Order = eMatrixOrder::
 </table>
 </div><div class="memdoc">
 
+<p>Returns the number of rows of the matrix. </p>
+
 </div>
 </div>
 <a id="a8661a67a7083bef90e0fe16295942da1"></a>
@@ -157,7 +180,7 @@ template&lt;class T , int Rows, int Columns, eMatrixOrder Order = eMatrixOrder::
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T , int Rows, int Columns, eMatrixOrder Order = eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout Layout = eMatrixLayout::ROW_MAJOR, bool Packed = false&gt; </div>
+template&lt;class T, int Rows, int Columns, eMatrixOrder Order = eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout Layout = eMatrixLayout::ROW_MAJOR, bool Packed = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -176,6 +199,8 @@ template&lt;class T , int Rows, int Columns, eMatrixOrder Order = eMatrixOrder::
 </table>
 </div><div class="memdoc">
 
+<p>Returns the number of rows of the matrix. </p>
+
 </div>
 </div>
 <a id="a2e04486b4bf9c5a51a47622837ea2321"></a>
@@ -184,7 +209,7 @@ template&lt;class T , int Rows, int Columns, eMatrixOrder Order = eMatrixOrder::
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T , int Rows, int Columns, eMatrixOrder Order = eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout Layout = eMatrixLayout::ROW_MAJOR, bool Packed = false&gt; </div>
+template&lt;class T, int Rows, int Columns, eMatrixOrder Order = eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout Layout = eMatrixLayout::ROW_MAJOR, bool Packed = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -203,10 +228,77 @@ template&lt;class T , int Rows, int Columns, eMatrixOrder Order = eMatrixOrder::
 </table>
 </div><div class="memdoc">
 
+<p>Returns the number of columns of the matrix. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a215778fe0f99b548c1f88f610a9b039b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a215778fe0f99b548c1f88f610a9b039b">&#9670;&nbsp;</a></span>StripeCount</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, int Rows, int Columns, eMatrixOrder Order = eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout Layout = eMatrixLayout::ROW_MAJOR, bool Packed = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr int <a class="el" href="classmathter_1_1_matrix_data.html">mathter::MatrixData</a>&lt; T, Rows, Columns, Order, Layout, Packed &gt;::StripeCount = Layout == <a class="el" href="namespacemathter.html#aa43cfd54adea35fd8286213c5d198336a21541962976d7709c26e9cd8385bd648">eMatrixLayout::ROW_MAJOR</a> ? Rows : Columns</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a53ec9d0df8a364ab77905e0d541937df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53ec9d0df8a364ab77905e0d541937df">&#9670;&nbsp;</a></span>StripeDim</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, int Rows, int Columns, eMatrixOrder Order = eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout Layout = eMatrixLayout::ROW_MAJOR, bool Packed = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr int <a class="el" href="classmathter_1_1_matrix_data.html">mathter::MatrixData</a>&lt; T, Rows, Columns, Order, Layout, Packed &gt;::StripeDim = Layout == <a class="el" href="namespacemathter.html#aa43cfd54adea35fd8286213c5d198336a21541962976d7709c26e9cd8385bd648">eMatrixLayout::ROW_MAJOR</a> ? Columns : Rows</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a83d6498b0f696cf3963330f3f672d8be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83d6498b0f696cf3963330f3f672d8be">&#9670;&nbsp;</a></span>stripes</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, int Rows, int Columns, eMatrixOrder Order = eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout Layout = eMatrixLayout::ROW_MAJOR, bool Packed = false&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::array&lt;<a class="el" href="classmathter_1_1_vector.html">Vector</a>&lt;T, <a class="el" href="classmathter_1_1_matrix_data.html#a53ec9d0df8a364ab77905e0d541937df">StripeDim</a>, Packed&gt;, <a class="el" href="classmathter_1_1_matrix_data.html#a215778fe0f99b548c1f88f610a9b039b">StripeCount</a>&gt; <a class="el" href="classmathter_1_1_matrix_data.html">mathter::MatrixData</a>&lt; T, Rows, Columns, Order, Layout, Packed &gt;::stripes</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Home/Programming/Mathter/Mathter/<a class="el" href="_matrix_8hpp_source.html">Matrix.hpp</a></li>
+<li>/home/petiaccja/Programming/Mathter/Mathter/Matrix/<a class="el" href="_matrix_impl_8hpp_source.html">MatrixImpl.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

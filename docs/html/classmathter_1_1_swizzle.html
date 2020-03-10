@@ -23,7 +23,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Mathter
    </div>
-   <div id="projectbrief">Aconfigurable3Dmathlibraryforgamedevelopers.</div>
+   <div id="projectbrief">A configurable 3D math library for game developers.</div>
   </td>
  </tr>
  </tbody>
@@ -74,7 +74,7 @@ $(function() {
 <p>Enables element swizzling (reordering elements) for vectors.  
  <a href="classmathter_1_1_swizzle.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="_vector_8hpp_source.html">Vector.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="_definitions_8hpp_source.html">Definitions.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -104,6 +104,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2a975171170f06fcd2a1c2c15926a4b1"><td class="memItemLeft" align="right" valign="top">T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathter_1_1_swizzle.html#a2a975171170f06fcd2a1c2c15926a4b1">operator[]</a> (int idx) const</td></tr>
 <tr class="memdesc:a2a975171170f06fcd2a1c2c15926a4b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the nth element of the swizzled vector. Example: v.zxy[2] returns y.  <a href="#a2a975171170f06fcd2a1c2c15926a4b1">More...</a><br /></td></tr>
 <tr class="separator:a2a975171170f06fcd2a1c2c15926a4b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3abbce8521153472237990b3e4bce235"><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathter_1_1_swizzle.html#a3abbce8521153472237990b3e4bce235">operator()</a> (int idx)</td></tr>
+<tr class="memdesc:a3abbce8521153472237990b3e4bce235"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the nth element of the swizzled vector. Example: v.zxy(2) returns y.  <a href="#a3abbce8521153472237990b3e4bce235">More...</a><br /></td></tr>
+<tr class="separator:a3abbce8521153472237990b3e4bce235"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88c3daf756fff413886327bf467bde48"><td class="memItemLeft" align="right" valign="top">T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmathter_1_1_swizzle.html#a88c3daf756fff413886327bf467bde48">operator()</a> (int idx) const</td></tr>
+<tr class="memdesc:a88c3daf756fff413886327bf467bde48"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the nth element of the swizzled vector. Example: v.zxy(2) returns y.  <a href="#a88c3daf756fff413886327bf467bde48">More...</a><br /></td></tr>
+<tr class="separator:a88c3daf756fff413886327bf467bde48"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac1175273245b65478ca7cb9e1b57181a"><td class="memTemplParams" colspan="2">template&lt;bool Packed = false&gt; </td></tr>
 <tr class="memitem:ac1175273245b65478ca7cb9e1b57181a"><td class="memTemplItemLeft" align="right" valign="top">const auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classmathter_1_1_swizzle.html#ac1175273245b65478ca7cb9e1b57181a">ToVector</a> () const</td></tr>
 <tr class="memdesc:ac1175273245b65478ca7cb9e1b57181a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds the swizzled vector object.  <a href="#ac1175273245b65478ca7cb9e1b57181a">More...</a><br /></td></tr>
@@ -176,6 +182,66 @@ template&lt;class T, int... Indices&gt; </div>
 </div><div class="memdoc">
 
 <p>Builds the swizzled vector object. </p>
+
+</div>
+</div>
+<a id="a3abbce8521153472237990b3e4bce235"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3abbce8521153472237990b3e4bce235">&#9670;&nbsp;</a></span>operator()() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, int... Indices&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T&amp; <a class="el" href="classmathter_1_1_swizzle.html">mathter::Swizzle</a>&lt; T, Indices &gt;::operator() </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>idx</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the nth element of the swizzled vector. Example: v.zxy(2) returns y. </p>
+
+</div>
+</div>
+<a id="a88c3daf756fff413886327bf467bde48"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88c3daf756fff413886327bf467bde48">&#9670;&nbsp;</a></span>operator()() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T, int... Indices&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T <a class="el" href="classmathter_1_1_swizzle.html">mathter::Swizzle</a>&lt; T, Indices &gt;::operator() </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>idx</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the nth element of the swizzled vector. Example: v.zxy(2) returns y. </p>
 
 </div>
 </div>
@@ -368,8 +434,9 @@ template&lt;class T, int... Indices&gt; </div>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Home/Programming/Mathter/Mathter/<a class="el" href="_vector_8hpp_source.html">Vector.hpp</a></li>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li>/home/petiaccja/Programming/Mathter/Mathter/Common/<a class="el" href="_definitions_8hpp_source.html">Definitions.hpp</a></li>
+<li>/home/petiaccja/Programming/Mathter/Mathter/Vector/<a class="el" href="_vector_impl_8hpp_source.html">VectorImpl.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

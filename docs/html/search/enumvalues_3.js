@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['row_5fmajor',['ROW_MAJOR',['../namespacemathter.html#aa43cfd54adea35fd8286213c5d198336a21541962976d7709c26e9cd8385bd648',1,'mathter']]]
+  ['none',['NONE',['../namespacemathter.html#a5229d739adb6492fcb269f0168b72724ab50339a10e1de285ac99d4c3990b8693',1,'mathter']]]
 ];

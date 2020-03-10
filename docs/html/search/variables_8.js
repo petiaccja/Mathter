@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['v',['v',['../union_simd.html#ae997f157194e3622fe2350ee141e0032',1,'Simd::v()'],['../union_simd_3_01float_00_014_01_4.html#a53665c63c6634ca31cf97ecac866db10',1,'Simd&lt; float, 4 &gt;::v()'],['../union_simd_3_01float_00_018_01_4.html#aa904d5fbd11e7633cd49b2ba09da93fc',1,'Simd&lt; float, 8 &gt;::v()']]],
-  ['vec',['vec',['../classmathter_1_1_quaternion.html#a810cfb194f57ac51ab5a6e0319d00630',1,'mathter::Quaternion']]]
+  ['l',['L',['../classmathter_1_1_decomposition_l_u.html#acaf38136260b375844eeb89c3adcc19e',1,'mathter::DecompositionLU::L()'],['../classmathter_1_1_decomposition_l_u_p.html#ad82e62a5f18bf852d7636d1d18480345',1,'mathter::DecompositionLUP::L()']]],
+  ['layout',['Layout',['../classmathter_1_1traits_1_1_matrix_traits_helper_3_01_matrix_3_01_t___00_01_rows___00_01_columns_21c4855a190d4018823d9777014443b7.html#adc24909147eb672e90b0ee7c941ce41d',1,'mathter::traits::MatrixTraitsHelper&lt; Matrix&lt; T_, Rows_, Columns_, Order_, Layout_, Packed_ &gt; &gt;']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['hyperplane',['Hyperplane',['../classmathter_1_1_hyperplane.html',1,'mathter']]]
+  ['beziercurve',['BezierCurve',['../classmathter_1_1_bezier_curve.html',1,'mathter']]]
 ];

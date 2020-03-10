@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['l',['L',['../classmathter_1_1_decomposition_l_u.html#acaf38136260b375844eeb89c3adcc19e',1,'mathter::DecompositionLU']]]
+  ['e',['E',['../classmathter_1_1_constants.html#a40a53cab0181a0bba7ac0e60082f43eb',1,'mathter::Constants']]]
 ];

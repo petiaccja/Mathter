@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['simd',['Simd',['../union_simd.html',1,'']]],
-  ['simd_3c_20float_2c_204_20_3e',['Simd&lt; float, 4 &gt;',['../union_simd_3_01float_00_014_01_4.html',1,'']]],
-  ['simd_3c_20float_2c_208_20_3e',['Simd&lt; float, 8 &gt;',['../union_simd_3_01float_00_018_01_4.html',1,'']]],
-  ['swizzle',['Swizzle',['../classmathter_1_1_swizzle.html',1,'mathter']]]
+  ['line',['Line',['../classmathter_1_1_line.html',1,'mathter']]],
+  ['line_3c_20t_2c_202_20_3e',['Line&lt; T, 2 &gt;',['../classmathter_1_1_line.html',1,'mathter']]],
+  ['linesegment',['LineSegment',['../classmathter_1_1_line_segment.html',1,'mathter']]],
+  ['linesegment_3c_20t_2c_202_20_3e',['LineSegment&lt; T, 2 &gt;',['../classmathter_1_1_line_segment.html',1,'mathter']]]
 ];
