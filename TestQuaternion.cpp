@@ -50,6 +50,16 @@ TEST_CASE_VEC_VARIANT("Quaternion - AxisAngle", "[Quaternion]", TypesFloating, P
 	}
 }
 
+TEST_CASE_VEC_VARIANT("Quaternion - TriAxis", "[Quaternion]", TypesFloating, PackedAll) {
+	SECTION(SECTIONNAMEVEC) {
+		QuatT q = RotationAxis3<1,2,0>(1.0f, 0.8f, 1.2f);
+		QuatT qexp = QuatT(RotationAxisAngle(VectorT<3>{ 1, 0, 0 }, 1.2f))
+			* QuatT(RotationAxisAngle(VectorT<3>{ 0, 0, 1 }, 0.8f))
+			* QuatT(RotationAxisAngle(VectorT<3>{ 0, 1, 0 }, 1.0f));
+		REQUIRE(ApproxVec(q) == qexp);
+	}
+}
+
 TEST_CASE_VEC_VARIANT("Quaternion - QueryAxisAngle", "[Quaternion]", TypesFloating, PackedAll) {
 	SECTION(SECTIONNAMEVEC) {
 		VectorT<3> axis = { 1,2,3 };

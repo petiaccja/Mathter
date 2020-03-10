@@ -114,12 +114,14 @@ private:
 ///		we need multiple up vectors. Unfortunately I can't fucking remember how these
 ///		basis vectors are used, but they are orthogonalized to each-other and to the look vector.
 ///		I can't remember the order of orthogonalization. </remarks>
-template <class T, int Dim, bool Packed>
+template <class T, int Dim, bool Packed, size_t BaseDim, size_t FlipDim>
 auto LookAt(const Vector<T, Dim, Packed>& eye,
 			const Vector<T, Dim, Packed>& target,
-			const std::array<Vector<T, Dim, Packed>, size_t(Dim - 2)>& bases,
-			const std::array<bool, Dim>& flipAxes) {
-	return ViewBuilder(eye, target, bases, flipAxes);
+			const std::array<Vector<T, Dim, Packed>, BaseDim>& bases,
+			const std::array<bool, FlipDim>& flipAxes) {
+	static_assert(BaseDim == Dim - 2, "You must provide 2 fewer bases than the dimension of the transform.");
+	static_assert(Dim == FlipDim, "You must provide the same number of flips as the dimension of the transform.");
+	return ViewBuilder<T, Dim, Packed>(eye, target, bases, flipAxes);
 }
 
 
@@ -143,7 +145,7 @@ auto LookAt(const Vector<T, 2, Packed>& eye, const Vector<T, 2, Packed>& target,
 /// <param name="flipY"> True to flip Y in camera space. </param>
 template <class T, bool Packed>
 auto LookAt(const Vector<T, 3, Packed>& eye, const Vector<T, 3, Packed>& target, const Vector<T, 3, Packed>& up, bool positiveZForward = true, bool flipX = false, bool flipY = false) {
-	return LookAt(eye, target, std::array<Vector<T, 3, Packed>, 1>{ up }, std::array{ flipX, flipY, positiveZForward });
+	return LookAt(eye, target, std::array<Vector<T, 3, Packed>, 1>{ up }, std::array<bool, 3>{ flipX, flipY, positiveZForward });
 }
 
 

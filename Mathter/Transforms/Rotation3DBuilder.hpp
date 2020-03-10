@@ -1,11 +1,11 @@
 #pragma once
 
-
 #include "../Matrix/MatrixFunction.hpp"
 #include "../Matrix/MatrixImpl.hpp"
 #include "../Quaternion/QuaternionImpl.hpp"
 #include "../Vector.hpp"
 #include "IdentityBuilder.hpp"
+#include <stdexcept>
 
 
 namespace mathter {
@@ -106,8 +106,8 @@ private:
 		}
 	}
 
-	float angle;
-	int axis;
+	const float angle;
+	const int axis;
 };
 
 
@@ -198,10 +198,10 @@ private:
 	void Set(Matrix<U, Rows, Columns, Order, Layout, MPacked>& m) const {
 		using MatT = Matrix<U, 3, 3, Order, Layout, MPacked>;
 		if constexpr (Order == eMatrixOrder::FOLLOW_VECTOR) {
-			m.Submatrix<3, 3>(0, 0) = MatT(RotationAxis(angles[0], axes[0])) * MatT(RotationAxis(angles[1], axes[1])) * MatT(RotationAxis(angles[2], axes[2]));
+			m.template Submatrix<3, 3>(0, 0) = MatT(RotationAxis(angles[0], axes[0])) * MatT(RotationAxis(angles[1], axes[1])) * MatT(RotationAxis(angles[2], axes[2]));
 		}
 		else {
-			m.Submatrix<3, 3>(0, 0) = MatT(RotationAxis(angles[2], axes[2])) * MatT(RotationAxis(angles[1], axes[1])) * MatT(RotationAxis(angles[0], axes[0]));
+			m.template Submatrix<3, 3>(0, 0) = MatT(RotationAxis(angles[2], axes[2])) * MatT(RotationAxis(angles[1], axes[1])) * MatT(RotationAxis(angles[0], axes[0]));
 		}
 
 		// Rest
@@ -212,7 +212,7 @@ private:
 		}
 	}
 
-	const std::array<T, 3>& angles;
+	const std::array<T, 3> angles;
 	const std::array<int, 3> axes;
 };
 
@@ -222,8 +222,8 @@ private:
 /// <remarks> Axes: 0 for X, 1 for Y and 2 for Z.
 ///		Angles in radians. </remarks>
 template <int FirstAxis, int SecondAxis, int ThirdAxis, class T>
-auto RotationAxis3(T angle1, T angle2, T angle3) {
-	return Rotation3DAxisBuilder(std::array<T, 3>{ angle1, angle2, angle3 }, std::array<int, 3>{ FirstAxis, SecondAxis, ThirdAxis });
+auto RotationAxis3(T angle0, T angle1, T angle2) {
+	return Rotation3DTriAxisBuilder(std::array<T, 3>{ angle0, angle1, angle2 }, std::array<int, 3>{ FirstAxis, SecondAxis, ThirdAxis });
 }
 
 /// <summary> Rotation matrix from Euler angles. Rotations are Z-X-Z. </summary>
@@ -320,7 +320,7 @@ private:
 		}
 	}
 
-	const Vector<T, 3, Packed>& axis;
+	const Vector<T, 3, Packed> axis;
 	const T angle;
 };
 
@@ -361,6 +361,7 @@ Rotation3DAxisBuilder<T>::operator Quaternion<U, QPacked>() const {
 		case 2: return QuatT(RotationAxisAngle(Vector<U, 3, QPacked>(0, 0, 1), angle));
 	}
 	assert(false);
+	throw std::invalid_argument("Axis must be 0, 1, or 2.");
 }
 
 template <class T>
@@ -373,8 +374,8 @@ Rotation3DTriAxisBuilder<T>::operator Quaternion<U, QPacked>() const {
 template <class T, bool Packed>
 template <class U, bool QPacked>
 Rotation3DAxisAngleBuilder<T, Packed>::operator Quaternion<U, QPacked>() const {
-	auto halfAngle = angle * T(0.5);
-	return Quaternion(cos(halfAngle), axis * sin(halfAngle));
+	auto halfAngle = U(angle) * U(0.5);
+	return Quaternion(std::cos(halfAngle), Vector<U, 3, QPacked>(axis) * std::sin(halfAngle));
 }
 
 

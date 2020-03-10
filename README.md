@@ -62,7 +62,7 @@ Features
   - Prefers mathematical notation (i.e. quaternions are chained qr = q3\*q2\*q1)
   - Many things are generalized to higher dimensions (i.e. hyperplanes, N-dimensional transforms & functions), but interfaces are not compromised
 
-For details, browse [Mathter's wiki](https://github.com/petiaccja/Mathter/wiki).
+For details, browse the [API reference](https://petiaccja.github.io/Mathter).
 
 Code example
 ---

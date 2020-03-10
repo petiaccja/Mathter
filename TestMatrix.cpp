@@ -756,6 +756,46 @@ TEST_CASE("Matrix - RotationPrincipal", "[Matrix]") {
 }
 
 
+TEST_CASE("Matrix - RotationTriAxis", "[Matrix]") {
+	Matrix<float, 3, 3> m1 = RotationAxis3<0,1,1>(1.f, 1.0f, -1.0f);
+	Matrix<float, 3, 3> mexp = {
+		1.000000, 0.000000, 0.000000,
+		0.000000, 0.540302, 0.841471,
+		0.000000, -0.841471, 0.540302
+	};
+	REQUIRE(ApproxVec(m1) == mexp);
+
+
+	Matrix<float, 4, 3> m2 = RotationAxis3<0,1,2>(0.0f,1.f, 0.0f);
+	Matrix<float, 4, 3> m2exp = {
+		0.540302, 0.000000, -0.841471,
+		0.000000, 1.000000, 0.000000,
+		0.841471, 0.000000, 0.540302,
+		0, 0, 0
+	};
+	REQUIRE(ApproxVec(m2) == m2exp);
+
+
+	Matrix<float, 3, 4, eMatrixOrder::PRECEDE_VECTOR> m3 = RotationAxis3<1,1,2>(1.0f, -1.0f,1.f);
+	Matrix<float, 4, 3> m3exp = {
+		0.540302, 0.841471, 0.000000,
+		-0.841471, 0.540302, 0.000000,
+		0.000000, 0.000000, 1.000000,
+		0, 0, 0
+	};
+	REQUIRE(ApproxVec(m3) == Transpose(m3exp));
+
+	Matrix<float, 4, 4> m4 = RotationAxis3<0,0,2>(-1.0f, 1.0f, 1.f);
+	Matrix<float, 4, 4> m4exp = {
+		0.540302, 0.841471, 0.000000, 0,
+		-0.841471, 0.540302, 0.000000, 0,
+		0.000000, 0.000000, 1.000000, 0,
+		0, 0, 0, 1
+	};
+	REQUIRE(ApproxVec(m4) == m4exp);
+}
+
+
 TEST_CASE("Matrix - RotationAxisAngle", "[Matrix]") {
 	Matrix<float, 3, 3> m = RotationAxisAngle(Normalize(Vector<float, 3>(1, 2, 3)), 1.0f);
 	Matrix<float, 3, 3> mexp = {
