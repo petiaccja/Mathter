@@ -35,7 +35,7 @@ Features
   - Vector\*Quat
   - Matrix\*Matrix
   - Quat\*Quat
-- Transformations (they are N-dimensional):
+- Transformations (they work in higher dimensions, too):
   - Rotation (only 2D, 3D), scale, translation, orthographic projection, perspective projection, camera look-at, shear
 - Common functions:
   - Vectors: length, dot product, cross product, normalization, ...
