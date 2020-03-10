@@ -229,7 +229,6 @@ class MATHTER_EBCO Matrix
 	: public MatrixData<T, Rows, Columns, Order, Layout, Packed>,
 	  public MatrixLU<T, Rows, Columns, Order, Layout, Packed>::Inherit,
 	  public MatrixQR<T, Rows, Columns, Order, Layout, Packed>::Inherit,
-	  public MatrixSVD<T, Rows, Columns, Order, Layout, Packed>::Inherit,
 	  public MatrixSquare<T, Rows, Columns, Order, Layout, Packed>::Inherit {
 	static_assert(Columns >= 1 && Rows >= 1, "Dimensions must be positive integers.");
 
@@ -242,8 +241,6 @@ protected:
 
 	template <class T2, int Dim, eMatrixOrder Order2, eMatrixLayout Layout2, bool Packed2>
 	friend class mathter::DecompositionLU;
-	template <class T2, int Rows2, int Columns2, eMatrixOrder Order2, eMatrixLayout Layout2, bool Packed2>
-	friend class mathter::MatrixSVD;
 
 	template <class T2, int Rows2, int Columns2, eMatrixOrder Order2, eMatrixLayout Layout2, bool Packed2>
 	friend class Matrix;

@@ -384,18 +384,12 @@ TEST_CASE_VARIANT("Matrix - SVD", "[Matrix]", TypesFloating, OrdersFollow, Layou
 			0, 0, 0, 0, 0,
 			0, 2, 0, 0, 0,
 		}.Transposed();
-		MatrixT<5, 4> U1;
-		MatrixT<4, 4> S1;
-		MatrixT<4, 4> V1;
 
-		A1.DecomposeSVD(U1, S1, V1);
+		auto [U1, S1, V1] = DecomposeSVD(A1);
 		auto A1assembled = U1 * S1*V1;
 		REQUIRE(ApproxVec(A1) == A1assembled);
 
-		MatrixT<4, 4> U1T;
-		MatrixT<4, 4> S1T;
-		MatrixT<4, 5> V1T;
-		A1.Transposed().DecomposeSVD(U1T, S1T, V1T);
+		auto [U1T, S1T, V1T] =DecomposeSVD(A1.Transposed());
 		auto A1Tassembled = U1T * S1T*V1T;
 		REQUIRE(ApproxVec(A1Tassembled) == A1.Transposed());
 
@@ -406,8 +400,7 @@ TEST_CASE_VARIANT("Matrix - SVD", "[Matrix]", TypesFloating, OrdersFollow, Layou
 			0.3f, -0.2f, 10
 		};
 
-		MatrixT<3, 3> U2, S2, V2;
-		A2.DecomposeSVD(U2, S2, V2);
+		auto [U2, S2, V2] = DecomposeSVD(A2);
 		auto A2assembled = U2 * S2*V2;
 		REQUIRE(ApproxVec(A2assembled) == A2);
 	}
@@ -418,14 +411,14 @@ TEST_CASE("Matrix - SVD Identity", "[Matrix]") {
 	Matrix<float, 2, 2> m;
 	m.SetIdentity();
 
-	auto svd = m.DecompositionSVD();
+	auto svd = DecomposeSVD(m);
 	REQUIRE(svd.U == ApproxVec(Matrix<float, 2, 2>::Identity()));
 	REQUIRE(svd.S == ApproxVec(Matrix<float, 2, 2>::Identity()));
 	REQUIRE(svd.V == ApproxVec(Matrix<float, 2, 2>::Identity()));
 
 	Matrix<float, 4, 4> m4;
 	m4.SetIdentity();
-	auto svd4 = m4.DecompositionSVD();
+	auto svd4 = DecomposeSVD(m4);
 	REQUIRE(svd4.U == ApproxVec(Matrix<float, 4, 4>::Identity()));
 	REQUIRE(svd4.S == ApproxVec(Matrix<float, 4, 4>::Identity()));
 	REQUIRE(svd4.V == ApproxVec(Matrix<float, 4, 4>::Identity()));

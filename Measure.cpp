@@ -285,7 +285,7 @@ double MeasureSvd2x2(double* cycles) {
 	Type c1, s1, c2, s2, d1, d2;
 	for (int j = 0; j < repeatCount; ++j) {
 		for (auto& M : matrices) {
-			Svd2x2Helper(M, c1, s1, c2, s2, d1, d2);
+			impl::Svd2x2Helper(M, c1, s1, c2, s2, d1, d2);
 		}
 	}
 #ifdef USE_RDTSC
