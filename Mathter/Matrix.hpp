@@ -228,7 +228,6 @@ template <class T, int Rows, int Columns, eMatrixOrder Order = eMatrixOrder::FOL
 class MATHTER_EBCO Matrix
 	: public MatrixData<T, Rows, Columns, Order, Layout, Packed>,
 	  public MatrixLU<T, Rows, Columns, Order, Layout, Packed>::Inherit,
-	  public MatrixQR<T, Rows, Columns, Order, Layout, Packed>::Inherit,
 	  public MatrixSquare<T, Rows, Columns, Order, Layout, Packed>::Inherit {
 	static_assert(Columns >= 1 && Rows >= 1, "Dimensions must be positive integers.");
 

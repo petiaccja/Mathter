@@ -347,10 +347,7 @@ TEST_CASE_VARIANT("Matrix - QR decomposition", "[Matrix]", TypesFloating, Orders
 			0, 0, 0, 0, 0,
 			0, 2, 0, 0, 0,
 		}.Transposed();
-		MatrixT<5, 4> R1;
-		MatrixT<5, 5> Q1;
-
-		A1.DecomposeQR(Q1, R1);
+		auto [Q1, R1] = DecomposeQR(A1);
 		MatrixT<5, 4> A1assembled = Q1 * R1;
 		REQUIRE(ApproxVec(A1assembled) == A1);
 
@@ -364,10 +361,8 @@ TEST_CASE_VARIANT("Matrix - QR decomposition", "[Matrix]", TypesFloating, Orders
 			//6, 167, -68,
 			//-4, 24, -41
 		};
-		MatrixT<3, 3> R2;
-		MatrixT<3, 3> Q2;
 
-		A2.DecomposeQR(Q2, R2);
+		auto [Q2, R2] = DecomposeQR(A2);
 
 		MatrixT<3, 3> A2assembled = Q2 * R2;
 		REQUIRE(ApproxVec(A2assembled) == A2);

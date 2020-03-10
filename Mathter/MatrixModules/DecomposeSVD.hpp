@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "MatrixModule.hpp"
+#include "DecomposeQR.hpp"
 
 #include <algorithm>
 
@@ -25,11 +25,6 @@ class DecompositionSVD {
 	static constexpr int Vdim = Columns;
 
 public:
-	/// <summary> Calculates the SVD of <paramref name="arg"/> and stores it for later use. </summary>
-	DecompositionSVD(const MatrixT<Rows, Columns>& arg) {
-		arg.DecomposeSVD(U, S, V);
-	}
-
 	DecompositionSVD(MatrixT<Udim, Sdim> U, MatrixT<Sdim, Sdim> S, MatrixT<Sdim, Vdim> V) : U(U), S(S), V(V) {}
 
 	MatrixT<Udim, Sdim> U;
@@ -129,9 +124,7 @@ namespace impl {
 
 		// Precondition with QR if needed
 		if (Rows > Columns) {
-			Matrix<T, Rows, Rows, Order, Layout, Packed> Q;
-			Matrix<T, Rows, Columns, Order, Layout, Packed> R;
-			m.DecomposeQR(Q, R);
+			auto [Q, R] = DecomposeQR(m);
 			B = R;
 			U = Q.template Submatrix<Rows, Columns>(0, 0);
 			V.SetIdentity();
