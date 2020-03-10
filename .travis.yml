@@ -11,12 +11,12 @@ matrix:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-6.0
+            - llvm-toolchain-trusty-7.0
           packages:
-            - clang-6.0
+            - clang-7.0
             - g++-7
       env:
-        - MATRIX_EVAL="CC=clang-6.0 && CXX=clang++-6.0"
+        - MATRIX_EVAL="CC=clang-7.0 && CXX=clang++-7.0"
     # works on Precise and Trusty
     - os: linux
       addons:
