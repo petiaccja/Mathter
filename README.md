@@ -1,9 +1,8 @@
 ﻿Mathter
 ===
 
-Clang5, GCC7: 
+Clang9, GCC7: 
 [![Build Status](https://travis-ci.org/petiaccja/Mathter.svg?branch=master)](https://travis-ci.org/petiaccja/Mathter)
-(I temporarily removed Clang5 because the frontend crashes.)
 
 MSVC 2017:
 [![Build status](https://ci.appveyor.com/api/projects/status/6uvfnfgp5paha8kw?svg=true)](https://ci.appveyor.com/project/petiaccja/mathter)
@@ -142,7 +141,7 @@ Vector<float, 6> x = DecomposeLUP(M).Solve(b); // Mx = b
 
 Installation
 ---
-Mathter is **header-only**, you only need to add the Mathter folder to your include path. You will **need a C++17 compliant compiler** to use the library. Builds on Clang5, GCC7 and MSVC 2017.
+Mathter is **header-only**, you only need to add the Mathter folder to your include path. You will **need a C++17 compliant compiler** to use the library. Builds on Clang9, GCC7 and MSVC 2017. (Should build on earlier Clang, but the tests crash the compiler frontend...)
 
 
 Contribution
