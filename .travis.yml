@@ -5,17 +5,6 @@ dist: trusty
 
 matrix:
   include:
-#    - os: linux
-#      addons:
-#        apt:
-#          sources:
-#            - ubuntu-toolchain-r-test
-#            - llvm-toolchain-xenial-8
-#          packages:
-#            - clang-8
-#            - g++-7
-#      env:
-#        - MATRIX_EVAL="CC=clang-8 && CXX=clang++-8"
     - os: linux
       dist: xenial
       addons:
@@ -28,7 +17,7 @@ matrix:
             - clang-9
             - g++-8
       env:
-        - MATRIX_EVAL="CC=clang-9 CXX=clang++-9"
+        - MATRIX_EVAL="CC=clang-9 CXX=clang++-9 CODE_COVERAGE=ON"
     - os: linux
       addons:
         apt:
@@ -37,7 +26,7 @@ matrix:
           packages:
             - g++-7
       env:
-        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7 CODE_COVERAGE=OFF"
         
 before_install:
     - eval "${MATRIX_EVAL}"
@@ -46,6 +35,16 @@ before_install:
 before_script:
     - mkdir build
     - cd build
-    - cmake ..
+    - cmake .. -DENABLE_LLVM_COV=${CODE_COVERAGE}
     
 script: make
+
+after_success:
+  - eval "${MATRIX_EVAL}"
+  - |
+    if [[ ${CODE_COVERAGE} == "ON" ]]; then
+      ./Bin/Mathter
+      llvm-profdata merge -sparse default.profraw -o coverage.profdata
+      llvm-cov show ./Bin/Mathter -instr-profile=coverage.profdata > coverage.txt;
+    fi
+  - bash <(curl -s https://codecov.io/bash)
