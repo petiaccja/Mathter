@@ -6,9 +6,12 @@ cmake_minimum_required(VERSION 3.1.0)
 enable_language(CXX)
 set(CMAKE_CXX_STANDARD 17)
 
+option(ENABLE_LLVM_COV "Adds compiler flags to generate LLVM source-based code coverage. Only works with Clang." OFF)
 
 if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
-
+	if (ENABLE_LLVM_COV)
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-instr-generate -fcoverage-mapping")
+	endif()
 elseif ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse2 -lpthread")
 	if (CMAKE_SYSTEM_NAME MATCHES "Windows")
