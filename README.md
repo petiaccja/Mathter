@@ -8,6 +8,8 @@ MSVC 2017:
 Coverage:
 [![codecov](https://codecov.io/gh/petiaccja/Mathter/branch/master/graph/badge.svg)](https://codecov.io/gh/petiaccja/Mathter)
 
+Note: check out the [benchmarks](https://github.com/petiaccja/MathterBench)!
+
 Introduction
 ---
 Mathter is a **linear algebra** library with focus on **game development**, however it may be useful for other applications where **small-matrix** linear algebra or **3D** coordinate calculations are needed.
