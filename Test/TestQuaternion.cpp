@@ -7,8 +7,8 @@
 
 #include <Catch2/catch.hpp>
 
-#include "Mathter/Quaternion.hpp"
-#include "Mathter/Common/Approx.hpp"
+#include "../Mathter/Quaternion.hpp"
+#include "../Mathter/Common/Approx.hpp"
 #include "TestGenerators.hpp"
 
 

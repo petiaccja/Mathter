@@ -43,8 +43,8 @@ after_success:
   - eval "${MATRIX_EVAL}"
   - |
     if [[ ${CODE_COVERAGE} == "ON" ]]; then
-      ./Bin/Mathter
+      ./Bin/UnitTest
       llvm-profdata merge -sparse default.profraw -o coverage.profdata
-      llvm-cov show ./Bin/Mathter -instr-profile=coverage.profdata > coverage.txt;
+      llvm-cov show ./Bin/UnitTest -instr-profile=coverage.profdata > coverage.txt;
     fi
   - bash <(curl -s https://codecov.io/bash)
