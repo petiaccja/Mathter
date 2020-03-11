@@ -35,7 +35,7 @@ before_install:
 before_script:
     - mkdir build
     - cd build
-    - cmake .. -DENABLE_LLVM_COV=${CODE_COVERAGE}
+    - cmake .. -DENABLE_LLVM_COV=${CODE_COVERAGE} -DCMAKE_BUILD_TYPE=Debug
     
 script: make
 
