@@ -5,68 +5,75 @@
 
 namespace mathter {
 
+//------------------------------------------------------------------------------
+// Vector arithmetic
+//------------------------------------------------------------------------------
+
 /// <summary> Elementwise (Hadamard) vector product. </summary>
 template <class T, int Dim, bool Packed>
 inline Vector<T, Dim, Packed> operator*(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
-	Vector<T, Dim, Packed> result;
 	if constexpr (!traits::HasSimd<Vector<T, Dim, Packed>>::value) {
+		Vector<T, Dim, Packed> result;
 		for (int i = 0; i < Dim; ++i) {
 			result[i] = lhs.data[i] * rhs.data[i];
 		}
+		return result;
 	}
 	else {
 		using SimdT = decltype(VectorData<T, Dim, Packed>::simd);
-		result.simd = SimdT::mul(lhs.simd, rhs.simd);
+		return { Vector<T, Dim, Packed>::FromSimd{}, SimdT::mul(lhs.simd, rhs.simd) };
 	}
-	return result;
 }
 /// <summary> Elementwise vector division. </summary>
 template <class T, int Dim, bool Packed>
 inline Vector<T, Dim, Packed> operator/(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
-	Vector<T, Dim, Packed> result;
 	if constexpr (!traits::HasSimd<Vector<T, Dim, Packed>>::value) {
+		Vector<T, Dim, Packed> result;
 		for (int i = 0; i < Dim; ++i) {
 			result[i] = lhs.data[i] / rhs.data[i];
 		}
+		return result;
 	}
 	else {
 		using SimdT = decltype(VectorData<T, Dim, Packed>::simd);
-		result.simd = SimdT::div(lhs.simd, rhs.simd);
+		return { Vector<T, Dim, Packed>::FromSimd{}, SimdT::div(lhs.simd, rhs.simd) };
 	}
-	return result;
 }
 /// <summary> Elementwise vector addition. </summary>
 template <class T, int Dim, bool Packed>
 inline Vector<T, Dim, Packed> operator+(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
-	Vector<T, Dim, Packed> result;
 	if constexpr (!traits::HasSimd<Vector<T, Dim, Packed>>::value) {
+		Vector<T, Dim, Packed> result;
 		for (int i = 0; i < Dim; ++i) {
 			result[i] = lhs.data[i] + rhs.data[i];
 		}
+		return result;
 	}
 	else {
 		using SimdT = decltype(VectorData<T, Dim, Packed>::simd);
-		result.simd = SimdT::add(lhs.simd, rhs.simd);
+		return { Vector<T, Dim, Packed>::FromSimd{}, SimdT::add(lhs.simd, rhs.simd) };
 	}
-	return result;
 }
 /// <summary> Elementwise vector subtraction. </summary>
 template <class T, int Dim, bool Packed>
 inline Vector<T, Dim, Packed> operator-(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
-	Vector<T, Dim, Packed> result;
 	if constexpr (!traits::HasSimd<Vector<T, Dim, Packed>>::value) {
+		Vector<T, Dim, Packed> result;
 		for (int i = 0; i < Dim; ++i) {
 			result[i] = lhs.data[i] - rhs.data[i];
 		}
+		return result;
 	}
 	else {
 		using SimdT = decltype(VectorData<T, Dim, Packed>::simd);
-		result.simd = SimdT::sub(lhs.simd, rhs.simd);
+		return { Vector<T, Dim, Packed>::FromSimd{}, SimdT::sub(lhs.simd, rhs.simd) };
 	}
-	return result;
 }
 
+//------------------------------------------------------------------------------
 // Vector assign arithmetic
+//------------------------------------------------------------------------------
+
 /// <summary> Elementwise (Hadamard) vector product. </summary>
 template <class T, int Dim, bool Packed>
 inline Vector<T, Dim, Packed>& operator*=(Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
@@ -127,7 +134,10 @@ inline Vector<T, Dim, Packed>& operator-=(Vector<T, Dim, Packed>& lhs, const Vec
 	return lhs;
 }
 
+//------------------------------------------------------------------------------
 // Scalar assign arithmetic
+//------------------------------------------------------------------------------
+
 /// <summary> Scales the vector by <paramref name="rhs"/>. </summary>
 template <class T, int Dim, bool Packed>
 inline Vector<T, Dim, Packed>& operator*=(Vector<T, Dim, Packed>& lhs, T rhs) {
@@ -189,33 +199,61 @@ inline Vector<T, Dim, Packed>& operator-=(Vector<T, Dim, Packed>& lhs, T rhs) {
 }
 
 
+//------------------------------------------------------------------------------
+// Scalar arithmetic
+//------------------------------------------------------------------------------
+
 /// <summary> Scales the vector by <paramref name="rhs"/>. </summary>
 template <class T, int Dim, bool Packed>
 inline Vector<T, Dim, Packed> operator*(const Vector<T, Dim, Packed>& lhs, T rhs) {
-	Vector<T, Dim, Packed> copy(lhs);
-	copy *= rhs;
-	return copy;
+	if constexpr (!traits::HasSimd<Vector<T, Dim, Packed>>::value) {
+		Vector<T, Dim, Packed> copy(lhs);
+		copy *= rhs;
+		return copy;
+	}
+	else {
+		using SimdT = decltype(VectorData<T, Dim, Packed>::simd);
+		return { Vector<T, Dim, Packed>::FromSimd{}, SimdT::mul(lhs.simd, rhs) };
+	}
 }
 /// <summary> Scales the vector by 1/<paramref name="rhs"/>. </summary>
 template <class T, int Dim, bool Packed>
 inline Vector<T, Dim, Packed> operator/(const Vector<T, Dim, Packed>& lhs, T rhs) {
-	Vector<T, Dim, Packed> copy(lhs);
-	copy /= rhs;
-	return copy;
+	if constexpr (!traits::HasSimd<Vector<T, Dim, Packed>>::value) {
+		Vector<T, Dim, Packed> copy(lhs);
+		copy /= rhs;
+		return copy;
+	}
+	else {
+		using SimdT = decltype(VectorData<T, Dim, Packed>::simd);
+		return { Vector<T, Dim, Packed>::FromSimd{}, SimdT::div(lhs.simd, rhs) };
+	}
 }
 /// <summary> Adds <paramref name="rhs"/> to each element of the vector. </summary>
 template <class T, int Dim, bool Packed>
 inline Vector<T, Dim, Packed> operator+(const Vector<T, Dim, Packed>& lhs, T rhs) {
-	Vector<T, Dim, Packed> copy(lhs);
-	copy += rhs;
-	return copy;
+	if constexpr (!traits::HasSimd<Vector<T, Dim, Packed>>::value) {
+		Vector<T, Dim, Packed> copy(lhs);
+		copy += rhs;
+		return copy;
+	}
+	else {
+		using SimdT = decltype(VectorData<T, Dim, Packed>::simd);
+		return { Vector<T, Dim, Packed>::FromSimd{}, SimdT::add(lhs.simd, rhs) };
+	}
 }
 /// <summary> Subtracts <paramref name="rhs"/> from each element of the vector. </summary>
 template <class T, int Dim, bool Packed>
 inline Vector<T, Dim, Packed> operator-(const Vector<T, Dim, Packed>& lhs, T rhs) {
-	Vector<T, Dim, Packed> copy(lhs);
-	copy -= rhs;
-	return copy;
+	if constexpr (!traits::HasSimd<Vector<T, Dim, Packed>>::value) {
+		Vector<T, Dim, Packed> copy(lhs);
+		copy -= rhs;
+		return copy;
+	}
+	else {
+		using SimdT = decltype(VectorData<T, Dim, Packed>::simd);
+		return { Vector<T, Dim, Packed>::FromSimd{}, SimdT::sub(lhs.simd, rhs) };
+	}
 }
 
 
@@ -236,6 +274,10 @@ inline Vector<T, Dim, Packed> operator/(U lhs, const Vector<T, Dim, Packed>& rhs
 	return copy;
 }
 
+
+//------------------------------------------------------------------------------
+// Extra
+//------------------------------------------------------------------------------
 
 /// <summary> Return (a*b)+c. Performs MAD or FMA if supported by target architecture. </summary>
 template <class T, int Dim, bool Packed>

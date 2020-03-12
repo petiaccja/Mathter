@@ -59,82 +59,36 @@ TEST_CASE_VARIANT("Matrix - Constructor & indexer", "[Matrix]", TypesAll, Orders
 
 
 TEST_CASE_VARIANT("Matrix - Addition", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedFalse) {
-	MatrixT<3, 3> m1 = {
-		1,
-		2,
-		3,
-		4,
-		5,
-		6,
-		7,
-		8,
-		9,
-	};
-	MatrixT<3, 3> m2 = {
-		7,
-		6,
-		5,
-		4,
-		3,
-		2,
-		1,
-		0,
-		-1,
-	};
+	MatrixT<3, 3> m1 = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	MatrixT<3, 3> m2 = { 7, 6, 5, 4, 3, 2, 1, 0, -1 };
+	decltype(m1 + m2) rexp1 = { 8, 8, 8, 8, 8, 8, 8, 8, 8 };
 
-	decltype(m1 + m2) rexp = {
-		8,
-		8,
-		8,
-		8,
-		8,
-		8,
-		8,
-		8,
-		8,
-	};
+	MatrixT<4, 5> m3 = { 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4 };
+	MatrixT<4, 5> m4 = { 4, 3, 2, 1, 4, 3, 2, 1, 4, 3, 2, 1, 4, 3, 2, 1, 4, 3, 2, 1 };
+	decltype(m3 + m4) rexp2 = { 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5 };
 
-	REQUIRE(m1 + m2 == rexp);
+
+	MatrixT<2, 2> m5 = { 1, 2, 3, 4 };
+	MatrixT<2, 2> m6 = { 4, 3, 2, 1 };
+	decltype(m5 + m6) rexp3 = { 5, 5, 5, 5 };
+
+	REQUIRE(m1 + m2 == rexp1);
+	REQUIRE(m3 + m4 == rexp2);
+	REQUIRE(m5 + m6 == rexp3);
 }
 
 
 TEST_CASE_VARIANT("Matrix - Subtraction", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedFalse) {
-	MatrixT<3, 3> m1 = {
-		1,
-		2,
-		3,
-		4,
-		5,
-		6,
-		7,
-		8,
-		9,
-	};
-	MatrixT<3, 3> m2 = {
-		2,
-		3,
-		4,
-		5,
-		6,
-		7,
-		8,
-		9,
-		10,
-	};
+	MatrixT<3, 3> m1 = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	MatrixT<3, 3> m2 = { 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+	decltype(m1 - m2) rexp1 = { -1, -1, -1, -1, -1, -1, -1, -1, -1 };
 
-	decltype(m1 - m2) rexp = {
-		-1,
-		-1,
-		-1,
-		-1,
-		-1,
-		-1,
-		-1,
-		-1,
-		-1,
-	};
+	MatrixT<2, 2> m3 = { 1, 2, 3, 4 };
+	MatrixT<2, 2> m4 = { 2, 3, 4, 5 };
+	decltype(m3 - m4) rexp2 = { -1, -1, -1, -1 };
 
-	REQUIRE(m1 - m2 == rexp);
+	REQUIRE(m1 - m2 == rexp1);
+	REQUIRE(m3 - m4 == rexp2);
 }
 
 
@@ -757,7 +711,7 @@ TEST_CASE("Matrix - RotationPrincipal", "[Matrix]") {
 
 
 TEST_CASE("Matrix - RotationTriAxis", "[Matrix]") {
-	Matrix<float, 3, 3> m1 = RotationAxis3<0,1,1>(1.f, 1.0f, -1.0f);
+	Matrix<float, 3, 3> m1 = RotationAxis3<0, 1, 1>(1.f, 1.0f, -1.0f);
 	Matrix<float, 3, 3> mexp = {
 		1.000000, 0.000000, 0.000000,
 		0.000000, 0.540302, 0.841471,
@@ -766,7 +720,7 @@ TEST_CASE("Matrix - RotationTriAxis", "[Matrix]") {
 	REQUIRE(ApproxVec(m1) == mexp);
 
 
-	Matrix<float, 4, 3> m2 = RotationAxis3<0,1,2>(0.0f,1.f, 0.0f);
+	Matrix<float, 4, 3> m2 = RotationAxis3<0, 1, 2>(0.0f, 1.f, 0.0f);
 	Matrix<float, 4, 3> m2exp = {
 		0.540302, 0.000000, -0.841471,
 		0.000000, 1.000000, 0.000000,
@@ -776,7 +730,7 @@ TEST_CASE("Matrix - RotationTriAxis", "[Matrix]") {
 	REQUIRE(ApproxVec(m2) == m2exp);
 
 
-	Matrix<float, 3, 4, eMatrixOrder::PRECEDE_VECTOR> m3 = RotationAxis3<1,1,2>(1.0f, -1.0f,1.f);
+	Matrix<float, 3, 4, eMatrixOrder::PRECEDE_VECTOR> m3 = RotationAxis3<1, 1, 2>(1.0f, -1.0f, 1.f);
 	Matrix<float, 4, 3> m3exp = {
 		0.540302, 0.841471, 0.000000,
 		-0.841471, 0.540302, 0.000000,
@@ -785,7 +739,7 @@ TEST_CASE("Matrix - RotationTriAxis", "[Matrix]") {
 	};
 	REQUIRE(ApproxVec(m3) == Transpose(m3exp));
 
-	Matrix<float, 4, 4> m4 = RotationAxis3<0,0,2>(-1.0f, 1.0f, 1.f);
+	Matrix<float, 4, 4> m4 = RotationAxis3<0, 0, 2>(-1.0f, 1.0f, 1.f);
 	Matrix<float, 4, 4> m4exp = {
 		0.540302, 0.841471, 0.000000, 0,
 		-0.841471, 0.540302, 0.000000, 0,

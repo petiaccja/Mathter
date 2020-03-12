@@ -43,33 +43,30 @@ public:
 	static constexpr int StripeDim = Layout == eMatrixLayout::ROW_MAJOR ? Columns : Rows;
 	static constexpr int StripeCount = Layout == eMatrixLayout::ROW_MAJOR ? Rows : Columns;
 
-	std::array<Vector<T, StripeDim, Packed>, StripeCount> stripes;
+	using StripeVecT = Vector<T, StripeDim, Packed>;
+	std::array<StripeVecT, StripeCount> stripes;
 
 protected:
 	// Get element
 	inline T& GetElement(int row, int col) {
 		assert(row < RowCount());
 		assert(col < ColumnCount());
-		return GetElementImpl(col, row, std::integral_constant<bool, Layout == eMatrixLayout::ROW_MAJOR>());
+		if constexpr (Layout == eMatrixLayout::ROW_MAJOR) {
+			return stripes[row][col];
+		}
+		else {
+			return stripes[col][row];
+		}
 	}
 	inline T GetElement(int row, int col) const {
 		assert(row < RowCount());
 		assert(col < ColumnCount());
-		return GetElementImpl(col, row, std::integral_constant<bool, Layout == eMatrixLayout::ROW_MAJOR>());
-	}
-
-private:
-	inline T& GetElementImpl(int col, int row, std::true_type) {
-		return stripes[row][col];
-	}
-	inline T GetElementImpl(int col, int row, std::true_type) const {
-		return stripes[row][col];
-	}
-	inline T& GetElementImpl(int col, int row, std::false_type) {
-		return stripes[col][row];
-	}
-	inline T GetElementImpl(int col, int row, std::false_type) const {
-		return stripes[col][row];
+		if constexpr (Layout == eMatrixLayout::ROW_MAJOR) {
+			return stripes[row][col];
+		}
+		else {
+			return stripes[col][row];
+		}
 	}
 };
 
@@ -214,8 +211,10 @@ protected:
 public:
 	using MatrixData<T, Rows, Columns, Order, Layout, Packed>::RowCount;
 	using MatrixData<T, Rows, Columns, Order, Layout, Packed>::ColumnCount;
+	using MatrixData<T, Rows, Columns, Order, Layout, Packed>::StripeVecT;
 	using MatrixData<T, Rows, Columns, Order, Layout, Packed>::stripes;
 	using MatrixData<T, Rows, Columns, Order, Layout, Packed>::StripeCount;
+	struct FromStripes {};
 
 	//--------------------------------------------
 	// Constructors
@@ -258,6 +257,11 @@ public:
 		}
 	}
 
+	/// <summary> Used by internal methods. </summary>
+	template <class... Stripes>
+	Matrix(FromStripes, Stripes... stripes)
+		: MatrixData<T, Rows, Columns, Order, Layout, Packed>{ std::forward<Stripes>(stripes)... }
+	{}
 
 	//--------------------------------------------
 	// Accessors
@@ -282,6 +286,7 @@ public:
 	}
 
 	// Submatrices
+	/// <summary> DEPRECATED: I plan to replace it with a nicer MatrixView like std::string_view. </summary>
 	template <int Subrows, int Subcolumns>
 	mathter::SubmatrixHelper<Matrix, Subrows, Subcolumns> Submatrix(int rowIdx, int colIdx) {
 		assert(Subrows + rowIdx <= Rows);
@@ -291,6 +296,7 @@ public:
 	}
 
 	template <int Subrows, int Subcolumns>
+	/// <summary> DEPRECATED: I plan to replace it with a nicer MatrixView like std::string_view. </summary>
 	mathter::SubmatrixHelper<const Matrix, Subrows, Subcolumns> Submatrix(int rowIdx, int colIdx) const {
 		assert(Subrows + rowIdx <= Rows);
 		assert(Subcolumns + colIdx <= Columns);
@@ -338,7 +344,7 @@ protected:
 
 	template <int, int>
 	void Assign() {}
-};
+}; // namespace mathter
 
 
 } // namespace mathter
