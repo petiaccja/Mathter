@@ -153,12 +153,7 @@ template <class T, bool Packed>
 Vector<T, 3, Packed> Cross(const Vector<T, 3, Packed>& lhs, const Vector<T, 3, Packed>& rhs) {
 	using VecT = Vector<T, 3, Packed>;
 	if constexpr (traits::HasSimd<VecT>::value) {
-		using SimdT = typename VecT::SimdT;
-		auto lhs_yzx = SimdT::template shuffle<3, 0, 2, 1>(lhs.simd);
-		auto rhs_zxy = SimdT::template shuffle<3, 1, 0, 2>(rhs.simd);
-		auto lhs_zxy = SimdT::template shuffle<3, 1, 0, 2>(lhs.simd);
-		auto rhs_yzx = SimdT::template shuffle<3, 0, 2, 1>(rhs.simd);
-		return { VecT::FromSimd{}, SimdT::sub(SimdT::mul(lhs_yzx, rhs_zxy), SimdT::mul(lhs_zxy, rhs_yzx)) };
+		return VecT(lhs.yzx) * VecT(rhs.zxy) - VecT(lhs.zxy) * VecT(rhs.yzx);
 	}
 	else {
 		return VecT(lhs.y * rhs.z - lhs.z * rhs.y,

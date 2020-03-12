@@ -12,6 +12,20 @@
 
 namespace mathter::traits {
 
+	// Vector data properties
+	template <class VectorDataT>
+	class VectorDataTraitsHelper {};
+
+	template <class T_, int Dim_, bool Packed_>
+	class VectorDataTraitsHelper<VectorData<T_, Dim_, Packed_>> {
+	public:
+		using Type = T_;
+		static constexpr int Dim = Dim_;
+		static constexpr bool Packed = Packed_;
+	};
+
+	template <class VectorDataT>
+	class VectorDataTraits : public VectorDataTraitsHelper<typename std::decay<VectorDataT>::type> {};
 
 	// Vector properties
 	template <class VectorT>
@@ -213,7 +227,7 @@ namespace mathter::traits {
 		static constexpr int value = 0;
 	};
 
-	// Weather vector uses SIDM.
+	// Weather vector uses SIMD.
 	template <class VectorDataT>
 	struct HasSimd {
 		template <class U>
@@ -225,4 +239,28 @@ namespace mathter::traits {
 
 		static constexpr bool value = !std::is_same<std::false_type, decltype(test<VectorDataT>(0))>::value;
 	};
+
+	// Reverse integer sequence
+	template <class IS1, class IS2>
+	struct MergeIntegerSequence;
+
+	template <class T, T... Indices1, T...Indices2>
+	struct MergeIntegerSequence<std::integer_sequence<T, Indices1...>, std::integer_sequence<T, Indices2...>> {
+		using type = std::integer_sequence<T, Indices1..., Indices2...>;
+	};
+	
+	template <class IS>
+	struct ReverseIntegerSequence;
+
+	template <class T, T Head, T... Indices>
+	struct ReverseIntegerSequence<std::integer_sequence<T, Head, Indices...>> {
+		using type = typename MergeIntegerSequence<typename ReverseIntegerSequence<std::integer_sequence<T, Indices...>>::type, std::integer_sequence<T,Head>>::type;
+	};
+
+	template <class T>
+	struct ReverseIntegerSequence<std::integer_sequence<T>> {
+		using type = std::integer_sequence<T>;
+	};
+
+
 }

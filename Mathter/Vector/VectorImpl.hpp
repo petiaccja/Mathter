@@ -31,8 +31,9 @@ namespace mathter {
 /// Swizzlers can be used with assignments, concatenation, casting and constructors.
 /// To perform arithmetic, cast swizzlers to corresponding vector type.
 /// </remarks>
-template <class T, int... Indices>
+template <class VectorData, int... Indices>
 class Swizzle {
+	using T = typename traits::VectorDataTraits<VectorData>::Type;
 	static constexpr int IndexTable[] = { Indices... };
 	static constexpr int Dim = sizeof...(Indices);
 	T* data() { return reinterpret_cast<T*>(this); }
@@ -594,9 +595,9 @@ protected:
 	struct GetVectorElement<Vector<T2, D2, P2>> {
 		static T2 Get(const Vector<T2, D2, P2>& u, int idx) { return u.data[idx]; }
 	};
-	template <class U, int... Indices>
-	struct GetVectorElement<Swizzle<U, Indices...>> {
-		static U Get(const Swizzle<T, Indices...>& u, int idx) { return u[idx]; }
+	template <class VectorDataU, int... Indices>
+	struct GetVectorElement<Swizzle<VectorDataU, Indices...>> {
+		static auto Get(const Swizzle<VectorDataU, Indices...>& u, int idx) { return u[idx]; }
 	};
 
 	// Assign
@@ -626,17 +627,38 @@ protected:
 };
 
 
-template <class T, int... Indices>
-Swizzle<T, Indices...>::operator Vector<T, sizeof...(Indices), false>() const {
-	return Vector<T, sizeof...(Indices), false>(data()[Indices]...);
+template <class SimdT, int... Indices>
+auto ShuffleReverse(SimdT arg, std::integer_sequence<int, Indices...>) {
+	return SimdT::template shuffle<Indices...>(arg);
 }
-template <class T, int... Indices>
-Swizzle<T, Indices...>::operator Vector<T, sizeof...(Indices), true>() const {
+
+template <class VectorData, int... Indices>
+Swizzle<VectorData, Indices...>::operator Vector<typename Swizzle<VectorData, Indices...>::T, sizeof...(Indices), false>() const {
+	using DestVecT = Vector<T, sizeof...(Indices), false>;
+	constexpr bool SourceHasSimd = traits::HasSimd<VectorData>::value;
+	constexpr bool DestHasSimd = traits::HasSimd<DestVecT>::value;
+	if constexpr (SourceHasSimd && DestHasSimd) {
+		using SourceSimdT = decltype(std::declval<VectorData>().simd);
+		using DestSimdT = decltype(std::declval<VectorData>().simd);
+		if constexpr (std::is_same_v<SourceSimdT, DestSimdT>) {
+			const auto& sourceSimd = reinterpret_cast<const VectorData*>(this)->simd;
+			if constexpr (sizeof...(Indices) == 3) {
+				return { DestVecT::FromSimd{}, ShuffleReverse(sourceSimd, typename traits::ReverseIntegerSequence<std::integer_sequence<int, Indices..., 3>>::type{}) };
+			}
+			else if constexpr (sizeof...(Indices) == 4 || sizeof...(Indices) == 2) {
+				return { DestVecT::FromSimd{}, ShuffleReverse(sourceSimd, typename traits::ReverseIntegerSequence<std::integer_sequence<int, Indices...>>::type{}) };
+			}
+		}
+	}	
+	return DestVecT(data()[Indices]...);
+}
+template <class VectorData, int... Indices>
+Swizzle<VectorData, Indices...>::operator Vector<typename Swizzle<VectorData, Indices...>::T, sizeof...(Indices), true>() const {
 	return Vector<T, sizeof...(Indices), true>(data()[Indices]...);
 }
 
-template <class T, int... Indices>
-Swizzle<T, Indices...>& Swizzle<T, Indices...>::operator=(const Vector<T, sizeof...(Indices), false>& rhs) {
+template <class VectorData, int... Indices>
+Swizzle<VectorData, Indices...>& Swizzle<VectorData, Indices...>::operator=(const Vector<T, sizeof...(Indices), false>& rhs) {
 	if (data() != rhs.data) {
 		Assign<Indices...>(rhs.data);
 	}
@@ -646,8 +668,8 @@ Swizzle<T, Indices...>& Swizzle<T, Indices...>::operator=(const Vector<T, sizeof
 	}
 	return *this;
 }
-template <class T, int... Indices>
-Swizzle<T, Indices...>& Swizzle<T, Indices...>::operator=(const Vector<T, sizeof...(Indices), true>& rhs) {
+template <class VectorData, int... Indices>
+Swizzle<VectorData, Indices...>& Swizzle<VectorData, Indices...>::operator=(const Vector<T, sizeof...(Indices), true>& rhs) {
 	if (data() != rhs.data) {
 		Assign<Indices...>(rhs.data);
 	}
