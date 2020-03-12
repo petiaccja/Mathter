@@ -160,5 +160,5 @@ First of all, please just go ahead and use the code. It took a lot of time to wr
 
 License
 ---
-This code is distrubuted under **The Unlicense**. (I may change it MIT or something, but it will always be just as permissive.)
-It translates as "**do whatever the hell you want with the code**, without getting your ass kicked". You are not required to credit me (but I'm happy if you do 🙂). In any case, don't be a cunt and claim it's your work.
+This code is distrubuted under **The Unlicense**. This means you are allowed to use the code for any purpose without any restrictions. You are not required to credit the author(s), however, you are encouraged to do so.
+(Note: I may add dependencies (notably, a proper SIMD library), which may require you to include a copyright notice to their code.)
