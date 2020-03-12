@@ -94,6 +94,21 @@ TEST_CASE_VARIANT("Matrix - Subtraction", "[Matrix]", TypesFloating, OrdersFollo
 
 TEST_CASE_VARIANT("Matrix - Multiply square (unpacked)", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedFalse) {
 	SECTION(SECTIONNAME) {
+		MatrixT<2, 2> m2 = {
+			1, 2,
+			3, 4
+		};
+		MatrixT<2, 2> n2 = {
+			5, 6,
+			7, 8
+		};
+		decltype(m2 * n2) exp2 = {
+			19,22,
+			43, 50
+		};
+
+		REQUIRE(m2 * n2 == exp2);
+
 		MatrixT<3, 3> m = {
 			1, 2, 3,
 			4, 5, 6,
@@ -140,6 +155,22 @@ TEST_CASE_VARIANT("Matrix - Multiply square (unpacked)", "[Matrix]", TypesFloati
 
 TEST_CASE_VARIANT("Matrix - Multiply square (packed)", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedTrue) {
 	SECTION(SECTIONNAME) {
+		MatrixT<2, 2> m2 = {
+			1, 2,
+			3, 4
+		};
+		MatrixT<2, 2> n2 = {
+			5, 6,
+			7, 8
+		};
+		decltype(m2 * n2) exp2 = {
+			19, 22,
+			43, 50
+		};
+
+		REQUIRE(m2 * n2 == exp2);
+
+		
 		MatrixT<3, 3> m = {
 			1, 2, 3,
 			4, 5, 6,
