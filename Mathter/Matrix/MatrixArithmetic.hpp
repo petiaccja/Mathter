@@ -27,7 +27,7 @@ namespace impl {
 							   std::integer_sequence<int, RowIndices...>) {
 		using V = traits::MatMulElemT<T, U>;
 		using ResultT = Matrix<V, Rows1, Columns2, Order, eMatrixLayout::ROW_MAJOR, Packed>;
-		return ResultT{ ResultT::FromStripes{}, SmallProductRowRR(lhs, rhs, RowIndices, std::make_integer_sequence<int, Match>{})... };
+		return ResultT{ ResultT::FromStripes, SmallProductRowRR(lhs, rhs, RowIndices, std::make_integer_sequence<int, Match>{})... };
 	}
 
 	template <class T, class U, int Rows1, int Match, int Columns2, eMatrixOrder Order, eMatrixLayout Layout2, bool Packed, int... MatchIndices>
@@ -44,7 +44,7 @@ namespace impl {
 							   std::integer_sequence<int, ColIndices...>) {
 		using V = traits::MatMulElemT<T, U>;
 		using ResultT = Matrix<V, Rows1, Columns2, Order, eMatrixLayout::COLUMN_MAJOR, Packed>;
-		return ResultT{ ResultT::FromStripes{}, SmallProductRowCC(lhs, rhs, ColIndices, std::make_integer_sequence<int, Match>{})... };
+		return ResultT{ ResultT::FromStripes, SmallProductRowCC(lhs, rhs, ColIndices, std::make_integer_sequence<int, Match>{})... };
 	}
 } // namespace impl
 
@@ -162,7 +162,7 @@ namespace impl {
 						 std::integer_sequence<int, StripeIndices...>) {
 		using V = traits::MatMulElemT<T, U>;
 		using ResultT = Matrix<V, Rows, Columns, Order, SameLayout, Packed>;
-		return ResultT{ ResultT::FromStripes{}, (lhs.stripes[StripeIndices] + rhs.stripes[StripeIndices])... };
+		return ResultT{ ResultT::FromStripes, (lhs.stripes[StripeIndices] + rhs.stripes[StripeIndices])... };
 	}
 
 	template <class T, class U, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout SameLayout, bool Packed, int... StripeIndices>
@@ -171,7 +171,7 @@ namespace impl {
 						 std::integer_sequence<int, StripeIndices...>) {
 		using V = traits::MatMulElemT<T, U>;
 		using ResultT = Matrix<V, Rows, Columns, Order, SameLayout, Packed>;
-		return ResultT{ ResultT::FromStripes{}, (lhs.stripes[StripeIndices] - rhs.stripes[StripeIndices])... };
+		return ResultT{ ResultT::FromStripes, (lhs.stripes[StripeIndices] - rhs.stripes[StripeIndices])... };
 	}
 } // namespace impl
 

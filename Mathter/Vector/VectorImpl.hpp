@@ -408,7 +408,8 @@ class Vector : public VectorData<T, Dim, Packed> {
 
 public:
 	using VectorData<T, Dim, Packed>::data;
-	struct FromSimd {};
+	struct FromSimd_ {};
+	static constexpr FromSimd_ FromSimd = {};
 
 	//--------------------------------------------
 	// Properties
@@ -450,8 +451,10 @@ public:
 		}
 	}
 
-	template <class SimdT = typename VectorData<T, Dim, Packed>::SimdT>
-	Vector(FromSimd, SimdT simd) : VectorData<T, Dim, Packed>(simd) {}
+	template <class SimdArgT>
+	Vector(FromSimd_, SimdArgT simd) : VectorData<T, Dim, Packed>(simd) {
+		static_assert(traits::HasSimd<Vector>::value, "To the developer of Mathter: don't call this unless has SIMD.");
+	}
 
 	//--------------------------------------------
 	// Type conversion
@@ -643,10 +646,10 @@ Swizzle<VectorData, Indices...>::operator Vector<typename Swizzle<VectorData, In
 		if constexpr (std::is_same_v<SourceSimdT, DestSimdT>) {
 			const auto& sourceSimd = reinterpret_cast<const VectorData*>(this)->simd;
 			if constexpr (sizeof...(Indices) == 3) {
-				return { DestVecT::FromSimd{}, ShuffleReverse(sourceSimd, typename traits::ReverseIntegerSequence<std::integer_sequence<int, Indices..., 3>>::type{}) };
+				return { DestVecT::FromSimd, ShuffleReverse(sourceSimd, typename traits::ReverseIntegerSequence<std::integer_sequence<int, Indices..., 3>>::type{}) };
 			}
 			else if constexpr (sizeof...(Indices) == 4 || sizeof...(Indices) == 2) {
-				return { DestVecT::FromSimd{}, ShuffleReverse(sourceSimd, typename traits::ReverseIntegerSequence<std::integer_sequence<int, Indices...>>::type{}) };
+				return { DestVecT::FromSimd, ShuffleReverse(sourceSimd, typename traits::ReverseIntegerSequence<std::integer_sequence<int, Indices...>>::type{}) };
 			}
 		}
 	}	

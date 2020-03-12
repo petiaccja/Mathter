@@ -211,10 +211,11 @@ protected:
 public:
 	using MatrixData<T, Rows, Columns, Order, Layout, Packed>::RowCount;
 	using MatrixData<T, Rows, Columns, Order, Layout, Packed>::ColumnCount;
-	using MatrixData<T, Rows, Columns, Order, Layout, Packed>::StripeVecT;
+	using typename MatrixData<T, Rows, Columns, Order, Layout, Packed>::StripeVecT;
 	using MatrixData<T, Rows, Columns, Order, Layout, Packed>::stripes;
 	using MatrixData<T, Rows, Columns, Order, Layout, Packed>::StripeCount;
-	struct FromStripes {};
+	struct FromStripes_ {};
+	static constexpr FromStripes_ FromStripes = {};
 
 	//--------------------------------------------
 	// Constructors
@@ -259,7 +260,7 @@ public:
 
 	/// <summary> Used by internal methods. </summary>
 	template <class... Stripes>
-	Matrix(FromStripes, Stripes... stripes)
+	Matrix(FromStripes_, Stripes... stripes)
 		: MatrixData<T, Rows, Columns, Order, Layout, Packed>{ std::forward<Stripes>(stripes)... }
 	{}
 

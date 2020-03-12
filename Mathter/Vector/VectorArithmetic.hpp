@@ -21,7 +21,7 @@ inline Vector<T, Dim, Packed> operator*(const Vector<T, Dim, Packed>& lhs, const
 	}
 	else {
 		using SimdT = decltype(VectorData<T, Dim, Packed>::simd);
-		return { Vector<T, Dim, Packed>::FromSimd{}, SimdT::mul(lhs.simd, rhs.simd) };
+		return { Vector<T, Dim, Packed>::FromSimd, SimdT::mul(lhs.simd, rhs.simd) };
 	}
 }
 /// <summary> Elementwise vector division. </summary>
@@ -36,7 +36,7 @@ inline Vector<T, Dim, Packed> operator/(const Vector<T, Dim, Packed>& lhs, const
 	}
 	else {
 		using SimdT = decltype(VectorData<T, Dim, Packed>::simd);
-		return { Vector<T, Dim, Packed>::FromSimd{}, SimdT::div(lhs.simd, rhs.simd) };
+		return { Vector<T, Dim, Packed>::FromSimd, SimdT::div(lhs.simd, rhs.simd) };
 	}
 }
 /// <summary> Elementwise vector addition. </summary>
@@ -51,7 +51,7 @@ inline Vector<T, Dim, Packed> operator+(const Vector<T, Dim, Packed>& lhs, const
 	}
 	else {
 		using SimdT = decltype(VectorData<T, Dim, Packed>::simd);
-		return { Vector<T, Dim, Packed>::FromSimd{}, SimdT::add(lhs.simd, rhs.simd) };
+		return { Vector<T, Dim, Packed>::FromSimd, SimdT::add(lhs.simd, rhs.simd) };
 	}
 }
 /// <summary> Elementwise vector subtraction. </summary>
@@ -66,7 +66,7 @@ inline Vector<T, Dim, Packed> operator-(const Vector<T, Dim, Packed>& lhs, const
 	}
 	else {
 		using SimdT = decltype(VectorData<T, Dim, Packed>::simd);
-		return { Vector<T, Dim, Packed>::FromSimd{}, SimdT::sub(lhs.simd, rhs.simd) };
+		return { Vector<T, Dim, Packed>::FromSimd, SimdT::sub(lhs.simd, rhs.simd) };
 	}
 }
 
@@ -213,7 +213,7 @@ inline Vector<T, Dim, Packed> operator*(const Vector<T, Dim, Packed>& lhs, T rhs
 	}
 	else {
 		using SimdT = decltype(VectorData<T, Dim, Packed>::simd);
-		return { Vector<T, Dim, Packed>::FromSimd{}, SimdT::mul(lhs.simd, rhs) };
+		return { Vector<T, Dim, Packed>::FromSimd, SimdT::mul(lhs.simd, rhs) };
 	}
 }
 /// <summary> Scales the vector by 1/<paramref name="rhs"/>. </summary>
@@ -226,7 +226,7 @@ inline Vector<T, Dim, Packed> operator/(const Vector<T, Dim, Packed>& lhs, T rhs
 	}
 	else {
 		using SimdT = decltype(VectorData<T, Dim, Packed>::simd);
-		return { Vector<T, Dim, Packed>::FromSimd{}, SimdT::div(lhs.simd, rhs) };
+		return { Vector<T, Dim, Packed>::FromSimd, SimdT::div(lhs.simd, rhs) };
 	}
 }
 /// <summary> Adds <paramref name="rhs"/> to each element of the vector. </summary>
@@ -239,7 +239,7 @@ inline Vector<T, Dim, Packed> operator+(const Vector<T, Dim, Packed>& lhs, T rhs
 	}
 	else {
 		using SimdT = decltype(VectorData<T, Dim, Packed>::simd);
-		return { Vector<T, Dim, Packed>::FromSimd{}, SimdT::add(lhs.simd, rhs) };
+		return { Vector<T, Dim, Packed>::FromSimd, SimdT::add(lhs.simd, rhs) };
 	}
 }
 /// <summary> Subtracts <paramref name="rhs"/> from each element of the vector. </summary>
@@ -252,7 +252,7 @@ inline Vector<T, Dim, Packed> operator-(const Vector<T, Dim, Packed>& lhs, T rhs
 	}
 	else {
 		using SimdT = decltype(VectorData<T, Dim, Packed>::simd);
-		return { Vector<T, Dim, Packed>::FromSimd{}, SimdT::sub(lhs.simd, rhs) };
+		return { Vector<T, Dim, Packed>::FromSimd, SimdT::sub(lhs.simd, rhs) };
 	}
 }
 
