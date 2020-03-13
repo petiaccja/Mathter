@@ -231,7 +231,7 @@ inline auto operator-(const Matrix<T, Rows, Columns, Order, SameLayout, Packed>&
 
 
 // Add & sub opposite layout
-template <class T, class U, int Rows, int Columns, eMatrixOrder Order1, eMatrixOrder Order2, eMatrixLayout Layout1, eMatrixLayout Layout2, bool Packed, class V, class = typename std::enable_if<Layout1 != Layout2>::type>
+template <class T, class U, int Rows, int Columns, eMatrixOrder Order1, eMatrixOrder Order2, eMatrixLayout Layout1, eMatrixLayout Layout2, bool Packed, class = typename std::enable_if<Layout1 != Layout2>::type>
 inline auto operator+(const Matrix<T, Rows, Columns, Order1, Layout1, Packed>& lhs,
 					  const Matrix<U, Rows, Columns, Order2, Layout2, Packed>& rhs) {
 	using V = traits::MatMulElemT<T, U>;
@@ -244,7 +244,7 @@ inline auto operator+(const Matrix<T, Rows, Columns, Order1, Layout1, Packed>& l
 	return result;
 }
 
-template <class T, class U, int Rows, int Columns, eMatrixOrder Order1, eMatrixOrder Order2, eMatrixLayout Layout1, eMatrixLayout Layout2, bool Packed, class V, class = typename std::enable_if<Layout1 != Layout2>::type>
+template <class T, class U, int Rows, int Columns, eMatrixOrder Order1, eMatrixOrder Order2, eMatrixLayout Layout1, eMatrixLayout Layout2, bool Packed, class = typename std::enable_if<Layout1 != Layout2>::type>
 inline auto operator-(const Matrix<T, Rows, Columns, Order1, Layout1, Packed>& lhs,
 					  const Matrix<U, Rows, Columns, Order2, Layout2, Packed>& rhs) {
 	using V = traits::MatMulElemT<T, U>;
