@@ -191,7 +191,7 @@ inline auto operator+(const Matrix<T, Rows, Columns, Order, SameLayout, Packed>&
 		return result;
 	}
 	else if constexpr (Rows <= 4 && Columns <= 4) {
-		return impl::SmallAdd(lhs, rhs, std::make_integer_sequence<int, lhs.StripeCount>{});
+		return impl::SmallAdd(lhs, rhs, std::make_integer_sequence<int, std::decay_t<decltype(lhs)>::StripeCount>{});
 	}
 	else {
 		Matrix<V, Rows, Columns, Order, SameLayout, Packed> result;
@@ -217,7 +217,7 @@ inline auto operator-(const Matrix<T, Rows, Columns, Order, SameLayout, Packed>&
 		return result;
 	}
 	else if constexpr (Rows <= 4 && Columns <= 4) {
-		return impl::SmallSub(lhs, rhs, std::make_integer_sequence<int, lhs.StripeCount>{});
+		return impl::SmallSub(lhs, rhs, std::make_integer_sequence<int, std::decay_t<decltype(lhs)>::StripeCount>{});
 	}
 	else {
 		Matrix<V, Rows, Columns, Order, SameLayout, Packed> result;
