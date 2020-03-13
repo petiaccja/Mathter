@@ -1,15 +1,15 @@
 //==============================================================================
-// This software is distributed under The Unlicense. 
+// This software is distributed under The Unlicense.
 // For more information, please refer to <http://unlicense.org/>
 //==============================================================================
 
-#pragma warning(disable: 4244)
+#pragma warning(disable : 4244)
+
+#include "../Mathter/Common/Approx.hpp"
+#include "../Mathter/Vector.hpp"
+#include "TestGenerators.hpp"
 
 #include <Catch2/catch.hpp>
-
-#include "../Mathter/Vector.hpp"
-#include "../Mathter/Common/Approx.hpp"
-#include "TestGenerators.hpp"
 
 using namespace mathter;
 
@@ -88,13 +88,13 @@ TEST_CASE_VEC_VARIANT("Vector - VectorMultiply", "[Vector]", TypesAll, PackedAll
 		VectorT<3> b(4, 5, 6);
 		VectorT<3> c(4, 10, 18);
 
-		REQUIRE(a*b == c);
+		REQUIRE(a * b == c);
 
 		VectorT<5> d(1, 2, 3, 4, 5);
 		VectorT<5> e(4, 5, 6, 7, 8);
 		VectorT<5> f(4, 10, 18, 28, 40);
 
-		REQUIRE(d*e == f);
+		REQUIRE(d * e == f);
 	}
 }
 
@@ -105,14 +105,14 @@ TEST_CASE_VEC_VARIANT("Vector - VectorDiv", "[Vector]", TypesFloating, PackedAll
 		VectorT<3> b(4, 5, 6);
 		VectorT<3> c(0.25f, 0.4f, 0.5f);
 
-		auto ab = a/b;
+		auto ab = a / b;
 		REQUIRE(ab == ApproxVec(c));
 
 		VectorT<5> d(2, 6, 6, 12, 10);
 		VectorT<5> e(1, 2, 3, 4, 5);
 		VectorT<5> f(2, 3, 2, 3, 2);
 
-		auto de = d/e;
+		auto de = d / e;
 		REQUIRE(de == ApproxVec(f));
 	}
 }
@@ -177,24 +177,24 @@ TEST_CASE_VEC_VARIANT("Vector - CrossND", "[Vector]", TypesFloating, PackedAll) 
 
 TEST_CASE_VEC_VARIANT("Vector - Swizzle", "[Vector]", TypesAll, PackedAll) {
 	SECTION(SECTIONNAMEVEC) {
-		VectorT<3> v1 = { 1,2,3 };
+		VectorT<3> v1 = { 1, 2, 3 };
 		VectorT<6> v2 = { v1.zx, v1.yzyx };
 		VectorT<6> v3 = v1.zyx | v1.zyx;
-		VectorT<6> v2exp = { 3,1,2,3,2,1 };
-		VectorT<6> v3exp = { 3,2,1,3,2,1 };
+		VectorT<6> v2exp = { 3, 1, 2, 3, 2, 1 };
+		VectorT<6> v3exp = { 3, 2, 1, 3, 2, 1 };
 
 		REQUIRE(v2 == v2exp);
 		REQUIRE(v3 == v3exp);
 
-		VectorT<4> v4{ 1,2,3,4 };
+		VectorT<4> v4{ 1, 2, 3, 4 };
 		v4.yxwz = v4.wzyx; // wzxy=4321 -> v4=3412
 		VectorT<4> v4exp = { 3, 4, 1, 2 };
 
 		REQUIRE(v4 == v4exp);
 
-		v4 = { 1,2,3,4 };
+		v4 = { 1, 2, 3, 4 };
 		v4 = v4.xxzz;
-		v4exp = { 1,1,3,3 };
+		v4exp = { 1, 1, 3, 3 };
 		REQUIRE(v4 == v4exp);
 
 		v4 = v1.zyx | 1.0f;
@@ -203,8 +203,36 @@ TEST_CASE_VEC_VARIANT("Vector - Swizzle", "[Vector]", TypesAll, PackedAll) {
 }
 
 
+TEST_CASE_VEC_VARIANT("Vector - Swizzle arithmetic", "[Vector]", TypesFloating, PackedAll) {
+	SECTION(SECTIONNAMEVEC) {
+		using Vec3 = VectorT<3>;
+		Vec3 v = { 1, 2, 3 };
+		Vec3 r = Type(1) / Vec3{ 3, 2, 1 };
+		REQUIRE(Vec3(3, 4, 3) == (v * v.zyx));
+		REQUIRE(Vec3(3, 4, 3) == (v.zyx * v));
+		REQUIRE(Vec3(3, 4, 3) == (v.xyz * v.zyx));
+		v.xyz *= v.zyx;
+		REQUIRE(Vec3(3, 4, 3) == v);
+		v *= r.zyx;
+		REQUIRE(Vec3(1, 2, 3) == v);
+
+		REQUIRE(Vec3(4, 4, 4) == v + v.zyx);
+		REQUIRE(Vec3(4, 4, 4) == v.zyx + v);
+		REQUIRE(Vec3(4, 4, 4) == v.xyz + v.zyx);
+
+		REQUIRE(v-Type(1)/r == v - v.zyx);
+		REQUIRE(Type(1) / r - v == v.zyx - v);
+		REQUIRE(v-Type(1)/r == v.xyz - v.zyx);
+
+		REQUIRE(v*r == v / v.zyx);
+		REQUIRE(1/(v*r) == v.zyx / v);
+		REQUIRE(v*r == v.xyz / v.zyx);
+	}
+}
+
+
 TEST_CASE("Vector - TruncateExtend", "[Vector]") {
-	Vector<float, 3> v(1,2,3);
+	Vector<float, 3> v(1, 2, 3);
 	Vector<float, 4> u = (Vector<float, 4>)v;
 	Vector<float, 3> v2 = (Vector<float, 3>)u;
 
@@ -222,14 +250,14 @@ TEST_CASE("Vector - IOParse", "[Vector]") {
 		"[3.14\t2.718\t0.57]",
 		"{    3.14  2.718, 0.57 } ",
 	};
-	Vector<float, 3> expected{3.14f, 2.718f, 0.57f};
+	Vector<float, 3> expected{ 3.14f, 2.718f, 0.57f };
 
 	for (const auto& c : successCases) {
 		const char* end;
 		parsed = strtovec<decltype(parsed)>(c.c_str(), &end);
 		REQUIRE(end != c.c_str());
 		REQUIRE(parsed == expected);
-	}	
+	}
 
 	std::string failureCases[] = {
 		"[3. 14, 2.718, 0.57]", // more elements

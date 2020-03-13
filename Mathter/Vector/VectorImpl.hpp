@@ -33,7 +33,7 @@ namespace mathter {
 /// </remarks>
 template <class VectorData, int... Indices>
 class Swizzle {
-	using T = typename traits::VectorDataTraits<VectorData>::Type;
+	using T = typename traits::VectorTraits<VectorData>::Type;
 	static constexpr int IndexTable[] = { Indices... };
 	static constexpr int Dim = sizeof...(Indices);
 	T* data() { return reinterpret_cast<T*>(this); }
@@ -494,7 +494,7 @@ public:
 	Vector(Scalars... scalars) {
 		if constexpr (traits::HasSimd<Vector>::value) {
 			if constexpr (Dim == 3) {
-				this->simd = VectorData<T, 3, Packed>::SimdT::set(scalars..., 0);
+				this->simd = VectorData<T, 3, Packed>::SimdT::set(scalars..., T(0));
 			}
 			else {
 				this->simd = VectorData<T, Dim, Packed>::SimdT::set(scalars...);

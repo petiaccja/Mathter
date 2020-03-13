@@ -36,10 +36,6 @@ T Determinant(const Matrix<T, 3, 3, Order, Layout, Packed>& m) {
 	Vec3 r2_zxy = m.stripes[2].zxy;
 	Vec3 r2_yzx = m.stripes[2].yzx;
 
-	Vec3 c0 = r1_yzx * r2_zxy - r1_zxy * r2_yzx;
-	Vec3 c1 = r0_zxy * r2_yzx - r0_yzx * r2_zxy;
-	Vec3 c2 = r0_yzx * r1_zxy - r0_zxy * r1_yzx;
-
 	Vec3 r0_zyx = m.stripes[0].zyx;
 	Vec3 r1_xzy = m.stripes[1].xzy;
 	Vec3 r1_yxz = m.stripes[1].yxz;

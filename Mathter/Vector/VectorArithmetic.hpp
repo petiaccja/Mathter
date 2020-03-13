@@ -139,7 +139,7 @@ inline Vector<T, Dim, Packed>& operator-=(Vector<T, Dim, Packed>& lhs, const Vec
 //------------------------------------------------------------------------------
 
 /// <summary> Scales the vector by <paramref name="rhs"/>. </summary>
-template <class T, int Dim, bool Packed, class U>
+template <class T, int Dim, bool Packed, class U, class = std::enable_if_t<std::is_convertible_v<U, T>>>
 inline Vector<T, Dim, Packed>& operator*=(Vector<T, Dim, Packed>& lhs, U rhs) {
 	if constexpr (!traits::HasSimd<Vector<T, Dim, Packed>>::value) {
 		for (int i = 0; i < Dim; ++i) {
@@ -154,7 +154,7 @@ inline Vector<T, Dim, Packed>& operator*=(Vector<T, Dim, Packed>& lhs, U rhs) {
 }
 
 /// <summary> Scales the vector by 1/<paramref name="rhs"/>. </summary>
-template <class T, int Dim, bool Packed, class U>
+template <class T, int Dim, bool Packed, class U, class = std::enable_if_t<std::is_convertible_v<U, T>>>
 inline Vector<T, Dim, Packed>& operator/=(Vector<T, Dim, Packed>& lhs, U rhs) {
 	if constexpr (!traits::HasSimd<Vector<T, Dim, Packed>>::value) {
 		for (int i = 0; i < Dim; ++i) {
@@ -169,7 +169,7 @@ inline Vector<T, Dim, Packed>& operator/=(Vector<T, Dim, Packed>& lhs, U rhs) {
 }
 
 /// <summary> Adds <paramref name="rhs"/> to each element of the vector. </summary>
-template <class T, int Dim, bool Packed, class U>
+template <class T, int Dim, bool Packed, class U, class = std::enable_if_t<std::is_convertible_v<U, T>>>
 inline Vector<T, Dim, Packed>& operator+=(Vector<T, Dim, Packed>& lhs, U rhs) {
 	if constexpr (!traits::HasSimd<Vector<T, Dim, Packed>>::value) {
 		for (int i = 0; i < Dim; ++i) {
@@ -184,7 +184,7 @@ inline Vector<T, Dim, Packed>& operator+=(Vector<T, Dim, Packed>& lhs, U rhs) {
 }
 
 /// <summary> Subtracts <paramref name="rhs"/> from each element of the vector. </summary>
-template <class T, int Dim, bool Packed, class U>
+template <class T, int Dim, bool Packed, class U, class = std::enable_if_t<std::is_convertible_v<U, T>>>
 inline Vector<T, Dim, Packed>& operator-=(Vector<T, Dim, Packed>& lhs, U rhs) {
 	if constexpr (!traits::HasSimd<Vector<T, Dim, Packed>>::value) {
 		for (int i = 0; i < Dim; ++i) {
@@ -204,7 +204,7 @@ inline Vector<T, Dim, Packed>& operator-=(Vector<T, Dim, Packed>& lhs, U rhs) {
 //------------------------------------------------------------------------------
 
 /// <summary> Scales the vector by <paramref name="rhs"/>. </summary>
-template <class T, int Dim, bool Packed, class U>
+template <class T, int Dim, bool Packed, class U, class = std::enable_if_t<std::is_convertible_v<U, T>>>
 inline Vector<T, Dim, Packed> operator*(const Vector<T, Dim, Packed>& lhs, U rhs) {
 	if constexpr (!traits::HasSimd<Vector<T, Dim, Packed>>::value) {
 		Vector<T, Dim, Packed> copy(lhs);
@@ -217,7 +217,7 @@ inline Vector<T, Dim, Packed> operator*(const Vector<T, Dim, Packed>& lhs, U rhs
 	}
 }
 /// <summary> Scales the vector by 1/<paramref name="rhs"/>. </summary>
-template <class T, int Dim, bool Packed, class U>
+template <class T, int Dim, bool Packed, class U, class = std::enable_if_t<std::is_convertible_v<U, T>>>
 inline Vector<T, Dim, Packed> operator/(const Vector<T, Dim, Packed>& lhs, U rhs) {
 	if constexpr (!traits::HasSimd<Vector<T, Dim, Packed>>::value) {
 		Vector<T, Dim, Packed> copy(lhs);
@@ -230,7 +230,7 @@ inline Vector<T, Dim, Packed> operator/(const Vector<T, Dim, Packed>& lhs, U rhs
 	}
 }
 /// <summary> Adds <paramref name="rhs"/> to each element of the vector. </summary>
-template <class T, int Dim, bool Packed, class U>
+template <class T, int Dim, bool Packed, class U, class = std::enable_if_t<std::is_convertible_v<U, T>>>
 inline Vector<T, Dim, Packed> operator+(const Vector<T, Dim, Packed>& lhs, U rhs) {
 	if constexpr (!traits::HasSimd<Vector<T, Dim, Packed>>::value) {
 		Vector<T, Dim, Packed> copy(lhs);
@@ -243,7 +243,7 @@ inline Vector<T, Dim, Packed> operator+(const Vector<T, Dim, Packed>& lhs, U rhs
 	}
 }
 /// <summary> Subtracts <paramref name="rhs"/> from each element of the vector. </summary>
-template <class T, int Dim, bool Packed, class U>
+template <class T, int Dim, bool Packed, class U, class = std::enable_if_t<std::is_convertible_v<U, T>>>
 inline Vector<T, Dim, Packed> operator-(const Vector<T, Dim, Packed>& lhs, U rhs) {
 	if constexpr (!traits::HasSimd<Vector<T, Dim, Packed>>::value) {
 		Vector<T, Dim, Packed> copy(lhs);
@@ -258,16 +258,16 @@ inline Vector<T, Dim, Packed> operator-(const Vector<T, Dim, Packed>& lhs, U rhs
 
 
 /// <summary> Scales vector by <paramref name="lhs"/>. </summary>
-template <class T, int Dim, bool Packed, class U>
-inline Vector<T, Dim, Packed> operator*(U lhs, const Vector<T, Dim, Packed>& rhs) { return rhs * (T)lhs; }
+template <class T, int Dim, bool Packed, class U, class = std::enable_if_t<std::is_convertible_v<U, T>>>
+inline Vector<T, Dim, Packed> operator*(U lhs, const Vector<T, Dim, Packed>& rhs) { return rhs * lhs; }
 /// <summary> Adds <paramref name="lhs"/> to all elements of the vector. </summary>
-template <class T, int Dim, bool Packed, class U>
-inline Vector<T, Dim, Packed> operator+(U lhs, const Vector<T, Dim, Packed>& rhs) { return rhs + (T)lhs; }
+template <class T, int Dim, bool Packed, class U, class = std::enable_if_t<std::is_convertible_v<U, T>>>
+inline Vector<T, Dim, Packed> operator+(U lhs, const Vector<T, Dim, Packed>& rhs) { return rhs + lhs; }
 /// <summary> Makes a vector with <paramref name="lhs"/> as all elements, then subtracts <paramref name="rhs"> from it. </summary>
-template <class T, int Dim, bool Packed, class U>
+template <class T, int Dim, bool Packed, class U, class = std::enable_if_t<std::is_convertible_v<U, T>>>
 inline Vector<T, Dim, Packed> operator-(U lhs, const Vector<T, Dim, Packed>& rhs) { return Vector<T, Dim, Packed>(lhs) - rhs; }
 /// <summary> Makes a vector with <paramref name="lhs"/> as all elements, then divides it by <paramref name="rhs">. </summary>
-template <class T, int Dim, bool Packed, class U>
+template <class T, int Dim, bool Packed, class U, class = std::enable_if_t<std::is_convertible_v<U, T>>>
 inline Vector<T, Dim, Packed> operator/(U lhs, const Vector<T, Dim, Packed>& rhs) {
 	Vector<T, Dim, Packed> copy(lhs);
 	copy /= rhs;
@@ -301,69 +301,125 @@ inline Vector<T, Dim, Packed> operator+(const Vector<T, Dim, Packed>& arg) {
 // Swizzle ops
 //------------------------------------------------------------------------------
 
-template <class T, int Dim, bool Packed, int... Indices>
-std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>> operator*(const Vector<T, Dim, Packed>& v, const Swizzle<T, Indices...>& s) {
+template <class T, int Dim, bool Packed, class VectorDataT, int... Indices>
+auto operator*(const Vector<T, Dim, Packed>& v, const Swizzle<VectorDataT, Indices...>& s) -> std::enable_if_t<Dim == sizeof...(Indices) && std::is_same_v<T, typename traits::VectorTraits<VectorDataT>::Type>, Vector<T, Dim, Packed>> {
 	return v * decltype(v)(s);
 }
 
-template <class T, int Dim, bool Packed, int... Indices>
-std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>> operator/(const Vector<T, Dim, Packed>& v, const Swizzle<T, Indices...>& s) {
+template <class T, int Dim, bool Packed, class VectorDataT, int... Indices>
+auto operator/(const Vector<T, Dim, Packed>& v, const Swizzle<VectorDataT, Indices...>& s) -> std::enable_if_t<Dim == sizeof...(Indices) && std::is_same_v<T, typename traits::VectorTraits<VectorDataT>::Type>, Vector<T, Dim, Packed>> {
 	return v / decltype(v)(s);
 }
 
-template <class T, int Dim, bool Packed, int... Indices>
-std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>> operator+(const Vector<T, Dim, Packed>& v, const Swizzle<T, Indices...>& s) {
+template <class T, int Dim, bool Packed, class VectorDataT, int... Indices>
+auto operator+(const Vector<T, Dim, Packed>& v, const Swizzle<VectorDataT, Indices...>& s) -> std::enable_if_t<Dim == sizeof...(Indices) && std::is_same_v<T, typename traits::VectorTraits<VectorDataT>::Type>, Vector<T, Dim, Packed>> {
 	return v + decltype(v)(s);
 }
 
-template <class T, int Dim, bool Packed, int... Indices>
-std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>> operator-(const Vector<T, Dim, Packed>& v, const Swizzle<T, Indices...>& s) {
+template <class T, int Dim, bool Packed, class VectorDataT, int... Indices>
+auto operator-(const Vector<T, Dim, Packed>& v, const Swizzle<VectorDataT, Indices...>& s) -> std::enable_if_t<Dim == sizeof...(Indices) && std::is_same_v<T, typename traits::VectorTraits<VectorDataT>::Type>, Vector<T, Dim, Packed>> {
 	return v - decltype(v)(s);
 }
 
 
 
-template <class T, int Dim, bool Packed, int... Indices>
-std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>> operator*(const Swizzle<T, Indices...>& s, const Vector<T, Dim, Packed>& v) {
+template <class T, int Dim, bool Packed, class VectorDataT, int... Indices>
+auto operator*(const Swizzle<VectorDataT, Indices...>& s, const Vector<T, Dim, Packed>& v) -> std::enable_if_t<Dim == sizeof...(Indices) && std::is_same_v<T, typename traits::VectorTraits<VectorDataT>::Type>, Vector<T, Dim, Packed>> {
 	return decltype(v)(s) * v;
 }
 
-template <class T, int Dim, bool Packed, int... Indices>
-std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>> operator/(const Swizzle<T, Indices...>& s, const Vector<T, Dim, Packed>& v) {
+template <class T, int Dim, bool Packed, class VectorDataT, int... Indices>
+auto operator/(const Swizzle<VectorDataT, Indices...>& s, const Vector<T, Dim, Packed>& v) -> std::enable_if_t<Dim == sizeof...(Indices) && std::is_same_v<T, typename traits::VectorTraits<VectorDataT>::Type>, Vector<T, Dim, Packed>> {
 	return decltype(v)(s) / v;
 }
 
-template <class T, int Dim, bool Packed, int... Indices>
-std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>> operator+(const Swizzle<T, Indices...>& s, const Vector<T, Dim, Packed>& v) {
+template <class T, int Dim, bool Packed, class VectorDataT, int... Indices>
+auto operator+(const Swizzle<VectorDataT, Indices...>& s, const Vector<T, Dim, Packed>& v) -> std::enable_if_t<Dim == sizeof...(Indices) && std::is_same_v<T, typename traits::VectorTraits<VectorDataT>::Type>, Vector<T, Dim, Packed>> {
 	return decltype(v)(s) + v;
 }
 
-template <class T, int Dim, bool Packed, int... Indices>
-std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>> operator-(const Swizzle<T, Indices...>& s, const Vector<T, Dim, Packed>& v) {
+template <class T, int Dim, bool Packed, class VectorDataT, int... Indices>
+auto operator-(const Swizzle<VectorDataT, Indices...>& s, const Vector<T, Dim, Packed>& v) -> std::enable_if_t<Dim == sizeof...(Indices) && std::is_same_v<T, typename traits::VectorTraits<VectorDataT>::Type>, Vector<T, Dim, Packed>> {
 	return decltype(v)(s) - v;
 }
 
 
 
-template <class T, int Dim, bool Packed, int... Indices>
-std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>>& operator*=(const Vector<T, Dim, Packed>& v, const Swizzle<T, Indices...>& s) {
+template <class T, int Dim, bool Packed, class VectorDataT, int... Indices>
+auto operator*=(Vector<T, Dim, Packed>& v, const Swizzle<VectorDataT, Indices...>& s) -> std::enable_if_t<Dim == sizeof...(Indices) && std::is_same_v<T, typename traits::VectorTraits<VectorDataT>::Type>, Vector<T, Dim, Packed>>& {
 	return v *= decltype(v)(s);
 }
 
-template <class T, int Dim, bool Packed, int... Indices>
-std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>>& operator/=(const Vector<T, Dim, Packed>& v, const Swizzle<T, Indices...>& s) {
+template <class T, int Dim, bool Packed, class VectorDataT, int... Indices>
+auto operator/=(Vector<T, Dim, Packed>& v, const Swizzle<VectorDataT, Indices...>& s) -> std::enable_if_t<Dim == sizeof...(Indices) && std::is_same_v<T, typename traits::VectorTraits<VectorDataT>::Type>, Vector<T, Dim, Packed>>& {
 	return v /= decltype(v)(s);
 }
 
-template <class T, int Dim, bool Packed, int... Indices>
-std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>>& operator+=(const Vector<T, Dim, Packed>& v, const Swizzle<T, Indices...>& s) {
+template <class T, int Dim, bool Packed, class VectorDataT, int... Indices>
+auto operator+=(Vector<T, Dim, Packed>& v, const Swizzle<VectorDataT, Indices...>& s) -> std::enable_if_t<Dim == sizeof...(Indices) && std::is_same_v<T, typename traits::VectorTraits<VectorDataT>::Type>, Vector<T, Dim, Packed>>& {
 	return v += decltype(v)(s);
 }
 
-template <class T, int Dim, bool Packed, int... Indices>
-std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>>& operator-=(const Vector<T, Dim, Packed>& v, const Swizzle<T, Indices...>& s) {
+template <class T, int Dim, bool Packed, class VectorDataT, int... Indices>
+auto operator-=(Vector<T, Dim, Packed>& v, const Swizzle<VectorDataT, Indices...>& s) -> std::enable_if_t<Dim == sizeof...(Indices) && std::is_same_v<T, typename traits::VectorTraits<VectorDataT>::Type>, Vector<T, Dim, Packed>>& {
 	return v -= decltype(v)(s);
 }
+
+
+
+template <class VData1, int... Indices1, class VData2, int... Indices2>
+auto operator*(const Swizzle<VData1, Indices1...>& s1, const Swizzle<VData2, Indices2...>& s2) {
+	using V1 = Vector<typename traits::VectorTraits<VData1>::Type, traits::VectorTraits<VData1>::Dim, traits::VectorTraits<VData1>::Packed>;
+	using V2 = Vector<typename traits::VectorTraits<VData2>::Type, traits::VectorTraits<VData2>::Dim, traits::VectorTraits<VData2>::Packed>;
+	return V1(s1) * V2(s2);
+}
+
+template <class VData1, int... Indices1, class VData2, int... Indices2>
+auto operator/(const Swizzle<VData1, Indices1...>& s1, const Swizzle<VData2, Indices2...>& s2) {
+	using V1 = Vector<typename traits::VectorTraits<VData1>::Type, traits::VectorTraits<VData1>::Dim, traits::VectorTraits<VData1>::Packed>;
+	using V2 = Vector<typename traits::VectorTraits<VData2>::Type, traits::VectorTraits<VData2>::Dim, traits::VectorTraits<VData2>::Packed>;
+	return V1(s1) / V2(s2);
+}
+
+template <class VData1, int... Indices1, class VData2, int... Indices2>
+auto operator+(const Swizzle<VData1, Indices1...>& s1, const Swizzle<VData2, Indices2...>& s2) {
+	using V1 = Vector<typename traits::VectorTraits<VData1>::Type, traits::VectorTraits<VData1>::Dim, traits::VectorTraits<VData1>::Packed>;
+	using V2 = Vector<typename traits::VectorTraits<VData2>::Type, traits::VectorTraits<VData2>::Dim, traits::VectorTraits<VData2>::Packed>;
+	return V1(s1) + V2(s2);
+}
+
+template <class VData1, int... Indices1, class VData2, int... Indices2>
+auto operator-(const Swizzle<VData1, Indices1...>& s1, const Swizzle<VData2, Indices2...>& s2) {
+	using V1 = Vector<typename traits::VectorTraits<VData1>::Type, traits::VectorTraits<VData1>::Dim, traits::VectorTraits<VData1>::Packed>;
+	using V2 = Vector<typename traits::VectorTraits<VData2>::Type, traits::VectorTraits<VData2>::Dim, traits::VectorTraits<VData2>::Packed>;
+	return V1(s1) - V2(s2);
+}
+
+
+
+template <class VData1, int... Indices1, class VData2, int... Indices2>
+auto operator*=(Swizzle<VData1, Indices1...>& s1, const Swizzle<VData2, Indices2...>& s2) {
+	return s1 = s1 * s2;
+}
+
+template <class VData1, int... Indices1, class VData2, int... Indices2>
+auto operator/=(Swizzle<VData1, Indices1...>& s1, const Swizzle<VData2, Indices2...>& s2) {
+	return s1 = s1 / s2;
+}
+
+template <class VData1, int... Indices1, class VData2, int... Indices2>
+auto operator+=(Swizzle<VData1, Indices1...>& s1, const Swizzle<VData2, Indices2...>& s2) {
+	return s1 = s1 + s2;
+}
+
+template <class VData1, int... Indices1, class VData2, int... Indices2>
+auto operator-=(Swizzle<VData1, Indices1...>& s1, const Swizzle<VData2, Indices2...>& s2) {
+	return s1 = s1 - s2;
+}
+
+
+
+
 
 
 

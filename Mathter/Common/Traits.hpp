@@ -12,27 +12,20 @@
 
 namespace mathter::traits {
 
-	// Vector data properties
-	template <class VectorDataT>
-	class VectorDataTraitsHelper {};
-
-	template <class T_, int Dim_, bool Packed_>
-	class VectorDataTraitsHelper<VectorData<T_, Dim_, Packed_>> {
-	public:
-		using Type = T_;
-		static constexpr int Dim = Dim_;
-		static constexpr bool Packed = Packed_;
-	};
-
-	template <class VectorDataT>
-	class VectorDataTraits : public VectorDataTraitsHelper<typename std::decay<VectorDataT>::type> {};
-
 	// Vector properties
 	template <class VectorT>
 	class VectorTraitsHelper {};
 
 	template <class T_, int Dim_, bool Packed_>
 	class VectorTraitsHelper<Vector<T_, Dim_, Packed_>> {
+	public:
+		using Type = T_;
+		static constexpr int Dim = Dim_;
+		static constexpr bool Packed = Packed_;
+	};
+
+	template <class T_, int Dim_, bool Packed_>
+	class VectorTraitsHelper<VectorData<T_, Dim_, Packed_>> {
 	public:
 		using Type = T_;
 		static constexpr int Dim = Dim_;
