@@ -139,8 +139,8 @@ inline Vector<T, Dim, Packed>& operator-=(Vector<T, Dim, Packed>& lhs, const Vec
 //------------------------------------------------------------------------------
 
 /// <summary> Scales the vector by <paramref name="rhs"/>. </summary>
-template <class T, int Dim, bool Packed>
-inline Vector<T, Dim, Packed>& operator*=(Vector<T, Dim, Packed>& lhs, T rhs) {
+template <class T, int Dim, bool Packed, class U>
+inline Vector<T, Dim, Packed>& operator*=(Vector<T, Dim, Packed>& lhs, U rhs) {
 	if constexpr (!traits::HasSimd<Vector<T, Dim, Packed>>::value) {
 		for (int i = 0; i < Dim; ++i) {
 			lhs.data[i] *= rhs;
@@ -154,8 +154,8 @@ inline Vector<T, Dim, Packed>& operator*=(Vector<T, Dim, Packed>& lhs, T rhs) {
 }
 
 /// <summary> Scales the vector by 1/<paramref name="rhs"/>. </summary>
-template <class T, int Dim, bool Packed>
-inline Vector<T, Dim, Packed>& operator/=(Vector<T, Dim, Packed>& lhs, T rhs) {
+template <class T, int Dim, bool Packed, class U>
+inline Vector<T, Dim, Packed>& operator/=(Vector<T, Dim, Packed>& lhs, U rhs) {
 	if constexpr (!traits::HasSimd<Vector<T, Dim, Packed>>::value) {
 		for (int i = 0; i < Dim; ++i) {
 			lhs.data[i] /= rhs;
@@ -169,8 +169,8 @@ inline Vector<T, Dim, Packed>& operator/=(Vector<T, Dim, Packed>& lhs, T rhs) {
 }
 
 /// <summary> Adds <paramref name="rhs"/> to each element of the vector. </summary>
-template <class T, int Dim, bool Packed>
-inline Vector<T, Dim, Packed>& operator+=(Vector<T, Dim, Packed>& lhs, T rhs) {
+template <class T, int Dim, bool Packed, class U>
+inline Vector<T, Dim, Packed>& operator+=(Vector<T, Dim, Packed>& lhs, U rhs) {
 	if constexpr (!traits::HasSimd<Vector<T, Dim, Packed>>::value) {
 		for (int i = 0; i < Dim; ++i) {
 			lhs.data[i] += rhs;
@@ -184,8 +184,8 @@ inline Vector<T, Dim, Packed>& operator+=(Vector<T, Dim, Packed>& lhs, T rhs) {
 }
 
 /// <summary> Subtracts <paramref name="rhs"/> from each element of the vector. </summary>
-template <class T, int Dim, bool Packed>
-inline Vector<T, Dim, Packed>& operator-=(Vector<T, Dim, Packed>& lhs, T rhs) {
+template <class T, int Dim, bool Packed, class U>
+inline Vector<T, Dim, Packed>& operator-=(Vector<T, Dim, Packed>& lhs, U rhs) {
 	if constexpr (!traits::HasSimd<Vector<T, Dim, Packed>>::value) {
 		for (int i = 0; i < Dim; ++i) {
 			lhs.data[i] -= rhs;
@@ -204,8 +204,8 @@ inline Vector<T, Dim, Packed>& operator-=(Vector<T, Dim, Packed>& lhs, T rhs) {
 //------------------------------------------------------------------------------
 
 /// <summary> Scales the vector by <paramref name="rhs"/>. </summary>
-template <class T, int Dim, bool Packed>
-inline Vector<T, Dim, Packed> operator*(const Vector<T, Dim, Packed>& lhs, T rhs) {
+template <class T, int Dim, bool Packed, class U>
+inline Vector<T, Dim, Packed> operator*(const Vector<T, Dim, Packed>& lhs, U rhs) {
 	if constexpr (!traits::HasSimd<Vector<T, Dim, Packed>>::value) {
 		Vector<T, Dim, Packed> copy(lhs);
 		copy *= rhs;
@@ -217,8 +217,8 @@ inline Vector<T, Dim, Packed> operator*(const Vector<T, Dim, Packed>& lhs, T rhs
 	}
 }
 /// <summary> Scales the vector by 1/<paramref name="rhs"/>. </summary>
-template <class T, int Dim, bool Packed>
-inline Vector<T, Dim, Packed> operator/(const Vector<T, Dim, Packed>& lhs, T rhs) {
+template <class T, int Dim, bool Packed, class U>
+inline Vector<T, Dim, Packed> operator/(const Vector<T, Dim, Packed>& lhs, U rhs) {
 	if constexpr (!traits::HasSimd<Vector<T, Dim, Packed>>::value) {
 		Vector<T, Dim, Packed> copy(lhs);
 		copy /= rhs;
@@ -230,8 +230,8 @@ inline Vector<T, Dim, Packed> operator/(const Vector<T, Dim, Packed>& lhs, T rhs
 	}
 }
 /// <summary> Adds <paramref name="rhs"/> to each element of the vector. </summary>
-template <class T, int Dim, bool Packed>
-inline Vector<T, Dim, Packed> operator+(const Vector<T, Dim, Packed>& lhs, T rhs) {
+template <class T, int Dim, bool Packed, class U>
+inline Vector<T, Dim, Packed> operator+(const Vector<T, Dim, Packed>& lhs, U rhs) {
 	if constexpr (!traits::HasSimd<Vector<T, Dim, Packed>>::value) {
 		Vector<T, Dim, Packed> copy(lhs);
 		copy += rhs;
@@ -243,8 +243,8 @@ inline Vector<T, Dim, Packed> operator+(const Vector<T, Dim, Packed>& lhs, T rhs
 	}
 }
 /// <summary> Subtracts <paramref name="rhs"/> from each element of the vector. </summary>
-template <class T, int Dim, bool Packed>
-inline Vector<T, Dim, Packed> operator-(const Vector<T, Dim, Packed>& lhs, T rhs) {
+template <class T, int Dim, bool Packed, class U>
+inline Vector<T, Dim, Packed> operator-(const Vector<T, Dim, Packed>& lhs, U rhs) {
 	if constexpr (!traits::HasSimd<Vector<T, Dim, Packed>>::value) {
 		Vector<T, Dim, Packed> copy(lhs);
 		copy -= rhs;
@@ -258,16 +258,16 @@ inline Vector<T, Dim, Packed> operator-(const Vector<T, Dim, Packed>& lhs, T rhs
 
 
 /// <summary> Scales vector by <paramref name="lhs"/>. </summary>
-template <class T, int Dim, bool Packed, class U, class = typename std::enable_if<std::is_convertible<U, T>::value>::type>
+template <class T, int Dim, bool Packed, class U>
 inline Vector<T, Dim, Packed> operator*(U lhs, const Vector<T, Dim, Packed>& rhs) { return rhs * (T)lhs; }
 /// <summary> Adds <paramref name="lhs"/> to all elements of the vector. </summary>
-template <class T, int Dim, bool Packed, class U, class = typename std::enable_if<std::is_convertible<U, T>::value>::type>
+template <class T, int Dim, bool Packed, class U>
 inline Vector<T, Dim, Packed> operator+(U lhs, const Vector<T, Dim, Packed>& rhs) { return rhs + (T)lhs; }
 /// <summary> Makes a vector with <paramref name="lhs"/> as all elements, then subtracts <paramref name="rhs"> from it. </summary>
-template <class T, int Dim, bool Packed, class U, class = typename std::enable_if<std::is_convertible<U, T>::value>::type>
+template <class T, int Dim, bool Packed, class U>
 inline Vector<T, Dim, Packed> operator-(U lhs, const Vector<T, Dim, Packed>& rhs) { return Vector<T, Dim, Packed>(lhs) - rhs; }
 /// <summary> Makes a vector with <paramref name="lhs"/> as all elements, then divides it by <paramref name="rhs">. </summary>
-template <class T, int Dim, bool Packed, class U, class = typename std::enable_if<std::is_convertible<U, T>::value>::type>
+template <class T, int Dim, bool Packed, class U>
 inline Vector<T, Dim, Packed> operator/(U lhs, const Vector<T, Dim, Packed>& rhs) {
 	Vector<T, Dim, Packed> copy(lhs);
 	copy /= rhs;

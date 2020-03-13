@@ -71,7 +71,7 @@ namespace mathter::traits {
 
 	// Common utility
 	template <class T, class U>
-	using MatMulElemT = decltype(T() * U() + T() + U());
+	using MatMulElemT = decltype(T() * U() + T() * U());
 
 	
 

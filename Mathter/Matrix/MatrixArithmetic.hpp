@@ -286,43 +286,42 @@ inline Matrix<U, Rows, Columns, Order1, Layout1, Packed>& operator-=(
 
 // Scalar multiplication
 /// <summary> Multiplies all elements of the matrix by scalar. </summary>
-template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-inline Matrix<T, Rows, Columns, Order, Layout, Packed>& operator*=(Matrix<T, Rows, Columns, Order, Layout, Packed>& mat, T s) {
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed, class U>
+inline Matrix<T, Rows, Columns, Order, Layout, Packed>& operator*=(Matrix<T, Rows, Columns, Order, Layout, Packed>& mat, U s) {
 	for (auto& stripe : mat.stripes) {
 		stripe *= s;
 	}
 	return mat;
 }
 /// <summary> Divides all elements of the matrix by scalar. </summary>
-template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-inline Matrix<T, Rows, Columns, Order, Layout, Packed>& operator/=(Matrix<T, Rows, Columns, Order, Layout, Packed>& mat, T s) {
-	mat *= T(1 / s);
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed, class U>
+inline Matrix<T, Rows, Columns, Order, Layout, Packed>& operator/=(Matrix<T, Rows, Columns, Order, Layout, Packed>& mat, U s) {
+	mat *= U(1) / s;
 	return mat;
 }
 
-
-template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-Matrix<T, Rows, Columns, Order, Layout, Packed> operator*(T s, const Matrix<T, Rows, Columns, Order, Layout, Packed>& mat) {
-	return mat * s;
-}
-
-template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-Matrix<T, Rows, Columns, Order, Layout, Packed> operator/(T s, const Matrix<T, Rows, Columns, Order, Layout, Packed>& mat) {
-	return mat / s;
-}
-
-template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-Matrix<T, Rows, Columns, Order, Layout, Packed> operator*(const Matrix<T, Rows, Columns, Order, Layout, Packed>& mat, T s) {
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed, class U>
+Matrix<T, Rows, Columns, Order, Layout, Packed> operator*(const Matrix<T, Rows, Columns, Order, Layout, Packed>& mat, U s) {
 	Matrix<T, Rows, Columns, Order, Layout, Packed> copy(mat);
 	copy *= s;
 	return copy;
 }
 
-template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-Matrix<T, Rows, Columns, Order, Layout, Packed> operator/(const Matrix<T, Rows, Columns, Order, Layout, Packed>& mat, T s) {
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed, class U>
+Matrix<T, Rows, Columns, Order, Layout, Packed> operator/(const Matrix<T, Rows, Columns, Order, Layout, Packed>& mat, U s) {
 	Matrix<T, Rows, Columns, Order, Layout, Packed> copy(mat);
 	copy /= s;
 	return copy;
+}
+
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed, class U>
+Matrix<T, Rows, Columns, Order, Layout, Packed> operator*(U s, const Matrix<T, Rows, Columns, Order, Layout, Packed>& mat) {
+	return mat * s;
+}
+
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed, class U>
+Matrix<T, Rows, Columns, Order, Layout, Packed> operator/(U s, const Matrix<T, Rows, Columns, Order, Layout, Packed>& mat) {
+	return mat / s;
 }
 
 
@@ -374,13 +373,13 @@ auto DivElementwise(const Matrix<T, Rows, Columns, Order, Layout, Packed>& lhs, 
 //------------------------------------------------------------------------------
 // Unary signs
 //------------------------------------------------------------------------------
-template <class U, class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-inline Matrix<T, Rows, Columns, Order, Layout, Packed> operator+(const Matrix<T, Rows, Columns, Order, Layout, Packed>& mat) {
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+auto operator+(const Matrix<T, Rows, Columns, Order, Layout, Packed>& mat) {
 	return Matrix<T, Rows, Columns, Order, Layout, Packed>(mat);
 }
 
-template <class U, class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-inline Matrix<T, Rows, Columns, Order, Layout, Packed> operator-(const Matrix<T, Rows, Columns, Order, Layout, Packed>& mat) {
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+auto operator-(const Matrix<T, Rows, Columns, Order, Layout, Packed>& mat) {
 	return Matrix<T, Rows, Columns, Order, Layout, Packed>(mat) * T(-1);
 }
 

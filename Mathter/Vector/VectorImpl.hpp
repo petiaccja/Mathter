@@ -444,7 +444,7 @@ public:
 
 	/// <summary> Constructs the vector from an array of elements. </summary>
 	/// <remarks> The number of elements must be the same as the vector's dimension. </remarks>
-	template <class U>
+	template <class U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0>
 	explicit Vector(const U* data) {
 		for (int i = 0; i < Dim; ++i) {
 			this->data[i] = data[i];
@@ -460,7 +460,7 @@ public:
 	// Type conversion
 	//--------------------------------------------
 
-	template <class U, bool UPacked>
+	template <class U, bool UPacked, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0>
 	Vector(const Vector<U, Dim, UPacked>& other) {
 		for (int i = 0; i < Dim; ++i) {
 			this->data[i] = (T)other.data[i];
@@ -488,7 +488,7 @@ public:
 	/// <remarks> Number of arguments must equal vector dimension.
 	///		Types of arguments may differ from vector's underlying type, in which case cast is forced without a warning. </remarks>
 	template <class... Scalars, typename std::enable_if<Dim >= 2
-															&& traits ::All<traits::IsScalar, Scalars...>::value
+															&& std::conjunction_v<std::is_convertible<Scalars, T>...>
 															&& sizeof...(Scalars) == Dim,
 														int>::type = 0>
 	Vector(Scalars... scalars) {
@@ -509,7 +509,7 @@ public:
 	/// <remarks> Sum of the dimension of arguments must equal vector dimension.
 	///		Types of arguments may differ from vector's underlying type, in which case cast is forced without a warning. </remarks>
 	template <class... Mixed, typename std::enable_if<sizeof...(Mixed) >= 2
-														  && traits::Any<traits::IsVectorOrSwizzle, Mixed...>::value
+														  && !std::conjunction_v<std::is_convertible<Mixed, T>...>
 														  && traits::SumDimensions<Mixed...>::value == Dim,
 													  int>::type = 0>
 	Vector(const Mixed&... mixed) {
