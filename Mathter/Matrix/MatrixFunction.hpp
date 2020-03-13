@@ -29,13 +29,6 @@ template <class T, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 T Determinant(const Matrix<T, 3, 3, Order, Layout, Packed>& m) {
 	using Vec3 = Vector<T, 3, false>;
 
-	Vec3 r0_zxy = m.stripes[0].zxy;
-	Vec3 r0_yzx = m.stripes[0].yzx;
-	Vec3 r1_yzx = m.stripes[1].yzx;
-	Vec3 r1_zxy = m.stripes[1].zxy;
-	Vec3 r2_zxy = m.stripes[2].zxy;
-	Vec3 r2_yzx = m.stripes[2].yzx;
-
 	Vec3 r0_zyx = m.stripes[0].zyx;
 	Vec3 r1_xzy = m.stripes[1].xzy;
 	Vec3 r1_yxz = m.stripes[1].yxz;

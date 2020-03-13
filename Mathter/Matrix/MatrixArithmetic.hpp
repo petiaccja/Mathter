@@ -205,7 +205,6 @@ inline auto operator+(const Matrix<T, Rows, Columns, Order, SameLayout, Packed>&
 template <class T, class U, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout SameLayout, bool Packed>
 inline auto operator-(const Matrix<T, Rows, Columns, Order, SameLayout, Packed>& lhs,
 					  const Matrix<U, Rows, Columns, Order, SameLayout, Packed>& rhs) {
-	using VectorAccelerator = Vector<T, 4, false>;
 	using V = traits::MatMulElemT<T, U>;
 
 	if constexpr (Rows * Columns == 4) {
