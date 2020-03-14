@@ -429,6 +429,14 @@ public:
 	Vector(const Vector&) = default;
 	Vector& operator=(const Vector&) = default;
 
+	/// <summary> Constructs the vector by converting elements of <paramref name="other"/>. </summary>
+	template <class U, bool UPacked, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0>
+	Vector(const Vector<U, Dim, UPacked>& other) {
+		for (int i = 0; i < Dim; ++i) {
+			this->data[i] = (T)other.data[i];
+		}
+	}
+
 	/// <summary> Sets all elements to the same value. </summary>
 	explicit Vector(T all) {
 		if constexpr (!traits::HasSimd<Vector>::value) {
@@ -455,18 +463,7 @@ public:
 	Vector(FromSimd_, SimdArgT simd) : VectorData<T, Dim, Packed>(simd) {
 		static_assert(traits::HasSimd<Vector>::value, "To the developer of Mathter: don't call this unless has SIMD.");
 	}
-
-	//--------------------------------------------
-	// Type conversion
-	//--------------------------------------------
-
-	template <class U, bool UPacked, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0>
-	Vector(const Vector<U, Dim, UPacked>& other) {
-		for (int i = 0; i < Dim; ++i) {
-			this->data[i] = (T)other.data[i];
-		}
-	}
-
+	
 	//--------------------------------------------
 	// Homogeneous up- and downcast
 	//--------------------------------------------
@@ -508,7 +505,7 @@ public:
 	/// <summary> Initializes the vector by concatenating given scalar, vector or swizzle arguments. </summary>
 	/// <remarks> Sum of the dimension of arguments must equal vector dimension.
 	///		Types of arguments may differ from vector's underlying type, in which case cast is forced without a warning. </remarks>
-	template <class... Mixed, typename std::enable_if<sizeof...(Mixed) >= 2
+	template <class... Mixed, typename std::enable_if<sizeof...(Mixed) >= 1
 														  && !std::conjunction_v<std::is_convertible<Mixed, T>...>
 														  && traits::SumDimensions<Mixed...>::value == Dim,
 													  int>::type = 0>

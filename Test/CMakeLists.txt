@@ -4,7 +4,10 @@ set(sources
         TestIntersection.cpp
         TestMatrix.cpp
         TestQuaternion.cpp
-        TestVector.cpp
+        TestVectorImpl.cpp
+        TestVectorFunction.cpp
+        TestVectorConcat.cpp
+        TestVectorArithmetic.cpp
         TestGenerators.hpp
         TestGeometry.cpp)
 

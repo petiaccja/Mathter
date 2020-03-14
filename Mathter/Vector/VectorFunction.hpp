@@ -93,16 +93,16 @@ Vector<T, Dim, Packed> SafeNormalize(const Vector<T, Dim, Packed>& v, const Vect
 }
 
 /// <summary> Sets all elements of the vector to the same value. </summary>
-template <class T, int Dim, bool Packed>
-void Fill(Vector<T, Dim, Packed>& lhs, T all) {
+template <class T, int Dim, bool Packed, class U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0>
+void Fill(Vector<T, Dim, Packed>& lhs, U all) {
 	if constexpr (!traits::HasSimd<Vector<T, Dim, Packed>>::value) {
 		for (auto& v : lhs) {
-			v = all;
+			v = (T)all;
 		}
 	}
 	else {
 		using SimdT = decltype(VectorData<T, Dim, Packed>::simd);
-		lhs.simd = SimdT::spread(all);
+		lhs.simd = SimdT::spread((T)all);
 	}
 }
 
