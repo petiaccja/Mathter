@@ -56,6 +56,12 @@ namespace mathter::traits {
 	class MatrixTraits : public MatrixTraitsHelper<typename std::decay<MatrixT>::type> {};
 
 
+	template <eMatrixOrder Order>
+	class OppositeOrder {
+	public:
+		static constexpr eMatrixOrder value = (Order == eMatrixOrder::FOLLOW_VECTOR ? eMatrixOrder::PRECEDE_VECTOR : eMatrixOrder::FOLLOW_VECTOR);
+	};
+
 	template <eMatrixLayout Layout>
 	class OppositeLayout {
 	public:

@@ -298,7 +298,6 @@ T NormSquared(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) {
 	for (auto& stripe : m.stripes) {
 		sum += LengthSquared(stripe);
 	}
-	sum /= (m.RowCount() * m.ColumnCount());
 	return sum;
 }
 

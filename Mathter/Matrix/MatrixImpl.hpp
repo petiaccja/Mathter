@@ -232,17 +232,7 @@ public:
 			}
 		}
 	}
-
-	// From opposite multiplication order
-	template <class T2, eMatrixLayout Layout2, bool Packed2>
-	Matrix(const Matrix<T2, Columns, Rows, Order == eMatrixOrder::FOLLOW_VECTOR ? eMatrixOrder::PRECEDE_VECTOR : eMatrixOrder::FOLLOW_VECTOR, Layout2, Packed2>& rhs) {
-		for (int i = 0; i < RowCount(); ++i) {
-			for (int j = 0; j < ColumnCount(); ++j) {
-				(*this)(i, j) = rhs(j, i); // Transpose argument
-			}
-		}
-	}
-
+	
 	template <class H, class... Args,
 			  typename std::enable_if<traits::All<traits::IsScalar, H, Args...>::value, int>::type = 0,
 			  typename std::enable_if<1 + sizeof...(Args) == Rows * Columns, int>::type = 0>
