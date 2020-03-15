@@ -2,7 +2,12 @@
 set(sources
         main.cpp
         TestIntersection.cpp
-        TestMatrix.cpp
+        TestMatrixImpl.cpp
+        TestMatrixArithmetic.cpp
+        TestMatrixVectorArithmetic.cpp
+        TestMatrixDecomposition.cpp
+        TestMatrixFunction.cpp
+        TestTransforms.cpp
         TestQuaternion.cpp
         TestVectorImpl.cpp
         TestVectorFunction.cpp

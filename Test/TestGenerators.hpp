@@ -2,10 +2,10 @@
 
 #include "../Mathter/Common/Definitions.hpp"
 
+#include <complex>
+#include <iostream>
 #include <type_traits>
 #include <typeinfo>
-#include <iostream>
-#include <complex>
 
 
 
@@ -113,8 +113,7 @@ struct MatrixCases<TypeCases<Types...>, OrderCases<Orders...>, LayoutCases<Layou
 		1, 1,
 		GetValue<Index % (NumOrders * NumLayouts * NumPackings) / (NumLayouts * NumPackings), mathter::eMatrixOrder, Orders...>::value,
 		GetValue<Index % (NumOrders * NumLayouts * NumPackings) % (NumLayouts * NumPackings) / NumPackings, mathter::eMatrixLayout, Layouts...>::value,
-		GetValue<Index % (NumOrders * NumLayouts * NumPackings) % (NumLayouts * NumPackings) % NumPackings, bool, Packed...>::value
-	>;
+		GetValue<Index % (NumOrders * NumLayouts * NumPackings) % (NumLayouts * NumPackings) % NumPackings, bool, Packed...>::value>;
 
 	template <int Index>
 	using Properties = mathter::traits::MatrixTraits<MatrixT<Index>>;
@@ -144,8 +143,7 @@ int RunCasesHelper() {
 			typename Cases::template Properties<Index>::Type,
 			Cases::template Properties<Index>::Order,
 			Cases::template Properties<Index>::Layout,
-			Cases::template Properties<Index>::Packed
-		>()();
+			Cases::template Properties<Index>::Packed>()();
 		return 1 + RunCasesHelper<std::max(0, Index - 1), Cases, Functor>();
 	}
 	else {
@@ -153,8 +151,7 @@ int RunCasesHelper() {
 			typename Cases::template Properties<Index>::Type,
 			Cases::template Properties<Index>::Order,
 			Cases::template Properties<Index>::Layout,
-			Cases::template Properties<Index>::Packed
-		>()();
+			Cases::template Properties<Index>::Packed>()();
 		return 1;
 	}
 }
@@ -165,15 +162,13 @@ int RunVectorCasesHelper() {
 	if (Index > 0) {
 		Functor<
 			typename Cases::template Type<Index>,
-			Cases::template Packed<Index>
-		>()();
+			Cases::template Packed<Index>>()();
 		return 1 + RunVectorCasesHelper<std::max(0, Index - 1), Cases, Functor>();
 	}
 	else {
 		Functor<
 			typename Cases::template Type<Index>,
-			Cases::template Packed<Index>
-		>()();
+			Cases::template Packed<Index>>()();
 		return 1;
 	}
 }
@@ -198,15 +193,13 @@ template <
 	mathter::eMatrixOrder Order1,
 	mathter::eMatrixLayout Layout1,
 	bool Packed1,
-	template <class, mathter::eMatrixOrder, mathter::eMatrixLayout, bool, class, mathter::eMatrixOrder, mathter::eMatrixLayout, bool> class BiFunctor
->
+	template <class, mathter::eMatrixOrder, mathter::eMatrixLayout, bool, class, mathter::eMatrixOrder, mathter::eMatrixLayout, bool> class BiFunctor>
 struct UniFunctorify {
-	template<
+	template <
 		class Type2,
 		mathter::eMatrixOrder Order2,
 		mathter::eMatrixLayout Layout2,
-		bool Packed2
-	>
+		bool Packed2>
 	struct UniFunctor {
 		void operator()() const {
 			BiFunctor<Type1, Order1, Layout1, Packed1, Type2, Order2, Layout2, Packed2>()();
@@ -218,8 +211,7 @@ template <
 	int Index,
 	class Cases1,
 	class Cases2,
-	template <class, mathter::eMatrixOrder, mathter::eMatrixLayout, bool, class, mathter::eMatrixOrder, mathter::eMatrixLayout, bool> class BiFunctor
->
+	template <class, mathter::eMatrixOrder, mathter::eMatrixLayout, bool, class, mathter::eMatrixOrder, mathter::eMatrixLayout, bool> class BiFunctor>
 int RunCasesHelper() {
 	if (Index > 0) {
 		// Call unifunctor helper
@@ -231,9 +223,7 @@ int RunCasesHelper() {
 				Cases1::template Properties<Index>::Order,
 				Cases1::template Properties<Index>::Layout,
 				Cases1::template Properties<Index>::Packed,
-				BiFunctor
-			>::template UniFunctor
-		>();
+				BiFunctor>::template UniFunctor>();
 		// Recurse
 		return count + RunCasesHelper<std::max(0, Index - 1), Cases1, Cases2, BiFunctor>();
 	}
@@ -247,9 +237,7 @@ int RunCasesHelper() {
 				Cases1::template Properties<Index>::Order,
 				Cases1::template Properties<Index>::Layout,
 				Cases1::template Properties<Index>::Packed,
-				BiFunctor
-			>::template UniFunctor
-		>();
+				BiFunctor>::template UniFunctor>();
 	}
 }
 
@@ -258,95 +246,98 @@ int RunCasesHelper() {
 template <
 	class Cases1,
 	class Cases2,
-	template <class, mathter::eMatrixOrder, mathter::eMatrixLayout, bool, class, mathter::eMatrixOrder, mathter::eMatrixLayout, bool> class BiFunctor
->
+	template <class, mathter::eMatrixOrder, mathter::eMatrixLayout, bool, class, mathter::eMatrixOrder, mathter::eMatrixLayout, bool> class BiFunctor>
 int RunCases() {
-	return RunCasesHelper<Cases1::NumCombinations-1, Cases1, Cases2, BiFunctor>();
+	return RunCasesHelper<Cases1::NumCombinations - 1, Cases1, Cases2, BiFunctor>();
 }
 
 
 
 // Macro helper for easily declaring templated test cases
-#define GEN_FUNC_NAME_HELPER2(Name, Cntr) Name ## Cntr
+#define GEN_FUNC_NAME_HELPER2(Name, Cntr) Name##Cntr
 #define GEN_FUNC_NAME_HELPER1(Name, Cntr) GEN_FUNC_NAME_HELPER2(Name, Cntr)
 #define GEN_FUNC_NAME GEN_FUNC_NAME_HELPER1(_GenFunc_, __COUNTER__)
 
 
-#define TEST_CASE_VARIANT_H(NAME, TAG, TYPES, ORDERS, LAYOUTS, PACKINGS, FUNNAME)	\
-template <class Type, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>	\
-struct FUNNAME {																\
-	template<int Rows, int Columns>												\
-	using MatrixT = Matrix<Type, Rows, Columns, Order, Layout, Packed>;			\
-	void operator()() const;													\
-};																				\
-TEST_CASE(NAME, TAG) {															\
-	using Cases = MatrixCases<													\
-		TYPES,																	\
-		ORDERS,																	\
-		LAYOUTS,																\
-		PACKINGS>;																\
-																				\
-	RunCases<Cases, FUNNAME>();													\
-}																				\
-template <class Type, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>	\
-void FUNNAME<Type, Order, Layout, Packed>::operator()() const													
+#define TEST_CASE_VARIANT_H(NAME, TAG, TYPES, ORDERS, LAYOUTS, PACKINGS, FUNNAME)                            \
+	template <class Type, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>                             \
+	struct FUNNAME {                                                                                         \
+		template <int Rows, int Columns>                                                                     \
+		using MatrixT = Matrix<Type, Rows, Columns, Order, Layout, Packed>;                                  \
+		template <int Rows, int Columns>                                                                     \
+		using MatrixTOL = Matrix<Type, Rows, Columns, Order, traits::OppositeLayout<Layout>::value, Packed>; \
+		template <int Rows, int Columns>                                                                     \
+		using MatrixTOO = Matrix<Type, Rows, Columns, traits::OppositeOrder<Order>::value, Layout, Packed>; \
+		void operator()() const;                                                                             \
+	};                                                                                                       \
+	TEST_CASE(NAME, TAG) {                                                                                   \
+		using Cases = MatrixCases<                                                                           \
+			TYPES,                                                                                           \
+			ORDERS,                                                                                          \
+			LAYOUTS,                                                                                         \
+			PACKINGS>;                                                                                       \
+                                                                                                             \
+		RunCases<Cases, FUNNAME>();                                                                          \
+	}                                                                                                        \
+	template <class Type, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>                             \
+	void FUNNAME<Type, Order, Layout, Packed>::operator()() const
 
-#define TEST_CASE_VARIANT(NAME, TAG, TYPES, ORDERS, LAYOUTS, PACKINGS) TEST_CASE_VARIANT_H(NAME, TAG, TYPES, ORDERS, LAYOUTS, PACKINGS, GEN_FUNC_NAME) 
-
-
-#define TEST_CASE_VEC_VARIANT_H(NAME, TAG, TYPES, PACKINGS, FUNNAME)			\
-template <class Type, bool Packed>												\
-struct FUNNAME {																\
-	template<int Dim>															\
-	using VectorT = Vector<Type, Dim, Packed>;									\
-	using QuatT = Quaternion<Type, Packed>;										\
-	void operator()() const;													\
-};																				\
-TEST_CASE(NAME, TAG) {															\
-	using Cases = VectorCases<													\
-		TYPES,																	\
-		PACKINGS>;																\
-																				\
-	RunVectorCases<Cases, FUNNAME>();													\
-}																				\
-template <class Type, bool Packed>												\
-void FUNNAME<Type, Packed>::operator()() const													
-
-#define TEST_CASE_VEC_VARIANT(NAME, TAG, TYPES, PACKINGS) TEST_CASE_VEC_VARIANT_H(NAME, TAG, TYPES, PACKINGS, GEN_FUNC_NAME) 
+#define TEST_CASE_VARIANT(NAME, TAG, TYPES, ORDERS, LAYOUTS, PACKINGS) TEST_CASE_VARIANT_H(NAME, TAG, TYPES, ORDERS, LAYOUTS, PACKINGS, GEN_FUNC_NAME)
 
 
+#define TEST_CASE_VEC_VARIANT_H(NAME, TAG, TYPES, PACKINGS, FUNNAME) \
+	template <class Type, bool Packed>                               \
+	struct FUNNAME {                                                 \
+		template <int Dim>                                           \
+		using VectorT = Vector<Type, Dim, Packed>;                   \
+		using QuatT = Quaternion<Type, Packed>;                      \
+		void operator()() const;                                     \
+	};                                                               \
+	TEST_CASE(NAME, TAG) {                                           \
+		using Cases = VectorCases<                                   \
+			TYPES,                                                   \
+			PACKINGS>;                                               \
+                                                                     \
+		RunVectorCases<Cases, FUNNAME>();                            \
+	}                                                                \
+	template <class Type, bool Packed>                               \
+	void FUNNAME<Type, Packed>::operator()() const
 
-#define TEST_CASE_VARIANT_H_2(NAME, TAG, TYPES1, ORDERS1, LAYOUTS1, PACKINGS1, TYPES2, ORDERS2, LAYOUTS2, PACKINGS2, FUNNAME)	\
-template <class Type1, eMatrixOrder Order1, eMatrixLayout Layout1, bool Packed1,\
-		  class Type2, eMatrixOrder Order2, eMatrixLayout Layout2, bool Packed2>\
-struct FUNNAME {																\
-	template<int Rows, int Columns>												\
-	using MatrixT1 = Matrix<Type1, Rows, Columns, Order1, Layout1, Packed1>;	\
-	template<int Rows, int Columns>												\
-	using MatrixT2 = Matrix<Type2, Rows, Columns, Order2, Layout2, Packed2>;	\
-	void operator()() const;													\
-};																				\
-TEST_CASE(NAME, TAG) {															\
-	using Cases1 = MatrixCases<													\
-		TYPES1,																	\
-		ORDERS1,																\
-		LAYOUTS1,																\
-		PACKINGS1>;																\
-	using Cases2 = MatrixCases<													\
-		TYPES2,																	\
-		ORDERS2,																\
-		LAYOUTS2,																\
-		PACKINGS2>;																\
-																				\
-	RunCases<Cases1, Cases2, FUNNAME>();										\
-}																				\
-template <class Type1, eMatrixOrder Order1, eMatrixLayout Layout1, bool Packed1,\
-		  class Type2, eMatrixOrder Order2, eMatrixLayout Layout2, bool Packed2>\
-void FUNNAME<Type1, Order1, Layout1, Packed1, Type2, Order2, Layout2, Packed2>::operator()() const						
+#define TEST_CASE_VEC_VARIANT(NAME, TAG, TYPES, PACKINGS) TEST_CASE_VEC_VARIANT_H(NAME, TAG, TYPES, PACKINGS, GEN_FUNC_NAME)
+
+
+
+#define TEST_CASE_VARIANT_H_2(NAME, TAG, TYPES1, ORDERS1, LAYOUTS1, PACKINGS1, TYPES2, ORDERS2, LAYOUTS2, PACKINGS2, FUNNAME) \
+	template <class Type1, eMatrixOrder Order1, eMatrixLayout Layout1, bool Packed1,                                          \
+			  class Type2, eMatrixOrder Order2, eMatrixLayout Layout2, bool Packed2>                                          \
+	struct FUNNAME {                                                                                                          \
+		template <int Rows, int Columns>                                                                                      \
+		using MatrixT1 = Matrix<Type1, Rows, Columns, Order1, Layout1, Packed1>;                                              \
+		template <int Rows, int Columns>                                                                                      \
+		using MatrixT2 = Matrix<Type2, Rows, Columns, Order2, Layout2, Packed2>;                                              \
+		void operator()() const;                                                                                              \
+	};                                                                                                                        \
+	TEST_CASE(NAME, TAG) {                                                                                                    \
+		using Cases1 = MatrixCases<                                                                                           \
+			TYPES1,                                                                                                           \
+			ORDERS1,                                                                                                          \
+			LAYOUTS1,                                                                                                         \
+			PACKINGS1>;                                                                                                       \
+		using Cases2 = MatrixCases<                                                                                           \
+			TYPES2,                                                                                                           \
+			ORDERS2,                                                                                                          \
+			LAYOUTS2,                                                                                                         \
+			PACKINGS2>;                                                                                                       \
+                                                                                                                              \
+		RunCases<Cases1, Cases2, FUNNAME>();                                                                                  \
+	}                                                                                                                         \
+	template <class Type1, eMatrixOrder Order1, eMatrixLayout Layout1, bool Packed1,                                          \
+			  class Type2, eMatrixOrder Order2, eMatrixLayout Layout2, bool Packed2>                                          \
+	void FUNNAME<Type1, Order1, Layout1, Packed1, Type2, Order2, Layout2, Packed2>::operator()() const
 
 
 #define TEST_CASE_VARIANT_2(NAME, TAG, TYPES1, ORDERS1, LAYOUTS1, PACKINGS1, TYPES2, ORDERS2, LAYOUTS2, PACKINGS2) \
-TEST_CASE_VARIANT_H_2(NAME, TAG, TYPES1, ORDERS1, LAYOUTS1, PACKINGS1, TYPES2, ORDERS2, LAYOUTS2, PACKINGS2, GEN_FUNC_NAME)
+	TEST_CASE_VARIANT_H_2(NAME, TAG, TYPES1, ORDERS1, LAYOUTS1, PACKINGS1, TYPES2, ORDERS2, LAYOUTS2, PACKINGS2, GEN_FUNC_NAME)
 
 template <class Type, mathter::eMatrixOrder Order, mathter::eMatrixLayout Layout, bool Packed>
 const std::string& SectionName() {

@@ -96,20 +96,20 @@ TEST_CASE_VEC_VARIANT("Quaternion - ToMatrix", "[Quaternion]", TypesFloating, Pa
 			0.6381077, 0.7677684, -0.0578815,
 			-0.3247714, 0.3365594, 0.8838842
 		};
-		Matrix<Type, 3, 3, eMatrixOrder::FOLLOW_VECTOR> m332exp = m331exp;
+		auto m332exp = matrix_representation_cast<Matrix<Type, 3, 3, eMatrixOrder::FOLLOW_VECTOR>>(m331exp);
 		Matrix<Type, 3, 4, eMatrixOrder::PRECEDE_VECTOR> m43exp = {
 			0.6980989, -0.5452151, 0.4641104,	0,
 			0.6381077, 0.7677684, -0.0578815,	0,
 			-0.3247714, 0.3365594, 0.8838842,	0,
 		};
-		Matrix<Type, 4, 3, eMatrixOrder::FOLLOW_VECTOR> m34exp = m43exp;
+		auto m34exp = matrix_representation_cast<Matrix<Type, 4, 3, eMatrixOrder::FOLLOW_VECTOR>>(m43exp);
 		Matrix<Type, 4, 4, eMatrixOrder::PRECEDE_VECTOR> m441exp = {
 			0.6980989, -0.5452151, 0.4641104,	0,
 			0.6381077, 0.7677684, -0.0578815,	0,
 			-0.3247714, 0.3365594, 0.8838842,	0,
 			0,			0,			0,			1
 		};
-		Matrix<Type, 4, 4, eMatrixOrder::FOLLOW_VECTOR> m442exp = m441exp;
+		auto m442exp = matrix_representation_cast<Matrix<Type, 4, 4, eMatrixOrder::FOLLOW_VECTOR>>(m441exp);
 
 		REQUIRE(ApproxVec(m331) == m331exp);
 		REQUIRE(ApproxVec(m332) == m332exp);
