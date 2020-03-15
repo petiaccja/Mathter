@@ -640,12 +640,16 @@ Swizzle<VectorData, Indices...>::operator Vector<typename Swizzle<VectorData, In
 	if constexpr (SourceHasSimd && DestHasSimd) {
 		using SourceSimdT = decltype(std::declval<VectorData>().simd);
 		using DestSimdT = decltype(std::declval<VectorData>().simd);
+		constexpr int VectorDataDim = traits::VectorTraits<VectorData>::Dim;
 		if constexpr (std::is_same_v<SourceSimdT, DestSimdT>) {
 			const auto& sourceSimd = reinterpret_cast<const VectorData*>(this)->simd;
-			if constexpr (sizeof...(Indices) == 3) {
+			if constexpr (sizeof...(Indices) == 3 && VectorDataDim == 3 && VectorDataDim == 4) {
 				return { DestVecT::FromSimd, ShuffleReverse(sourceSimd, typename traits::ReverseIntegerSequence<std::integer_sequence<int, Indices..., 3>>::type{}) };
 			}
-			else if constexpr (sizeof...(Indices) == 4 || sizeof...(Indices) == 2) {
+			else if constexpr (sizeof...(Indices) == 4 && VectorDataDim == 3 && VectorDataDim == 4) {
+				return { DestVecT::FromSimd, ShuffleReverse(sourceSimd, typename traits::ReverseIntegerSequence<std::integer_sequence<int, Indices...>>::type{}) };
+			}
+			else  if constexpr (sizeof...(Indices) == 2 && VectorDataDim == 2) {
 				return { DestVecT::FromSimd, ShuffleReverse(sourceSimd, typename traits::ReverseIntegerSequence<std::integer_sequence<int, Indices...>>::type{}) };
 			}
 		}
