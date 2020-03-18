@@ -59,9 +59,9 @@ namespace impl {
 template <class MatrixDestT, class MatrixSourceT>
 auto matrix_reinterpret_cast(const MatrixSourceT& source) -> std::enable_if_t<impl::ReinterpretCompatible<MatrixDestT, MatrixSourceT>::value, MatrixDestT> {
 	MatrixDestT dest;
-	for (size_t i = 0; i < source.RowCount(); ++i) {
-		for (size_t j = 0; j < source.ColumnCount(); ++j) {
-			dest(i, j) = source(i, j);
+	for (int i = 0; i < source.RowCount(); ++i) {
+		for (int j = 0; j < source.ColumnCount(); ++j) {
+			dest(i, j) = typename traits::MatrixTraits<MatrixDestT>::Type(source(i, j));
 		}
 	}
 	return dest;
@@ -73,13 +73,13 @@ auto matrix_reinterpret_cast(const MatrixSourceT& source) -> std::enable_if_t<im
 template <class MatrixDestT, class MatrixSourceT>
 auto matrix_representation_cast(const MatrixSourceT& source) -> std::enable_if_t<impl::RepresentationCompatible<MatrixDestT, MatrixSourceT>::value, MatrixDestT> {
 	MatrixDestT dest;
-	for (size_t i = 0; i < source.RowCount(); ++i) {
-		for (size_t j = 0; j < source.ColumnCount(); ++j) {
+	for (int i = 0; i < source.RowCount(); ++i) {
+		for (int j = 0; j < source.ColumnCount(); ++j) {
 			if constexpr (traits::MatrixTraits<MatrixDestT>::Order == traits::MatrixTraits<MatrixSourceT>::Order) {
-				dest(i, j) = source(i, j);
+				dest(i, j) = typename traits::MatrixTraits<MatrixDestT>::Type(source(i, j));
 			}
 			else {
-				dest(j, i) = source(i, j);
+				dest(j, i) = typename traits::MatrixTraits<MatrixDestT>::Type(source(i, j));
 			}
 		}
 	}

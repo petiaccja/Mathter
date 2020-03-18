@@ -16,7 +16,7 @@
 using namespace mathter;
 
 
-TEST_CASE_VARIANT("Matrix - Matrix-vector square multiplication", "[Matrix]", TypesFloating, OrdersAll, LayoutsAll, PackedAll) {
+TEST_CASE_VARIANT("Matrix - Matrix-vector square multiplication", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedAll) {
 	MatrixT<3, 3> m = {
 		1, 2, 3,
 		4, 5, 6,
@@ -43,7 +43,7 @@ TEST_CASE_VARIANT("Matrix - Matrix-vector square multiplication", "[Matrix]", Ty
 }
 
 
-TEST_CASE_VARIANT("Matrix - Matrix-vector non-square multiplication", "[Matrix]", TypesFloating, OrdersAll, LayoutsAll, PackedAll) {
+TEST_CASE_VARIANT("Matrix - Matrix-vector non-square multiplication", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedAll) {
 	MatrixT<4, 3> m = {
 		1, 2, 3,
 		4, 5, 6,
@@ -72,7 +72,7 @@ TEST_CASE_VARIANT("Matrix - Matrix-vector non-square multiplication", "[Matrix]"
 }
 
 
-TEST_CASE_VARIANT("Matrix - Matrix-vector implicit affine multiplication", "[Matrix]", TypesFloating, OrdersAll, LayoutsAll, PackedAll) {
+TEST_CASE_VARIANT("Matrix - Matrix-vector implicit affine multiplication", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedAll) {
 	MatrixT<4, 3> m = {
 		1, 2, 3,
 		4, 5, 6,
@@ -100,7 +100,7 @@ TEST_CASE_VARIANT("Matrix - Matrix-vector implicit affine multiplication", "[Mat
 }
 
 
-TEST_CASE_VARIANT("Matrix - Matrix-vector implicit homogeneous multiplication", "[Matrix]", TypesFloating, OrdersAll, LayoutsAll, PackedAll) {
+TEST_CASE_VARIANT("Matrix - Matrix-vector implicit homogeneous multiplication", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedAll) {
 	MatrixT<4, 4> m = {
 		1, 2, 3, 3,
 		4, 5, 6, 7, 
@@ -128,7 +128,7 @@ TEST_CASE_VARIANT("Matrix - Matrix-vector implicit homogeneous multiplication", 
 }
 
 
-TEST_CASE_VARIANT("Matrix - Matrix-vector compound multiplication", "[Matrix]", TypesFloating, OrdersAll, LayoutsAll, PackedAll) {
+TEST_CASE_VARIANT("Matrix - Matrix-vector compound multiplication", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedAll) {
 	MatrixT<3, 3> m33 = {
 		1, 2, 3,
 		4, 5, 6,

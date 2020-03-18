@@ -131,7 +131,7 @@ auto LookAt(const Vector<T, Dim, Packed>& eye,
 /// <param name="positiveYForward"> True if the camera looks towards +Y, false if -Y. </param>
 /// <param name="flipX"> True to flip X in camera space. </param>
 template <class T, bool Packed>
-auto LookAt(const Vector<T, 2, Packed>& eye, const Vector<T, 2, Packed>& target, bool positiveYForward = true, bool flipX = false) {
+auto LookAt(const Vector<T, 2, Packed>& eye, const Vector<T, 2, Packed>& target, bool positiveYForward, bool flipX) {
 	return LookAt(eye, target, std::array<Vector<T, 2, Packed>, 0>{}, std::array{ flipX, positiveYForward });
 }
 
@@ -144,7 +144,7 @@ auto LookAt(const Vector<T, 2, Packed>& eye, const Vector<T, 2, Packed>& target,
 /// <param name="flipX"> True to flip X in camera space. </param>
 /// <param name="flipY"> True to flip Y in camera space. </param>
 template <class T, bool Packed>
-auto LookAt(const Vector<T, 3, Packed>& eye, const Vector<T, 3, Packed>& target, const Vector<T, 3, Packed>& up, bool positiveZForward = true, bool flipX = false, bool flipY = false) {
+auto LookAt(const Vector<T, 3, Packed>& eye, const Vector<T, 3, Packed>& target, const Vector<T, 3, Packed>& up, bool positiveZForward, bool flipX, bool flipY) {
 	return LookAt(eye, target, std::array<Vector<T, 3, Packed>, 1>{ up }, std::array<bool, 3>{ flipX, flipY, positiveZForward });
 }
 

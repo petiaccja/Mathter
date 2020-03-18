@@ -75,7 +75,7 @@ private:
 /// <param name="projFarPlane"> The far plane is taken here after projection. </param>
 /// <remarks> Post-projection near and far planes can be inverted. Negative ratios invert image. </remarks>
 template <class T, int DimMinus1, bool Packed>
-auto Perspective(T fovX, const Vector<T, DimMinus1, Packed>& ratios, T nearPlane, T farPlane, T projNearPlane = T(0), T projFarPlane = T(1)) {
+auto Perspective(T fovX, const Vector<T, DimMinus1, Packed>& ratios, T nearPlane, T farPlane, T projNearPlane, T projFarPlane) {
 	using NonIntegral = std::conditional_t<std::is_integral_v<T>, float, T>;
 	return PerspectiveBuilder<NonIntegral, DimMinus1 + 1, Packed>{ fovX, ratios, nearPlane, farPlane, projNearPlane, projFarPlane };
 }
@@ -89,7 +89,7 @@ auto Perspective(T fovX, const Vector<T, DimMinus1, Packed>& ratios, T nearPlane
 /// <param name="projFarPlane"> Far plane is taken here after projection. </param>
 /// <remarks> Post-projection bounds may be inverted. </remarks>
 template <class T>
-auto Perspective(T fov, T nearPlane, T farPlane, T projNearPlane = T(0), T projFarPlane = T(1)) {
+auto Perspective(T fov, T nearPlane, T farPlane, T projNearPlane, T projFarPlane) {
 	return Perspective(std::abs(fov), Vector<T, 1, false>{ fov < 0 ? -1 : 1 }, nearPlane, farPlane, projNearPlane, projFarPlane);
 }
 
@@ -103,7 +103,7 @@ auto Perspective(T fov, T nearPlane, T farPlane, T projNearPlane = T(0), T projF
 /// <param name="projFarPlane"/> Far plane is taken here after projection. </param>
 /// <remarks> Post-projection bounds may be inverted. </summary>
 template <class T>
-auto Perspective(T fov, T aspectRatio, T nearPlane, T farPlane, T projNearPlane = T(0), T projFarPlane = T(1)) {
+auto Perspective(T fov, T aspectRatio, T nearPlane, T farPlane, T projNearPlane, T projFarPlane) {
 	return Perspective(std::abs(fov), Vector<T, 2, false>{ fov < 0 ? -1 : 1, T(1) / aspectRatio }, nearPlane, farPlane, projNearPlane, projFarPlane);
 }
 

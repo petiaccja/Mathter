@@ -10,8 +10,8 @@ namespace mathter {
 //------------------------------------------------------------------------------
 
 // v*M
-template <class Vt, class Mt, int Vd, int Mcol, eMatrixOrder Morder, bool Packed>
-auto operator*(const Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd, Mcol, Morder, eMatrixLayout::ROW_MAJOR, Packed>& mat) {
+template <class Vt, class Mt, int Vd, int Mcol, bool Packed>
+auto operator*(const Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd, Mcol, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, Packed>& mat) {
 	using Rt = traits::MatMulElemT<Vt, Mt>;
 	Vector<Rt, Mcol, Packed> result;
 
@@ -22,8 +22,8 @@ auto operator*(const Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd, Mcol, Mor
 	return result;
 }
 
-template <class Vt, class Mt, int Vd, int Mcol, eMatrixOrder Morder, bool Packed>
-auto operator*(const Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd, Mcol, Morder, eMatrixLayout::COLUMN_MAJOR, Packed>& mat) {
+template <class Vt, class Mt, int Vd, int Mcol, bool Packed>
+auto operator*(const Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd, Mcol, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR, Packed>& mat) {
 	using Rt = traits::MatMulElemT<Vt, Mt>;
 	Vector<Rt, Mcol, Packed> result;
 
@@ -34,13 +34,13 @@ auto operator*(const Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd, Mcol, Mor
 }
 
 // (v|1)*M
-template <class Vt, class Mt, int Vd, eMatrixLayout Mlayout, eMatrixOrder Morder, bool Packed>
-auto operator*(const Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd + 1, Vd, Morder, Mlayout, Packed>& mat) {
+template <class Vt, class Mt, int Vd, eMatrixLayout Mlayout, bool Packed>
+auto operator*(const Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd + 1, Vd, eMatrixOrder::FOLLOW_VECTOR, Mlayout, Packed>& mat) {
 	return (vec | Vt(1)) * mat;
 }
 
-template <class Vt, class Mt, int Vd, eMatrixLayout Mlayout, eMatrixOrder Morder, bool Packed>
-auto operator*(const Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd + 1, Vd + 1, Morder, Mlayout, Packed>& mat) {
+template <class Vt, class Mt, int Vd, eMatrixLayout Mlayout, bool Packed>
+auto operator*(const Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd + 1, Vd + 1, eMatrixOrder::FOLLOW_VECTOR, Mlayout, Packed>& mat) {
 	using Rt = traits::MatMulElemT<Vt, Mt>;
 	auto res = (vec | Vt(1)) * mat;
 	res /= res(res.Dimension() - 1);
@@ -48,8 +48,8 @@ auto operator*(const Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd + 1, Vd + 
 }
 
 // M*v
-template <class Vt, class Mt, int Vd, int Mrow, eMatrixOrder Morder, bool Packed>
-auto operator*(const Matrix<Mt, Mrow, Vd, Morder, eMatrixLayout::ROW_MAJOR, Packed>& mat, const Vector<Vt, Vd, Packed>& vec) {
+template <class Vt, class Mt, int Vd, int Mrow, bool Packed>
+auto operator*(const Matrix<Mt, Mrow, Vd, eMatrixOrder::PRECEDE_VECTOR, eMatrixLayout::ROW_MAJOR, Packed>& mat, const Vector<Vt, Vd, Packed>& vec) {
 	using Rt = traits::MatMulElemT<Vt, Mt>;
 	Vector<Rt, Mrow, Packed> result;
 
@@ -59,8 +59,8 @@ auto operator*(const Matrix<Mt, Mrow, Vd, Morder, eMatrixLayout::ROW_MAJOR, Pack
 	return result;
 }
 
-template <class Vt, class Mt, int Vd, int Mrow, eMatrixOrder Morder, bool Packed>
-auto operator*(const Matrix<Mt, Mrow, Vd, Morder, eMatrixLayout::COLUMN_MAJOR, Packed>& mat, const Vector<Vt, Vd, Packed>& vec) {
+template <class Vt, class Mt, int Vd, int Mrow, bool Packed>
+auto operator*(const Matrix<Mt, Mrow, Vd, eMatrixOrder::PRECEDE_VECTOR, eMatrixLayout::COLUMN_MAJOR, Packed>& mat, const Vector<Vt, Vd, Packed>& vec) {
 	using Rt = traits::MatMulElemT<Vt, Mt>;
 	Vector<Rt, Mrow, Packed> result;
 
@@ -73,13 +73,13 @@ auto operator*(const Matrix<Mt, Mrow, Vd, Morder, eMatrixLayout::COLUMN_MAJOR, P
 
 
 // M*(v|1)
-template <class Vt, class Mt, int Vd, eMatrixLayout Mlayout, eMatrixOrder Morder, bool Packed>
-auto operator*(const Matrix<Mt, Vd, Vd + 1, Morder, Mlayout, Packed>& mat, const Vector<Vt, Vd, Packed>& vec) {
+template <class Vt, class Mt, int Vd, eMatrixLayout Mlayout, bool Packed>
+auto operator*(const Matrix<Mt, Vd, Vd + 1, eMatrixOrder::PRECEDE_VECTOR, Mlayout, Packed>& mat, const Vector<Vt, Vd, Packed>& vec) {
 	return mat * (vec | Vt(1));
 }
 
-template <class Vt, class Mt, int Vd, eMatrixLayout Mlayout, eMatrixOrder Morder, bool Packed>
-auto operator*(const Matrix<Mt, Vd + 1, Vd + 1, Morder, Mlayout, Packed>& mat, const Vector<Vt, Vd, Packed>& vec) {
+template <class Vt, class Mt, int Vd, eMatrixLayout Mlayout, bool Packed>
+auto operator*(const Matrix<Mt, Vd + 1, Vd + 1, eMatrixOrder::PRECEDE_VECTOR, Mlayout, Packed>& mat, const Vector<Vt, Vd, Packed>& vec) {
 	using Rt = traits::MatMulElemT<Vt, Mt>;
 	auto res = mat * (vec | Vt(1));
 	res /= res(res.Dimension() - 1);
@@ -87,20 +87,20 @@ auto operator*(const Matrix<Mt, Vd + 1, Vd + 1, Morder, Mlayout, Packed>& mat, c
 }
 
 // v*=M
-template <class Vt, class Mt, int Vd, eMatrixOrder Morder, eMatrixLayout Layout, bool Packed>
-Vector<Vt, Vd, Packed>& operator*=(Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd, Vd, Morder, Layout, Packed>& mat) {
+template <class Vt, class Mt, int Vd, eMatrixLayout Layout, bool Packed>
+Vector<Vt, Vd, Packed>& operator*=(Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd, Vd, eMatrixOrder::FOLLOW_VECTOR, Layout, Packed>& mat) {
 	vec = vec * mat;
 	return vec;
 }
 
-template <class Vt, class Mt, int Vd, eMatrixOrder Morder, eMatrixLayout Layout, bool Packed>
-Vector<Vt, Vd, Packed>& operator*=(Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd + 1, Vd, Morder, Layout, Packed>& mat) {
+template <class Vt, class Mt, int Vd, eMatrixLayout Layout, bool Packed>
+Vector<Vt, Vd, Packed>& operator*=(Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd + 1, Vd, eMatrixOrder::FOLLOW_VECTOR, Layout, Packed>& mat) {
 	vec = vec * mat;
 	return vec;
 }
 
-template <class Vt, class Mt, int Vd, eMatrixOrder Morder, eMatrixLayout Layout, bool Packed>
-Vector<Vt, Vd, Packed>& operator*=(Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd + 1, Vd + 1, Morder, Layout, Packed>& mat) {
+template <class Vt, class Mt, int Vd, eMatrixLayout Layout, bool Packed>
+Vector<Vt, Vd, Packed>& operator*=(Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd + 1, Vd + 1, eMatrixOrder::FOLLOW_VECTOR, Layout, Packed>& mat) {
 	vec = vec * mat;
 	return vec;
 }
