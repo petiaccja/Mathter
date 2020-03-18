@@ -277,7 +277,7 @@ TEST_CASE("Matrix - Orthographic", "[Matrix]") {
 
 
 TEST_CASE("Matrix - View", "[Matrix]") {
-	Matrix<float, 4, 4> m = LookAt({ -6, -5, -5 }, { -1, 0, 0 }, Vector<float, 3>{ 0, 0, 1 });
+	Matrix<float, 4, 4> m = LookAt({ -6, -5, -5 }, { -1, 0, 0 }, Vector<float, 3>{ 0, 0, 1 }, true, false, false);
 
 	Vector<float, 3> p = { 0, -1, 0 };
 	Vector<float, 3> pt = p * m;
