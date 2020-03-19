@@ -8,13 +8,13 @@ MSVC 2017:
 Coverage:
 [![codecov](https://codecov.io/gh/petiaccja/Mathter/branch/master/graph/badge.svg)](https://codecov.io/gh/petiaccja/Mathter)
 
-Note: check out the [benchmarks](https://github.com/petiaccja/MathterBench)!
+Note: check out the [benchmarks](https://github.com/petiaccja/MathterBench) for a comparison of similar libraries!
 
 Introduction
 ---
 Mathter is a **linear algebra** library with focus on **game development**, however it may be useful for other applications where **small-matrix** linear algebra or **3D** coordinate calculations are needed.
 
-Yet another 3D math library...? I wrote Mathter because non of the libraries I tried used the conventions I wanted, and each of them had something about the syntax that bugged me. So will Mathter support your convetions? Yes, it supports everything through templates. Will Mathter's syntax bug you? Yes, it will, but it was designed to do it as little as possible. Read on for details.
+**What's special about this library?** There are already many good 3D math libraries, however, most, if not all of them tie your hands with their conventions. Want a left-handed world space but a right handed NDC? Want your Z axis the other way? Want inverted or arbitrary depth? Rather multiply vectors by matrices from the left? You prefer column-major on the CPU and row-major on the GPU? You can configure mathter via templates and runtime arguments to match any convention. Additionally, Mathter provides a lot of shortcuts to reduce clutter and make your math code more expressive. Check out the code examples.
 
 Features
 ---
@@ -162,3 +162,8 @@ License
 ---
 This code is distrubuted under **The Unlicense**. This means you are allowed to use the code for any purpose without any restrictions. You are not required to credit the author(s), however, you are encouraged to do so.
 (Note: I may add dependencies (notably, a proper SIMD library), which may require you to include a copyright notice to their code.)
+
+
+Contact
+---
+Feel free to send me an email to [mathter_library@outlook.com](mailto:mathter_library@outlook.com) for general questions and requests. See also the contribution paragraph.
