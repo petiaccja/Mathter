@@ -48,7 +48,7 @@ private:
 			crossTable[i] = &bases[i];
 		}
 		crossTable.back() = &columns[Dim - 1];
-		auto elem = [&matrix](int i, int j) -> T& {
+		auto elem = [&matrix](int i, int j) ->U& {
 			return Order == eMatrixOrder::FOLLOW_VECTOR ? matrix(i, j) : matrix(j, i);
 		};
 

@@ -241,7 +241,7 @@ TEST_CASE_VARIANT("Matrix - Scale", "[Matrix]", TypesFloating, OrdersFollow, Lay
 TEST_CASE_VARIANT("Matrix - Translation", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedAll) {
 	// FOLLOW
 	MatrixT<3, 3> m2d_33a = Translation(1, 2);
-	MatrixT<3, 3> m2d_33b = Translation(Vector<Type, 2, Packed>(1, 2));
+	MatrixT<3, 3> m2d_33b = Translation(Vector<float, 2, false>(1, 2));
 	MatrixT<3, 3> m2d_33exp = {
 		1, 0, 0,
 		0, 1, 0,
@@ -325,13 +325,13 @@ struct Frustum {
 TEST_CASE_VARIANT("Matrix - Perspective", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedAll) {
 	constexpr int numCases = 5;
 
-	Type fov = Deg2Rad(Type(45));
-	Type ar = 2.0f;
+	float fov = Deg2Rad(Type(45));
+	float ar = 2.0f;
 
-	Type nearSet[numCases] = { 0.5f, -0.5f, 0.5f, -0.5f, 0.5f };
-	Type farSet[numCases] = { 10.0f, -10.0f, 10.0f, -10.0f, 10.f };
-	Type pnearSet[numCases] = { 0.0f, 0.0f, 1.0f, 1.0f, 2.0f };
-	Type pfarSet[numCases] = { 1.0f, 1.0f, -1.0f, -1.0f, 3.0f };
+	float nearSet[numCases] = { 0.5f, -0.5f, 0.5f, -0.5f, 0.5f };
+	float farSet[numCases] = { 10.0f, -10.0f, 10.0f, -10.0f, 10.f };
+	float pnearSet[numCases] = { 0.0f, 0.0f, 1.0f, 1.0f, 2.0f };
+	float pfarSet[numCases] = { 1.0f, 1.0f, -1.0f, -1.0f, 3.0f };
 	const char* sections[numCases] = {
 		"View Z+, NDC 0:1",
 		"View Z-, NDC 0:1",
@@ -342,10 +342,10 @@ TEST_CASE_VARIANT("Matrix - Perspective", "[Matrix]", TypesFloating, OrdersFollo
 
 	for (int i = 0; i < numCases; ++i) {
 		SECTION(sections[i]) {
-			Type near = nearSet[i];
-			Type far = farSet[i];
-			Type pnear = pnearSet[i];
-			Type pfar = pfarSet[i];
+			float near = nearSet[i];
+			float far = farSet[i];
+			float pnear = pnearSet[i];
+			float pfar = pfarSet[i];
 
 			Frustum<Type, Packed> frustum(near, far, fov, ar);
 
@@ -376,20 +376,22 @@ TEST_CASE_VARIANT("Matrix - Perspective", "[Matrix]", TypesFloating, OrdersFollo
 }
 
 
-TEST_CASE("Matrix - Orthographic", "[Matrix]") {
-	Vector<float, 3> worldFrustum[2] = {
+TEST_CASE_VARIANT("Matrix - Orthographic", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedAll) {
+	using Vec = Vector<Type, 3, Packed>;
+	using VecF = Vector<float, 3, false>;
+	Vec worldFrustum[2] = {
 		{ -0.25f, -0.44444444f, 0.5f },
 		{ 5.0f, 8.8888888f, 10.f }
 	};
-	Vector<float, 3> ndcFrustum[2];
+	Vec ndcFrustum[2];
 
 	// Z forward
-	Matrix<float, 4, 4> m = Orthographic(worldFrustum[0], worldFrustum[1], 0.f, 1.f);
+	MatrixT<4, 4> m = Orthographic(VecF(worldFrustum[0]), VecF(worldFrustum[1]), 0.f, 1.f);
 	ndcFrustum[0] = worldFrustum[0] * m;
 	ndcFrustum[1] = worldFrustum[1] * m;
 
-	REQUIRE(ApproxVec(ndcFrustum[0]) == Vector<float, 3>{ -1, -1, 0 });
-	REQUIRE(ApproxVec(ndcFrustum[1]) == Vector<float, 3>{ 1, 1, 1 });
+	REQUIRE(ApproxVec(ndcFrustum[0]) == Vec{ -1, -1, 0 });
+	REQUIRE(ApproxVec(ndcFrustum[1]) == Vec{ 1, 1, 1 });
 }
 
 
@@ -436,9 +438,9 @@ TEST_CASE_VARIANT("Matrix - View", "[Matrix]", TypesFloating, OrdersFollow, Layo
 		worldVecs[i] = basis.Express(viewVecs[i]);
 	}
 
-	Vec eye = basis.center;
-	Vec target = basis.center + 2 * basis.basis1;
-	Vec up = Normalize(basis.basis3 + Type(0.1) * basis.basis1);
+	Vector<float, 3, false> eye = basis.center;
+	Vector<float, 3, false> target = basis.center + 2 * basis.basis1;
+	Vector<float, 3, false> up = Normalize(basis.basis3 + Type(0.1) * basis.basis1);
 
 	MatrixT<4, 4> m = LookAt(eye, target, up, true, false, false);
 	MatrixT<4, 4> mfff = LookAt(eye, target, up, false, false, false);
@@ -494,14 +496,14 @@ TEST_CASE_VARIANT("Matrix - Perspective 2D", "[Matrix]", TypesFloating, OrdersFo
 TEST_CASE_VARIANT("Matrix - View 2D", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedAll) {
 	using Vec = Vector<Type, 2, Packed>;
 
-	Vec eye = { 3, 4 };
-	Vec target = { 6, 5 };
-	Vec test = { 4, 4 };
+	Vector<float, 2, false> eye = { 3, 4 };
+	Vector<float, 2, false> target = { 6, 5 };
+	Vector<float, 2, false> test = { 4, 4 };
 
 	MatrixT<3, 3> m = LookAt(eye, target, true, false);
 
-	REQUIRE(eye * m == ApproxVec(Vec(0, 0)));
-	REQUIRE(Normalize(target * m) == ApproxVec(Vec(0, 1)));
-	REQUIRE((test * m).x > 0);
-	REQUIRE((test * m).y > 0);
+	REQUIRE(Vec(eye) * m == ApproxVec(Vec(0, 0)));
+	REQUIRE(Normalize(Vec(target) * m) == ApproxVec(Vec(0, 1)));
+	REQUIRE((Vec(test) * m).x > 0);
+	REQUIRE((Vec(test) * m).y > 0);
 }
