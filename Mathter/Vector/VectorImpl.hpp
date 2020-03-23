@@ -8,6 +8,7 @@
 #include "../Common/Definitions.hpp"
 #include "../Common/MathUtil.hpp"
 #include "../Common/Traits.hpp"
+#include "../Common/DeterministicInitializer.hpp"
 #include "../SIMD/Simd.hpp"
 
 #include <algorithm>
@@ -425,7 +426,7 @@ public:
 	//--------------------------------------------
 
 	/// <summary> Constructs the vector. Does NOT zero-initialize elements. </summary>
-	Vector() = default;
+	Vector() MATHTER_VECTOR_INITIALIZER(T) {}
 	Vector(const Vector&) = default;
 	Vector& operator=(const Vector&) = default;
 

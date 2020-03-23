@@ -2,6 +2,9 @@
 
 #include <cmath>
 
+namespace mathter::impl {
+
+
 template <class T>
 T sign(T arg) {
 	return T(arg > T(0)) - (arg < T(0));
@@ -21,3 +24,6 @@ template <class T>
 constexpr T ConstexprAbs(T arg) {
 	return arg >= T(0) ? arg : -arg;
 }
+
+
+} // namespace mathter::impl

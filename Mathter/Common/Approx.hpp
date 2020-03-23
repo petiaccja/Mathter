@@ -43,7 +43,7 @@ bool AlmostEqual(T d1, U d2) {
 template <class T1, class T2, int Dim, bool Packed1, bool Packed2>
 bool AlmostEqual(const Vector<T1, Dim, Packed1>& lhs, const Vector<T2, Dim, Packed2>& rhs) {
 	bool eq = true;
-	for (auto i : Range(Dim)) {
+	for (auto i : impl::Range(Dim)) {
 		eq = eq && AlmostEqual(lhs[i], rhs[i]);
 	}
 	return eq;
@@ -52,7 +52,7 @@ bool AlmostEqual(const Vector<T1, Dim, Packed1>& lhs, const Vector<T2, Dim, Pack
 template <class T, bool Packed1, bool Packed2>
 bool AlmostEqual(const Quaternion<T, Packed1>& lhs, const Quaternion<T, Packed2>& rhs) {
 	bool eq = true;
-	for (auto i : Range(4)) {
+	for (auto i : impl::Range(4)) {
 		eq = eq && AlmostEqual(lhs.vec[i], rhs.vec[i]);
 	}
 	return eq;
@@ -70,8 +70,8 @@ template <class T1,
 		  bool Packed2>
 bool AlmostEqual(const Matrix<T1, Rows, Columns, Order1, Layout1, Packed1>& lhs, const Matrix<T2, Rows, Columns, Order2, Layout2, Packed2>& rhs) {
 	bool eq = true;
-	for (auto i : Range(Rows)) {
-		for (auto j : Range(Columns)) {
+	for (auto i : impl::Range(Rows)) {
+		for (auto j : impl::Range(Columns)) {
 			eq = eq && AlmostEqual(lhs(i, j), rhs(i, j));
 		}
 	}

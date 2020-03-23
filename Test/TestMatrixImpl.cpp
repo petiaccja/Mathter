@@ -11,14 +11,39 @@
 
 #include <Catch2/catch.hpp>
 #include <complex>
+#include <new>
+#include <cstring>
 
 
 using namespace mathter;
 
 
-//------------------------------------------------------------------------------
-// Matrix tests
-//------------------------------------------------------------------------------
+
+TEST_CASE("Matrix deterministic default initializer", "[Init]") {
+	using MatT = Matrix<float, 3, 3>;
+	alignas(alignof(MatT)) std::array<uint8_t, sizeof(MatT)> rawData;
+	std::memset(rawData.data(), 0xCC, rawData.size());
+
+	for (auto& v : rawData) {
+		REQUIRE(v == uint8_t(0xCC));
+	}
+
+	new (rawData.data()) MatT;
+
+#ifdef NDEBUG
+	for (auto& v : rawData) {
+		REQUIRE(v == uint8_t(0xCC));
+	}
+#else
+	const MatT& m = *reinterpret_cast<const MatT*>(rawData.data());
+	for (int i = 0; i < 3; ++i) {
+		for (int j = 0; j < 3; ++j) {
+			REQUIRE(std::isnan(m(i, j)));
+		}
+	}
+#endif
+}
+
 
 
 TEST_CASE_VARIANT("Matrix - Constructor & indexer", "[Matrix]", TypesAll, OrdersAll, LayoutsAll, PackedAll) {
@@ -62,13 +87,13 @@ TEST_CASE_VARIANT("Matrix - Converting constructor", "[Matrix]", TypesFloating, 
 TEST_CASE_VARIANT("Matrix - Thin matrix from vector", "[Matrix]", TypesFloating, OrdersAll, LayoutsAll, PackedAll) {
 	SECTION(SECTIONNAME) {
 		Vector<Type, 3> v = { 1, 2, 3 };
-		
+
 		MatrixT<3, 1> m1 = v;
 		MatrixT<1, 3> m2 = v;
-		
-		REQUIRE(m1(0,0) == 1);
-		REQUIRE(m1(1,0) == 2);
-		REQUIRE(m1(2,0) == 3);
+
+		REQUIRE(m1(0, 0) == 1);
+		REQUIRE(m1(1, 0) == 2);
+		REQUIRE(m1(2, 0) == 3);
 
 		REQUIRE(m2(0, 0) == 1);
 		REQUIRE(m2(0, 1) == 2);
@@ -81,8 +106,8 @@ TEST_CASE_VARIANT("Matrix - Thin matrix to vector", "[Matrix]", TypesFloating, O
 	SECTION(SECTIONNAME) {
 		Vector<Type, 3> vexp = { 1, 2, 3 };
 
-		MatrixT<3, 1> m1 = { 1, 2, 3};
-		MatrixT<1, 3> m2 = { 1, 2, 3};
+		MatrixT<3, 1> m1 = { 1, 2, 3 };
+		MatrixT<1, 3> m2 = { 1, 2, 3 };
 
 		Vector<Type, 3> v1 = m1;
 		Vector<Type, 3> v2 = m2;
