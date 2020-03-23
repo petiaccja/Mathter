@@ -16,7 +16,7 @@ Contents of Mathter
 
 The library is split into multiple pieces that address independent domains of 3D math calculations.
 
-#### Math primitives
+### Math primitives
 
 Mathter provides an implementation for the following mathematical primitives:
 - Vector
@@ -28,42 +28,42 @@ Mathter provides an implementation for the following mathematical primitives:
 The primitive types support multiple ways to initialize them and access their elements. Their size and scalar type is specificied as template parameters, among other options.
 
 
-#### Arithmetic operators
+### Arithmetic operators
 
 The library provides overloaded arithmetic operators to multiply, divide, add and subtract the primitives. You can do all the sensible operations, such as multiply matrices with matrices, matrices with vectors, vectors with vectors, quaternions with quaternions or quaternions with vectors, etc., using operators \*, /, +, and - in C++.
 
 
-#### Transform builders
+### Transform builders
 
 In Mathter, you can build transform matrices and quaternions via free functions such as ```mathter::Perspective(...)```. The functions are evaluated lazily, assign the result of ```mathter::Perspective(...)``` to a matrix that can hold the transform to produce a transform matrix.
 
 
-#### Vector swizzling
+### Vector swizzling
 
 Vectors can be accessed like ```v.xxyy``` just like in GLSL or HLSL. You can also do arithmetic on the swizzlers.
 
 
-#### Common vector functions
+### Common vector functions
 
 The library provides common functions on vectors, such as length, normalization or dot product. These are free functions in the mathter namespace.
 
 
-#### Common vector functions
+### Common vector functions
 
 Similarly to the vectors, you can calculate the determinant, trace or inverse of a matrix. These are also provided as free functions in the mathter namespace.
 
 
-#### Matrix decompositions
+### Matrix decompositions
 
 Several common matrix decompositions are included. Use the ```Decompose*``` functions to analyze a matrix.
 
 
-#### Utility
+### Utility
 
 The most important piece is probably numerical constants and conversion between degrees and radians.
 
 
-#### Geometry
+### Geometry
 
 Additional primitives for lines, line segments, rays, triangles and hyperplanes are provided. You can do intersection testing on most reasonable combination of these.
 
@@ -99,9 +99,9 @@ Mathter was designed to support any notation or convention that you or your grap
 Here you find a list of important parameters that you first want to set to make Mathter behave as you want it to. It is recommended that you typedef Mathter types and wrap Mathter functions to give yourself a simpler interface without the parameters.
 
 
-#### Template parameters
+### Template parameters
 
-##### Post- and pre-multiplication of vectors by matrices
+#### Post- and pre-multiplication of vectors by matrices
 
 Matrices accept a template parameter ```Order```, which can be either of:
 - ```eMatrixOreder::FOLLOW_VECTOR```: you will have multiply matrices and vector like ```v*M```
@@ -109,7 +109,7 @@ Matrices accept a template parameter ```Order```, which can be either of:
 
 To avoid the post/pre naming confusion, these tell whether your matrices *follow* or *precede* the vectors you multiply with them. All transformation matrices you construct will adhere to the option you specify here. Your rules of vector-matrix multiplication are enforced at compile-time. Keep in mind that this also affects the order in which you multiply matrices when chaining transforms: the matrix first acting on the vector needs to be right next to the vector, for example ```M3*M2*M1*v``` or ```v*M1*M2*M3```.
 
-##### Row-major vs column-major matrix layout
+#### Row-major vs column-major matrix layout
 
 Matrices takes another template parameter called ```Layout```, which can be either of:
 - ```eMatrixLayout::ROW_MAJOR```
@@ -117,24 +117,24 @@ Matrices takes another template parameter called ```Layout```, which can be eith
 
 These don't affect the syntax of the code you write, only change the way the two dimensional matrix is laid out in the sequential memory. Note however, that **performance can be affected** with vector-matrix multiplications. It is faster when you have row-vectors with row-major layout, and column-vectors with column-major layout, because it can better use SIMD. Nevertheless, the correctness of the calculations is never affected.
 
-##### Packing
+#### Packing
 
 All types accept an additional parameter called ```Packed```. Its default value is false, meaning the type will have an arbitrary size and arbitrary memory alignment which is optimal for the speed of calculations. When set to true, however, Mathter will impose no extra alignment and will pack objects tightly. Take a 3x3 float matrix as an example. Without packing, the matrix will consume the space of 3x4 float values, because its rows (or columns) are packed to 4 floats to leverage SIMD. When packed, however, the matrix will consume the space of exactly 3x3 floats, as one would expect. Packing is useful when uploading to the GPU, but on the CPU, you should always use unpacked types for performance. Like layout, packing does not change arithmetic or behaviour.
 
 
-#### Runtime parameters
+### Runtime parameters
 
-##### Camera look-at matrices
+#### Camera look-at matrices
 
 Mathter has no concept of handedness. When making look-at transforms, you instead have the option to specify the look direction and the up-vector of the camera to any vector. Additionally, you have the option to invert any of the coordinate axes during the transform. With these parameters, you can produce any coordinate system, that you would like.
 
-##### Perspective projection matrices
+#### Perspective projection matrices
 
 Perpsective matrices work in the same coordinate system as the look-at matrix. (You may still flip axes, but it is not adviced.) You can specify arbitrary near and far planes (as long as they have the same sign), and you can specify arbitrary NDC Z coordinates. This way, you can do projections regardless of what NDC coordinates your graphics API uses or if the camera looks towards the positive or negative Z axis.
 
-#### Global macros
+### Global macros
 
-##### Uninitalized object behaviour
+#### Uninitalized object behaviour
 
 In the following code sample, ```v``` is not initialized:
 ```c++
@@ -158,7 +158,7 @@ Vectors
 <a name="vectors"></a>
 ---
 
-#### The Vector class 
+### The Vector class 
 
 Vectors have three template parameters:
 ```c++
@@ -173,7 +173,7 @@ The dimension specifies the number of elements in the vector. It can be any posi
 The ```Packed``` flag specifies whether the vector should ditch SIMD and forced alignment to tightly pack its elements. Read more in [configuration](#configuration).
 
 
-#### Creating vectors
+### Creating vectors
 
 You can use one of the several constructors:
 ```c++
@@ -194,7 +194,7 @@ Vec2 v6 = Vec2(v4); // by trimming the last element of a longer vector
 
 Additionally, you can use explicit conversions between vectors of the same size (but different type or packing).
 
-#### Element access
+### Element access
 
 You can access the individual elements of the vectors by indices or coordinate axis names:
 ```c++
@@ -204,7 +204,7 @@ v(0);
 v[0]; // same as the above two
 ```
 
-#### Arithmetic on vectors
+### Arithmetic on vectors
 
 The elementwise operators are naturally provided by overloads in C++:
 ```c++
@@ -221,7 +221,7 @@ Vec3 r2 = 2.0f / v1; // { 2, 1, 0.666 }
 Vec3 r3 = 1.0f + v1; // { 2, 3, 4 }
 ```
 
-#### Swizzle operators
+### Swizzle operators
 
 Swizzle operators can be used to select or modify subsets of a vector:
 ```c++
@@ -236,7 +236,7 @@ Vec3 r = 0.26f * v.xxx + 0.68f * v.yyy + 0.06f * v.zzz;
 ```
 
 
-#### Vector functions
+### Vector functions
 
 Common vector functions are provided by the library as free functions:
 ```c++
@@ -249,7 +249,7 @@ float angle = std::acos(std::clamp(Dot(v1, v2), -1.0f, 1.0f));
 For the complete list, use your code completion or browse the code.
 
 
-#### Limitations
+### Limitations
 
 If you have a keen eye, you noticed that the example codes above initialize float vectors with integers. This is not entirely safe, but the library forces the conversion so you don't get a compiler warning.
 
@@ -264,7 +264,7 @@ Matrices
 <a name="matrices"></a>
 ---
 
-#### The matrix class
+### The matrix class
 
 Matrices have 6 template parameters:
 ```c++
@@ -283,7 +283,7 @@ class Matrix<class T,
 The ```Order```, ```Layout``` and ```Packed``` are explained in detail in the [configuration section](#configuration).
 
 
-#### Creating matrices
+### Creating matrices
 
 Matrices can be created by specifying each element of the matrix:
 
@@ -305,7 +305,7 @@ Mat44 m2 = {
 Currently, matrices rows/columns be constructed from vectors, and there are no concatenation operations for matrices.
 
 
-#### Converting matrices
+### Converting matrices
 
 Matrices can be readily converted via an explicit cast, when the multiplication order is the same:
 ```c++
@@ -329,7 +329,7 @@ Mat44PRd calculations_p = matrix_representation_cast<Mat44PRd>(calculations);
 Mat44PRd wrong_p = matrix_reinterpret_cast<Mat44PRd>(calculations);
 ```
 
-#### Element access
+### Element access
 
 You need to index the matrix via rows and columns:
 ```c++
@@ -346,7 +346,7 @@ float m10 = m(1, 0); // 4
 
 Unfortunately, this is one of the few things that you cannot change in Mathter.
 
-#### Arithmetic
+### Arithmetic
 
 You can use the operators \*, + and - to multiply, add and subtract matrices where the sizes of the operands are correct. You can also use \* and / to multiply and divide the matrices by scalars.
 
@@ -366,7 +366,7 @@ m *= 2.0f;
 ```
 
 
-#### Matrix functions
+### Matrix functions
 
 Similarly to vector functions, matrix functions are also provided as free functions:
 
@@ -378,7 +378,7 @@ auto [U,S,V] = DecomposeSVD(Determinant(m) * Inverse(Transpose(m)));
 ```
 
 
-#### Submatrices (WARNING: deprecated)
+### Submatrices (WARNING: deprecated)
 
 There is an implementation of submatrices in the library, however, it awaits a major overhaul, and as such is deprecated and will be removed. If this doesn't bother you, it can be used.
 
@@ -412,7 +412,7 @@ class Quaternion;
 Quaternions only have the type and the packing parameters, which should by now be familiar to you. If not, then read the section about [vectors](#vectors) and [configuration](#configuration)
 
 
-#### Creating quaternions
+### Creating quaternions
 
 In general, when creating quaternions, you have to specify the scalar real and the imaginary vector components:
 ```c++
@@ -426,7 +426,7 @@ using namespace quat_literals;
 Quat q4 = 1 + 2_i + 3_j + 4_k; // This is not constexpr, so slow, but it's fun.
 ```
 
-#### Element access
+### Element access
 
 You can use the set {w,x,y,z} or {s,i,j,k}:
 ```c++
@@ -437,7 +437,7 @@ q.j = 0;
 q.k = 0;
 ```
 
-#### Arithmetic
+### Arithmetic
 
 The most important regarding quaternions is multiplication:
 ```c++
@@ -454,11 +454,11 @@ Quat q1, q2;
 Quat q3 = (q1 + q2) * 3;
 ```
 
-#### Quaternions functions
+### Quaternions functions
 
 Similarly to Matrix and Vector functions, Quaternion functions are also provided as free functions. You can find things important for 3D, such as ```Normalize```, ```Length```, and ```Inverse```. These are also found by their mathematical names like ```Abs``` and ```Conjugate```. Additionally, there are mathematical functions like ```Exp``` and ```Log```.
 
-#### Conversion to and from matrices
+### Conversion to and from matrices
 
 Since quaternions and matrices can both represent rotations, it makes sense to allow conversions between them. You can use typecasts for this purpose:
 
