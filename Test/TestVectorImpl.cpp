@@ -10,8 +10,33 @@
 #include "TestGenerators.hpp"
 
 #include <Catch2/catch.hpp>
+#include <new>
 
 using namespace mathter;
+
+
+
+TEST_CASE("Vector deterministic default initializer", "[Init]") {
+	using VecT = Vector<float, 3>;
+	alignas(alignof(VecT)) std::array<uint8_t, sizeof(VecT)> rawData;
+	memset(rawData.data(), 0xCC, rawData.size());
+
+	for (auto& v : rawData) {
+		REQUIRE(v == uint8_t(0xCC));
+	}
+
+	new (rawData.data()) VecT;
+
+#ifdef NDEBUG
+	for (auto& v : rawData) {
+		REQUIRE(v == uint8_t(0xCC));
+	}
+#else
+	for (auto& v : *reinterpret_cast<const VecT*>(rawData.data())) {
+		REQUIRE(std::isnan(v));
+	}
+#endif
+}
 
 
 

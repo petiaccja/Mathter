@@ -39,15 +39,15 @@ TEST_CASE_VEC_VARIANT("Vector - Length", "[Vector]", TypesFloating, PackedAll) {
 TEST_CASE_VEC_VARIANT("Vector - LengthPrecise", "[Vector]", TypesFloating, PackedAll) {
 	SECTION(SECTIONNAMEVEC) {
 		VectorT<3> a(1e-38f, 2e-38f, 3e-38f);
-		REQUIRE(Length(a) == Approx(3.7416573867e-38f));
+		REQUIRE(LengthPrecise(a) == Approx(3.7416573867e-38f));
 
 		VectorT<5> b(1e+37f, 0, 2e+37f, 0, 3e+37f);
-		REQUIRE(Length(b) == Approx(3.7416573867e+37f));
+		REQUIRE(LengthPrecise(b) == Approx(3.7416573867e+37f));
 	}
 }
 
 
-TEST_CASE_VEC_VARIANT("Vector - Normalize denorm", "[Vector]", TypesFloating, PackedAll) {
+TEST_CASE_VEC_VARIANT("Vector - Normalize", "[Vector]", TypesFloating, PackedAll) {
 	SECTION(SECTIONNAMEVEC) {
 		VectorT<3> a(1, 2, 3);
 		a = Normalize(a);
@@ -58,8 +58,8 @@ TEST_CASE_VEC_VARIANT("Vector - Normalize denorm", "[Vector]", TypesFloating, Pa
 		VectorT<5> b(1, 0, 2, 0, 3);
 		b = Normalize(b);
 		REQUIRE(Length(b) == Approx(1));
-		REQUIRE(2 * a[0] == Approx(a[2]));
-		REQUIRE(3 * a[0] == Approx(a[4]));
+		REQUIRE(2 * b[0] == Approx(b[2]));
+		REQUIRE(3 * b[0] == Approx(b[4]));
 	}
 }
 
@@ -74,7 +74,7 @@ TEST_CASE_VEC_VARIANT("Vector - SafeNormalize denorm", "[Vector]", TypesFloating
 		VectorT<5> b(0, 0, 1e-40, 0, 0);
 		b = SafeNormalize(b);
 		REQUIRE(Length(b) == Approx(1));
-		REQUIRE(a[2] == Approx(1));
+		REQUIRE(b[2] == Approx(1));
 	}
 }
 

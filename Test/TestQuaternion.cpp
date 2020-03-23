@@ -6,6 +6,7 @@
 #pragma warning(disable: 4244)
 
 #include <Catch2/catch.hpp>
+#include <new>
 
 #include "../Mathter/Quaternion.hpp"
 #include "../Mathter/Common/Approx.hpp"
@@ -17,6 +18,31 @@ using namespace quat_literals;
 
 // Expected results based on:
 // http://www.andre-gaschler.com/rotationconverter/
+
+
+TEST_CASE("Quaternion deterministic default initializer", "[Init]") {
+	using QuatT = Quaternion<float>;
+	alignas(alignof(QuatT)) std::array<uint8_t, sizeof(QuatT)> rawData;
+	memset(rawData.data(), 0xCC, rawData.size());
+
+	for (auto& v : rawData) {
+		REQUIRE(v == uint8_t(0xCC));
+	}
+
+	new (rawData.data()) QuatT;
+
+#ifdef NDEBUG
+	for (auto& v : rawData) {
+		REQUIRE(v == uint8_t(0xCC));
+	}
+#else
+	auto& q = *reinterpret_cast<const QuatT*>(rawData.data());
+	REQUIRE(std::isnan(q.x));
+	REQUIRE(std::isnan(q.y));
+	REQUIRE(std::isnan(q.z));
+	REQUIRE(std::isnan(q.w));
+#endif
+}
 
 
 TEST_CASE_VEC_VARIANT("Quaternion - Ctor", "[Quaternion]", TypesFloating, PackedAll) {

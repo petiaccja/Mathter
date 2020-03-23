@@ -1,7 +1,7 @@
 #pragma once
 
 
-namespace mathter {
+namespace mathter::impl {
 
 // Helper for writing for loops as for (auto i : Range(0,10))
 template <class T>

@@ -157,15 +157,15 @@ auto DecomposeLUP(const Matrix<T, Dim, Dim, Order, Layout, Packed>& m, int& pari
 	int n = m.RowCount();
 	parity = 1;
 
-	for (int i : Range(0, n)) {
+	for (int i : impl::Range(0, n)) {
 		P(i) = i;
 	}
 
-	for (int j : Range(0, n)) {
+	for (int j : impl::Range(0, n)) {
 		// find largest pivot elements
 		T p = 0;
 		int largest;
-		for (int i : Range(j, n)) {
+		for (int i : impl::Range(j, n)) {
 			if (std::abs(U(i, j)) > p) {
 				largest = i;
 				p = std::abs(U(i, j));
@@ -180,28 +180,28 @@ auto DecomposeLUP(const Matrix<T, Dim, Dim, Order, Layout, Packed>& m, int& pari
 		// swap rows to move pivot to top row
 		std::swap(P(j), P(largest));
 		parity *= (j != largest ? -1 : 1);
-		for (int i : Range(0, n)) {
+		for (int i : impl::Range(0, n)) {
 			std::swap(U(j, i), U(largest, i));
 		}
 
 		// do some magic
-		for (int i : Range(j + 1, n)) {
+		for (int i : impl::Range(j + 1, n)) {
 			U(i, j) = U(i, j) / U(j, j);
-			for (int k : Range(j + 1, n)) {
+			for (int k : impl::Range(j + 1, n)) {
 				U(i, k) = U(i, k) - U(i, j) * U(j, k);
 			}
 		}
 	}
 
 	// copy elements to L
-	for (int j : Range(0, n)) {
-		for (int i : Range(j + 1, n)) {
+	for (int j : impl::Range(0, n)) {
+		for (int i : impl::Range(j + 1, n)) {
 			L(i, j) = U(i, j);
 			U(i, j) = T(0);
 			L(j, i) = T(0);
 		}
 	}
-	for (int i : Range(n)) {
+	for (int i : impl::Range(n)) {
 		L(i, i) = 1;
 	}
 
@@ -258,7 +258,7 @@ template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packe
 Vector<float, Dim, Packed> DecompositionLUP<T, Dim, Order, Layout, Packed>::Solve(const Vector<T, Dim, Packed>& b) const {
 	// Permute b
 	Vector<T, Dim, Packed> bp;
-	for (int i : Range(0, P.Dimension())) {
+	for (int i : impl::Range(0, P.Dimension())) {
 		bp(i) = b(P(i));
 	}
 

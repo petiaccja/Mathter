@@ -72,18 +72,4 @@ template <class T, bool Packed>
 class Quaternion;
 
 
-
-//------------------------------------------------------------------------------
-// Macro helpers
-//------------------------------------------------------------------------------
-
-// To enable Empty Base Class Optimization (EBCO) in MSVC.
-// Why the fuck do I even have to manually enable it??? Get you shit together Microsoft!
-#ifdef _MSC_VER
-#define MATHTER_EBCO __declspec(empty_bases)
-#else
-#define MATHTER_EBCO
-#endif
-
-
 } // namespace mathter

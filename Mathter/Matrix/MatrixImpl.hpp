@@ -196,7 +196,7 @@ private:
 //------------------------------------------------------------------------------
 
 template <class T, int Rows, int Columns, eMatrixOrder Order = eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout Layout = eMatrixLayout::ROW_MAJOR, bool Packed = false>
-class MATHTER_EBCO Matrix : public MatrixData<T, Rows, Columns, Order, Layout, Packed> {
+class Matrix : public MatrixData<T, Rows, Columns, Order, Layout, Packed> {
 	static_assert(Columns >= 1 && Rows >= 1, "Dimensions must be positive integers.");
 
 	static constexpr int VecDim = std::max(Rows, Columns);
