@@ -16,6 +16,8 @@ Mathter is a **linear algebra** library with focus on **game development**, howe
 
 **What's special about this library?** There are already many good 3D math libraries, however, most, if not all of them tie your hands with their conventions. Want a left-handed world space but a right handed NDC? Want your Z axis the other way? Want inverted or arbitrary depth? Rather multiply vectors by matrices from the left? You prefer column-major on the CPU and row-major on the GPU? You can configure mathter via templates and runtime arguments to match any convention. Additionally, Mathter provides a lot of shortcuts to reduce clutter and make your math code more expressive. Check out the code examples.
 
+For more detailed information about using Mathter, **read the** [**guide**](https://github.com/petiaccja/Mathter/blob/master/docs/Guide.md).
+
 Features
 ---
 - General:
@@ -84,7 +86,7 @@ using Quat = Quaternion<float, false>;
 ```
 Remember, all stuff is in the namespace mathter.
 
-You have multiple ways to initialize your variables. Beware, **they are not null-initialized by default**. (You can define ```MATHTER_NULL_INITIALIZE=1```, but please read the [extended documentation](https://github.com/petiaccja/Mathter/blob/master/docs/Guide.md)). This saves 2 clock cycles when you initialize later.
+You have multiple ways to initialize your variables. Beware, **they are not null-initialized** for performance and safety reasons. (Read more about initialization and changing the behaviour in the [guide's configuration section](https://github.com/petiaccja/Mathter/blob/master/docs/Guide.md#configuration)).
 ```c++
 Vec2 a = { 1, 2 };
 Vec3 v1 = { 1, 2, 3 };
