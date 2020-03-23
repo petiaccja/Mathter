@@ -11,6 +11,8 @@
 
 #include <Catch2/catch.hpp>
 #include <complex>
+#include <new>
+#include <cstring>
 
 
 using namespace mathter;
@@ -20,7 +22,7 @@ using namespace mathter;
 TEST_CASE("Matrix deterministic default initializer", "[Init]") {
 	using MatT = Matrix<float, 3, 3>;
 	alignas(alignof(MatT)) std::array<uint8_t, sizeof(MatT)> rawData;
-	memset(rawData.data(), 0xCC, rawData.size());
+	std::memset(rawData.data(), 0xCC, rawData.size());
 
 	for (auto& v : rawData) {
 		REQUIRE(v == uint8_t(0xCC));
