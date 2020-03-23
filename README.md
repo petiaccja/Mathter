@@ -84,7 +84,7 @@ using Quat = Quaternion<float, false>;
 ```
 Remember, all stuff is in the namespace mathter.
 
-You have multiple ways to initialize your variables. Beware, **default constructors will garbage-initialize** (NOT null-initialize). This saves 2 clock cycles when you initialize later.
+You have multiple ways to initialize your variables. Beware, **they are not null-initialized by default**. (You can define ```MATHTER_NULL_INITIALIZE=1```, but please read the [extended documentation](https://github.com/petiaccja/Mathter/blob/master/docs/Guide.md)). This saves 2 clock cycles when you initialize later.
 ```c++
 Vec2 a = { 1, 2 };
 Vec3 v1 = { 1, 2, 3 };
