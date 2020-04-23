@@ -53,7 +53,7 @@ T LengthPrecise(const Vector<T, Dim, Packed>& v) {
 /// <summary> Returns the euclidean distance between to vectors. </summary>
 template <class T, class U, int Dim, bool Packed1, bool Packed2>
 auto Distance(const Vector<T, Dim, Packed1>& lhs, const Vector<U, Dim, Packed2>& rhs) {
-	return (lhs - rhs).Length();
+	return Length(lhs - rhs);
 }
 
 /// <summary> Makes a unit vector, but keeps direction. </summary>
