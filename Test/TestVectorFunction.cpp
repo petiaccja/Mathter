@@ -108,12 +108,12 @@ TEST_CASE_VEC_VARIANT("Vector - SafeNormalize specific proper", "[Vector]", Type
 TEST_CASE_VEC_VARIANT("Vector - SafeNormalize specific null", "[Vector]", TypesFloating, PackedAll) {
 	SECTION(SECTIONNAMEVEC) {
 		VectorT<3> a(0, 0, 0);
-		a = SafeNormalize(a, VectorT<3>(0,1,0));
+		a = SafeNormalize(a, VectorT<3>(0, 1, 0));
 		REQUIRE(Length(a) == Approx(1));
 		REQUIRE(a[1] == Approx(1));
 
 		VectorT<5> b(0, 0, 0, 0, 0);
-		b = SafeNormalize(b, VectorT<5>(0,1,0,0,0));
+		b = SafeNormalize(b, VectorT<5>(0, 1, 0, 0, 0));
 		REQUIRE(Length(b) == Approx(1));
 		REQUIRE(a[1] == Approx(1));
 	}
@@ -131,7 +131,7 @@ TEST_CASE_VEC_VARIANT("Vector - Fill", "[Vector]", TypesFloating, PackedAll) {
 		VectorT<5> c;
 		VectorT<5> d(4);
 		Fill(c, 4);
-		
+
 		REQUIRE(c == d);
 	}
 }
@@ -142,12 +142,12 @@ TEST_CASE_VEC_VARIANT("Vector - Min & Max", "[Vector]", TypesFloating, PackedAll
 		VectorT<3> a(1, 2, 3);
 		VectorT<3> b(3, 2, 1);
 
-		REQUIRE(Min(a,b) == VectorT<3>(1, 2, 1));
-		REQUIRE(Max(a,b) == VectorT<3>(3, 2, 3));
+		REQUIRE(Min(a, b) == VectorT<3>(1, 2, 1));
+		REQUIRE(Max(a, b) == VectorT<3>(3, 2, 3));
 
 		VectorT<5> c(1, 2, 3, 4, 5);
 		VectorT<5> d(5, 4, 3, 2, 1);
-		
+
 		REQUIRE(Min(c, d) == VectorT<5>(1, 2, 3, 2, 1));
 		REQUIRE(Max(c, d) == VectorT<5>(5, 4, 3, 4, 5));
 	}
@@ -207,5 +207,20 @@ TEST_CASE_VEC_VARIANT("Vector - CrossND", "[Vector]", TypesFloating, PackedAll) 
 
 		auto dotprod = std::abs(Dot(a4, r4)) + std::abs(Dot(b4, r4)) + std::abs(Dot(c4, r4));
 		REQUIRE(dotprod < 1e-5f);
+	}
+}
+
+
+TEST_CASE_VEC_VARIANT("Vector - Distance", "[Vector]", TypesFloating, PackedAll) {
+	SECTION(SECTIONNAMEVEC) {
+		VectorT<3> a(1, 2, 3);
+		VectorT<3> b(4, 5, 4);
+		Type expected3 = Type(std::sqrt(3 * 3 + 3 * 3 + 1 * 1));
+		REQUIRE(expected3 == Distance(a, b));
+
+		VectorT<5> d(4, 5, 4, 2, 8);
+		VectorT<5> c(1, 2, 3, 9, 2);
+		Type expected5 = Type(std::sqrt(3 * 3 + 3 * 3 + 1 * 1 + 7 * 7 + 6 * 6));
+		REQUIRE(expected5 == Distance(c, d));
 	}
 }
