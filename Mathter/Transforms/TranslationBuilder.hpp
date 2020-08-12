@@ -42,12 +42,12 @@ private:
 		m = Identity();
 		if constexpr (Order == eMatrixOrder::FOLLOW_VECTOR) {
 			for (int i = 0; i < translation.Dimension(); ++i) {
-				m(Rows - 1, i) = translation(i);
+				m(Rows - 1, i) = U(translation(i));
 			}
 		}
 		else {
 			for (int i = 0; i < translation.Dimension(); ++i) {
-				m(i, Columns - 1) = translation(i);
+				m(i, Columns - 1) = U(translation(i));
 			}
 		}
 	}

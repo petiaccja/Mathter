@@ -492,14 +492,14 @@ public:
 	Vector(Scalars... scalars) {
 		if constexpr (traits::HasSimd<Vector>::value) {
 			if constexpr (Dim == 3) {
-				this->simd = VectorData<T, 3, Packed>::SimdT::set(scalars..., T(0));
+				this->simd = VectorData<T, 3, Packed>::SimdT::set(T(scalars)..., T(0));
 			}
 			else {
-				this->simd = VectorData<T, Dim, Packed>::SimdT::set(scalars...);
+				this->simd = VectorData<T, Dim, Packed>::SimdT::set(T(scalars)...);
 			}
 		}
 		else {
-			*reinterpret_cast<std::array<T, Dim>*>(this->data) = { (T)scalars... };
+			*reinterpret_cast<std::array<T, Dim>*>(this->data) = { T(scalars)... };
 		}
 	}
 
@@ -640,7 +640,7 @@ Swizzle<VectorData, Indices...>::operator Vector<typename Swizzle<VectorData, In
 	constexpr bool DestHasSimd = traits::HasSimd<DestVecT>::value;
 	if constexpr (SourceHasSimd && DestHasSimd) {
 		using SourceSimdT = decltype(std::declval<VectorData>().simd);
-		using DestSimdT = decltype(std::declval<VectorData>().simd);
+		using DestSimdT = decltype(std::declval<DestVecT>().simd);
 		constexpr int VectorDataDim = traits::VectorTraits<VectorData>::Dim;
 		if constexpr (std::is_same_v<SourceSimdT, DestSimdT>) {
 			const auto& sourceSimd = reinterpret_cast<const VectorData*>(this)->simd;
