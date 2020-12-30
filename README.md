@@ -1,14 +1,10 @@
 ﻿Mathter
 ===
 
-Clang9, GCC7: 
-[![Build Status](https://travis-ci.org/petiaccja/Mathter.svg?branch=master)](https://travis-ci.org/petiaccja/Mathter)
-MSVC 2017:
-[![Build status](https://ci.appveyor.com/api/projects/status/6uvfnfgp5paha8kw?svg=true)](https://ci.appveyor.com/project/petiaccja/mathter)
-Coverage:
+![Build](https://github.com/petiaccja/Mathter/workflows/Build/badge.svg)
 [![codecov](https://codecov.io/gh/petiaccja/Mathter/branch/master/graph/badge.svg)](https://codecov.io/gh/petiaccja/Mathter)
 
-Note: check out the [benchmarks](https://github.com/petiaccja/MathterBench) for a comparison of similar libraries!
+Benchmark comparison with similar libraries [here](https://github.com/petiaccja/MathterBench).
 
 Introduction
 ---
