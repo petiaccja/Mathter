@@ -10,6 +10,10 @@ jobs:
     - uses: actions/checkout@v2
     - uses: seanmiddleditch/gha-setup-ninja@v3
     - uses: seanmiddleditch/gha-setup-vsdevenv@master
+    - uses: KyleMayes/install-llvm-action@v1
+      with:
+        version: "10.0"
+        directory: ${{ runner.temp }}/llvm
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build
@@ -35,6 +39,7 @@ jobs:
         llvm-profdata merge -sparse default.profraw -o coverage.profdata
         llvm-cov show ./Bin/UnitTest -instr-profile=coverage.profdata > coverage.txt
 
-    - uses: codecov/codecov-action@v1
+    - name: Upload coverage
+      uses: codecov/codecov-action@v1
       with:
         file: ./coverage.txt
