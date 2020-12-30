@@ -1,4 +1,4 @@
-name: CMake
+name: Codecov
 
 on:
   push:
