@@ -1,0 +1,53 @@
+name: Codecov
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:        
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: "0"
+    - uses: seanmiddleditch/gha-setup-ninja@v3
+    - uses: seanmiddleditch/gha-setup-vsdevenv@master
+    - uses: KyleMayes/install-llvm-action@v1
+      with:
+        version: "10.0"
+        directory: ${{ runner.temp }}/llvm
+
+    - name: Create Build Environment
+      run: cmake -E make_directory ${{runner.workspace}}/build
+
+    - name: Configure CMake
+      shell: bash
+      working-directory: ${{runner.workspace}}/build
+      env:
+        CC: clang
+        CXX: clang++
+      run: cmake $GITHUB_WORKSPACE -G Ninja -DCMAKE_BUILD_TYPE=Debug -DENABLE_LLVM_COV=ON
+
+    - name: Build
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: cmake --build . --config Debug
+
+    - name: Generate Coverage
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: |
+        ./Bin/UnitTest
+        llvm-profdata merge -sparse default.profraw -o coverage.profdata
+        llvm-cov show ./Bin/UnitTest -instr-profile=coverage.profdata > ${{runner.workspace}}/build/coverage.txt
+
+    - name: Upload coverage
+      uses: codecov/codecov-action@v1
+      with:
+        file: ${{runner.workspace}}/build/coverage.txt
