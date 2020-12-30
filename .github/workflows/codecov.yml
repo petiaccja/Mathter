@@ -8,6 +8,8 @@ jobs:
     
     steps:
     - uses: actions/checkout@v2
+      with:
+        fetch-depth: "0"
     - uses: seanmiddleditch/gha-setup-ninja@v3
     - uses: seanmiddleditch/gha-setup-vsdevenv@master
     - uses: KyleMayes/install-llvm-action@v1
@@ -37,9 +39,9 @@ jobs:
       run: |
         ./Bin/UnitTest
         llvm-profdata merge -sparse default.profraw -o coverage.profdata
-        llvm-cov show ./Bin/UnitTest -instr-profile=coverage.profdata > coverage.txt
+        llvm-cov show ./Bin/UnitTest -instr-profile=coverage.profdata > ${{runner.workspace}}/build/coverage.txt
 
     - name: Upload coverage
       uses: codecov/codecov-action@v1
       with:
-        file: ./coverage.txt
+        file: ${{runner.workspace}}/build/coverage.txt
