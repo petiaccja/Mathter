@@ -1,3 +1,9 @@
+//L=============================================================================
+//L This software is distributed under the MIT license.
+//L Copyright 2021 Péter Kardos
+//L=============================================================================
+
+
 #include <iostream>
 #include <fstream>
 #include <sstream>

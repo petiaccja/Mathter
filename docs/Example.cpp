@@ -1,3 +1,8 @@
+//L=============================================================================
+//L This software is distributed under the MIT license.
+//L Copyright 2021 Péter Kardos
+//L=============================================================================
+
 #include "Mathter/Matrix.hpp"
 #include "Mathter/Quaternion.hpp"
 #include "Mathter/Vector.hpp"

@@ -1,3 +1,8 @@
+//L=============================================================================
+//L This software is distributed under the MIT license.
+//L Copyright 2021 Péter Kardos
+//L=============================================================================
+
 #pragma once
 
 #if _MSC_VER && defined(min)
