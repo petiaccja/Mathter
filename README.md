@@ -8,7 +8,7 @@ Benchmark comparison with similar libraries [here](https://github.com/petiaccja/
 
 Introduction
 ---
-Mathter is a **linear algebra** library with focus on **game development**, however it may be useful for other applications where **small-matrix** linear algebra or **3D** coordinate calculations are needed.
+Mathter is a **header-only** **linear algebra** library with focus on **game development**, however it may be useful for other applications where **small-matrix** linear algebra or **3D** coordinate calculations are needed.
 
 **What's special about this library?** There are already many good 3D math libraries, however, most, if not all of them tie your hands with their conventions. Want a left-handed world space but a right handed NDC? Want your Z axis the other way? Want inverted or arbitrary depth? Rather multiply vectors by matrices from the left? You prefer column-major on the CPU and row-major on the GPU? You can configure mathter via templates and runtime arguments to match any convention. Additionally, Mathter provides a lot of shortcuts to reduce clutter and make your math code more expressive. Check out the code examples.
 
@@ -142,8 +142,13 @@ Vector<float, 6> x = DecomposeLUP(M).Solve(b); // Mx = b
 
 Installation
 ---
-Mathter is **header-only**, you only need to add the Mathter folder to your include path. You will **need a C++17 compliant compiler** to use the library. Builds on Clang9, GCC7 and MSVC 2017. (Should build on earlier Clang, but the tests crash the compiler frontend...)
+**Manually:** Mathter is header-only, you just have to **copy the \<repo\>/Mathter** folder into your include path.
 
+**Via [conan.io](https://conan.io/):** see the "set me up" button [here](https://bintray.com/petiaccja/public-conan/mathter:_).
+
+**Compilers:** tested for GCC, Clang and MSVC via GitHub CI. Enabling std=c++17 is required.
+
+**Visual Studio:** don't forget to add the file Mathter/Mathter.natvis to your visual studio projects, it will display Mathter types nicely in the debugger.
 
 Contribution
 ---
