@@ -1,8 +1,8 @@
-//==============================================================================
-// This software is distributed under The Unlicense.
-// For more information, please refer to <http://unlicense.org/>
-//==============================================================================
-//
+//L=============================================================================
+//L This software is distributed under the MIT license.
+//L Copyright 2021 Péter Kardos
+//L=============================================================================
+
 #pragma once
 
 namespace mathter {

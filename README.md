@@ -158,8 +158,7 @@ First of all, please just go ahead and use the code. It took a lot of time to wr
 
 License
 ---
-This code is distrubuted under **The Unlicense**. This means you are allowed to use the code for any purpose without any restrictions. You are not required to credit the author(s), however, you are encouraged to do so.
-(Note: I may add dependencies (notably, a proper SIMD library), which may require you to include a copyright notice to their code.)
+The code is using the **MIT license**, which is a very permissive license suitable for non-commercial and commercial uses of Mathter alike. However, you have to include the copyright notice in your code. Read the full license for the exact terms.
 
 
 Contact
