@@ -31,10 +31,9 @@ jobs:
       - name: Deploy to conan
         working-directory: ${{runner.workspace}}
         shell: bash
-        env:
-          PACKAGE_VERSION: ${{ steps.vars.outputs.tag }}
         run: |
+          echo mathter/${GITHUB_REF:11}@
           ~/.local/bin/conan remote add petiaccja_public https://api.bintray.com/conan/petiaccja/public-conan
           ~/.local/bin/conan user -p ${{ secrets.CONAN_BINTRAY_API_KEY }} -r petiaccja_public petiaccja
-          ~/.local/bin/conan create $GITHUB_WORKSPACE mathter/${PACKAGE_VERSION:1}@
-          ~/.local/bin/conan upload mathter/${PACKAGE_VERSION:1} --all --confirm -r petiaccja_public
+          ~/.local/bin/conan create $GITHUB_WORKSPACE mathter/${GITHUB_REF:11}@
+          ~/.local/bin/conan upload mathter/${GITHUB_REF:11} --all --confirm -r petiaccja_public
