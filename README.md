@@ -142,9 +142,9 @@ Vector<float, 6> x = DecomposeLUP(M).Solve(b); // Mx = b
 
 Installation
 ---
-**Manually:** Mathter is header-only, you just have to **copy the \<repo\>/Mathter** folder into your include path.
+**From the conan center:** https://conan.io/center/mathter.
 
-**Via [conan.io](https://conan.io/):** see the "set me up" button [here](https://bintray.com/petiaccja/public-conan/mathter:_).
+**Manually:** Mathter is header-only, you just have to **copy the \<repo\>/Mathter** folder into your include path.
 
 **Compilers:** tested for GCC, Clang and MSVC via GitHub CI. Enabling std=c++17 is required.
 
@@ -154,7 +154,7 @@ Contribution
 ---
 First of all, please just go ahead and use the code. It took a lot of time to write and the more people use it the more it was worth the time.
 
-**Report bugs**: This library powers my game engine, so it is very much usable. Despite that, the code is fresh, so it is not bug-free. If you find anything, **file an issue** on GitHub or **make a PR**.
+**Report bugs**: This library powers my game engine, so it is very much usable. Despite that, it may has bugs here and there. If you find anything, **file an issue** on GitHub or **make a PR**.
 
 **Request features**: Something is still annoying in the syntax? Something still missing? **File an issue**.
 
