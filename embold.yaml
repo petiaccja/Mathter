@@ -1,0 +1,12 @@
+version: 1
+sources:
+  exclusions:
+    - 'Banchmark'
+    - 'CodeGen'
+    - 'Lib'
+    - 'Test'
+    - 'docs'
+    - 'test_package'
+    - 'conanfily.py'
+    - '.git'
+    - '.github'
