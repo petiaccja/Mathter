@@ -4,7 +4,6 @@ sources:
     - 'Benchmark'
     - 'CodeGen'
     - 'Lib'
-    - 'Test'
     - 'docs'
     - 'test_package'
     - 'conanfily.py'
