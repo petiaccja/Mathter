@@ -17,6 +17,7 @@ jobs:
         os: [windows-latest, ubuntu-latest]
         c_compiler: [gcc, clang, cl]
         build_type: [Debug, Release]
+        cxx_standard: ["17", "20"]
         include:
           - c_compiler: gcc
             cxx_compiler: g++
@@ -57,7 +58,7 @@ jobs:
       env:
         CC: ${{matrix.c_compiler}}
         CXX: ${{matrix.cxx_compiler}}
-      run: cmake $GITHUB_WORKSPACE -G Ninja -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
+      run: cmake $GITHUB_WORKSPACE -G Ninja -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_CXX_STANDARD=${{matrix.cxx_standard}}
 
     - name: Build
       working-directory: ${{runner.workspace}}/build
