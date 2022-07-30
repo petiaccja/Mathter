@@ -154,22 +154,6 @@ Installation
 
 **Visual Studio:** don't forget to add the file Mathter/Mathter.natvis to your visual studio projects, it will display Mathter types nicely in the debugger.
 
-Contribution
----
-First of all, please just go ahead and use the code. It took a lot of time to write and the more people use it the more it was worth the time.
-
-**Report bugs**: This library powers my game engine, so it is very much usable. Despite that, it may has bugs here and there. If you find anything, **file an issue** on GitHub or **make a PR**.
-
-**Request features**: Something is still annoying in the syntax? Something still missing? **File an issue**.
-
-**Contribute code**: Why not add another matrix decomposition? You only need a new file in the Decompositions folder and use the existing ones as templates. Why not add support for more vectorization? You only have to add extra code to the SIMD folder, the organization is straight-forward. Is that very important transform missing? Look no further than the Transforms folder. If you are feeling codey, just **make a pull-request**.
-
-
 License
 ---
 The code is using the **MIT license**, which is a very permissive license suitable for non-commercial and commercial uses of Mathter alike. However, you have to include the copyright notice in your code. Read the full license for the exact terms.
-
-
-Contact
----
-Feel free to send me an email to [mathter_library@outlook.com](mailto:mathter_library@outlook.com) for general questions and requests. See also the contribution paragraph.
