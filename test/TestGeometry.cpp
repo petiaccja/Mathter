@@ -5,7 +5,7 @@
 
 #pragma warning(disable: 4244)
 
-#include <Catch2/catch.hpp>
+#include <catch2/catch.hpp>
 
 #include <Mathter/Geometry.hpp>
 #include <Mathter/Common/Approx.hpp>
