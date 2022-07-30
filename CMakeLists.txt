@@ -8,7 +8,6 @@ list(APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
 
 # Cpp flags
 enable_language(CXX)
-set(CMAKE_CXX_STANDARD 17)
 
 option(ENABLE_LLVM_COV "Adds compiler flags to generate LLVM source-based code coverage. Only works with Clang." OFF)
 

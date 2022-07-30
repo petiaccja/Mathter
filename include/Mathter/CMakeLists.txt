@@ -7,3 +7,5 @@ target_sources(Mathter
 	INTERFACE
 		"Mathter.natvis"
 )
+
+target_compile_features(Mathter INTERFACE cxx_std_17)
