@@ -43,6 +43,11 @@ jobs:
     - uses: seanmiddleditch/gha-setup-ninja@v3
     - uses: seanmiddleditch/gha-setup-vsdevenv@master
 
+    - name: Install conan
+      shell: bash
+      run: |
+        pip install conan
+
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build
 
