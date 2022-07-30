@@ -5,8 +5,8 @@
 
 #pragma warning(disable : 4244)
 
-#include "../Mathter/Common/Approx.hpp"
-#include "../Mathter/Quaternion.hpp"
+#include <Mathter/Common/Approx.hpp>
+#include <Mathter/Quaternion.hpp>
 #include "TestGenerators.hpp"
 
 #include <Catch2/catch.hpp>

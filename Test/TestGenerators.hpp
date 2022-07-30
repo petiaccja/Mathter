@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "../Mathter/Common/Definitions.hpp"
+#include <Mathter/Common/Definitions.hpp>
 
 #include <complex>
 #include <iostream>
