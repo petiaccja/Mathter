@@ -234,7 +234,7 @@ namespace mathter::traits {
 		static constexpr bool test(const void*) { return false; }
 
 		template <class U, class = decltype(std::declval<U>().simd)>
-		static constexpr bool test(nullptr_t) { return true; }
+		static constexpr bool test(std::nullptr_t) { return true; }
 
 
 		static constexpr bool value = test<VectorDataT>(nullptr);
