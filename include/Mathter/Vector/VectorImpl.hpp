@@ -636,6 +636,7 @@ auto ShuffleReverse(SimdT arg, std::integer_sequence<int, Indices...>) {
 template <class VectorData, int... Indices>
 Swizzle<VectorData, Indices...>::operator Vector<typename Swizzle<VectorData, Indices...>::T, sizeof...(Indices), false>() const {
 	using DestVecT = Vector<T, sizeof...(Indices), false>;
+#if !_MSVC_LANG || _MSVC_LANG <= 201703L // MSVC has some bug...
 	constexpr bool SourceHasSimd = traits::HasSimd<VectorData>::value;
 	constexpr bool DestHasSimd = traits::HasSimd<DestVecT>::value;
 	if constexpr (SourceHasSimd && DestHasSimd) {
@@ -654,7 +655,8 @@ Swizzle<VectorData, Indices...>::operator Vector<typename Swizzle<VectorData, In
 				return { DestVecT::FromSimd, ShuffleReverse(sourceSimd, typename traits::ReverseIntegerSequence<std::integer_sequence<int, Indices...>>::type{}) };
 			}
 		}
-	}	
+	}
+#endif
 	return DestVecT(data()[Indices]...);
 }
 template <class VectorData, int... Indices>

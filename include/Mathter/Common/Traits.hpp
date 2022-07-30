@@ -231,13 +231,13 @@ namespace mathter::traits {
 	template <class VectorDataT>
 	struct HasSimd {
 		template <class U>
-		static std::false_type test(...) { return {}; }
+		static constexpr bool test(const void*) { return false; }
 
-		template <class U>
-		static decltype(U::simd) test(int) { return {}; }
+		template <class U, class = decltype(std::declval<U>().simd)>
+		static constexpr bool test(nullptr_t) { return true; }
 
 
-		static constexpr bool value = !std::is_same<std::false_type, decltype(test<VectorDataT>(0))>::value;
+		static constexpr bool value = test<VectorDataT>(nullptr);
 	};
 
 	// Reverse integer sequence
