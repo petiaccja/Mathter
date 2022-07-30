@@ -1,10 +1,12 @@
 ﻿Mathter
 ===
 
-![Build](https://github.com/petiaccja/Mathter/workflows/Build/badge.svg)
-[![codecov](https://codecov.io/gh/petiaccja/Mathter/branch/master/graph/badge.svg)](https://codecov.io/gh/petiaccja/Mathter)
+![Language](https://img.shields.io/badge/Language-C++17-blue)
+[![License](https://img.shields.io/badge/License-MIT-blue)](#license)
+[![Build & test](https://github.com/petiaccja/Mathter/actions/workflows/build_and_test.yml/badge.svg)](https://github.com/petiaccja/Mathter/actions/workflows/build_and_test.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=petiaccja_Mathter&metric=alert_status)](https://sonarcloud.io/dashboard?id=petiaccja_Mathter)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=petiaccja_Mathter&metric=coverage)](https://sonarcloud.io/dashboard?id=petiaccja_Mathter)
 
-Benchmark comparison with similar libraries [here](https://github.com/petiaccja/MathterBench).
 
 Introduction
 ---
@@ -13,6 +15,8 @@ Mathter is a **header-only** **linear algebra** library with focus on **game dev
 **What's special about this library?** There are already many good 3D math libraries, however, most, if not all of them tie your hands with their conventions. Want a left-handed world space but a right handed NDC? Want your Z axis the other way? Want inverted or arbitrary depth? Rather multiply vectors by matrices from the left? You prefer column-major on the CPU and row-major on the GPU? You can configure mathter via templates and runtime arguments to match any convention. Additionally, Mathter provides a lot of shortcuts to reduce clutter and make your math code more expressive. Check out the code examples.
 
 For more detailed information about using Mathter, **read the** [**guide**](https://github.com/petiaccja/Mathter/blob/master/docs/Guide.md).
+
+Benchmark comparison with similar libraries [here](https://github.com/petiaccja/MathterBench).
 
 Features
 ---
