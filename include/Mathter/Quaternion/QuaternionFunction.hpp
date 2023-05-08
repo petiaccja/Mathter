@@ -1,6 +1,6 @@
 //L=============================================================================
 //L This software is distributed under the MIT license.
-//L Copyright 2021 Péter Kardos
+//L Copyright 2021 Pï¿½ter Kardos
 //L=============================================================================
 
 #pragma once
@@ -69,7 +69,7 @@ T Length(const Quaternion<T, Packed>& q) {
 /// <summary> Returns the unit quaternion of the same direction. Does not change this object. </summary>
 template <class T, bool Packed>
 Quaternion<T, Packed> Normalize(const Quaternion<T, Packed>& q) {
-	return Quaternion<T, Packed>{ q.vec.Normalized() };
+	return Quaternion<T, Packed>{ Normalize(q.vec) };
 }
 
 /// <summary> Returns the quaternion of opposite rotation. </summary>
