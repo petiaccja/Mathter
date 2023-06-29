@@ -1,0 +1,25 @@
+name: Clang-Format
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+      - uses: seanmiddleditch/gha-setup-vsdevenv@master
+        with:
+          fetch-depth: 1
+      - uses: KyleMayes/install-llvm-action@v1
+        with:
+          version: "15.0"
+          directory: ${{ runner.temp }}/llvm
+      - name: Verify formatting
+        run: |
+          python ./support/run-clang-format.py -r include
+          python ./support/run-clang-format.py -r test

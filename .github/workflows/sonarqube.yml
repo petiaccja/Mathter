@@ -22,7 +22,7 @@ jobs:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - uses: KyleMayes/install-llvm-action@v1
         with:
-          version: "10.0"
+          version: "15.0"
           directory: ${{ runner.temp }}/llvm
       - name: Set up JDK 11
         uses: actions/setup-java@v1
@@ -30,8 +30,20 @@ jobs:
           java-version: 11
       - name: Install conan
         shell: bash
+        env:
+          CC: clang
+          CXX: clang++
         run: |
-          pip install conan==1.57
+          pip install conan==2.07
+          conan profile detect --name ci --force
+          python $GITHUB_WORKSPACE/support/update-conan-profile.py $(conan profile path ci) Debug $CC $CXX 17
+
+      - name: Cache conan packages
+        id: cache-conan
+        uses: actions/cache@v3
+        with:
+          path: ~/.conan2/p
+          key: conan-cache-packages-sonarqube
 
       - name: Download and set up sonar-scanner
         env:
@@ -59,7 +71,10 @@ jobs:
         env:
           CC: clang
           CXX: clang++
-        run: cmake $GITHUB_WORKSPACE -G Ninja -DCMAKE_BUILD_TYPE=Debug -DENABLE_LLVM_COV=ON
+        run: |
+          conan install $GITHUB_WORKSPACE --output-folder=. --build=missing -pr ci -pr:b ci -s build_type=Debug
+          conan cache clean
+          cmake $GITHUB_WORKSPACE --preset conan-debug -DENABLE_LLVM_COV:BOOL=ON
 
       - name: Run build-wrapper
         run: |

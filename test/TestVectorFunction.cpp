@@ -9,9 +9,11 @@
 #include <Mathter/Vector.hpp>
 #include "TestGenerators.hpp"
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch_approx.hpp>
 
 using namespace mathter;
+using Catch::Approx;
 
 
 TEST_CASE_VEC_VARIANT("Vector - Is nullvector", "[Vector]", TypesFloating, PackedAll) {

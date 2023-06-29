@@ -9,13 +9,16 @@
 #include <Mathter/Quaternion.hpp>
 #include "TestGenerators.hpp"
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch_approx.hpp>
 #include <cstring>
 #include <new>
 
 
 using namespace mathter;
 using namespace quat_literals;
+using Catch::Approx;
+
 
 // Expected results based on:
 // http://www.andre-gaschler.com/rotationconverter/

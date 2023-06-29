@@ -9,11 +9,13 @@
 #include <Mathter/Matrix.hpp>
 #include "TestGenerators.hpp"
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch_approx.hpp>
 #include <complex>
 
 
 using namespace mathter;
+using Catch::Approx;
 
 
 //------------------------------------------------------------------------------

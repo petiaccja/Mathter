@@ -8,7 +8,7 @@
 #include <iostream>
 
 #define CATCH_CONFIG_RUNNER
-#include <catch2/catch.hpp>
+#include <catch2/catch_session.hpp>
 
 using namespace std;
 

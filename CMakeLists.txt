@@ -1,13 +1,11 @@
+cmake_minimum_required(VERSION 3.24.0)
+
 ## Mathter CMake
 project(Mathter)
 
-cmake_minimum_required(VERSION 3.20.0)
-
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
-list(APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
-
 # Cpp flags
 enable_language(CXX)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 option(ENABLE_LLVM_COV "Adds compiler flags to generate LLVM source-based code coverage. Only works with Clang." OFF)
 
@@ -42,16 +40,6 @@ elseif(INIT_MODE STREQUAL "INVALID")
 elseif(INIT_MODE STREQUAL "UNINITIALIZED")
 	add_definitions("-DMATHTER_DONT_INITIALIZE=1")
 endif()
-
-# Conan library dependencies
-include(conan.cmake)
-conan_cmake_configure(
-	REQUIRES
-		catch2/2.13.4
-	GENERATORS cmake_find_package
-)
-conan_cmake_autodetect(conan_settings)
-conan_cmake_install(PATH_OR_REFERENCE . BUILD missing SETTINGS ${conan_settings} OUTPUT_QUIET)
 
 # Output directories
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Bin)

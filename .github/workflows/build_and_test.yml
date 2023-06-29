@@ -29,6 +29,10 @@ jobs:
             test_name: .\Bin\UnitTest.exe
           - os: ubuntu-latest
             test_name: ./Bin/UnitTest
+          - build_type: Debug
+            conan_preset: "conan-debug"
+          - build_type: Release
+            conan_preset: "conan-release"
         exclude:
           - os: windows-latest
             c_compiler: gcc
@@ -48,8 +52,20 @@ jobs:
 
     - name: Install conan
       shell: bash
+      env:
+        CC: "${{ matrix.c_compiler != 'cl' && matrix.c_compiler || '' }}"
+        CXX: "${{ matrix.cxx_compiler != 'cl' && matrix.cxx_compiler || '' }}"
       run: |
-        pip install conan==1.57
+        pip install conan==2.07
+        conan profile detect --name ci --force
+        python $GITHUB_WORKSPACE/support/update-conan-profile.py $(conan profile path ci) ${{matrix.build_type}} ${{matrix.c_compiler}} ${{matrix.cxx_compiler}} ${{matrix.cxx_standard}}
+
+    - name: Cache conan packages
+      id: cache-conan
+      uses: actions/cache@v3
+      with:
+        path: ~/.conan2/p
+        key: conan-cache-packages-${{ matrix.os }}-${{ matrix.c_compiler }}-${{ matrix.build_type }}-${{ matrix.cxx_standard }}
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build
@@ -60,7 +76,10 @@ jobs:
       env:
         CC: ${{matrix.c_compiler}}
         CXX: ${{matrix.cxx_compiler}}
-      run: cmake $GITHUB_WORKSPACE -G Ninja -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_CXX_STANDARD=${{matrix.cxx_standard}}
+      run: |
+        conan install $GITHUB_WORKSPACE --output-folder=. --build=missing -pr ci -pr:b ci -s build_type=${{ matrix.build_type }}
+        conan cache clean
+        cmake $GITHUB_WORKSPACE --preset ${{ matrix.conan_preset }}
 
     - name: Build
       working-directory: ${{runner.workspace}}/build
