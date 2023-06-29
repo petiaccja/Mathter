@@ -31,13 +31,13 @@ TEST_CASE_VARIANT("Matrix - Matrix-vector square multiplication", "[Matrix]", Ty
 		11
 	};
 
-	auto p1 = mT * v;
-	auto p2 = v * m;
+	const auto p1 = mT * v;
+	const auto p2 = v * m;
 
 	Vector<Type, 3, Packed> expected = {
-		52,
-		121,
-		190
+		110,
+		133,
+		156
 	};
 
 	REQUIRE(p1 == ApproxVec(expected));
