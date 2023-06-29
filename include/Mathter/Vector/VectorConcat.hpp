@@ -1,7 +1,7 @@
-//L=============================================================================
-//L This software is distributed under the MIT license.
-//L Copyright 2021 P�ter Kardos
-//L=============================================================================
+﻿// L=============================================================================
+// L This software is distributed under the MIT license.
+// L Copyright 2021 Péter Kardos
+// L=============================================================================
 
 #pragma once
 
@@ -49,7 +49,7 @@ mathter::Vector<T, Dim + 1, Packed> operator|(U lhs, const mathter::Vector<T, Di
 template <class VectorData1, int... Indices1, class VectorData2, int... Indices2>
 auto operator|(const Swizzle<VectorData1, Indices1...>& lhs, const Swizzle<VectorData2, Indices2...>& rhs) {
 	using TS1 = typename traits::VectorTraits<VectorData1>::Type;
-	using TS2 = typename traits::VectorTraits<VectorData2>::Type;	
+	using TS2 = typename traits::VectorTraits<VectorData2>::Type;
 	return Vector<TS1, sizeof...(Indices1), false>(lhs) | Vector<TS2, sizeof...(Indices2), false>(rhs);
 }
 /// <summary> Concatenates the arguments, and returns the concatenated vector. </summary>

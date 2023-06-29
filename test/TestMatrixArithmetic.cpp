@@ -1,19 +1,22 @@
-//L=============================================================================
-//L This software is distributed under the MIT license.
-//L Copyright 2021 P�ter Kardos
-//L=============================================================================
+﻿// L=============================================================================
+// L This software is distributed under the MIT license.
+// L Copyright 2021 Péter Kardos
+// L=============================================================================
 
 #pragma warning(disable : 4244)
 
-#include <Mathter/Common/Approx.hpp>
-#include <Mathter/Matrix.hpp>
 #include "TestGenerators.hpp"
 
-#include <catch2/catch.hpp>
+#include <Mathter/Common/Approx.hpp>
+#include <Mathter/Matrix.hpp>
+
+#include <catch2/catch_approx.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <complex>
 
 
 using namespace mathter;
+using Catch::Approx;
 
 
 //------------------------------------------------------------------------------
@@ -315,12 +318,12 @@ TEST_CASE_VARIANT("Matrix - Multiply arbitrary opposite layout", "[Matrix]", Typ
                                                                                                                      \
 		for (auto i = 0; i < sm.RowCount(); ++i) {                                                                   \
 			for (auto j = 0; j < sm.ColumnCount(); ++j) {                                                            \
-				REQUIRE(Approx(sm(i, j) OPERATOR b) == smr(i, j));                                                         \
+				REQUIRE(Approx(sm(i, j) OPERATOR b) == smr(i, j));                                                   \
 			}                                                                                                        \
 		}                                                                                                            \
 		for (auto i = 0; i < m.RowCount(); ++i) {                                                                    \
 			for (auto j = 0; j < m.ColumnCount(); ++j) {                                                             \
-				REQUIRE(Approx(m(i, j) OPERATOR b) == mr(i, j));                                                           \
+				REQUIRE(Approx(m(i, j) OPERATOR b) == mr(i, j));                                                     \
 			}                                                                                                        \
 		}                                                                                                            \
 	}
@@ -343,12 +346,12 @@ TEST_CASE_VARIANT("Matrix - Multiply arbitrary opposite layout", "[Matrix]", Typ
                                                                                                                      \
 		for (auto i = 0; i < sm.RowCount(); ++i) {                                                                   \
 			for (auto j = 0; j < sm.ColumnCount(); ++j) {                                                            \
-				REQUIRE(Approx(b OPERATOR sm(i, j)) == smr(i, j));                                                          \
+				REQUIRE(Approx(b OPERATOR sm(i, j)) == smr(i, j));                                                   \
 			}                                                                                                        \
 		}                                                                                                            \
 		for (auto i = 0; i < m.RowCount(); ++i) {                                                                    \
 			for (auto j = 0; j < m.ColumnCount(); ++j) {                                                             \
-				REQUIRE(Approx(b OPERATOR m(i, j)) == mr(i, j));                                                            \
+				REQUIRE(Approx(b OPERATOR m(i, j)) == mr(i, j));                                                     \
 			}                                                                                                        \
 		}                                                                                                            \
 	}
@@ -376,14 +379,14 @@ TEST_CASE_VARIANT("Matrix - Multiply arbitrary opposite layout", "[Matrix]", Typ
 			for (auto j = 0; j < sm.ColumnCount(); ++j) {                                                                     \
 				auto elem = sm(i, j);                                                                                         \
 				elem OPERATOR b;                                                                                              \
-				REQUIRE(Approx(elem) == smr(i, j));                                                                                   \
+				REQUIRE(Approx(elem) == smr(i, j));                                                                           \
 			}                                                                                                                 \
 		}                                                                                                                     \
 		for (auto i = 0; i < m.RowCount(); ++i) {                                                                             \
 			for (auto j = 0; j < m.ColumnCount(); ++j) {                                                                      \
-				auto elem = m(i, j);                                                                                         \
+				auto elem = m(i, j);                                                                                          \
 				elem OPERATOR b;                                                                                              \
-				REQUIRE(Approx(elem) == mr(i, j));                                                                                   \
+				REQUIRE(Approx(elem) == mr(i, j));                                                                            \
 			}                                                                                                                 \
 		}                                                                                                                     \
 	}

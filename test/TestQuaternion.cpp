@@ -1,21 +1,25 @@
-//L=============================================================================
-//L This software is distributed under the MIT license.
-//L Copyright 2021 P�ter Kardos
-//L=============================================================================
+﻿// L=============================================================================
+// L This software is distributed under the MIT license.
+// L Copyright 2021 Péter Kardos
+// L=============================================================================
 
 #pragma warning(disable : 4244)
 
-#include <Mathter/Common/Approx.hpp>
-#include <Mathter/Quaternion.hpp>
 #include "TestGenerators.hpp"
 
-#include <catch2/catch.hpp>
+#include <Mathter/Common/Approx.hpp>
+#include <Mathter/Quaternion.hpp>
+
+#include <catch2/catch_approx.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <cstring>
 #include <new>
 
 
 using namespace mathter;
 using namespace quat_literals;
+using Catch::Approx;
+
 
 // Expected results based on:
 // http://www.andre-gaschler.com/rotationconverter/

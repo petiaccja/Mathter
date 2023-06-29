@@ -1,4 +1,4 @@
-Swizzle<VectorData, 0, 0> xx;
+﻿Swizzle<VectorData, 0, 0> xx;
 Swizzle<VectorData, 0, 1> xy;
 Swizzle<VectorData, 1, 0> yx;
 Swizzle<VectorData, 1, 1> yy;

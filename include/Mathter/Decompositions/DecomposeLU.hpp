@@ -1,7 +1,7 @@
-//L=============================================================================
-//L This software is distributed under the MIT license.
-//L Copyright 2021 P�ter Kardos
-//L=============================================================================
+﻿// L=============================================================================
+// L This software is distributed under the MIT license.
+// L Copyright 2021 Péter Kardos
+// L=============================================================================
 
 #pragma once
 
@@ -24,7 +24,7 @@ private:
 	static Vector<float, Dim, Packed> Solve(const MatrixT& L, const MatrixT& U, const Vector<T, Dim, Packed>& b);
 
 public:
-	//DecompositionLU(MatrixT L, MatrixT U) : L(L), U(U) {}
+	// DecompositionLU(MatrixT L, MatrixT U) : L(L), U(U) {}
 
 	/// <summary> Solves the equation system Ax=b, that is LUx=b. </summary>
 	/// <remarks> If the equation is singular or the LU decomposition fails, garbage is returned. </remarks>
@@ -59,7 +59,7 @@ class DecompositionLUP {
 	using MatrixT = Matrix<T, Dim, Dim, Order, Layout, Packed>;
 
 public:
-	//DecompositionLUP(MatrixT L, MatrixT U, Vector<int, Dim, false> P) : L(L), U(U), P(P) {}
+	// DecompositionLUP(MatrixT L, MatrixT U, Vector<int, Dim, false> P) : L(L), U(U), P(P) {}
 
 	/// <summary> Solves the equation system Ax=b, that is LUx=Pb. </summary>
 	/// <remarks> If the equation is singular garbage is returned. </remarks>
@@ -91,8 +91,8 @@ template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packe
 auto DecomposeLU(const Matrix<T, Dim, Dim, Order, Layout, Packed>& m) {
 	// From: https://www.gamedev.net/resources/_/technical/math-and-physics/matrix-inversion-using-lu-decomposition-r3637
 	Matrix<T, Dim, Dim, Order, Layout, Packed> L;
-	Matrix<T, Dim, Dim, Order, Layout, Packed> U;	
-	
+	Matrix<T, Dim, Dim, Order, Layout, Packed> U;
+
 	const auto& A = m;
 	constexpr int n = Dim;
 

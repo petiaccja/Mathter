@@ -1,7 +1,7 @@
-//L=============================================================================
-//L This software is distributed under the MIT license.
-//L Copyright 2021 P�ter Kardos
-//L=============================================================================
+﻿// L=============================================================================
+// L This software is distributed under the MIT license.
+// L Copyright 2021 Péter Kardos
+// L=============================================================================
 
 #pragma once
 
@@ -17,6 +17,7 @@ template <class T, int Dim, bool Packed>
 class OrthographicBuilder {
 	static_assert(!std::is_integral_v<T>);
 	using VectorT = Vector<T, Dim, Packed>;
+
 public:
 	OrthographicBuilder(const VectorT& minBounds, const VectorT& maxBounds, T projNearPlane, T projFarPlane)
 		: minBounds(minBounds), maxBounds(maxBounds), projNearPlane(projNearPlane), projFarPlane(projFarPlane) {}
@@ -47,7 +48,7 @@ private:
 	template <class U, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
 	void Set(Matrix<U, Rows, Columns, Order, Layout, MPacked>& m) const {
 		using VectorT = Vector<T, Dim, false>;
-		
+
 		VectorT volumeSize = maxBounds - minBounds;
 		VectorT scale = T(2) / volumeSize;
 		scale[scale.Dimension() - 1] *= T(0.5) * (projFarPlane - projNearPlane);

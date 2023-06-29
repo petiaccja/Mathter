@@ -1,7 +1,7 @@
-//L=============================================================================
-//L This software is distributed under the MIT license.
-//L Copyright 2021 Péter Kardos
-//L=============================================================================
+// L=============================================================================
+// L This software is distributed under the MIT license.
+// L Copyright 2021 Péter Kardos
+// L=============================================================================
 
 #pragma once
 
@@ -83,8 +83,6 @@ template <class T, bool Packed>
 bool IsNormalized(const Quaternion<T, Packed>& q) {
 	return q.vec.IsNormalized();
 }
-
-
 
 
 } // namespace mathter

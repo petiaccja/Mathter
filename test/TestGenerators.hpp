@@ -1,11 +1,12 @@
-//L=============================================================================
-//L This software is distributed under the MIT license.
-//L Copyright 2021 P�ter Kardos
-//L=============================================================================
+﻿// L=============================================================================
+// L This software is distributed under the MIT license.
+// L Copyright 2021 Péter Kardos
+// L=============================================================================
 
 #pragma once
 
 #include <Mathter/Common/Definitions.hpp>
+#include <Mathter/Common/Traits.hpp>
 
 #include <complex>
 #include <iostream>
@@ -272,7 +273,7 @@ int RunCases() {
 		template <int Rows, int Columns>                                                                     \
 		using MatrixTOL = Matrix<Type, Rows, Columns, Order, traits::OppositeLayout<Layout>::value, Packed>; \
 		template <int Rows, int Columns>                                                                     \
-		using MatrixTOO = Matrix<Type, Rows, Columns, traits::OppositeOrder<Order>::value, Layout, Packed>; \
+		using MatrixTOO = Matrix<Type, Rows, Columns, traits::OppositeOrder<Order>::value, Layout, Packed>;  \
 		void operator()() const;                                                                             \
 	};                                                                                                       \
 	TEST_CASE(NAME, TAG) {                                                                                   \

@@ -1,7 +1,7 @@
-//L=============================================================================
-//L This software is distributed under the MIT license.
-//L Copyright 2021 P�ter Kardos
-//L=============================================================================
+﻿// L=============================================================================
+// L This software is distributed under the MIT license.
+// L Copyright 2021 Péter Kardos
+// L=============================================================================
 
 #pragma once
 
@@ -52,7 +52,7 @@ private:
 			crossTable[i] = &bases[i];
 		}
 		crossTable.back() = &columns[Dim - 1];
-		auto elem = [&matrix](int i, int j) ->U& {
+		auto elem = [&matrix](int i, int j) -> U& {
 			return Order == eMatrixOrder::FOLLOW_VECTOR ? matrix(i, j) : matrix(j, i);
 		};
 
@@ -153,7 +153,6 @@ template <class T, bool Packed>
 auto LookAt(const Vector<T, 3, Packed>& eye, const Vector<T, 3, Packed>& target, const Vector<T, 3, Packed>& up, bool positiveZForward, bool flipX, bool flipY) {
 	return LookAt(eye, target, std::array<Vector<T, 3, Packed>, 1>{ up }, std::array<bool, 3>{ flipX, flipY, positiveZForward });
 }
-
 
 
 
