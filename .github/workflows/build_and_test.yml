@@ -49,7 +49,7 @@ jobs:
     - name: Install conan
       shell: bash
       run: |
-        pip install conan
+        pip install conan==1.57
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build
