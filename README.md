@@ -154,6 +154,39 @@ Installation
 
 **Visual Studio:** don't forget to add the file Mathter/Mathter.natvis to your visual studio projects, it will display Mathter types nicely in the debugger.
 
+
+Building the tests
+---
+
+To build Mathter and run tests, you'll need [conan (version 2)](https://docs.conan.io/2/installation.html):
+
+```
+pip install conan
+```
+
+You then have to create a `conan` profile:
+
+```
+conan profile detect
+```
+
+It's recommended to verify and edit your conan profile as needed.
+
+You then have to install the dependencies using `conan`, configure with `CMake`, and build:
+
+```
+mkdir build
+cd build
+conan install .. --output-folder=. --build=missing -s build_type=Debug
+cmake .. --preset conan-debug
+cmake --build . --config Debug
+```
+
+Once the build is finished, you can run `./bin/UnitTest`, which is a [Catch2](https://github.com/catchorg/Catch2) application.
+
+If in doubt, you can always look at the CI workflows for an example of building and running the tests.
+
+
 License
 ---
 The code is using the **MIT license**, which is a very permissive license suitable for non-commercial and commercial uses of Mathter alike. However, you have to include the copyright notice in your code. Read the full license for the exact terms.
