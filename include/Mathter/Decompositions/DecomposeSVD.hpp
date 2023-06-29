@@ -1,7 +1,7 @@
-//L=============================================================================
-//L This software is distributed under the MIT license.
-//L Copyright 2021 P�ter Kardos
-//L=============================================================================
+﻿// L=============================================================================
+// L This software is distributed under the MIT license.
+// L Copyright 2021 Péter Kardos
+// L=============================================================================
 
 #pragma once
 
@@ -25,7 +25,7 @@ class DecompositionSVD {
 	static constexpr int Vdim = Columns;
 
 public:
-	//DecompositionSVD(MatrixT<Udim, Sdim> U, MatrixT<Sdim, Sdim> S, MatrixT<Sdim, Vdim> V) : U(U), S(S), V(V) {}
+	// DecompositionSVD(MatrixT<Udim, Sdim> U, MatrixT<Sdim, Sdim> S, MatrixT<Sdim, Vdim> V) : U(U), S(S), V(V) {}
 
 	MatrixT<Udim, Sdim> U;
 	MatrixT<Sdim, Sdim> S;

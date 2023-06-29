@@ -1,21 +1,24 @@
-//L=============================================================================
-//L This software is distributed under the MIT license.
-//L Copyright 2021 P�ter Kardos
-//L=============================================================================
+﻿// L=============================================================================
+// L This software is distributed under the MIT license.
+// L Copyright 2021 Péter Kardos
+// L=============================================================================
 
 #pragma warning(disable : 4244)
 
-#include <Mathter/Common/Approx.hpp>
-#include <Mathter/Matrix.hpp>
 #include "TestGenerators.hpp"
 
-#include <catch2/catch.hpp>
+#include <Mathter/Common/Approx.hpp>
+#include <Mathter/Matrix.hpp>
+
+#include <catch2/catch_approx.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <complex>
-#include <new>
 #include <cstring>
+#include <new>
 
 
 using namespace mathter;
+using Catch::Approx;
 
 
 

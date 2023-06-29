@@ -1,7 +1,7 @@
-//L=============================================================================
-//L This software is distributed under the MIT license.
-//L Copyright 2021 P�ter Kardos
-//L=============================================================================
+﻿// L=============================================================================
+// L This software is distributed under the MIT license.
+// L Copyright 2021 Péter Kardos
+// L=============================================================================
 
 #pragma once
 
@@ -34,7 +34,7 @@ private:
 		assert((nearPlane < 0 && farPlane < nearPlane) || (0 < nearPlane && nearPlane < farPlane));
 
 		using UVec = Vector<U, Dim - 1, Packed>;
-		
+
 		m = Zero();
 		// Layout be like (precede_vector):
 		// w 0 0 0

@@ -1,14 +1,14 @@
-//L=============================================================================
-//L This software is distributed under the MIT license.
-//L Copyright 2021 P�ter Kardos
-//L=============================================================================
+﻿// L=============================================================================
+// L This software is distributed under the MIT license.
+// L Copyright 2021 Péter Kardos
+// L=============================================================================
 
 #pragma once
 
 #include "../Common/Definitions.hpp"
+#include "../Common/DeterministicInitializer.hpp"
 #include "../Common/MathUtil.hpp"
 #include "../Common/Traits.hpp"
-#include "../Common/DeterministicInitializer.hpp"
 #include "../SIMD/Simd.hpp"
 
 #include <algorithm>
@@ -464,7 +464,7 @@ public:
 	Vector(FromSimd_, SimdArgT simd) : VectorData<T, Dim, Packed>(simd) {
 		static_assert(traits::HasSimd<Vector>::value, "To the developer of Mathter: don't call this unless has SIMD.");
 	}
-	
+
 	//--------------------------------------------
 	// Homogeneous up- and downcast
 	//--------------------------------------------
@@ -651,7 +651,7 @@ Swizzle<VectorData, Indices...>::operator Vector<typename Swizzle<VectorData, In
 			else if constexpr (sizeof...(Indices) == 4 && VectorDataDim == 3 && VectorDataDim == 4) {
 				return { DestVecT::FromSimd, ShuffleReverse(sourceSimd, typename traits::ReverseIntegerSequence<std::integer_sequence<int, Indices...>>::type{}) };
 			}
-			else  if constexpr (sizeof...(Indices) == 2 && VectorDataDim == 2) {
+			else if constexpr (sizeof...(Indices) == 2 && VectorDataDim == 2) {
 				return { DestVecT::FromSimd, ShuffleReverse(sourceSimd, typename traits::ReverseIntegerSequence<std::integer_sequence<int, Indices...>>::type{}) };
 			}
 		}

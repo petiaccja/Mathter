@@ -1,7 +1,7 @@
-//L=============================================================================
-//L This software is distributed under the MIT license.
-//L Copyright 2021 P�ter Kardos
-//L=============================================================================
+﻿// L=============================================================================
+// L This software is distributed under the MIT license.
+// L Copyright 2021 Péter Kardos
+// L=============================================================================
 
 #pragma once
 
@@ -232,7 +232,7 @@ public:
 			}
 		}
 	}
-	
+
 	template <class H, class... Args,
 			  typename std::enable_if<traits::All<traits::IsScalar, H, Args...>::value, int>::type = 0,
 			  typename std::enable_if<1 + sizeof...(Args) == Rows * Columns, int>::type = 0>
@@ -251,8 +251,7 @@ public:
 	/// <summary> Used by internal methods. </summary>
 	template <class... Stripes>
 	Matrix(FromStripes_, Stripes... stripes)
-		: MatrixData<T, Rows, Columns, Order, Layout, Packed>{ std::forward<Stripes>(stripes)... }
-	{}
+		: MatrixData<T, Rows, Columns, Order, Layout, Packed>{ std::forward<Stripes>(stripes)... } {}
 
 	//--------------------------------------------
 	// Accessors
