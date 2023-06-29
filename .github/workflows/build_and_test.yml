@@ -56,7 +56,7 @@ jobs:
         CC: "${{ matrix.c_compiler != 'cl' && matrix.c_compiler || '' }}"
         CXX: "${{ matrix.cxx_compiler != 'cl' && matrix.cxx_compiler || '' }}"
       run: |
-        pip install conan==2.07
+        pip install conan==2.0.7
         conan profile detect --name ci --force
         python $GITHUB_WORKSPACE/support/update-conan-profile.py $(conan profile path ci) ${{matrix.build_type}} ${{matrix.c_compiler}} ${{matrix.cxx_compiler}} ${{matrix.cxx_standard}}
 

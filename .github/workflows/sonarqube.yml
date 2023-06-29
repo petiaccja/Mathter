@@ -34,7 +34,7 @@ jobs:
           CC: clang
           CXX: clang++
         run: |
-          pip install conan==2.07
+          pip install conan==2.0.7
           conan profile detect --name ci --force
           python $GITHUB_WORKSPACE/support/update-conan-profile.py $(conan profile path ci) Debug $CC $CXX 17
 
