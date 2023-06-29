@@ -1,13 +1,13 @@
-//L=============================================================================
-//L This software is distributed under the MIT license.
-//L Copyright 2021 P�ter Kardos
-//L=============================================================================
+﻿// L=============================================================================
+// L This software is distributed under the MIT license.
+// L Copyright 2021 Péter Kardos
+// L=============================================================================
 
 #pragma once
 
 #include "../Common/MathUtil.hpp"
-#include "../Transforms/ZeroBuilder.hpp"
 #include "../Transforms/IdentityBuilder.hpp"
+#include "../Transforms/ZeroBuilder.hpp"
 
 
 namespace mathter {
@@ -20,7 +20,7 @@ class DecompositionQR {
 	using MatrixT = Matrix<T, Rows, Columns, Order, Layout, Packed>;
 
 public:
-	//DecompositionQR(Matrix<T, Rows, Rows, Order, Layout, Packed> Q,
+	// DecompositionQR(Matrix<T, Rows, Rows, Order, Layout, Packed> Q,
 	//				Matrix<T, Rows, Columns, Order, Layout, Packed> R) : Q(Q), R(R) {}
 
 	Matrix<T, Rows, Rows, Order, Layout, Packed> Q;

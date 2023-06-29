@@ -1,14 +1,15 @@
-//L=============================================================================
-//L This software is distributed under the MIT license.
-//L Copyright 2021 Péter Kardos
-//L=============================================================================
+﻿// L=============================================================================
+// L This software is distributed under the MIT license.
+// L Copyright 2021 Péter Kardos
+// L=============================================================================
 
 #pragma once
 
+#include "Vector.hpp"
+
+#include <array>
 #include <cmath>
 #include <limits>
-#include <array>
-#include "Vector.hpp"
 
 
 namespace mathter {
@@ -24,6 +25,7 @@ class Hyperplane;
 template <class T, int Dim>
 class Line {
 	using VectorT = Vector<T, Dim>;
+
 public:
 	/// <summary> Does not zero-initialize members. </summary>
 	Line() = default;
@@ -52,7 +54,8 @@ public:
 	VectorT Base() const { return base; }
 
 	/// <summary> Returns the point at <paramref name="param"/> distance from the base point along direction. </summary>
-	VectorT PointAt(T param) const { return base + param*direction; }
+	VectorT PointAt(T param) const { return base + param * direction; }
+
 public:
 	VectorT direction, base;
 };
@@ -62,13 +65,14 @@ public:
 template <class T, int Dim>
 class LineSegment {
 	using VectorT = Vector<T, Dim>;
+
 public:
 	LineSegment() : point1(0), point2(0) {
 		point2(0) = 1;
 	}
 	LineSegment(const VectorT& base, const VectorT& direction, T length) {
 		point1 = base;
-		point2 = base + direction*length;
+		point2 = base + direction * length;
 	}
 	LineSegment(const VectorT& point1, const VectorT& point2) : point1(point1), point2(point2) {}
 
@@ -76,11 +80,12 @@ public:
 	VectorT Direction() const { return Normalize(point2 - point1); }
 	VectorT Start() const { return point1; }
 	VectorT End() const { return point2; }
-	VectorT Interpol(T t) const { return t*point2 + (T(1) - t)*point1; }
+	VectorT Interpol(T t) const { return t * point2 + (T(1) - t) * point1; }
 
 	mathter::Line<T, Dim> Line() const {
-		return mathter::Line<T, Dim>{point1, Direction()};
+		return mathter::Line<T, Dim>{ point1, Direction() };
 	}
+
 public:
 	VectorT point1, point2;
 };
@@ -108,6 +113,7 @@ public:
 template <class T, int Dim>
 class Hyperplane {
 	using VectorT = Vector<T, Dim>;
+
 public:
 	Hyperplane() : normal(0), scalar(0) { normal(0) = 1; }
 	Hyperplane(const VectorT& base, const VectorT& normal) : normal(normal) {
@@ -130,6 +136,7 @@ public:
 	T Distance(const Vector<T, Dim, Packed>& point) {
 		return Dot(point, normal) - scalar;
 	}
+
 private:
 	VectorT normal;
 	T scalar;
@@ -144,8 +151,8 @@ Line<T, Dim>::Line(const Hyperplane<T, 2>& plane) {
 	T a = plane.Normal()(0);
 	T b = plane.Normal()(1);
 	T d = plane.Scalar();
-	T div = (a*a + b*b);
-	base = { a*d / div, b*d / div };
+	T div = (a * a + b * b);
+	base = { a * d / div, b * d / div };
 	direction = { b, -a };
 }
 
@@ -154,8 +161,7 @@ template <class T>
 class Triangle3D {
 public:
 	Triangle3D() = default;
-	Triangle3D(const Vector<T, 3, false>& a, const Vector<T, 3, false>& b, const Vector<T, 3, false>& c) :
-		a(a), b(b), c(c) {}
+	Triangle3D(const Vector<T, 3, false>& a, const Vector<T, 3, false>& b, const Vector<T, 3, false>& c) : a(a), b(b), c(c) {}
 	Vector<T, 3, false> a, b, c; // Corners of the traingle.
 };
 
@@ -183,12 +189,14 @@ protected:
 	using PlaneT = Hyperplane<T, Dim>;
 	using LineT = Line<T, Dim>;
 	using VectorT = Vector<T, Dim>;
+
 public:
 	Intersection(const PlaneT& plane, const LineT& line);
 
 	bool Intersecting() const { return !std::isinf(param); }
 	VectorT Point() const { return line.PointAt(param); }
 	T LineParameter() const { return param; }
+
 private:
 	LineT line;
 	T param;
@@ -198,6 +206,7 @@ template <class T, int Dim>
 class Intersection<Line<T, Dim>, Hyperplane<T, Dim>> : public Intersection<Hyperplane<T, Dim>, Line<T, Dim>> {
 	using PlaneT = Hyperplane<T, Dim>;
 	using LineT = Line<T, Dim>;
+
 public:
 	Intersection(const LineT& line, const PlaneT& plane) : Intersection<Hyperplane<T, Dim>, Line<T, Dim>>(plane, line) {}
 };
@@ -210,6 +219,7 @@ class Intersection<Hyperplane<T, Dim>, LineSegment<T, Dim>> {
 	using PlaneT = Hyperplane<T, Dim>;
 	using LineT = LineSegment<T, Dim>;
 	using VectorT = Vector<T, Dim>;
+
 public:
 	Intersection(const PlaneT& plane, const LineT& line) {
 		lineSegment = line;
@@ -221,6 +231,7 @@ public:
 	VectorT Point() const { return lineSegment.Interpol(param); }
 	T InterpolParameter() const { return param; }
 	T LineParameter() const { return param * lineSegment.Length(); }
+
 private:
 	LineT lineSegment;
 	T param;
@@ -230,6 +241,7 @@ template <class T, int Dim>
 class Intersection<LineSegment<T, Dim>, Hyperplane<T, Dim>> : public Intersection<Hyperplane<T, Dim>, LineSegment<T, Dim>> {
 	using PlaneT = Hyperplane<T, Dim>;
 	using LineT = LineSegment<T, Dim>;
+
 public:
 	Intersection(const LineT& line, const PlaneT& plane) : Intersection<Hyperplane<T, Dim>, LineSegment<T, Dim>>(plane, line) {}
 };
@@ -272,6 +284,7 @@ Intersection<Hyperplane<T, Dim>, Line<T, Dim>>::Intersection(const PlaneT& plane
 template <class T>
 class Intersection<Line<T, 2>, Line<T, 2>> {
 	using LineT = Line<T, 2>;
+
 public:
 	Intersection(const LineT& l1, const LineT& l2) {
 		line2 = l2;
@@ -284,6 +297,7 @@ public:
 	T LineParameter1() const { return param1; }
 	T LineParameter2() const { return param2; }
 	Vector<T, 2> Point() const { return line2.PointAt(param2); }
+
 private:
 	T param1, param2;
 	LineT line2;
@@ -320,6 +334,7 @@ public:
 	T InterpolParameter2() const { return param2; }
 	T LineParameter1() const { return param1 * lineSegment1.Length(); }
 	T LineParameter2() const { return param2 * lineSegment2.Length(); }
+
 private:
 	T param1;
 	T param2;
@@ -348,6 +363,7 @@ public:
 	T LineParameter1() const { return param1; }
 	T InterpolParameter1() const { return param1 / line1.Length(); }
 	T LineParameter2() const { return param2; }
+
 private:
 	T param1;
 	T param2;
@@ -373,6 +389,7 @@ public:
 template <class T>
 class Intersection<Ray<T, 3>, Triangle3D<T>> {
 	using VectorT = Vector<T, 3, false>;
+
 public:
 	Intersection(const Ray<T, 3>& ray, const Triangle3D<T>& triangle);
 
@@ -381,7 +398,7 @@ public:
 
 	template <class U>
 	U Interpolate(const U& a, const U& b, const U& c) const;
-	
+
 	T GetT() const { return t; }
 	T GetU() const { return u; }
 	T GetV() const { return v; }
@@ -407,9 +424,9 @@ Intersection<Ray<T, 3>, Triangle3D<T>>::Intersection(const Ray<T, 3>& ray, const
 		return;
 	}
 
-	T f = T(1)/a;
+	T f = T(1) / a;
 	VectorT s = ray.Base() - triangle.a;
-	u = f* Dot(s, h);
+	u = f * Dot(s, h);
 
 	if (u < T(0) || u > T(1)) {
 		intersecting = false;
@@ -436,13 +453,14 @@ template <class T>
 template <class U>
 U Intersection<Ray<T, 3>, Triangle3D<T>>::Interpolate(const U& a, const U& b, const U& c) const {
 	T w = T(1) - u - v;
-	return u*b + v*c + w*a;
+	return u * b + v * c + w * a;
 }
 
 
 template <class T, int Dim, int Order>
 class BezierCurve {
 	static_assert(Order >= 1, "Bezier curve must have order n>=1.");
+
 public:
 	using VectorT = Vector<T, Dim, false>;
 
@@ -454,19 +472,19 @@ protected:
 	VectorT EvalInterpolRecurse(T t) const;
 
 public:
-	std::array<VectorT, Order+1> p;
+	std::array<VectorT, Order + 1> p;
 };
 
 
 template <class T, int Dim, int Order>
 auto BezierCurve<T, Dim, Order>::EvalInterpolRecurse(T t) const -> VectorT {
-	std::array<VectorT, Order+1> reduction = p;
+	std::array<VectorT, Order + 1> reduction = p;
 
 	T u = T(1) - t;
 
-	for (int i=Order; i>=1; --i) {
-		for (int j=1; j<=i; ++j) {
-			reduction[j-1] = u*reduction[j-1] + t*reduction[j];
+	for (int i = Order; i >= 1; --i) {
+		for (int j = 1; j <= i; ++j) {
+			reduction[j - 1] = u * reduction[j - 1] + t * reduction[j];
 		}
 	}
 

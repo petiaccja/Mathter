@@ -1,7 +1,7 @@
-//L=============================================================================
-//L This software is distributed under the MIT license.
-//L Copyright 2021 P�ter Kardos
-//L=============================================================================
+﻿// L=============================================================================
+// L This software is distributed under the MIT license.
+// L Copyright 2021 Péter Kardos
+// L=============================================================================
 
 #pragma once
 
@@ -10,7 +10,7 @@
 #include <iostream>
 
 namespace mathter {
-	
+
 enum class eEnclosingBracket {
 	NONE,
 	PARANTHESE,
@@ -141,9 +141,6 @@ VectorT strtovec(const char* str, const char** end) {
 		traits::VectorTraits<VectorT>::Dim,
 		traits::VectorTraits<VectorT>::Packed>(str, end);
 }
-
-
-
 
 
 

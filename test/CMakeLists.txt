@@ -1,4 +1,4 @@
-add_executable(UnitTest ${sources} ${headers})
+﻿add_executable(UnitTest ${sources} ${headers})
 
 target_sources(UnitTest
     PRIVATE

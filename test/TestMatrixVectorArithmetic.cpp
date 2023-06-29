@@ -1,16 +1,17 @@
-//L=============================================================================
-//L This software is distributed under the MIT license.
-//L Copyright 2021 P�ter Kardos
-//L=============================================================================
+﻿// L=============================================================================
+// L This software is distributed under the MIT license.
+// L Copyright 2021 Péter Kardos
+// L=============================================================================
 
 #pragma warning(disable : 4244)
 
-#include <Mathter/Common/Approx.hpp>
-#include <Mathter/Matrix.hpp>
 #include "TestGenerators.hpp"
 
-#include <catch2/catch_test_macros.hpp>
+#include <Mathter/Common/Approx.hpp>
+#include <Mathter/Matrix.hpp>
+
 #include <catch2/catch_approx.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <complex>
 
 
@@ -105,7 +106,7 @@ TEST_CASE_VARIANT("Matrix - Matrix-vector implicit affine multiplication", "[Mat
 TEST_CASE_VARIANT("Matrix - Matrix-vector implicit homogeneous multiplication", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedAll) {
 	MatrixT<4, 4> m = {
 		1, 2, 3, 3,
-		4, 5, 6, 7, 
+		4, 5, 6, 7,
 		7, 8, 9, 2,
 		6, 7, 8, 3
 	};
@@ -120,9 +121,9 @@ TEST_CASE_VARIANT("Matrix - Matrix-vector implicit homogeneous multiplication", 
 	auto p2 = v * m;
 
 	Vector<Type, 3, Packed> expected = {
-		116.f/89.f,
-		140.f/89.f,
-		164.f/89.f
+		116.f / 89.f,
+		140.f / 89.f,
+		164.f / 89.f
 	};
 
 	REQUIRE(p1 == ApproxVec(expected));
@@ -158,7 +159,7 @@ TEST_CASE_VARIANT("Matrix - Matrix-vector compound multiplication", "[Matrix]", 
 	v1 *= m33;
 	v2 *= m43;
 	v3 *= m44;
-	
+
 	REQUIRE(ApproxVec(v * m33) == v1);
 	REQUIRE(ApproxVec(v * m43) == v2);
 	REQUIRE(ApproxVec(v * m44) == v3);

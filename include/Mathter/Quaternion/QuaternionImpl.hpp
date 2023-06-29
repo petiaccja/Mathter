@@ -1,7 +1,7 @@
-//L=============================================================================
-//L This software is distributed under the MIT license.
-//L Copyright 2021 P�ter Kardos
-//L=============================================================================
+﻿// L=============================================================================
+// L This software is distributed under the MIT license.
+// L Copyright 2021 Péter Kardos
+// L=============================================================================
 
 #pragma once
 
@@ -12,8 +12,8 @@
 #include "../Utility.hpp"
 #include "../Vector.hpp"
 
-#include <limits>
 #include <cmath>
+#include <limits>
 
 
 namespace mathter {
@@ -138,11 +138,11 @@ public:
 		FromMatrix(rhs);
 		return *this;
 	}
-	 
+
 	//-----------------------------------------------
 	// Functions
 	//-----------------------------------------------
-	
+
 	/// <summary> Returns the scalar part (w) of (w + xi + yj + zk). </summary>
 	const T ScalarPart() const {
 		return s;

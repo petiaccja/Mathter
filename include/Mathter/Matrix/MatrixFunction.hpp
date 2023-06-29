@@ -1,7 +1,7 @@
-//L=============================================================================
-//L This software is distributed under the MIT license.
-//L Copyright 2021 P�ter Kardos
-//L=============================================================================
+﻿// L=============================================================================
+// L This software is distributed under the MIT license.
+// L Copyright 2021 Péter Kardos
+// L=============================================================================
 
 #pragma once
 
@@ -39,7 +39,7 @@ T Determinant(const Matrix<T, 3, 3, Order, Layout, Packed>& m) {
 	Vec3 r1_yxz = m.stripes[1].yxz;
 	Vec3 r2_yxz = m.stripes[2].yxz;
 	Vec3 r2_xzy = m.stripes[2].xzy;
-	
+
 	T det = Dot(r0_zyx, r1_xzy * r2_yxz - r1_yxz * r2_xzy);
 
 	return det;
