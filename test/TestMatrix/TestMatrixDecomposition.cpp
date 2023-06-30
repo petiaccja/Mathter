@@ -5,24 +5,29 @@
 
 #pragma warning(disable : 4244)
 
-#include "TestGenerators.hpp"
+#include "../TestGenerators.hpp"
 
 #include <Mathter/Common/Approx.hpp>
 #include <Mathter/Matrix.hpp>
 
 #include <catch2/catch_approx.hpp>
+#include <catch2/catch_template_test_macros.hpp>
 #include <catch2/catch_test_macros.hpp>
 #include <complex>
+
 
 
 using namespace mathter;
 using Catch::Approx;
 
 
+using TypeListFloating = TestTypeList<TypesFloating, PackedAll, OrdersAll, LayoutsAll>;
 
-TEST_CASE_VARIANT("Matrix - LU decomposition", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedAll) {
-	SECTION(SECTIONNAME) {
-		MatrixT<3, 3> A = {
+
+TEMPLATE_LIST_TEST_CASE("Matrix - LU decomposition", "[Matrix]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using M = typename TestType::template Matrix<3, 3>;
+		M A = {
 			3, -0.1, -0.2,
 			0.1, 7, -0.3,
 			0.3, -0.2, 10
@@ -43,16 +48,18 @@ TEST_CASE_VARIANT("Matrix - LU decomposition", "[Matrix]", TypesFloating, Orders
 }
 
 
-TEST_CASE_VARIANT("Matrix - LU solve", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedAll) {
-	SECTION(SECTIONNAME) {
-		MatrixT<3, 3> A = {
+TEMPLATE_LIST_TEST_CASE("Matrix - LU solve", "[Matrix]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using M = typename TestType::template Matrix<3, 3>;
+		using V = typename TestType::template Vector<3>;
+		M A = {
 			3, -0.1f, -0.2f,
 			0.1f, 7, -0.3f,
 			0.3f, -0.2f, 10
 		};
-		Vector<Type, 3, Packed> b = { 7.85, -19.3, 71.4 };
-		Vector<Type, 3, Packed> x;
-		Vector<Type, 3, Packed> xexp = { 3, -2.5, 7 };
+		V b = { 7.85, -19.3, 71.4 };
+		V x;
+		V xexp = { 3, -2.5, 7 };
 
 		x = DecomposeLU(A).Solve(b);
 		REQUIRE(ApproxVec(x) == xexp);
@@ -60,9 +67,11 @@ TEST_CASE_VARIANT("Matrix - LU solve", "[Matrix]", TypesFloating, OrdersFollow, 
 }
 
 
-TEST_CASE_VARIANT("Matrix - LUP decomposition", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedAll) {
-	SECTION(SECTIONNAME) {
-		MatrixT<3, 3> A = {
+TEMPLATE_LIST_TEST_CASE("Matrix - LUP decomposition", "[Matrix]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using M = typename TestType::template Matrix<3, 3>;
+
+		M A = {
 			3, -0.1f, -0.2f,
 			0.3f, -0.2f, 10,
 			0.1f, 7, -0.3f
@@ -77,7 +86,7 @@ TEST_CASE_VARIANT("Matrix - LUP decomposition", "[Matrix]", TypesFloating, Order
 			}
 		}
 
-		MatrixT<3, 3> Pm = Zero();
+		M Pm = Zero();
 		for (int i : P) {
 			Pm(i, P(i)) = 1.0f;
 		}
@@ -88,17 +97,20 @@ TEST_CASE_VARIANT("Matrix - LUP decomposition", "[Matrix]", TypesFloating, Order
 }
 
 
-TEST_CASE_VARIANT("Matrix - LUP solve", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedAll) {
-	SECTION(SECTIONNAME) {
-		MatrixT<4, 4> A = {
+TEMPLATE_LIST_TEST_CASE("Matrix - LUP solve", "[Matrix]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using M = typename TestType::template Matrix<4, 4>;
+		using V = typename TestType::template Vector<4>;
+
+		M A = {
 			1, 3, 4, 6,
 			3, 6, 2, 6,
 			9, 2, 6, 7,
 			6, 2, 7, 5
 		};
-		Vector<Type, 4, Packed> b = { 3, 4, 2, 8 };
-		Vector<Type, 4, Packed> x;
-		Vector<Type, 4, Packed> xexp = { -94.f / 497, 895.f / 497, 1000.f / 497, -850.f / 497 };
+		V b = { 3, 4, 2, 8 };
+		V x;
+		V xexp = { -94.f / 497, 895.f / 497, 1000.f / 497, -850.f / 497 };
 
 		x = DecomposeLUP(A).Solve(b);
 
@@ -133,22 +145,26 @@ TEST_CASE("Matrix - LUP decomposition singular", "[Matrix]") {
 }
 
 
-TEST_CASE_VARIANT("Matrix - QR decomposition", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedAll) {
-	SECTION(SECTIONNAME) {
+TEMPLATE_LIST_TEST_CASE("Matrix - QR decomposition", "[Matrix]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using M33 = typename TestType::template Matrix<3, 3>;
+		using M54 = typename TestType::template Matrix<5, 4>;
+		using M45 = typename TestType::template Matrix<4, 5>;
+
 		// example from wikipedia SVD article
-		MatrixT<5, 4> A1 = Transpose(MatrixT<4, 5>{
+		M54 A1 = Transpose(M45{
 			1, 0, 0, 1,
 			2, 0, 0, 3,
 			0, 0, 0, 0,
 			0, 0, 0, 0,
 			2, 0, 0, 0 });
 		auto [Q1, R1] = DecomposeQR(A1);
-		MatrixT<5, 4> A1assembled = Q1 * R1;
+		M54 A1assembled = Q1 * R1;
 		REQUIRE(ApproxVec(A1assembled) == A1);
 
 
 		// the same matrix as the LU
-		MatrixT<3, 3> A2 = {
+		M33 A2 = {
 			3, -0.1f, -0.2f,
 			0.1f, 7, -0.3f,
 			0.3f, -0.2f, 10
@@ -156,16 +172,20 @@ TEST_CASE_VARIANT("Matrix - QR decomposition", "[Matrix]", TypesFloating, Orders
 
 		auto [Q2, R2] = DecomposeQR(A2);
 
-		MatrixT<3, 3> A2assembled = Q2 * R2;
+		M33 A2assembled = Q2 * R2;
 		REQUIRE(ApproxVec(A2assembled) == A2);
 	}
 }
 
 
-TEST_CASE_VARIANT("Matrix - SVD", "[Matrix]", TypesFloating, OrdersFollow, LayoutsAll, PackedAll) {
-	SECTION(SECTIONNAME) {
+TEMPLATE_LIST_TEST_CASE("Matrix - SVD", "[Matrix]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using M33 = typename TestType::template Matrix<3, 3>;
+		using M54 = typename TestType::template Matrix<5, 4>;
+		using M45 = typename TestType::template Matrix<4, 5>;
+
 		// example from wikipedia SVD article
-		MatrixT<5, 4> A1 = Transpose(MatrixT<4, 5>{
+		M54 A1 = Transpose(M45{
 			1, 0, 0, 1, 2,
 			0, 0, 3, 0, 0,
 			0, 0, 0, 0, 0,
@@ -180,7 +200,7 @@ TEST_CASE_VARIANT("Matrix - SVD", "[Matrix]", TypesFloating, OrdersFollow, Layou
 		REQUIRE(ApproxVec(A1Tassembled) == Transpose(A1));
 
 		// The same matrix as the LU
-		MatrixT<3, 3> A2 = {
+		M33 A2 = {
 			3, -0.1f, -0.2f,
 			0.1f, 7, -0.3f,
 			0.3f, -0.2f, 10
