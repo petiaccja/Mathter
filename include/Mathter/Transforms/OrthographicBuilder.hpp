@@ -47,7 +47,7 @@ public:
 private:
 	template <class U, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
 	void Set(Matrix<U, Rows, Columns, Order, Layout, MPacked>& m) const {
-		using VectorT = Vector<T, Dim, false>;
+		using VectorT = Vector<T, Dim, Packed>;
 
 		VectorT volumeSize = maxBounds - minBounds;
 		VectorT scale = T(2) / volumeSize;

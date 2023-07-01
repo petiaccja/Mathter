@@ -10,6 +10,7 @@
 
 #include <complex>
 #include <iostream>
+#include <tuple>
 #include <type_traits>
 #include <typeinfo>
 
@@ -175,14 +176,17 @@ struct TestTypeList;
 
 template <class... Types, bool... Packed, mathter::eMatrixOrder... Orders, mathter::eMatrixLayout... Layouts>
 struct TestTypeList<TypeCases<Types...>, PackingCases<Packed...>, OrderCases<Orders...>, LayoutCases<Layouts...>> {
-	using type = typename impl::expand_types<TypeCases<Types...>, OrderCases<Orders...>, LayoutCases<Layouts...>, PackingCases<Packed...>>::type;
+	using type = typename expand_types<TypeCases<Types...>, OrderCases<Orders...>, LayoutCases<Layouts...>, PackingCases<Packed...>>::type;
 };
 
 
 } // namespace impl
 
 
-template <class TypeCasesT, class PackingCasesT, class OrderCasesT, class LayoutCasesT>
+template <class TypeCasesT,
+		  class PackingCasesT,
+		  class OrderCasesT = OrderCases<mathter::eMatrixOrder::FOLLOW_VECTOR>,
+		  class LayoutCasesT = LayoutCases<mathter::eMatrixLayout::ROW_MAJOR>>
 using TestTypeList = typename impl::TestTypeList<TypeCasesT, PackingCasesT, OrderCasesT, LayoutCasesT>::type;
 
 
