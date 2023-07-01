@@ -81,7 +81,7 @@ Quaternion<T, Packed> Inverse(const Quaternion<T, Packed>& q) {
 /// <summary> Check if the quaternion is a unit quaternion, with some tolerance for floats. </summary>
 template <class T, bool Packed>
 bool IsNormalized(const Quaternion<T, Packed>& q) {
-	return q.vec.IsNormalized();
+	return IsNormalized(q.vec);
 }
 
 

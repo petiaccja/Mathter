@@ -271,3 +271,13 @@ TEST_CASE_VEC_VARIANT("Quaternion - Pow", "[Quaternion]", TypesFloating, PackedA
 		REQUIRE(ApproxVec(p) == pexp);
 	}
 }
+
+TEST_CASE_VEC_VARIANT("Quaternion - Normalize", "[Quaternion]", TypesFloating, PackedAll) {
+	SECTION(SECTIONNAMEVEC) {
+		QuatT q(1.0f, 2.0f, 0.5f, -0.7f);
+
+		QuatT p = q.Normalize();
+
+		REQUIRE(p.IsNormalized());
+	}
+}
