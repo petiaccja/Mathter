@@ -276,8 +276,8 @@ TEST_CASE_VEC_VARIANT("Quaternion - Normalize", "[Quaternion]", TypesFloating, P
 	SECTION(SECTIONNAMEVEC) {
 		QuatT q(1.0f, 2.0f, 0.5f, -0.7f);
 
-		QuatT p = q.Normalize();
+		QuatT p = Normalize(q);
 
-		REQUIRE(p.IsNormalized());
+		REQUIRE(IsNormalized(p));
 	}
 }
