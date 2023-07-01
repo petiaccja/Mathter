@@ -5,21 +5,26 @@
 
 #pragma warning(disable : 4244)
 
-#include "TestGenerators.hpp"
+#include "../TestGenerators.hpp"
 
 #include <Mathter/Common/Approx.hpp>
 #include <Mathter/Matrix.hpp>
 
 #include <catch2/catch_approx.hpp>
+#include <catch2/catch_template_test_macros.hpp>
 #include <catch2/catch_test_macros.hpp>
 #include <complex>
 #include <cstring>
 #include <new>
 
 
+
 using namespace mathter;
 using Catch::Approx;
 
+
+using TypeListAll = TestTypeList<TypesFloating, PackedAll, OrdersAll, LayoutsAll>;
+using TypeListFloating = TestTypeList<TypesFloating, PackedAll, OrdersAll, LayoutsAll>;
 
 
 TEST_CASE("Matrix deterministic default initializer", "[Init]") {
@@ -49,14 +54,17 @@ TEST_CASE("Matrix deterministic default initializer", "[Init]") {
 
 
 
-TEST_CASE_VARIANT("Matrix - Constructor & indexer", "[Matrix]", TypesAll, OrdersAll, LayoutsAll, PackedAll) {
-	SECTION(SECTIONNAME) {
-		MatrixT<3, 3> m = {
+TEMPLATE_LIST_TEST_CASE("Matrix - Constructor & indexer", "[Matrix]", TypeListAll) {
+	SECTION(TestType::Name()) {
+		using M = typename TestType::template Matrix<3, 3>;
+		using Type = typename traits::MatrixTraits<M>::Type;
+
+		M m = {
 			Type(1), Type(2), Type(3),
 			Type(4), Type(5), Type(6),
 			Type(7), Type(8), Type(9)
 		};
-		MatrixT<3, 3> n;
+		M n;
 		n(0, 0) = Type(1);
 		n(0, 1) = Type(2);
 		n(0, 2) = Type(3);
@@ -72,27 +80,33 @@ TEST_CASE_VARIANT("Matrix - Constructor & indexer", "[Matrix]", TypesAll, Orders
 }
 
 
-TEST_CASE_VARIANT("Matrix - Converting constructor", "[Matrix]", TypesFloating, OrdersAll, LayoutsAll, PackedAll) {
-	SECTION(SECTIONNAME) {
+TEMPLATE_LIST_TEST_CASE("Matrix - Converting constructor", "[Matrix]", TypeListAll) {
+	SECTION(TestType::Name()) {
+		using M = typename TestType::template Matrix<3, 3>;
+		constexpr auto Order = traits::MatrixTraits<M>::Order;
+
 		Matrix<float, 3, 3, Order> m = {
 			1, 2, 3,
 			4, 5, 6,
 			7, 8, 9
 		};
-		MatrixT<3, 3> n = MatrixT<3, 3>(m);
-
+		const auto n = M(m);
 
 		REQUIRE(m == ApproxVec(n));
 	}
 }
 
 
-TEST_CASE_VARIANT("Matrix - Thin matrix from vector", "[Matrix]", TypesFloating, OrdersAll, LayoutsAll, PackedAll) {
-	SECTION(SECTIONNAME) {
-		Vector<Type, 3> v = { 1, 2, 3 };
+TEMPLATE_LIST_TEST_CASE("Matrix - Thin matrix from vector", "[Matrix]", TypeListAll) {
+	SECTION(TestType::Name()) {
+		using M13 = typename TestType::template Matrix<1, 3>;
+		using M31 = typename TestType::template Matrix<3, 1>;
+		using V = typename TestType::template Vector<3>;
 
-		MatrixT<3, 1> m1 = v;
-		MatrixT<1, 3> m2 = v;
+		V v = { 1, 2, 3 };
+
+		M31 m1 = v;
+		M13 m2 = v;
 
 		REQUIRE(m1(0, 0) == 1);
 		REQUIRE(m1(1, 0) == 2);
@@ -105,15 +119,19 @@ TEST_CASE_VARIANT("Matrix - Thin matrix from vector", "[Matrix]", TypesFloating,
 }
 
 
-TEST_CASE_VARIANT("Matrix - Thin matrix to vector", "[Matrix]", TypesFloating, OrdersAll, LayoutsAll, PackedAll) {
-	SECTION(SECTIONNAME) {
-		Vector<Type, 3> vexp = { 1, 2, 3 };
+TEMPLATE_LIST_TEST_CASE("Matrix - Thin matrix to vector", "[Matrix]", TypeListAll) {
+	SECTION(TestType::Name()) {
+		using M13 = typename TestType::template Matrix<1, 3>;
+		using M31 = typename TestType::template Matrix<3, 1>;
+		using V = typename TestType::template Vector<3>;
 
-		MatrixT<3, 1> m1 = { 1, 2, 3 };
-		MatrixT<1, 3> m2 = { 1, 2, 3 };
+		V vexp = { 1, 2, 3 };
 
-		Vector<Type, 3> v1 = m1;
-		Vector<Type, 3> v2 = m2;
+		M31 m1 = { 1, 2, 3 };
+		M13 m2 = { 1, 2, 3 };
+
+		V v1 = m1;
+		V v2 = m2;
 
 		REQUIRE(v1 == vexp);
 		REQUIRE(v2 == vexp);
@@ -121,10 +139,13 @@ TEST_CASE_VARIANT("Matrix - Thin matrix to vector", "[Matrix]", TypesFloating, O
 }
 
 
-TEST_CASE_VARIANT("Matrix - Thin matrix short indexing", "[Matrix]", TypesFloating, OrdersAll, LayoutsAll, PackedAll) {
-	SECTION(SECTIONNAME) {
-		MatrixT<3, 1> m1 = { 1, 2, 3 };
-		MatrixT<1, 3> m2 = { 1, 2, 3 };
+TEMPLATE_LIST_TEST_CASE("Matrix - Thin matrix short indexing", "[Matrix]", TypeListAll) {
+	SECTION(TestType::Name()) {
+		using M13 = typename TestType::template Matrix<1, 3>;
+		using M31 = typename TestType::template Matrix<3, 1>;
+
+		M31 m1 = { 1, 2, 3 };
+		M13 m2 = { 1, 2, 3 };
 
 		REQUIRE(m1(0) == 1);
 		REQUIRE(m1(1) == 2);
@@ -135,6 +156,7 @@ TEST_CASE_VARIANT("Matrix - Thin matrix short indexing", "[Matrix]", TypesFloati
 		REQUIRE(m2(2) == 3);
 	}
 }
+
 
 TEST_CASE("Matrix - Submatrix", "[Matrix]") {
 	Matrix<char, 5, 5> m1 = {

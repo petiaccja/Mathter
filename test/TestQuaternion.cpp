@@ -11,6 +11,7 @@
 #include <Mathter/Quaternion.hpp>
 
 #include <catch2/catch_approx.hpp>
+#include <catch2/catch_template_test_macros.hpp>
 #include <catch2/catch_test_macros.hpp>
 #include <cstring>
 #include <new>
@@ -19,6 +20,9 @@
 using namespace mathter;
 using namespace quat_literals;
 using Catch::Approx;
+
+
+using TypeListFloating = TestTypeList<TypesFloating, PackedAll>;
 
 
 // Expected results based on:
@@ -50,21 +54,24 @@ TEST_CASE("Quaternion deterministic default initializer", "[Init]") {
 }
 
 
-TEST_CASE_VEC_VARIANT("Quaternion - Ctor", "[Quaternion]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		QuatT q1(1, 2, 3, 4);
+TEMPLATE_LIST_TEST_CASE("Quaternion - Ctor", "[Quaternion]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Quat = typename TestType::Quat;
+
+		Quat q1(1, 2, 3, 4);
 		REQUIRE(q1.w == 1);
 		REQUIRE(q1.x == 2);
 		REQUIRE(q1.y == 3);
 		REQUIRE(q1.z == 4);
 
-		QuatT q2(1.f, VectorT<3>{ 2, 3, 4 });
+		Quat q2(1.f, Vec3{ 2, 3, 4 });
 		REQUIRE(q2.w == 1);
 		REQUIRE(q2.x == 2);
 		REQUIRE(q2.y == 3);
 		REQUIRE(q2.z == 4);
 
-		QuatT q3(VectorT<3>{ 2, 3, 4 });
+		Quat q3(Vec3{ 2, 3, 4 });
 		REQUIRE(q3.w == 0);
 		REQUIRE(q3.x == 2);
 		REQUIRE(q3.y == 3);
@@ -73,31 +80,40 @@ TEST_CASE_VEC_VARIANT("Quaternion - Ctor", "[Quaternion]", TypesFloating, Packed
 }
 
 
-TEST_CASE_VEC_VARIANT("Quaternion - AxisAngle", "[Quaternion]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		QuatT q = RotationAxisAngle(Normalize(VectorT<3>{ 1, 2, 3 }), 0.83f);
-		QuatT qexp = { 0.9151163f, 0.107757f, 0.2155141f, 0.3232711f };
+TEMPLATE_LIST_TEST_CASE("Quaternion - AxisAngle", "[Quaternion]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Quat = typename TestType::Quat;
+
+		Quat q = RotationAxisAngle(Normalize(Vec3{ 1, 2, 3 }), 0.83f);
+		Quat qexp = { 0.9151163f, 0.107757f, 0.2155141f, 0.3232711f };
 		REQUIRE(ApproxVec(q) == qexp);
 	}
 }
 
-TEST_CASE_VEC_VARIANT("Quaternion - TriAxis", "[Quaternion]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		QuatT q = RotationAxis3<1, 2, 0>(1.0f, 0.8f, 1.2f);
-		QuatT qexp = QuatT(RotationAxisAngle(VectorT<3>{ 1, 0, 0 }, 1.2f))
-					 * QuatT(RotationAxisAngle(VectorT<3>{ 0, 0, 1 }, 0.8f))
-					 * QuatT(RotationAxisAngle(VectorT<3>{ 0, 1, 0 }, 1.0f));
+TEMPLATE_LIST_TEST_CASE("Quaternion - TriAxis", "[Quaternion]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Quat = typename TestType::Quat;
+
+		Quat q = RotationAxis3<1, 2, 0>(1.0f, 0.8f, 1.2f);
+		Quat qexp = Quat(RotationAxisAngle(Vec3{ 1, 0, 0 }, 1.2f))
+					* Quat(RotationAxisAngle(Vec3{ 0, 0, 1 }, 0.8f))
+					* Quat(RotationAxisAngle(Vec3{ 0, 1, 0 }, 1.0f));
 		REQUIRE(ApproxVec(q) == qexp);
 	}
 }
 
-TEST_CASE_VEC_VARIANT("Quaternion - QueryAxisAngle", "[Quaternion]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		VectorT<3> axis = { 1, 2, 3 };
+TEMPLATE_LIST_TEST_CASE("Quaternion - QueryAxisAngle", "[Quaternion]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Quat = typename TestType::Quat;
+
+		Vec3 axis = { 1, 2, 3 };
 		axis = Normalize(axis);
 		float angle = 0.83f;
 
-		QuatT q = RotationAxisAngle(axis, angle);
+		Quat q = RotationAxisAngle(axis, angle);
 
 		REQUIRE(ApproxVec(axis) == q.Axis());
 		REQUIRE(Approx(angle) == q.Angle());
@@ -112,9 +128,13 @@ TEST_CASE_VEC_VARIANT("Quaternion - QueryAxisAngle", "[Quaternion]", TypesFloati
 
 
 
-TEST_CASE_VEC_VARIANT("Quaternion - ToMatrix", "[Quaternion]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		QuatT q = { 0.9151163f, 0.107757f, 0.2155141f, 0.3232711f };
+TEMPLATE_LIST_TEST_CASE("Quaternion - ToMatrix", "[Quaternion]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Quat = typename TestType::Quat;
+		using Type = typename traits::VectorTraits<Vec3>::Type;
+
+		Quat q = { 0.9151163f, 0.107757f, 0.2155141f, 0.3232711f };
 		Matrix<Type, 3, 3, eMatrixOrder::PRECEDE_VECTOR> m331 = (decltype(m331))q;
 		Matrix<Type, 3, 3, eMatrixOrder::FOLLOW_VECTOR> m332 = (decltype(m332))q;
 		Matrix<Type, 3, 4, eMatrixOrder::PRECEDE_VECTOR> m43 = (decltype(m43))q;
@@ -162,9 +182,13 @@ TEST_CASE_VEC_VARIANT("Quaternion - ToMatrix", "[Quaternion]", TypesFloating, Pa
 
 
 // Only works if ToMatrix works.
-TEST_CASE_VEC_VARIANT("Quaternion - FromMatrix", "[Quaternion]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		QuatT q = { 0.9151163f, 0.107757f, 0.2155141f, 0.3232711f };
+TEMPLATE_LIST_TEST_CASE("Quaternion - FromMatrix", "[Quaternion]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Quat = typename TestType::Quat;
+		using Type = typename traits::VectorTraits<Vec3>::Type;
+
+		Quat q = { 0.9151163f, 0.107757f, 0.2155141f, 0.3232711f };
 		Matrix<Type, 3, 3, eMatrixOrder::PRECEDE_VECTOR> m331 = (decltype(m331))q;
 		Matrix<Type, 3, 3, eMatrixOrder::FOLLOW_VECTOR> m332 = (decltype(m332))q;
 		Matrix<Type, 3, 4, eMatrixOrder::PRECEDE_VECTOR> m43 = (decltype(m43))q;
@@ -172,24 +196,26 @@ TEST_CASE_VEC_VARIANT("Quaternion - FromMatrix", "[Quaternion]", TypesFloating, 
 		Matrix<Type, 4, 4, eMatrixOrder::PRECEDE_VECTOR> m441 = (decltype(m441))q;
 		Matrix<Type, 4, 4, eMatrixOrder::FOLLOW_VECTOR> m442 = (decltype(m442))q;
 
-		REQUIRE(ApproxVec(q) == QuatT(m331));
-		REQUIRE(ApproxVec(q) == QuatT(m332));
-		REQUIRE(ApproxVec(q) == QuatT(m43));
-		REQUIRE(ApproxVec(q) == QuatT(m34));
-		REQUIRE(ApproxVec(q) == QuatT(m441));
-		REQUIRE(ApproxVec(q) == QuatT(m442));
+		REQUIRE(ApproxVec(q) == Quat(m331));
+		REQUIRE(ApproxVec(q) == Quat(m332));
+		REQUIRE(ApproxVec(q) == Quat(m43));
+		REQUIRE(ApproxVec(q) == Quat(m34));
+		REQUIRE(ApproxVec(q) == Quat(m441));
+		REQUIRE(ApproxVec(q) == Quat(m442));
 	}
 }
 
 
-TEST_CASE_VEC_VARIANT("Quaternion - AddSub", "[Quaternion]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		QuatT q1 = { 1, 2, 3, 4 };
-		QuatT q2 = { 4, 5, 6, 3 };
-		QuatT q3 = q1 + q2;
-		QuatT q4 = q1 - q2;
-		QuatT q3exp = { 5, 7, 9, 7 };
-		QuatT q4exp = { -3, -3, -3, 1 };
+TEMPLATE_LIST_TEST_CASE("Quaternion - AddSub", "[Quaternion]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Quat = typename TestType::Quat;
+
+		Quat q1 = { 1, 2, 3, 4 };
+		Quat q2 = { 4, 5, 6, 3 };
+		Quat q3 = q1 + q2;
+		Quat q4 = q1 - q2;
+		Quat q3exp = { 5, 7, 9, 7 };
+		Quat q4exp = { -3, -3, -3, 1 };
 
 		REQUIRE(ApproxVec(q3exp) == q3);
 		REQUIRE(ApproxVec(q4exp) == q4);
@@ -198,24 +224,31 @@ TEST_CASE_VEC_VARIANT("Quaternion - AddSub", "[Quaternion]", TypesFloating, Pack
 
 
 
-TEST_CASE_VEC_VARIANT("Quaternion - Product", "[Quaternion]", TypeCases<double>, PackingCases<false>) {
-	SECTION(SECTIONNAMEVEC) {
-		QuatT q1 = { 1, 2, 3, 4 };
-		QuatT q2 = { 4, 5, 6, 3 };
-		QuatT q3 = q1 * q2;
-		QuatT q3exp = -36 + -2_i + 32_j + 16_k; // dont use this notation, I wrote it just for fun
+TEMPLATE_LIST_TEST_CASE("Quaternion - Product", "[Quaternion]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Quat = typename TestType::Quat;
+
+		Quat q1 = { 1, 2, 3, 4 };
+		Quat q2 = { 4, 5, 6, 3 };
+		Quat q3 = q1 * q2;
+		Quat q3exp = -36 + -2_i + 32_j + 16_k; // dont use this notation, I wrote it just for fun
 
 		REQUIRE(ApproxVec(q3exp) == q3);
 	}
 }
 
 
-TEST_CASE_VEC_VARIANT("Quaternion - VectorRotation", "[Quaternion]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		QuatT q = RotationAxisAngle(Normalize(VectorT<3>{ 1, 2, 3 }), 0.83f);
-		Matrix<Type, 3, 3, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, Packed> M = RotationAxisAngle(Normalize(VectorT<3>{ 1, 2, 3 }), 0.83f);
+TEMPLATE_LIST_TEST_CASE("Quaternion - VectorRotation", "[Quaternion]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Quat = typename TestType::Quat;
+		using Type = typename traits::VectorTraits<Vec3>::Type;
+		constexpr auto Packed = traits::VectorTraits<Vec3>::Packed;
 
-		VectorT<3> v = { 3, 2, 6 };
+		Quat q = RotationAxisAngle(Normalize(Vec3{ 1, 2, 3 }), 0.83f);
+		Matrix<Type, 3, 3, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, Packed> M = RotationAxisAngle(Normalize(Vec3{ 1, 2, 3 }), 0.83f);
+
+		Vec3 v = { 3, 2, 6 };
 
 		auto v1 = v * q;
 		auto v2 = v * M;
@@ -225,21 +258,25 @@ TEST_CASE_VEC_VARIANT("Quaternion - VectorRotation", "[Quaternion]", TypesFloati
 }
 
 
-TEST_CASE_VEC_VARIANT("Quaternion - Chaining", "[Quaternion]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		VectorT<3> axis1 = { 1, 2, 3 };
-		VectorT<3> axis2 = { 3, 1, 2 };
+TEMPLATE_LIST_TEST_CASE("Quaternion - Chaining", "[Quaternion]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using M33 = typename TestType::template Matrix<3, 3>;
+		using Quat = typename TestType::Quat;
+
+		Vec3 axis1 = { 1, 2, 3 };
+		Vec3 axis2 = { 3, 1, 2 };
 		axis1 = Normalize(axis1);
 		axis2 = Normalize(axis2);
 		float angle1 = 0.83f;
 		float angle2 = 1.92f;
 
-		QuatT q1 = RotationAxisAngle(axis1, angle1);
-		QuatT q2 = RotationAxisAngle(axis2, angle2);
-		Matrix<Type, 3, 3, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, Packed> M1 = RotationAxisAngle(axis1, angle1);
-		Matrix<Type, 3, 3, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, Packed> M2 = RotationAxisAngle(axis2, angle2);
+		Quat q1 = RotationAxisAngle(axis1, angle1);
+		Quat q2 = RotationAxisAngle(axis2, angle2);
+		M33 M1 = RotationAxisAngle(axis1, angle1);
+		M33 M2 = RotationAxisAngle(axis2, angle2);
 
-		VectorT<3> v = { 3, 2, 6 };
+		Vec3 v = { 3, 2, 6 };
 
 		auto v1 = v * (q2 * q1);
 		auto v2 = v * (M1 * M2);
@@ -250,33 +287,42 @@ TEST_CASE_VEC_VARIANT("Quaternion - Chaining", "[Quaternion]", TypesFloating, Pa
 
 
 
-TEST_CASE_VEC_VARIANT("Quaternion - ExpLog", "[Quaternion]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		QuatT q(1.0f, 2.0f, 0.5f, -0.7f);
+TEMPLATE_LIST_TEST_CASE("Quaternion - ExpLog", "[Quaternion]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Quat = typename TestType::Quat;
 
-		QuatT p = Exp(Log(q));
+		Quat q(1.0f, 2.0f, 0.5f, -0.7f);
+
+		Quat p = Exp(Log(q));
 
 		REQUIRE(ApproxVec(q) == p);
 	}
 }
 
 
-TEST_CASE_VEC_VARIANT("Quaternion - Pow", "[Quaternion]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		QuatT q(1.0f, 2.0f, 0.5f, -0.7f);
+TEMPLATE_LIST_TEST_CASE("Quaternion - Pow", "[Quaternion]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Quat = typename TestType::Quat;
+		using Type = typename traits::VectorTraits<Vec3>::Type;
 
-		QuatT p = Pow(q, Type(3));
-		QuatT pexp = q * q * q;
+		Quat q(1.0f, 2.0f, 0.5f, -0.7f);
+
+		Quat p = Pow(q, Type(3));
+		Quat pexp = q * q * q;
 
 		REQUIRE(ApproxVec(p) == pexp);
 	}
 }
 
-TEST_CASE_VEC_VARIANT("Quaternion - Normalize", "[Quaternion]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		QuatT q(1.0f, 2.0f, 0.5f, -0.7f);
 
-		QuatT p = Normalize(q);
+TEMPLATE_LIST_TEST_CASE("Quaternion - Normalize", "[Quaternion]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Quat = typename TestType::Quat;
+
+		Quat q(1.0f, 2.0f, 0.5f, -0.7f);
+
+		Quat p = Normalize(q);
 
 		REQUIRE(IsNormalized(p));
 	}

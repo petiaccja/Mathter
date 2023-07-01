@@ -228,3 +228,5 @@ _Pvt_Extensions
 
 CMakeUserPresets.json
 .vscode/
+
+.cache/
