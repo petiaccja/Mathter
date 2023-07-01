@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include "../Common/Definitions.hpp"
 #include "../Common/Range.hpp"
 
 
