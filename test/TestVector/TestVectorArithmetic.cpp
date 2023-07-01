@@ -11,75 +11,92 @@
 #include <Mathter/Vector.hpp>
 
 #include <catch2/catch_approx.hpp>
+#include <catch2/catch_template_test_macros.hpp>
 #include <catch2/catch_test_macros.hpp>
 
 using namespace mathter;
 using Catch::Approx;
 
 
+using TypeListAll = TestTypeList<TypesAll, PackedAll>;
+using TypeListFloating = TestTypeList<TypesFloating, PackedAll>;
+
+
 //------------------------------------------------------------------------------
 // Vector-vector
 //------------------------------------------------------------------------------
 
-TEST_CASE_VEC_VARIANT("Vector - Vector-vector add", "[Vector]", TypesAll, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		VectorT<3> a3(1, 2, 3);
-		VectorT<3> b3(4, 5, 6);
-		VectorT<3> c3(5, 7, 9);
+TEMPLATE_LIST_TEST_CASE("Vector - Vector-vector add", "[Vector]", TypeListAll) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+
+		Vec3 a3(1, 2, 3);
+		Vec3 b3(4, 5, 6);
+		Vec3 c3(5, 7, 9);
 
 		REQUIRE(a3 + b3 == c3);
 
-		VectorT<5> a5(1, 2, 3, 4, 5);
-		VectorT<5> b5(4, 5, 6, 7, 8);
-		VectorT<5> c5(5, 7, 9, 11, 13);
+		Vec5 a5(1, 2, 3, 4, 5);
+		Vec5 b5(4, 5, 6, 7, 8);
+		Vec5 c5(5, 7, 9, 11, 13);
 
 		REQUIRE(a5 + b5 == c5);
 	}
 }
 
-TEST_CASE_VEC_VARIANT("Vector - Vector-vector sub", "[Vector]", TypesAll, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		VectorT<3> a3(1, 2, 3);
-		VectorT<3> b3(4, 5, 6);
-		VectorT<3> c3(-3, -3, -3);
+TEMPLATE_LIST_TEST_CASE("Vector - Vector-vector sub", "[Vector]", TypeListAll) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+
+		Vec3 a3(1, 2, 3);
+		Vec3 b3(4, 5, 6);
+		Vec3 c3(-3, -3, -3);
 
 		REQUIRE(a3 - b3 == c3);
 
-		VectorT<5> a5(1, 2, 3, 4, 5);
-		VectorT<5> b5(4, 5, 6, 7, 8);
-		VectorT<5> c5(-3, -3, -3, -3, -3);
+		Vec5 a5(1, 2, 3, 4, 5);
+		Vec5 b5(4, 5, 6, 7, 8);
+		Vec5 c5(-3, -3, -3, -3, -3);
 
 		REQUIRE(a5 - b5 == c5);
 	}
 }
 
-TEST_CASE_VEC_VARIANT("Vector - Vector-vector multiply", "[Vector]", TypesAll, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		VectorT<3> a3(1, 2, 3);
-		VectorT<3> b3(4, 5, 6);
-		VectorT<3> c3(4, 10, 18);
+TEMPLATE_LIST_TEST_CASE("Vector - Vector-vector multiply", "[Vector]", TypeListAll) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+
+		Vec3 a3(1, 2, 3);
+		Vec3 b3(4, 5, 6);
+		Vec3 c3(4, 10, 18);
 
 		REQUIRE(a3 * b3 == c3);
 
-		VectorT<5> a5(1, 2, 3, 4, 5);
-		VectorT<5> b5(4, 5, 6, 7, 8);
-		VectorT<5> c5(4, 10, 18, 28, 40);
+		Vec5 a5(1, 2, 3, 4, 5);
+		Vec5 b5(4, 5, 6, 7, 8);
+		Vec5 c5(4, 10, 18, 28, 40);
 
 		REQUIRE(a5 * b5 == c5);
 	}
 }
 
-TEST_CASE_VEC_VARIANT("Vector - Vector-vector div", "[Vector]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		VectorT<3> a3(1, 2, 3);
-		VectorT<3> b3(4, 5, 6);
-		VectorT<3> c3(0.25f, 0.4f, 0.5f);
+TEMPLATE_LIST_TEST_CASE("Vector - Vector-vector div", "[Vector]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+
+		Vec3 a3(1, 2, 3);
+		Vec3 b3(4, 5, 6);
+		Vec3 c3(0.25f, 0.4f, 0.5f);
 
 		REQUIRE(a3 / b3 == ApproxVec(c3));
 
-		VectorT<5> a5(2, 6, 6, 12, 10);
-		VectorT<5> b5(1, 2, 3, 4, 5);
-		VectorT<5> c5(2, 3, 2, 3, 2);
+		Vec5 a5(2, 6, 6, 12, 10);
+		Vec5 b5(1, 2, 3, 4, 5);
+		Vec5 c5(2, 3, 2, 3, 2);
 
 		REQUIRE(a5 / b5 == ApproxVec(c5));
 	}
@@ -87,65 +104,77 @@ TEST_CASE_VEC_VARIANT("Vector - Vector-vector div", "[Vector]", TypesFloating, P
 
 
 
-TEST_CASE_VEC_VARIANT("Vector - Vector-vector compound add", "[Vector]", TypesAll, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		VectorT<3> a3(1, 2, 3);
-		VectorT<3> b3(4, 5, 6);
-		VectorT<3> c3(5, 7, 9);
+TEMPLATE_LIST_TEST_CASE("Vector - Vector-vector compound add", "[Vector]", TypeListAll) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+
+		Vec3 a3(1, 2, 3);
+		Vec3 b3(4, 5, 6);
+		Vec3 c3(5, 7, 9);
 		a3 += b3;
 		REQUIRE(a3 == c3);
 
-		VectorT<5> a5(1, 2, 3, 4, 5);
-		VectorT<5> b5(4, 5, 6, 7, 8);
-		VectorT<5> c5(5, 7, 9, 11, 13);
+		Vec5 a5(1, 2, 3, 4, 5);
+		Vec5 b5(4, 5, 6, 7, 8);
+		Vec5 c5(5, 7, 9, 11, 13);
 		a5 += b5;
 		REQUIRE(a5 == c5);
 	}
 }
 
-TEST_CASE_VEC_VARIANT("Vector - Vector-vector compound sub", "[Vector]", TypesAll, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		VectorT<3> a3(1, 2, 3);
-		VectorT<3> b3(4, 5, 6);
-		VectorT<3> c3(-3, -3, -3);
+TEMPLATE_LIST_TEST_CASE("Vector - Vector-vector compound sub", "[Vector]", TypeListAll) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+
+		Vec3 a3(1, 2, 3);
+		Vec3 b3(4, 5, 6);
+		Vec3 c3(-3, -3, -3);
 		a3 -= b3;
 		REQUIRE(a3 == c3);
 
-		VectorT<5> a5(1, 2, 3, 4, 5);
-		VectorT<5> b5(4, 5, 6, 7, 8);
-		VectorT<5> c5(-3, -3, -3, -3, -3);
+		Vec5 a5(1, 2, 3, 4, 5);
+		Vec5 b5(4, 5, 6, 7, 8);
+		Vec5 c5(-3, -3, -3, -3, -3);
 		a5 -= b5;
 		REQUIRE(a5 == c5);
 	}
 }
 
-TEST_CASE_VEC_VARIANT("Vector - Vector-vector compound multiply", "[Vector]", TypesAll, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		VectorT<3> a3(1, 2, 3);
-		VectorT<3> b3(4, 5, 6);
-		VectorT<3> c3(4, 10, 18);
+TEMPLATE_LIST_TEST_CASE("Vector - Vector-vector compound multiply", "[Vector]", TypeListAll) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+
+		Vec3 a3(1, 2, 3);
+		Vec3 b3(4, 5, 6);
+		Vec3 c3(4, 10, 18);
 		a3 *= b3;
 		REQUIRE(a3 == c3);
 
-		VectorT<5> a5(1, 2, 3, 4, 5);
-		VectorT<5> b5(4, 5, 6, 7, 8);
-		VectorT<5> c5(4, 10, 18, 28, 40);
+		Vec5 a5(1, 2, 3, 4, 5);
+		Vec5 b5(4, 5, 6, 7, 8);
+		Vec5 c5(4, 10, 18, 28, 40);
 		a5 *= b5;
 		REQUIRE(a5 == c5);
 	}
 }
 
-TEST_CASE_VEC_VARIANT("Vector - Vector-vector compound div", "[Vector]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		VectorT<3> a3(1, 2, 3);
-		VectorT<3> b3(4, 5, 6);
-		VectorT<3> c3(0.25f, 0.4f, 0.5f);
+TEMPLATE_LIST_TEST_CASE("Vector - Vector-vector compound div", "[Vector]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+
+		Vec3 a3(1, 2, 3);
+		Vec3 b3(4, 5, 6);
+		Vec3 c3(0.25f, 0.4f, 0.5f);
 		a3 /= b3;
 		REQUIRE(a3 == ApproxVec(c3));
 
-		VectorT<5> a5(2, 6, 6, 12, 10);
-		VectorT<5> b5(1, 2, 3, 4, 5);
-		VectorT<5> c5(2, 3, 2, 3, 2);
+		Vec5 a5(2, 6, 6, 12, 10);
+		Vec5 b5(1, 2, 3, 4, 5);
+		Vec5 c5(2, 3, 2, 3, 2);
 		a5 /= b5;
 		REQUIRE(a5 == ApproxVec(c5));
 	}
@@ -157,65 +186,81 @@ TEST_CASE_VEC_VARIANT("Vector - Vector-vector compound div", "[Vector]", TypesFl
 // Vector-scalar
 //------------------------------------------------------------------------------
 
-TEST_CASE_VEC_VARIANT("Vector - Vector-scalar add", "[Vector]", TypesAll, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
+TEMPLATE_LIST_TEST_CASE("Vector - Vector-scalar add", "[Vector]", TypeListAll) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+		using Type = typename traits::VectorTraits<Vec3>::Type;
+
 		Type b = 4;
 
-		VectorT<3> a3(1, 2, 3);
-		VectorT<3> c3(5, 6, 7);
+		Vec3 a3(1, 2, 3);
+		Vec3 c3(5, 6, 7);
 
 		REQUIRE(a3 + b == c3);
 
-		VectorT<5> a5(1, 2, 3, 4, 5);
-		VectorT<5> c5(5, 6, 7, 8, 9);
+		Vec5 a5(1, 2, 3, 4, 5);
+		Vec5 c5(5, 6, 7, 8, 9);
 
 		REQUIRE(a5 + b == c5);
 	}
 }
 
-TEST_CASE_VEC_VARIANT("Vector - Vector-scalar sub", "[Vector]", TypesAll, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
+TEMPLATE_LIST_TEST_CASE("Vector - Vector-scalar sub", "[Vector]", TypeListAll) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+		using Type = typename traits::VectorTraits<Vec3>::Type;
+
 		Type b = 4;
 
-		VectorT<3> a3(1, 2, 3);
-		VectorT<3> c3(-3, -2, -1);
+		Vec3 a3(1, 2, 3);
+		Vec3 c3(-3, -2, -1);
 
 		REQUIRE(a3 - b == c3);
 
-		VectorT<5> a5(1, 2, 3, 4, 5);
-		VectorT<5> c5(-3, -2, -1, 0, 1);
+		Vec5 a5(1, 2, 3, 4, 5);
+		Vec5 c5(-3, -2, -1, 0, 1);
 
 		REQUIRE(a5 - b == c5);
 	}
 }
 
-TEST_CASE_VEC_VARIANT("Vector - Vector-scalar multiply", "[Vector]", TypesAll, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
+TEMPLATE_LIST_TEST_CASE("Vector - Vector-scalar multiply", "[Vector]", TypeListAll) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+		using Type = typename traits::VectorTraits<Vec3>::Type;
+
 		Type b = 4;
 
-		VectorT<3> a3(1, 2, 3);
-		VectorT<3> c3(4, 8, 12);
+		Vec3 a3(1, 2, 3);
+		Vec3 c3(4, 8, 12);
 
 		REQUIRE(a3 * b == c3);
 
-		VectorT<5> a5(1, 2, 3, 4, 5);
-		VectorT<5> c5(4, 8, 12, 16, 20);
+		Vec5 a5(1, 2, 3, 4, 5);
+		Vec5 c5(4, 8, 12, 16, 20);
 
 		REQUIRE(a5 * b == c5);
 	}
 }
 
-TEST_CASE_VEC_VARIANT("Vector - Vector-scalar div", "[Vector]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
+TEMPLATE_LIST_TEST_CASE("Vector - Vector-scalar div", "[Vector]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+		using Type = typename traits::VectorTraits<Vec3>::Type;
+
 		Type b = 4;
 
-		VectorT<3> a3(4, 8, 12);
-		VectorT<3> c3(1, 2, 3);
+		Vec3 a3(4, 8, 12);
+		Vec3 c3(1, 2, 3);
 
 		REQUIRE(a3 / b == c3);
 
-		VectorT<5> a5(4, 8, 12, 16, 20);
-		VectorT<5> c5(1, 2, 3, 4, 5);
+		Vec5 a5(4, 8, 12, 16, 20);
+		Vec5 c5(1, 2, 3, 4, 5);
 
 		REQUIRE(a5 / b == c5);
 	}
@@ -223,65 +268,81 @@ TEST_CASE_VEC_VARIANT("Vector - Vector-scalar div", "[Vector]", TypesFloating, P
 
 
 
-TEST_CASE_VEC_VARIANT("Vector - Vector-scalar compound add", "[Vector]", TypesAll, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
+TEMPLATE_LIST_TEST_CASE("Vector - Vector-scalar compound add", "[Vector]", TypeListAll) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+		using Type = typename traits::VectorTraits<Vec3>::Type;
+
 		Type b = 4;
 
-		VectorT<3> a3(1, 2, 3);
-		VectorT<3> c3(5, 6, 7);
+		Vec3 a3(1, 2, 3);
+		Vec3 c3(5, 6, 7);
 		a3 += b;
 		REQUIRE(a3 == c3);
 
-		VectorT<5> a5(1, 2, 3, 4, 5);
-		VectorT<5> c5(5, 6, 7, 8, 9);
+		Vec5 a5(1, 2, 3, 4, 5);
+		Vec5 c5(5, 6, 7, 8, 9);
 		a5 += b;
 		REQUIRE(a5 == c5);
 	}
 }
 
-TEST_CASE_VEC_VARIANT("Vector - Vector-scalar compound sub", "[Vector]", TypesAll, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
+TEMPLATE_LIST_TEST_CASE("Vector - Vector-scalar compound sub", "[Vector]", TypeListAll) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+		using Type = typename traits::VectorTraits<Vec3>::Type;
+
 		Type b = 4;
 
-		VectorT<3> a3(1, 2, 3);
-		VectorT<3> c3(-3, -2, -1);
+		Vec3 a3(1, 2, 3);
+		Vec3 c3(-3, -2, -1);
 		a3 -= b;
 		REQUIRE(a3 == c3);
 
-		VectorT<5> a5(1, 2, 3, 4, 5);
-		VectorT<5> c5(-3, -2, -1, 0, 1);
+		Vec5 a5(1, 2, 3, 4, 5);
+		Vec5 c5(-3, -2, -1, 0, 1);
 		a5 -= b;
 		REQUIRE(a5 == c5);
 	}
 }
 
-TEST_CASE_VEC_VARIANT("Vector - Vector-scalar compound multiply", "[Vector]", TypesAll, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
+TEMPLATE_LIST_TEST_CASE("Vector - Vector-scalar compound multiply", "[Vector]", TypeListAll) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+		using Type = typename traits::VectorTraits<Vec3>::Type;
+
 		Type b = 4;
 
-		VectorT<3> a3(1, 2, 3);
-		VectorT<3> c3(4, 8, 12);
+		Vec3 a3(1, 2, 3);
+		Vec3 c3(4, 8, 12);
 		a3 *= b;
 		REQUIRE(a3 == c3);
 
-		VectorT<5> a5(1, 2, 3, 4, 5);
-		VectorT<5> c5(4, 8, 12, 16, 20);
+		Vec5 a5(1, 2, 3, 4, 5);
+		Vec5 c5(4, 8, 12, 16, 20);
 		a5 *= b;
 		REQUIRE(a5 == c5);
 	}
 }
 
-TEST_CASE_VEC_VARIANT("Vector - Vector-scalar compound div", "[Vector]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
+TEMPLATE_LIST_TEST_CASE("Vector - Vector-scalar compound div", "[Vector]", TypeListAll) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+		using Type = typename traits::VectorTraits<Vec3>::Type;
+
 		Type b = 4;
 
-		VectorT<3> a3(4, 8, 12);
-		VectorT<3> c3(1, 2, 3);
+		Vec3 a3(4, 8, 12);
+		Vec3 c3(1, 2, 3);
 		a3 /= b;
 		REQUIRE(a3 == c3);
 
-		VectorT<5> a5(4, 8, 12, 16, 20);
-		VectorT<5> c5(1, 2, 3, 4, 5);
+		Vec5 a5(4, 8, 12, 16, 20);
+		Vec5 c5(1, 2, 3, 4, 5);
 		a5 /= b;
 		REQUIRE(a5 == c5);
 	}
@@ -289,65 +350,81 @@ TEST_CASE_VEC_VARIANT("Vector - Vector-scalar compound div", "[Vector]", TypesFl
 
 
 
-TEST_CASE_VEC_VARIANT("Vector - Vector-scalar reverse add", "[Vector]", TypesAll, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
+TEMPLATE_LIST_TEST_CASE("Vector - Vector-scalar reverse add", "[Vector]", TypeListAll) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+		using Type = typename traits::VectorTraits<Vec3>::Type;
+
 		Type b = 4;
 
-		VectorT<3> a3(1, 2, 3);
-		VectorT<3> c3(5, 6, 7);
+		Vec3 a3(1, 2, 3);
+		Vec3 c3(5, 6, 7);
 
 		REQUIRE(b + a3 == c3);
 
-		VectorT<5> a5(1, 2, 3, 4, 5);
-		VectorT<5> c5(5, 6, 7, 8, 9);
+		Vec5 a5(1, 2, 3, 4, 5);
+		Vec5 c5(5, 6, 7, 8, 9);
 
 		REQUIRE(b + a5 == c5);
 	}
 }
 
-TEST_CASE_VEC_VARIANT("Vector - Vector-scalar reverse sub", "[Vector]", TypesAll, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
+TEMPLATE_LIST_TEST_CASE("Vector - Vector-scalar reverse sub", "[Vector]", TypeListAll) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+		using Type = typename traits::VectorTraits<Vec3>::Type;
+
 		Type b = 4;
 
-		VectorT<3> a3(1, 2, 3);
-		VectorT<3> c3(-3, -2, -1);
+		Vec3 a3(1, 2, 3);
+		Vec3 c3(-3, -2, -1);
 
 		REQUIRE(b - a3 == -c3);
 
-		VectorT<5> a5(1, 2, 3, 4, 5);
-		VectorT<5> c5(-3, -2, -1, 0, 1);
+		Vec5 a5(1, 2, 3, 4, 5);
+		Vec5 c5(-3, -2, -1, 0, 1);
 
 		REQUIRE(b - a5 == -c5);
 	}
 }
 
-TEST_CASE_VEC_VARIANT("Vector - Vector-scalar reverse multiply", "[Vector]", TypesAll, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
+TEMPLATE_LIST_TEST_CASE("Vector - Vector-scalar reverse multiply", "[Vector]", TypeListAll) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+		using Type = typename traits::VectorTraits<Vec3>::Type;
+
 		Type b = 4;
 
-		VectorT<3> a3(1, 2, 3);
-		VectorT<3> c3(4, 8, 12);
+		Vec3 a3(1, 2, 3);
+		Vec3 c3(4, 8, 12);
 
 		REQUIRE(b * a3 == c3);
 
-		VectorT<5> a5(1, 2, 3, 4, 5);
-		VectorT<5> c5(4, 8, 12, 16, 20);
+		Vec5 a5(1, 2, 3, 4, 5);
+		Vec5 c5(4, 8, 12, 16, 20);
 
 		REQUIRE(b * a5 == c5);
 	}
 }
 
-TEST_CASE_VEC_VARIANT("Vector - Vector-scalar reverse div", "[Vector]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
+TEMPLATE_LIST_TEST_CASE("Vector - Vector-scalar reverse div", "[Vector]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+		using Type = typename traits::VectorTraits<Vec3>::Type;
+
 		Type b = 4;
 
-		VectorT<3> a3(4, 8, 12);
-		VectorT<3> c3(1, 1.0 / 2.0, 1.0 / 3.0);
+		Vec3 a3(4, 8, 12);
+		Vec3 c3(1, 1.0 / 2.0, 1.0 / 3.0);
 
 		REQUIRE(b / a3 == c3);
 
-		VectorT<5> a5(4, 8, 12, 16, 20);
-		VectorT<5> c5(1, 1.0f / 2.0, 1.0f / 3.0, 1.0f / 4.0, 1.0f / 5.0);
+		Vec5 a5(4, 8, 12, 16, 20);
+		Vec5 c5(1, 1.0f / 2.0, 1.0f / 3.0, 1.0f / 4.0, 1.0f / 5.0);
 
 		REQUIRE(b / a5 == c5);
 	}
@@ -357,90 +434,138 @@ TEST_CASE_VEC_VARIANT("Vector - Vector-scalar reverse div", "[Vector]", TypesFlo
 // Swizzle
 //------------------------------------------------------------------------------
 
-#define TEST_CASE_SWIZZLE_VECTOR_OP(NAME, OPERATOR)                                                \
-	TEST_CASE_VEC_VARIANT("Vector - Swizzle-vector " NAME, "[Vector]", TypesFloating, PackedAll) { \
-		VectorT<3> v1 = { 1, 2, 3 };                                                               \
-		VectorT<3> v2 = { 1, 4, -2 };                                                              \
-		VectorT<3> r = v1.xyz OPERATOR v2;                                                         \
-		VectorT<3> e = v1 OPERATOR v2;                                                             \
-		REQUIRE(r == e);                                                                           \
+#define TEST_CASE_SWIZZLE_VECTOR_OP(NAME, OPERATOR)                                          \
+	TEMPLATE_LIST_TEST_CASE("Vector - Swizzle-vector " NAME, "[Vector]", TypeListFloating) { \
+		SECTION(TestType::Name()) {                                                          \
+			using Vec3 = typename TestType::template Vector<3>;                              \
+			using Vec5 = typename TestType::template Vector<5>;                              \
+                                                                                             \
+			Vec3 v1 = { 1, 2, 3 };                                                           \
+			Vec3 v2 = { 1, 4, -2 };                                                          \
+			Vec3 r = v1.xyz OPERATOR v2;                                                     \
+			Vec3 e = v1 OPERATOR v2;                                                         \
+			REQUIRE(r == e);                                                                 \
+		}                                                                                    \
 	}
 
-#define TEST_CASE_VECTOR_SWIZZLE_OP(NAME, OPERATOR)                                                \
-	TEST_CASE_VEC_VARIANT("Vector - Vector-swizzle " NAME, "[Vector]", TypesFloating, PackedAll) { \
-		VectorT<3> v1 = { 1, 2, 3 };                                                               \
-		VectorT<3> v2 = { 1, 4, -2 };                                                              \
-		VectorT<3> r = v1 OPERATOR v2.xyz;                                                         \
-		VectorT<3> e = v1 OPERATOR v2;                                                             \
-		REQUIRE(r == e);                                                                           \
+#define TEST_CASE_VECTOR_SWIZZLE_OP(NAME, OPERATOR)                                          \
+	TEMPLATE_LIST_TEST_CASE("Vector - Vector-swizzle " NAME, "[Vector]", TypeListFloating) { \
+		SECTION(TestType::Name()) {                                                          \
+			using Vec3 = typename TestType::template Vector<3>;                              \
+			using Vec5 = typename TestType::template Vector<5>;                              \
+                                                                                             \
+			Vec3 v1 = { 1, 2, 3 };                                                           \
+			Vec3 v2 = { 1, 4, -2 };                                                          \
+			Vec3 r = v1 OPERATOR v2.xyz;                                                     \
+			Vec3 e = v1 OPERATOR v2;                                                         \
+			REQUIRE(r == e);                                                                 \
+		}                                                                                    \
 	}
 
-#define TEST_CASE_VECTOR_SWIZZLE_COMPOUND_OP(NAME, OPERATOR)                                       \
-	TEST_CASE_VEC_VARIANT("Vector - Vector-swizzle " NAME, "[Vector]", TypesFloating, PackedAll) { \
-		VectorT<3> v1 = { 1, 2, 3 };                                                               \
-		auto v1c = v1;                                                                             \
-		VectorT<3> v2 = { 1, 4, -2 };                                                              \
-		v1 OPERATOR v2.xyz;                                                                        \
-		v1c OPERATOR v2;                                                                           \
-		REQUIRE(v1 == v1c);                                                                        \
+#define TEST_CASE_VECTOR_SWIZZLE_COMPOUND_OP(NAME, OPERATOR)                                 \
+	TEMPLATE_LIST_TEST_CASE("Vector - Vector-swizzle " NAME, "[Vector]", TypeListFloating) { \
+		SECTION(TestType::Name()) {                                                          \
+			using Vec3 = typename TestType::template Vector<3>;                              \
+			using Vec5 = typename TestType::template Vector<5>;                              \
+                                                                                             \
+			Vec3 v1 = { 1, 2, 3 };                                                           \
+			auto v1c = v1;                                                                   \
+			Vec3 v2 = { 1, 4, -2 };                                                          \
+			v1 OPERATOR v2.xyz;                                                              \
+			v1c OPERATOR v2;                                                                 \
+			REQUIRE(v1 == v1c);                                                              \
+		}                                                                                    \
 	}
 
-#define TEST_CASE_SWIZZLE_VECTOR_COMPOUND_OP(NAME, OPERATOR)                                       \
-	TEST_CASE_VEC_VARIANT("Vector - Swizzle-vector " NAME, "[Vector]", TypesFloating, PackedAll) { \
-		VectorT<3> v1 = { 1, 2, 3 };                                                               \
-		auto v1c = v1;                                                                             \
-		VectorT<3> v2 = { 1, 4, -2 };                                                              \
-		v1.xyz OPERATOR v2;                                                                        \
-		v1c OPERATOR v2;                                                                           \
-		REQUIRE(v1 == v1c);                                                                        \
+#define TEST_CASE_SWIZZLE_VECTOR_COMPOUND_OP(NAME, OPERATOR)                                 \
+	TEMPLATE_LIST_TEST_CASE("Vector - Swizzle-vector " NAME, "[Vector]", TypeListFloating) { \
+		SECTION(TestType::Name()) {                                                          \
+			using Vec3 = typename TestType::template Vector<3>;                              \
+			using Vec5 = typename TestType::template Vector<5>;                              \
+                                                                                             \
+			Vec3 v1 = { 1, 2, 3 };                                                           \
+			auto v1c = v1;                                                                   \
+			Vec3 v2 = { 1, 4, -2 };                                                          \
+			v1.xyz OPERATOR v2;                                                              \
+			v1c OPERATOR v2;                                                                 \
+			REQUIRE(v1 == v1c);                                                              \
+		}                                                                                    \
 	}
 
-#define TEST_CASE_SWIZZLE_SWIZZLE_OP(NAME, OPERATOR)                                                \
-	TEST_CASE_VEC_VARIANT("Vector - Swizzle-swizzle " NAME, "[Vector]", TypesFloating, PackedAll) { \
-		VectorT<3> v1 = { 1, 2, 3 };                                                                \
-		VectorT<3> v2 = { 1, 4, -2 };                                                               \
-		VectorT<3> r = v1.xyz OPERATOR v2.xyz;                                                      \
-		VectorT<3> e = v1 OPERATOR v2;                                                              \
-		REQUIRE(r == e);                                                                            \
+#define TEST_CASE_SWIZZLE_SWIZZLE_OP(NAME, OPERATOR)                                          \
+	TEMPLATE_LIST_TEST_CASE("Vector - Swizzle-swizzle " NAME, "[Vector]", TypeListFloating) { \
+		SECTION(TestType::Name()) {                                                           \
+			using Vec3 = typename TestType::template Vector<3>;                               \
+			using Vec5 = typename TestType::template Vector<5>;                               \
+                                                                                              \
+			Vec3 v1 = { 1, 2, 3 };                                                            \
+			Vec3 v2 = { 1, 4, -2 };                                                           \
+			Vec3 r = v1.xyz OPERATOR v2.xyz;                                                  \
+			Vec3 e = v1 OPERATOR v2;                                                          \
+			REQUIRE(r == e);                                                                  \
+		}                                                                                     \
 	}
 
-#define TEST_CASE_SWIZZLE_SWIZZLE_COMPOUND_OP(NAME, OPERATOR)                                       \
-	TEST_CASE_VEC_VARIANT("Vector - Swizzle-swizzle " NAME, "[Vector]", TypesFloating, PackedAll) { \
-		VectorT<3> v1 = { 1, 2, 3 };                                                                \
-		auto v1c = v1;                                                                              \
-		VectorT<3> v2 = { 1, 4, -2 };                                                               \
-		v1.xyz OPERATOR v2.xyz;                                                                     \
-		v1c OPERATOR v2;                                                                            \
-		REQUIRE(v1 == v1c);                                                                         \
+#define TEST_CASE_SWIZZLE_SWIZZLE_COMPOUND_OP(NAME, OPERATOR)                                 \
+	TEMPLATE_LIST_TEST_CASE("Vector - Swizzle-swizzle " NAME, "[Vector]", TypeListFloating) { \
+		SECTION(TestType::Name()) {                                                           \
+			using Vec3 = typename TestType::template Vector<3>;                               \
+			using Vec5 = typename TestType::template Vector<5>;                               \
+                                                                                              \
+			Vec3 v1 = { 1, 2, 3 };                                                            \
+			auto v1c = v1;                                                                    \
+			Vec3 v2 = { 1, 4, -2 };                                                           \
+			v1.xyz OPERATOR v2.xyz;                                                           \
+			v1c OPERATOR v2;                                                                  \
+			REQUIRE(v1 == v1c);                                                               \
+		}                                                                                     \
 	}
 
 
-#define TEST_CASE_SWIZZLE_SCALAR_COMPOUND_OP(NAME, OPERATOR)                                               \
-	TEST_CASE_VEC_VARIANT("Vector - Swizzle-scalar compound" NAME, "[Vector]", TypesFloating, PackedAll) { \
-		VectorT<3> v1 = { 1, 2, 3 };                                                                       \
-		auto v1c = v1;                                                                                     \
-		Type b = 6;                                                                                        \
-		v1.xyz OPERATOR b;                                                                                 \
-		v1c OPERATOR b;                                                                                    \
-		REQUIRE(v1 == v1c);                                                                                \
+#define TEST_CASE_SWIZZLE_SCALAR_COMPOUND_OP(NAME, OPERATOR)                                         \
+	TEMPLATE_LIST_TEST_CASE("Vector - Swizzle-scalar compound" NAME, "[Vector]", TypeListFloating) { \
+		SECTION(TestType::Name()) {                                                                  \
+			using Vec3 = typename TestType::template Vector<3>;                                      \
+			using Vec5 = typename TestType::template Vector<5>;                                      \
+			using Type = typename traits::VectorTraits<Vec3>::Type;                                  \
+                                                                                                     \
+			Vec3 v1 = { 1, 2, 3 };                                                                   \
+			auto v1c = v1;                                                                           \
+			Type b = 6;                                                                              \
+			v1.xyz OPERATOR b;                                                                       \
+			v1c OPERATOR b;                                                                          \
+			REQUIRE(v1 == v1c);                                                                      \
+		}                                                                                            \
 	}
 
-#define TEST_CASE_SWIZZLE_SCALAR_OP(NAME, OPERATOR)                                                \
-	TEST_CASE_VEC_VARIANT("Vector - Swizzle-scalar " NAME, "[Vector]", TypesFloating, PackedAll) { \
-		VectorT<3> v1 = { 1, 2, 3 };                                                               \
-		Type b = 6;                                                                                \
-		VectorT<3> r = v1.xyz OPERATOR b;                                                          \
-		VectorT<3> e = v1 OPERATOR b;                                                              \
-		REQUIRE(r == e);                                                                           \
+#define TEST_CASE_SWIZZLE_SCALAR_OP(NAME, OPERATOR)                                          \
+	TEMPLATE_LIST_TEST_CASE("Vector - Swizzle-scalar " NAME, "[Vector]", TypeListFloating) { \
+		SECTION(TestType::Name()) {                                                          \
+			using Vec3 = typename TestType::template Vector<3>;                              \
+			using Vec5 = typename TestType::template Vector<5>;                              \
+			using Type = typename traits::VectorTraits<Vec3>::Type;                          \
+                                                                                             \
+			Vec3 v1 = { 1, 2, 3 };                                                           \
+			Type b = 6;                                                                      \
+			Vec3 r = v1.xyz OPERATOR b;                                                      \
+			Vec3 e = v1 OPERATOR b;                                                          \
+			REQUIRE(r == e);                                                                 \
+		}                                                                                    \
 	}
 
-#define TEST_CASE_SCALAR_SWIZZLE_OP(NAME, OPERATOR)                                                \
-	TEST_CASE_VEC_VARIANT("Vector - Scalar-swizzle " NAME, "[Vector]", TypesFloating, PackedAll) { \
-		VectorT<3> v1 = { 1, 2, 3 };                                                               \
-		Type b = 6;                                                                                \
-		VectorT<3> r = b OPERATOR v1.xyz;                                                          \
-		VectorT<3> e = b OPERATOR v1;                                                              \
-		REQUIRE(r == e);                                                                           \
+#define TEST_CASE_SCALAR_SWIZZLE_OP(NAME, OPERATOR)                                          \
+	TEMPLATE_LIST_TEST_CASE("Vector - Scalar-swizzle " NAME, "[Vector]", TypeListFloating) { \
+		SECTION(TestType::Name()) {                                                          \
+			using Vec3 = typename TestType::template Vector<3>;                              \
+			using Vec5 = typename TestType::template Vector<5>;                              \
+			using Type = typename traits::VectorTraits<Vec3>::Type;                          \
+                                                                                             \
+			Vec3 v1 = { 1, 2, 3 };                                                           \
+			Type b = 6;                                                                      \
+			Vec3 r = b OPERATOR v1.xyz;                                                      \
+			Vec3 e = b OPERATOR v1;                                                          \
+			REQUIRE(r == e);                                                                 \
+		}                                                                                    \
 	}
 
 

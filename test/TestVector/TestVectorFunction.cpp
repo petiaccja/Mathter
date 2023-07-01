@@ -11,54 +11,69 @@
 #include <Mathter/Vector.hpp>
 
 #include <catch2/catch_approx.hpp>
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch_template_test_macros.hpp>
 
 using namespace mathter;
 using Catch::Approx;
 
 
-TEST_CASE_VEC_VARIANT("Vector - Is nullvector", "[Vector]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		VectorT<3> a(1, 2, 3);
+using TypeListFloating = TestTypeList<TypesFloating, PackedAll>;
+
+
+TEMPLATE_LIST_TEST_CASE("Vector - Is nullvector", "[Vector]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+
+		Vec3 a(1, 2, 3);
 		REQUIRE(IsNullvector(a) == false);
-		VectorT<3> b(0, 0, 0);
+		Vec3 b(0, 0, 0);
 		REQUIRE(IsNullvector(b) == true);
 	}
 }
 
 
-TEST_CASE_VEC_VARIANT("Vector - Length", "[Vector]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		VectorT<3> a(1, 2, 3);
+TEMPLATE_LIST_TEST_CASE("Vector - Length", "[Vector]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+
+		Vec3 a(1, 2, 3);
 		REQUIRE(Length(a) == Approx(3.7416573867));
 
 
-		VectorT<5> b(1, 0, 2, 0, 3);
+		Vec5 b(1, 0, 2, 0, 3);
 		REQUIRE(Length(b) == Approx(3.7416573867));
 	}
 }
 
 
-TEST_CASE_VEC_VARIANT("Vector - LengthPrecise", "[Vector]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		VectorT<3> a(1e-38f, 2e-38f, 3e-38f);
+TEMPLATE_LIST_TEST_CASE("Vector - LengthPrecise", "[Vector]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+
+		Vec3 a(1e-38f, 2e-38f, 3e-38f);
 		REQUIRE(LengthPrecise(a) == Approx(3.7416573867e-38f));
 
-		VectorT<5> b(1e+37f, 0, 2e+37f, 0, 3e+37f);
+		Vec5 b(1e+37f, 0, 2e+37f, 0, 3e+37f);
 		REQUIRE(LengthPrecise(b) == Approx(3.7416573867e+37f));
 	}
 }
 
 
-TEST_CASE_VEC_VARIANT("Vector - Normalize", "[Vector]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		VectorT<3> a(1, 2, 3);
+TEMPLATE_LIST_TEST_CASE("Vector - Normalize", "[Vector]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+
+		Vec3 a(1, 2, 3);
 		a = Normalize(a);
 		REQUIRE(Length(a) == Approx(1));
 		REQUIRE(2 * a[0] == Approx(a[1]));
 		REQUIRE(3 * a[0] == Approx(a[2]));
 
-		VectorT<5> b(1, 0, 2, 0, 3);
+		Vec5 b(1, 0, 2, 0, 3);
 		b = Normalize(b);
 		REQUIRE(Length(b) == Approx(1));
 		REQUIRE(2 * b[0] == Approx(b[2]));
@@ -67,14 +82,17 @@ TEST_CASE_VEC_VARIANT("Vector - Normalize", "[Vector]", TypesFloating, PackedAll
 }
 
 
-TEST_CASE_VEC_VARIANT("Vector - SafeNormalize denorm", "[Vector]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		VectorT<3> a(0, 1e-40, 0);
+TEMPLATE_LIST_TEST_CASE("Vector - SafeNormalize denorm", "[Vector]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+
+		Vec3 a(0, 1e-40, 0);
 		a = SafeNormalize(a);
 		REQUIRE(Length(a) == Approx(1));
 		REQUIRE(a[1] == Approx(1));
 
-		VectorT<5> b(0, 0, 1e-40, 0, 0);
+		Vec5 b(0, 0, 1e-40, 0, 0);
 		b = SafeNormalize(b);
 		REQUIRE(Length(b) == Approx(1));
 		REQUIRE(b[2] == Approx(1));
@@ -82,14 +100,17 @@ TEST_CASE_VEC_VARIANT("Vector - SafeNormalize denorm", "[Vector]", TypesFloating
 }
 
 
-TEST_CASE_VEC_VARIANT("Vector - SafeNormalize null", "[Vector]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		VectorT<3> a(0, 0, 0);
+TEMPLATE_LIST_TEST_CASE("Vector - SafeNormalize null", "[Vector]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+
+		Vec3 a(0, 0, 0);
 		a = SafeNormalize(a);
 		REQUIRE(Length(a) == Approx(1));
 		REQUIRE(a[0] == Approx(1));
 
-		VectorT<5> b(0, 0, 0, 0, 0);
+		Vec5 b(0, 0, 0, 0, 0);
 		b = SafeNormalize(b);
 		REQUIRE(Length(b) == Approx(1));
 		REQUIRE(a[0] == Approx(1));
@@ -97,42 +118,51 @@ TEST_CASE_VEC_VARIANT("Vector - SafeNormalize null", "[Vector]", TypesFloating, 
 }
 
 
-TEST_CASE_VEC_VARIANT("Vector - SafeNormalize specific proper", "[Vector]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		VectorT<3> a(1, 2, 3);
-		REQUIRE(ApproxVec(Normalize(a)) == SafeNormalize(a, VectorT<3>(0, 1, 0)));
+TEMPLATE_LIST_TEST_CASE("Vector - SafeNormalize specific proper", "[Vector]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
 
-		VectorT<5> b(1, 0, 2, 0, 3);
-		REQUIRE(ApproxVec(Normalize(b)) == SafeNormalize(b, VectorT<5>(0, 1, 0, 0, 0)));
+		Vec3 a(1, 2, 3);
+		REQUIRE(ApproxVec(Normalize(a)) == SafeNormalize(a, Vec3(0, 1, 0)));
+
+		Vec5 b(1, 0, 2, 0, 3);
+		REQUIRE(ApproxVec(Normalize(b)) == SafeNormalize(b, Vec5(0, 1, 0, 0, 0)));
 	}
 }
 
 
-TEST_CASE_VEC_VARIANT("Vector - SafeNormalize specific null", "[Vector]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		VectorT<3> a(0, 0, 0);
-		a = SafeNormalize(a, VectorT<3>(0, 1, 0));
+TEMPLATE_LIST_TEST_CASE("Vector - SafeNormalize specific null", "[Vector]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+
+		Vec3 a(0, 0, 0);
+		a = SafeNormalize(a, Vec3(0, 1, 0));
 		REQUIRE(Length(a) == Approx(1));
 		REQUIRE(a[1] == Approx(1));
 
-		VectorT<5> b(0, 0, 0, 0, 0);
-		b = SafeNormalize(b, VectorT<5>(0, 1, 0, 0, 0));
+		Vec5 b(0, 0, 0, 0, 0);
+		b = SafeNormalize(b, Vec5(0, 1, 0, 0, 0));
 		REQUIRE(Length(b) == Approx(1));
 		REQUIRE(a[1] == Approx(1));
 	}
 }
 
 
-TEST_CASE_VEC_VARIANT("Vector - Fill", "[Vector]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		VectorT<3> a;
-		VectorT<3> b(4);
+TEMPLATE_LIST_TEST_CASE("Vector - Fill", "[Vector]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+
+		Vec3 a;
+		Vec3 b(4);
 		Fill(a, 4);
 
 		REQUIRE(a == b);
 
-		VectorT<5> c;
-		VectorT<5> d(4);
+		Vec5 c;
+		Vec5 d(4);
 		Fill(c, 4);
 
 		REQUIRE(c == d);
@@ -140,73 +170,86 @@ TEST_CASE_VEC_VARIANT("Vector - Fill", "[Vector]", TypesFloating, PackedAll) {
 }
 
 
-TEST_CASE_VEC_VARIANT("Vector - Min & Max", "[Vector]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		VectorT<3> a(1, 2, 3);
-		VectorT<3> b(3, 2, 1);
+TEMPLATE_LIST_TEST_CASE("Vector - Min & Max", "[Vector]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
 
-		REQUIRE(Min(a, b) == VectorT<3>(1, 2, 1));
-		REQUIRE(Max(a, b) == VectorT<3>(3, 2, 3));
+		Vec3 a(1, 2, 3);
+		Vec3 b(3, 2, 1);
 
-		VectorT<5> c(1, 2, 3, 4, 5);
-		VectorT<5> d(5, 4, 3, 2, 1);
+		REQUIRE(Min(a, b) == Vec3(1, 2, 1));
+		REQUIRE(Max(a, b) == Vec3(3, 2, 3));
 
-		REQUIRE(Min(c, d) == VectorT<5>(1, 2, 3, 2, 1));
-		REQUIRE(Max(c, d) == VectorT<5>(5, 4, 3, 4, 5));
+		Vec5 c(1, 2, 3, 4, 5);
+		Vec5 d(5, 4, 3, 2, 1);
+
+		REQUIRE(Min(c, d) == Vec5(1, 2, 3, 2, 1));
+		REQUIRE(Max(c, d) == Vec5(5, 4, 3, 4, 5));
 	}
 }
 
 
-TEST_CASE_VEC_VARIANT("Vector - Dot", "[Vector]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		VectorT<3> a(1, 2, 3);
-		VectorT<3> b(4, 5, 6);
+TEMPLATE_LIST_TEST_CASE("Vector - Dot", "[Vector]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+
+		Vec3 a(1, 2, 3);
+		Vec3 b(4, 5, 6);
 		auto r1 = Dot(a, b);
 
 		REQUIRE(r1 == 32);
 
-		VectorT<5> c(1, 2, 3, 2, 1);
-		VectorT<5> d(4, 5, 6, 5, 4);
+		Vec5 c(1, 2, 3, 2, 1);
+		Vec5 d(4, 5, 6, 5, 4);
 		auto r2 = Dot(c, d);
 		REQUIRE(r2 == 46);
 	}
 }
 
 
-TEST_CASE_VEC_VARIANT("Vector - Cross", "[Vector]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		VectorT<3> a(1, 2, 3);
-		VectorT<3> b(4, 5, 6);
-		VectorT<3> r = Cross(a, b);
-		VectorT<3> rexp(-3, 6, -3);
+TEMPLATE_LIST_TEST_CASE("Vector - Cross", "[Vector]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+
+		Vec3 a(1, 2, 3);
+		Vec3 b(4, 5, 6);
+		Vec3 r = Cross(a, b);
+		Vec3 rexp(-3, 6, -3);
 
 		REQUIRE(r == rexp);
 	}
 }
 
 
-TEST_CASE_VEC_VARIANT("Vector - CrossND", "[Vector]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
+TEMPLATE_LIST_TEST_CASE("Vector - CrossND", "[Vector]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec2 = typename TestType::template Vector<2>;
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec4 = typename TestType::template Vector<4>;
+
 		// Simple 3D cross product
-		VectorT<3> a(1, 2, 3);
-		VectorT<3> b(4, 5, 6);
-		VectorT<3> r = Cross(a, b);
-		VectorT<3> rexp(-3, 6, -3);
+		Vec3 a(1, 2, 3);
+		Vec3 b(4, 5, 6);
+		Vec3 r = Cross(a, b);
+		Vec3 rexp(-3, 6, -3);
 
 		REQUIRE(r == rexp);
 
 		// 2D cross product, that is, rotate by 90 degree
-		VectorT<2> a2(1, 2);
-		VectorT<2> r2 = Cross(a2);
-		VectorT<2> r2exp(-2, 1);
+		Vec2 a2(1, 2);
+		Vec2 r2 = Cross(a2);
+		Vec2 r2exp(-2, 1);
 
 		REQUIRE(ApproxVec(r2) == r2exp);
 
 		// 4D cross product
-		VectorT<4> a4(1, 2, 3, 4);
-		VectorT<4> b4(4, 2, 6, 3);
-		VectorT<4> c4(3, 6, 4, -9);
-		VectorT<4> r4 = Cross(a4, b4, c4);
+		Vec4 a4(1, 2, 3, 4);
+		Vec4 b4(4, 2, 6, 3);
+		Vec4 c4(3, 6, 4, -9);
+		Vec4 r4 = Cross(a4, b4, c4);
 
 		auto dotprod = std::abs(Dot(a4, r4)) + std::abs(Dot(b4, r4)) + std::abs(Dot(c4, r4));
 		REQUIRE(dotprod < 1e-5f);
@@ -214,15 +257,19 @@ TEST_CASE_VEC_VARIANT("Vector - CrossND", "[Vector]", TypesFloating, PackedAll) 
 }
 
 
-TEST_CASE_VEC_VARIANT("Vector - Distance", "[Vector]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		VectorT<3> a(1, 2, 3);
-		VectorT<3> b(4, 5, 4);
+TEMPLATE_LIST_TEST_CASE("Vector - Distance", "[Vector]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+		using Type = typename traits::VectorTraits<Vec3>::Type;
+
+		Vec3 a(1, 2, 3);
+		Vec3 b(4, 5, 4);
 		Type expected3 = Type(std::sqrt(3 * 3 + 3 * 3 + 1 * 1));
 		REQUIRE(expected3 == Distance(a, b));
 
-		VectorT<5> d(4, 5, 4, 2, 8);
-		VectorT<5> c(1, 2, 3, 9, 2);
+		Vec5 d(4, 5, 4, 2, 8);
+		Vec5 c(1, 2, 3, 9, 2);
 		Type expected5 = Type(std::sqrt(3 * 3 + 3 * 3 + 1 * 1 + 7 * 7 + 6 * 6));
 		REQUIRE(expected5 == Distance(c, d));
 	}
