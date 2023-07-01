@@ -1,4 +1,4 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
@@ -69,7 +69,7 @@ T Length(const Quaternion<T, Packed>& q) {
 /// <summary> Returns the unit quaternion of the same direction. Does not change this object. </summary>
 template <class T, bool Packed>
 Quaternion<T, Packed> Normalize(const Quaternion<T, Packed>& q) {
-	return Quaternion<T, Packed>{ q.vec.Normalized() };
+	return Quaternion<T, Packed>{ Normalize(q.vec) };
 }
 
 /// <summary> Returns the quaternion of opposite rotation. </summary>
@@ -81,9 +81,8 @@ Quaternion<T, Packed> Inverse(const Quaternion<T, Packed>& q) {
 /// <summary> Check if the quaternion is a unit quaternion, with some tolerance for floats. </summary>
 template <class T, bool Packed>
 bool IsNormalized(const Quaternion<T, Packed>& q) {
-	return q.vec.IsNormalized();
+	return IsNormalized(q.vec);
 }
-
 
 
 } // namespace mathter
