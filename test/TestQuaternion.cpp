@@ -315,11 +315,14 @@ TEMPLATE_LIST_TEST_CASE("Quaternion - Pow", "[Quaternion]", TypeListFloating) {
 	}
 }
 
-TEST_CASE_VEC_VARIANT("Quaternion - Normalize", "[Quaternion]", TypesFloating, PackedAll) {
-	SECTION(SECTIONNAMEVEC) {
-		QuatT q(1.0f, 2.0f, 0.5f, -0.7f);
 
-		QuatT p = Normalize(q);
+TEMPLATE_LIST_TEST_CASE("Quaternion - Normalize", "[Quaternion]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Quat = typename TestType::Quat;
+
+		Quat q(1.0f, 2.0f, 0.5f, -0.7f);
+
+		Quat p = Normalize(q);
 
 		REQUIRE(IsNormalized(p));
 	}
