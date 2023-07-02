@@ -1,4 +1,4 @@
-name: Clang-Format
+﻿name: Clang-Format
 on:
   push:
     branches:
@@ -23,3 +23,4 @@ jobs:
         run: |
           python ./support/run-clang-format.py -r include
           python ./support/run-clang-format.py -r test
+          python ./support/run-clang-format.py -r benchmark

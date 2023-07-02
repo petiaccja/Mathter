@@ -3,10 +3,16 @@
 #include <catch2/catch_test_macros.hpp>
 #include <cstddef>
 #include <cstdint>
-#include <intrin.h> // Not portable
 #include <mutex>
 #include <tuple>
 #include <vector>
+
+#if defined(_MSC_VER) && (defined(_M_X64) || defined(_M_X86))
+#include <intrin.h>
+#else
+#include <chrono>
+#define MATHTER_TSC_USES_CHRONO
+#endif
 
 
 namespace impl {
@@ -24,8 +30,15 @@ extern std::mutex g_mutex;
 
 
 inline int64_t ReadTSC() {
+#ifdef MATHTER_TSC_USES_CHRONO
+	using namespace std::chrono;
+	const auto now = high_resolution_clock::now();
+	const auto epoch = high_resolution_clock::now().;
+	return duration_cast<nanoseconds>(now.time).count();
+#else
 	unsigned aux;
 	return __rdtscp(&aux);
+#endif
 }
 
 

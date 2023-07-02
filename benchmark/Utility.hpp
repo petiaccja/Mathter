@@ -77,7 +77,7 @@ auto TuplizeArrays(const std::array<Args, N>&... arrays) {
 }
 
 
-auto opAdd = [](const auto& v) { return std::get<0>(v) + std::get<1>(v); };
-auto opMul = [](const auto& v) { return std::get<0>(v) * std::get<1>(v); };
-auto opDiv = [](const auto& v) { return std::get<0>(v) / std::get<1>(v); };
-auto feedBinary = [](const auto& result, const auto& init) { return std::tuple{ result, std::get<0>(init) }; };
+inline auto opAdd = [](const auto& v) { return std::get<0>(v) + std::get<1>(v); };
+inline auto opMul = [](const auto& v) { return std::get<0>(v) * std::get<1>(v); };
+inline auto opDiv = [](const auto& v) { return std::get<0>(v) / std::get<1>(v); };
+inline auto feedBinary = [](const auto& result, const auto& init) { return std::tuple{ result, std::get<0>(init) }; };

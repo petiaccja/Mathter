@@ -16,10 +16,17 @@ std::mutex g_mutex;
 
 namespace {
 
+#ifdef MATHTER_TSC_USES_CHRONO
+#define MATHTER_TIME_MEASURE "ns"
+#else
+#define MATHTER_TIME_MEASURE "cycles"
+#endif
+
+
 void PrintCases() {
 	constexpr std::string_view headerName = "Name";
-	constexpr std::string_view headerLatency = "Latency (cycles)";
-	constexpr std::string_view headerThroughput = "Throughput (cycles)";
+	constexpr std::string_view headerLatency = "Latency (" MATHTER_TIME_MEASURE ")";
+	constexpr std::string_view headerThroughput = "Throughput (" MATHTER_TIME_MEASURE ")";
 
 	std::lock_guard lkg{ impl::g_mutex };
 
