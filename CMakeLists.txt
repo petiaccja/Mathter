@@ -49,4 +49,5 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Bin)
 # Subdirectories
 add_subdirectory(include/Mathter)
 add_subdirectory(test)
+add_subdirectory(benchmark)
 
