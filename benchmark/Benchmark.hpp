@@ -33,8 +33,7 @@ inline int64_t ReadTSC() {
 #ifdef MATHTER_TSC_USES_CHRONO
 	using namespace std::chrono;
 	const auto now = high_resolution_clock::now();
-	const auto epoch = high_resolution_clock::now().;
-	return duration_cast<nanoseconds>(now.time).count();
+	return duration_cast<nanoseconds>(now.time_since_epoch()).count();
 #else
 	unsigned aux;
 	return __rdtscp(&aux);

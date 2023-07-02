@@ -67,7 +67,7 @@ auto MakeMatrixArray() {
 	return items;
 }
 
-template <class... Args, int N>
+template <class... Args, size_t N>
 auto TuplizeArrays(const std::array<Args, N>&... arrays) {
 	std::array<std::tuple<Args...>, N> items;
 	for (size_t i = 0; i < N; ++i) {
