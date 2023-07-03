@@ -1,5 +1,6 @@
 ﻿[requires]
 catch2/3.3.2
+xsimd/11.1.0
 
 [generators]
 CMakeDeps

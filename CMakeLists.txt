@@ -7,8 +7,13 @@ project(Mathter)
 enable_language(CXX)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# Options
 option(ENABLE_LLVM_COV "Adds compiler flags to generate LLVM source-based code coverage. Only works with Clang." OFF)
+option(MATHTER_USE_XSIMD "Uses XSimd for vectorization of math routines. Uses scalar fallback if turned off." ON)
+set(MATHTER_INIT_MODE "DEFAULT" CACHE STRING "Set default initialization of Mathter types.")
+set_property(CACHE MATHTER_INIT_MODE PROPERTY STRINGS DEFAULT NULL INVALID UNINITIALIZED)
 
+# Necessary compiler flags
 if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
 	if (ENABLE_LLVM_COV)
 		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-instr-generate -fcoverage-mapping -mllvm -enable-name-compression=false")
@@ -30,15 +35,17 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" MATCHES "MSVC")
 	add_compile_options("$<$<CONFIG:RELWITHDEBINFO>:${RELEASE_OPTIONS}>")
 endif()
 
-set(INIT_MODE "DEFAULT" CACHE STRING "Set default initialization of Mathter types.")
-set_property(CACHE INIT_MODE PROPERTY STRINGS DEFAULT NULL INVALID UNINITIALIZED)
+# Optional compiler flags
+if (MATHTER_INIT_MODE STREQUAL "NULL")
+	add_compile_definitions(MATHTER_NULL_INITIALIZE=1)
+elseif(MATHTER_INIT_MODE STREQUAL "INVALID")
+	add_compile_definitions(MATHTER_INVALID_INITIALIZE=1)
+elseif(MATHTER_INIT_MODE STREQUAL "UNINITIALIZED")
+	add_compile_definitions(MATHTER_DONT_INITIALIZE=1)
+endif()
 
-if (INIT_MODE STREQUAL "NULL")
-	add_definitions("-DMATHTER_NULL_INITIALIZE=1")
-elseif(INIT_MODE STREQUAL "INVALID")
-	add_definitions("-DMATHTER_INVALID_INITIALIZE=1")
-elseif(INIT_MODE STREQUAL "UNINITIALIZED")
-	add_definitions("-DMATHTER_DONT_INITIALIZE=1")
+if (${MATHTER_USE_XSIMD})
+	add_compile_definitions(MATHTER_USE_XSIMD=1)
 endif()
 
 # Output directories

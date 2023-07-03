@@ -9,3 +9,8 @@ target_sources(Mathter
 )
 
 target_compile_features(Mathter INTERFACE cxx_std_17)
+
+if (${MATHTER_USE_XSIMD})
+	find_package(xsimd)
+	target_link_libraries(Mathter INTERFACE xsimd)
+endif()

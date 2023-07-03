@@ -159,7 +159,7 @@ namespace impl {
 					Vector<T, 4, false> givensCoeffs = { c1, -s1, s1, c1 };
 					Vector<T, 4, false> bElems;
 					for (int col = 0; col < B.ColumnCount(); ++col) {
-						bElems.Set(B(i, col), B(j, col), B(i, col), B(j, col));
+						bElems = { B(i, col), B(j, col), B(i, col), B(j, col) };
 						bElems *= givensCoeffs;
 						B(i, col) = bElems(0) + bElems(1);
 						B(j, col) = bElems(2) + bElems(3);

@@ -7,9 +7,7 @@
 
 #include "../Common/Definitions.hpp"
 #include "../Common/DeterministicInitializer.hpp"
-#include "../Common/MathUtil.hpp"
 #include "../Common/Traits.hpp"
-#include "../SIMD/Simd.hpp"
 
 #include <algorithm>
 #include <array>
@@ -17,8 +15,19 @@
 #include <cmath>
 #include <type_traits>
 
+#ifdef MATHTER_USE_XSIMD
+#include <xsimd/xsimd.hpp>
+#endif
+
 
 namespace mathter {
+
+
+#ifdef MATHTER_USE_XSIMD
+constexpr bool simdAvailable = true;
+#else
+constexpr bool simdAvailable = false;
+#endif
 
 
 //------------------------------------------------------------------------------
@@ -32,40 +41,32 @@ namespace mathter {
 /// Swizzlers can be used with assignments, concatenation, casting and constructors.
 /// To perform arithmetic, cast swizzlers to corresponding vector type.
 /// </remarks>
-template <class VectorData, int... Indices>
+template <class T, int Dim, bool Packed, int... Indices>
 class Swizzle {
-	using T = typename traits::VectorTraits<VectorData>::Type;
 	static constexpr int IndexTable[] = { Indices... };
-	static constexpr int Dim = sizeof...(Indices);
 	T* data() { return reinterpret_cast<T*>(this); }
 	const T* data() const { return reinterpret_cast<const T*>(this); }
 
 public:
 	/// <summary> Builds the swizzled vector object. </summary>
-	operator Vector<T, sizeof...(Indices), false>() const;
-	/// <summary> Builds the swizzled vector object. </summary>
-	operator Vector<T, sizeof...(Indices), true>() const;
+	template <class T2, bool Packed2>
+	operator Vector<T2, sizeof...(Indices), Packed2>() const;
 
 	/// <summary> Sets the parent vector's elements from the right-side argument. </summary>
 	/// <remarks>
 	/// Example: b = {1,2,3}; a.yxz = b; -> a contains {2,1,3}.
 	/// You don't have to worry about aliasing (a.xyz = a is totally fine).
 	/// </remarks>
-	Swizzle& operator=(const Vector<T, sizeof...(Indices), false>& rhs);
-	/// <summary> Sets the parent vector's elements from the right-side argument. </summary>
-	/// <remarks>
-	/// Example: b = {1,2,3}; a.yxz = b; -> a contains {2,1,3}.
-	/// You don't have to worry about aliasing (a.xyz = a is totally fine).
-	/// </remarks>
-	Swizzle& operator=(const Vector<T, sizeof...(Indices), true>& rhs);
+	template <class T2, bool Packed2>
+	Swizzle& operator=(const Vector<T2, sizeof...(Indices), Packed2>& rhs);
 
 	/// <summary> Sets the parent vector's elements from the right-side argument. </summary>
 	/// <remarks>
 	/// Example: b = {1,2,3}; a.yxz = b.xyz; -> a contains {2,1,3}.
 	/// You don't have to worry about aliasing (a.xyz = a.zyx is totally fine).
 	/// </remarks>
-	template <class T2, int... Indices2, typename std::enable_if<sizeof...(Indices) == sizeof...(Indices2), int>::type = 0>
-	Swizzle& operator=(const Swizzle<T2, Indices2...>& rhs) {
+	template <class T2, int Dim2, bool Packed2, int... Indices2, typename std::enable_if<sizeof...(Indices) == sizeof...(Indices2), int>::type = 0>
+	Swizzle& operator=(const Swizzle<T2, Dim2, Packed2, Indices2...>& rhs) {
 		*this = Vector<T, sizeof...(Indices2), false>(rhs);
 		return *this;
 	}
@@ -97,289 +98,187 @@ public:
 	const auto ToVector() const {
 		return Vector<T, Dim, Packed>(*this);
 	}
+};
 
-protected:
-	template <int... Rest, class = typename std::enable_if<sizeof...(Rest) == 0>::type>
-	void Assign(const T*) {}
+//------------------------------------------------------------------------------
+// Vectorization utilities
+//------------------------------------------------------------------------------
 
-	template <int Index, int... Rest>
-	void Assign(const T* rhs) {
-		data()[Index] = *rhs;
-		return Assign<Rest...>(rhs + 1);
+template <class T, int Dim, bool Packed>
+constexpr int ExtendedDim() {
+	if constexpr (!Packed) {
+		if (Dim == 3) {
+			return 4;
+		}
+		if (Dim == 6 || Dim == 7) {
+			return 8;
+		}
+	}
+	return Dim;
+}
+
+
+template <class T, int Dim, bool Packed>
+constexpr int IsBatched() {
+	if constexpr (simdAvailable && !Packed) {
+		constexpr auto extendedSize = ExtendedDim<T, Dim, Packed>();
+		using BatchT = typename xsimd::make_sized_batch<T, extendedSize>::type;
+		return !std::is_void_v<BatchT>;
+	}
+	return false;
+}
+
+
+template <class T, int Dim, bool Packed>
+struct BatchTHelper {
+	static auto GetType() {
+		if constexpr (IsBatched<T, Dim, Packed>()) {
+			using B = typename xsimd::make_sized_batch<T, ExtendedDim<T, Dim, Packed>()>::type;
+			return static_cast<B*>(nullptr);
+		}
+		else {
+			return static_cast<void*>(nullptr);
+		}
 	}
 };
 
-template <class T, int... Indices>
-constexpr int Swizzle<T, Indices...>::IndexTable[];
+
+template <class T, int Dim, bool Packed>
+using Batch = std::decay_t<std::remove_pointer_t<decltype(BatchTHelper<T, Dim, Packed>::GetType())>>;
+
+
+template <class T, int Dim, bool Packed>
+constexpr int Alignment() {
+	if constexpr (IsBatched<T, Dim, Packed>()) {
+		using B = Batch<T, Dim, Packed>;
+		static_assert(!std::is_void_v<B>, "isBatched should prevent this case from ever happening.");
+		return alignof(B);
+	}
+	return alignof(T);
+}
 
 
 //------------------------------------------------------------------------------
 // VectorData
 //------------------------------------------------------------------------------
 
-// General
+// General case
 template <class T, int Dim, bool Packed>
-class VectorData {
-public:
-	/// <summary> Raw array containing the elements. </summary>
-	T data[Dim];
+struct VectorData {
+	VectorData() {}
+	union {
+		/// <summary> Raw array containing the elements. </summary>
+		std::array<T, Dim> data;
+		/// <summary> A potentially larger array extended to the next SIMD size. </summary>
+		alignas(Alignment<T, Dim, Packed>()) std::array<T, Alignment<T, Dim, Packed>()> extended;
+	};
 };
 
 
 // Small vectors with x,y,z,w members
 template <class T, bool Packed>
-class VectorData<T, 2, Packed> {
-	using ST = T;
-
-public:
+struct VectorData<T, 2, Packed> {
 	VectorData() {}
 	VectorData(const VectorData& rhs) {
-		for (int i = 0; i < 2; ++i) {
-			data[i] = rhs.data[i];
-		}
+		data = rhs.data;
 	}
 	VectorData& operator=(const VectorData& rhs) {
-		for (int i = 0; i < 2; ++i) {
-			data[i] = rhs.data[i];
-		}
+		data = rhs.data;
 		return *this;
 	}
 	union {
+		/// <summary> Raw array containing the elements. </summary>
+		std::array<T, 2> data;
+		/// <summary> A potentially larger array extended to the next SIMD size. </summary>
+		alignas(Alignment<T, 2, Packed>()) std::array<T, Alignment<T, 2, Packed>()> extended;
 		struct {
 			T x, y;
 		};
-		/// <summary> Raw array containing the elements. </summary>
-		T data[2];
+#define Dim 2
 #include "../Swizzle/Swizzle_2.inc.hpp"
+#undef Dim
 	};
 };
 
-template <class T, bool Packed>
-class VectorData<T, 3, Packed> {
-	using ST = T;
 
-public:
+template <class T, bool Packed>
+struct VectorData<T, 3, Packed> {
 	VectorData() {}
 	VectorData(const VectorData& rhs) {
-		for (int i = 0; i < 3; ++i) {
-			data[i] = rhs.data[i];
-		}
+		data = rhs.data;
 	}
 	VectorData& operator=(const VectorData& rhs) {
-		for (int i = 0; i < 3; ++i) {
-			data[i] = rhs.data[i];
-		}
+		data = rhs.data;
 		return *this;
 	}
 	union {
+		/// <summary> Raw array containing the elements. </summary>
+		std::array<T, 3> data;
+		/// <summary> A potentially larger array extended to the next SIMD size. </summary>
+		alignas(Alignment<T, 3, Packed>()) std::array<T, Alignment<T, 3, Packed>()> extended;
 		struct {
 			T x, y, z;
 		};
-		/// <summary> Raw array containing the elements. </summary>
-		T data[3];
-#include "../Swizzle/Swizzle_3.inc.hpp"
+#define Dim 3
+#include "../Swizzle/Swizzle_4.inc.hpp"
+#undef Dim
 	};
 };
 
-template <class T, bool Packed>
-class VectorData<T, 4, Packed> {
-	using ST = T;
 
-public:
+template <class T, bool Packed>
+struct VectorData<T, 4, Packed> {
 	VectorData() {}
 	VectorData(const VectorData& rhs) {
-		for (int i = 0; i < 4; ++i) {
-			data[i] = rhs.data[i];
-		}
+		data = rhs.data;
 	}
 	VectorData& operator=(const VectorData& rhs) {
-		for (int i = 0; i < 4; ++i) {
-			data[i] = rhs.data[i];
-		}
+		data = rhs.data;
 		return *this;
 	}
 	union {
+		/// <summary> Raw array containing the elements. </summary>
+		std::array<T, 4> data;
+		/// <summary> A potentially larger array extended to the next SIMD size. </summary>
+		alignas(Alignment<T, 4, Packed>()) std::array<T, Alignment<T, 4, Packed>()> extended;
 		struct {
 			T x, y, z, w;
 		};
-		/// <summary> Raw array containing the elements. </summary>
-		T data[4];
+#define Dim 4
 #include "../Swizzle/Swizzle_4.inc.hpp"
+#undef Dim
 	};
 };
 
 
-// Small SIMD fp32 vectors
-template <>
-class VectorData<float, 2, false> {
-	using ST = float;
+//------------------------------------------------------------------------------
+// Tuple utilities
+//------------------------------------------------------------------------------
 
-public:
-	using SimdT = Simd<ST, 2>;
-	VectorData() {}
-	VectorData(const VectorData& rhs) { simd = rhs.simd; }
-	explicit VectorData(SimdT simd) : simd(simd) {}
-	VectorData& operator=(const VectorData& rhs) {
-		simd = rhs.simd;
-		return *this;
-	}
-	union {
-		/// <summary> Leave this member alone. You can't fuck it up though. </summary>
-		SimdT simd;
-		struct {
-			ST x, y;
-		};
-		/// <summary> Raw array containing the elements. </summary>
-		ST data[2];
-#include "../Swizzle/Swizzle_2.inc.hpp"
-	};
-};
+template <class Indexable, size_t... Indices>
+auto AsTuple(const Indexable& value, std::index_sequence<Indices...>) {
+	return std::tuple{ value[Indices]... };
+}
 
-template <>
-class VectorData<float, 3, false> {
-	using ST = float;
+template <class T, int Dim, bool Packed>
+auto AsTuple(const Vector<T, Dim, Packed>& value, nullptr_t) {
+	return AsTuple(value, std::make_index_sequence<Dim>());
+}
 
-public:
-	using SimdT = Simd<ST, 4>;
-	VectorData() {}
-	VectorData(const VectorData& rhs) { simd = rhs.simd; }
-	explicit VectorData(SimdT simd) : simd(simd) {}
-	VectorData& operator=(const VectorData& rhs) {
-		simd = rhs.simd;
-		return *this;
-	}
-	union {
-		/// <summary> Leave this member alone. You can't fuck it up though. </summary>
-		SimdT simd;
-		struct {
-			ST x, y, z;
-		};
-		/// <summary> Raw array containing the elements. </summary>
-		ST data[3];
-#include "../Swizzle/Swizzle_3.inc.hpp"
-	};
-};
+template <class T, int Dim, bool Packed, int... Indices>
+auto AsTuple(const Swizzle<T, Dim, Packed, Indices...>& value, nullptr_t) {
+	return AsTuple(value, std::make_index_sequence<sizeof...(Indices)>());
+}
 
-template <>
-class VectorData<float, 4, false> {
-	using ST = float;
+template <class T>
+auto AsTuple(const T& value, const void*) {
+	return std::tuple{ value };
+}
 
-public:
-	using SimdT = Simd<ST, 4>;
-	VectorData() {}
-	VectorData(const VectorData& rhs) { simd = rhs.simd; }
-	explicit VectorData(SimdT simd) : simd(simd) {}
-	VectorData& operator=(const VectorData& rhs) {
-		simd = rhs.simd;
-		return *this;
-	}
-	union {
-		/// <summary> Leave this member alone. You can't fuck it up though. </summary>
-		SimdT simd;
-		struct {
-			ST x, y, z, w;
-		};
-		/// <summary> Raw array containing the elements. </summary>
-		ST data[4];
-#include "../Swizzle/Swizzle_4.inc.hpp"
-	};
-};
-
-template <>
-class VectorData<float, 8, false> {
-public:
-	using SimdT = Simd<float, 8>;
-	VectorData() {}
-	VectorData(const VectorData& rhs) { simd = rhs.simd; }
-	explicit VectorData(SimdT simd) : simd(simd) {}
-	VectorData& operator=(const VectorData& rhs) {
-		simd = rhs.simd;
-		return *this;
-	}
-	union {
-		/// <summary> Leave this member alone. You can't fuck it up though. </summary>
-		SimdT simd;
-		/// <summary> Raw array containing the elements. </summary>
-		float data[8];
-	};
-};
-
-
-// Small SIMD fp64 vectors
-template <>
-class VectorData<double, 2, false> {
-	using ST = double;
-
-public:
-	using SimdT = Simd<ST, 2>;
-	VectorData() {}
-	VectorData(const VectorData& rhs) { simd = rhs.simd; }
-	explicit VectorData(SimdT simd) : simd(simd) {}
-	VectorData& operator=(const VectorData& rhs) {
-		simd = rhs.simd;
-		return *this;
-	}
-	union {
-		/// <summary> Leave this member alone. You can't fuck it up though. </summary>
-		SimdT simd;
-		struct {
-			ST x, y;
-		};
-		/// <summary> Raw array containing the elements. </summary>
-		ST data[2];
-#include "../Swizzle/Swizzle_2.inc.hpp"
-	};
-};
-
-template <>
-class VectorData<double, 3, false> {
-	using ST = double;
-
-public:
-	using SimdT = Simd<ST, 4>;
-	VectorData() {}
-	VectorData(const VectorData& rhs) { simd = rhs.simd; }
-	explicit VectorData(SimdT simd) : simd(simd) {}
-	VectorData& operator=(const VectorData& rhs) {
-		simd = rhs.simd;
-		return *this;
-	}
-	union {
-		/// <summary> Leave this member alone. You can't fuck it up though. </summary>
-		SimdT simd;
-		struct {
-			ST x, y, z;
-		};
-		/// <summary> Raw array containing the elements. </summary>
-		ST data[3];
-#include "../Swizzle/Swizzle_3.inc.hpp"
-	};
-};
-
-template <>
-class VectorData<double, 4, false> {
-	using ST = double;
-
-public:
-	using SimdT = Simd<ST, 4>;
-	VectorData() {}
-	VectorData(const VectorData& rhs) { simd = rhs.simd; }
-	explicit VectorData(SimdT simd) : simd(simd) {}
-	VectorData& operator=(const VectorData& rhs) {
-		simd = rhs.simd;
-		return *this;
-	}
-	union {
-		/// <summary> Leave this member alone. You can't fuck it up though. </summary>
-		SimdT simd;
-		struct {
-			ST x, y, z, w;
-		};
-		/// <summary> Raw array containing the elements. </summary>
-		ST data[4];
-#include "../Swizzle/Swizzle_4.inc.hpp"
-	};
-};
+template <class T>
+auto AsTuple(const T& value) {
+	return AsTuple(value, nullptr);
+}
 
 
 //------------------------------------------------------------------------------
@@ -409,8 +308,7 @@ class Vector : public VectorData<T, Dim, Packed> {
 
 public:
 	using VectorData<T, Dim, Packed>::data;
-	struct FromSimd_ {};
-	static constexpr FromSimd_ FromSimd = {};
+	using VectorData<T, Dim, Packed>::extended;
 
 	//--------------------------------------------
 	// Properties
@@ -422,7 +320,7 @@ public:
 	}
 
 	//--------------------------------------------
-	// Data constructors
+	// Basic constructors
 	//--------------------------------------------
 
 	/// <summary> Constructs the vector. Does NOT zero-initialize elements. </summary>
@@ -438,31 +336,10 @@ public:
 		}
 	}
 
-	/// <summary> Sets all elements to the same value. </summary>
-	explicit Vector(T all) {
-		if constexpr (!traits::HasSimd<Vector>::value) {
-			for (auto& v : *this) {
-				v = all;
-			}
-		}
-		else {
-			using SimdT = decltype(VectorData<T, Dim, Packed>::simd);
-			this->simd = SimdT::spread(all);
-		}
-	}
-
-	/// <summary> Constructs the vector from an array of elements. </summary>
-	/// <remarks> The number of elements must be the same as the vector's dimension. </remarks>
-	template <class U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0>
-	explicit Vector(const U* data) {
-		for (int i = 0; i < Dim; ++i) {
-			this->data[i] = data[i];
-		}
-	}
-
-	template <class SimdArgT>
-	Vector(FromSimd_, SimdArgT simd) : VectorData<T, Dim, Packed>(simd) {
-		static_assert(traits::HasSimd<Vector>::value, "To the developer of Mathter: don't call this unless has SIMD.");
+	/// <summary> Construct the vector using the SIMD batch type as content. </summary>
+	template <class ArgBatchT, std::enable_if_t<std::is_same_v<ArgBatchT, Batch<T, Dim, Packed>>>>
+	explicit Vector(ArgBatchT value) {
+		value.store_unaligned(extended.data());
 	}
 
 	//--------------------------------------------
@@ -475,50 +352,38 @@ public:
 
 	/// <summary> Truncates last coordinate of homogenous vector to create non-homogeneous. </summary>
 	template <class T2, bool Packed2>
-	explicit Vector(const Vector<T2, Dim + 1, Packed2>& rhs) : Vector(rhs.data) {}
+	explicit Vector(const Vector<T2, Dim + 1, Packed2>& rhs) : Vector(rhs.Data()) {}
 
 
 	//--------------------------------------------
-	// Scalar set & concatenation
+	// Data constructors
 	//--------------------------------------------
 
-	/// <summary> Initializes the vector to the given scalar elements. </summary>
-	/// <remarks> Number of arguments must equal vector dimension.
-	///		Types of arguments may differ from vector's underlying type, in which case cast is forced without a warning. </remarks>
-	template <class... Scalars, typename std::enable_if<Dim >= 2
-															&& std::conjunction_v<std::is_convertible<Scalars, T>...>
-															&& sizeof...(Scalars) == Dim,
-														int>::type = 0>
-	Vector(Scalars... scalars) {
-		if constexpr (traits::HasSimd<Vector>::value) {
-			if constexpr (Dim == 3) {
-				this->simd = VectorData<T, 3, Packed>::SimdT::set(T(scalars)..., T(0));
-			}
-			else {
-				this->simd = VectorData<T, Dim, Packed>::SimdT::set(T(scalars)...);
-			}
+	/// <summary> Constructs the vector from an array of elements. </summary>
+	/// <remarks> The number of elements must be the same as the vector's dimension. </remarks>
+	template <class U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0>
+	explicit Vector(const U* data) {
+		std::copy(data, data + Dimension(), begin());
+	}
+
+	/// <summary> Sets all elements to the same value. </summary>
+	explicit Vector(T all) {
+		if constexpr (IsBatched<T, Dim, Packed>()) {
+			Batch<T, Dim, Packed>(all).store_unaligned(extended.data());
 		}
 		else {
-			*reinterpret_cast<std::array<T, Dim>*>(this->data) = { T(scalars)... };
+			std::fill(begin(), end(), all);
 		}
 	}
 
 	/// <summary> Initializes the vector by concatenating given scalar, vector or swizzle arguments. </summary>
 	/// <remarks> Sum of the dimension of arguments must equal vector dimension.
 	///		Types of arguments may differ from vector's underlying type, in which case cast is forced without a warning. </remarks>
-	template <class... Mixed, typename std::enable_if<sizeof...(Mixed) >= 1
-														  && !std::conjunction_v<std::is_convertible<Mixed, T>...>
-														  && traits::SumDimensions<Mixed...>::value == Dim,
-													  int>::type = 0>
+	template <class... Mixed, typename std::enable_if<(sizeof...(Mixed) > 1), int>::type = 0>
 	Vector(const Mixed&... mixed) {
-		Assign(0, mixed...);
-	}
-
-
-	/// <summary> Sets the vector the provided elements. </summary>
-	template <class... Args>
-	void Set(Args&&... args) {
-		new (this) Vector(std::forward<Args>(args)...);
+		auto scalars = std::tuple_cat(AsTuple(mixed)...);
+		auto fun = [this](auto... args) { this->data = { T(args)... }; };
+		std::apply(fun, scalars);
 	}
 
 
@@ -528,157 +393,79 @@ public:
 
 	/// <summary> Returns the nth element of the vector. </summary>
 	T operator[](int idx) const {
-		assert(idx < Dimension());
 		return data[idx];
 	}
 	/// <summary> Returns the nth element of the vector. </summary>
 	T& operator[](int idx) {
-		assert(idx < Dimension());
 		return data[idx];
 	}
 
 	/// <summary> Returns the nth element of the vector. </summary>
 	T operator()(int idx) const {
-		assert(idx < Dimension());
 		return data[idx];
 	}
 	/// <summary> Returns the nth element of the vector. </summary>
 	T& operator()(int idx) {
-		assert(idx < Dimension());
 		return data[idx];
 	}
 
 	/// <summary> Returns an iterator to the first element. </summary>
-	const T* cbegin() const {
-		return data;
+	auto cbegin() const {
+		return data.begin();
 	}
 	/// <summary> Returns an iterator to the first element. </summary>
-	const T* begin() const {
-		return data;
+	auto begin() const {
+		return data.begin();
 	}
 	/// <summary> Returns an iterator to the first element. </summary>
-	T* begin() {
-		return data;
+	auto begin() {
+		return data.begin();
 	}
 	/// <summary> Returns an iterator to the end of the vector (works like STL). </summary>
-	const T* cend() const {
-		return data + Dim;
+	auto cend() const {
+		return data.cend();
 	}
 	/// <summary> Returns an iterator to the end of the vector (works like STL). </summary>
-	const T* end() const {
-		return data + Dim;
+	auto end() const {
+		return data.end();
 	}
 	/// <summary> Returns an iterator to the end of the vector (works like STL). </summary>
-	T* end() {
-		return data + Dim;
+	auto end() {
+		return data.end();
 	}
 
 	/// <summary> Returns a pointer to the underlying array of elements. </summary>
-	const T* Data() const {
-		return data;
+	auto Data() const {
+		return data.data();
 	}
 	/// <summary> Returns a pointer to the underlying array of elements. </summary>
-	T* Data() {
-		return data;
-	}
-
-protected:
-	//--------------------------------------------
-	// Helpers
-	//--------------------------------------------
-
-	// Get nth element of an argument
-	template <class U>
-	struct GetVectorElement {
-		static U Get(const U& u, int idx) { return u; }
-	};
-	template <class T2, int D2, bool P2>
-	struct GetVectorElement<Vector<T2, D2, P2>> {
-		static T2 Get(const Vector<T2, D2, P2>& u, int idx) { return u.data[idx]; }
-	};
-	template <class VectorDataU, int... Indices>
-	struct GetVectorElement<Swizzle<VectorDataU, Indices...>> {
-		static auto Get(const Swizzle<VectorDataU, Indices...>& u, int idx) { return u[idx]; }
-	};
-
-	// Assign
-	// Scalar concat assign
-	template <class Head, class... Scalars, typename std::enable_if<traits::All<traits::IsScalar, Head, Scalars...>::value, int>::type = 0>
-	void Assign(int idx, Head head, Scalars... scalars) {
-		data[idx] = (T)head;
-		Assign(idx + 1, scalars...);
-	}
-
-	// Generalized concat assign
-	template <class Head, class... Mixed, typename std::enable_if<traits::Any<traits::IsVectorOrSwizzle, Head, Mixed...>::value, int>::type = 0>
-	void Assign(int idx, const Head& head, const Mixed&... mixed) {
-		for (int i = 0; i < traits::DimensionOf<Head>::value; ++i) {
-			data[idx] = (T)GetVectorElement<Head>::Get(head, i);
-			++idx;
-		}
-		Assign(idx, mixed...);
-	}
-
-	// Assign terminator, fill stuff with zeros
-	void Assign(int idx) {
-		for (; idx < Dim; idx++) {
-			data[idx] = T(0);
-		}
+	auto Data() {
+		return data.data();
 	}
 };
 
 
-template <class SimdT, int... Indices>
-auto ShuffleReverse(SimdT arg, std::integer_sequence<int, Indices...>) {
-	return SimdT::template shuffle<Indices...>(arg);
+template <class T, int Dim, bool Packed, int... Indices>
+template <class T2, bool Packed2>
+Swizzle<T, Dim, Packed, Indices...>::operator Vector<T2, sizeof...(Indices), Packed2>() const {
+	constexpr auto Dim2 = int(sizeof...(Indices));
+	using V = Vector<T2, Dim2, Packed2>;
+
+	//if constexpr (IsBatched<T, Dim, Packed>()) {
+	//	using B = Batch<T, Dim, Packed>;
+	//	const auto batch = B::load_unaligned(data());
+	//	const auto mask = xsimd::make_batch_constant<>();
+	//	return V{ xsimd::swizzle(batch, mask) };
+	//}
+	return V(data()[Indices]...);
 }
 
-template <class VectorData, int... Indices>
-Swizzle<VectorData, Indices...>::operator Vector<typename Swizzle<VectorData, Indices...>::T, sizeof...(Indices), false>() const {
-	using DestVecT = Vector<T, sizeof...(Indices), false>;
-#if !_MSVC_LANG || _MSVC_LANG <= 201703L // MSVC has some bug...
-	constexpr bool SourceHasSimd = traits::HasSimd<VectorData>::value;
-	constexpr bool DestHasSimd = traits::HasSimd<DestVecT>::value;
-	if constexpr (SourceHasSimd && DestHasSimd) {
-		using SourceSimdT = decltype(std::declval<VectorData>().simd);
-		using DestSimdT = decltype(std::declval<DestVecT>().simd);
-		constexpr int VectorDataDim = traits::VectorTraits<VectorData>::Dim;
-		if constexpr (std::is_same_v<SourceSimdT, DestSimdT>) {
-			const auto& sourceSimd = reinterpret_cast<const VectorData*>(this)->simd;
-			if constexpr (sizeof...(Indices) == 3 && VectorDataDim == 3 && VectorDataDim == 4) {
-				return { DestVecT::FromSimd, ShuffleReverse(sourceSimd, typename traits::ReverseIntegerSequence<std::integer_sequence<int, Indices..., 3>>::type{}) };
-			}
-			else if constexpr (sizeof...(Indices) == 4 && VectorDataDim == 3 && VectorDataDim == 4) {
-				return { DestVecT::FromSimd, ShuffleReverse(sourceSimd, typename traits::ReverseIntegerSequence<std::integer_sequence<int, Indices...>>::type{}) };
-			}
-			else if constexpr (sizeof...(Indices) == 2 && VectorDataDim == 2) {
-				return { DestVecT::FromSimd, ShuffleReverse(sourceSimd, typename traits::ReverseIntegerSequence<std::integer_sequence<int, Indices...>>::type{}) };
-			}
-		}
-	}
-#endif
-	return DestVecT(data()[Indices]...);
-}
-template <class VectorData, int... Indices>
-Swizzle<VectorData, Indices...>::operator Vector<typename Swizzle<VectorData, Indices...>::T, sizeof...(Indices), true>() const {
-	return Vector<T, sizeof...(Indices), true>(data()[Indices]...);
-}
 
-template <class VectorData, int... Indices>
-Swizzle<VectorData, Indices...>& Swizzle<VectorData, Indices...>::operator=(const Vector<T, sizeof...(Indices), false>& rhs) {
-	if (data() != rhs.data) {
-		Assign<Indices...>(rhs.data);
-	}
-	else {
-		Vector<T, sizeof...(Indices), false> tmp = rhs;
-		*this = tmp;
-	}
-	return *this;
-}
-template <class VectorData, int... Indices>
-Swizzle<VectorData, Indices...>& Swizzle<VectorData, Indices...>::operator=(const Vector<T, sizeof...(Indices), true>& rhs) {
-	if (data() != rhs.data) {
-		Assign<Indices...>(rhs.data);
+template <class T, int Dim, bool Packed, int... Indices>
+template <class T2, bool Packed2>
+Swizzle<T, Dim, Packed, Indices...>& Swizzle<T, Dim, Packed, Indices...>::operator=(const Vector<T2, sizeof...(Indices), Packed2>& rhs) {
+	if (data() != rhs.Data()) {
+		std::tie((*this)[Indices]...) = AsTuple(rhs);
 	}
 	else {
 		Vector<T, sizeof...(Indices), false> tmp = rhs;
