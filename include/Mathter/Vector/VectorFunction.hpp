@@ -14,6 +14,7 @@
 #endif
 
 
+#include "../Common/MathUtil.hpp"
 #include "VectorImpl.hpp"
 
 namespace mathter {

@@ -8,17 +8,17 @@
 <AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
   
   <Type Name="mathter::Vector&lt;*&gt;">
-    <DisplayString Condition="$T2==1">[{*data}]</DisplayString>
-    <DisplayString Condition="$T2==2">[{*data}, {*(data+1)}]</DisplayString>
-    <DisplayString Condition="$T2==3">[{*data}, {*(data+1)}, {*(data+2)}]</DisplayString>
-    <DisplayString Condition="$T2==4">[{*data}, {*(data+1)}, {*(data+2)}, {*(data+3)}]</DisplayString>
-    <DisplayString Condition="$T2==5">[{*data}, {*(data+1)}, {*(data+2)}, {*(data+3)}, {*(data+4)}]</DisplayString>
-    <DisplayString Condition="$T2&gt;5">dim={$T2}  [{*data}, {*(data+1)}, ..., {*(data+$T2-1)}]</DisplayString>
+    <DisplayString Condition="$T2==1">[{x}]</DisplayString>
+    <DisplayString Condition="$T2==2">[{x}, {y}]</DisplayString>
+    <DisplayString Condition="$T2==3">[{x}, {y}, {z}]</DisplayString>
+    <DisplayString Condition="$T2==4">[{data[0]}, {y}, {z}, {w}]</DisplayString>
+    <DisplayString Condition="$T2==5">[{data[0]}, {data[1]}, {data[2]}, {data[3]}, {data[4]}]</DisplayString>
+    <DisplayString Condition="$T2&gt;5">dim={$T2}  [{data[0]}, {data[0]}, ..., {data[$T2-1]}]</DisplayString>
     <Expand>
       <Item Name="[dimension]" ExcludeView="simple">$T2</Item>
       <ArrayItems>
         <Size>$T2</Size>
-        <ValuePointer>data</ValuePointer>
+        <ValuePointer>($T1*)this</ValuePointer>
       </ArrayItems>
     </Expand>
   </Type>

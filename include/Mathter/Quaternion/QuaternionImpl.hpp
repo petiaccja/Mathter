@@ -30,7 +30,6 @@ namespace mathter {
 template <class T, bool Packed = false>
 class Quaternion {
 public:
-	static constexpr bool SimdAccelerated = traits::HasSimd<Vector<T, 4, Packed>>::value;
 	union {
 		struct {
 			T s, i, j, k;
@@ -92,7 +91,7 @@ public:
 		FromMatrix(rhs);
 	}
 
-	explicit Quaternion(const Vector<T, 4, false>& vec) : vec(vec) {}
+	explicit Quaternion(const Vector<T, 4, Packed>& vec) : vec(vec) {}
 
 	//-----------------------------------------------
 	// Assignment

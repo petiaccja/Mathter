@@ -14,6 +14,7 @@
 #include <cassert>
 #include <cmath>
 #include <type_traits>
+#include <utility>
 
 #ifdef MATHTER_USE_XSIMD
 #include <xsimd/xsimd.hpp>
@@ -48,6 +49,9 @@ class Swizzle {
 	const T* data() const { return reinterpret_cast<const T*>(this); }
 
 public:
+	Swizzle(const Swizzle&) = delete;
+	Swizzle(Swizzle&&) = delete;
+
 	/// <summary> Builds the swizzled vector object. </summary>
 	template <class T2, bool Packed2>
 	operator Vector<T2, sizeof...(Indices), Packed2>() const;
@@ -94,9 +98,9 @@ public:
 	}
 
 	/// <summary> Builds the swizzled vector object. </summary>
-	template <bool Packed = false>
+	template <bool Packed2 = false>
 	const auto ToVector() const {
-		return Vector<T, Dim, Packed>(*this);
+		return Vector<T, Dim, Packed2>(*this);
 	}
 };
 
@@ -151,7 +155,7 @@ template <class T, int Dim, bool Packed>
 constexpr int Alignment() {
 	if constexpr (IsBatched<T, Dim, Packed>()) {
 		using B = Batch<T, Dim, Packed>;
-		static_assert(!std::is_void_v<B>, "isBatched should prevent this case from ever happening.");
+		static_assert(!std::is_void_v<B>, "IsBatched should prevent this case from ever happening.");
 		return alignof(B);
 	}
 	return alignof(T);
@@ -170,7 +174,7 @@ struct VectorData {
 		/// <summary> Raw array containing the elements. </summary>
 		std::array<T, Dim> data;
 		/// <summary> A potentially larger array extended to the next SIMD size. </summary>
-		alignas(Alignment<T, Dim, Packed>()) std::array<T, Alignment<T, Dim, Packed>()> extended;
+		alignas(Alignment<T, Dim, Packed>()) std::array<T, ExtendedDim<T, Dim, Packed>()> extended;
 	};
 };
 
@@ -190,7 +194,7 @@ struct VectorData<T, 2, Packed> {
 		/// <summary> Raw array containing the elements. </summary>
 		std::array<T, 2> data;
 		/// <summary> A potentially larger array extended to the next SIMD size. </summary>
-		alignas(Alignment<T, 2, Packed>()) std::array<T, Alignment<T, 2, Packed>()> extended;
+		alignas(Alignment<T, 2, Packed>()) std::array<T, ExtendedDim<T, 2, Packed>()> extended;
 		struct {
 			T x, y;
 		};
@@ -215,7 +219,7 @@ struct VectorData<T, 3, Packed> {
 		/// <summary> Raw array containing the elements. </summary>
 		std::array<T, 3> data;
 		/// <summary> A potentially larger array extended to the next SIMD size. </summary>
-		alignas(Alignment<T, 3, Packed>()) std::array<T, Alignment<T, 3, Packed>()> extended;
+		alignas(Alignment<T, 3, Packed>()) std::array<T, ExtendedDim<T, 3, Packed>()> extended;
 		struct {
 			T x, y, z;
 		};
@@ -240,7 +244,7 @@ struct VectorData<T, 4, Packed> {
 		/// <summary> Raw array containing the elements. </summary>
 		std::array<T, 4> data;
 		/// <summary> A potentially larger array extended to the next SIMD size. </summary>
-		alignas(Alignment<T, 4, Packed>()) std::array<T, Alignment<T, 4, Packed>()> extended;
+		alignas(Alignment<T, 4, Packed>()) std::array<T, ExtendedDim<T, 4, Packed>()> extended;
 		struct {
 			T x, y, z, w;
 		};
@@ -261,12 +265,12 @@ auto AsTuple(const Indexable& value, std::index_sequence<Indices...>) {
 }
 
 template <class T, int Dim, bool Packed>
-auto AsTuple(const Vector<T, Dim, Packed>& value, nullptr_t) {
+auto AsTuple(const Vector<T, Dim, Packed>& value, std::nullptr_t) {
 	return AsTuple(value, std::make_index_sequence<Dim>());
 }
 
 template <class T, int Dim, bool Packed, int... Indices>
-auto AsTuple(const Swizzle<T, Dim, Packed, Indices...>& value, nullptr_t) {
+auto AsTuple(const Swizzle<T, Dim, Packed, Indices...>& value, std::nullptr_t) {
 	return AsTuple(value, std::make_index_sequence<sizeof...(Indices)>());
 }
 
@@ -329,17 +333,17 @@ public:
 	Vector& operator=(const Vector&) = default;
 
 	/// <summary> Constructs the vector by converting elements of <paramref name="other"/>. </summary>
-	template <class U, bool UPacked, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0>
-	Vector(const Vector<U, Dim, UPacked>& other) {
+	template <class T2, bool Packed2, std::enable_if_t<std::is_convertible_v<T2, T>, int> = 0>
+	Vector(const Vector<T2, Dim, Packed2>& other) {
 		for (int i = 0; i < Dim; ++i) {
 			this->data[i] = (T)other.data[i];
 		}
 	}
 
 	/// <summary> Construct the vector using the SIMD batch type as content. </summary>
-	template <class ArgBatchT, std::enable_if_t<std::is_same_v<ArgBatchT, Batch<T, Dim, Packed>>>>
-	explicit Vector(ArgBatchT value) {
-		value.store_unaligned(extended.data());
+	template <class B, std::enable_if_t<std::is_same_v<B, Batch<T, Dim, Packed>>, int> = 0>
+	explicit Vector(const B& batch) {
+		batch.store_unaligned(extended.data());
 	}
 
 	//--------------------------------------------
@@ -367,20 +371,21 @@ public:
 	}
 
 	/// <summary> Sets all elements to the same value. </summary>
-	explicit Vector(T all) {
+	template <class U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0>
+	explicit Vector(U all) {
 		if constexpr (IsBatched<T, Dim, Packed>()) {
-			Batch<T, Dim, Packed>(all).store_unaligned(extended.data());
+			Batch<T, Dim, Packed>(T(all)).store_unaligned(extended.data());
 		}
 		else {
-			std::fill(begin(), end(), all);
+			std::fill(begin(), end(), T(all));
 		}
 	}
 
 	/// <summary> Initializes the vector by concatenating given scalar, vector or swizzle arguments. </summary>
 	/// <remarks> Sum of the dimension of arguments must equal vector dimension.
 	///		Types of arguments may differ from vector's underlying type, in which case cast is forced without a warning. </remarks>
-	template <class... Mixed, typename std::enable_if<(sizeof...(Mixed) > 1), int>::type = 0>
-	Vector(const Mixed&... mixed) {
+	template <class... Args, typename std::enable_if<(sizeof...(Args) > 1), int>::type = 0>
+	Vector(const Args&... mixed) {
 		auto scalars = std::tuple_cat(AsTuple(mixed)...);
 		auto fun = [this](auto... args) { this->data = { T(args)... }; };
 		std::apply(fun, scalars);
@@ -445,18 +450,49 @@ public:
 };
 
 
+
+template <class T, T... Indices>
+struct SwizzleGenerator {
+	template <T... EmptyList>
+	static constexpr unsigned get_helper(unsigned, unsigned, const void*) {
+		return 0;
+	}
+	template <T First, T... Rest>
+	static constexpr unsigned get_helper(unsigned idx, unsigned size, std::nullptr_t) {
+		return idx == 0 ? First : get_helper<Rest...>(idx - 1, size - 1, nullptr);
+	}
+	static constexpr unsigned get(unsigned idx, unsigned size) {
+		return get_helper<Indices...>(idx, size, nullptr);
+	}
+};
+
+
 template <class T, int Dim, bool Packed, int... Indices>
 template <class T2, bool Packed2>
 Swizzle<T, Dim, Packed, Indices...>::operator Vector<T2, sizeof...(Indices), Packed2>() const {
 	constexpr auto Dim2 = int(sizeof...(Indices));
 	using V = Vector<T2, Dim2, Packed2>;
 
-	//if constexpr (IsBatched<T, Dim, Packed>()) {
-	//	using B = Batch<T, Dim, Packed>;
-	//	const auto batch = B::load_unaligned(data());
-	//	const auto mask = xsimd::make_batch_constant<>();
-	//	return V{ xsimd::swizzle(batch, mask) };
-	//}
+	if constexpr (IsBatched<T, Dim, Packed>() && Dim2 <= Dim) {
+		using TI = traits::same_size_int_t<T>;
+		static_assert(!std::is_void_v<TI> && sizeof(TI) == sizeof(T));
+		using B = Batch<T, Dim, Packed>;
+		constexpr auto batchSize = B::size;
+		using BI = xsimd::batch<TI, typename B::arch_type>;
+		const auto batch = B::load_unaligned(data());
+		using G = SwizzleGenerator<TI, TI(Indices)...>;
+		constexpr auto first = G::get(0, 9);
+		const auto mask = xsimd::make_batch_constant<BI, G>();
+		const auto swizzled = xsimd::swizzle(batch, mask);
+		if constexpr (std::is_convertible_v<decltype(swizzled), Vector<T, Dim2, Packed>>) {
+			return V{ Vector<T, Dim2, Packed>(swizzled) };
+		}
+		else {
+			alignas(decltype(swizzled)) std::array<T, batchSize> extended;
+			swizzled.store_aligned(extended.data());
+			return V{ Vector<T, Dim2, Packed>(extended.data()) };
+		}
+	}
 	return V(data()[Indices]...);
 }
 

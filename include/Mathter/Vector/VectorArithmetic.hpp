@@ -308,88 +308,88 @@ inline Vector<T, Dim, Packed> operator+(const Vector<T, Dim, Packed>& arg) {
 
 template <class T, int Dim, bool Packed, int SwDim, bool SwPacked, int... Indices>
 auto operator*(const Vector<T, Dim, Packed>& v, const Swizzle<T, SwDim, SwPacked, Indices...>& s) -> std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>> {
-	return v * decltype(v)(s);
+	return v * Vector<T, Dim, SwPacked>(s);
 }
 
 template <class T, int Dim, bool Packed, int SwDim, bool SwPacked, int... Indices>
 auto operator/(const Vector<T, Dim, Packed>& v, const Swizzle<T, SwDim, SwPacked, Indices...>& s) -> std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>> {
-	return v / decltype(v)(s);
+	return v / Vector<T, Dim, SwPacked>(s);
 }
 
 template <class T, int Dim, bool Packed, int SwDim, bool SwPacked, int... Indices>
 auto operator+(const Vector<T, Dim, Packed>& v, const Swizzle<T, SwDim, SwPacked, Indices...>& s) -> std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>> {
-	return v + decltype(v)(s);
+	return v + Vector<T, Dim, SwPacked>(s);
 }
 
 template <class T, int Dim, bool Packed, int SwDim, bool SwPacked, int... Indices>
 auto operator-(const Vector<T, Dim, Packed>& v, const Swizzle<T, SwDim, SwPacked, Indices...>& s) -> std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>> {
-	return v - decltype(v)(s);
+	return v - Vector<T, Dim, SwPacked>(s);
 }
 
 
 
 template <class T, int Dim, bool Packed, int SwDim, bool SwPacked, int... Indices>
 auto operator*(const Swizzle<T, SwDim, SwPacked, Indices...>& s, const Vector<T, Dim, Packed>& v) -> std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>> {
-	return decltype(v)(s) * v;
+	return Vector<T, Dim, SwPacked>(s) * v;
 }
 
 template <class T, int Dim, bool Packed, int SwDim, bool SwPacked, int... Indices>
 auto operator/(const Swizzle<T, SwDim, SwPacked, Indices...>& s, const Vector<T, Dim, Packed>& v) -> std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>> {
-	return decltype(v)(s) / v;
+	return Vector<T, Dim, SwPacked>(s) / v;
 }
 
 template <class T, int Dim, bool Packed, int SwDim, bool SwPacked, int... Indices>
 auto operator+(const Swizzle<T, SwDim, SwPacked, Indices...>& s, const Vector<T, Dim, Packed>& v) -> std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>> {
-	return decltype(v)(s) + v;
+	return Vector<T, Dim, SwPacked>(s) + v;
 }
 
 template <class T, int Dim, bool Packed, int SwDim, bool SwPacked, int... Indices>
 auto operator-(const Swizzle<T, SwDim, SwPacked, Indices...>& s, const Vector<T, Dim, Packed>& v) -> std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>> {
-	return decltype(v)(s) - v;
+	return Vector<T, Dim, SwPacked>(s) - v;
 }
 
 
 
 template <class T, int Dim, bool Packed, int SwDim, bool SwPacked, int... Indices>
 auto operator*=(Vector<T, Dim, Packed>& v, const Swizzle<T, SwDim, SwPacked, Indices...>& s) -> std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>>& {
-	return v *= decltype(v)(s);
+	return v *= Vector<T, Dim, SwPacked>(s);
 }
 
 template <class T, int Dim, bool Packed, int SwDim, bool SwPacked, int... Indices>
 auto operator/=(Vector<T, Dim, Packed>& v, const Swizzle<T, SwDim, SwPacked, Indices...>& s) -> std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>>& {
-	return v /= decltype(v)(s);
+	return v /= Vector<T, Dim, SwPacked>(s);
 }
 
 template <class T, int Dim, bool Packed, int SwDim, bool SwPacked, int... Indices>
 auto operator+=(Vector<T, Dim, Packed>& v, const Swizzle<T, SwDim, SwPacked, Indices...>& s) -> std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>>& {
-	return v += decltype(v)(s);
+	return v += Vector<T, Dim, SwPacked>(s);
 }
 
 template <class T, int Dim, bool Packed, int SwDim, bool SwPacked, int... Indices>
 auto operator-=(Vector<T, Dim, Packed>& v, const Swizzle<T, SwDim, SwPacked, Indices...>& s) -> std::enable_if_t<Dim == sizeof...(Indices), Vector<T, Dim, Packed>>& {
-	return v -= decltype(v)(s);
+	return v -= Vector<T, Dim, SwPacked>(s);
 }
 
 
 
 template <class T, int Dim, bool Packed, int SwDim, bool SwPacked, int... Indices>
 auto operator*=(Swizzle<T, SwDim, SwPacked, Indices...>& s, const Vector<T, Dim, Packed>& v) -> std::enable_if_t<Dim == sizeof...(Indices), Swizzle<T, SwDim, SwPacked, Indices...>>& {
-	return s = decltype(v)(s) * v;
+	return s = Vector<T, Dim, SwPacked>(s) * v;
 }
 
 template <class T, int Dim, bool Packed, int SwDim, bool SwPacked, int... Indices>
 auto operator/=(Swizzle<T, SwDim, SwPacked, Indices...>& s, const Vector<T, Dim, Packed>& v) -> std::enable_if_t<Dim == sizeof...(Indices), Swizzle<T, SwDim, SwPacked, Indices...>>& {
-	return s = decltype(v)(s) / v;
+	return s = Vector<T, Dim, SwPacked>(s) / v;
 }
 
 template <class T, int Dim, bool Packed, int SwDim, bool SwPacked, int... Indices>
 auto operator+=(Swizzle<T, SwDim, SwPacked, Indices...>& s, const Vector<T, Dim, Packed>& v) -> std::enable_if_t<Dim == sizeof...(Indices), Swizzle<T, SwDim, SwPacked, Indices...>>& {
-	return s = decltype(v)(s) + v;
+	return s = Vector<T, Dim, SwPacked>(s) + v;
 }
 
 template <class T, int Dim, bool Packed, int SwDim, bool SwPacked, int... Indices>
 auto operator-=(Swizzle<T, SwDim, SwPacked, Indices...>& s, const Vector<T, Dim, Packed>& v) -> std::enable_if_t<Dim == sizeof...(Indices), Swizzle<T, SwDim, SwPacked, Indices...>>& {
-	return s = decltype(v)(s) - v;
+	return s = Vector<T, Dim, SwPacked>(s) - v;
 }
 
 
@@ -436,22 +436,22 @@ auto operator-(const Swizzle<T1, Dim1, Packed1, Indices1...>& s1, const Swizzle<
 
 
 template <class T1, int Dim1, bool Packed1, int... Indices1, class T2, int Dim2, bool Packed2, int... Indices2>
-auto operator*=(Swizzle<T1, Dim1, Packed1, Indices1...>& s1, const Swizzle<T2, Dim2, Packed2, Indices2...>& s2) {
+auto& operator*=(Swizzle<T1, Dim1, Packed1, Indices1...>& s1, const Swizzle<T2, Dim2, Packed2, Indices2...>& s2) {
 	return s1 = s1 * s2;
 }
 
 template <class T1, int Dim1, bool Packed1, int... Indices1, class T2, int Dim2, bool Packed2, int... Indices2>
-auto operator/=(Swizzle<T1, Dim1, Packed1, Indices1...>& s1, const Swizzle<T2, Dim2, Packed2, Indices2...>& s2) {
+auto& operator/=(Swizzle<T1, Dim1, Packed1, Indices1...>& s1, const Swizzle<T2, Dim2, Packed2, Indices2...>& s2) {
 	return s1 = s1 / s2;
 }
 
 template <class T1, int Dim1, bool Packed1, int... Indices1, class T2, int Dim2, bool Packed2, int... Indices2>
-auto operator+=(Swizzle<T1, Dim1, Packed1, Indices1...>& s1, const Swizzle<T2, Dim2, Packed2, Indices2...>& s2) {
+auto& operator+=(Swizzle<T1, Dim1, Packed1, Indices1...>& s1, const Swizzle<T2, Dim2, Packed2, Indices2...>& s2) {
 	return s1 = s1 + s2;
 }
 
 template <class T1, int Dim1, bool Packed1, int... Indices1, class T2, int Dim2, bool Packed2, int... Indices2>
-auto operator-=(Swizzle<T1, Dim1, Packed1, Indices1...>& s1, const Swizzle<T2, Dim2, Packed2, Indices2...>& s2) {
+auto& operator-=(Swizzle<T1, Dim1, Packed1, Indices1...>& s1, const Swizzle<T2, Dim2, Packed2, Indices2...>& s2) {
 	return s1 = s1 - s2;
 }
 
