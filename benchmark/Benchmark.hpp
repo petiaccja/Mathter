@@ -9,6 +9,8 @@
 
 #if defined(_MSC_VER) && (defined(_M_X64) || defined(_M_X86))
 #include <intrin.h>
+#elif defined(__GLIBC__) && (defined(__x86_64__) || defined(__i386__))
+#include <x86intrin.h>
 #else
 #include <chrono>
 #define MATHTER_TSC_USES_CHRONO
