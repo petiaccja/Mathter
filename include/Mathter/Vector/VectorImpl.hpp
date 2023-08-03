@@ -184,10 +184,10 @@ template <class T, bool Packed>
 struct VectorData<T, 2, Packed> {
 	VectorData() {}
 	VectorData(const VectorData& rhs) {
-		data = rhs.data;
+		extended = rhs.extended;
 	}
 	VectorData& operator=(const VectorData& rhs) {
-		data = rhs.data;
+		extended = rhs.extended;
 		return *this;
 	}
 	union {
@@ -209,10 +209,10 @@ template <class T, bool Packed>
 struct VectorData<T, 3, Packed> {
 	VectorData() {}
 	VectorData(const VectorData& rhs) {
-		data = rhs.data;
+		extended = rhs.extended;
 	}
 	VectorData& operator=(const VectorData& rhs) {
-		data = rhs.data;
+		extended = rhs.extended;
 		return *this;
 	}
 	union {
@@ -234,10 +234,10 @@ template <class T, bool Packed>
 struct VectorData<T, 4, Packed> {
 	VectorData() {}
 	VectorData(const VectorData& rhs) {
-		data = rhs.data;
+		extended = rhs.extended;
 	}
 	VectorData& operator=(const VectorData& rhs) {
-		data = rhs.data;
+		extended = rhs.extended;
 		return *this;
 	}
 	union {

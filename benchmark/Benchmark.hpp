@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include <algorithm>
 #include <catch2/catch_test_macros.hpp>
 #include <cstddef>
 #include <cstdint>
@@ -14,6 +15,12 @@
 #else
 #include <chrono>
 #define MATHTER_TSC_USES_CHRONO
+#endif
+
+#ifdef _MSC_VER
+#define MATHTER_NOINLINE __declspec(noinline)
+#else
+#define MATHTER_NOINLINE __attribute__((noinline))
 #endif
 
 
@@ -47,14 +54,26 @@ template <class T>
 void DoNotOptimizeAway(T&& value) {
 	// Idea from celero https://github.com/DigitalInBlue/Celero/blob/master/include/celero/Utilities.h
 	if (ReadTSC() == 0) {
-		volatile thread_local char c;
-		c = *reinterpret_cast<const char*>(&value);
+		alignas(T) thread_local std::array<volatile char, sizeof(T)> c;
+		c = *reinterpret_cast<const std::array<volatile char, sizeof(T)>*>(&value);
 	}
 }
 
 
+template <size_t... Indices, class Func>
+void Unroll(Func func, std::index_sequence<Indices...>) {
+	(..., func(Indices));
+}
+
+
+template <size_t Count, class Func>
+void Unroll(Func func) {
+	Unroll(func, std::make_index_sequence<Count>{});
+}
+
+
 template <class DoSample>
-int64_t BestSample(DoSample&& doSample, int64_t samples) {
+MATHTER_NOINLINE int64_t BestSample(DoSample&& doSample, int64_t samples) {
 	int64_t bestTime = std::numeric_limits<int64_t>::max();
 	for (size_t i = 0; i < samples; ++i) {
 		bestTime = std::min(bestTime, doSample());
@@ -63,153 +82,61 @@ int64_t BestSample(DoSample&& doSample, int64_t samples) {
 }
 
 
-template <class Operation, class Feed, class... Init>
-float Latency(int64_t samples, int64_t repeat, Operation&& operation, Feed&& feed, const std::tuple<Init...>& init) {
+template <class Operation, class Feed, class... Init, size_t N>
+float Latency(int64_t samples, int64_t repeat, Operation&& operation, Feed&& feed, const std::array<std::tuple<Init...>, N>& init) {
+	constexpr size_t unrollCount = 16;
+
 	auto doSample = [&]() {
-		auto v = init;
+		auto result = operation(init[0]);
+		const auto seed = init[1 % N];
 
 		const auto startTime = ReadTSC();
 		for (int64_t i = 0; i < repeat; ++i) {
-			v = feed(operation(v), v);
-			v = feed(operation(v), v);
-			v = feed(operation(v), v);
-			v = feed(operation(v), v);
-			v = feed(operation(v), v);
-
-			v = feed(operation(v), v);
-			v = feed(operation(v), v);
-			v = feed(operation(v), v);
-			v = feed(operation(v), v);
-			v = feed(operation(v), v);
-
-			v = feed(operation(v), v);
-			v = feed(operation(v), v);
-			v = feed(operation(v), v);
-			v = feed(operation(v), v);
-			v = feed(operation(v), v);
-
-			v = feed(operation(v), v);
-			v = feed(operation(v), v);
-			v = feed(operation(v), v);
-			v = feed(operation(v), v);
-			v = feed(operation(v), v);
+			Unroll<unrollCount>([&](size_t) {
+				result = operation(feed(result, seed));
+			});
 		}
-		DoNotOptimizeAway(v);
+		DoNotOptimizeAway(result);
 
 		const auto endTime = ReadTSC();
 		return endTime - startTime;
 	};
 
-	return BestSample(doSample, samples) / float(repeat * 20);
+	return BestSample(doSample, samples) / float(repeat * unrollCount);
 }
 
 
-template <class Operation, class... Init, size_t N>
-float Throughput(int64_t samples, int64_t repeat, Operation&& operation, const std::array<std::tuple<Init...>, N>& init) {
+template <class Operation, class Feed, class... Init, size_t N>
+float Throughput(int64_t samples, int64_t repeat, Operation&& operation, Feed&& feed, const std::array<std::tuple<Init...>, N>& init) {
+	constexpr size_t unrollCount = 16;
+
 	auto doSample = [&]() {
 		size_t index = 0;
-		auto r = operation(init[0]);
-		auto v = init[0];
+		std::array<decltype(operation(init[0])), unrollCount> results;
+		std::fill(results.begin(), results.end(), operation(init[0]));
+		const auto seed = init[1 % N];
 
 		const auto startTime = ReadTSC();
+
 		for (int64_t i = 0; i < repeat; ++i) {
-			v = init[index];
-			r = operation(v);
-			index = (index + 1) % N;
-
-			v = init[index];
-			r = operation(v);
-			index = (index + 1) % N;
-
-			v = init[index];
-			r = operation(v);
-			index = (index + 1) % N;
-
-			v = init[index];
-			r = operation(v);
-			index = (index + 1) % N;
-
-			v = init[index];
-			r = operation(v);
-			index = (index + 1) % N;
-
-
-			v = init[index];
-			r = operation(v);
-			index = (index + 1) % N;
-
-			v = init[index];
-			r = operation(v);
-			index = (index + 1) % N;
-
-			v = init[index];
-			r = operation(v);
-			index = (index + 1) % N;
-
-			v = init[index];
-			r = operation(v);
-			index = (index + 1) % N;
-
-			v = init[index];
-			r = operation(v);
-			index = (index + 1) % N;
-
-
-			v = init[index];
-			r = operation(v);
-			index = (index + 1) % N;
-
-			v = init[index];
-			r = operation(v);
-			index = (index + 1) % N;
-
-			v = init[index];
-			r = operation(v);
-			index = (index + 1) % N;
-
-			v = init[index];
-			r = operation(v);
-			index = (index + 1) % N;
-
-			v = init[index];
-			r = operation(v);
-			index = (index + 1) % N;
-
-
-			v = init[index];
-			r = operation(v);
-			index = (index + 1) % N;
-
-			v = init[index];
-			r = operation(v);
-			index = (index + 1) % N;
-
-			v = init[index];
-			r = operation(v);
-			index = (index + 1) % N;
-
-			v = init[index];
-			r = operation(v);
-			index = (index + 1) % N;
-
-			v = init[index];
-			r = operation(v);
-			index = (index + 1) % N;
+			Unroll<results.size()>([&](size_t unrollIdx) {
+				results[unrollIdx] = operation(feed(results[unrollIdx], seed));
+			});
 		}
-		DoNotOptimizeAway(r);
+		DoNotOptimizeAway(results);
 
 		const auto endTime = ReadTSC();
 		return endTime - startTime;
 	};
 
-	return BestSample(doSample, samples) / float(repeat * 20);
+	return BestSample(doSample, samples) / float(repeat * unrollCount);
 }
 
 
 template <class Operation, class Feed, class... Init, size_t N>
 void BenchmarkCase(std::string_view name, int64_t samples, int64_t repeat, Operation&& operation, Feed&& feed, const std::array<std::tuple<Init...>, N>& init) {
-	const auto latency = Latency(samples, repeat, operation, feed, init[0]);
-	const auto throughput = Throughput(samples, repeat, operation, init);
+	const auto latency = Latency(samples, repeat, operation, feed, init);
+	const auto throughput = Throughput(samples, repeat, operation, feed, init);
 	std::lock_guard lk{ g_mutex };
 	g_records.push_back(BenchmarkRecord{ std::string(name), latency, throughput });
 }
