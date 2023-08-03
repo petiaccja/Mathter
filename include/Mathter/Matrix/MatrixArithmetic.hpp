@@ -57,20 +57,6 @@ namespace impl {
 template <class T, class U, int Rows1, int Match, int Columns2, eMatrixOrder Order, bool Packed>
 inline auto operator*(const Matrix<T, Rows1, Match, Order, eMatrixLayout::ROW_MAJOR, Packed>& lhs,
 					  const Matrix<U, Match, Columns2, Order, eMatrixLayout::ROW_MAJOR, Packed>& rhs) {
-#ifdef MATHTER_SSE2_HACK
-	if constexpr (Rows1 == 2 && Match == 2 && Columns2 == 2 && std::is_same_v<T, float> && std::is_same_v<U, float>) {
-		using V = traits::MatMulElemT<T, U>;
-		using Vec4T = Vector<V, 4>;
-		Vec4T lhsv;
-		Vec4T rhsv;
-		lhsv.simd.reg = _mm_loadu_ps(reinterpret_cast<const float*>(&lhs));
-		rhsv.simd.reg = _mm_loadu_ps(reinterpret_cast<const float*>(&rhs));
-		Vec4T resultv = Vec4T(lhsv.xxzz) * Vec4T(rhsv.xyxy) + Vec4T(lhsv.yyww) * Vec4T(rhsv.zwzw);
-		Matrix<V, 2, 2, Order, eMatrixLayout::ROW_MAJOR, Packed> result;
-		_mm_storeu_ps(reinterpret_cast<float*>(&result), resultv.simd.reg);
-		return result;
-	}
-#endif
 	if constexpr (Rows1 <= 4 && Match <= 4 && Columns2 <= 4) {
 		return impl::SmallProductRR(lhs, rhs, std::make_integer_sequence<int, Rows1>{});
 	}
