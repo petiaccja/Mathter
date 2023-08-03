@@ -17,6 +17,9 @@
 #include "../Common/MathUtil.hpp"
 #include "VectorImpl.hpp"
 
+#include <numeric>
+
+
 namespace mathter {
 
 
@@ -101,30 +104,29 @@ Vector<T, Dim, Packed> SafeNormalize(const Vector<T, Dim, Packed>& v, const Vect
 /// <summary> Sets all elements of the vector to the same value. </summary>
 template <class T, int Dim, bool Packed, class U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0>
 void Fill(Vector<T, Dim, Packed>& lhs, U all) {
-	if constexpr (!traits::HasSimd<Vector<T, Dim, Packed>>::value) {
-		for (auto& v : lhs) {
-			v = (T)all;
-		}
-	}
-	else {
-		using SimdT = decltype(VectorData<T, Dim, Packed>::simd);
-		lhs.simd = SimdT::spread((T)all);
-	}
+	lhs = Vector<T, Dim, Packed>((T)all);
 }
 
 /// <summary> Calculates the scalar product (dot product) of the two arguments. </summary>
 template <class T, int Dim, bool Packed>
 T Dot(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
-	if constexpr (!traits::HasSimd<Vector<T, Dim, Packed>>::value) {
-		T sum = T(0);
-		for (int i = 0; i < Dim; ++i) {
-			sum += lhs.data[i] * rhs.data[i];
-		}
-		return sum;
+	if constexpr (IsBatched<T, Dim, Packed>()) {
+		struct G {
+			static constexpr bool get(unsigned idx, unsigned size) noexcept {
+				return idx < Dim - 1;
+			}
+		};
+		using B = Batch<T, Dim, Packed>;
+		const auto lhsv = B::load_unaligned(lhs.extended.data());
+		const auto rhsv = B::load_unaligned(rhs.extended.data());
+		const auto zeros = B{ T(0) };
+		const auto prod = lhsv * rhsv;
+		const auto mask = xsimd::make_batch_bool_constant<B, G>();
+		xsimd::select(mask, prod, zeros);
+		return xsimd::reduce_add(prod);
 	}
 	else {
-		using SimdT = decltype(VectorData<T, Dim, Packed>::simd);
-		return SimdT::template dot<Dim>(lhs.simd, rhs.simd);
+		return std::inner_product(lhs.data.begin(), lhs.data.end(), rhs.data.begin(), T(0));
 	}
 }
 
@@ -158,15 +160,10 @@ Vector<T, 2, Packed> Cross(const std::array<const Vector<T, 2, Packed>*, 1>& arg
 template <class T, bool Packed>
 Vector<T, 3, Packed> Cross(const Vector<T, 3, Packed>& lhs, const Vector<T, 3, Packed>& rhs) {
 	using VecT = Vector<T, 3, Packed>;
-	if constexpr (traits::HasSimd<VecT>::value) {
-		return VecT(lhs.yzx) * VecT(rhs.zxy) - VecT(lhs.zxy) * VecT(rhs.yzx);
-	}
-	else {
-		return VecT(lhs.y * rhs.z - lhs.z * rhs.y,
-					lhs.z * rhs.x - lhs.x * rhs.z,
-					lhs.x * rhs.y - lhs.y * rhs.x);
-	}
+	return VecT(lhs.yzx) * VecT(rhs.zxy) - VecT(lhs.zxy) * VecT(rhs.yzx);
 }
+
+
 /// <summary> Returns the 3-dimensional cross-product. </summary>
 template <class T, bool Packed>
 Vector<T, 3, Packed> Cross(const std::array<const Vector<T, 3, Packed>*, 2>& args) {
@@ -177,20 +174,38 @@ Vector<T, 3, Packed> Cross(const std::array<const Vector<T, 3, Packed>*, 2>& arg
 /// <summary> Returns the element-wise minimum of arguments </summary>
 template <class T, int Dim, bool Packed>
 Vector<T, Dim, Packed> Min(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
-	Vector<T, Dim, Packed> res;
-	for (int i = 0; i < lhs.Dimension(); ++i) {
-		res[i] = std::min(lhs[i], rhs[i]);
+	if constexpr (IsBatched<T, Dim, Packed>()) {
+		using B = Batch<T, Dim, Packed>;
+		const auto lhsv = B::load_unaligned(lhs.extended.data());
+		const auto rhsv = B::load_unaligned(rhs.extended.data());
+		return Vector<T, Dim, Packed>{ xsimd::min(lhsv, rhsv) };
 	}
-	return res;
+	else {
+		Vector<T, Dim, Packed> res;
+		for (int i = 0; i < lhs.Dimension(); ++i) {
+			res[i] = std::min(lhs[i], rhs[i]);
+		}
+		return res;
+	}
 }
+
+
 /// <summary> Returns the element-wise maximum of arguments </summary>
 template <class T, int Dim, bool Packed>
 Vector<T, Dim, Packed> Max(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
-	Vector<T, Dim, Packed> res;
-	for (int i = 0; i < lhs.Dimension(); ++i) {
-		res[i] = std::max(lhs[i], rhs[i]);
+	if constexpr (IsBatched<T, Dim, Packed>()) {
+		using B = Batch<T, Dim, Packed>;
+		const auto lhsv = B::load_unaligned(lhs.extended.data());
+		const auto rhsv = B::load_unaligned(rhs.extended.data());
+		return Vector<T, Dim, Packed>{ xsimd::min(lhsv, rhsv) };
 	}
-	return res;
+	else {
+		Vector<T, Dim, Packed> res;
+		for (int i = 0; i < lhs.Dimension(); ++i) {
+			res[i] = std::max(lhs[i], rhs[i]);
+		}
+		return res;
+	}
 }
 
 
