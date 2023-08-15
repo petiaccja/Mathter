@@ -84,7 +84,7 @@ MATHTER_NOINLINE int64_t BestSample(DoSample&& doSample, int64_t samples) {
 
 template <class Operation, class Feed, class... Init, size_t N>
 float Latency(int64_t samples, int64_t repeat, Operation&& operation, Feed&& feed, const std::array<std::tuple<Init...>, N>& init) {
-	constexpr size_t unrollCount = 16;
+	static constexpr size_t unrollCount = 16;
 
 	auto doSample = [&]() {
 		auto result = operation(init[0]);
@@ -108,7 +108,7 @@ float Latency(int64_t samples, int64_t repeat, Operation&& operation, Feed&& fee
 
 template <class Operation, class Feed, class... Init, size_t N>
 float Throughput(int64_t samples, int64_t repeat, Operation&& operation, Feed&& feed, const std::array<std::tuple<Init...>, N>& init) {
-	constexpr size_t unrollCount = 16;
+	static constexpr size_t unrollCount = 16;
 
 	auto doSample = [&]() {
 		size_t index = 0;
