@@ -45,7 +45,10 @@ elseif(MATHTER_INIT_MODE STREQUAL "UNINITIALIZED")
 endif()
 
 if (${MATHTER_USE_XSIMD})
+	message("Vectorization is enabled via the XSimd library.")
 	add_compile_definitions(MATHTER_USE_XSIMD=1)
+else()
+	message("Vectorization is disabled.")
 endif()
 
 # Output directories
