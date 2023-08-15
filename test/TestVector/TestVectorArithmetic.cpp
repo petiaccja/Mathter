@@ -498,10 +498,10 @@ TEMPLATE_LIST_TEST_CASE("Vector - Vector-scalar reverse div", "[Vector]", TypeLi
 			using Vec3 = typename TestType::template Vector<3>;                               \
 			using Vec5 = typename TestType::template Vector<5>;                               \
                                                                                               \
-			const Vec3 v1 = { 1, 2, 3 };                                                            \
-			const Vec3 v2 = { 1, 4, -2 };                                                           \
-			const Vec3 r = v1.xyz OPERATOR v2.xyz;                                                  \
-			const Vec3 e = v1 OPERATOR v2;                                                          \
+			const Vec3 v1 = { 1, 2, 3 };                                                      \
+			const Vec3 v2 = { 1, 4, -2 };                                                     \
+			const Vec3 r = v1.xyz OPERATOR v2.xyz;                                            \
+			const Vec3 e = v1 OPERATOR v2;                                                    \
 			REQUIRE(r == e);                                                                  \
 		}                                                                                     \
 	}

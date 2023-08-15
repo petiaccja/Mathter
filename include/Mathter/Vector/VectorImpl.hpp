@@ -171,8 +171,6 @@ template <class T, int Dim, bool Packed>
 struct VectorData {
 	VectorData() {}
 	union {
-		/// <summary> Raw array containing the elements. </summary>
-		std::array<T, Dim> data;
 		/// <summary> A potentially larger array extended to the next SIMD size. </summary>
 		alignas(Alignment<T, Dim, Packed>()) std::array<T, ExtendedDim<T, Dim, Packed>()> extended;
 	};
@@ -191,8 +189,6 @@ struct VectorData<T, 2, Packed> {
 		return *this;
 	}
 	union {
-		/// <summary> Raw array containing the elements. </summary>
-		std::array<T, 2> data;
 		/// <summary> A potentially larger array extended to the next SIMD size. </summary>
 		alignas(Alignment<T, 2, Packed>()) std::array<T, ExtendedDim<T, 2, Packed>()> extended;
 		struct {
@@ -216,8 +212,6 @@ struct VectorData<T, 3, Packed> {
 		return *this;
 	}
 	union {
-		/// <summary> Raw array containing the elements. </summary>
-		std::array<T, 3> data;
 		/// <summary> A potentially larger array extended to the next SIMD size. </summary>
 		alignas(Alignment<T, 3, Packed>()) std::array<T, ExtendedDim<T, 3, Packed>()> extended;
 		struct {
@@ -241,8 +235,6 @@ struct VectorData<T, 4, Packed> {
 		return *this;
 	}
 	union {
-		/// <summary> Raw array containing the elements. </summary>
-		std::array<T, 4> data;
 		/// <summary> A potentially larger array extended to the next SIMD size. </summary>
 		alignas(Alignment<T, 4, Packed>()) std::array<T, ExtendedDim<T, 4, Packed>()> extended;
 		struct {
@@ -311,7 +303,6 @@ class Vector : public VectorData<T, Dim, Packed> {
 	static_assert(Dim >= 1, "Dimension must be positive integer.");
 
 public:
-	using VectorData<T, Dim, Packed>::data;
 	using VectorData<T, Dim, Packed>::extended;
 
 	//--------------------------------------------
@@ -336,14 +327,14 @@ public:
 	template <class T2, bool Packed2, std::enable_if_t<std::is_convertible_v<T2, T>, int> = 0>
 	Vector(const Vector<T2, Dim, Packed2>& other) {
 		for (int i = 0; i < Dim; ++i) {
-			this->data[i] = (T)other.data[i];
+			data()[i] = (T)other.data()[i];
 		}
 	}
 
 	/// <summary> Construct the vector using the SIMD batch type as content. </summary>
 	template <class B, std::enable_if_t<std::is_same_v<B, Batch<T, Dim, Packed>>, int> = 0>
 	explicit Vector(const B& batch) {
-		batch.store_unaligned(extended.data());
+		batch.store_unaligned(data());
 	}
 
 	//--------------------------------------------
@@ -356,7 +347,7 @@ public:
 
 	/// <summary> Truncates last coordinate of homogenous vector to create non-homogeneous. </summary>
 	template <class T2, bool Packed2>
-	explicit Vector(const Vector<T2, Dim + 1, Packed2>& rhs) : Vector(rhs.Data()) {}
+	explicit Vector(const Vector<T2, Dim + 1, Packed2>& rhs) : Vector(rhs.data()) {}
 
 
 	//--------------------------------------------
@@ -366,15 +357,15 @@ public:
 	/// <summary> Constructs the vector from an array of elements. </summary>
 	/// <remarks> The number of elements must be the same as the vector's dimension. </remarks>
 	template <class U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0>
-	explicit Vector(const U* data) {
-		std::copy(data, data + Dimension(), begin());
+	explicit Vector(const U* elements) {
+		std::copy(elements, elements + Dimension(), begin());
 	}
 
 	/// <summary> Sets all elements to the same value. </summary>
 	template <class U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0>
 	explicit Vector(U all) {
 		if constexpr (IsBatched<T, Dim, Packed>()) {
-			Batch<T, Dim, Packed>(T(all)).store_unaligned(extended.data());
+			Batch<T, Dim, Packed>(T(all)).store_unaligned(data());
 		}
 		else {
 			std::fill(begin(), end(), T(all));
@@ -387,7 +378,12 @@ public:
 	template <class... Args, typename std::enable_if<(sizeof...(Args) > 1), int>::type = 0>
 	Vector(const Args&... mixed) {
 		auto scalars = std::tuple_cat(AsTuple(mixed)...);
-		auto fun = [this](auto... args) { this->data = { T(args)... }; };
+		auto fun = [this](const auto&... args) {
+			int i = 0;
+			for (const auto& v : std::initializer_list<T>{ T(args)... }) {
+				data()[i++] = v;
+			}
+		};
 		std::apply(fun, scalars);
 	}
 
@@ -398,54 +394,63 @@ public:
 
 	/// <summary> Returns the nth element of the vector. </summary>
 	T operator[](int idx) const {
-		return data[idx];
+		return data()[idx];
 	}
 	/// <summary> Returns the nth element of the vector. </summary>
 	T& operator[](int idx) {
-		return data[idx];
+		return data()[idx];
 	}
 
 	/// <summary> Returns the nth element of the vector. </summary>
 	T operator()(int idx) const {
-		return data[idx];
+		return data()[idx];
 	}
 	/// <summary> Returns the nth element of the vector. </summary>
 	T& operator()(int idx) {
-		return data[idx];
+		return data()[idx];
 	}
 
 	/// <summary> Returns an iterator to the first element. </summary>
 	auto cbegin() const {
-		return data.begin();
+		return extended.cbegin();
 	}
 	/// <summary> Returns an iterator to the first element. </summary>
 	auto begin() const {
-		return data.begin();
+		return extended.begin();
 	}
 	/// <summary> Returns an iterator to the first element. </summary>
 	auto begin() {
-		return data.begin();
+		return extended.begin();
 	}
 	/// <summary> Returns an iterator to the end of the vector (works like STL). </summary>
 	auto cend() const {
-		return data.cend();
+		return cbegin() + Dimension();
 	}
 	/// <summary> Returns an iterator to the end of the vector (works like STL). </summary>
 	auto end() const {
-		return data.end();
+		return begin() + Dimension();
 	}
 	/// <summary> Returns an iterator to the end of the vector (works like STL). </summary>
 	auto end() {
-		return data.end();
+		return begin() + Dimension();
 	}
 
 	/// <summary> Returns a pointer to the underlying array of elements. </summary>
 	auto Data() const {
-		return data.data();
+		return data();
 	}
 	/// <summary> Returns a pointer to the underlying array of elements. </summary>
 	auto Data() {
-		return data.data();
+		return data();
+	}
+
+	/// <summary> Returns a pointer to the underlying array of elements. </summary>
+	auto data() const {
+		return extended.data();
+	}
+	/// <summary> Returns a pointer to the underlying array of elements. </summary>
+	auto data() {
+		return extended.data();
 	}
 };
 
@@ -500,7 +505,7 @@ Swizzle<T, Dim, Packed, Indices...>::operator Vector<T2, sizeof...(Indices), Pac
 template <class T, int Dim, bool Packed, int... Indices>
 template <class T2, bool Packed2>
 Swizzle<T, Dim, Packed, Indices...>& Swizzle<T, Dim, Packed, Indices...>::operator=(const Vector<T2, sizeof...(Indices), Packed2>& rhs) {
-	if (data() != rhs.Data()) {
+	if (data() != rhs.data()) {
 		std::tie((*this)[Indices]...) = AsTuple(rhs);
 	}
 	else {

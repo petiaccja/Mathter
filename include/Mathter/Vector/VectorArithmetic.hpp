@@ -19,14 +19,14 @@ namespace mathter {
 
 template <class T, int Dim, bool Packed, class Fun, size_t... Indices>
 inline auto DoElementwiseOp(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs, Fun&& fun, std::index_sequence<Indices...>) {
-	return Vector<T, Dim, Packed>{ fun(lhs.data[Indices], rhs.data[Indices])... };
+	return Vector<T, Dim, Packed>{ fun(lhs[Indices], rhs[Indices])... };
 }
 
 template <class T, int Dim, bool Packed, class Fun>
 inline auto DoBinaryOp(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs, Fun&& fun) {
 	if constexpr (IsBatched<T, Dim, Packed>()) {
 		using B = Batch<T, Dim, Packed>;
-		return Vector<T, Dim, Packed>{ fun(B::load_unaligned(lhs.extended.data()), B::load_unaligned(rhs.extended.data())) };
+		return Vector<T, Dim, Packed>{ fun(B::load_unaligned(lhs.data()), B::load_unaligned(rhs.data())) };
 	}
 	else {
 		return DoElementwiseOp(lhs, rhs, fun, std::make_index_sequence<Dim>{});
@@ -36,7 +36,7 @@ inline auto DoBinaryOp(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, P
 template <class T, int Dim, bool Packed, class S, class Fun, size_t... Indices, std::enable_if_t<!traits::IsVector<S>::value, int> = 0>
 inline auto DoElementwiseOp(const Vector<T, Dim, Packed>& lhs, const S& rhs, Fun&& fun, std::index_sequence<Indices...>) {
 	using R = std::common_type_t<T, S>;
-	return Vector<R, Dim, Packed>{ fun(R(lhs.data[Indices]), R(rhs))... };
+	return Vector<R, Dim, Packed>{ fun(R(lhs[Indices]), R(rhs))... };
 }
 
 template <class T, int Dim, bool Packed, class S, class Fun, std::enable_if_t<!traits::IsVector<S>::value, int> = 0>
@@ -47,7 +47,7 @@ inline auto DoBinaryOp(const Vector<T, Dim, Packed>& lhs, const S& rhs, Fun&& fu
 				  && std::is_convertible_v<Batch<T, Dim, Packed>, Batch<R, Dim, Packed>>) {
 		using TB = Batch<T, Dim, Packed>;
 		using RB = Batch<T, Dim, Packed>;
-		return Vector<T, Dim, Packed>{ fun(RB(TB::load_unaligned(lhs.extended.data())), RB(R(rhs))) };
+		return Vector<T, Dim, Packed>{ fun(RB(TB::load_unaligned(lhs.data())), RB(R(rhs))) };
 	}
 	else {
 		return DoElementwiseOp(lhs, rhs, fun, std::make_index_sequence<Dim>{});

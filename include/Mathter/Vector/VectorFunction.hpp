@@ -113,20 +113,21 @@ T Dot(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
 	if constexpr (IsBatched<T, Dim, Packed>()) {
 		struct G {
 			static constexpr bool get(unsigned idx, unsigned size) noexcept {
-				return idx < Dim - 1;
+				return idx < Dim;
 			}
 		};
 		using B = Batch<T, Dim, Packed>;
-		const auto lhsv = B::load_unaligned(lhs.extended.data());
-		const auto rhsv = B::load_unaligned(rhs.extended.data());
+		const auto lhsv = B::load_unaligned(lhs.data());
+		const auto rhsv = B::load_unaligned(rhs.data());
 		const auto zeros = B{ T(0) };
-		const auto prod = lhsv * rhsv;
 		const auto mask = xsimd::make_batch_bool_constant<B, G>();
-		xsimd::select(mask, prod, zeros);
+		const auto lhsvm = xsimd::select(mask, lhsv, zeros);
+		const auto rhsvm = xsimd::select(mask, rhsv, zeros);
+		const auto prod = lhsvm * rhsvm;
 		return xsimd::reduce_add(prod);
 	}
 	else {
-		return std::inner_product(lhs.data.begin(), lhs.data.end(), rhs.data.begin(), T(0));
+		return std::inner_product(lhs.begin(), lhs.end(), rhs.begin(), T(0));
 	}
 }
 
@@ -176,8 +177,8 @@ template <class T, int Dim, bool Packed>
 Vector<T, Dim, Packed> Min(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
 	if constexpr (IsBatched<T, Dim, Packed>()) {
 		using B = Batch<T, Dim, Packed>;
-		const auto lhsv = B::load_unaligned(lhs.extended.data());
-		const auto rhsv = B::load_unaligned(rhs.extended.data());
+		const auto lhsv = B::load_unaligned(lhs.data());
+		const auto rhsv = B::load_unaligned(rhs.data());
 		return Vector<T, Dim, Packed>{ xsimd::min(lhsv, rhsv) };
 	}
 	else {
@@ -195,9 +196,9 @@ template <class T, int Dim, bool Packed>
 Vector<T, Dim, Packed> Max(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
 	if constexpr (IsBatched<T, Dim, Packed>()) {
 		using B = Batch<T, Dim, Packed>;
-		const auto lhsv = B::load_unaligned(lhs.extended.data());
-		const auto rhsv = B::load_unaligned(rhs.extended.data());
-		return Vector<T, Dim, Packed>{ xsimd::min(lhsv, rhsv) };
+		const auto lhsv = B::load_unaligned(lhs.data());
+		const auto rhsv = B::load_unaligned(rhs.data());
+		return Vector<T, Dim, Packed>{ xsimd::max(lhsv, rhsv) };
 	}
 	else {
 		Vector<T, Dim, Packed> res;
