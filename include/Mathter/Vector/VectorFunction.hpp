@@ -110,6 +110,7 @@ void Fill(Vector<T, Dim, Packed>& lhs, U all) {
 /// <summary> Calculates the scalar product (dot product) of the two arguments. </summary>
 template <class T, int Dim, bool Packed>
 T Dot(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
+#if MATHTER_USE_XSIMD
 	if constexpr (IsBatched<T, Dim, Packed>()) {
 		struct G {
 			static constexpr bool get(unsigned idx, unsigned size) noexcept {
@@ -126,9 +127,8 @@ T Dot(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
 		const auto prod = lhsvm * rhsvm;
 		return xsimd::reduce_add(prod);
 	}
-	else {
-		return std::inner_product(lhs.begin(), lhs.end(), rhs.begin(), T(0));
-	}
+#endif
+	return std::inner_product(lhs.begin(), lhs.end(), rhs.begin(), T(0));
 }
 
 /// <summary> Returns the generalized cross-product in N dimensions. </summary>
@@ -175,38 +175,38 @@ Vector<T, 3, Packed> Cross(const std::array<const Vector<T, 3, Packed>*, 2>& arg
 /// <summary> Returns the element-wise minimum of arguments </summary>
 template <class T, int Dim, bool Packed>
 Vector<T, Dim, Packed> Min(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
+#if MATHTER_USE_XSIMD
 	if constexpr (IsBatched<T, Dim, Packed>()) {
 		using B = Batch<T, Dim, Packed>;
 		const auto lhsv = B::load_unaligned(lhs.data());
 		const auto rhsv = B::load_unaligned(rhs.data());
 		return Vector<T, Dim, Packed>{ xsimd::min(lhsv, rhsv) };
 	}
-	else {
-		Vector<T, Dim, Packed> res;
-		for (int i = 0; i < lhs.Dimension(); ++i) {
-			res[i] = std::min(lhs[i], rhs[i]);
-		}
-		return res;
+#endif
+	Vector<T, Dim, Packed> res;
+	for (int i = 0; i < lhs.Dimension(); ++i) {
+		res[i] = std::min(lhs[i], rhs[i]);
 	}
+	return res;
 }
 
 
 /// <summary> Returns the element-wise maximum of arguments </summary>
 template <class T, int Dim, bool Packed>
 Vector<T, Dim, Packed> Max(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
+#if MATHTER_USE_XSIMD
 	if constexpr (IsBatched<T, Dim, Packed>()) {
 		using B = Batch<T, Dim, Packed>;
 		const auto lhsv = B::load_unaligned(lhs.data());
 		const auto rhsv = B::load_unaligned(rhs.data());
 		return Vector<T, Dim, Packed>{ xsimd::max(lhsv, rhsv) };
 	}
-	else {
-		Vector<T, Dim, Packed> res;
-		for (int i = 0; i < lhs.Dimension(); ++i) {
-			res[i] = std::max(lhs[i], rhs[i]);
-		}
-		return res;
+#endif
+	Vector<T, Dim, Packed> res;
+	for (int i = 0; i < lhs.Dimension(); ++i) {
+		res[i] = std::max(lhs[i], rhs[i]);
 	}
+	return res;
 }
 
 

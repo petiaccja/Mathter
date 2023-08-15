@@ -49,7 +49,7 @@ namespace impl {
 			s2 = 0;
 			return;
 		}
-		T maxden = std::max(abs(c), abs(d));
+		T maxden = std::max(std::abs(c), std::abs(d));
 
 		T rcmaxden = 1 / maxden;
 		c *= rcmaxden;
@@ -75,17 +75,17 @@ namespace impl {
 		Rq2x2Helper(A, x, y, z, c2, s2);
 
 		// Calculate tangent of rotation on R[x,y;0,z] to diagonalize R^T*R
-		T scaler = T(1) / std::max(abs(x), std::max(abs(y), std::numeric_limits<T>::min()));
+		T scaler = T(1) / std::max(std::abs(x), std::max(std::abs(y), std::numeric_limits<T>::min()));
 		T x_ = x * scaler, y_ = y * scaler, z_ = z * scaler;
 		T numer = ((z_ - x_) * (z_ + x_)) + y_ * y_;
 		T gamma = x_ * y_;
 		numer = numer == 0 ? std::numeric_limits<T>::infinity() : numer;
 		T zeta = numer / gamma;
 
-		T t = 2 * sign_nonzero(zeta) / (abs(zeta) + sqrt(zeta * zeta + 4));
+		T t = 2 * sign_nonzero(zeta) / (std::abs(zeta) + std::sqrt(zeta * zeta + 4));
 
 		// Calculate sines and cosines
-		c1 = T(1) / sqrt(T(1) + t * t);
+		c1 = T(1) / std::sqrt(T(1) + t * t);
 		s1 = c1 * t;
 
 		// Calculate U*S = R*R(c1,s1)
