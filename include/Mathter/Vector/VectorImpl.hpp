@@ -378,10 +378,7 @@ public:
 	Vector(const Args&... mixed) {
 		auto scalars = std::tuple_cat(AsTuple(mixed)...);
 		auto fun = [this](const auto&... args) {
-			int i = 0;
-			for (const auto& v : std::initializer_list<T>{ T(args)... }) {
-				data()[i++] = v;
-			}
+			extended = { T(args)... };
 		};
 		std::apply(fun, scalars);
 	}
