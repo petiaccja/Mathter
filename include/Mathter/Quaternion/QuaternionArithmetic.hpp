@@ -11,59 +11,52 @@ namespace mathter {
 
 
 namespace impl {
-	template <class T, bool Packed>
-	typename std::enable_if<!Quaternion<T, Packed>::SimdAccelerated, Quaternion<T, Packed>>::type Product(const Quaternion<T, Packed>& lhs, const Quaternion<T, Packed>& rhs) {
-		Quaternion<T, Packed> ret;
-		ret.w = lhs.s * rhs.s - lhs.x * rhs.x - lhs.y * rhs.y - lhs.z * rhs.z;
-		ret.x = lhs.s * rhs.x + lhs.x * rhs.s + lhs.y * rhs.z - lhs.z * rhs.y;
-		ret.y = lhs.s * rhs.y - lhs.x * rhs.z + lhs.y * rhs.s + lhs.z * rhs.x;
-		ret.z = lhs.s * rhs.z + lhs.x * rhs.y - lhs.y * rhs.x + lhs.z * rhs.s;
-		return ret;
-	}
-
 
 	template <class T, bool Packed>
-	typename std::enable_if<Quaternion<T, Packed>::SimdAccelerated, Quaternion<T, Packed>>::type Product(const Quaternion<T, Packed>& lhs, const Quaternion<T, Packed>& rhs) {
-		Quaternion<T, Packed> ret;
-		using SimdT = Simd<T, 4>;
+	Quaternion<T, Packed> Product(const Quaternion<T, Packed>& lhs, const Quaternion<T, Packed>& rhs) {
+		if constexpr (IsBatched<T, 4, Packed>()) {
+			using Vec4 = Vector<T, 4, Packed>;
+			const auto lhsv = lhs.vec;
+			const auto rhsv = rhs.vec;
+			const Vec4 s1 = { -1, 1, -1, 1 };
+			const Vec4 s2 = { -1, 1, 1, -1 };
+			const Vec4 s3 = { -1, -1, 1, 1 };
 
-		SimdT dabc = lhs.vec.simd;
-		SimdT wxyz = rhs.vec.simd;
-		SimdT alternate;
-		alternate.v[0] = -1;
-		alternate.v[1] = 1;
-		alternate.v[2] = -1;
-		alternate.v[3] = 1;
+			// [ 3, 2, 1, 0 ]
+			// [ 0, 3, 2, 1 ]
+			const Vec4 t0 = lhsv.xxxx;
+			const Vec4 t1 = rhsv.xyzw;
 
-		// [ 3, 2, 1, 0 ]
-		// [ 0, 3, 2, 1 ]
-		SimdT t0 = SimdT::template shuffle<0, 0, 0, 0>(dabc);
-		SimdT t1 = SimdT::template shuffle<3, 0, 1, 2>(wxyz);
+			const Vec4 t2 = lhsv.yyyy;
+			const Vec4 t3 = rhsv.yxwz;
 
-		SimdT t2 = SimdT::template shuffle<1, 1, 1, 1>(dabc);
-		SimdT t3 = SimdT::template shuffle<2, 1, 0, 3>(wxyz);
+			const Vec4 t4 = lhsv.zzzz;
+			const Vec4 t5 = rhsv.zwxy;
 
-		SimdT t4 = SimdT::template shuffle<2, 2, 2, 2>(dabc);
-		SimdT t5 = SimdT::template shuffle<3, 1, 0, 2>(wxyz);
+			const Vec4 t6 = lhsv.wwww;
+			const Vec4 t7 = rhsv.wzyx;
 
-		SimdT m0 = SimdT::mul(t0, t1);
-		SimdT m1 = SimdT::mul(t2, t3);
-		SimdT m2 = SimdT::mul(t4, t5);
+			const auto m0 = t0 * t1;
+			const auto m1 = s1 * t2 * t3;
+			const auto m2 = s2 * t4 * t5;
+			const auto m3 = s3 * t6 * t7;
 
-		SimdT t6 = SimdT::template shuffle<3, 3, 3, 3>(dabc);
-		SimdT t7 = SimdT::template shuffle<0, 3, 1, 2>(wxyz);
+			const auto s = m0 + m1 + m2 + m3;
 
-		SimdT m3 = SimdT::mul(t6, t7);
+			const auto w = lhs.s * rhs.s - lhs.x * rhs.x - lhs.y * rhs.y - lhs.z * rhs.z;
+			const auto x = lhs.s * rhs.x + lhs.x * rhs.s + lhs.y * rhs.z - lhs.z * rhs.y;
+			const auto y = lhs.s * rhs.y - lhs.x * rhs.z + lhs.y * rhs.s + lhs.z * rhs.x;
+			const auto z = lhs.s * rhs.z + lhs.x * rhs.y - lhs.y * rhs.x + lhs.z * rhs.s;
 
-		SimdT e = SimdT::add(m0, SimdT::mul(alternate, m1));
-		e = SimdT::template shuffle<1, 3, 0, 2>(e);
-		e = SimdT::add(e, SimdT::mul(alternate, m2));
-		e = SimdT::template shuffle<2, 0, 1, 3>(e);
-		e = SimdT::add(e, SimdT::mul(alternate, m3));
-		e = SimdT::template shuffle<3, 1, 0, 2>(e);
-
-		ret.vec.simd = e;
-		return ret;
+			return Quaternion<T, Packed>{ s };
+		}
+		else {
+			const auto w = lhs.s * rhs.s - lhs.x * rhs.x - lhs.y * rhs.y - lhs.z * rhs.z;
+			const auto x = lhs.s * rhs.x + lhs.x * rhs.s + lhs.y * rhs.z - lhs.z * rhs.y;
+			const auto y = lhs.s * rhs.y - lhs.x * rhs.z + lhs.y * rhs.s + lhs.z * rhs.x;
+			const auto z = lhs.s * rhs.z + lhs.x * rhs.y - lhs.y * rhs.x + lhs.z * rhs.s;
+			return { w, x, y, z };
+		}
 	}
 } // namespace impl
 

@@ -8,6 +8,9 @@
 #include "Definitions.hpp"
 
 #include <cmath>
+#include <complex>
+#include <cstdint>
+#include <tuple>
 #include <type_traits>
 #include <utility>
 
@@ -262,6 +265,45 @@ template <class T>
 struct ReverseIntegerSequence<std::integer_sequence<T>> {
 	using type = std::integer_sequence<T>;
 };
+
+
+template <class IntegerSequence, typename IntegerSequence::value_type PadValue, size_t Size>
+struct pad_integer_sequence;
+
+template <class Elem, Elem... Indices, Elem PadValue, size_t Size>
+struct pad_integer_sequence<std::integer_sequence<Elem, Indices...>, PadValue, Size> {
+	static constexpr auto Infer() {
+		if constexpr (sizeof...(Indices) >= Size) {
+			return std::integer_sequence<Elem, Indices...>{};
+		}
+		else {
+			return typename pad_integer_sequence<std::integer_sequence<Elem, Indices..., PadValue>, PadValue, Size>::type{};
+		}
+	}
+	using type = std::invoke_result_t<decltype(&pad_integer_sequence::Infer)>;
+};
+
+template <class IntegerSequence, typename IntegerSequence::value_type PadValue, size_t Size>
+using pad_integer_sequence_t = typename pad_integer_sequence<IntegerSequence, PadValue, Size>::type;
+
+
+template <class T>
+struct same_size_int {
+	template <class U>
+	static constexpr auto GetSize(std::complex<U>*) {
+		return sizeof(U);
+	}
+	template <class U>
+	static constexpr auto GetSize(U*) {
+		return sizeof(U);
+	}
+	static constexpr auto size = GetSize(static_cast<T*>(nullptr));
+	using SelectType = std::tuple<std::uint8_t, std::uint16_t, void, std::uint32_t, void, void, void, std::uint64_t>;
+	using type = std::tuple_element_t<size - 1, SelectType>;
+};
+
+template <class T>
+using same_size_int_t = typename same_size_int<T>::type;
 
 
 } // namespace mathter::traits

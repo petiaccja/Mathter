@@ -93,17 +93,20 @@ TEST_CASE("Intersection - LineSegment-line", "[Intersection]") {
 TEST_CASE("Intersection - LineSegment-LineSegment", "[Intersection]") {
 	LineSegment<float, 2> line1({ 0, 0 }, { 2, 3 });
 	LineSegment<float, 2> lineSuc({ 0, 4 }, { 2, -1 });
-	LineSegment<float, 2> lineFail({ 0, 1 }, { 2, 4 });
+	LineSegment<float, 2> lineFail1({ 0, 1 }, { 2, 4 });
+	LineSegment<float, 2> lineFail2({ 0, 2 }, { 3, 4 });
 
 	auto interSuc = Intersect(line1, lineSuc);
-	auto interFail = Intersect(line1, lineFail);
+	auto interFail1 = Intersect(line1, lineFail1);
+	auto interFail2 = Intersect(line1, lineFail2);
 
 	REQUIRE(interSuc.Intersecting());
 	REQUIRE(interSuc.InterpolParameter1() == Approx(0.5f));
 	REQUIRE(interSuc.InterpolParameter2() == Approx(0.5f));
 	REQUIRE(ApproxVec(interSuc.Point()) == Vector<float, 2>{ 1.0f, 1.5f });
 
-	REQUIRE_FALSE(interFail.Intersecting());
+	REQUIRE_FALSE(interFail1.Intersecting());
+	REQUIRE_FALSE(interFail2.Intersecting());
 }
 
 

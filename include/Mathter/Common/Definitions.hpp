@@ -54,12 +54,12 @@ constexpr int DYNAMIC = -1;
 //------------------------------------------------------------------------------
 
 template <class T, int Dim, bool Packed>
-class VectorData;
+struct VectorData;
 
 template <class T, int Dim, bool Packed>
 class Vector;
 
-template <class T, int... Indices>
+template <class T, int Dim, bool Packed, int... Indices>
 class Swizzle;
 
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>

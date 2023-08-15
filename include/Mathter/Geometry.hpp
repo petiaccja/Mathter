@@ -328,7 +328,10 @@ public:
 		}
 	}
 
-	bool Intersecting() const { return T(0) <= param1 && param2 <= T(1); }
+	bool Intersecting() const {
+		return (T(0) <= param1 && param1 <= T(1))
+			   && (T(0) <= param2 && param2 <= T(1));
+	}
 	Vector<T, 2> Point() const { return lineSegment1.Interpol(param1); }
 	T InterpolParameter1() const { return param1; }
 	T InterpolParameter2() const { return param2; }

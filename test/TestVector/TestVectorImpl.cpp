@@ -57,33 +57,33 @@ TEMPLATE_LIST_TEST_CASE("Vector - CtorAll", "[Vector]", TypeListReal) {
 
 		Vec1 v1(10);
 
-		REQUIRE(v1.data[0] == 10);
+		REQUIRE(v1[0] == 10);
 
 		Vec2 v2(10);
 
-		REQUIRE(v2.data[0] == 10);
-		REQUIRE(v2.data[1] == 10);
+		REQUIRE(v2[0] == 10);
+		REQUIRE(v2[1] == 10);
 
 		Vec3 v3(10);
 
-		REQUIRE(v3.data[0] == 10);
-		REQUIRE(v3.data[1] == 10);
-		REQUIRE(v3.data[2] == 10);
+		REQUIRE(v3[0] == 10);
+		REQUIRE(v3[1] == 10);
+		REQUIRE(v3[2] == 10);
 
 		Vec4 v4(10);
 
-		REQUIRE(v4.data[0] == 10);
-		REQUIRE(v4.data[1] == 10);
-		REQUIRE(v4.data[2] == 10);
-		REQUIRE(v4.data[3] == 10);
+		REQUIRE(v4[0] == 10);
+		REQUIRE(v4[1] == 10);
+		REQUIRE(v4[2] == 10);
+		REQUIRE(v4[3] == 10);
 
 		Vec5 v5(10);
 
-		REQUIRE(v5.data[0] == 10);
-		REQUIRE(v5.data[1] == 10);
-		REQUIRE(v5.data[2] == 10);
-		REQUIRE(v5.data[3] == 10);
-		REQUIRE(v5.data[4] == 10);
+		REQUIRE(v5[0] == 10);
+		REQUIRE(v5[1] == 10);
+		REQUIRE(v5[2] == 10);
+		REQUIRE(v5[3] == 10);
+		REQUIRE(v5[4] == 10);
 	}
 }
 
@@ -100,33 +100,33 @@ TEMPLATE_LIST_TEST_CASE("Vector - Ctor data pointer", "[Vector]", TypeListReal) 
 
 		Vec1 v1(data);
 
-		REQUIRE(v1.data[0] == 1);
+		REQUIRE(v1[0] == 1);
 
 		Vec2 v2(data);
 
-		REQUIRE(v2.data[0] == 1);
-		REQUIRE(v2.data[1] == 2);
+		REQUIRE(v2[0] == 1);
+		REQUIRE(v2[1] == 2);
 
 		Vec3 v3(data);
 
-		REQUIRE(v3.data[0] == 1);
-		REQUIRE(v3.data[1] == 2);
-		REQUIRE(v3.data[2] == 3);
+		REQUIRE(v3[0] == 1);
+		REQUIRE(v3[1] == 2);
+		REQUIRE(v3[2] == 3);
 
 		Vec4 v4(data);
 
-		REQUIRE(v4.data[0] == 1);
-		REQUIRE(v4.data[1] == 2);
-		REQUIRE(v4.data[2] == 3);
-		REQUIRE(v4.data[3] == 4);
+		REQUIRE(v4[0] == 1);
+		REQUIRE(v4[1] == 2);
+		REQUIRE(v4[2] == 3);
+		REQUIRE(v4[3] == 4);
 
 		Vec5 v5(data);
 
-		REQUIRE(v5.data[0] == 1);
-		REQUIRE(v5.data[1] == 2);
-		REQUIRE(v5.data[2] == 3);
-		REQUIRE(v5.data[3] == 4);
-		REQUIRE(v5.data[4] == 5);
+		REQUIRE(v5[0] == 1);
+		REQUIRE(v5[1] == 2);
+		REQUIRE(v5[2] == 3);
+		REQUIRE(v5[3] == 4);
+		REQUIRE(v5[4] == 5);
 	}
 }
 
@@ -141,33 +141,33 @@ TEMPLATE_LIST_TEST_CASE("Vector - Ctor conversion", "[Vector]", TypeListReal) {
 
 		Vec1 v1 = Vector<double, 1, false>(1);
 
-		REQUIRE(v1.data[0] == 1);
+		REQUIRE(v1[0] == 1);
 
 		Vec2 v2 = Vector<double, 2, false>(1, 2);
 
-		REQUIRE(v2.data[0] == 1);
-		REQUIRE(v2.data[1] == 2);
+		REQUIRE(v2[0] == 1);
+		REQUIRE(v2[1] == 2);
 
 		Vec3 v3 = Vector<double, 3, false>(1, 2, 3);
 
-		REQUIRE(v3.data[0] == 1);
-		REQUIRE(v3.data[1] == 2);
-		REQUIRE(v3.data[2] == 3);
+		REQUIRE(v3[0] == 1);
+		REQUIRE(v3[1] == 2);
+		REQUIRE(v3[2] == 3);
 
 		Vec4 v4 = Vector<double, 4, false>(1, 2, 3, 4);
 
-		REQUIRE(v4.data[0] == 1);
-		REQUIRE(v4.data[1] == 2);
-		REQUIRE(v4.data[2] == 3);
-		REQUIRE(v4.data[3] == 4);
+		REQUIRE(v4[0] == 1);
+		REQUIRE(v4[1] == 2);
+		REQUIRE(v4[2] == 3);
+		REQUIRE(v4[3] == 4);
 
 		Vec5 v5 = Vector<double, 5, false>(1, 2, 3, 4, 5);
 
-		REQUIRE(v5.data[0] == 1);
-		REQUIRE(v5.data[1] == 2);
-		REQUIRE(v5.data[2] == 3);
-		REQUIRE(v5.data[3] == 4);
-		REQUIRE(v5.data[4] == 5);
+		REQUIRE(v5[0] == 1);
+		REQUIRE(v5[1] == 2);
+		REQUIRE(v5[2] == 3);
+		REQUIRE(v5[3] == 4);
+		REQUIRE(v5[4] == 5);
 	}
 }
 
@@ -207,33 +207,33 @@ TEMPLATE_LIST_TEST_CASE("Vector - Ctor scalar", "[Vector]", TypeListReal) {
 
 		Vec1 v1(1);
 
-		REQUIRE(v1.data[0] == 1);
+		REQUIRE(v1[0] == 1);
 
 		Vec2 v2(1, 2);
 
-		REQUIRE(v2.data[0] == 1);
-		REQUIRE(v2.data[1] == 2);
+		REQUIRE(v2[0] == 1);
+		REQUIRE(v2[1] == 2);
 
 		Vec3 v3(1, 2, 3);
 
-		REQUIRE(v3.data[0] == 1);
-		REQUIRE(v3.data[1] == 2);
-		REQUIRE(v3.data[2] == 3);
+		REQUIRE(v3[0] == 1);
+		REQUIRE(v3[1] == 2);
+		REQUIRE(v3[2] == 3);
 
 		Vec4 v4(1, 2, 3, 4);
 
-		REQUIRE(v4.data[0] == 1);
-		REQUIRE(v4.data[1] == 2);
-		REQUIRE(v4.data[2] == 3);
-		REQUIRE(v4.data[3] == 4);
+		REQUIRE(v4[0] == 1);
+		REQUIRE(v4[1] == 2);
+		REQUIRE(v4[2] == 3);
+		REQUIRE(v4[3] == 4);
 
 		Vec5 v5(1, 2, 3, 4, 5);
 
-		REQUIRE(v5.data[0] == 1);
-		REQUIRE(v5.data[1] == 2);
-		REQUIRE(v5.data[2] == 3);
-		REQUIRE(v5.data[3] == 4);
-		REQUIRE(v5.data[4] == 5);
+		REQUIRE(v5[0] == 1);
+		REQUIRE(v5[1] == 2);
+		REQUIRE(v5[2] == 3);
+		REQUIRE(v5[3] == 4);
+		REQUIRE(v5[4] == 5);
 	}
 }
 
@@ -249,24 +249,24 @@ TEMPLATE_LIST_TEST_CASE("Vector - Ctor mixed", "[Vector]", TypeListReal) {
 
 		Vec3 v3 = { vd, 3 };
 
-		REQUIRE(v3.data[0] == 1);
-		REQUIRE(v3.data[1] == 2);
-		REQUIRE(v3.data[2] == 3);
+		REQUIRE(v3[0] == 1);
+		REQUIRE(v3[1] == 2);
+		REQUIRE(v3[2] == 3);
 
 		Vec4 v4 = { vd, vf };
 
-		REQUIRE(v4.data[0] == 1);
-		REQUIRE(v4.data[1] == 2);
-		REQUIRE(v4.data[2] == 3);
-		REQUIRE(v4.data[3] == 4);
+		REQUIRE(v4[0] == 1);
+		REQUIRE(v4[1] == 2);
+		REQUIRE(v4[2] == 3);
+		REQUIRE(v4[3] == 4);
 
 		Vec5 v5 = { vd, 0, vf };
 
-		REQUIRE(v5.data[0] == 1);
-		REQUIRE(v5.data[1] == 2);
-		REQUIRE(v5.data[2] == 0);
-		REQUIRE(v5.data[3] == 3);
-		REQUIRE(v5.data[4] == 4);
+		REQUIRE(v5[0] == 1);
+		REQUIRE(v5[1] == 2);
+		REQUIRE(v5[2] == 0);
+		REQUIRE(v5[3] == 3);
+		REQUIRE(v5[4] == 4);
 	}
 }
 
@@ -280,17 +280,17 @@ TEMPLATE_LIST_TEST_CASE("Vector - Ctor mixed swizzle", "[Vector]", TypeListReal)
 
 		Vec3 v3 = { source.wxy };
 
-		REQUIRE(v3.data[0] == 4);
-		REQUIRE(v3.data[1] == 1);
-		REQUIRE(v3.data[2] == 2);
+		REQUIRE(v3[0] == 4);
+		REQUIRE(v3[1] == 1);
+		REQUIRE(v3[2] == 2);
 
 		Vec5 v5 = { source.xy, 0, source.zw };
 
-		REQUIRE(v5.data[0] == 1);
-		REQUIRE(v5.data[1] == 2);
-		REQUIRE(v5.data[2] == 0);
-		REQUIRE(v5.data[3] == 3);
-		REQUIRE(v5.data[4] == 4);
+		REQUIRE(v5[0] == 1);
+		REQUIRE(v5[1] == 2);
+		REQUIRE(v5[2] == 0);
+		REQUIRE(v5[3] == 3);
+		REQUIRE(v5[4] == 4);
 	}
 }
 
