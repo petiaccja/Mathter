@@ -1,0 +1,82 @@
+name: Build & test w/o XSimd
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - v**.**
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build-test:
+    strategy:
+      fail-fast: false
+      matrix:
+        build_profile: [clang20d, clang20r]
+        include:
+          - build_profile: clang20d
+            conan_preset: clang-20-debug
+            os: ubuntu-latest
+          - build_profile: clang20r
+            conan_preset: clang-20-release
+            os: ubuntu-latest
+
+    name: ${{ matrix.build_profile }}
+        
+    runs-on: ${{matrix.os}}
+    
+    steps:
+    - uses: actions/checkout@v4
+    - uses: seanmiddleditch/gha-setup-ninja@v4
+    - uses: seanmiddleditch/gha-setup-vsdevenv@master
+
+    - run: pip install conan
+
+    - name: Install native compilers
+      if: ${{ matrix.os == 'ubuntu-latest' }}
+      run: |
+          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+          sudo apt update
+
+          sudo apt install gcc-13 g++-13
+          sudo update-alternatives --remove-all gcc || true
+          sudo update-alternatives --remove-all g++ || true
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 10 --slave /usr/bin/g++ g++ /usr/bin/g++-13
+
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh 17 clang
+
+          sudo update-alternatives --remove-all clang || true
+          sudo update-alternatives --remove-all clang++ || true
+          sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-17 10 --slave /usr/bin/clang++ clang++ /usr/bin/clang++-17
+
+    - name: Cache conan packages
+      id: cache-conan
+      uses: actions/cache@v3
+      with:
+        path: ~/.conan2/p
+        key: conan-cache-packages-${{ matrix.build_profile }}
+
+    - name: Create Build Environment
+      run: cmake -E make_directory ${{github.workspace}}/build
+
+    - name: Configure CMake
+      shell: bash
+      env:
+        PR: "${{github.workspace}}/.github/build_profiles/${{matrix.build_profile}}"
+      run: |
+        cmake -E make_directory "${{github.workspace}}/build"
+        conan install "${{github.workspace}}" --build=missing -pr $PR -pr:b $PR
+        conan cache clean
+        cmake -S "${{github.workspace}}" --preset conan-${{ matrix.conan_preset }} -DMATHTER_USE_XSIMD:BOOL=OFF
+
+    - name: Build
+      run: |
+        cmake --build --preset conan-${{ matrix.conan_preset }}
+
+    - name: Test
+      run: ${{github.workspace}}/build/${{ matrix.conan_preset }}/bin/UnitTest

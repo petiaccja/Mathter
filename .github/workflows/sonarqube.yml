@@ -40,7 +40,7 @@ jobs:
 
             wget https://apt.llvm.org/llvm.sh
             chmod +x llvm.sh
-            sudo ./llvm.sh 17 clang
+            sudo ./llvm.sh 17 clang llvm
 
             sudo update-alternatives --remove-all clang || true
             sudo update-alternatives --remove-all clang++ || true
@@ -75,8 +75,8 @@ jobs:
         shell: bash
         run: |
           ./UnitTest --reporter junit --out ${{github.workspace}}/tests.xml
-          llvm-profdata merge -sparse default.profraw -o coverage.profdata
-          llvm-cov show ./test -instr-profile=coverage.profdata > ${{github.workspace}}/coverage.txt
+          llvm-profdata-17 merge -sparse default.profraw -o coverage.profdata
+          llvm-cov-17 show ./test -instr-profile=coverage.profdata > ${{github.workspace}}/coverage.txt
   
       - name: Run sonar-scanner
         env:
