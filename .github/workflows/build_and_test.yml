@@ -3,8 +3,9 @@ name: Build & test
 on:
   push:
     branches:
-      - devel
       - master
+    tags:
+      - v**.**
   pull_request:
     branches:
       - master
@@ -14,79 +15,98 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, ubuntu-latest]
-        c_compiler: [gcc, clang, cl]
-        build_type: [Debug, Release]
-        cxx_standard: ["17", "20"]
+        build_profile: [clang20d, clang20r, gcc20d, gcc20r, msvc20d, msvc20r, clang17d, clang17r, gcc17d, gcc17r, msvc17d, msvc17r]
         include:
-          - c_compiler: gcc
-            cxx_compiler: g++
-          - c_compiler: clang
-            cxx_compiler: clang++
-          - c_compiler: cl
-            cxx_compiler: cl
-          - os: windows-latest
-            test_name: .\Bin\UnitTest.exe
-          - os: ubuntu-latest
-            test_name: ./Bin/UnitTest
-          - build_type: Debug
-            conan_preset: "conan-debug"
-          - build_type: Release
-            conan_preset: "conan-release"
-        exclude:
-          - os: windows-latest
-            c_compiler: gcc
-          - os: windows-latest
-            c_compiler: clang
-          - os: ubuntu-latest
-            c_compiler: cl
+          - build_profile: clang20d
+            conan_preset: clang-20-debug
+            os: ubuntu-latest
+          - build_profile: clang20r
+            conan_preset: clang-20-release
+            os: ubuntu-latest
+          - build_profile: gcc20d
+            conan_preset: gcc-20-debug
+            os: ubuntu-latest
+          - build_profile: gcc20r
+            conan_preset: gcc-20-release
+            os: ubuntu-latest
+          - build_profile: msvc20d
+            conan_preset: msvc-20-debug
+            os: windows-latest
+          - build_profile: msvc20r
+            conan_preset: msvc-20-release
+            os: windows-latest
+          - build_profile: clang17d
+            conan_preset: clang-17-debug
+            os: ubuntu-latest
+          - build_profile: clang17r
+            conan_preset: clang-17-release
+            os: ubuntu-latest
+          - build_profile: gcc17d
+            conan_preset: gcc-17-debug
+            os: ubuntu-latest
+          - build_profile: gcc17r
+            conan_preset: gcc-17-release
+            os: ubuntu-latest
+          - build_profile: msvc17d
+            conan_preset: msvc-17-debug
+            os: windows-latest
+          - build_profile: msvc17r
+            conan_preset: msvc-17-release
+            os: windows-latest
 
-    name: ${{ matrix.c_compiler }} - ${{ matrix.build_type }} - ${{ matrix.os }} - c++${{ matrix.cxx_standard }}
+    name: ${{ matrix.build_profile }}
         
     runs-on: ${{matrix.os}}
     
     steps:
-    - uses: actions/checkout@v2
-    - uses: seanmiddleditch/gha-setup-ninja@v3
+    - uses: actions/checkout@v4
+    - uses: seanmiddleditch/gha-setup-ninja@v4
     - uses: seanmiddleditch/gha-setup-vsdevenv@master
 
-    - name: Install conan
-      shell: bash
-      env:
-        CC: "${{ matrix.c_compiler != 'cl' && matrix.c_compiler || '' }}"
-        CXX: "${{ matrix.cxx_compiler != 'cl' && matrix.cxx_compiler || '' }}"
+    - run: pip install conan
+
+    - name: Install native compilers
+      if: ${{ matrix.os == 'ubuntu-latest' }}
       run: |
-        pip install conan==2.0.7
-        conan profile detect --name ci --force
-        python $GITHUB_WORKSPACE/support/update-conan-profile.py $(conan profile path ci) ${{matrix.build_type}} ${{matrix.c_compiler}} ${{matrix.cxx_compiler}} ${{matrix.cxx_standard}}
+          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+          sudo apt update
+
+          sudo apt install gcc-13 g++-13
+          sudo update-alternatives --remove-all gcc || true
+          sudo update-alternatives --remove-all g++ || true
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 10 --slave /usr/bin/g++ g++ /usr/bin/g++-13
+
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh 17 clang
+
+          sudo update-alternatives --remove-all clang || true
+          sudo update-alternatives --remove-all clang++ || true
+          sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-17 10 --slave /usr/bin/clang++ clang++ /usr/bin/clang++-17
 
     - name: Cache conan packages
       id: cache-conan
       uses: actions/cache@v3
       with:
         path: ~/.conan2/p
-        key: conan-cache-packages-${{ matrix.os }}-${{ matrix.c_compiler }}-${{ matrix.build_type }}-${{ matrix.cxx_standard }}
+        key: conan-cache-packages-${{ matrix.build_profile }}
 
     - name: Create Build Environment
-      run: cmake -E make_directory ${{runner.workspace}}/build
+      run: cmake -E make_directory ${{github.workspace}}/build
 
     - name: Configure CMake
       shell: bash
-      working-directory: ${{runner.workspace}}/build
       env:
-        CC: ${{matrix.c_compiler}}
-        CXX: ${{matrix.cxx_compiler}}
+        PR: "${{github.workspace}}/.github/build_profiles/${{matrix.build_profile}}"
       run: |
-        conan install $GITHUB_WORKSPACE --output-folder=. --build=missing -pr ci -pr:b ci -s build_type=${{ matrix.build_type }}
+        cmake -E make_directory "${{github.workspace}}/build"
+        conan install "${{github.workspace}}" --build=missing -pr $PR -pr:b $PR
         conan cache clean
-        cmake $GITHUB_WORKSPACE --preset ${{ matrix.conan_preset }}
+        cmake -S "${{github.workspace}}" --preset conan-${{ matrix.conan_preset }}
 
     - name: Build
-      working-directory: ${{runner.workspace}}/build
-      shell: bash
-      run: cmake --build . --config ${{matrix.build_type}}
+      run: |
+        cmake --build --preset conan-${{ matrix.conan_preset }}
 
     - name: Test
-      working-directory: ${{runner.workspace}}/build
-      shell: bash
-      run: ./Bin/UnitTest
+      run: ${{github.workspace}}/build/${{ matrix.conan_preset }}/bin/UnitTest

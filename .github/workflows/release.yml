@@ -1,0 +1,28 @@
+name: Release
+
+on:
+  workflow_run:
+    workflows: [Build & test]
+    branches: [v**.**]
+    types: [completed]
+
+jobs:
+  create_release:
+    permissions:
+      actions: read
+      contents: write  
+    env:
+      GH_TOKEN: ${{ github.token }}
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch != null }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
+
+      - name: Create release
+        shell: bash
+        run: |
+          gh release create ${{ github.event.workflow_run.head_branch }}
+
+  

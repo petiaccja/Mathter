@@ -1,0 +1,13 @@
+[settings]
+arch=x86_64
+build_type=Debug
+compiler=clang
+compiler.cppstd=20
+compiler.libcxx=libstdc++11
+compiler.version=17
+os=Linux
+
+[conf]
+tools.build:compiler_executables={'c': 'clang', 'cpp': 'clang++' }
+tools.cmake.cmaketoolchain:generator=Ninja
+tools.cmake.cmake_layout:build_folder_vars=["settings.compiler", "settings.compiler.cppstd", "settings.build_type"]
