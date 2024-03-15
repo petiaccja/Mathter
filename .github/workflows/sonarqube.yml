@@ -76,7 +76,7 @@ jobs:
         run: |
           ./UnitTest --reporter junit --out ${{github.workspace}}/tests.xml
           llvm-profdata-17 merge -sparse default.profraw -o coverage.profdata
-          llvm-cov-17 show ./test -instr-profile=coverage.profdata > ${{github.workspace}}/coverage.txt
+          llvm-cov-17 show ./UnitTest -instr-profile=coverage.profdata > ${{github.workspace}}/coverage.txt
   
       - name: Run sonar-scanner
         env:
