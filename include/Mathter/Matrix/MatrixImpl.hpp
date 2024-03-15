@@ -174,7 +174,7 @@ public:
 	}
 	SubmatrixHelper& operator=(const SubmatrixHelper& rhs) {
 		static_assert(!std::is_const<MatrixT>::value, "Cannot assign to submatrix of const matrix.");
-		return operator=<MatrixT>(rhs);
+		return operator= <MatrixT>(rhs);
 	}
 
 	typename Props::Type& operator()(int row, int col) {
