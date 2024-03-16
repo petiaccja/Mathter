@@ -1,7 +1,10 @@
 ﻿[requires]
-catch2/3.3.2
+catch2/3.5.3
 xsimd/11.1.0
 
 [generators]
 CMakeDeps
 CMakeToolchain
+
+[layout]
+cmake_layout

@@ -1,0 +1,13 @@
+[settings]
+arch=x86_64
+build_type=Debug
+compiler=msvc
+compiler.cppstd=20
+compiler.version=193
+compiler.runtime=dynamic
+os=Windows
+
+[conf]
+tools.build:compiler_executables={'c': 'cl.exe', 'cpp': 'cl.exe' }
+tools.cmake.cmaketoolchain:generator=Ninja
+tools.cmake.cmake_layout:build_folder_vars=["settings.compiler", "settings.compiler.cppstd", "settings.build_type"]

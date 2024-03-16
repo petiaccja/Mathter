@@ -1,4 +1,4 @@
-﻿name: Clang-Format
+name: Clang-Format
 on:
   push:
     branches:
@@ -9,15 +9,12 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
-      - uses: seanmiddleditch/gha-setup-vsdevenv@master
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 1
       - uses: KyleMayes/install-llvm-action@v1
         with:
-          version: "15.0"
+          version: "17.0"
           directory: ${{ runner.temp }}/llvm
       - name: Verify formatting
         run: |

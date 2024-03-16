@@ -1,67 +1,82 @@
-name: Build & test
+name: Build & test w/o XSimd
 
 on:
   push:
     branches:
-      - devel
       - master
+    tags:
+      - v**.**
   pull_request:
     branches:
       - master
 
 jobs:
   build-test:
-    runs-on: ubuntu-latest
-    env:
-      C_COMPILER: clang
-      CXX_COMPILER: clang++
-      BUILD_TYPE: Debug
-      CXX_STANDARD: "17"
+    strategy:
+      fail-fast: false
+      matrix:
+        build_profile: [clang20d, clang20r]
+        include:
+          - build_profile: clang20d
+            conan_preset: clang-20-debug
+            os: ubuntu-latest
+          - build_profile: clang20r
+            conan_preset: clang-20-release
+            os: ubuntu-latest
 
-    name: "No XSimd"
+    name: ${{ matrix.build_profile }}
+        
+    runs-on: ${{matrix.os}}
     
     steps:
-    - uses: actions/checkout@v2
-    - uses: seanmiddleditch/gha-setup-ninja@v3
+    - uses: actions/checkout@v4
+    - uses: seanmiddleditch/gha-setup-ninja@v4
     - uses: seanmiddleditch/gha-setup-vsdevenv@master
 
-    - name: Install conan
-      shell: bash
-      env:
-        CC: "${{ env.C_COMPILER }}"
-        CXX: "${{ env.CXX_COMPILER }}"
+    - run: pip install conan
+
+    - name: Install native compilers
+      if: ${{ matrix.os == 'ubuntu-latest' }}
       run: |
-        pip install conan==2.0.7
-        conan profile detect --name ci --force
-        python $GITHUB_WORKSPACE/support/update-conan-profile.py $(conan profile path ci) ${{env.BUILD_TYPE}} ${{env.C_COMPILER}} ${{env.CXX_COMPILER}} ${{env.CXX_STANDARD}}
+          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+          sudo apt update
+
+          sudo apt install gcc-13 g++-13
+          sudo update-alternatives --remove-all gcc || true
+          sudo update-alternatives --remove-all g++ || true
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 10 --slave /usr/bin/g++ g++ /usr/bin/g++-13
+
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh 17 clang
+
+          sudo update-alternatives --remove-all clang || true
+          sudo update-alternatives --remove-all clang++ || true
+          sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-17 10 --slave /usr/bin/clang++ clang++ /usr/bin/clang++-17
 
     - name: Cache conan packages
       id: cache-conan
       uses: actions/cache@v3
       with:
         path: ~/.conan2/p
-        key: conan-cache-packages-ubuntu-latest-${{ env.C_COMPILER }}-${{ env.BUILD_TYPE }}-${{ env.CXX_STANDARD }}
+        key: conan-cache-packages-${{ matrix.build_profile }}
 
     - name: Create Build Environment
-      run: cmake -E make_directory ${{runner.workspace}}/build
+      run: cmake -E make_directory ${{github.workspace}}/build
 
     - name: Configure CMake
       shell: bash
-      working-directory: ${{runner.workspace}}/build
       env:
-        CC: ${{env.C_COMPILER}}
-        CXX: ${{env.CXX_COMPILER}}
+        PR: "${{github.workspace}}/.github/build_profiles/${{matrix.build_profile}}"
       run: |
-        conan install $GITHUB_WORKSPACE --output-folder=. --build=missing -pr ci -pr:b ci -s build_type=${{ env.BUILD_TYPE }}
+        cmake -E make_directory "${{github.workspace}}/build"
+        conan install "${{github.workspace}}" --build=missing -pr $PR -pr:b $PR
         conan cache clean
-        cmake $GITHUB_WORKSPACE --preset conan-debug -DMATHTER_USE_XSIMD:BOOL=OFF
+        cmake -S "${{github.workspace}}" --preset conan-${{ matrix.conan_preset }} -DMATHTER_USE_XSIMD:BOOL=OFF
 
     - name: Build
-      working-directory: ${{runner.workspace}}/build
-      shell: bash
-      run: cmake --build . --config ${{env.BUILD_TYPE}}
+      run: |
+        cmake --build --preset conan-${{ matrix.conan_preset }}
 
     - name: Test
-      working-directory: ${{runner.workspace}}/build
-      shell: bash
-      run: ./Bin/UnitTest
+      run: ${{github.workspace}}/build/${{ matrix.conan_preset }}/bin/UnitTest
