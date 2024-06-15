@@ -24,7 +24,7 @@ bool operator==(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>&
 /// <remarks> &lt;The usual warning about floating point numbers&gt; </remarks>
 template <class T, int Dim, bool Packed>
 bool operator!=(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
-	return !operator==(rhs);
+	return !operator==(lhs, rhs);
 }
 
 } // namespace mathter
