@@ -21,6 +21,7 @@ using Catch::Approx;
 
 
 using TypeListReal = TestTypeList<TypesReal, PackedAll>;
+using TypeListAll = TestTypeList<TypesAll, PackedAll>;
 
 
 TEST_CASE("Vector deterministic default initializer", "[Init]") {
@@ -360,6 +361,32 @@ TEMPLATE_LIST_TEST_CASE("Vector - Swizzle", "[Vector]", TypeListReal) {
 		REQUIRE(Vec2(v4.wz) == Vec2(4, 3));
 		REQUIRE(Vec3(v4.wzy) == Vec3(4, 3, 2));
 		REQUIRE(Vec4(v4.wzyx) == Vec4(4, 3, 2, 1));
+	}
+}
+
+
+TEMPLATE_LIST_TEST_CASE("Vector - Comparison", "[Vector]", TypeListAll) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+
+		Vec3 value3(1, 2, 3);
+		Vec3 equal3(1, 2, 3);
+		Vec3 unequal3(1, 2, 10);
+
+		REQUIRE(value3 == equal3);
+		REQUIRE(!(value3 == unequal3));
+		REQUIRE(!(value3 != equal3));
+		REQUIRE(value3 != unequal3);
+
+		Vec5 value5(1, 2, 3, 4, 5);
+		Vec5 equal5(1, 2, 3, 4, 5);
+		Vec5 unequal5(1, 2, 3, 4, 10);
+
+		REQUIRE(value5 == equal5);
+		REQUIRE(!(value5 == unequal5));
+		REQUIRE(value5 != unequal5);
+		REQUIRE(!(value5 != equal5));
 	}
 }
 
