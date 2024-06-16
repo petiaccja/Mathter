@@ -9,8 +9,20 @@
 
 namespace mathter {
 
-template <int Rows, int Columns, class T1, class T2, eMatrixOrder Order1, eMatrixOrder Order2, eMatrixLayout Layout1, eMatrixLayout Layout2, bool Packed1, bool Packed2>
-bool operator==(const Matrix<T1, Rows, Columns, Order1, Layout1, Packed1>& lhs, const Matrix<T2, Rows, Columns, Order2, Layout2, Packed2>& rhs) {
+template <int Rows, int Columns, class T1, class T2, eMatrixOrder Order, eMatrixLayout Layout1, eMatrixLayout Layout2, bool Packed1, bool Packed2>
+bool operator==(const Matrix<T1, Rows, Columns, Order, Layout1, Packed1>& lhs, const Matrix<T2, Columns, Rows, traits::OppositeOrder<Order>::value, Layout2, Packed2>& rhs) {
+	bool equal = true;
+	for (int i = 0; i < Rows; ++i) {
+		for (int j = 0; j < Columns; ++j) {
+			equal = equal && lhs(i, j) == rhs(j, i);
+		}
+	}
+	return equal;
+}
+
+
+template <int Rows, int Columns, class T1, class T2, eMatrixOrder Order, eMatrixLayout Layout1, eMatrixLayout Layout2, bool Packed1, bool Packed2>
+bool operator==(const Matrix<T1, Rows, Columns, Order, Layout1, Packed1>& lhs, const Matrix<T2, Rows, Columns, Order, Layout2, Packed2>& rhs) {
 	bool equal = true;
 	for (int i = 0; i < Rows; ++i) {
 		for (int j = 0; j < Columns; ++j) {
@@ -20,10 +32,16 @@ bool operator==(const Matrix<T1, Rows, Columns, Order1, Layout1, Packed1>& lhs, 
 	return equal;
 }
 
-template <int Rows, int Columns, class T1, class T2, eMatrixOrder Order1, eMatrixOrder Order2, eMatrixLayout Layout1, eMatrixLayout Layout2, bool Packed1, bool Packed2>
-bool operator!=(const Matrix<T1, Rows, Columns, Order1, Layout1, Packed1>& lhs, const Matrix<T2, Rows, Columns, Order2, Layout2, Packed2>& rhs) {
+
+template <int Rows, int Columns, class T1, class T2, eMatrixOrder Order, eMatrixLayout Layout1, eMatrixLayout Layout2, bool Packed1, bool Packed2>
+bool operator!=(const Matrix<T1, Rows, Columns, Order, Layout1, Packed1>& lhs, const Matrix<T2, Columns, Rows, traits::OppositeOrder<Order>::value, Layout2, Packed2>& rhs) {
 	return !(lhs == rhs);
 }
 
+
+template <int Rows, int Columns, class T1, class T2, eMatrixOrder Order, eMatrixLayout Layout1, eMatrixLayout Layout2, bool Packed1, bool Packed2>
+bool operator!=(const Matrix<T1, Rows, Columns, Order, Layout1, Packed1>& lhs, const Matrix<T2, Rows, Columns, Order, Layout2, Packed2>& rhs) {
+	return !(lhs == rhs);
+}
 
 } // namespace mathter

@@ -6,6 +6,7 @@ target_sources(UnitTest
         "TestIntersection.cpp"
         "TestMatrix/TestMatrixImpl.cpp"
         "TestMatrix/TestMatrixArithmetic.cpp"
+        "TestMatrix/TestMatrixCompare.cpp"
         "TestMatrix/TestMatrixVectorArithmetic.cpp"
         "TestMatrix/TestMatrixDecomposition.cpp"
         "TestMatrix/TestMatrixFunction.cpp"
@@ -17,7 +18,7 @@ target_sources(UnitTest
         "TestVector/TestVectorArithmetic.cpp"
         "TestGenerators.hpp"
         "TestGeometry.cpp"
-)       
+)
 
 find_package(Catch2 REQUIRED)
 
