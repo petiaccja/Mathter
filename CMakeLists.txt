@@ -12,6 +12,8 @@ option(ENABLE_LLVM_COV "Adds compiler flags to generate LLVM source-based code c
 option(MATHTER_USE_XSIMD "Uses XSimd for vectorization of math routines. Uses scalar fallback if turned off." ON)
 set(MATHTER_INIT_MODE "DEFAULT" CACHE STRING "Set default initialization of Mathter types.")
 set_property(CACHE MATHTER_INIT_MODE PROPERTY STRINGS DEFAULT NULL INVALID UNINITIALIZED)
+option(MATHTER_BUILD_TESTS "Include or exclude tests from the generated project." ON)
+option(MATHTER_BUILD_BENCHMARKS "Include or exclude bechmarks from the generated project." ON)
 
 # Necessary compiler flags
 if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
@@ -58,6 +60,14 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # Subdirectories
 add_subdirectory(include/Mathter)
-add_subdirectory(test)
-add_subdirectory(benchmark)
+if (${MATHTER_BUILD_TESTS})
+	add_subdirectory(test)
+endif()
+if (${MATHTER_BUILD_BENCHMARKS})
+	add_subdirectory(benchmark)
+endif()
 
+install(TARGETS Mathter
+	FILE_SET headers DESTINATION "include"
+	FILE_SET natvis DESTINATION "include"
+)
