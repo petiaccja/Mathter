@@ -67,7 +67,13 @@ if (${MATHTER_BUILD_BENCHMARKS})
 	add_subdirectory(benchmark)
 endif()
 
-install(TARGETS Mathter
+# Installation
+install(TARGETS Mathter EXPORT MathterTargets
 	FILE_SET headers DESTINATION "include/Mathter"
 	FILE_SET natvis DESTINATION "include/Mathter"
 )
+
+install(EXPORT MathterTargets
+        FILE Mathter-targets.cmake
+        NAMESPACE Mathter::
+        DESTINATION share/Mathter)

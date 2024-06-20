@@ -1,6 +1,10 @@
 ﻿add_library(Mathter INTERFACE)
 
-target_include_directories(Mathter INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/..")
+target_include_directories(Mathter
+	INTERFACE 
+		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
 
 target_sources(Mathter
 	INTERFACE FILE_SET natvis TYPE HEADERS FILES
