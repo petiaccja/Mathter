@@ -1,11 +1,5 @@
 ﻿add_library(Mathter INTERFACE)
 
-target_include_directories(Mathter
-	INTERFACE 
-		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
-        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-)
-
 target_sources(Mathter
 	INTERFACE FILE_SET natvis TYPE HEADERS FILES
 		"Mathter.natvis"
@@ -59,9 +53,28 @@ target_sources(Mathter
 )
 
 set_target_properties(Mathter PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON)
+
 target_compile_features(Mathter INTERFACE cxx_std_17)
 
-if (${MATHTER_USE_XSIMD})
-	find_package(xsimd)
-	target_link_libraries(Mathter INTERFACE xsimd)
+if (MATHTER_INIT_MODE STREQUAL "NULL")
+	target_compile_definitions(Mathter INTERFACE MATHTER_NULL_INITIALIZE=1)
+elseif(MATHTER_INIT_MODE STREQUAL "INVALID")
+	target_compile_definitions(Mathter INTERFACE MATHTER_INVALID_INITIALIZE=1)
+elseif(MATHTER_INIT_MODE STREQUAL "UNINITIALIZED")
+	target_compile_definitions(Mathter INTERFACE MATHTER_DONT_INITIALIZE=1)
 endif()
+
+if (${MATHTER_USE_XSIMD})
+	message("Vectorization is enabled via the XSimd library.")
+	find_package(xsimd REQUIRED)
+	target_link_libraries(Mathter INTERFACE xsimd)
+	target_compile_definitions(Mathter INTERFACE MATHTER_USE_XSIMD=1)
+else()
+	message("Vectorization is disabled.")
+endif()
+
+target_include_directories(Mathter
+	INTERFACE 
+		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
