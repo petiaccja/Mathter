@@ -48,7 +48,7 @@ install(TARGETS Mathter EXPORT MathterTargets
 )
 
 install(EXPORT MathterTargets
-        FILE Mathter-targets.cmake
+        FILE MathterTargets.cmake
         NAMESPACE Mathter::
         DESTINATION lib/cmake/${PROJECT_NAME})
 

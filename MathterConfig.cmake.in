@@ -1,7 +1,15 @@
 set(Mathter_VERSION @PROJECT_VERSION@)
+set(MATHTER_USE_XSIMD @MATHTER_USE_XSIMD@)
 
 @PACKAGE_INIT@
 
 set_and_check(Mathter_INCLUDE_DIR "@PACKAGE_INCLUDE_INSTALL_DIR@")
+
+include(CMakeFindDependencyMacro)
+if (${MATHTER_USE_XSIMD})
+	find_dependency(xsimd REQUIRED)
+endif()
+
+include("${CMAKE_CURRENT_LIST_DIR}/MathterTargets.cmake")
 
 check_required_components(Mathter)
