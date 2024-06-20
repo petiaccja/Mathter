@@ -68,6 +68,6 @@ if (${MATHTER_BUILD_BENCHMARKS})
 endif()
 
 install(TARGETS Mathter
-	FILE_SET headers DESTINATION "include"
-	FILE_SET natvis DESTINATION "include"
+	FILE_SET headers DESTINATION "include/Mathter"
+	FILE_SET natvis DESTINATION "include/Mathter"
 )
