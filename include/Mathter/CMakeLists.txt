@@ -1,9 +1,9 @@
 ﻿add_library(Mathter INTERFACE)
 
 target_sources(Mathter
-	INTERFACE FILE_SET natvis TYPE HEADERS FILES
+	INTERFACE FILE_SET natvis TYPE HEADERS BASE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/.." FILES
 		"Mathter.natvis"
-	INTERFACE FILE_SET headers TYPE HEADERS FILES
+	INTERFACE FILE_SET headers TYPE HEADERS BASE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/.." FILES
 		"Geometry.hpp"
 		"IoStream.hpp"
 		"Matrix.hpp"
@@ -72,9 +72,3 @@ if (${MATHTER_USE_XSIMD})
 else()
 	message("Vectorization is disabled.")
 endif()
-
-target_include_directories(Mathter
-	INTERFACE 
-		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
-        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-)
