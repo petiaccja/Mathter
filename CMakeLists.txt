@@ -43,8 +43,8 @@ endif()
 
 # Installation
 install(TARGETS Mathter EXPORT MathterTargets
-	FILE_SET headers DESTINATION "include/Mathter"
-	FILE_SET natvis DESTINATION "include/Mathter"
+	FILE_SET headers DESTINATION "include"
+	FILE_SET natvis DESTINATION "include"
 )
 
 install(EXPORT MathterTargets
