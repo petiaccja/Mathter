@@ -16,7 +16,7 @@
 #include <type_traits>
 #include <utility>
 
-#if MATHTER_USE_XSIMD
+#if MATHTER_ENABLE_SIMD
 #include <xsimd/xsimd.hpp>
 #endif
 
@@ -117,7 +117,7 @@ constexpr int ExtendedDim() {
 
 template <class T, int Dim, bool Packed>
 constexpr int IsBatched() {
-#if MATHTER_USE_XSIMD
+#if MATHTER_ENABLE_SIMD
 	if constexpr (!Packed) {
 		constexpr auto extendedSize = ExtendedDim<T, Dim, Packed>();
 		using BatchT = typename xsimd::make_sized_batch<T, extendedSize>::type;
@@ -132,7 +132,7 @@ template <class T, int Dim, bool Packed>
 struct BatchTHelper {
 	static auto GetType() {
 		if constexpr (IsBatched<T, Dim, Packed>()) {
-#if MATHTER_USE_XSIMD
+#if MATHTER_ENABLE_SIMD
 			using B = typename xsimd::make_sized_batch<T, ExtendedDim<T, Dim, Packed>()>::type;
 			return static_cast<B*>(nullptr);
 #else
@@ -474,7 +474,7 @@ Swizzle<T, Dim, Packed, Indices...>::operator Vector<T2, sizeof...(Indices), Pac
 	constexpr auto Dim2 = int(sizeof...(Indices));
 	using V = Vector<T2, Dim2, Packed2>;
 
-#if MATHTER_USE_XSIMD
+#if MATHTER_ENABLE_SIMD
 	if constexpr (IsBatched<T, Dim, Packed>() && Dim2 <= Dim) {
 		using TI = traits::same_size_int_t<T>;
 		static_assert(!std::is_void_v<TI> && sizeof(TI) == sizeof(T));

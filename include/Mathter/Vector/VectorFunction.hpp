@@ -110,7 +110,7 @@ void Fill(Vector<T, Dim, Packed>& lhs, U all) {
 /// <summary> Calculates the scalar product (dot product) of the two arguments. </summary>
 template <class T, int Dim, bool Packed>
 T Dot(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
-#if MATHTER_USE_XSIMD
+#if MATHTER_ENABLE_SIMD
 	if constexpr (IsBatched<T, Dim, Packed>()) {
 		struct G {
 			static constexpr bool get(unsigned idx, unsigned size) noexcept {
@@ -175,7 +175,7 @@ Vector<T, 3, Packed> Cross(const std::array<const Vector<T, 3, Packed>*, 2>& arg
 /// <summary> Returns the element-wise minimum of arguments </summary>
 template <class T, int Dim, bool Packed>
 Vector<T, Dim, Packed> Min(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
-#if MATHTER_USE_XSIMD
+#if MATHTER_ENABLE_SIMD
 	if constexpr (IsBatched<T, Dim, Packed>()) {
 		using B = Batch<T, Dim, Packed>;
 		const auto lhsv = B::load_unaligned(lhs.data());
@@ -194,7 +194,7 @@ Vector<T, Dim, Packed> Min(const Vector<T, Dim, Packed>& lhs, const Vector<T, Di
 /// <summary> Returns the element-wise maximum of arguments </summary>
 template <class T, int Dim, bool Packed>
 Vector<T, Dim, Packed> Max(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
-#if MATHTER_USE_XSIMD
+#if MATHTER_ENABLE_SIMD
 	if constexpr (IsBatched<T, Dim, Packed>()) {
 		using B = Batch<T, Dim, Packed>;
 		const auto lhsv = B::load_unaligned(lhs.data());

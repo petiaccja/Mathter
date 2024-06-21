@@ -1,12 +1,12 @@
 set(Mathter_VERSION @PROJECT_VERSION@)
-set(MATHTER_USE_XSIMD @MATHTER_USE_XSIMD@)
+set(MATHTER_ENABLE_SIMD @MATHTER_ENABLE_SIMD@)
 
 @PACKAGE_INIT@
 
 set_and_check(Mathter_INCLUDE_DIR "@PACKAGE_INCLUDE_INSTALL_DIR@")
 
 include(CMakeFindDependencyMacro)
-if (${MATHTER_USE_XSIMD})
+if (${MATHTER_ENABLE_SIMD})
 	find_dependency(xsimd REQUIRED)
 endif()
 

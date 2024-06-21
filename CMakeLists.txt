@@ -11,7 +11,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 project(Mathter VERSION ${MATHTER_VERSION})
 
 # Project options
-option(MATHTER_USE_XSIMD "Uses XSimd for vectorization of math routines. Uses scalar fallback if turned off." ON)
+option(MATHTER_ENABLE_SIMD "Enables hand-rolled vectorization. Requires the XSimd library." ON)
 set(MATHTER_INIT_MODE "DEFAULT" CACHE STRING "Set default initialization of Mathter types.")
 set_property(CACHE MATHTER_INIT_MODE PROPERTY STRINGS DEFAULT NULL INVALID UNINITIALIZED)
 option(MATHTER_BUILD_TESTS "Include or exclude tests from the generated project." ON)
