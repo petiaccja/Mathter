@@ -72,7 +72,7 @@ jobs:
         cmake -E make_directory "${{github.workspace}}/build"
         conan install "${{github.workspace}}" --build=missing -pr $PR -pr:b $PR
         conan cache clean
-        cmake -S "${{github.workspace}}" --preset conan-${{ matrix.conan_preset }} -DMATHTER_USE_XSIMD:BOOL=OFF
+        cmake -S "${{github.workspace}}" --preset conan-${{ matrix.conan_preset }} -DMATHTER_ENABLE_SIMD:BOOL=OFF
 
     - name: Build
       run: |
