@@ -17,6 +17,7 @@ set_property(CACHE MATHTER_INIT_MODE PROPERTY STRINGS DEFAULT NULL INVALID UNINI
 option(MATHTER_BUILD_TESTS "Include or exclude tests from the generated project." ON)
 option(MATHTER_BUILD_BENCHMARKS "Include or exclude bechmarks from the generated project." ON)
 option(ENABLE_LLVM_COV "Adds compiler flags to generate LLVM source-based code coverage. Only works with Clang." OFF)
+set(MATHTER_CMAKE_INSTALL_DIR "lib/cmake/${PROJECT_NAME}" CACHE STRING "Subdirectory to install CMake package config files.")
 
 # Global compiler flags
 if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
@@ -50,7 +51,7 @@ install(TARGETS Mathter EXPORT MathterTargets
 install(EXPORT MathterTargets
         FILE MathterTargets.cmake
         NAMESPACE Mathter::
-        DESTINATION lib/cmake/${PROJECT_NAME})
+        DESTINATION ${MATHTER_CMAKE_INSTALL_DIR})
 
 include(CMakePackageConfigHelpers)
 
@@ -59,7 +60,7 @@ set(INCLUDE_INSTALL_DIR "include" CACHE PATH "Location of header files" )
 configure_package_config_file(
 	${PROJECT_NAME}Config.cmake.in
 	${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
-	INSTALL_DESTINATION lib/cmake/${PROJECT_NAME}
+	INSTALL_DESTINATION ${MATHTER_CMAKE_INSTALL_DIR}
 	PATH_VARS INCLUDE_INSTALL_DIR
 )
 
@@ -72,5 +73,5 @@ install(
 	FILES
 		${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
 		${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
-	DESTINATION lib/cmake/${PROJECT_NAME}
+	DESTINATION ${MATHTER_CMAKE_INSTALL_DIR}
 )
