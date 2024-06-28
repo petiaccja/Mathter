@@ -101,17 +101,13 @@ public:
 // Vectorization utilities
 //------------------------------------------------------------------------------
 
-template <class T, int Dim, bool Packed>
-constexpr int ExtendedDim() {
-	if constexpr (!Packed) {
-		if (Dim == 3) {
-			return 4;
-		}
-		if (Dim == 6 || Dim == 7) {
-			return 8;
-		}
-	}
-	return Dim;
+constexpr int GetBatchSize(int Dim, bool Packed) {
+	return Packed	? Dim :
+		   Dim == 3 ? 4 :
+		   Dim == 5 ? 8 :
+		   Dim == 6 ? 8 :
+		   Dim == 7 ? 8 :
+					  Dim;
 }
 
 
@@ -119,8 +115,7 @@ template <class T, int Dim, bool Packed>
 constexpr int IsBatched() {
 #if MATHTER_ENABLE_SIMD
 	if constexpr (!Packed) {
-		constexpr auto extendedSize = ExtendedDim<T, Dim, Packed>();
-		using BatchT = typename xsimd::make_sized_batch<T, extendedSize>::type;
+		using BatchT = typename xsimd::make_sized_batch<T, GetBatchSize(Dim, Packed)>::type;
 		return !std::is_void_v<BatchT>;
 	}
 #endif
@@ -133,7 +128,7 @@ struct BatchTHelper {
 	static auto GetType() {
 		if constexpr (IsBatched<T, Dim, Packed>()) {
 #if MATHTER_ENABLE_SIMD
-			using B = typename xsimd::make_sized_batch<T, ExtendedDim<T, Dim, Packed>()>::type;
+			using B = typename xsimd::make_sized_batch<T, GetBatchSize(Dim, Packed)>::type;
 			return static_cast<B*>(nullptr);
 #else
 			return static_cast<void*>(nullptr);
@@ -151,7 +146,13 @@ using Batch = std::decay_t<std::remove_pointer_t<decltype(BatchTHelper<T, Dim, P
 
 
 template <class T, int Dim, bool Packed>
-constexpr int Alignment() {
+constexpr int GetStorageSize() {
+	return IsBatched<T, Dim, Packed>() ? GetBatchSize(Dim, Packed) : Dim;
+}
+
+
+template <class T, int Dim, bool Packed>
+constexpr int GetStorageAlignment() {
 	if constexpr (IsBatched<T, Dim, Packed>()) {
 		using B = Batch<T, Dim, Packed>;
 		static_assert(!std::is_void_v<B>, "IsBatched should prevent this case from ever happening.");
@@ -171,7 +172,7 @@ struct VectorData {
 	VectorData() {}
 	union {
 		/// <summary> A potentially larger array extended to the next SIMD size. </summary>
-		alignas(Alignment<T, Dim, Packed>()) std::array<T, ExtendedDim<T, Dim, Packed>()> extended;
+		alignas(GetStorageAlignment<T, Dim, Packed>()) std::array<T, GetStorageSize<T, Dim, Packed>()> extended;
 	};
 };
 
@@ -189,7 +190,7 @@ struct VectorData<T, 2, Packed> {
 	}
 	union {
 		/// <summary> A potentially larger array extended to the next SIMD size. </summary>
-		alignas(Alignment<T, 2, Packed>()) std::array<T, ExtendedDim<T, 2, Packed>()> extended;
+		alignas(GetStorageAlignment<T, 2, Packed>()) std::array<T, GetStorageSize<T, 2, Packed>()> extended;
 		struct {
 			T x, y;
 		};
@@ -212,7 +213,7 @@ struct VectorData<T, 3, Packed> {
 	}
 	union {
 		/// <summary> A potentially larger array extended to the next SIMD size. </summary>
-		alignas(Alignment<T, 3, Packed>()) std::array<T, ExtendedDim<T, 3, Packed>()> extended;
+		alignas(GetStorageAlignment<T, 3, Packed>()) std::array<T, GetStorageSize<T, 3, Packed>()> extended;
 		struct {
 			T x, y, z;
 		};
@@ -235,7 +236,7 @@ struct VectorData<T, 4, Packed> {
 	}
 	union {
 		/// <summary> A potentially larger array extended to the next SIMD size. </summary>
-		alignas(Alignment<T, 4, Packed>()) std::array<T, ExtendedDim<T, 4, Packed>()> extended;
+		alignas(GetStorageAlignment<T, 4, Packed>()) std::array<T, GetStorageSize<T, 4, Packed>()> extended;
 		struct {
 			T x, y, z, w;
 		};
@@ -376,11 +377,16 @@ public:
 	///		Types of arguments may differ from vector's underlying type, in which case cast is forced without a warning. </remarks>
 	template <class... Args, typename std::enable_if<(sizeof...(Args) > 1), int>::type = 0>
 	Vector(const Args&... mixed) {
-		auto scalars = std::tuple_cat(AsTuple(mixed)...);
-		auto fun = [this](const auto&... args) {
-			extended = { T(args)... };
-		};
-		std::apply(fun, scalars);
+		if constexpr ((... && traits::IsScalar<Args>::value)) {
+			extended = { T(mixed)... }; // Performance optimization in case of all scalars.
+		}
+		else {
+			auto scalars = std::tuple_cat(AsTuple(mixed)...);
+			auto fun = [this](const auto&... args) {
+				extended = { T(args)... };
+			};
+			std::apply(fun, scalars);
+		}
 	}
 
 

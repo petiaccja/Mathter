@@ -24,6 +24,27 @@ using TypeListReal = TestTypeList<TypesReal, PackedAll>;
 using TypeListAll = TestTypeList<TypesAll, PackedAll>;
 
 
+TEST_CASE("Vector - GetBatchDim", "[Vector]") {
+	REQUIRE(GetBatchSize(1, false) == 1);
+	REQUIRE(GetBatchSize(2, false) == 2);
+	REQUIRE(GetBatchSize(3, false) == 4);
+	REQUIRE(GetBatchSize(4, false) == 4);
+	REQUIRE(GetBatchSize(5, false) == 8);
+	REQUIRE(GetBatchSize(6, false) == 8);
+	REQUIRE(GetBatchSize(7, false) == 8);
+	REQUIRE(GetBatchSize(8, false) == 8);
+
+	REQUIRE(GetBatchSize(1, true) == 1);
+	REQUIRE(GetBatchSize(2, true) == 2);
+	REQUIRE(GetBatchSize(3, true) == 3);
+	REQUIRE(GetBatchSize(4, true) == 4);
+	REQUIRE(GetBatchSize(5, true) == 5);
+	REQUIRE(GetBatchSize(6, true) == 6);
+	REQUIRE(GetBatchSize(7, true) == 7);
+	REQUIRE(GetBatchSize(8, true) == 8);
+}
+
+
 TEST_CASE("Vector deterministic default initializer", "[Init]") {
 	using VecT = Vector<float, 3>;
 	alignas(alignof(VecT)) std::array<uint8_t, sizeof(VecT)> rawData;
