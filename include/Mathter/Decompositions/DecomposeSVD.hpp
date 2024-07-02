@@ -1,4 +1,4 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
@@ -34,6 +34,137 @@ public:
 
 
 namespace impl {
+
+	template <class T, class... Rest>
+	T AbsMax(T first, T second, Rest... rest) {
+		const auto partial = std::max(std::abs(first), std::abs(second));
+		if constexpr (sizeof...(Rest) != 0) {
+			return AbsMax(partial, rest...);
+		}
+		return partial;
+	}
+
+	/// <summary> The RQ decomposition of a 2x2 matrix. </summary>
+	/// <remarks>
+	///	Decomposes A such that A = RQ, where R is upper triangular and Q is a rotation matrix.
+	///	The layout is R = {{r11, r12}, {0, r22}} and Q = {{c, -s}, {s, c}}.
+	/// </remarks>
+	template <class T>
+	struct DecompositionRQ2x2 {
+		T r11;
+		T r12;
+		T r22;
+		T cq;
+		T sq;
+	};
+
+	/// <summary> The SVD if a 2x2 matrix. </summary>
+	/// <remarks>
+	/// Decomposes A such that A = USV, where U is a rotation matrix, S is diagonal, and V is also a rotation matrix.
+	///	The layout is U = {{cu, -su}, {su, cu}}, S = {{s11, 0}, {0, s22}}, and V = {{cv, -sv}, {sv, cv}}.
+	/// </remarks>
+	template <class T>
+	struct DecompositionSVD2x2 {
+		T cu;
+		T su;
+		T s11;
+		T s22;
+		T cv;
+		T sv;
+	};
+
+	template <class T, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+	DecompositionRQ2x2<T> DecomposeRQ2x2(const Matrix<T, 2, 2, Order, Layout, Packed>& A) {
+		const auto a11 = A(0, 0);
+		const auto a12 = A(0, 1);
+		const auto a21 = A(1, 0);
+		const auto a22 = A(1, 1);
+
+		// If a21 is not precisely zero, the scaling will take care of it and the rest works fine.
+		if (a21 == T(0)) {
+			return { a11, a12, a22, T(1), T(0) };
+		}
+
+		// Rescale matrix elements to avoid underflow and overflow.
+		const auto scaleNum = AbsMax(a11, a12, std::numeric_limits<T>::min()); // Avoid NaN.
+		const auto scaleDiv = AbsMax(a21, a22); // a21 is never zero. See if statement above.
+		const auto a11s = a11 / scaleNum;
+		const auto a12s = a12 / scaleNum;
+		const auto a21s = a21 / scaleDiv;
+		const auto a22s = a22 / scaleDiv;
+
+		// Compute the cosine and sine of Q and the values of R.
+		const auto divisor = std::sqrt(a21s * a21s + a22s * a22s);
+
+		const auto cq = a22s / divisor;
+		const auto sq = a21s / divisor;
+		const auto r11 = scaleNum * ((a11s * a22s - a12s * a21s) / divisor);
+		const auto r12 = scaleNum * ((a11s * a21s + a12s * a22s) / divisor);
+		const auto r22 = scaleDiv * divisor;
+
+		return { r11, r12, r22, cq, sq };
+	}
+
+
+	template <class T, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+	DecompositionSVD2x2<T> DecomposeSVD2x2(const Matrix<T, 2, 2, Order, Layout, Packed>& A) {
+		// The algorithm is not trivial, see the description and derivation in the docs.
+
+		// C++17 does not have the math constants yet.
+		constexpr auto sqrt2 = T(1.4142135623730950488016887242096980785696718753769480731766797379);
+		constexpr auto rsqrt2 = T(0.7071067811865475244008443621048490392848359376884740365883398689);
+
+		// RQ preconditioning.
+		const auto rq = DecomposeRQ2x2(A);
+
+		// Get the elements of the upper triangular R matrix.
+		const auto a11 = rq.r11;
+		const auto a12 = rq.r12;
+		const auto a22 = rq.r22;
+
+		// Rescale matrix elements to avoid underflow and overflow.
+		const auto scaler = AbsMax(a11, a12, a22);
+		if (scaler == T(0)) {
+			return { T(1), T(0), T(0), T(0), T(1), T(0) };
+		}
+		const auto a11s = a11 / scaler;
+		const auto a12s = a12 / scaler;
+		const auto a22s = a22 / scaler;
+
+		// Compute the cosine and sine of the rotation matrix V in R = USV.
+		const auto z = (a11s - a22s) * (a11s + a22s) - a12s * a12s;
+		const auto g = a11s * a12s;
+		const auto zabs = std::abs(z);
+		const auto zsign = std::copysign(T(1), z);
+		const auto p1 = std::hypot(zabs, T(2) * g);
+		const auto pab = std::sqrt((zabs + p1) / p1);
+
+		const auto cv = p1 != 0 ? std::clamp(-pab * rsqrt2, -T(1), T(1)) : T(1);
+		const auto sv = p1 != 0 ? std::clamp(zsign * sqrt2 * g / (p1 * pab), -T(1), T(1)) : T(0);
+
+		// Compute US = RV^T using the computed cv and sv.
+		const auto us11 = cv * a11 - sv * a12;
+		const auto us12 = sv * a11 + cv * a12;
+		const auto us21 = -sv * a22;
+		const auto us22 = cv * a22;
+
+		// Compute the singular values, i.e. the diagonal of matrix S.
+		const auto detUs = us11 * us22 - us12 * us21; // det(S) must match det(US), as det(U) == 1.
+		const auto s11 = std::hypot(us11, us21);
+		const auto s22abs = std::hypot(us12, us22);
+		const auto s22 = std::copysign(s22abs, detUs);
+
+		// Compute the cosine and sine of the rotation matrix U.
+		const auto [cu, su] = s11 > s22abs ? std::tuple{ us11 / s11, us21 / s11 } : std::tuple{ us22 / s22, -us12 / s22 };
+
+		// Multiply V and Q to undo the RQ decomposition.
+		const auto cvq = cv * rq.cq - sv * rq.sq;
+		const auto svq = sv * rq.cq + cv * rq.sq;
+
+		return { cu, su, s11, s22, cvq, svq };
+	}
+
+
 	template <class T, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 	void Rq2x2Helper(const Matrix<T, 2, 2, Order, Layout, Packed>& A, T& x, T& y, T& z, T& c2, T& s2) {
 		T a = A(0, 0);
