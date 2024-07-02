@@ -1,4 +1,4 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
@@ -10,6 +10,39 @@
 
 
 namespace mathter {
+
+
+/// <summary> Returns the maximum element of the matrix. </summary>
+template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+T Min(const Matrix<T, Dim, Dim, Order, Layout, Packed>& m) {
+	T minElement = Min(m.stripes[0]);
+	for (size_t stripe = 1; stripe < m.stripes.size(); ++stripe) {
+		minElement = std::min(minElement, Min(m.stripes[stripe]));
+	}
+	return minElement;
+}
+
+
+/// <summary> Returns the maximum element of the matrix. </summary>
+template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+T Max(const Matrix<T, Dim, Dim, Order, Layout, Packed>& m) {
+	T maxElement = Max(m.stripes[0]);
+	for (size_t stripe = 1; stripe < m.stripes.size(); ++stripe) {
+		maxElement = std::max(maxElement, Max(m.stripes[stripe]));
+	}
+	return maxElement;
+}
+
+
+/// <summary> Returns the maximum element of the matrix. </summary>
+template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+auto Abs(const Matrix<T, Dim, Dim, Order, Layout, Packed>& m) {
+	Matrix<T, Dim, Dim, Order, Layout, Packed> r;
+	for (size_t stripe = 0; stripe < m.stripes.size(); ++stripe) {
+		r.stripes[stripe] = Abs(m.stripes[stripe]);
+	}
+	return r;
+}
 
 
 /// <summary> Returns the trace (sum of diagonal elements) of the matrix. </summary>
@@ -274,7 +307,6 @@ auto Inverse(const Matrix<T, 4, 4, Order, Layout, Packed>& m) {
 }
 
 
-
 /// <summary> Returns the inverse of the matrix. </summary>
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 Matrix<T, Dim, Dim, Order, Layout, Packed> Inverse(const Matrix<T, Dim, Dim, Order, Layout, Packed>& m) {
@@ -296,6 +328,7 @@ Matrix<T, Dim, Dim, Order, Layout, Packed> Inverse(const Matrix<T, Dim, Dim, Ord
 	return ret;
 }
 
+
 /// <summary> Calculates the square of the Frobenius norm of the matrix. </summary>
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 T NormSquared(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) {
@@ -306,6 +339,7 @@ T NormSquared(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) {
 	return sum;
 }
 
+
 /// <summary> Calculates the Frobenius norm of the matrix. </summary>
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 T Norm(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) {
@@ -313,5 +347,15 @@ T Norm(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) {
 }
 
 
+/// <summary> Returns the Frobenius norm of the matrix, avoids overflow and underflow, so it's more expensive. </summary>
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+T NormPrecise(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) {
+	const auto maxElement = Max(Abs(m));
+	if (maxElement == T(0)) {
+		return T(0);
+	}
+	const auto scaled = m / maxElement;
+	return Norm(scaled) * maxElement;
+}
 
 } // namespace mathter

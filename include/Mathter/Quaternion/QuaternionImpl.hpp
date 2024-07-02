@@ -1,4 +1,4 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
@@ -7,7 +7,7 @@
 
 
 #include "../Common/MathUtil.hpp"
-#include "../Common/Traits.hpp"
+#include "../Common/TypeTraits.hpp"
 #include "../Matrix.hpp"
 #include "../Utility.hpp"
 #include "../Vector.hpp"

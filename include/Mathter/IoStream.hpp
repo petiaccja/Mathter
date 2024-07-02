@@ -1,4 +1,4 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
@@ -66,9 +66,9 @@ namespace impl {
 } // namespace impl
 
 /// <summary> Parses a vector from a string. </summary>
-template <class T, int Dim, bool Packed>
-Vector<T, Dim, Packed> strtovec(const char* str, const char** end) {
-	Vector<T, Dim, Packed> ret;
+template <class Vec>
+Vec strtovec(const char* str, const char** end) {
+	Vec ret;
 
 	const char* strproc = str;
 
@@ -101,9 +101,9 @@ Vector<T, Dim, Packed> strtovec(const char* str, const char** end) {
 	}
 
 	// parse elements
-	for (int i = 0; i < Dim; ++i) {
+	for (int i = 0; i < dimension_v<Vec>; ++i) {
 		const char* elemend;
-		T elem = impl::strtonum<T>(strproc, &elemend);
+		const auto elem = impl::strtonum<scalar_type_t<Vec>>(strproc, &elemend);
 		if (elemend == strproc) {
 			*end = str;
 			return ret;
@@ -132,17 +132,6 @@ Vector<T, Dim, Packed> strtovec(const char* str, const char** end) {
 	return ret;
 }
 
-template <class VectorT>
-VectorT strtovec(const char* str, const char** end) {
-	static_assert(traits::IsVector<VectorT>::value, "This type is not a Vector, dumbass.");
-
-	return strtovec<
-		typename traits::VectorTraits<VectorT>::Type,
-		traits::VectorTraits<VectorT>::Dim,
-		traits::VectorTraits<VectorT>::Packed>(str, end);
-}
-
-
 
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 std::ostream& operator<<(std::ostream& os, const Matrix<T, Rows, Columns, Order, Layout, Packed>& mat) {
@@ -160,11 +149,10 @@ std::ostream& operator<<(std::ostream& os, const Matrix<T, Rows, Columns, Order,
 }
 
 
-template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-Matrix<T, Rows, Columns, Order, Layout, Packed> strtomat(const char* str, const char** end) {
-	using MatrixT = Matrix<T, Rows, Columns, Order, Layout, Packed>;
-	using VectorT = Vector<T, Columns, Packed>;
-	MatrixT ret;
+template <class Mat>
+Mat strtomat(const char* str, const char** end) {
+	using Vec = Vector<scalar_type_t<Mat>, column_count_v<Mat>, is_packed_v<Mat>>;
+	Mat ret;
 
 	const char* strproc = str;
 
@@ -197,9 +185,9 @@ Matrix<T, Rows, Columns, Order, Layout, Packed> strtomat(const char* str, const 
 	}
 
 	// parse rows
-	for (int i = 0; i < Rows; ++i) {
+	for (int i = 0; i < row_count_v<Mat>; ++i) {
 		const char* rowend;
-		VectorT row = strtovec<VectorT>(strproc, &rowend);
+		const auto row = strtovec<Vec>(strproc, &rowend);
 		if (rowend == strproc) {
 			*end = str;
 			return ret;
@@ -209,7 +197,7 @@ Matrix<T, Rows, Columns, Order, Layout, Packed> strtomat(const char* str, const 
 			strproc = rowend;
 		}
 		strproc = impl::StripSpaces(strproc);
-		if (i < Rows - 1) {
+		if (i < row_count_v<Mat> - 1) {
 			if (*strproc == ';') {
 				++strproc;
 			}
@@ -233,20 +221,6 @@ Matrix<T, Rows, Columns, Order, Layout, Packed> strtomat(const char* str, const 
 	*end = strproc;
 	return ret;
 }
-
-template <class MatrixT>
-MatrixT strtomat(const char* str, const char** end) {
-	static_assert(traits::IsMatrix<MatrixT>::value, "This type if not a matrix, dumbass.");
-
-	return strtomat<
-		typename traits::MatrixTraits<MatrixT>::Type,
-		traits::MatrixTraits<MatrixT>::Rows,
-		traits::MatrixTraits<MatrixT>::Columns,
-		traits::MatrixTraits<MatrixT>::Order,
-		traits::MatrixTraits<MatrixT>::Layout,
-		traits::MatrixTraits<MatrixT>::Packed>(str, end);
-}
-
 
 
 template <class T, bool Packed>

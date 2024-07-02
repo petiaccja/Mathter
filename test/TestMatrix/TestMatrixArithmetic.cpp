@@ -1,4 +1,4 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
@@ -8,7 +8,7 @@
 #include "../TestGenerators.hpp"
 
 #include <Mathter/Common/Approx.hpp>
-#include <Mathter/Common/Traits.hpp>
+#include <Mathter/Common/TypeTraits.hpp>
 #include <Mathter/Matrix.hpp>
 
 #include <catch2/catch_approx.hpp>
@@ -124,7 +124,7 @@ auto VerifyScalarResults(const MatrixT& original, Fun fun, const MatrixT& result
 TEMPLATE_LIST_TEST_CASE("Matrix - scalar ops", "[Matrix]", TypeListFloating) {
 	SECTION(TestType::Name()) {
 		using M33 = typename TestType::template Matrix<3, 3>;
-		using T = typename traits::MatrixTraits<M33>::Type;
+		using T = scalar_type_t<M33>;
 
 		M33 a = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 		T s = T(7);
@@ -152,7 +152,7 @@ TEMPLATE_LIST_TEST_CASE("Matrix - scalar ops", "[Matrix]", TypeListFloating) {
 TEMPLATE_LIST_TEST_CASE("Matrix - scalar compound ops", "[Matrix]", TypeListFloating) {
 	SECTION(TestType::Name()) {
 		using M33 = typename TestType::template Matrix<3, 3>;
-		using T = typename traits::MatrixTraits<M33>::Type;
+		using T = scalar_type_t<M33>;
 
 		M33 a = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 		T s = T(7);

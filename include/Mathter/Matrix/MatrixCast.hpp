@@ -1,4 +1,4 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
@@ -40,7 +40,7 @@ namespace impl {
 			  eMatrixLayout Layout2,
 			  bool Packed1,
 			  bool Packed2>
-	struct RepresentationCompatible<Matrix<T1, Rows, Columns, Order1, Layout1, Packed1>, Matrix<T2, Columns, Rows, traits::OppositeOrder<Order1>::value, Layout2, Packed2>> {
+	struct RepresentationCompatible<Matrix<T1, Rows, Columns, Order1, Layout1, Packed1>, Matrix<T2, Columns, Rows, opposite_order_v<Order1>, Layout2, Packed2>> {
 		static constexpr bool value = std::is_convertible_v<T2, T1>;
 	};
 
@@ -66,7 +66,7 @@ auto matrix_reinterpret_cast(const MatrixSourceT& source) -> std::enable_if_t<im
 	MatrixDestT dest;
 	for (int i = 0; i < source.RowCount(); ++i) {
 		for (int j = 0; j < source.ColumnCount(); ++j) {
-			dest(i, j) = typename traits::MatrixTraits<MatrixDestT>::Type(source(i, j));
+			dest(i, j) = scalar_type_t<MatrixDestT>(source(i, j));
 		}
 	}
 	return dest;
@@ -80,11 +80,11 @@ auto matrix_representation_cast(const MatrixSourceT& source) -> std::enable_if_t
 	MatrixDestT dest;
 	for (int i = 0; i < source.RowCount(); ++i) {
 		for (int j = 0; j < source.ColumnCount(); ++j) {
-			if constexpr (traits::MatrixTraits<MatrixDestT>::Order == traits::MatrixTraits<MatrixSourceT>::Order) {
-				dest(i, j) = typename traits::MatrixTraits<MatrixDestT>::Type(source(i, j));
+			if constexpr (order_v<MatrixDestT> == order_v<MatrixSourceT>) {
+				dest(i, j) = scalar_type_t<MatrixDestT>(source(i, j));
 			}
 			else {
-				dest(j, i) = typename traits::MatrixTraits<MatrixDestT>::Type(source(i, j));
+				dest(j, i) = scalar_type_t<MatrixDestT>(source(i, j));
 			}
 		}
 	}

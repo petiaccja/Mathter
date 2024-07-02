@@ -1,4 +1,4 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
@@ -398,8 +398,8 @@ TEMPLATE_LIST_TEST_CASE("Matrix - Perspective", "[Matrix]", TypeListFloatingFoll
 	SECTION(TestType::Name()) {
 		using M44 = typename TestType::template Matrix<4, 4>;
 		using M44I = invert_order_t<M44>;
-		using Type = typename traits::MatrixTraits<M44>::Type;
-		constexpr auto Packed = traits::MatrixTraits<M44>::Packed;
+		using Type = scalar_type_t<M44>;
+		constexpr auto Packed = is_packed_v<M44>;
 
 		constexpr int numCases = 5;
 
@@ -459,7 +459,7 @@ TEMPLATE_LIST_TEST_CASE("Matrix - Orthographic", "[Matrix]", TypeListFloatingFol
 	SECTION(TestType::Name()) {
 		using M44 = typename TestType::template Matrix<4, 4>;
 		using Vec = typename TestType::template Vector<3>;
-		using Type = typename traits::MatrixTraits<M44>::Type;
+		using Type = scalar_type_t<M44>;
 
 		Vec worldFrustum[2] = {
 			{ -0.25f, -0.44444444f, 0.5f },
@@ -508,8 +508,8 @@ TEMPLATE_LIST_TEST_CASE("Matrix - View", "[Matrix]", TypeListFloatingFollow) {
 		using M44 = typename TestType::template Matrix<4, 4>;
 		using M44I = invert_order_t<M44>;
 		using Vec = typename TestType::template Vector<3>;
-		using Type = typename traits::MatrixTraits<M44>::Type;
-		constexpr auto Packed = traits::MatrixTraits<M44>::Packed;
+		using Type = scalar_type_t<M44>;
+		constexpr auto Packed = is_packed_v<M44>;
 
 		Basis<Type, Packed> basis;
 

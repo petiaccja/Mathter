@@ -6,105 +6,71 @@
 
 using namespace mathter;
 
-//------------------------------------------------------------------------------
-// Single precision
-//------------------------------------------------------------------------------
 
-// Addition
-BENCHMARK_CASE("Mat22 ADD Mat22 float vec cm", "[Matrix]", 50, 64, opAdd, feedBinary,
-			   (TuplizeArrays(MakeMatrixArray<Mat22f_fc, 32>(), MakeMatrixArray<Mat22f_fc, 32>())));
-
-BENCHMARK_CASE("Mat33 ADD Mat33 float vec cm", "[Matrix]", 50, 64, opAdd, feedBinary,
-			   (TuplizeArrays(MakeMatrixArray<Mat33f_fc, 32>(), MakeMatrixArray<Mat33f_fc, 32>())));
-
-BENCHMARK_CASE("Mat44 ADD Mat44 float vec cm", "[Matrix]", 50, 64, opAdd, feedBinary,
-			   (TuplizeArrays(MakeMatrixArray<Mat44f_fc, 32>(), MakeMatrixArray<Mat44f_fc, 32>())));
-
-BENCHMARK_CASE("Mat22 ADD Mat22 float packed cm", "[Matrix]", 50, 64, opAdd, feedBinary,
-			   (TuplizeArrays(MakeMatrixArray<Mat22fp_fc, 32>(), MakeMatrixArray<Mat22fp_fc, 32>())));
-
-BENCHMARK_CASE("Mat33 ADD Mat33 float packed cm", "[Matrix]", 50, 64, opAdd, feedBinary,
-			   (TuplizeArrays(MakeMatrixArray<Mat33fp_fc, 32>(), MakeMatrixArray<Mat33fp_fc, 32>())));
-
-BENCHMARK_CASE("Mat44 ADD Mat44 float packed cm", "[Matrix]", 50, 64, opAdd, feedBinary,
-			   (TuplizeArrays(MakeMatrixArray<Mat44fp_fc, 32>(), MakeMatrixArray<Mat44fp_fc, 32>())));
-
-// Multiplication
-BENCHMARK_CASE("Mat22 MUL Mat22 float vec cm", "[Matrix]", 50, 64, opMul, feedBinary,
-			   (TuplizeArrays(MakeMatrixArray<Mat22f_fc, 32>(), MakeMatrixArray<Mat22f_fc, 32>())));
-
-BENCHMARK_CASE("Mat33 MUL Mat33 float vec cm", "[Matrix]", 50, 64, opMul, feedBinary,
-			   (TuplizeArrays(MakeMatrixArray<Mat33f_fc, 32>(), MakeMatrixArray<Mat33f_fc, 32>())));
-
-BENCHMARK_CASE("Mat44 MUL Mat44 float vec cm", "[Matrix]", 50, 64, opMul, feedBinary,
-			   (TuplizeArrays(MakeMatrixArray<Mat44f_fc, 32>(), MakeMatrixArray<Mat44f_fc, 32>())));
-
-BENCHMARK_CASE("Mat22 MUL Mat22 float vec rm", "[Matrix]", 50, 64, opMul, feedBinary,
-			   (TuplizeArrays(MakeMatrixArray<Mat22f_fr, 32>(), MakeMatrixArray<Mat22f_fr, 32>())));
-
-BENCHMARK_CASE("Mat33 MUL Mat33 float vec rm", "[Matrix]", 50, 64, opMul, feedBinary,
-			   (TuplizeArrays(MakeMatrixArray<Mat33f_fr, 32>(), MakeMatrixArray<Mat33f_fr, 32>())));
-
-BENCHMARK_CASE("Mat44 MUL Mat44 float vec rm", "[Matrix]", 50, 64, opMul, feedBinary,
-			   (TuplizeArrays(MakeMatrixArray<Mat44f_fr, 32>(), MakeMatrixArray<Mat44f_fr, 32>())));
-
-BENCHMARK_CASE("Mat22 MUL Mat22 float packed cm", "[Matrix]", 50, 64, opMul, feedBinary,
-			   (TuplizeArrays(MakeMatrixArray<Mat22fp_fc, 32>(), MakeMatrixArray<Mat22fp_fc, 32>())));
-
-BENCHMARK_CASE("Mat33 MUL Mat33 float packed cm", "[Matrix]", 50, 64, opMul, feedBinary,
-			   (TuplizeArrays(MakeMatrixArray<Mat33fp_fc, 32>(), MakeMatrixArray<Mat33fp_fc, 32>())));
-
-BENCHMARK_CASE("Mat44 MUL Mat44 float packed cm", "[Matrix]", 50, 64, opMul, feedBinary,
-			   (TuplizeArrays(MakeMatrixArray<Mat44fp_fc, 32>(), MakeMatrixArray<Mat44fp_fc, 32>())));
+static constexpr auto benchmarkCaseLayout_r = eMatrixLayout::ROW_MAJOR;
+static constexpr auto benchmarkCaseLayout_c = eMatrixLayout::COLUMN_MAJOR;
 
 
-//------------------------------------------------------------------------------
-// Single precision
-//------------------------------------------------------------------------------
+#define MATRIX_MUL_BENCHMARK_CASE(TYPE, ROWS, MATCH, COLS, LAYOUT_L, LAYOUT_R, PACKED)                                                                   \
+	BENCHMARK_CASE(#TYPE "." #ROWS #MATCH #LAYOUT_L " * " #TYPE "." #MATCH #COLS #LAYOUT_R " (P=" #PACKED ")",                                           \
+				   "[Matrix]",                                                                                                                           \
+				   50,                                                                                                                                   \
+				   64,                                                                                                                                   \
+				   opMul,                                                                                                                                \
+				   feedBinary,                                                                                                                           \
+				   (TuplizeArrays(MakeMatrixArray<Matrix<TYPE, ROWS, MATCH, eMatrixOrder::FOLLOW_VECTOR, benchmarkCaseLayout_##LAYOUT_L, PACKED>, 32>(), \
+								  MakeMatrixArray<Matrix<TYPE, MATCH, COLS, eMatrixOrder::FOLLOW_VECTOR, benchmarkCaseLayout_##LAYOUT_R, PACKED>, 32>())));
 
-// Addition
-BENCHMARK_CASE("Mat22 ADD Mat22 double vec cm", "[Matrix]", 50, 64, opAdd, feedBinary,
-			   (TuplizeArrays(MakeMatrixArray<Mat22d_fc, 32>(), MakeMatrixArray<Mat22d_fc, 32>())));
 
-BENCHMARK_CASE("Mat33 ADD Mat33 double vec cm", "[Matrix]", 50, 64, opAdd, feedBinary,
-			   (TuplizeArrays(MakeMatrixArray<Mat33d_fc, 32>(), MakeMatrixArray<Mat33d_fc, 32>())));
+#define MATRIX_EWISE_BENCHMARK_CASE(TYPE, ROWS, COLS, LAYOUT_L, LAYOUT_R, PACKED)                                                                       \
+	BENCHMARK_CASE(#TYPE "." #ROWS #COLS #LAYOUT_L " + " #TYPE "." #ROWS #COLS #LAYOUT_R " (P=" #PACKED ")",                                            \
+				   "[Matrix]",                                                                                                                          \
+				   50,                                                                                                                                  \
+				   64,                                                                                                                                  \
+				   opAdd,                                                                                                                               \
+				   feedBinary,                                                                                                                          \
+				   (TuplizeArrays(MakeMatrixArray<Matrix<TYPE, ROWS, COLS, eMatrixOrder::FOLLOW_VECTOR, benchmarkCaseLayout_##LAYOUT_L, PACKED>, 32>(), \
+								  MakeMatrixArray<Matrix<TYPE, ROWS, COLS, eMatrixOrder::FOLLOW_VECTOR, benchmarkCaseLayout_##LAYOUT_R, PACKED>, 32>())));
 
-BENCHMARK_CASE("Mat44 ADD Mat44 double vec cm", "[Matrix]", 50, 64, opAdd, feedBinary,
-			   (TuplizeArrays(MakeMatrixArray<Mat44d_fc, 32>(), MakeMatrixArray<Mat44d_fc, 32>())));
 
-BENCHMARK_CASE("Mat22 ADD Mat22 double packed cm", "[Matrix]", 50, 64, opAdd, feedBinary,
-			   (TuplizeArrays(MakeMatrixArray<Mat22dp_fc, 32>(), MakeMatrixArray<Mat22dp_fc, 32>())));
+MATRIX_MUL_BENCHMARK_CASE(float, 2, 2, 2, r, r, false);
+MATRIX_MUL_BENCHMARK_CASE(float, 3, 3, 3, r, r, false);
+MATRIX_MUL_BENCHMARK_CASE(float, 4, 4, 4, r, r, false);
+MATRIX_MUL_BENCHMARK_CASE(float, 2, 2, 2, r, r, true);
+MATRIX_MUL_BENCHMARK_CASE(float, 3, 3, 3, r, r, true);
+MATRIX_MUL_BENCHMARK_CASE(float, 4, 4, 4, r, r, true);
 
-BENCHMARK_CASE("Mat33 ADD Mat33 double packed cm", "[Matrix]", 50, 64, opAdd, feedBinary,
-			   (TuplizeArrays(MakeMatrixArray<Mat33dp_fc, 32>(), MakeMatrixArray<Mat33dp_fc, 32>())));
+MATRIX_MUL_BENCHMARK_CASE(float, 2, 2, 2, c, c, false);
+MATRIX_MUL_BENCHMARK_CASE(float, 3, 3, 3, c, c, false);
+MATRIX_MUL_BENCHMARK_CASE(float, 4, 4, 4, c, c, false);
+MATRIX_MUL_BENCHMARK_CASE(float, 2, 2, 2, c, c, true);
+MATRIX_MUL_BENCHMARK_CASE(float, 3, 3, 3, c, c, true);
+MATRIX_MUL_BENCHMARK_CASE(float, 4, 4, 4, c, c, true);
 
-BENCHMARK_CASE("Mat44 ADD Mat44 double packed cm", "[Matrix]", 50, 64, opAdd, feedBinary,
-			   (TuplizeArrays(MakeMatrixArray<Mat44dp_fc, 32>(), MakeMatrixArray<Mat44dp_fc, 32>())));
+MATRIX_MUL_BENCHMARK_CASE(double, 2, 2, 2, r, r, false);
+MATRIX_MUL_BENCHMARK_CASE(double, 3, 3, 3, r, r, false);
+MATRIX_MUL_BENCHMARK_CASE(double, 4, 4, 4, r, r, false);
+MATRIX_MUL_BENCHMARK_CASE(double, 2, 2, 2, r, r, true);
+MATRIX_MUL_BENCHMARK_CASE(double, 3, 3, 3, r, r, true);
+MATRIX_MUL_BENCHMARK_CASE(double, 4, 4, 4, r, r, true);
 
-// Multiplication
-BENCHMARK_CASE("Mat22 MUL Mat22 double vec cm", "[Matrix]", 50, 64, opMul, feedBinary,
-			   (TuplizeArrays(MakeMatrixArray<Mat22d_fc, 32>(), MakeMatrixArray<Mat22d_fc, 32>())));
+MATRIX_MUL_BENCHMARK_CASE(double, 2, 2, 2, c, c, false);
+MATRIX_MUL_BENCHMARK_CASE(double, 3, 3, 3, c, c, false);
+MATRIX_MUL_BENCHMARK_CASE(double, 4, 4, 4, c, c, false);
+MATRIX_MUL_BENCHMARK_CASE(double, 2, 2, 2, c, c, true);
+MATRIX_MUL_BENCHMARK_CASE(double, 3, 3, 3, c, c, true);
+MATRIX_MUL_BENCHMARK_CASE(double, 4, 4, 4, c, c, true);
 
-BENCHMARK_CASE("Mat33 MUL Mat33 double vec cm", "[Matrix]", 50, 64, opMul, feedBinary,
-			   (TuplizeArrays(MakeMatrixArray<Mat33d_fc, 32>(), MakeMatrixArray<Mat33d_fc, 32>())));
+MATRIX_EWISE_BENCHMARK_CASE(float, 2, 2, c, c, false);
+MATRIX_EWISE_BENCHMARK_CASE(float, 3, 3, c, c, false);
+MATRIX_EWISE_BENCHMARK_CASE(float, 4, 4, c, c, false);
+MATRIX_EWISE_BENCHMARK_CASE(float, 2, 2, c, c, true);
+MATRIX_EWISE_BENCHMARK_CASE(float, 3, 3, c, c, true);
+MATRIX_EWISE_BENCHMARK_CASE(float, 4, 4, c, c, true);
 
-BENCHMARK_CASE("Mat44 MUL Mat44 double vec cm", "[Matrix]", 50, 64, opMul, feedBinary,
-			   (TuplizeArrays(MakeMatrixArray<Mat44d_fc, 32>(), MakeMatrixArray<Mat44d_fc, 32>())));
-
-BENCHMARK_CASE("Mat22 MUL Mat22 double vec rm", "[Matrix]", 50, 64, opMul, feedBinary,
-			   (TuplizeArrays(MakeMatrixArray<Mat22d_fr, 32>(), MakeMatrixArray<Mat22d_fr, 32>())));
-
-BENCHMARK_CASE("Mat33 MUL Mat33 double vec rm", "[Matrix]", 50, 64, opMul, feedBinary,
-			   (TuplizeArrays(MakeMatrixArray<Mat33d_fr, 32>(), MakeMatrixArray<Mat33d_fr, 32>())));
-
-BENCHMARK_CASE("Mat44 MUL Mat44 double vec rm", "[Matrix]", 50, 64, opMul, feedBinary,
-			   (TuplizeArrays(MakeMatrixArray<Mat44d_fr, 32>(), MakeMatrixArray<Mat44d_fr, 32>())));
-
-BENCHMARK_CASE("Mat22 MUL Mat22 double packed cm", "[Matrix]", 50, 64, opMul, feedBinary,
-			   (TuplizeArrays(MakeMatrixArray<Mat22dp_fc, 32>(), MakeMatrixArray<Mat22dp_fc, 32>())));
-
-BENCHMARK_CASE("Mat33 MUL Mat33 double packed cm", "[Matrix]", 50, 64, opMul, feedBinary,
-			   (TuplizeArrays(MakeMatrixArray<Mat33dp_fc, 32>(), MakeMatrixArray<Mat33dp_fc, 32>())));
-
-BENCHMARK_CASE("Mat44 MUL Mat44 double packed cm", "[Matrix]", 50, 64, opMul, feedBinary,
-			   (TuplizeArrays(MakeMatrixArray<Mat44dp_fc, 32>(), MakeMatrixArray<Mat44dp_fc, 32>())));
+MATRIX_EWISE_BENCHMARK_CASE(double, 2, 2, c, c, false);
+MATRIX_EWISE_BENCHMARK_CASE(double, 3, 3, c, c, false);
+MATRIX_EWISE_BENCHMARK_CASE(double, 4, 4, c, c, false);
+MATRIX_EWISE_BENCHMARK_CASE(double, 2, 2, c, c, true);
+MATRIX_EWISE_BENCHMARK_CASE(double, 3, 3, c, c, true);
+MATRIX_EWISE_BENCHMARK_CASE(double, 4, 4, c, c, true);

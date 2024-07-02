@@ -1,4 +1,4 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
@@ -38,9 +38,9 @@ bool AlmostEqual(T d1, T d2, std::false_type) {
 }
 
 // Check equivalence with tolerance.
-template <class T, class U, class = std::enable_if_t<traits::NotVector<T>::value && traits::NotMatrix<T>::value && traits::NotQuaternion<T>::value>>
+template <class T, class U, class = std::enable_if_t<is_scalar_v<T>>>
 bool AlmostEqual(T d1, U d2) {
-	using P = traits::MatMulElemT<T, U>;
+	using P = common_arithmetic_type_t<T, U>;
 	return AlmostEqual(P(d1), P(d2), std::integral_constant<bool, std::is_floating_point<P>::value>());
 }
 

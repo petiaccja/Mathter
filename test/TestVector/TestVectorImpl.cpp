@@ -1,4 +1,4 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
@@ -22,6 +22,27 @@ using Catch::Approx;
 
 using TypeListReal = TestTypeList<TypesReal, PackedAll>;
 using TypeListAll = TestTypeList<TypesAll, PackedAll>;
+
+
+TEST_CASE("Vector - GetBatchDim", "[Vector]") {
+	REQUIRE(GetBatchSize(1, false) == 1);
+	REQUIRE(GetBatchSize(2, false) == 2);
+	REQUIRE(GetBatchSize(3, false) == 4);
+	REQUIRE(GetBatchSize(4, false) == 4);
+	REQUIRE(GetBatchSize(5, false) == 8);
+	REQUIRE(GetBatchSize(6, false) == 8);
+	REQUIRE(GetBatchSize(7, false) == 8);
+	REQUIRE(GetBatchSize(8, false) == 8);
+
+	REQUIRE(GetBatchSize(1, true) == 1);
+	REQUIRE(GetBatchSize(2, true) == 2);
+	REQUIRE(GetBatchSize(3, true) == 3);
+	REQUIRE(GetBatchSize(4, true) == 4);
+	REQUIRE(GetBatchSize(5, true) == 5);
+	REQUIRE(GetBatchSize(6, true) == 6);
+	REQUIRE(GetBatchSize(7, true) == 7);
+	REQUIRE(GetBatchSize(8, true) == 8);
+}
 
 
 TEST_CASE("Vector deterministic default initializer", "[Init]") {
@@ -327,7 +348,7 @@ TEMPLATE_LIST_TEST_CASE("Vector - Operator ()", "[Vector]", TypeListReal) {
 TEMPLATE_LIST_TEST_CASE("Vector - Iterators", "[Vector]", TypeListReal) {
 	SECTION(TestType::Name()) {
 		using Vec4 = typename TestType::template Vector<4>;
-		using Type = typename traits::VectorTraits<Vec4>::Type;
+		using Type = scalar_type_t<Vec4>;
 
 		Vec4 source(5, 6, 7, 8);
 
@@ -419,7 +440,7 @@ TEST_CASE("Vector - IOParse", "[Vector]") {
 
 	for (const auto& c : failureCases) {
 		const char* end;
-		parsed = strtovec<float, 3, false>(c.c_str(), &end);
+		parsed = strtovec<Vector<float, 3, false>>(c.c_str(), &end);
 		REQUIRE(end == c.c_str());
 	}
 }
