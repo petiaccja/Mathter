@@ -15,7 +15,6 @@ target_sources(Mathter
 		"Common/Functional.hpp"
 		"Common/MathUtil.hpp"
 		"Common/Range.hpp"
-		"Common/Traits.hpp"
 		"Common/Types.hpp"
 		"Common/TypeTraits.hpp"
 		"Decompositions/DecomposeLU.hpp"

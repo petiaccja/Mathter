@@ -1,13 +1,13 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
 
 #pragma once
 
-#include "../Common/Types.hpp"
 #include "../Common/DeterministicInitializer.hpp"
-#include "../Common/Traits.hpp"
+#include "../Common/TypeTraits.hpp"
+#include "../Common/Types.hpp"
 
 #include <algorithm>
 #include <array>
@@ -377,7 +377,7 @@ public:
 	///		Types of arguments may differ from vector's underlying type, in which case cast is forced without a warning. </remarks>
 	template <class... Args, typename std::enable_if<(sizeof...(Args) > 1), int>::type = 0>
 	Vector(const Args&... mixed) {
-		if constexpr ((... && traits::IsScalar<Args>::value)) {
+		if constexpr ((... && is_scalar_v<Args>)) {
 			extended = { T(mixed)... }; // Performance optimization in case of all scalars.
 		}
 		else {
@@ -395,7 +395,7 @@ public:
 	//--------------------------------------------
 
 	/// <summary> Returns the nth element of the vector. </summary>
-	T operator[](int idx) const {
+	const T& operator[](int idx) const {
 		return data()[idx];
 	}
 	/// <summary> Returns the nth element of the vector. </summary>
@@ -482,7 +482,7 @@ Swizzle<T, Dim, Packed, Indices...>::operator Vector<T2, sizeof...(Indices), Pac
 
 #if MATHTER_ENABLE_SIMD
 	if constexpr (IsBatched<T, Dim, Packed>() && Dim2 <= Dim) {
-		using TI = traits::same_size_int_t<T>;
+		using TI = make_sized_integer_t<sizeof(remove_complex_t<T>), false>;
 		static_assert(!std::is_void_v<TI> && sizeof(TI) == sizeof(T));
 		using B = Batch<T, Dim, Packed>;
 		constexpr auto batchSize = B::size;

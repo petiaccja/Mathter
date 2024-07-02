@@ -1,4 +1,4 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
@@ -6,7 +6,7 @@
 #pragma once
 
 #include <Mathter/Common/Types.hpp>
-#include <Mathter/Common/Traits.hpp>
+#include <Mathter/Common/TypeTraits.hpp>
 
 #include <complex>
 #include <iostream>
