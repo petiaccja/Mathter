@@ -6,7 +6,7 @@
 #pragma once
 
 
-#include "../Common/Definitions.hpp"
+#include "../Common/Types.hpp"
 #include "../Common/Traits.hpp"
 #include "../Vector.hpp"
 

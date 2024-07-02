@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "Definitions.hpp"
+#include "Types.hpp"
 
 #include <cmath>
 #include <complex>

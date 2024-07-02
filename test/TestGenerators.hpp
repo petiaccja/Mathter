@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include <Mathter/Common/Definitions.hpp>
+#include <Mathter/Common/Types.hpp>
 #include <Mathter/Common/Traits.hpp>
 
 #include <complex>
