@@ -23,6 +23,125 @@
 namespace mathter {
 
 
+namespace impl {
+
+	template <int NumNonMasked, class Batch, class Element>
+	inline Batch FillMasked(Batch batch, Element value) {
+#ifdef MATHTER_ENABLE_SIMD
+		struct MaskGenerator {
+			static constexpr bool get(unsigned idx, unsigned size) noexcept {
+				return idx < NumNonMasked;
+			}
+		};
+		if constexpr (NumNonMasked == Batch::size) {
+			return batch;
+		}
+		else {
+			const auto fillers = Batch{ value };
+			const auto mask = xsimd::make_batch_bool_constant<Batch, MaskGenerator>();
+			return xsimd::select(mask, batch, fillers);
+		}
+#else
+		return b;
+#endif
+	}
+
+} // namespace impl
+
+
+/// <summary> Returns the element-wise minimum of arguments </summary>
+template <class T, int Dim, bool Packed>
+Vector<T, Dim, Packed> Min(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
+#if MATHTER_ENABLE_SIMD
+	if constexpr (IsBatched<T, Dim, Packed>()) {
+		using B = Batch<T, Dim, Packed>;
+		const auto lhsv = B::load_unaligned(lhs.data());
+		const auto rhsv = B::load_unaligned(rhs.data());
+		return Vector<T, Dim, Packed>{ xsimd::min(lhsv, rhsv) };
+	}
+#endif
+	Vector<T, Dim, Packed> res;
+	for (int i = 0; i < lhs.Dimension(); ++i) {
+		res[i] = std::min(lhs[i], rhs[i]);
+	}
+	return res;
+}
+
+
+/// <summary> Returns the element-wise maximum of arguments </summary>
+template <class T, int Dim, bool Packed>
+Vector<T, Dim, Packed> Max(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
+#if MATHTER_ENABLE_SIMD
+	if constexpr (IsBatched<T, Dim, Packed>()) {
+		using B = Batch<T, Dim, Packed>;
+		const auto lhsv = B::load_unaligned(lhs.data());
+		const auto rhsv = B::load_unaligned(rhs.data());
+		return Vector<T, Dim, Packed>{ xsimd::max(lhsv, rhsv) };
+	}
+#endif
+	Vector<T, Dim, Packed> res;
+	for (int i = 0; i < lhs.Dimension(); ++i) {
+		res[i] = std::max(lhs[i], rhs[i]);
+	}
+	return res;
+}
+
+
+/// <summary> Returns the minimum element of the vector. </summary>
+template <class T, int Dim, bool Packed>
+T Min(const Vector<T, Dim, Packed>& v) {
+	if constexpr (IsBatched<T, Dim, Packed>()) {
+		using MyBatch = Batch<T, Dim, Packed>;
+		const auto value = MyBatch::load_unaligned(v.data());
+		constexpr auto filler = std::is_integral_v<T> ? std::numeric_limits<T>::max() : std::numeric_limits<T>::max();
+		const auto filled = impl::FillMasked<Dim>(value, filler);
+		return xsimd::reduce_min(filled);
+	}
+	else {
+		return *std::min_element(v.begin(), v.end());
+	}
+}
+
+
+/// <summary> Returns the maximum element of the vector. </summary>
+template <class T, int Dim, bool Packed>
+T Max(const Vector<T, Dim, Packed>& v) {
+	if constexpr (IsBatched<T, Dim, Packed>()) {
+		using MyBatch = Batch<T, Dim, Packed>;
+		const auto value = MyBatch::load_unaligned(v.data());
+		constexpr auto filler = std::is_integral_v<T> ? std::numeric_limits<T>::min() : -std::numeric_limits<T>::max();
+		const auto filled = impl::FillMasked<Dim>(value, filler);
+		return xsimd::reduce_max(filled);
+	}
+	else {
+		return *std::min_element(v.begin(), v.end());
+	}
+}
+
+
+/// <summary> Returns the sum of the element of the vector. </summary>
+template <class T, int Dim, bool Packed>
+T Sum(const Vector<T, Dim, Packed>& v) {
+	if constexpr (IsBatched<T, Dim, Packed>()) {
+		using MyBatch = Batch<T, Dim, Packed>;
+		const auto value = MyBatch::load_unaligned(v.data());
+		constexpr auto filler = T(0);
+		const auto filled = impl::FillMasked<Dim>(value, filler);
+		return xsimd::reduce_add(filled);
+	}
+	else {
+		return std::reduce(v.begin(), v.end());
+	}
+}
+
+
+/// <summary> Calculates the scalar product (dot product) of the two arguments. </summary>
+template <class T, int Dim, bool Packed>
+T Dot(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
+	return Sum(lhs * rhs);
+}
+
+
 /// <summary> Returns true if the vector's length is too small for precise calculations (i.e. normalization). </summary>
 /// <remarks> "Too small" means smaller than the square root of the smallest number representable by the underlying scalar.
 ///			This value is ~10^-18 for floats and ~10^-154 for doubles. </remarks>
@@ -107,29 +226,6 @@ void Fill(Vector<T, Dim, Packed>& lhs, U all) {
 	lhs = Vector<T, Dim, Packed>((T)all);
 }
 
-/// <summary> Calculates the scalar product (dot product) of the two arguments. </summary>
-template <class T, int Dim, bool Packed>
-T Dot(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
-#if MATHTER_ENABLE_SIMD
-	if constexpr (IsBatched<T, Dim, Packed>()) {
-		struct G {
-			static constexpr bool get(unsigned idx, unsigned size) noexcept {
-				return idx < Dim;
-			}
-		};
-		using B = Batch<T, Dim, Packed>;
-		const auto lhsv = B::load_unaligned(lhs.data());
-		const auto rhsv = B::load_unaligned(rhs.data());
-		const auto zeros = B{ T(0) };
-		const auto mask = xsimd::make_batch_bool_constant<B, G>();
-		const auto lhsvm = xsimd::select(mask, lhsv, zeros);
-		const auto rhsvm = xsimd::select(mask, rhsv, zeros);
-		const auto prod = lhsvm * rhsvm;
-		return xsimd::reduce_add(prod);
-	}
-#endif
-	return std::inner_product(lhs.begin(), lhs.end(), rhs.begin(), T(0));
-}
 
 /// <summary> Returns the generalized cross-product in N dimensions. </summary>
 /// <remarks> You must supply N-1 arguments of type Vector&lt;N&gt;.
@@ -171,51 +267,12 @@ Vector<T, 3, Packed> Cross(const std::array<const Vector<T, 3, Packed>*, 2>& arg
 	return Cross(*(args[0]), *(args[1]));
 }
 
-
-/// <summary> Returns the element-wise minimum of arguments </summary>
-template <class T, int Dim, bool Packed>
-Vector<T, Dim, Packed> Min(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
-#if MATHTER_ENABLE_SIMD
-	if constexpr (IsBatched<T, Dim, Packed>()) {
-		using B = Batch<T, Dim, Packed>;
-		const auto lhsv = B::load_unaligned(lhs.data());
-		const auto rhsv = B::load_unaligned(rhs.data());
-		return Vector<T, Dim, Packed>{ xsimd::min(lhsv, rhsv) };
-	}
-#endif
-	Vector<T, Dim, Packed> res;
-	for (int i = 0; i < lhs.Dimension(); ++i) {
-		res[i] = std::min(lhs[i], rhs[i]);
-	}
-	return res;
-}
-
-
-/// <summary> Returns the element-wise maximum of arguments </summary>
-template <class T, int Dim, bool Packed>
-Vector<T, Dim, Packed> Max(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
-#if MATHTER_ENABLE_SIMD
-	if constexpr (IsBatched<T, Dim, Packed>()) {
-		using B = Batch<T, Dim, Packed>;
-		const auto lhsv = B::load_unaligned(lhs.data());
-		const auto rhsv = B::load_unaligned(rhs.data());
-		return Vector<T, Dim, Packed>{ xsimd::max(lhsv, rhsv) };
-	}
-#endif
-	Vector<T, Dim, Packed> res;
-	for (int i = 0; i < lhs.Dimension(); ++i) {
-		res[i] = std::max(lhs[i], rhs[i]);
-	}
-	return res;
-}
-
-
 } // namespace mathter
 
 
 
 // Generalized cross-product unfortunately needs matrix determinant.
-#include "../Matrix.hpp"
+#include "../Matrix/MatrixFunction.hpp"
 
 namespace mathter {
 

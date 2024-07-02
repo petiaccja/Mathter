@@ -313,5 +313,24 @@ T Norm(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) {
 }
 
 
+/// <summary> Returns the Frobenius norm of the matrix, avoids overflow and underflow, so it's more expensive. </summary>
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+T NormPrecise(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) {
+	T maxElement = std::abs(m(0, 0));
+	for (int i = 0; i < m.RowCount(); ++i) {
+		for (int j = 0; j < m.ColumnCount(); ++j) {
+			maxElement = std::max(maxElement, std::abs(m(i, j)));
+		}
+	}
+	if (maxElement == T(0)) {
+		return T(0);
+	}
+	const auto scaled = m / maxElement;
+	T sum = T(0);
+	for (auto& stripe : scaled.stripes) {
+		sum += LengthSquared(stripe);
+	}
+	return std::sqrt(sum) * maxElement;
+}
 
 } // namespace mathter

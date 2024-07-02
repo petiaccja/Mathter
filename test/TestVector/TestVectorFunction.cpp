@@ -170,7 +170,7 @@ TEMPLATE_LIST_TEST_CASE("Vector - Fill", "[Vector]", TypeListFloating) {
 }
 
 
-TEMPLATE_LIST_TEST_CASE("Vector - Min & Max", "[Vector]", TypeListFloating) {
+TEMPLATE_LIST_TEST_CASE("Vector - Min & Max rlementwise", "[Vector]", TypeListFloating) {
 	SECTION(TestType::Name()) {
 		using Vec3 = typename TestType::template Vector<3>;
 		using Vec5 = typename TestType::template Vector<5>;
@@ -186,6 +186,54 @@ TEMPLATE_LIST_TEST_CASE("Vector - Min & Max", "[Vector]", TypeListFloating) {
 
 		REQUIRE(Min(c, d) == Vec5(1, 2, 3, 2, 1));
 		REQUIRE(Max(c, d) == Vec5(5, 4, 3, 4, 5));
+	}
+}
+
+
+TEMPLATE_LIST_TEST_CASE("Vector - Min reduce", "[Vector]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+
+		Vec3 a(1, 2, 3);
+
+		REQUIRE(Min(a) == 1);
+
+		Vec5 c(1, 2, 3, 4, 5);
+
+		REQUIRE(Min(c) == 1);
+	}
+}
+
+
+TEMPLATE_LIST_TEST_CASE("Vector - Max reduce", "[Vector]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+
+		Vec3 a(-1, -2, -3);
+
+		REQUIRE(Max(a) == -1);
+
+		Vec5 c(-1, -2, -3, -4, -5);
+
+		REQUIRE(Max(c) == -1);
+	}
+}
+
+
+TEMPLATE_LIST_TEST_CASE("Vector - Sum", "[Vector]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+
+		Vec3 a(1, 2, 3);
+
+		REQUIRE(Sum(a) == 6);
+
+		Vec5 c(1, 2, 3, 4, 5);
+
+		REQUIRE(Sum(c) == 15);
 	}
 }
 

@@ -94,38 +94,6 @@ struct All<Cond> {
 };
 
 
-template <template <class> class Cond, class... T>
-struct Any;
-
-template <template <class> class Cond, class Head, class... Rest>
-struct Any<Cond, Head, Rest...> {
-	static constexpr bool value = Cond<Head>::value || Any<Cond, Rest...>::value;
-};
-
-template <template <class> class Cond>
-struct Any<Cond> {
-	static constexpr bool value = false;
-};
-
-
-
-template <class... T>
-struct TypeList {};
-
-template <class Tl1, class Tl2>
-struct ConcatTypeList;
-
-template <class... T, class... U>
-struct ConcatTypeList<TypeList<T...>, TypeList<U...>> {
-	using type = TypeList<T..., U...>;
-};
-
-template <class T, int N>
-struct RepeatType {
-	using type = typename std::conditional<N <= 0, TypeList<>, typename ConcatTypeList<TypeList<T>, typename RepeatType<T, N - 1>::type>::type>::type;
-};
-
-
 // Decide if type is Scalar, Vector or Matrix.
 template <class Arg>
 struct IsVector {
@@ -203,88 +171,6 @@ struct IsScalar {
 	static constexpr bool value = !IsMatrix<T>::value && !IsVector<T>::value && !IsSwizzle<T>::value && !IsQuaternion<T>::value && !IsSubmatrix<T>::value;
 };
 
-// Dimension of an argument (add dynamically sized vectors later).
-template <class U, int Along = 0>
-struct DimensionOf {
-	static constexpr int value = 1;
-};
-template <class T, int Dim, bool Packed>
-struct DimensionOf<Vector<T, Dim, Packed>, 0> {
-	static constexpr int value = Dim;
-};
-template <class T, int... Indices>
-struct DimensionOf<Swizzle<T, Indices...>> {
-	static constexpr int value = sizeof...(Indices);
-};
-
-// Sum dimensions of arguments.
-template <class... Rest>
-struct SumDimensions;
-
-template <class Head, class... Rest>
-struct SumDimensions<Head, Rest...> {
-	static constexpr int value = DimensionOf<Head>::value > 0 ? DimensionOf<Head>::value + SumDimensions<Rest...>::value : DYNAMIC;
-};
-
-template <>
-struct SumDimensions<> {
-	static constexpr int value = 0;
-};
-
-// Weather vector uses SIMD.
-template <class VectorDataT>
-struct HasSimd {
-	template <class U>
-	static constexpr bool test(const void*) { return false; }
-
-	template <class U, class = decltype(std::declval<U>().simd)>
-	static constexpr bool test(std::nullptr_t) { return true; }
-
-
-	static constexpr bool value = test<VectorDataT>(nullptr);
-};
-
-// Reverse integer sequence
-template <class IS1, class IS2>
-struct MergeIntegerSequence;
-
-template <class T, T... Indices1, T... Indices2>
-struct MergeIntegerSequence<std::integer_sequence<T, Indices1...>, std::integer_sequence<T, Indices2...>> {
-	using type = std::integer_sequence<T, Indices1..., Indices2...>;
-};
-
-template <class IS>
-struct ReverseIntegerSequence;
-
-template <class T, T Head, T... Indices>
-struct ReverseIntegerSequence<std::integer_sequence<T, Head, Indices...>> {
-	using type = typename MergeIntegerSequence<typename ReverseIntegerSequence<std::integer_sequence<T, Indices...>>::type, std::integer_sequence<T, Head>>::type;
-};
-
-template <class T>
-struct ReverseIntegerSequence<std::integer_sequence<T>> {
-	using type = std::integer_sequence<T>;
-};
-
-
-template <class IntegerSequence, typename IntegerSequence::value_type PadValue, size_t Size>
-struct pad_integer_sequence;
-
-template <class Elem, Elem... Indices, Elem PadValue, size_t Size>
-struct pad_integer_sequence<std::integer_sequence<Elem, Indices...>, PadValue, Size> {
-	static constexpr auto Infer() {
-		if constexpr (sizeof...(Indices) >= Size) {
-			return std::integer_sequence<Elem, Indices...>{};
-		}
-		else {
-			return typename pad_integer_sequence<std::integer_sequence<Elem, Indices..., PadValue>, PadValue, Size>::type{};
-		}
-	}
-	using type = std::invoke_result_t<decltype(&pad_integer_sequence::Infer)>;
-};
-
-template <class IntegerSequence, typename IntegerSequence::value_type PadValue, size_t Size>
-using pad_integer_sequence_t = typename pad_integer_sequence<IntegerSequence, PadValue, Size>::type;
 
 
 template <class T>
@@ -304,6 +190,5 @@ struct same_size_int {
 
 template <class T>
 using same_size_int_t = typename same_size_int<T>::type;
-
 
 } // namespace mathter::traits
