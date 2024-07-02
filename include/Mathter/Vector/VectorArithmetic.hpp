@@ -1,10 +1,11 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
 
 #pragma once
 
+#include "../Common/Functional.hpp"
 #include "../Common/TypeTraits.hpp"
 #include "VectorImpl.hpp"
 
@@ -216,7 +217,7 @@ auto& operator-=(Vector<T1, Dim, Packed>& lhs, T2 rhs) {
 /// <summary> Return (a*b)+c. Performs MAD or FMA if supported by target architecture. </summary>
 template <class T1, class T2, class T3, int Dim, bool Packed>
 auto MultiplyAdd(const Vector<T1, Dim, Packed>& a, const Vector<T2, Dim, Packed>& b, const Vector<T3, Dim, Packed>& c) {
-	return a * b + c;
+	return DoTernaryOp(a, b, c, mathter::fma{});
 }
 
 /// <summary> Negates all elements of the vector. </summary>

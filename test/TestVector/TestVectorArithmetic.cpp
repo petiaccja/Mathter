@@ -1,4 +1,4 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
@@ -177,6 +177,28 @@ TEMPLATE_LIST_TEST_CASE("Vector - Vector-vector compound div", "[Vector]", TypeL
 		Vec5 c5(2, 3, 2, 3, 2);
 		a5 /= b5;
 		REQUIRE(a5 == ApproxVec(c5));
+	}
+}
+
+
+TEMPLATE_LIST_TEST_CASE("Vector - Vector-vector fma", "[Vector]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+
+		Vec3 a3(1, 2, 3);
+		Vec3 b3(2, 2, 2);
+		Vec3 c3(3, 2, 1);
+		Vec3 e3(5, 6, 7);
+		const auto r3 = MultiplyAdd(a3, b3, c3);
+		REQUIRE(e3 == ApproxVec(r3));
+
+		Vec5 a5(0, 0, 1, 2, 3);
+		Vec5 b5(0, 0, 2, 2, 2);
+		Vec5 c5(0, 0, 3, 2, 1);
+		Vec5 e5(0, 0, 5, 6, 7);
+		const auto r5 = MultiplyAdd(a5, b5, c5);
+		REQUIRE(e5 == ApproxVec(r5));
 	}
 }
 
@@ -527,7 +549,7 @@ TEMPLATE_LIST_TEST_CASE("Vector - Vector-scalar reverse div", "[Vector]", TypeLi
 		SECTION(TestType::Name()) {                                                                  \
 			using Vec3 = typename TestType::template Vector<3>;                                      \
 			using Vec5 = typename TestType::template Vector<5>;                                      \
-			using Type = typename scalar_type_t<Vec3>;                                  \
+			using Type = typename scalar_type_t<Vec3>;                                               \
                                                                                                      \
 			Vec3 v1 = { 1, 2, 3 };                                                                   \
 			auto v1c = v1;                                                                           \
@@ -543,7 +565,7 @@ TEMPLATE_LIST_TEST_CASE("Vector - Vector-scalar reverse div", "[Vector]", TypeLi
 		SECTION(TestType::Name()) {                                                          \
 			using Vec3 = typename TestType::template Vector<3>;                              \
 			using Vec5 = typename TestType::template Vector<5>;                              \
-			using Type = typename scalar_type_t<Vec3>;                          \
+			using Type = typename scalar_type_t<Vec3>;                                       \
                                                                                              \
 			Vec3 v1 = { 1, 2, 3 };                                                           \
 			Type b = 6;                                                                      \
@@ -558,7 +580,7 @@ TEMPLATE_LIST_TEST_CASE("Vector - Vector-scalar reverse div", "[Vector]", TypeLi
 		SECTION(TestType::Name()) {                                                          \
 			using Vec3 = typename TestType::template Vector<3>;                              \
 			using Vec5 = typename TestType::template Vector<5>;                              \
-			using Type = typename scalar_type_t<Vec3>;                          \
+			using Type = typename scalar_type_t<Vec3>;                                       \
                                                                                              \
 			Vec3 v1 = { 1, 2, 3 };                                                           \
 			Type b = 6;                                                                      \
