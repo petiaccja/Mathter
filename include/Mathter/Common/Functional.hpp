@@ -5,6 +5,7 @@
 #include <xsimd/xsimd.hpp>
 #endif
 
+namespace mathter {
 
 template <class T = void>
 struct fma {
@@ -36,3 +37,5 @@ struct fma<void> {
 		return a * b + c;
 	}
 };
+
+} // namespace mathter
