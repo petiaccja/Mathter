@@ -8,7 +8,7 @@
 #include "../TestGenerators.hpp"
 
 #include <Mathter/Common/Approx.hpp>
-#include <Mathter/Common/Traits.hpp>
+#include <Mathter/Common/TypeTraits.hpp>
 #include <Mathter/Matrix.hpp>
 
 #include <catch2/catch_approx.hpp>

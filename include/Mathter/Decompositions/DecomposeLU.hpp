@@ -5,8 +5,8 @@
 
 #pragma once
 
-#include "../Common/Types.hpp"
 #include "../Common/Range.hpp"
+#include "../Common/Types.hpp"
 
 
 namespace mathter {

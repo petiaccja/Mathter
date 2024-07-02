@@ -1,4 +1,4 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
@@ -348,7 +348,7 @@ TEMPLATE_LIST_TEST_CASE("Vector - Operator ()", "[Vector]", TypeListReal) {
 TEMPLATE_LIST_TEST_CASE("Vector - Iterators", "[Vector]", TypeListReal) {
 	SECTION(TestType::Name()) {
 		using Vec4 = typename TestType::template Vector<4>;
-		using Type = typename traits::VectorTraits<Vec4>::Type;
+		using Type = typename scalar_type_t<Vec4>;
 
 		Vec4 source(5, 6, 7, 8);
 
@@ -440,7 +440,7 @@ TEST_CASE("Vector - IOParse", "[Vector]") {
 
 	for (const auto& c : failureCases) {
 		const char* end;
-		parsed = strtovec<float, 3, false>(c.c_str(), &end);
+		parsed = strtovec<Vector<float, 3, false>>(c.c_str(), &end);
 		REQUIRE(end == c.c_str());
 	}
 }

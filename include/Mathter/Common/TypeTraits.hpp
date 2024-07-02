@@ -213,6 +213,28 @@ constexpr auto is_packed_v = is_packed<T>::value;
 
 
 //------------------------------------------------------------------------------
+// Matrix layout and order
+//------------------------------------------------------------------------------
+
+template <eMatrixOrder Order>
+struct opposite_order {
+	static constexpr auto value = Order == eMatrixOrder::FOLLOW_VECTOR ? eMatrixOrder::PRECEDE_VECTOR : eMatrixOrder::FOLLOW_VECTOR;
+};
+
+template <eMatrixOrder Order>
+constexpr auto opposite_order_v = opposite_order<Order>::value;
+
+
+template <eMatrixLayout Layout>
+struct opposite_layout {
+	static constexpr auto value = Layout == eMatrixLayout::ROW_MAJOR ? eMatrixLayout::COLUMN_MAJOR : eMatrixLayout::ROW_MAJOR;
+};
+
+template <eMatrixOrder Layout>
+constexpr auto opposite_layout_v = opposite_layout<Layout>::value;
+
+
+//------------------------------------------------------------------------------
 // Complex
 //------------------------------------------------------------------------------
 
@@ -264,6 +286,37 @@ using common_arithmetic_type_t = typename common_arithmetic_type<T...>::type;
 // Tests
 static_assert(std::is_same_v<common_arithmetic_type_t<float, double>, double>);
 static_assert(std::is_same_v<common_arithmetic_type_t<double, float>, double>);
+
+
+//------------------------------------------------------------------------------
+// Sized integer
+//------------------------------------------------------------------------------
+
+template <size_t Bytes, bool Signed>
+struct make_sized_integer {};
+
+template <bool Signed>
+struct make_sized_integer<1, Signed> {
+	using type = std::conditional_t<Signed, int8_t, uint8_t>;
+};
+
+template <bool Signed>
+struct make_sized_integer<2, Signed> {
+	using type = std::conditional_t<Signed, int16_t, uint16_t>;
+};
+
+template <bool Signed>
+struct make_sized_integer<4, Signed> {
+	using type = std::conditional_t<Signed, int32_t, uint32_t>;
+};
+
+template <bool Signed>
+struct make_sized_integer<8, Signed> {
+	using type = std::conditional_t<Signed, int64_t, uint64_t>;
+};
+
+template <size_t Bytes, bool Signed>
+using make_sized_integer_t = typename make_sized_integer<Bytes, Signed>::type;
 
 
 } // namespace mathter

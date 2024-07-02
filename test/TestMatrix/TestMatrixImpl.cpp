@@ -1,4 +1,4 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
@@ -57,7 +57,7 @@ TEST_CASE("Matrix deterministic default initializer", "[Init]") {
 TEMPLATE_LIST_TEST_CASE("Matrix - Constructor & indexer", "[Matrix]", TypeListAll) {
 	SECTION(TestType::Name()) {
 		using M = typename TestType::template Matrix<3, 3>;
-		using Type = typename traits::MatrixTraits<M>::Type;
+		using Type = scalar_type_t<M>;
 
 		M m = {
 			Type(1), Type(2), Type(3),
@@ -83,7 +83,7 @@ TEMPLATE_LIST_TEST_CASE("Matrix - Constructor & indexer", "[Matrix]", TypeListAl
 TEMPLATE_LIST_TEST_CASE("Matrix - Converting constructor", "[Matrix]", TypeListAll) {
 	SECTION(TestType::Name()) {
 		using M = typename TestType::template Matrix<3, 3>;
-		constexpr auto Order = traits::MatrixTraits<M>::Order;
+		constexpr auto Order = order_v<M>;
 
 		Matrix<float, 3, 3, Order> m = {
 			1, 2, 3,

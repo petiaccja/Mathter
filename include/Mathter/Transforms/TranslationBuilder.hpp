@@ -1,4 +1,4 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
@@ -69,7 +69,7 @@ auto Translation(const Vector<T, Dim, Packed>& translation) {
 
 /// <summary> Creates a translation matrix. </summary>
 /// <param name="coordinates"> A list of scalars that specify movement along repsective axes. </param>
-template <class... Args, typename std::enable_if<(std::conjunction<traits::IsScalar<typename std::decay<Args>::type>...>::value), int>::type = 0>
+template <class... Args, typename std::enable_if<(... && is_scalar_v<std::decay_t<Args>>), int>::type = 0>
 auto Translation(const Args&... coordinates) {
 	using PromotedT = decltype((0 + ... + coordinates));
 	return TranslationBuilder{ Vector<PromotedT, sizeof...(coordinates)>(coordinates...) };

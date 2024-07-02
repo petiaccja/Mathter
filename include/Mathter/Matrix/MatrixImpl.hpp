@@ -1,4 +1,4 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
@@ -6,8 +6,8 @@
 #pragma once
 
 
+#include "../Common/TypeTraits.hpp"
 #include "../Common/Types.hpp"
-#include "../Common/Traits.hpp"
 #include "../Vector.hpp"
 
 #include <array>
@@ -48,7 +48,7 @@ public:
 
 protected:
 	// Get element
-	inline T& GetElement(int row, int col) {
+	T& GetElement(int row, int col) {
 		assert(row < RowCount());
 		assert(col < ColumnCount());
 		if constexpr (Layout == eMatrixLayout::ROW_MAJOR) {
@@ -58,7 +58,7 @@ protected:
 			return stripes[col][row];
 		}
 	}
-	inline T GetElement(int row, int col) const {
+	const T& GetElement(int row, int col) const {
 		assert(row < RowCount());
 		assert(col < ColumnCount());
 		if constexpr (Layout == eMatrixLayout::ROW_MAJOR) {
@@ -78,7 +78,6 @@ protected:
 template <class MatrixT, int SRows, int SColumns>
 class SubmatrixHelper {
 	friend MatrixT;
-	using Props = traits::MatrixTraits<MatrixT>;
 	template <class, int, int>
 	friend class SubmatrixHelper;
 	static constexpr int VecDim = std::max(SRows, SColumns);
@@ -153,12 +152,12 @@ public:
 
 		// If *this and rhs reference the same matrix, aliasing must be resolved.
 		if ((void*)&mat == (void*)&rhs.mat) {
-			Matrix<typename traits::MatrixTraits<MatrixU>::Type,
+			Matrix<scalar_type_t<MatrixU>,
 				   SRows,
 				   SColumns,
-				   traits::MatrixTraits<MatrixU>::Order,
-				   traits::MatrixTraits<MatrixU>::Layout,
-				   traits::MatrixTraits<MatrixU>::Packed>
+				   order_v<MatrixU>,
+				   layout_v<MatrixU>,
+				   is_packed_v<MatrixU>>
 				tmpmat;
 			tmpmat = rhs;
 			operator=(tmpmat);
@@ -177,11 +176,11 @@ public:
 		return operator= <MatrixT>(rhs);
 	}
 
-	typename Props::Type& operator()(int row, int col) {
+	auto& operator()(int row, int col) {
 		return mat(this->row + row, this->col + col);
 	}
 
-	typename Props::Type operator()(int row, int col) const {
+	const auto& operator()(int row, int col) const {
 		return mat(this->row + row, this->col + col);
 	}
 
@@ -233,11 +232,9 @@ public:
 		}
 	}
 
-	template <class H, class... Args,
-			  typename std::enable_if<std::conjunction<traits::IsScalar<H>, traits::IsScalar<Args>...>::value, int>::type = 0,
-			  typename std::enable_if<1 + sizeof...(Args) == Rows * Columns, int>::type = 0>
-	Matrix(H h, Args... args) {
-		Assign<0, 0>(h, args...);
+	template <class... Args, class = std::enable_if_t<(... && is_scalar_v<std::decay_t<Args>>) && sizeof...(Args) == Rows * Columns, int>>
+	Matrix(Args&&... args) {
+		Assign<0, 0>(std::forward<Args>(args)...);
 	}
 
 	// From vector if applicable (for 1*N and N*1 matrices)
@@ -258,10 +255,10 @@ public:
 	//--------------------------------------------
 
 	// General matrix indexing
-	inline T& operator()(int row, int col) {
+	T& operator()(int row, int col) {
 		return GetElement(row, col);
 	}
-	inline T operator()(int row, int col) const {
+	const T& operator()(int row, int col) const {
 		return GetElement(row, col);
 	}
 
