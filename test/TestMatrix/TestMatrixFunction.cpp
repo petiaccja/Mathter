@@ -202,3 +202,29 @@ TEMPLATE_LIST_TEST_CASE("Matrix - Norm", "[Matrix]", TypeListAll) {
 		REQUIRE(Approx(Length(v)) == Norm(m));
 	}
 }
+
+
+TEMPLATE_LIST_TEST_CASE("Matrix - Norm precise", "[Matrix]", TypeListAll) {
+	SECTION(TestType::Name()) {
+		using V8 = typename TestType::template Vector<8>;
+		using M24 = typename TestType::template Matrix<2, 4>;
+
+		V8 v = { 1, 2, 3, 4, 5, 6, 7, 8 };
+		M24 m = { 1, 2, 3, 4, 5, 6, 7, 8 };
+		REQUIRE(Approx(LengthPrecise(v)) == NormPrecise(m));
+	}
+}
+
+
+TEST_CASE("Matrix - Norm precise underflow", "[Matrix]") {
+	using M24 = Matrix<float, 2, 2>;
+
+	SECTION("Underflow") {
+		M24 m = { 1e-30f, 1e-30f, 1e-30f, 1e-30f };
+		REQUIRE(Approx(2e-30f) == NormPrecise(m));
+	}
+	SECTION("Overflow") {
+		M24 m = { 1e+30f, 1e+30f, 1e+30f, 1e+30f };
+		REQUIRE(Approx(2e+30f) == NormPrecise(m));
+	}
+}

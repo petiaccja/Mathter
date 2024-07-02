@@ -143,13 +143,22 @@ inline auto operator-(const Vector<T, Dim, Packed>& lhs, U rhs) {
 
 /// <summary> Scales vector by <paramref name="lhs"/>. </summary>
 template <class T, int Dim, bool Packed, class U, class = std::enable_if_t<std::is_convertible_v<U, T>>>
-inline Vector<T, Dim, Packed> operator*(U lhs, const Vector<T, Dim, Packed>& rhs) { return rhs * lhs; }
+inline Vector<T, Dim, Packed> operator*(U lhs, const Vector<T, Dim, Packed>& rhs) {
+	return rhs * lhs;
+}
+
 /// <summary> Adds <paramref name="lhs"/> to all elements of the vector. </summary>
 template <class T, int Dim, bool Packed, class U, class = std::enable_if_t<std::is_convertible_v<U, T>>>
-inline Vector<T, Dim, Packed> operator+(U lhs, const Vector<T, Dim, Packed>& rhs) { return rhs + lhs; }
+inline Vector<T, Dim, Packed> operator+(U lhs, const Vector<T, Dim, Packed>& rhs) {
+	return rhs + lhs;
+}
+
 /// <summary> Makes a vector with <paramref name="lhs"/> as all elements, then subtracts <paramref name="rhs"> from it. </summary>
 template <class T, int Dim, bool Packed, class U, class = std::enable_if_t<std::is_convertible_v<U, T>>>
-inline Vector<T, Dim, Packed> operator-(U lhs, const Vector<T, Dim, Packed>& rhs) { return Vector<T, Dim, Packed>(lhs) - rhs; }
+inline Vector<T, Dim, Packed> operator-(U lhs, const Vector<T, Dim, Packed>& rhs) {
+	return Vector<T, Dim, Packed>(lhs) - rhs;
+}
+
 /// <summary> Makes a vector with <paramref name="lhs"/> as all elements, then divides it by <paramref name="rhs">. </summary>
 template <class T, int Dim, bool Packed, class U, class = std::enable_if_t<std::is_convertible_v<U, T>>>
 inline Vector<T, Dim, Packed> operator/(U lhs, const Vector<T, Dim, Packed>& rhs) {
