@@ -79,21 +79,6 @@ using MatMulElemT = decltype(T() * U() + T() * U());
 
 
 
-// Template metaprogramming utilities
-template <template <class> class Cond, class... T>
-struct All;
-
-template <template <class> class Cond, class Head, class... Rest>
-struct All<Cond, Head, Rest...> {
-	static constexpr bool value = Cond<Head>::value && All<Cond, Rest...>::value;
-};
-
-template <template <class> class Cond>
-struct All<Cond> {
-	static constexpr bool value = true;
-};
-
-
 // Decide if type is Scalar, Vector or Matrix.
 template <class Arg>
 struct IsVector {
