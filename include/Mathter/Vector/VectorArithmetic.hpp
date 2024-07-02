@@ -6,69 +6,13 @@
 #pragma once
 
 #include "../Common/Functional.hpp"
-#include "../Common/TypeTraits.hpp"
 #include "VectorImpl.hpp"
+#include "VectorUtils.hpp"
 
 #include <functional>
 
 
 namespace mathter {
-
-
-//------------------------------------------------------------------------------
-// Utility
-//------------------------------------------------------------------------------
-
-
-template <class T1, class T2, int Dim, bool Packed, class Fun, size_t... Indices>
-auto DoBinaryOpScalar(const Vector<T1, Dim, Packed>& lhs, const Vector<T2, Dim, Packed>& rhs, Fun&& fun, std::index_sequence<Indices...>) {
-	using T = common_arithmetic_type_t<T1, T2>;
-	return Vector<T, Dim, Packed>{ T(fun(lhs[Indices], rhs[Indices]))... };
-}
-
-
-template <class T1, class T2, int Dim, bool Packed, class Fun>
-auto DoBinaryOp(const Vector<T1, Dim, Packed>& lhs, const Vector<T2, Dim, Packed>& rhs, Fun&& fun) {
-	using T = common_arithmetic_type_t<T1, T2>;
-	using MyBatchT = Batch<T, Dim, Packed>;
-	using MyBatchT1 = Batch<T1, Dim, Packed>;
-	using MyBatchT2 = Batch<T2, Dim, Packed>;
-	if constexpr (IsBatched<T, Dim, Packed>()
-				  && std::is_convertible_v<MyBatchT1, MyBatchT>
-				  && std::is_convertible_v<MyBatchT2, MyBatchT>) {
-		return Vector<T, Dim, Packed>{ fun(MyBatchT1::load_unaligned(lhs.data()), MyBatchT2::load_unaligned(rhs.data())) };
-	}
-	else {
-		return DoBinaryOpScalar(lhs, rhs, fun, std::make_index_sequence<Dim>{});
-	}
-}
-
-
-template <class T1, class T2, class T3, int Dim, bool Packed, class Fun, size_t... Indices>
-auto DoTernaryOpScalar(const Vector<T1, Dim, Packed>& a, const Vector<T2, Dim, Packed>& b, const Vector<T3, Dim, Packed>& c, Fun&& fun, std::index_sequence<Indices...>) {
-	using T = common_arithmetic_type_t<T1, T2, T3>;
-	return Vector<T, Dim, Packed>{ T(fun(a[Indices], b[Indices], c[Indices]))... };
-}
-
-
-template <class T1, class T2, class T3, int Dim, bool Packed, class Fun>
-auto DoTernaryOp(const Vector<T1, Dim, Packed>& a, const Vector<T2, Dim, Packed>& b, const Vector<T3, Dim, Packed>& c, Fun&& fun) {
-	using T = common_arithmetic_type_t<T1, T2>;
-	using MyBatchT = Batch<T, Dim, Packed>;
-	using MyBatchT1 = Batch<T1, Dim, Packed>;
-	using MyBatchT2 = Batch<T2, Dim, Packed>;
-	using MyBatchT3 = Batch<T3, Dim, Packed>;
-	if constexpr (IsBatched<T, Dim, Packed>()
-				  && std::is_convertible_v<MyBatchT1, MyBatchT>
-				  && std::is_convertible_v<MyBatchT2, MyBatchT>
-				  && std::is_convertible_v<MyBatchT3, MyBatchT>) {
-		return Vector<T, Dim, Packed>{ fun(MyBatchT1::load_unaligned(a.data()), MyBatchT2::load_unaligned(b.data()), MyBatchT3::load_unaligned(c.data())) };
-	}
-	else {
-		return DoTernaryOpScalar(a, b, c, fun, std::make_index_sequence<Dim>{});
-	}
-}
-
 
 //------------------------------------------------------------------------------
 // Vector arithmetic

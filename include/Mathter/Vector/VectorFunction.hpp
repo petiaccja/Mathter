@@ -1,4 +1,4 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
@@ -14,8 +14,10 @@
 #endif
 
 
+#include "../Common/Functional.hpp"
 #include "../Common/MathUtil.hpp"
 #include "VectorImpl.hpp"
+#include "VectorUtils.hpp"
 
 #include <numeric>
 
@@ -23,67 +25,17 @@
 namespace mathter {
 
 
-namespace impl {
-
-	template <int NumNonMasked, class Batch, class Element>
-	inline Batch FillMasked(Batch batch, Element value) {
-#ifdef MATHTER_ENABLE_SIMD
-		struct MaskGenerator {
-			static constexpr bool get(unsigned idx, unsigned size) noexcept {
-				return idx < NumNonMasked;
-			}
-		};
-		if constexpr (NumNonMasked == Batch::size) {
-			return batch;
-		}
-		else {
-			const auto fillers = Batch{ value };
-			const auto mask = xsimd::make_batch_bool_constant<Batch, MaskGenerator>();
-			return xsimd::select(mask, batch, fillers);
-		}
-#else
-		return b;
-#endif
-	}
-
-} // namespace impl
-
-
 /// <summary> Returns the element-wise minimum of arguments </summary>
 template <class T, int Dim, bool Packed>
 Vector<T, Dim, Packed> Min(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
-#if MATHTER_ENABLE_SIMD
-	if constexpr (IsBatched<T, Dim, Packed>()) {
-		using B = Batch<T, Dim, Packed>;
-		const auto lhsv = B::load_unaligned(lhs.data());
-		const auto rhsv = B::load_unaligned(rhs.data());
-		return Vector<T, Dim, Packed>{ xsimd::min(lhsv, rhsv) };
-	}
-#endif
-	Vector<T, Dim, Packed> res;
-	for (int i = 0; i < lhs.Dimension(); ++i) {
-		res[i] = std::min(lhs[i], rhs[i]);
-	}
-	return res;
+	return DoBinaryOp(lhs, rhs, min{});
 }
 
 
 /// <summary> Returns the element-wise maximum of arguments </summary>
 template <class T, int Dim, bool Packed>
 Vector<T, Dim, Packed> Max(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
-#if MATHTER_ENABLE_SIMD
-	if constexpr (IsBatched<T, Dim, Packed>()) {
-		using B = Batch<T, Dim, Packed>;
-		const auto lhsv = B::load_unaligned(lhs.data());
-		const auto rhsv = B::load_unaligned(rhs.data());
-		return Vector<T, Dim, Packed>{ xsimd::max(lhsv, rhsv) };
-	}
-#endif
-	Vector<T, Dim, Packed> res;
-	for (int i = 0; i < lhs.Dimension(); ++i) {
-		res[i] = std::max(lhs[i], rhs[i]);
-	}
-	return res;
+	return DoBinaryOp(lhs, rhs, max{});
 }
 
 
@@ -93,8 +45,8 @@ T Min(const Vector<T, Dim, Packed>& v) {
 	if constexpr (IsBatched<T, Dim, Packed>()) {
 		using MyBatch = Batch<T, Dim, Packed>;
 		const auto value = MyBatch::load_unaligned(v.data());
-		constexpr auto filler = std::is_integral_v<T> ? std::numeric_limits<T>::max() : std::numeric_limits<T>::max();
-		const auto filled = impl::FillMasked<Dim>(value, filler);
+		constexpr auto filler = std::numeric_limits<remove_complex_t<T>>::max();
+		const auto filled = FillMasked<Dim>(value, filler);
 		return xsimd::reduce_min(filled);
 	}
 	else {
@@ -109,13 +61,20 @@ T Max(const Vector<T, Dim, Packed>& v) {
 	if constexpr (IsBatched<T, Dim, Packed>()) {
 		using MyBatch = Batch<T, Dim, Packed>;
 		const auto value = MyBatch::load_unaligned(v.data());
-		constexpr auto filler = std::is_integral_v<T> ? std::numeric_limits<T>::min() : -std::numeric_limits<T>::max();
-		const auto filled = impl::FillMasked<Dim>(value, filler);
+		constexpr auto filler = std::numeric_limits<remove_complex_t<T>>::lowest();
+		const auto filled = FillMasked<Dim>(value, filler);
 		return xsimd::reduce_max(filled);
 	}
 	else {
 		return *std::max_element(v.begin(), v.end());
 	}
+}
+
+
+/// <summary> Returns the maximum element of the vector. </summary>
+template <class T, int Dim, bool Packed>
+auto Abs(const Vector<T, Dim, Packed>& v) {
+	return DoUnaryOp(v, abs{});
 }
 
 
@@ -126,7 +85,7 @@ T Sum(const Vector<T, Dim, Packed>& v) {
 		using MyBatch = Batch<T, Dim, Packed>;
 		const auto value = MyBatch::load_unaligned(v.data());
 		constexpr auto filler = T(0);
-		const auto filled = impl::FillMasked<Dim>(value, filler);
+		const auto filled = FillMasked<Dim>(value, filler);
 		return xsimd::reduce_add(filled);
 	}
 	else {
@@ -142,6 +101,33 @@ T Dot(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
 }
 
 
+/// <summary> Returns the squared length of the vector. </summary>
+template <class T, int Dim, bool Packed>
+T LengthSquared(const Vector<T, Dim, Packed>& v) {
+	return Dot(v, v);
+}
+
+/// <summary> Returns the length of the vector. </summary>
+template <class T, int Dim, bool Packed>
+T Length(const Vector<T, Dim, Packed>& v) {
+	return static_cast<T>(std::sqrt(LengthSquared(v)));
+}
+
+/// <summary> Returns the length of the vector, avoids overflow and underflow, so it's more expensive. </summary>
+template <class T, int Dim, bool Packed>
+T LengthPrecise(const Vector<T, Dim, Packed>& v) {
+	const auto maxElement = Max(Abs(v));
+	if (maxElement == std::numeric_limits<remove_complex_t<T>>::infinity()) {
+		return T(std::numeric_limits<remove_complex_t<T>>::infinity());
+	}
+	if (maxElement == T(0)) {
+		return T(0);
+	}
+	const auto scaled = v / maxElement;
+	return Length(scaled) * maxElement;
+}
+
+
 /// <summary> Returns true if the vector's length is too small for precise calculations (i.e. normalization). </summary>
 /// <remarks> "Too small" means smaller than the square root of the smallest number representable by the underlying scalar.
 ///			This value is ~10^-18 for floats and ~10^-154 for doubles. </remarks>
@@ -152,31 +138,6 @@ bool IsNullvector(const Vector<T, Dim, Packed>& v) {
 	return length < epsilon;
 }
 
-/// <summary> Returns the squared length of the vector. </summary>
-template <class T, int Dim, bool Packed>
-T LengthSquared(const Vector<T, Dim, Packed>& v) {
-	return Dot(v, v);
-}
-
-/// <summary> Returns the length of the vector. </summary>
-template <class T, int Dim, bool Packed>
-T Length(const Vector<T, Dim, Packed>& v) {
-	return (T)std::sqrt((T)LengthSquared(v));
-}
-
-/// <summary> Returns the length of the vector, avoids overflow and underflow, so it's more expensive. </summary>
-template <class T, int Dim, bool Packed>
-T LengthPrecise(const Vector<T, Dim, Packed>& v) {
-	T maxElement = std::abs(v(0));
-	for (int i = 1; i < v.Dimension(); ++i) {
-		maxElement = std::max(maxElement, std::abs(v(i)));
-	}
-	if (maxElement == T(0)) {
-		return T(0);
-	}
-	auto scaled = v / maxElement;
-	return std::sqrt(Dot(scaled, scaled)) * maxElement;
-}
 
 /// <summary> Returns the euclidean distance between to vectors. </summary>
 template <class T, class U, int Dim, bool Packed1, bool Packed2>
