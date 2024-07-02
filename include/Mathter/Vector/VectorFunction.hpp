@@ -114,7 +114,7 @@ T Max(const Vector<T, Dim, Packed>& v) {
 		return xsimd::reduce_max(filled);
 	}
 	else {
-		return *std::min_element(v.begin(), v.end());
+		return *std::max_element(v.begin(), v.end());
 	}
 }
 
