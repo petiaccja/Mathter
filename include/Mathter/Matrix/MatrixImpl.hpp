@@ -234,7 +234,7 @@ public:
 	}
 
 	template <class H, class... Args,
-			  typename std::enable_if<traits::All<traits::IsScalar, H, Args...>::value, int>::type = 0,
+			  typename std::enable_if<std::conjunction<traits::IsScalar<H>, traits::IsScalar<Args>...>::value, int>::type = 0,
 			  typename std::enable_if<1 + sizeof...(Args) == Rows * Columns, int>::type = 0>
 	Matrix(H h, Args... args) {
 		Assign<0, 0>(h, args...);
