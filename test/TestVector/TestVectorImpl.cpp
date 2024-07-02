@@ -348,7 +348,7 @@ TEMPLATE_LIST_TEST_CASE("Vector - Operator ()", "[Vector]", TypeListReal) {
 TEMPLATE_LIST_TEST_CASE("Vector - Iterators", "[Vector]", TypeListReal) {
 	SECTION(TestType::Name()) {
 		using Vec4 = typename TestType::template Vector<4>;
-		using Type = typename scalar_type_t<Vec4>;
+		using Type = scalar_type_t<Vec4>;
 
 		Vec4 source(5, 6, 7, 8);
 

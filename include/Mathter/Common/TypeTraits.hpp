@@ -230,7 +230,7 @@ struct opposite_layout {
 	static constexpr auto value = Layout == eMatrixLayout::ROW_MAJOR ? eMatrixLayout::COLUMN_MAJOR : eMatrixLayout::ROW_MAJOR;
 };
 
-template <eMatrixOrder Layout>
+template <eMatrixLayout Layout>
 constexpr auto opposite_layout_v = opposite_layout<Layout>::value;
 
 
