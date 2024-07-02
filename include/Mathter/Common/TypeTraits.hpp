@@ -1,11 +1,234 @@
+// L=============================================================================
+// L This software is distributed under the MIT license.
+// L Copyright 2024 Péter Kardos
+// L=============================================================================
+
+
 #pragma once
 
-#include "TypeTraits.hpp"
+#include "Types.hpp"
 
+#include <complex>
 #include <type_traits>
 
 
 namespace mathter {
+
+//------------------------------------------------------------------------------
+// Classification
+//------------------------------------------------------------------------------
+
+template <class>
+struct is_vector : std::false_type {};
+
+template <class T, int Dim, bool Packed>
+struct is_vector<Vector<T, Dim, Packed>> : std::true_type {};
+
+template <class T>
+constexpr auto is_vector_v = is_vector<T>::value;
+
+
+template <class>
+struct is_swizzle : std::false_type {};
+
+template <class T, int Dim, bool Packed, int... Indices>
+struct is_swizzle<Swizzle<T, Dim, Packed, Indices...>> : std::true_type {};
+
+template <class T>
+constexpr auto is_swizzle_v = is_swizzle<T>::value;
+
+
+template <class>
+struct is_matrix : std::false_type {};
+
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+struct is_matrix<Matrix<T, Rows, Columns, Order, Layout, Packed>> : std::true_type {};
+
+template <class T>
+constexpr auto is_matrix_v = is_matrix<T>::value;
+
+
+template <class>
+struct is_quaternion : std::false_type {};
+
+template <class T, bool Packed>
+struct is_quaternion<Quaternion<T, Packed>> : std::true_type {};
+
+template <class T>
+constexpr auto is_quaternion_v = is_quaternion<T>::value;
+
+
+template <class T>
+struct is_scalar {
+	static constexpr auto value = !(is_vector_v<T> || is_swizzle_v<T> || is_matrix_v<T> || is_quaternion_v<T>);
+};
+
+template <class T>
+constexpr auto is_scalar_v = is_scalar<T>::value;
+
+
+//------------------------------------------------------------------------------
+// Vector type properties
+//------------------------------------------------------------------------------
+
+//--------------------------------------
+// Scalar type
+//--------------------------------------
+
+template <class T>
+struct scalar_type {};
+
+template <class T, int Dim, bool Packed>
+struct scalar_type<Vector<T, Dim, Packed>> {
+	using type = T;
+};
+
+template <class T, int Dim, bool Packed, int... Indices>
+struct scalar_type<Swizzle<T, Dim, Packed, Indices...>> {
+	using type = T;
+};
+
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+struct scalar_type<Matrix<T, Rows, Columns, Order, Layout, Packed>> {
+	using type = T;
+};
+
+template <class T, bool Packed>
+struct scalar_type<Quaternion<T, Packed>> {
+	using type = T;
+};
+
+template <class T>
+using scalar_type_t = typename scalar_type<T>::type;
+
+
+//--------------------------------------
+// Dimension
+//--------------------------------------
+
+template <class T>
+struct dimension {};
+
+template <class T, int Dim, bool Packed>
+struct dimension<Vector<T, Dim, Packed>> {
+	static constexpr auto value = Dim;
+};
+
+template <class T>
+constexpr auto dimension_v = dimension<T>::value;
+
+
+//--------------------------------------
+// Rows
+//--------------------------------------
+
+template <class T>
+struct row_count {};
+
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+struct row_count<Matrix<T, Rows, Columns, Order, Layout, Packed>> {
+	static constexpr auto value = Rows;
+};
+
+template <class T>
+constexpr auto row_count_v = row_count<T>::value;
+
+//--------------------------------------
+// Columns
+//--------------------------------------
+
+template <class T>
+struct column_count {};
+
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+struct column_count<Matrix<T, Rows, Columns, Order, Layout, Packed>> {
+	static constexpr auto value = Columns;
+};
+
+template <class T>
+constexpr auto column_count_v = column_count<T>::value;
+
+
+//--------------------------------------
+// Order
+//--------------------------------------
+
+template <class T>
+struct order {};
+
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+struct order<Matrix<T, Rows, Columns, Order, Layout, Packed>> {
+	static constexpr auto value = Order;
+};
+
+template <class T>
+constexpr auto order_v = order<T>::value;
+
+
+//--------------------------------------
+// Layout
+//--------------------------------------
+
+template <class T>
+struct layout {};
+
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+struct layout<Matrix<T, Rows, Columns, Order, Layout, Packed>> {
+	static constexpr auto value = Layout;
+};
+
+template <class T>
+constexpr auto layout_v = layout<T>::value;
+
+
+//--------------------------------------
+// Packed
+//--------------------------------------
+
+template <class T>
+struct is_packed {};
+
+template <class T, int Dim, bool Packed>
+struct is_packed<Vector<T, Dim, Packed>> {
+	static constexpr auto value = Packed;
+};
+
+template <class T, int Dim, bool Packed, int... Indices>
+struct is_packed<Swizzle<T, Dim, Packed, Indices...>> {
+	static constexpr auto value = Packed;
+};
+
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+struct is_packed<Matrix<T, Rows, Columns, Order, Layout, Packed>> {
+	static constexpr auto value = Packed;
+};
+
+template <class T, bool Packed>
+struct is_packed<Quaternion<T, Packed>> {
+	static constexpr auto value = Packed;
+};
+
+template <class T>
+constexpr auto is_packed_v = is_packed<T>::value;
+
+
+//------------------------------------------------------------------------------
+// Complex
+//------------------------------------------------------------------------------
+
+template <class T>
+struct remove_complex {
+	using type = T;
+};
+
+template <class T>
+struct remove_complex<std::complex<T>> {
+	using type = T;
+};
+
+template <class T>
+using remove_complex_t = typename remove_complex<T>::type;
+
 
 //------------------------------------------------------------------------------
 // Common arithmetic type

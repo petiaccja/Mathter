@@ -1,4 +1,4 @@
-﻿add_library(Mathter INTERFACE)
+add_library(Mathter INTERFACE)
 
 target_sources(Mathter
 	INTERFACE FILE_SET natvis TYPE HEADERS BASE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/.." FILES
@@ -11,12 +11,12 @@ target_sources(Mathter
 		"Utility.hpp"
 		"Vector.hpp"
 		"Common/Approx.hpp"
-		"Common/Definitions.hpp"
 		"Common/DeterministicInitializer.hpp"
 		"Common/Functional.hpp"
 		"Common/MathUtil.hpp"
 		"Common/Range.hpp"
 		"Common/Traits.hpp"
+		"Common/Types.hpp"
 		"Common/TypeTraits.hpp"
 		"Decompositions/DecomposeLU.hpp"
 		"Decompositions/DecomposeQR.hpp"
