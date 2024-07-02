@@ -286,7 +286,9 @@ inline Matrix<T, Rows, Columns, Order, Layout, Packed>& operator*=(Matrix<T, Row
 /// <summary> Divides all elements of the matrix by scalar. </summary>
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed, class U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0>
 inline Matrix<T, Rows, Columns, Order, Layout, Packed>& operator/=(Matrix<T, Rows, Columns, Order, Layout, Packed>& mat, U s) {
-	mat *= U(1) / s;
+	for (auto& stripe : mat.stripes) {
+		stripe /= s;
+	}
 	return mat;
 }
 

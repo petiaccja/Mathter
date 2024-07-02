@@ -1,4 +1,4 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
@@ -52,12 +52,18 @@ TEMPLATE_LIST_TEST_CASE("Vector - LengthPrecise", "[Vector]", TypeListFloating) 
 	SECTION(TestType::Name()) {
 		using Vec3 = typename TestType::template Vector<3>;
 		using Vec5 = typename TestType::template Vector<5>;
+		SECTION("Underflow") {
 
-		Vec3 a(1e-38f, 2e-38f, 3e-38f);
-		REQUIRE(LengthPrecise(a) == Approx(3.7416573867e-38f));
+			Vec3 a(1e-38f, 2e-38f, 3e-38f);
+			REQUIRE(LengthPrecise(a) == Approx(3.7416573867e-38f));
 
-		Vec5 b(1e+37f, 0, 2e+37f, 0, 3e+37f);
-		REQUIRE(LengthPrecise(b) == Approx(3.7416573867e+37f));
+			Vec5 b(1e+37f, 0, 2e+37f, 0, 3e+37f);
+			REQUIRE(LengthPrecise(b) == Approx(3.7416573867e+37f));
+		}
+		SECTION("Denormal") {
+			Vec3 a(1e-39f, 1e-39f, 1e-39f);
+			REQUIRE(LengthPrecise(a) == Approx(1.7320508075689e-39f));
+		}
 	}
 }
 
@@ -234,6 +240,24 @@ TEMPLATE_LIST_TEST_CASE("Vector - Sum", "[Vector]", TypeListFloating) {
 		Vec5 c(1, 2, 3, 4, 5);
 
 		REQUIRE(Sum(c) == 15);
+	}
+}
+
+
+TEMPLATE_LIST_TEST_CASE("Vector - Abs", "[Vector]", TypeListFloating) {
+	SECTION(TestType::Name()) {
+		using Vec3 = typename TestType::template Vector<3>;
+		using Vec5 = typename TestType::template Vector<5>;
+
+		Vec3 a3(1, -2, 3);
+		Vec3 e3(1, 2, 3);
+
+		REQUIRE(Abs(a3) == e3);
+
+		Vec5 a5(1, 2, -3, 4, 5);
+		Vec5 e5(1, 2, 3, 4, 5);
+
+		REQUIRE(Abs(a5) == e5);
 	}
 }
 

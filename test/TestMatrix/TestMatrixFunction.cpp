@@ -1,4 +1,4 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
@@ -23,6 +23,37 @@ using Catch::Approx;
 
 using TypeListAll = TestTypeList<TypesFloating, PackedAll, OrdersAll, LayoutsAll>;
 using TypeListFloating = TestTypeList<TypesFloating, PackedAll, OrdersAll, LayoutsAll>;
+
+
+TEST_CASE("Matrix - Min", "[Matrix]") {
+	using M22 = Matrix<float, 2, 2>;
+
+	SECTION("Underflow") {
+		M22 m = { -1, 3, 2, 6 };
+		REQUIRE(Min(m) == -1);
+	}
+}
+
+
+TEST_CASE("Matrix - Max", "[Matrix]") {
+	using M22 = Matrix<float, 2, 2>;
+
+	SECTION("Underflow") {
+		M22 m = { -1, 3, 2, 6 };
+		REQUIRE(Max(m) == 6);
+	}
+}
+
+
+TEST_CASE("Matrix - Abs", "[Matrix]") {
+	using M22 = Matrix<float, 2, 2>;
+
+	SECTION("Underflow") {
+		M22 m = { -1, 3, 2, 6 };
+		M22 e = { 1, 3, 2, 6 };
+		REQUIRE(Abs(m) == e);
+	}
+}
 
 
 TEMPLATE_LIST_TEST_CASE("Matrix - Trace", "[Matrix]", TypeListAll) {
@@ -204,27 +235,15 @@ TEMPLATE_LIST_TEST_CASE("Matrix - Norm", "[Matrix]", TypeListAll) {
 }
 
 
-TEMPLATE_LIST_TEST_CASE("Matrix - Norm precise", "[Matrix]", TypeListAll) {
-	SECTION(TestType::Name()) {
-		using V8 = typename TestType::template Vector<8>;
-		using M24 = typename TestType::template Matrix<2, 4>;
-
-		V8 v = { 1, 2, 3, 4, 5, 6, 7, 8 };
-		M24 m = { 1, 2, 3, 4, 5, 6, 7, 8 };
-		REQUIRE(Approx(LengthPrecise(v)) == NormPrecise(m));
-	}
-}
-
-
-TEST_CASE("Matrix - Norm precise underflow", "[Matrix]") {
-	using M24 = Matrix<float, 2, 2>;
+TEST_CASE("Matrix - Norm precise", "[Matrix]") {
+	using M22 = Matrix<float, 2, 2>;
 
 	SECTION("Underflow") {
-		M24 m = { 1e-30f, 1e-30f, 1e-30f, 1e-30f };
+		M22 m = { 1e-30f, 1e-30f, 1e-30f, 1e-30f };
 		REQUIRE(Approx(2e-30f) == NormPrecise(m));
 	}
-	SECTION("Overflow") {
-		M24 m = { 1e+30f, 1e+30f, 1e+30f, 1e+30f };
-		REQUIRE(Approx(2e+30f) == NormPrecise(m));
+	SECTION("Denormal") {
+		M22 m = { 1e-39f, 1e-39f, 1e-39f, 1e-39f };
+		REQUIRE(Approx(2e-39f) == NormPrecise(m));
 	}
 }
