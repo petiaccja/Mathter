@@ -5,8 +5,8 @@
 
 #pragma once
 
-#include <Mathter/Common/Types.hpp>
 #include <Mathter/Common/TypeTraits.hpp>
+#include <Mathter/Common/Types.hpp>
 
 #include <complex>
 #include <iostream>

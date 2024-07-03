@@ -549,7 +549,7 @@ TEMPLATE_LIST_TEST_CASE("Vector - Vector-scalar reverse div", "[Vector]", TypeLi
 		SECTION(TestType::Name()) {                                                                  \
 			using Vec3 = typename TestType::template Vector<3>;                                      \
 			using Vec5 = typename TestType::template Vector<5>;                                      \
-			using Type = scalar_type_t<Vec3>;                                               \
+			using Type = scalar_type_t<Vec3>;                                                        \
                                                                                                      \
 			Vec3 v1 = { 1, 2, 3 };                                                                   \
 			auto v1c = v1;                                                                           \
@@ -565,7 +565,7 @@ TEMPLATE_LIST_TEST_CASE("Vector - Vector-scalar reverse div", "[Vector]", TypeLi
 		SECTION(TestType::Name()) {                                                          \
 			using Vec3 = typename TestType::template Vector<3>;                              \
 			using Vec5 = typename TestType::template Vector<5>;                              \
-			using Type = scalar_type_t<Vec3>;                                       \
+			using Type = scalar_type_t<Vec3>;                                                \
                                                                                              \
 			Vec3 v1 = { 1, 2, 3 };                                                           \
 			Type b = 6;                                                                      \
@@ -580,7 +580,7 @@ TEMPLATE_LIST_TEST_CASE("Vector - Vector-scalar reverse div", "[Vector]", TypeLi
 		SECTION(TestType::Name()) {                                                          \
 			using Vec3 = typename TestType::template Vector<3>;                              \
 			using Vec5 = typename TestType::template Vector<5>;                              \
-			using Type = scalar_type_t<Vec3>;                                       \
+			using Type = scalar_type_t<Vec3>;                                                \
                                                                                              \
 			Vec3 v1 = { 1, 2, 3 };                                                           \
 			Type b = 6;                                                                      \
