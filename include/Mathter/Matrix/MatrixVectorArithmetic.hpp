@@ -17,7 +17,7 @@ namespace mathter {
 // v*M
 template <class Vt, class Mt, int Vd, int Mcol, bool Packed>
 auto operator*(const Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd, Mcol, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, Packed>& mat) {
-	using Rt = traits::MatMulElemT<Vt, Mt>;
+	using Rt = common_arithmetic_type_t<Vt, Mt>;
 	Vector<Rt, Mcol, Packed> result;
 
 	result = vec(0) * mat.stripes[0];
@@ -29,7 +29,7 @@ auto operator*(const Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd, Mcol, eMa
 
 template <class Vt, class Mt, int Vd, int Mcol, bool Packed>
 auto operator*(const Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd, Mcol, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR, Packed>& mat) {
-	using Rt = traits::MatMulElemT<Vt, Mt>;
+	using Rt = common_arithmetic_type_t<Vt, Mt>;
 	Vector<Rt, Mcol, Packed> result;
 
 	for (int i = 0; i < Mcol; ++i) {
@@ -46,7 +46,7 @@ auto operator*(const Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd + 1, Vd, e
 
 template <class Vt, class Mt, int Vd, eMatrixLayout Mlayout, bool Packed>
 auto operator*(const Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd + 1, Vd + 1, eMatrixOrder::FOLLOW_VECTOR, Mlayout, Packed>& mat) {
-	using Rt = traits::MatMulElemT<Vt, Mt>;
+	using Rt = common_arithmetic_type_t<Vt, Mt>;
 	auto res = (vec | Vt(1)) * mat;
 	res /= res(res.Dimension() - 1);
 	return Vector<Rt, Vd, Packed>(res);
@@ -55,7 +55,7 @@ auto operator*(const Vector<Vt, Vd, Packed>& vec, const Matrix<Mt, Vd + 1, Vd + 
 // M*v
 template <class Vt, class Mt, int Vd, int Mrow, bool Packed>
 auto operator*(const Matrix<Mt, Mrow, Vd, eMatrixOrder::PRECEDE_VECTOR, eMatrixLayout::ROW_MAJOR, Packed>& mat, const Vector<Vt, Vd, Packed>& vec) {
-	using Rt = traits::MatMulElemT<Vt, Mt>;
+	using Rt = common_arithmetic_type_t<Vt, Mt>;
 	Vector<Rt, Mrow, Packed> result;
 
 	for (int i = 0; i < Mrow; ++i) {
@@ -66,7 +66,7 @@ auto operator*(const Matrix<Mt, Mrow, Vd, eMatrixOrder::PRECEDE_VECTOR, eMatrixL
 
 template <class Vt, class Mt, int Vd, int Mrow, bool Packed>
 auto operator*(const Matrix<Mt, Mrow, Vd, eMatrixOrder::PRECEDE_VECTOR, eMatrixLayout::COLUMN_MAJOR, Packed>& mat, const Vector<Vt, Vd, Packed>& vec) {
-	using Rt = traits::MatMulElemT<Vt, Mt>;
+	using Rt = common_arithmetic_type_t<Vt, Mt>;
 	Vector<Rt, Mrow, Packed> result;
 
 	result = vec(0) * mat.stripes[0];
@@ -85,7 +85,7 @@ auto operator*(const Matrix<Mt, Vd, Vd + 1, eMatrixOrder::PRECEDE_VECTOR, Mlayou
 
 template <class Vt, class Mt, int Vd, eMatrixLayout Mlayout, bool Packed>
 auto operator*(const Matrix<Mt, Vd + 1, Vd + 1, eMatrixOrder::PRECEDE_VECTOR, Mlayout, Packed>& mat, const Vector<Vt, Vd, Packed>& vec) {
-	using Rt = traits::MatMulElemT<Vt, Mt>;
+	using Rt = common_arithmetic_type_t<Vt, Mt>;
 	auto res = mat * (vec | Vt(1));
 	res /= res(res.Dimension() - 1);
 	return (Vector<Rt, Vd, Packed>)res;

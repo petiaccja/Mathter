@@ -7,15 +7,21 @@ on:
     types: [opened, synchronize, reopened]
 jobs:
   verify:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - uses: KyleMayes/install-llvm-action@v1
-        with:
-          version: "17.0"
-          directory: ${{ runner.temp }}/llvm
+      - name: Install clang-format
+        run: |
+          wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | sudo tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc
+          sudo add-apt-repository -y "deb http://apt.llvm.org/noble/ llvm-toolchain-noble-18 main"
+          sudo apt-get update
+          sudo apt-get install clang-format-18
+          which clang-format-18
+          
+          sudo update-alternatives --remove-all clang-format || true
+          sudo update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-18 10
       - name: Verify formatting
         run: |
           python ./support/run-clang-format.py -r include

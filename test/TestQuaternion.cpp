@@ -1,4 +1,4 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
@@ -132,7 +132,7 @@ TEMPLATE_LIST_TEST_CASE("Quaternion - ToMatrix", "[Quaternion]", TypeListFloatin
 	SECTION(TestType::Name()) {
 		using Vec3 = typename TestType::template Vector<3>;
 		using Quat = typename TestType::Quat;
-		using Type = typename traits::VectorTraits<Vec3>::Type;
+		using Type = scalar_type_t<Vec3>;
 
 		Quat q = { 0.9151163f, 0.107757f, 0.2155141f, 0.3232711f };
 		Matrix<Type, 3, 3, eMatrixOrder::PRECEDE_VECTOR> m331 = (decltype(m331))q;
@@ -186,7 +186,7 @@ TEMPLATE_LIST_TEST_CASE("Quaternion - FromMatrix", "[Quaternion]", TypeListFloat
 	SECTION(TestType::Name()) {
 		using Vec3 = typename TestType::template Vector<3>;
 		using Quat = typename TestType::Quat;
-		using Type = typename traits::VectorTraits<Vec3>::Type;
+		using Type = scalar_type_t<Vec3>;
 
 		Quat q = { 0.9151163f, 0.107757f, 0.2155141f, 0.3232711f };
 		Matrix<Type, 3, 3, eMatrixOrder::PRECEDE_VECTOR> m331 = (decltype(m331))q;
@@ -242,8 +242,8 @@ TEMPLATE_LIST_TEST_CASE("Quaternion - VectorRotation", "[Quaternion]", TypeListF
 	SECTION(TestType::Name()) {
 		using Vec3 = typename TestType::template Vector<3>;
 		using Quat = typename TestType::Quat;
-		using Type = typename traits::VectorTraits<Vec3>::Type;
-		constexpr auto Packed = traits::VectorTraits<Vec3>::Packed;
+		using Type = scalar_type_t<Vec3>;
+		constexpr auto Packed = is_packed_v<Vec3>;
 
 		Quat q = RotationAxisAngle(Normalize(Vec3{ 1, 2, 3 }), 0.83f);
 		Matrix<Type, 3, 3, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, Packed> M = RotationAxisAngle(Normalize(Vec3{ 1, 2, 3 }), 0.83f);
@@ -304,7 +304,7 @@ TEMPLATE_LIST_TEST_CASE("Quaternion - Pow", "[Quaternion]", TypeListFloating) {
 	SECTION(TestType::Name()) {
 		using Vec3 = typename TestType::template Vector<3>;
 		using Quat = typename TestType::Quat;
-		using Type = typename traits::VectorTraits<Vec3>::Type;
+		using Type = scalar_type_t<Vec3>;
 
 		Quat q(1.0f, 2.0f, 0.5f, -0.7f);
 

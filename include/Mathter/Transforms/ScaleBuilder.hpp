@@ -1,4 +1,4 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
@@ -77,7 +77,7 @@ auto Scale(const Vector<Vt, Vdim, Vpacked>& scale) {
 /// <summary> Creates a scaling matrix. </summary>
 /// <param name="scales"> A list of scalars corresponding to scaling on respective axes. </summary>
 /// <remarks> The number of arguments must be less than or equal to the matrix dimension. </remarks>
-template <class... Args, typename std::enable_if<(traits::All<traits::IsScalar, typename std::decay<Args>::type...>::value), int>::type = 0>
+template <class... Args, std::enable_if_t<(... && is_scalar_v<std::decay_t<Args>>), int> = 0>
 auto Scale(Args&&... scales) {
 	using PromotedT = decltype((0 + ... + scales));
 	return ScaleBuilder{ Vector<PromotedT, sizeof...(scales)>(scales...) };

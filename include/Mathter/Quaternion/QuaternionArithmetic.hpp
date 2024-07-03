@@ -1,4 +1,4 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
@@ -149,7 +149,7 @@ Quaternion<T, Packed> operator/(U s, const Quaternion<T, Packed>& rhs) {
 }
 
 /// <summary> Adds a real to the real part of the quaternion. </summary>
-template <class T, bool Packed, class U, class = typename std::enable_if<!traits::IsQuaternion<U>::value>::type>
+template <class T, bool Packed, class U, class = typename std::enable_if<!is_quaternion_v<U>>::type>
 Quaternion<T, Packed> operator+(const U& lhs, const Quaternion<T, Packed>& rhs) {
 	return Quaternion<T, Packed>(rhs.w + lhs, rhs.x, rhs.y, rhs.z);
 }
