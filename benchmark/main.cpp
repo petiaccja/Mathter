@@ -1,4 +1,4 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
@@ -8,7 +8,10 @@
 #include <Mathter/Vector.hpp>
 
 #include <iostream>
+
+#if MATHTER_ENABLE_SIMD
 #include <xsimd/xsimd.hpp>
+#endif
 
 #define CATCH_CONFIG_RUNNER
 #include <catch2/catch_session.hpp>
@@ -16,7 +19,9 @@
 using namespace std;
 using namespace mathter;
 
-int main(int argc, char* argv[]) {
+
+void DisplayArchitectureInfo() {
+#if MATHTER_ENABLE_SIMD
 	std::cout << "Available on CPU: " << std::endl;
 	const auto architectures = xsimd::available_architectures();
 	std::cout << "  sse2: " << (architectures.sse2 ? "YES" : "NO") << std::endl;
@@ -48,6 +53,14 @@ int main(int argc, char* argv[]) {
 		}
 	});
 	std::cout << std::endl;
+#else
+	std::cout << "SIMD disabled." << std::endl
+			  << std::endl;
+#endif
+}
+
+int main(int argc, char* argv[]) {
+	DisplayArchitectureInfo();
 
 	std::cout << "SIMD support:" << std::endl;
 	std::cout << "  float.2: " << (IsBatched<float, 2, false>() ? "YES" : "NO") << " - " << sizeof(Vector<float, 2, false>) << " bytes" << std::endl;

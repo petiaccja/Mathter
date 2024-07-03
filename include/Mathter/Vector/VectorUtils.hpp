@@ -97,7 +97,7 @@ inline Batch FillMasked(Batch batch, Element value) {
 		return xsimd::select(mask, batch, fillers);
 	}
 #else
-	return b;
+	return batch;
 #endif
 }
 

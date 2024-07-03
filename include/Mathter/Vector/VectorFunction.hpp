@@ -42,6 +42,7 @@ Vector<T, Dim, Packed> Max(const Vector<T, Dim, Packed>& lhs, const Vector<T, Di
 /// <summary> Returns the minimum element of the vector. </summary>
 template <class T, int Dim, bool Packed>
 T Min(const Vector<T, Dim, Packed>& v) {
+#if MATHTER_ENABLE_SIMD
 	if constexpr (IsBatched<T, Dim, Packed>()) {
 		using MyBatch = Batch<T, Dim, Packed>;
 		const auto value = MyBatch::load_unaligned(v.data());
@@ -49,15 +50,15 @@ T Min(const Vector<T, Dim, Packed>& v) {
 		const auto filled = FillMasked<Dim>(value, filler);
 		return xsimd::reduce_min(filled);
 	}
-	else {
-		return *std::min_element(v.begin(), v.end());
-	}
+#endif
+	return *std::min_element(v.begin(), v.end());
 }
 
 
 /// <summary> Returns the maximum element of the vector. </summary>
 template <class T, int Dim, bool Packed>
 T Max(const Vector<T, Dim, Packed>& v) {
+#if MATHTER_ENABLE_SIMD
 	if constexpr (IsBatched<T, Dim, Packed>()) {
 		using MyBatch = Batch<T, Dim, Packed>;
 		const auto value = MyBatch::load_unaligned(v.data());
@@ -65,9 +66,8 @@ T Max(const Vector<T, Dim, Packed>& v) {
 		const auto filled = FillMasked<Dim>(value, filler);
 		return xsimd::reduce_max(filled);
 	}
-	else {
-		return *std::max_element(v.begin(), v.end());
-	}
+#endif
+	return *std::max_element(v.begin(), v.end());
 }
 
 
@@ -81,6 +81,7 @@ auto Abs(const Vector<T, Dim, Packed>& v) {
 /// <summary> Returns the sum of the element of the vector. </summary>
 template <class T, int Dim, bool Packed>
 T Sum(const Vector<T, Dim, Packed>& v) {
+#if MATHTER_ENABLE_SIMD
 	if constexpr (IsBatched<T, Dim, Packed>()) {
 		using MyBatch = Batch<T, Dim, Packed>;
 		const auto value = MyBatch::load_unaligned(v.data());
@@ -88,9 +89,8 @@ T Sum(const Vector<T, Dim, Packed>& v) {
 		const auto filled = FillMasked<Dim>(value, filler);
 		return xsimd::reduce_add(filled);
 	}
-	else {
-		return std::reduce(v.begin(), v.end());
-	}
+#endif
+	return std::reduce(v.begin(), v.end());
 }
 
 

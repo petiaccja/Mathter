@@ -333,7 +333,7 @@ TEMPLATE_LIST_TEST_CASE("Vector - Distance", "[Vector]", TypeListFloating) {
 	SECTION(TestType::Name()) {
 		using Vec3 = typename TestType::template Vector<3>;
 		using Vec5 = typename TestType::template Vector<5>;
-		using Type = typename scalar_type_t<Vec3>;
+		using Type = scalar_type_t<Vec3>;
 
 		Vec3 a(1, 2, 3);
 		Vec3 b(4, 5, 4);

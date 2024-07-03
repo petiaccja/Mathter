@@ -9,6 +9,8 @@
 #include "Types.hpp"
 
 #include <complex>
+#include <cstdint>
+#include <functional>
 #include <type_traits>
 
 
@@ -230,7 +232,7 @@ struct opposite_layout {
 	static constexpr auto value = Layout == eMatrixLayout::ROW_MAJOR ? eMatrixLayout::COLUMN_MAJOR : eMatrixLayout::ROW_MAJOR;
 };
 
-template <eMatrixOrder Layout>
+template <eMatrixLayout Layout>
 constexpr auto opposite_layout_v = opposite_layout<Layout>::value;
 
 
@@ -259,25 +261,41 @@ using remove_complex_t = typename remove_complex<T>::type;
 namespace impl {
 
 	template <class... T>
-	struct common_arithmetic_type {
-		template <class... U>
-		static constexpr auto eval(std::nullptr_t) -> std::enable_if<true, decltype((... + std::declval<U>()))> {
-			return {};
-		}
+	struct common_arithmetic_type;
 
-		template <class... U>
-		static constexpr auto eval(const void*) -> std::enable_if<false> {
-			return {};
-		}
+	template <>
+	struct common_arithmetic_type<> {
+		using type = void;
+		static constexpr bool valid = false;
+	};
 
-		using enable_if_type = decltype(eval<T...>(nullptr));
+	template <class T>
+	struct common_arithmetic_type<T> {
+		using type = T;
+		static constexpr bool valid = true;
+	};
+
+	template <class T1, class T2, class... Rest>
+	struct common_arithmetic_type<T1, T2, Rest...> {
+		template <class U1, class U2, class R = std::invoke_result_t<std::plus<>, U1, U2>>
+		static constexpr R get_type(U1&&, U2&&);
+
+		static constexpr void get_type(...);
+
+		template <class U1, class U2, class R = std::invoke_result_t<std::plus<>, U1, U2>>
+		static constexpr std::true_type is_valid(U1&&, U2&&);
+
+		static constexpr std::false_type is_valid(...);
+
+		using type = typename common_arithmetic_type<decltype(common_arithmetic_type::get_type(std::declval<T1>(), std::declval<T2>())), Rest...>::type;
+		static constexpr bool valid = decltype(common_arithmetic_type::is_valid(std::declval<T1>(), std::declval<T2>()))::value && common_arithmetic_type<T2, Rest...>::valid;
 	};
 
 } // namespace impl
 
 
 template <class... T>
-struct common_arithmetic_type : impl::common_arithmetic_type<T...>::enable_if_type {};
+struct common_arithmetic_type : std::enable_if<impl::common_arithmetic_type<T...>::valid, typename impl::common_arithmetic_type<T...>::type> {};
 
 
 template <class... T>

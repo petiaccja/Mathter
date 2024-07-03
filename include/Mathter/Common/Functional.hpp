@@ -5,6 +5,10 @@
 #include <xsimd/xsimd.hpp>
 #endif
 
+#include <cmath>
+#include <type_traits>
+
+
 namespace mathter {
 
 template <class T = void>
