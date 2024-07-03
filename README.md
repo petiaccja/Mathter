@@ -67,8 +67,6 @@ Features
   - Prefers mathematical notation (i.e. quaternions are chained qr = q3\*q2\*q1)
   - Many things are generalized to higher dimensions (i.e. hyperplanes, N-dimensional transforms & functions), but interfaces are not compromised
 
-For details, browse the [API reference](https://petiaccja.github.io/Mathter).
-
 Code example
 ---
 
@@ -146,13 +144,19 @@ Vector<float, 6> x = DecomposeLUP(M).Solve(b); // Mx = b
 
 Installation
 ---
-**From the conan center:** https://conan.io/center/mathter.
 
-**Manually:** Mathter is header-only, you just have to **copy the \<repo\>/Mathter** folder into your include path.
+1. Using conan: https://conan.io/center/mathter
+2. Using vcpkg: https://vcpkg.io/en/package/mathter
+3. Using CMake: Mathter uses CMake as its build system; configure and install Mathter and use the installed `MathterConfig.cmake`.
+4. Manually: Mathter is header-only, so you can just copy the files and get going
 
-**Compilers:** tested for GCC, Clang and MSVC via GitHub CI. Enabling std=c++17 is required.
+**Compiler support:** GCC, Clang, and MSVC. Requires C++17 or C++20 enabled.
 
-**Visual Studio:** don't forget to add the file Mathter/Mathter.natvis to your visual studio projects, it will display Mathter types nicely in the debugger.
+**Build flags:**
+- Set `MATHTER_BUILD_TESTS:BOOL=OFF` and `MATHTER_BUILD_BENCHMARKS:BOOL=OFF` if you don't need them
+- Set `MATHTER_ENABLE_SIMD:BOOL` according to whether you have [XSimd](https://github.com/xtensor-stack/xsimd) installed
+
+**Visual Studio:** Mathter/Mathter.natvis to your visual studio projects, it will display Mathter types nicely in the debugger.
 
 
 Building the tests
@@ -175,12 +179,12 @@ It's recommended to verify and edit your conan profile as needed.
 You then have to install the dependencies using `conan`, configure with `CMake`, and build:
 
 ```
-mkdir build
-cd build
-conan install .. --output-folder=. --build=missing -s build_type=Debug
-cmake .. --preset conan-debug
-cmake --build . --config Debug
+conan install . --build=missing -pr:h=default -pr:b=default
+cmake . --preset conan-debug
+cmake --build build/msvc_17_debug
 ```
+
+Instead of the `default` profile, you can also use the profiles in `.github/build_profiles`.
 
 Once the build is finished, you can run `./bin/UnitTest`, which is a [Catch2](https://github.com/catchorg/Catch2) application.
 
