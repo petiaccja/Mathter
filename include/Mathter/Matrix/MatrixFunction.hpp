@@ -140,7 +140,7 @@ T Determinant(const Matrix<T, Dim, Dim, Order, Layout, Packed>& m) {
 	return parity * prod;
 }
 
-/// <summary> Transposes the matrix in-place. </summary>
+/// <summary> Transposes the matrix. </summary>
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 Matrix<T, Columns, Rows, Order, Layout, Packed> Transpose(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) {
 	Matrix<T, Columns, Rows, Order, Layout, Packed> result;
