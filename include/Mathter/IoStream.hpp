@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "Vector.hpp"
+#include "Vector/Vector.hpp"
 
 #include <iostream>
 

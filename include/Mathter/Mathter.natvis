@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
 //L=============================================================================
 //L This software is distributed under the MIT license.
@@ -8,12 +8,12 @@
 <AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
   
   <Type Name="mathter::Vector&lt;*&gt;">
-    <DisplayString Condition="$T2==1">[{x}]</DisplayString>
-    <DisplayString Condition="$T2==2">[{x}, {y}]</DisplayString>
-    <DisplayString Condition="$T2==3">[{x}, {y}, {z}]</DisplayString>
-    <DisplayString Condition="$T2==4">[{data[0]}, {y}, {z}, {w}]</DisplayString>
-    <DisplayString Condition="$T2==5">[{data[0]}, {data[1]}, {data[2]}, {data[3]}, {data[4]}]</DisplayString>
-    <DisplayString Condition="$T2&gt;5">dim={$T2}  [{data[0]}, {data[0]}, ..., {data[$T2-1]}]</DisplayString>
+    <DisplayString Condition="$T2==1">[{elements.array[0]}]</DisplayString>
+    <DisplayString Condition="$T2==2">[{elements.array[0]}, {elements.array[1]}]</DisplayString>
+    <DisplayString Condition="$T2==3">[{elements.array[0]}, {elements.array[1]}, {elements.array[2]}]</DisplayString>
+    <DisplayString Condition="$T2==4">[{elements.array[0]}, {elements.array[1]}, {elements.array[2]}, {elements.array[3]}]</DisplayString>
+    <DisplayString Condition="$T2==5">[{elements.array[0]}, {elements.array[1]}, {elements.array[2]}, {elements.array[3]}, {elements.array[4]}]</DisplayString>
+    <DisplayString Condition="$T2&gt;5">dim={$T2}  [{elements.array[0]}, {elements.array[0]}, ..., {elements.array[$T2-1]}]</DisplayString>
     <Expand>
       <Item Name="[dimension]" ExcludeView="simple">$T2</Item>
       <ArrayItems>

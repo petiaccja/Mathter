@@ -378,27 +378,6 @@ auto [U,S,V] = DecomposeSVD(Determinant(m) * Inverse(Transpose(m)));
 ```
 
 
-### Submatrices (WARNING: deprecated)
-
-There is an implementation of submatrices in the library, however, it awaits a major overhaul, and as such is deprecated and will be removed. If this doesn't bother you, it can be used.
-
-An example:
-```c++
-Mat22 m = {
-    1, 2,
-    3, 4
-};
-Mat44 M = Zero(); // All elements zeroed.
-
-// M will now look like
-// 1, 2, 0, 0,
-// 3, 4, 0, 0,
-// 0, 0, 0, 0,
-// 0, 0, 0, 0
-M.Submatrix<2,2>(0,0) = m;
-```
-
-
 Quaternions
 <a name="quaternions"></a>
 ---

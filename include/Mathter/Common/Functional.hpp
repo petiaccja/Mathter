@@ -23,7 +23,7 @@ struct fma {
 		}
 #endif
 		else {
-			return a + b + c;
+			return a * b + c;
 		}
 	}
 };

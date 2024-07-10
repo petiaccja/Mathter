@@ -116,8 +116,37 @@ struct dimension<Vector<T, Dim, Packed>> {
 	static constexpr auto value = Dim;
 };
 
+
 template <class T>
 constexpr auto dimension_v = dimension<T>::value;
+
+
+template <class T>
+struct source_dimension {};
+
+
+template <class T, int Dim, bool Packed, int... Indices>
+struct source_dimension<Swizzle<T, Dim, Packed, Indices...>> {
+	static constexpr auto value = Dim;
+};
+
+
+template <class T>
+constexpr auto source_dimension_v = source_dimension<T>::value;
+
+
+template <class T>
+struct target_dimension {};
+
+
+template <class T, int Dim, bool Packed, int... Indices>
+struct target_dimension<Swizzle<T, Dim, Packed, Indices...>> {
+	static constexpr auto value = sizeof...(Indices);
+};
+
+
+template <class T>
+constexpr auto target_dimension_v = target_dimension<T>::value;
 
 
 //--------------------------------------

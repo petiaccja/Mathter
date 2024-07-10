@@ -1,4 +1,4 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
@@ -54,19 +54,13 @@ constexpr int DYNAMIC = -1;
 //------------------------------------------------------------------------------
 
 template <class T, int Dim, bool Packed>
-struct VectorData;
-
-template <class T, int Dim, bool Packed>
 class Vector;
 
 template <class T, int Dim, bool Packed, int... Indices>
-class Swizzle;
+struct Swizzle;
 
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 class Matrix;
-
-template <class MatrixT, int SRows, int SColumns>
-class SubmatrixHelper;
 
 template <class T, bool Packed>
 class Quaternion;
