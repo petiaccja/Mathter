@@ -133,8 +133,8 @@ public:
 	/// <summary> Initializes the vector by concatenating given scalar, vector or swizzle arguments. </summary>
 	/// <remarks> Sum of the dimension of arguments must equal vector dimension.
 	///		Types of arguments may differ from vector's underlying type, in which case cast is forced without a warning. </remarks>
-	template <class... Args, std::enable_if_t<(sizeof...(Args) > 1), int> = 0>
-	Vector(const Args&... parts);
+	template <class... Parts, std::enable_if_t<(sizeof...(Parts) > 1), int> = 0>
+	Vector(const Parts&... parts);
 
 	/// <summary> Construct the vector using the SIMD batch type as content. </summary>
 	explicit Vector(const std::conditional_t<!std::is_void_v<Batch>, Batch, std::nullptr_t>& batch);
@@ -186,8 +186,49 @@ private:
 };
 
 
+namespace impl {
+
+	template <class T>
+	struct parts_scalar_type : std::conditional_t<is_scalar_v<T>, std::enable_if<true, T>, scalar_type<T>> {};
+
+	template <class T>
+	using parts_scalar_type_t = typename parts_scalar_type<T>::type;
+
+	template <class... Parts>
+	constexpr int GetConcatDim() {
+		constexpr auto getDim = [](auto* arg) constexpr {
+			using Arg = std::decay_t<std::remove_pointer_t<decltype(arg)>>;
+			if constexpr (is_vector_v<Arg> || is_swizzle_v<Arg>) {
+				return dimension_v<Arg>;
+			}
+			return 1;
+		};
+		return (... + getDim(static_cast<Parts*>(nullptr)));
+	}
+
+	template <class... Parts>
+	constexpr bool GetConcatPacking() {
+		constexpr auto getPacking = [](auto* arg) constexpr {
+			using Arg = std::decay_t<std::remove_pointer_t<decltype(arg)>>;
+			if constexpr (is_vector_v<Arg> || is_swizzle_v<Arg>) {
+				return is_packed_v<Arg>;
+			}
+			return false;
+		};
+		return (... && getPacking(static_cast<Parts*>(nullptr)));
+	}
+
+} // namespace impl
+
+
 template <class T, int Dim, bool Packed, int... Indices>
 Vector(const Swizzle<T, Dim, Packed, Indices...>& swizzle) -> Vector<T, sizeof...(Indices), Packed>;
+
+
+template <class... Parts, std::enable_if_t<(sizeof...(Parts) > 1), int> = 0>
+Vector(const Parts&... parts) -> Vector<common_arithmetic_type_t<impl::parts_scalar_type_t<Parts>...>,
+										impl::GetConcatDim<Parts...>(),
+										impl::GetConcatPacking<Parts...>()>;
 
 
 template <class T, int Dim, bool Packed>
@@ -263,12 +304,7 @@ Vector<T, Dim, Packed>::Vector(const Parts&... parts) {
 	const auto copy = [this, &it](const auto& arg) {
 		assert(it != end());
 		using Arg = std::decay_t<decltype(arg)>;
-		if constexpr (is_swizzle_v<Arg>) {
-			for (int i = 0; i < target_dimension_v<Arg>; ++i) {
-				*it++ = static_cast<T>(arg[i]);
-			}
-		}
-		else if constexpr (is_vector_v<Arg>) {
+		if constexpr (is_swizzle_v<Arg> || is_vector_v<Arg>) {
 			for (int i = 0; i < dimension_v<Arg>; ++i) {
 				*it++ = static_cast<T>(arg[i]);
 			}

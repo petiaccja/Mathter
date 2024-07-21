@@ -17,8 +17,8 @@ target_sources(UnitTest
         "Vector/TestSIMDUtil.cpp"
         "Vector/TestSwizzle.cpp"
         "Vector/TestVector.cpp"
+        "Vector/TestConcat.cpp"
         #"TestVector/TestVectorFunction.cpp"
-        #"TestVector/TestVectorConcat.cpp"
         #"TestGenerators.hpp"
         #"TestGeometry.cpp"
 )

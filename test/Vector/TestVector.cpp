@@ -130,19 +130,45 @@ TEMPLATE_LIST_TEST_CASE("Vector - Ctor: from swizzle", "[Vector]",
 }
 
 
+TEST_CASE("Vector - concat helpers: GetConcatDim", "[Vector]") {
+	static_assert(impl::GetConcatDim<int, Vector<float, 2, false>>() == 3);
+	static_assert(impl::GetConcatDim<Swizzle<float, 3, false, 1, 2>, Vector<float, 2, false>>() == 4);
+}
+
+
+TEST_CASE("Vector - concat helpers: GetConcatPacking", "[Vector]") {
+	static_assert(impl::GetConcatPacking<Vector<float, 2, false>, Vector<float, 2, false>>() == false);
+	static_assert(impl::GetConcatPacking<Vector<float, 2, false>, Vector<float, 2, true>>() == false);
+	static_assert(impl::GetConcatPacking<Vector<float, 2, true>, Vector<float, 2, true>>() == true);
+}
+
+
 TEMPLATE_LIST_TEST_CASE("Vector - Ctor: from parts", "[Vector]",
 						decltype(VectorCaseList<ScalarsAll, PackingsAll>{})) {
 
 	using Vec = typename TestType::template Vector<4>;
 	using Swiz = Swizzle<int, 4, is_packed_v<Vec>, 3, 0>;
 
-	Swiz swiz{ 1, 2, 3, 4 };
-	Vec vec(swiz, 6, 4);
+	const Swiz swiz{ 1, 2, 3, 4 };
+	SECTION("Explicit vector type") {
+		const Vec vec(swiz, 6, 4);
 
-	REQUIRE(vec[0] == scalar_type_t<Vec>(4));
-	REQUIRE(vec[1] == scalar_type_t<Vec>(1));
-	REQUIRE(vec[2] == scalar_type_t<Vec>(6));
-	REQUIRE(vec[3] == scalar_type_t<Vec>(4));
+		REQUIRE(vec[0] == scalar_type_t<Vec>(4));
+		REQUIRE(vec[1] == scalar_type_t<Vec>(1));
+		REQUIRE(vec[2] == scalar_type_t<Vec>(6));
+		REQUIRE(vec[3] == scalar_type_t<Vec>(4));
+	}
+	SECTION("CTAD") {
+		const auto vec = Vector(swiz, 6, 4);
+		using DeducedVec = std::decay_t<decltype(vec)>;
+
+		REQUIRE(vec[0] == scalar_type_t<DeducedVec>(4));
+		REQUIRE(vec[1] == scalar_type_t<DeducedVec>(1));
+		REQUIRE(vec[2] == scalar_type_t<DeducedVec>(6));
+		REQUIRE(vec[3] == scalar_type_t<DeducedVec>(4));
+
+		REQUIRE(dimension_v<DeducedVec> == 4);
+	}
 }
 
 

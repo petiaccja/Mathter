@@ -113,9 +113,13 @@ struct dimension {};
 
 template <class T, int Dim, bool Packed>
 struct dimension<Vector<T, Dim, Packed>> {
-	static constexpr auto value = Dim;
+	static constexpr int value = Dim;
 };
 
+template <class T, int Dim, bool Packed, int... Indices>
+struct dimension<Swizzle<T, Dim, Packed, Indices...>> {
+	static constexpr int value = sizeof...(Indices);
+};
 
 template <class T>
 constexpr auto dimension_v = dimension<T>::value;
@@ -127,7 +131,7 @@ struct source_dimension {};
 
 template <class T, int Dim, bool Packed, int... Indices>
 struct source_dimension<Swizzle<T, Dim, Packed, Indices...>> {
-	static constexpr auto value = Dim;
+	static constexpr int value = Dim;
 };
 
 
@@ -141,7 +145,7 @@ struct target_dimension {};
 
 template <class T, int Dim, bool Packed, int... Indices>
 struct target_dimension<Swizzle<T, Dim, Packed, Indices...>> {
-	static constexpr auto value = sizeof...(Indices);
+	static constexpr int value = sizeof...(Indices);
 };
 
 

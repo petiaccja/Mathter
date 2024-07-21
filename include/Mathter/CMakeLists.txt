@@ -46,14 +46,14 @@ target_sources(Mathter
 		"Vector/SwizzleInc/Swizzle2.hpp.inc"
 		"Vector/SwizzleInc/Swizzle3.hpp.inc"
 		"Vector/SwizzleInc/Swizzle4.hpp.inc"
-		"Vector/SIMDUtil.hpp"
-		"Vector/Swizzle.hpp"
-		"Vector/Vector.hpp"
 		"Vector/Arithmetic.hpp"
 		"Vector/Comparison.hpp"
 		"Vector/Concat.hpp"
-		"Vector/VectorFunction.hpp"
 		"Vector/OperationUtil.hpp"
+		"Vector/SIMDUtil.hpp"
+		"Vector/Swizzle.hpp"
+		"Vector/Vector.hpp"
+		"Vector/VectorFunction.hpp"
 )
 
 set_target_properties(Mathter PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON)
