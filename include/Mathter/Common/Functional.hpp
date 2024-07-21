@@ -5,6 +5,8 @@
 #include <xsimd/xsimd.hpp>
 #endif
 
+#include "TypeTraits.hpp"
+
 #include <cmath>
 #include <type_traits>
 
@@ -101,7 +103,7 @@ struct min<void> {
 
 template <class T = void>
 struct abs {
-	constexpr T operator()(const T& arg) const {
+	constexpr auto operator()(const T& arg) const {
 #ifdef MATHTER_ENABLE_SIMD
 		if constexpr (xsimd::is_batch<T>::value) {
 			return xsimd::abs(arg);
@@ -119,8 +121,39 @@ struct abs {
 template <>
 struct abs<void> {
 	template <class T>
-	constexpr std::remove_reference_t<T> operator()(T&& arg) const {
+	constexpr auto operator()(T&& arg) const {
 		return abs<std::decay_t<T>>{}(std::forward<T>(arg));
+	}
+};
+
+
+template <class T = void>
+struct conj {
+	constexpr auto operator()(const T& arg) const {
+		if constexpr (is_complex_v<std::decay_t<T>>) {
+#ifdef MATHTER_ENABLE_SIMD
+			if constexpr (xsimd::is_batch<T>::value) {
+				return xsimd::conj(arg);
+			}
+			else {
+#endif
+				return std::conj(arg);
+#ifdef MATHTER_ENABLE_SIMD
+			}
+#endif
+		}
+		else {
+			return arg;
+		}
+	}
+};
+
+
+template <>
+struct conj<void> {
+	template <class T>
+	constexpr auto operator()(T&& arg) const {
+		return conj<std::decay_t<T>>{}(std::forward<T>(arg));
 	}
 };
 

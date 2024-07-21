@@ -35,6 +35,7 @@ using ScalarsFloatAndInt32AndComplex = TemplateArgumentList<float, int32_t, std:
 using ScalarsFloating = TemplateArgumentList<float, double>;
 using ScalarsIntegral = TemplateArgumentList<int32_t, int64_t>;
 using ScalarsComplex = TemplateArgumentList<std::complex<float>, std::complex<double>>;
+using ScalarsComplex32 = TemplateArgumentList<std::complex<float>>;
 using ScalarsFloatingAndComplex = TemplateArgumentList<float, double, std::complex<float>, std::complex<double>>;
 using ScalarsFloatingAndComplex32 = TemplateArgumentList<float, std::complex<float>>;
 using ScalarsAll = TemplateArgumentList<float, double, int32_t, int64_t, std::complex<float>, std::complex<double>>;

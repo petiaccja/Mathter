@@ -124,7 +124,7 @@ public:
 	explicit Vector(const T* elements);
 
 	/// <summary> Sets all elements to the same value. </summary>
-	explicit Vector(T all);
+	explicit Vector(const T& all);
 
 	/// <summary> Sets elements from a swizzle. </summary>
 	template <class TOther, int DimOther, int... IndicesOther, bool PackedOther>
@@ -269,7 +269,7 @@ Vector<T, Dim, Packed>::Vector(const T* elements) {
 
 
 template <class T, int Dim, bool Packed>
-Vector<T, Dim, Packed>::Vector(T all) {
+Vector<T, Dim, Packed>::Vector(const T& all) {
 	if constexpr (isBatched) {
 		elements.Store(Batch(all));
 	}

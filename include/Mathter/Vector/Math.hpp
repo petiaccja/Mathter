@@ -16,8 +16,9 @@
 
 #include "../Common/Functional.hpp"
 #include "../Common/MathUtil.hpp"
-#include "VectorImpl.hpp"
-#include "VectorUtils.hpp"
+#include "Arithmetic.hpp"
+#include "OperationUtil.hpp"
+#include "Vector.hpp"
 
 #include <numeric>
 
@@ -26,15 +27,15 @@ namespace mathter {
 
 
 /// <summary> Returns the element-wise minimum of arguments </summary>
-template <class T, int Dim, bool Packed>
-Vector<T, Dim, Packed> Min(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
+template <class T1, class T2, int Dim, bool Packed1, bool Packed2>
+auto Min(const Vector<T1, Dim, Packed1>& lhs, const Vector<T2, Dim, Packed2>& rhs) {
 	return DoBinaryOp(lhs, rhs, min{});
 }
 
 
 /// <summary> Returns the element-wise maximum of arguments </summary>
-template <class T, int Dim, bool Packed>
-Vector<T, Dim, Packed> Max(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
+template <class T1, class T2, int Dim, bool Packed1, bool Packed2>
+auto Max(const Vector<T1, Dim, Packed1>& lhs, const Vector<T2, Dim, Packed2>& rhs) {
 	return DoBinaryOp(lhs, rhs, max{});
 }
 
@@ -43,9 +44,8 @@ Vector<T, Dim, Packed> Max(const Vector<T, Dim, Packed>& lhs, const Vector<T, Di
 template <class T, int Dim, bool Packed>
 T Min(const Vector<T, Dim, Packed>& v) {
 #if MATHTER_ENABLE_SIMD
-	if constexpr (IsBatched<T, Dim, Packed>()) {
-		using MyBatch = Batch<T, Dim, Packed>;
-		const auto value = MyBatch::load_unaligned(v.data());
+	if constexpr (v.isBatched) {
+		const auto value = v.elements.Load();
 		constexpr auto filler = std::numeric_limits<remove_complex_t<T>>::max();
 		const auto filled = FillMasked<Dim>(value, filler);
 		return xsimd::reduce_min(filled);
@@ -60,8 +60,7 @@ template <class T, int Dim, bool Packed>
 T Max(const Vector<T, Dim, Packed>& v) {
 #if MATHTER_ENABLE_SIMD
 	if constexpr (IsBatched<T, Dim, Packed>()) {
-		using MyBatch = Batch<T, Dim, Packed>;
-		const auto value = MyBatch::load_unaligned(v.data());
+		const auto value = v.elements.Load();
 		constexpr auto filler = std::numeric_limits<remove_complex_t<T>>::lowest();
 		const auto filled = FillMasked<Dim>(value, filler);
 		return xsimd::reduce_max(filled);
@@ -71,10 +70,18 @@ T Max(const Vector<T, Dim, Packed>& v) {
 }
 
 
-/// <summary> Returns the maximum element of the vector. </summary>
+/// <summary> Returns the elementwise absolute value of the vector. </summary>
 template <class T, int Dim, bool Packed>
 auto Abs(const Vector<T, Dim, Packed>& v) {
 	return DoUnaryOp(v, abs{});
+}
+
+
+
+/// <summary> Returns the elementwise absolute value of the vector. </summary>
+template <class T, int Dim, bool Packed>
+auto Conj(const Vector<T, Dim, Packed>& v) {
+	return DoUnaryOp(v, conj{});
 }
 
 
@@ -82,9 +89,8 @@ auto Abs(const Vector<T, Dim, Packed>& v) {
 template <class T, int Dim, bool Packed>
 T Sum(const Vector<T, Dim, Packed>& v) {
 #if MATHTER_ENABLE_SIMD
-	if constexpr (IsBatched<T, Dim, Packed>()) {
-		using MyBatch = Batch<T, Dim, Packed>;
-		const auto value = MyBatch::load_unaligned(v.data());
+	if constexpr (v.isBatched) {
+		const auto value = v.elements.Load();
 		constexpr auto filler = T(0);
 		const auto filled = FillMasked<Dim>(value, filler);
 		return xsimd::reduce_add(filled);
@@ -95,47 +101,40 @@ T Sum(const Vector<T, Dim, Packed>& v) {
 
 
 /// <summary> Calculates the scalar product (dot product) of the two arguments. </summary>
-template <class T, int Dim, bool Packed>
-T Dot(const Vector<T, Dim, Packed>& lhs, const Vector<T, Dim, Packed>& rhs) {
-	return Sum(lhs * rhs);
+template <class T1, class T2, int Dim, bool Packed1, bool Packed2>
+auto Dot(const Vector<T1, Dim, Packed1>& lhs, const Vector<T2, Dim, Packed2>& rhs) {
+	return Sum(lhs * Conj(rhs));
 }
 
 
 /// <summary> Returns the squared length of the vector. </summary>
 template <class T, int Dim, bool Packed>
-T LengthSquared(const Vector<T, Dim, Packed>& v) {
-	return Dot(v, v);
+auto LengthSquared(const Vector<T, Dim, Packed>& v) {
+	return std::real(Dot(v, v));
 }
+
 
 /// <summary> Returns the length of the vector. </summary>
 template <class T, int Dim, bool Packed>
-T Length(const Vector<T, Dim, Packed>& v) {
-	return static_cast<T>(std::sqrt(LengthSquared(v)));
+auto Length(const Vector<T, Dim, Packed>& v) {
+	return std::sqrt(LengthSquared(v));
 }
 
-/// <summary> Returns the length of the vector, avoids overflow and underflow, so it's more expensive. </summary>
+
+/// <summary> Returns the length of the vector. </summary>
+/// <remarks> Avoids overflow and underflow, so it's more expensive. </remarks>
 template <class T, int Dim, bool Packed>
-T LengthPrecise(const Vector<T, Dim, Packed>& v) {
+auto LengthPrecise(const Vector<T, Dim, Packed>& v) {
 	const auto maxElement = Max(Abs(v));
-	if (maxElement == std::numeric_limits<remove_complex_t<T>>::infinity()) {
-		return T(std::numeric_limits<remove_complex_t<T>>::infinity());
+	using Base = remove_complex_t<T>;
+	if (maxElement == std::numeric_limits<Base>::infinity()) {
+		return std::numeric_limits<Base>::infinity();
 	}
 	if (maxElement == T(0)) {
-		return T(0);
+		return static_cast<Base>(0);
 	}
 	const auto scaled = v / maxElement;
-	return Length(scaled) * maxElement;
-}
-
-
-/// <summary> Returns true if the vector's length is too small for precise calculations (i.e. normalization). </summary>
-/// <remarks> "Too small" means smaller than the square root of the smallest number representable by the underlying scalar.
-///			This value is ~10^-18 for floats and ~10^-154 for doubles. </remarks>
-template <class T, int Dim, bool Packed>
-bool IsNullvector(const Vector<T, Dim, Packed>& v) {
-	static constexpr T epsilon = T(1) / impl::ConstexprExp10<T>(impl::ConstexprAbs(std::numeric_limits<T>::min_exponent10) / 2);
-	T length = Length(v);
-	return length < epsilon;
+	return static_cast<Base>(Length(scaled) * maxElement);
 }
 
 
@@ -145,46 +144,50 @@ auto Distance(const Vector<T, Dim, Packed1>& lhs, const Vector<U, Dim, Packed2>&
 	return Length(lhs - rhs);
 }
 
+
+/// <summary> Returns the euclidean distance between to vectors. </summary>
+/// <remarks> Avoids overflow and underflow, so it's more expensive. </remarks>
+template <class T, class U, int Dim, bool Packed1, bool Packed2>
+auto DistancePrecise(const Vector<T, Dim, Packed1>& lhs, const Vector<U, Dim, Packed2>& rhs) {
+	return LengthPrecise(lhs - rhs);
+}
+
+
 /// <summary> Makes a unit vector, but keeps direction. </summary>
 template <class T, int Dim, bool Packed>
 Vector<T, Dim, Packed> Normalize(const Vector<T, Dim, Packed>& v) {
-	assert(!IsNullvector(v));
-	T l = Length(v);
-	return v / l;
-}
-
-/// <summary> Checks if the vector is unit vector. There's some tolerance due to floating points. </summary>
-template <class T, int Dim, bool Packed>
-bool IsNormalized(const Vector<T, Dim, Packed>& v) {
-	T n = LengthSquared(v);
-	return T(0.9999) <= n && n <= T(1.0001);
-}
-
-/// <summary> Makes a unit vector, but keeps direction. Leans towards (1,0,0...) for nullvectors, costs more. </summary>
-template <class T, int Dim, bool Packed>
-Vector<T, Dim, Packed> SafeNormalize(const Vector<T, Dim, Packed>& v) {
-	Vector<T, Dim, Packed> vmod = v;
-	vmod(0) = std::abs(v(0)) > std::numeric_limits<T>::denorm_min() ? v(0) : std::numeric_limits<T>::denorm_min();
-	T l = LengthPrecise(vmod);
-	return vmod / l;
-}
-
-/// <summary> Makes a unit vector, but keeps direction. Leans towards <paramref name="degenerate"/> for nullvectors, costs more. </summary>
-/// <param name="degenerate"> Must be a unit vector. </param>
-template <class T, int Dim, bool Packed>
-Vector<T, Dim, Packed> SafeNormalize(const Vector<T, Dim, Packed>& v, const Vector<T, Dim, Packed>& degenerate) {
-	assert(IsNormalized(degenerate));
-	T length = LengthPrecise(v);
-	if (length == 0) {
-		return degenerate;
-	}
+	const auto length = Length(v);
+	const auto zero = static_cast<std::decay_t<decltype(length)>>(0);
+	assert(length != zero);
 	return v / length;
 }
 
+
+/// <summary> Makes a unit vector, but keeps direction. </summary>
+/// <param name="degenerate"> Returned if <paramref name="v"/> is a null vector. Should be a unit vector. </param>
+/// <remarks> Unlike the regular <see cref="Normalize"/>, this does can handle null vectors and under/overflow. </remarks>
+template <class T, int Dim, bool Packed>
+Vector<T, Dim, Packed> NormalizePrecise(const Vector<T, Dim, Packed>& v, const Vector<T, Dim, Packed>& degenerate) {
+	const auto length = LengthPrecise(v);
+	const auto zero = static_cast<std::decay_t<decltype(length)>>(0);
+	return length != zero ? v / length : degenerate;
+}
+
+
+/// <summary> Makes a unit vector, but keeps direction. </summary>
+/// <remarks> Unlike the regular <see cref="Normalize"/>, this does can handle null vectors and under/overflow. </remarks>
+template <class T, int Dim, bool Packed>
+Vector<T, Dim, Packed> NormalizePrecise(const Vector<T, Dim, Packed>& v) {
+	Vector<T, Dim, Packed> degenerate(static_cast<T>(0));
+	degenerate[0] = static_cast<T>(1);
+	return NormalizePrecise(v, degenerate);
+}
+
+
 /// <summary> Sets all elements of the vector to the same value. </summary>
 template <class T, int Dim, bool Packed, class U, std::enable_if_t<std::is_convertible_v<U, T>, int> = 0>
-void Fill(Vector<T, Dim, Packed>& lhs, U all) {
-	lhs = Vector<T, Dim, Packed>((T)all);
+void Fill(Vector<T, Dim, Packed>& lhs, U&& all) {
+	lhs = Vector<T, Dim, Packed>(static_cast<T>(std::forward<U>(all)));
 }
 
 
@@ -201,13 +204,13 @@ auto Cross(const Vector<T, Dim, Packed>& head, Args&&... args) -> Vector<T, Dim,
 template <class T, int Dim, bool Packed>
 auto Cross(const std::array<const Vector<T, Dim, Packed>*, Dim - 1>& args) -> Vector<T, Dim, Packed>;
 
-/// <summary> Returns the 2-dimensional cross prodct, which is a vector perpendicular to the argument. </summary>
+/// <summary> Returns the 2-dimensional cross product, which is a vector perpendicular to the argument. </summary>
 template <class T, bool Packed>
 Vector<T, 2, Packed> Cross(const Vector<T, 2, Packed>& arg) {
 	return Vector<T, 2, Packed>(-arg.y,
 								arg.x);
 }
-/// <summary> Returns the 2-dimensional cross prodct, which is a vector perpendicular to the argument. </summary>
+/// <summary> Returns the 2-dimensional cross product, which is a vector perpendicular to the argument. </summary>
 template <class T, bool Packed>
 Vector<T, 2, Packed> Cross(const std::array<const Vector<T, 2, Packed>*, 1>& arg) {
 	return Cross(*(arg[0]));
@@ -217,8 +220,7 @@ Vector<T, 2, Packed> Cross(const std::array<const Vector<T, 2, Packed>*, 1>& arg
 /// <summary> Returns the 3-dimensional cross-product. </summary>
 template <class T, bool Packed>
 Vector<T, 3, Packed> Cross(const Vector<T, 3, Packed>& lhs, const Vector<T, 3, Packed>& rhs) {
-	using VecT = Vector<T, 3, Packed>;
-	return VecT(lhs.yzx) * VecT(rhs.zxy) - VecT(lhs.zxy) * VecT(rhs.yzx);
+	return lhs.yzx * rhs.zxy - lhs.zxy * rhs.yzx;
 }
 
 
@@ -231,7 +233,7 @@ Vector<T, 3, Packed> Cross(const std::array<const Vector<T, 3, Packed>*, 2>& arg
 } // namespace mathter
 
 
-
+/*
 // Generalized cross-product unfortunately needs matrix determinant.
 #include "../Matrix/MatrixFunction.hpp"
 
@@ -274,6 +276,7 @@ auto Cross(const Vector<T, Dim, Packed>& head, Args&&... args) -> Vector<T, Dim,
 }
 
 } // namespace mathter
+*/
 
 
 #if defined(MATHTER_MINMAX)

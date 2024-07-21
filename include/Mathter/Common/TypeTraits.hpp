@@ -287,6 +287,16 @@ template <class T>
 using remove_complex_t = typename remove_complex<T>::type;
 
 
+template <class T>
+struct is_complex : std::false_type {};
+
+template <class T>
+struct is_complex<std::complex<T>> : std::true_type {};
+
+template <class T>
+inline constexpr bool is_complex_v = is_complex<T>::value;
+
+
 //------------------------------------------------------------------------------
 // Common arithmetic type
 //------------------------------------------------------------------------------

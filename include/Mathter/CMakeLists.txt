@@ -49,11 +49,11 @@ target_sources(Mathter
 		"Vector/Arithmetic.hpp"
 		"Vector/Comparison.hpp"
 		"Vector/Concat.hpp"
+		"Vector/Math.hpp"
 		"Vector/OperationUtil.hpp"
 		"Vector/SIMDUtil.hpp"
 		"Vector/Swizzle.hpp"
 		"Vector/Vector.hpp"
-		"Vector/VectorFunction.hpp"
 )
 
 set_target_properties(Mathter PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON)

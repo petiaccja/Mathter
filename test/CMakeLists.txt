@@ -14,11 +14,11 @@ target_sources(UnitTest
         #"TestQuaternion.cpp"
         "Vector/TestArithmetic.cpp"
         "Vector/TestComparison.cpp"
+        "Vector/TestConcat.cpp"
+        "Vector/TestMath.cpp"
         "Vector/TestSIMDUtil.cpp"
         "Vector/TestSwizzle.cpp"
         "Vector/TestVector.cpp"
-        "Vector/TestConcat.cpp"
-        #"TestVector/TestVectorFunction.cpp"
         #"TestGenerators.hpp"
         #"TestGeometry.cpp"
 )
