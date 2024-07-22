@@ -147,14 +147,14 @@ public:
 	constexpr int Dimension() const;
 
 	/// <summary> Returns the nth element of the vector. </summary>
-	const T& operator[](int idx) const;
+	const T& operator[](size_t idx) const;
 	/// <summary> Returns the nth element of the vector. </summary>
-	T& operator[](int idx);
+	T& operator[](size_t idx);
 
 	/// <summary> Returns the nth element of the vector. </summary>
-	const T& operator()(int idx) const;
+	const T& operator()(size_t idx) const;
 	/// <summary> Returns the nth element of the vector. </summary>
-	T& operator()(int idx);
+	T& operator()(size_t idx);
 
 	/// <summary> Returns an iterator to the first element. </summary>
 	auto cbegin() const;
@@ -326,25 +326,25 @@ constexpr int Vector<T, Dim, Packed>::Dimension() const {
 
 
 template <class T, int Dim, bool Packed>
-const T& Vector<T, Dim, Packed>::operator[](int idx) const {
+const T& Vector<T, Dim, Packed>::operator[](size_t idx) const {
 	return elements.array[idx];
 }
 
 
 template <class T, int Dim, bool Packed>
-T& Vector<T, Dim, Packed>::operator[](int idx) {
+T& Vector<T, Dim, Packed>::operator[](size_t idx) {
 	return elements.array[idx];
 }
 
 
 template <class T, int Dim, bool Packed>
-const T& Vector<T, Dim, Packed>::operator()(int idx) const {
+const T& Vector<T, Dim, Packed>::operator()(size_t idx) const {
 	return elements.array[idx];
 }
 
 
 template <class T, int Dim, bool Packed>
-T& Vector<T, Dim, Packed>::operator()(int idx) {
+T& Vector<T, Dim, Packed>::operator()(size_t idx) {
 	return elements.array[idx];
 }
 

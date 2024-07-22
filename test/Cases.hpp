@@ -109,9 +109,9 @@ struct MatrixCaseList_Builder<TemplateArgumentList<Scalars...>,
 	static auto ExpandLayouts() -> decltype(std::tuple_cat(ExpandPackings<Scalar, Order, Layouts>()...));
 
 	template <class Scalar>
-	static auto ExpandOrders() -> decltype(std::tuple_cat(ExpandPackings<Scalar, Orders>()...));
+	static auto ExpandOrders() -> decltype(std::tuple_cat(ExpandLayouts<Scalar, Orders>()...));
 
-	static auto ExpandScalars() -> decltype(std::tuple_cat(ExpandPackings<Scalars>()...));
+	static auto ExpandScalars() -> decltype(std::tuple_cat(ExpandOrders<Scalars>()...));
 
 	using Cases = decltype(ExpandScalars());
 };
