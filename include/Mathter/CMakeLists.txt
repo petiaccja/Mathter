@@ -13,6 +13,7 @@ target_sources(Mathter
 		"Common/Approx.hpp"
 		"Common/DeterministicInitializer.hpp"
 		"Common/Functional.hpp"
+		"Common/LoopUtil.hpp"
 		"Common/MathUtil.hpp"
 		"Common/Range.hpp"
 		"Common/Types.hpp"

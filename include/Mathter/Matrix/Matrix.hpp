@@ -30,6 +30,9 @@ struct MatrixStorage {
 	std::array<Stripe, stripeCount> stripes;
 };
 
+struct StripeArgType {};
+constexpr StripeArgType stripeArg;
+
 
 //------------------------------------------------------------------------------
 // Matrix class providing the common interface for all matrices
@@ -39,17 +42,13 @@ template <class T, int Rows, int Columns, eMatrixOrder Order = eMatrixOrder::FOL
 class Matrix : public MatrixStorage<T, Rows, Columns, Order, Layout, Packed> {
 	static_assert(Columns >= 1 && Rows >= 1, "Dimensions must be positive integers.");
 
+public:
 	using MatrixStorage<T, Rows, Columns, Order, Layout, Packed>::stripes;
 	using MatrixStorage<T, Rows, Columns, Order, Layout, Packed>::Stripe;
-
-public:
 	using MatrixStorage<T, Rows, Columns, Order, Layout, Packed>::stripeDim;
 	using MatrixStorage<T, Rows, Columns, Order, Layout, Packed>::stripeCount;
 	static constexpr bool isVector = std::min(Rows, Columns) == 1;
 	static constexpr int vectorDim = isVector ? std::max(Rows, Columns) : 0;
-
-	struct FromStripesTag {};
-	static constexpr FromStripesTag FromStripes = {};
 
 public:
 	//--------------------------------------------
@@ -73,7 +72,7 @@ public:
 
 	/// <summary> Used by internal methods. </summary>
 	template <class... Stripes>
-	Matrix(FromStripesTag, Stripes... stripes)
+	Matrix(StripeArgType, Stripes... stripes)
 		: MatrixStorage<T, Rows, Columns, Order, Layout, Packed>{ std::forward<Stripes>(stripes)... } {}
 
 
@@ -124,8 +123,8 @@ public:
 	void Row(size_t rowIdx, const Vector<T, Columns, Packed>& row);
 
 	/// <summary> Convert a row or column matrix to a vector. </summary>
-	template <class Vec = std::enable_if_t<isVector, Vector<T, vectorDim, Packed>>>
-	operator Vec() const;
+	template <class TOther, bool PackedOther, class = std::enable_if_t<isVector>>
+	operator Vector<TOther, vectorDim, PackedOther>() const;
 
 protected:
 	template <int i, int j, class Head, class... Args>
@@ -146,9 +145,16 @@ Vector(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) -> Vector<T, m.
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 template <class TOther, eMatrixLayout LayoutOther, bool PackedOther>
 Matrix<T, Rows, Columns, Order, Layout, Packed>::Matrix(const Matrix<TOther, Rows, Columns, Order, LayoutOther, PackedOther>& rhs) {
-	for (int i = 0; i < RowCount(); ++i) {
-		for (int j = 0; j < ColumnCount(); ++j) {
-			(*this)(i, j) = rhs(i, j);
+	if constexpr (Layout == LayoutOther) {
+		for (size_t i = 0; i < stripeCount; ++i) {
+			stripes[i] = Stripe(rhs.stripes[i]);
+		}
+	}
+	else {
+		for (size_t i = 0; i < RowCount(); ++i) {
+			for (size_t j = 0; j < ColumnCount(); ++j) {
+				(*this)(i, j) = rhs(i, j);
+			}
 		}
 	}
 }
@@ -289,13 +295,14 @@ void Matrix<T, Rows, Columns, Order, Layout, Packed>::Row(size_t rowIdx, const V
 
 
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-template <class Vec>
-Matrix<T, Rows, Columns, Order, Layout, Packed>::operator Vec() const {
+template <class TOther, bool PackedOther, class>
+Matrix<T, Rows, Columns, Order, Layout, Packed>::operator Vector<TOther, Matrix::vectorDim, PackedOther>() const {
+	using Vec = Vector<TOther, vectorDim, PackedOther>;
 	if constexpr (Rows == 1) {
-		return Row(0);
+		return Vec(Row(0));
 	}
 	else {
-		return Column(0);
+		return Vec(Column(0));
 	}
 }
 

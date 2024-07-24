@@ -5,7 +5,7 @@ target_sources(UnitTest
         "main.cpp"
         #"TestIntersection.cpp"
         "Matrix/TestMatrix.cpp"
-        #"TestMatrix/TestMatrixArithmetic.cpp"
+        "Matrix/TestArithmetic.cpp"
         #"TestMatrix/TestMatrixCompare.cpp"
         #"TestMatrix/TestMatrixVectorArithmetic.cpp"
         #"TestMatrix/TestMatrixDecomposition.cpp"
