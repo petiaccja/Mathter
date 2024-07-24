@@ -16,3 +16,4 @@ Changes:
 		- `IsNormalized`: removed due to questionable meaning / use-cases
 		- `DistancePrecise`: new function
 		- `SafeNormalize`: renamed to `NormalizePrecise`
+		- Homogeneous downcast now performs perspective division
