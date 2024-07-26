@@ -128,6 +128,68 @@ struct abs<void> {
 
 
 template <class T = void>
+struct real {
+	constexpr auto operator()(const T& arg) const {
+		if constexpr (is_complex_v<std::decay_t<T>>) {
+#ifdef MATHTER_ENABLE_SIMD
+			if constexpr (xsimd::is_batch<T>::value) {
+				return xsimd::real(arg);
+			}
+			else {
+#endif
+				return std::real(arg);
+#ifdef MATHTER_ENABLE_SIMD
+			}
+#endif
+		}
+		else {
+			return arg;
+		}
+	}
+};
+
+
+template <>
+struct real<void> {
+	template <class T>
+	constexpr auto operator()(T&& arg) const {
+		return real<std::decay_t<T>>{}(std::forward<T>(arg));
+	}
+};
+
+
+template <class T = void>
+struct imag {
+	constexpr auto operator()(const T& arg) const {
+		if constexpr (is_complex_v<std::decay_t<T>>) {
+#ifdef MATHTER_ENABLE_SIMD
+			if constexpr (xsimd::is_batch<T>::value) {
+				return xsimd::imag(arg);
+			}
+			else {
+#endif
+				return std::imag(arg);
+#ifdef MATHTER_ENABLE_SIMD
+#endif
+			}
+		}
+		else {
+			return static_cast<T>(0);
+		}
+	}
+};
+
+
+template <>
+struct imag<void> {
+	template <class T>
+	constexpr auto operator()(T&& arg) const {
+		return imag<std::decay_t<T>>{}(std::forward<T>(arg));
+	}
+};
+
+
+template <class T = void>
 struct conj {
 	constexpr auto operator()(const T& arg) const {
 		if constexpr (is_complex_v<std::decay_t<T>>) {

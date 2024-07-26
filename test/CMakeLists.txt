@@ -9,7 +9,7 @@ target_sources(UnitTest
         "Matrix/TestComparison.cpp"
         #"TestMatrix/TestMatrixVectorArithmetic.cpp"
         #"TestMatrix/TestMatrixDecomposition.cpp"
-        #"TestMatrix/TestMatrixFunction.cpp"
+        "Matrix/TestMath.cpp"
         #"TestTransforms.cpp"
         #"TestQuaternion.cpp"
         "Vector/TestArithmetic.cpp"

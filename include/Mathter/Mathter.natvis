@@ -13,7 +13,7 @@
     <DisplayString Condition="$T2==3">[{elements.array[0]}, {elements.array[1]}, {elements.array[2]}]</DisplayString>
     <DisplayString Condition="$T2==4">[{elements.array[0]}, {elements.array[1]}, {elements.array[2]}, {elements.array[3]}]</DisplayString>
     <DisplayString Condition="$T2==5">[{elements.array[0]}, {elements.array[1]}, {elements.array[2]}, {elements.array[3]}, {elements.array[4]}]</DisplayString>
-    <DisplayString Condition="$T2&gt;5">dim={$T2}  [{elements.array[0]}, {elements.array[0]}, ..., {elements.array[$T2-1]}]</DisplayString>
+    <DisplayString Condition="$T2&gt;5">dim={$T2}  [{elements.array[0]}, {elements.array[1]}, ..., {elements.array[$T2-1]}]</DisplayString>
     <Expand>
       <Item Name="[dimension]" ExcludeView="simple">$T2</Item>
       <ArrayItems>

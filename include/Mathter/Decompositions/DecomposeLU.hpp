@@ -1,4 +1,4 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
@@ -7,6 +7,7 @@
 
 #include "../Common/Range.hpp"
 #include "../Common/Types.hpp"
+#include "../Matrix/Matrix.hpp"
 
 
 namespace mathter {
@@ -22,16 +23,14 @@ class DecompositionLU {
 	friend class DecompositionLUP;
 
 private:
-	static Vector<float, Dim, Packed> Solve(const MatrixT& L, const MatrixT& U, const Vector<T, Dim, Packed>& b);
+	static Vector<T, Dim, Packed> Solve(const MatrixT& L, const MatrixT& U, const Vector<T, Dim, Packed>& b);
 
 public:
-	// DecompositionLU(MatrixT L, MatrixT U) : L(L), U(U) {}
-
 	/// <summary> Solves the equation system Ax=b, that is LUx=b. </summary>
 	/// <remarks> If the equation is singular or the LU decomposition fails, garbage is returned. </remarks>
 	/// <param name="b"> The right hand side vector. </summary>
 	/// <returns> The solution x. </returns>
-	Vector<float, Dim, Packed> Solve(const Vector<T, Dim, Packed>& b) const {
+	Vector<T, Dim, Packed> Solve(const Vector<T, Dim, Packed>& b) const {
 		return Solve(L, U, b);
 	}
 
@@ -60,13 +59,11 @@ class DecompositionLUP {
 	using MatrixT = Matrix<T, Dim, Dim, Order, Layout, Packed>;
 
 public:
-	// DecompositionLUP(MatrixT L, MatrixT U, Vector<int, Dim, false> P) : L(L), U(U), P(P) {}
-
 	/// <summary> Solves the equation system Ax=b, that is LUx=Pb. </summary>
 	/// <remarks> If the equation is singular garbage is returned. </remarks>
 	/// <param name="b"> The right hand side vector. </param>
 	/// <returns> The solution x. </returns>
-	Vector<float, Dim, Packed> Solve(const Vector<T, Dim, Packed>& b) const;
+	Vector<T, Dim, Packed> Solve(const Vector<T, Dim, Packed>& b) const;
 
 	bool Solvable() {
 		T prod = L(0, 0);
@@ -150,9 +147,11 @@ auto DecomposeLU(const Matrix<T, Dim, Dim, Order, Layout, Packed>& m) {
 /// <param name="parity"> The parity of the permutation described by P. Odd: 1, Even: -1. </param>
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 auto DecomposeLUP(const Matrix<T, Dim, Dim, Order, Layout, Packed>& m, int& parity) {
+	static_assert(!std::is_integral_v<T>, "Integer matrices cannot be decomposed.");
+
 	Matrix<T, Dim, Dim, Order, Layout, Packed> L;
 	Matrix<T, Dim, Dim, Order, Layout, Packed> U;
-	Vector<int, Dim, false> P;
+	Vector<int, Dim, Packed> P;
 	U = m;
 
 	int n = m.RowCount();
@@ -164,10 +163,10 @@ auto DecomposeLUP(const Matrix<T, Dim, Dim, Order, Layout, Packed>& m, int& pari
 
 	for (int j : impl::Range(0, n)) {
 		// find largest pivot elements
-		T p = 0;
+		remove_complex_t<T> p(0);
 		int largest;
 		for (int i : impl::Range(j, n)) {
-			if (std::abs(U(i, j)) > p) {
+			if (std::abs(U(i, j)) > std::abs(p)) {
 				largest = i;
 				p = std::abs(U(i, j));
 			}
@@ -220,13 +219,15 @@ auto DecomposeLUP(const Matrix<T, Dim, Dim, Order, Layout, Packed>& m) {
 
 
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-Vector<float, Dim, Packed> DecompositionLU<T, Dim, Order, Layout, Packed>::Solve(const MatrixT& L, const MatrixT& U, const Vector<T, Dim, Packed>& b) {
-	// Matrix to do gaussian elimination with
+Vector<T, Dim, Packed> DecompositionLU<T, Dim, Order, Layout, Packed>::Solve(const MatrixT& L, const MatrixT& U, const Vector<T, Dim, Packed>& b) {
+	// Augmented matrix for gaussian elimination.
 	Matrix<T, Dim, Dim + 1, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, Packed> E;
 
-	// Solve Ld = b;
-	E.template Submatrix<Dim, Dim>(0, 0) = L;
-	E.Column(Dim) = b;
+	// Solve Ld = b.
+	for (size_t column = 0; column < Dim; ++column) {
+		E.Column(column, L.Column(column));
+	}
+	E.Column(Dim, b);
 
 	for (int i = 0; i < Dim - 1; ++i) {
 		for (int i2 = i + 1; i2 < Dim; ++i2) {
@@ -236,10 +237,12 @@ Vector<float, Dim, Packed> DecompositionLU<T, Dim, Order, Layout, Packed>::Solve
 		}
 	}
 	E(Dim - 1, Dim) /= E(Dim - 1, Dim - 1);
-	// d is now the last column of E
 
-	// Solve Ux = d
-	E.template Submatrix<Dim, Dim>(0, 0) = U;
+	// Solve Ux = d.
+	// d is already in the last column of E.
+	for (size_t column = 0; column < Dim; ++column) {
+		E.Column(column, U.Column(column));
+	}
 
 	for (int i = Dim - 1; i > 0; --i) {
 		for (int i2 = i - 1; i2 >= 0; --i2) {
@@ -256,7 +259,7 @@ Vector<float, Dim, Packed> DecompositionLU<T, Dim, Order, Layout, Packed>::Solve
 
 
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-Vector<float, Dim, Packed> DecompositionLUP<T, Dim, Order, Layout, Packed>::Solve(const Vector<T, Dim, Packed>& b) const {
+Vector<T, Dim, Packed> DecompositionLUP<T, Dim, Order, Layout, Packed>::Solve(const Vector<T, Dim, Packed>& b) const {
 	// Permute b
 	Vector<T, Dim, Packed> bp;
 	for (int i : impl::Range(0, P.Dimension())) {

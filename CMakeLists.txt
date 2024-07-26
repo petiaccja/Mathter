@@ -26,6 +26,8 @@ if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
 		add_compile_options("-fprofile-instr-generate" "-fcoverage-mapping" "-mllvm" "-enable-name-compression=false")
 		add_link_options("-fprofile-instr-generate" "-fcoverage-mapping")
 	endif()
+elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "MSVC")
+	add_compile_options("/bigobj")
 endif()
 
 # Output directories

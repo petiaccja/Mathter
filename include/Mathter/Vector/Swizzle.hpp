@@ -59,7 +59,7 @@ struct Swizzle {
 	Swizzle& operator=(const TOther& value);
 
 
-	template <class TSame, std::enable_if_t<std::is_same_v<TSame, T> && sizeof...(Indices) == 1, int> = 0>
+	template <class TSame, class = std::enable_if_t<std::is_same_v<TSame, T> && sizeof...(Indices) == 1, T>>
 	operator TSame() const;
 
 
@@ -179,7 +179,7 @@ Swizzle<T, Dim, Packed, Indices...>& Swizzle<T, Dim, Packed, Indices...>::operat
 
 
 template <class T, int Dim, bool Packed, int... Indices>
-template <class TSame, std::enable_if_t<std::is_same_v<TSame, T> && sizeof...(Indices) == 1, int>>
+template <class TSame, class>
 Swizzle<T, Dim, Packed, Indices...>::operator TSame() const {
 	return (*this)[0];
 }

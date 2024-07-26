@@ -84,6 +84,62 @@ TEMPLATE_LIST_TEST_CASE("Vector - Abs (complex)", "[Vector]",
 }
 
 
+TEMPLATE_LIST_TEST_CASE("Vector - Real (real)", "[Vector]",
+						decltype(VectorCaseList<ScalarsFloatAndInt32, PackingsAll>{})) {
+	using Vec = typename TestType::template Vector<3>;
+
+	const Vec value = { -1, 2, 3 };
+	const auto result = Real(value);
+	REQUIRE(result[0] == -1);
+	REQUIRE(result[1] == 2);
+	REQUIRE(result[2] == 3);
+}
+
+
+TEMPLATE_LIST_TEST_CASE("Vector - Real (complex)", "[Vector]",
+						decltype(VectorCaseList<ScalarsComplex, PackingsAll>{})) {
+	using namespace std::complex_literals;
+	using Vec = typename TestType::template Vector<3>;
+
+	const Vec value = { -1, 2if, 3 };
+	const auto result = Real(value);
+	using C = scalar_type_t<Vec>;
+	using S = remove_complex_t<C>;
+	static_assert(std::is_same_v<S, scalar_type_t<std::decay_t<decltype(result)>>>);
+	REQUIRE(result[0] == -1);
+	REQUIRE(result[1] == 0);
+	REQUIRE(result[2] == 3);
+}
+
+
+TEMPLATE_LIST_TEST_CASE("Vector - Imag (real)", "[Vector]",
+						decltype(VectorCaseList<ScalarsFloatAndInt32, PackingsAll>{})) {
+	using Vec = typename TestType::template Vector<3>;
+
+	const Vec value = { -1, 2, 3 };
+	const auto result = Imag(value);
+	REQUIRE(result[0] == 0);
+	REQUIRE(result[1] == 0);
+	REQUIRE(result[2] == 0);
+}
+
+
+TEMPLATE_LIST_TEST_CASE("Vector - Imag (complex)", "[Vector]",
+						decltype(VectorCaseList<ScalarsComplex, PackingsAll>{})) {
+	using namespace std::complex_literals;
+	using Vec = typename TestType::template Vector<3>;
+
+	const Vec value = { -1, 2if, 3 };
+	const auto result = Imag(value);
+	using C = scalar_type_t<Vec>;
+	using S = remove_complex_t<C>;
+	static_assert(std::is_same_v<S, scalar_type_t<std::decay_t<decltype(result)>>>);
+	REQUIRE(result[0] == 0);
+	REQUIRE(result[1] == 2);
+	REQUIRE(result[2] == 0);
+}
+
+
 TEMPLATE_LIST_TEST_CASE("Vector - Conj (real)", "[Vector]",
 						decltype(VectorCaseList<ScalarsFloatAndInt32, PackingsAll>{})) {
 	using Vec = typename TestType::template Vector<3>;
@@ -176,6 +232,10 @@ TEMPLATE_LIST_TEST_CASE("Vector - LengthPrecise (real)", "[Vector]",
 		const Vec value = { -1e+20f, 2e+20f, 3e+20f };
 		REQUIRE(LengthPrecise(value) == Catch::Approx(3.7416573867739e+20f));
 	}
+	SECTION("Zero") {
+		const Vec value = { 0, 0, 0 };
+		REQUIRE(LengthPrecise(value) == 0);
+	}
 }
 
 
@@ -192,6 +252,10 @@ TEMPLATE_LIST_TEST_CASE("Vector - LengthPrecise (complex)", "[Vector]",
 	SECTION("Overflow") {
 		const Vec value = { -1e+20f, 2e+20if, 3e+20f };
 		REQUIRE(LengthPrecise(value) == Catch::Approx(3.7416573867739e+20f));
+	}
+	SECTION("Zero") {
+		const Vec value = { 0, 0, 0 };
+		REQUIRE(LengthPrecise(value) == 0);
 	}
 }
 

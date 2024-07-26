@@ -77,6 +77,19 @@ auto Abs(const Vector<T, Dim, Packed>& v) {
 }
 
 
+/// <summary> Returns the elementwise absolute value of the vector. </summary>
+template <class T, int Dim, bool Packed>
+auto Real(const Vector<T, Dim, Packed>& v) {
+	return DoUnaryOp(v, real{});
+}
+
+
+/// <summary> Returns the elementwise absolute value of the vector. </summary>
+template <class T, int Dim, bool Packed>
+auto Imag(const Vector<T, Dim, Packed>& v) {
+	return DoUnaryOp(v, imag{});
+}
+
 
 /// <summary> Returns the elementwise absolute value of the vector. </summary>
 template <class T, int Dim, bool Packed>

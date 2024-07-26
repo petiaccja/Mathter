@@ -24,7 +24,7 @@ target_sources(Mathter
 		"Matrix/Arithmetic.hpp"
 		#"Matrix/MatrixCast.hpp"
 		"Matrix/Comparison.hpp"
-		#"Matrix/MatrixFunction.hpp"
+		"Matrix/Math.hpp"
 		"Matrix/Matrix.hpp"
 		#"Quaternion/QuaternionArithmetic.hpp"
 		#"Quaternion/QuaternionCompare.hpp"

@@ -140,6 +140,13 @@ public:
 	explicit Vector(const std::conditional_t<!std::is_void_v<Batch>, Batch, std::nullptr_t>& batch);
 
 	//--------------------------------------------
+	// Cast operators
+	//--------------------------------------------
+	template <class TSame, class = std::enable_if_t<std::is_same_v<TSame, T> && Dim == 1, T>>
+	operator TSame() const;
+
+
+	//--------------------------------------------
 	// Accessors
 	//--------------------------------------------
 
@@ -245,6 +252,13 @@ template <class T, int Dim, bool Packed>
 Vector<T, Dim, Packed>::Vector(const std::conditional_t<!std::is_void_v<Batch>, Batch, std::nullptr_t>& batch) {
 	static_assert(!std::is_void_v<Batch>, "This vector is not using SIMD batches.");
 	elements.Store(batch);
+}
+
+
+template <class T, int Dim, bool Packed>
+template <class TSame, class>
+Vector<T, Dim, Packed>::operator TSame() const {
+	return elements.array[0];
 }
 
 
