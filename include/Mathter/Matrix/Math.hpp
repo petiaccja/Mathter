@@ -258,7 +258,7 @@ T Determinant(const Matrix<T, Dim, Dim, Order, Layout, Packed>& m) {
 	return impl::BareissAlgorithm(m);
 }
 
-/// <summary> Transposes the matrix in-place. </summary>
+/// <summary> Transposes the matrix. </summary>
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 auto Transpose(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) {
 	Matrix<T, Columns, Rows, Order, Layout, Packed> result;
@@ -268,6 +268,13 @@ auto Transpose(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) {
 		}
 	}
 	return result;
+}
+
+
+/// <summary> Return the conjugate transpose of the matrix. </summary>
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+auto ConjTranspose(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) {
+	return Conj(Transpose(m));
 }
 
 

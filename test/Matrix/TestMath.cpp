@@ -174,19 +174,40 @@ TEMPLATE_LIST_TEST_CASE("Matrix - Transpose", "[Matrix]",
 	using M42 = typename TestType::template Matrix<4, 2>;
 	using M24 = typename TestType::template Matrix<2, 4>;
 
-	M42 m = {
+	const M42 value = {
 		1, 2,
 		3, 4,
 		5, 6,
 		7, 8
 	};
-	M24 mT = Transpose(m);
-	M24 mexp = {
+	const M24 transpose = Transpose(value);
+	const M24 expected = {
 		1, 3, 5, 7,
 		2, 4, 6, 8
 	};
 
-	REQUIRE(mT == mexp);
+	REQUIRE(transpose == expected);
+}
+
+
+TEMPLATE_LIST_TEST_CASE("Matrix - Conjugate transpose", "[Matrix]",
+						decltype(MatrixCaseList<ScalarsComplex, OrdersAll, LayoutsAll, PackingsAll>{})) {
+	using M42 = typename TestType::template Matrix<4, 2>;
+	using M24 = typename TestType::template Matrix<2, 4>;
+
+	const M42 value = {
+		1, 2,
+		3, 4.f + 2if,
+		5, 6,
+		7, 8
+	};
+	const M24 conjugateTranspose = ConjTranspose(value);
+	const M24 expected = {
+		1, 3, 5, 7,
+		2, 4.f - 2if, 6, 8
+	};
+
+	REQUIRE(conjugateTranspose == expected);
 }
 
 
