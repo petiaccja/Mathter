@@ -269,7 +269,7 @@ TEST_ARITHMETIC_SCALAR_x_SWIZZLE(-, ScalarsFloatingAndComplex32);
 		const VecLhs lhs{ 3, 6, 9 };                                                            \
 		const VecRhs rhs{ 2, 3, 4 };                                                            \
 		auto result = lhs;                                                                      \
-		result OP## = rhs;                                                                      \
+		REQUIRE(&(result OP## = rhs) == &result);                                               \
                                                                                                 \
 		for (int i = 0; i < Dim; ++i) {                                                         \
 			REQUIRE(result[i] == scalar_type_t<VecLhs>(lhs[i] OP rhs[i]));                      \
@@ -289,7 +289,7 @@ TEST_ARITHMETIC_SCALAR_x_SWIZZLE(-, ScalarsFloatingAndComplex32);
 		const VecLhs lhs{ 3, 6, 9 };                                                      \
 		const ScalarRhs rhs(3);                                                           \
 		auto result = lhs;                                                                \
-		result OP## = rhs;                                                                \
+		REQUIRE(&(result OP## = rhs) == &result);                                         \
                                                                                           \
 		for (int i = 0; i < Dim; ++i) {                                                   \
 			REQUIRE(result[i] == scalar_type_t<VecLhs>(lhs[i] OP rhs));                   \
@@ -309,7 +309,7 @@ TEST_ARITHMETIC_SCALAR_x_SWIZZLE(-, ScalarsFloatingAndComplex32);
 		const VecLhs lhs{ 3, 6, 9 };                                                             \
 		const SwizRhs rhs{ 2, 3, 4 };                                                            \
 		auto result = lhs;                                                                       \
-		result OP## = rhs;                                                                       \
+		REQUIRE(&(result OP## = rhs) == &result);                                                \
                                                                                                  \
 		for (int i = 0; i < Dim; ++i) {                                                          \
 			REQUIRE(result[i] == scalar_type_t<VecLhs>(lhs[i] OP rhs[i]));                       \
@@ -329,7 +329,7 @@ TEST_ARITHMETIC_SCALAR_x_SWIZZLE(-, ScalarsFloatingAndComplex32);
 		const SwizLhs lhs{ 3, 6, 9 };                                                           \
 		const VecRhs rhs{ 2, 3, 4 };                                                            \
 		auto result = lhs;                                                                      \
-		result OP## = rhs;                                                                      \
+		REQUIRE(&(result OP## = rhs) == &result);                                               \
                                                                                                 \
 		for (int i = 0; i < Dim; ++i) {                                                         \
 			REQUIRE(result[i] == scalar_type_t<SwizLhs>(lhs[i] OP rhs[i]));                     \
@@ -349,7 +349,7 @@ TEST_ARITHMETIC_SCALAR_x_SWIZZLE(-, ScalarsFloatingAndComplex32);
 		const SwizLhs lhs{ 3, 6, 9 };                                                      \
 		const ScalarRhs rhs(3);                                                            \
 		auto result = lhs;                                                                 \
-		result OP## = rhs;                                                                 \
+		REQUIRE(&(result OP## = rhs) == &result);                                          \
                                                                                            \
 		for (int i = 0; i < Dim; ++i) {                                                    \
 			REQUIRE(result[i] == scalar_type_t<SwizLhs>(lhs[i] OP rhs));                   \
@@ -369,7 +369,7 @@ TEST_ARITHMETIC_SCALAR_x_SWIZZLE(-, ScalarsFloatingAndComplex32);
 		const SwizLhs lhs{ 3, 6, 9 };                                                            \
 		const SwizRhs rhs{ 2, 3, 4 };                                                            \
 		auto result = lhs;                                                                       \
-		result OP## = rhs;                                                                       \
+		REQUIRE(&(result OP## = rhs) == &result);                                                \
                                                                                                  \
 		for (int i = 0; i < Dim; ++i) {                                                          \
 			REQUIRE(result[i] == scalar_type_t<SwizLhs>(lhs[i] OP rhs[i]));                      \

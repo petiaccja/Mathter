@@ -116,7 +116,7 @@ TEMPLATE_LIST_TEST_CASE("Matrix - Multiplication (precede)", "[Matrix]",
 		};                                                                                                                              \
                                                                                                                                         \
 		auto copy = a;                                                                                                                  \
-		copy OP## = b;                                                                                                                  \
+		REQUIRE(&(copy OP## = b) == &copy);                                                                                             \
                                                                                                                                         \
 		REQUIRE(copy(0, 0) == a(0, 0) OP b(0, 0));                                                                                      \
 		REQUIRE(copy(0, 1) == a(0, 1) OP b(0, 1));                                                                                      \
@@ -215,7 +215,7 @@ TEST_ELEMENTWISE_ASSIGN("Division elementwise assign", /, OrdersPrecede);
 		const ScalarRhs b = 4;                                                                                            \
                                                                                                                           \
 		auto copy = a;                                                                                                    \
-		copy OP## = b;                                                                                                    \
+		REQUIRE(&(copy OP## = b) == &copy);                                                                               \
                                                                                                                           \
 		REQUIRE(copy(0, 0) == a(0, 0) OP b);                                                                              \
 		REQUIRE(copy(0, 1) == a(0, 1) OP b);                                                                              \
@@ -379,7 +379,7 @@ TEMPLATE_LIST_TEST_CASE("Matrix - Multiply-assign vector (only follow)", "[Matri
 		0, -1, 0
 	};
 	auto copy = a;
-	copy *= b;
+	REQUIRE(&(copy *= b) == &copy);
 	using Scalar = scalar_type_t<std::decay_t<decltype(copy)>>;
 	REQUIRE(copy[0] == static_cast<Scalar>(1));
 	REQUIRE(copy[1] == static_cast<Scalar>(-3));
@@ -400,7 +400,7 @@ TEMPLATE_LIST_TEST_CASE("Matrix - Multiply-assign vector - homogeneous augmentat
 		0, 0, 0, 2
 	};
 	auto copy = a;
-	copy *= b;
+	REQUIRE(&(copy *= b) == &copy);
 	using Scalar = scalar_type_t<std::decay_t<decltype(copy)>>;
 	REQUIRE(copy[0] == static_cast<Scalar>(1));
 	REQUIRE(copy[1] == static_cast<Scalar>(-3));
@@ -421,7 +421,7 @@ TEMPLATE_LIST_TEST_CASE("Matrix - Multiply-assign vector - affine augmentation (
 		3, 4, 5
 	};
 	auto copy = a;
-	copy *= b;
+	REQUIRE(&(copy *= b) == &copy);
 	using Scalar = scalar_type_t<std::decay_t<decltype(copy)>>;
 	REQUIRE(copy[0] == static_cast<Scalar>(4));
 	REQUIRE(copy[1] == static_cast<Scalar>(1));
