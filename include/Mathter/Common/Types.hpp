@@ -24,6 +24,7 @@ enum class eMatrixOrder {
 	FOLLOW_VECTOR,
 };
 
+
 /// <summary> Determines the memory layout of matrices. </summary>
 /// <remarks>
 /// <para> For ROW_MAJOR layout, the matrix's first row comes first in memory, followed immediately by
@@ -38,6 +39,13 @@ enum class eMatrixLayout {
 	COLUMN_MAJOR,
 };
 
+
+/// <summary> Determined the memory layout quaternions. </summary>
+/// <remarks>
+enum class eQuaternionLayout {
+	SCALAR_FIRST,
+	VECTOR_FIRST,
+};
 
 
 //------------------------------------------------------------------------------
@@ -62,7 +70,7 @@ struct Swizzle;
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 class Matrix;
 
-template <class T, bool Packed>
+template <class T, eQuaternionLayout Layout, bool Packed>
 class Quaternion;
 
 

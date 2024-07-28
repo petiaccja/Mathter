@@ -48,6 +48,10 @@ using LayoutsRM = NTTemplateArgumentList<mathter::eMatrixLayout, mathter::eMatri
 using LayoutsCM = NTTemplateArgumentList<mathter::eMatrixLayout, mathter::eMatrixLayout::COLUMN_MAJOR>;
 using LayoutsAll = NTTemplateArgumentList<mathter::eMatrixLayout, mathter::eMatrixLayout::COLUMN_MAJOR, mathter::eMatrixLayout::ROW_MAJOR>;
 
+using QuatLayoutsVF = NTTemplateArgumentList<mathter::eQuaternionLayout, mathter::eQuaternionLayout::VECTOR_FIRST>;
+using QuatLayoutsSF = NTTemplateArgumentList<mathter::eQuaternionLayout, mathter::eQuaternionLayout::SCALAR_FIRST>;
+using QuatLayoutsAll = NTTemplateArgumentList<mathter::eQuaternionLayout, mathter::eQuaternionLayout::SCALAR_FIRST, mathter::eQuaternionLayout::VECTOR_FIRST>;
+
 using PackingsYes = NTTemplateArgumentList<bool, true>;
 using PackingsNo = NTTemplateArgumentList<bool, false>;
 using PackingsAll = NTTemplateArgumentList<bool, false, true>;
@@ -125,28 +129,30 @@ using MatrixCaseList = typename MatrixCaseList_Builder<ScalarOptions, OrderOptio
 // Quaternion cases
 //------------------------------------------------------------------------------
 
-template <class Scalar, bool Packed>
+template <class Scalar, mathter::eQuaternionLayout Layout, bool Packed>
 struct QuaternionCase {
-	using Quat = mathter::Quaternion<Scalar, Packed>;
+	using Quat = mathter::Quaternion<Scalar, Layout, Packed>;
 };
 
 
-template <class ScalarOptions, class PackingOptions>
+template <class ScalarOptions, class LayoutOptions, class PackingOptions>
 struct QuaternionCaseList_Builder;
 
 
-template <class... Scalars, bool... Packings>
-struct QuaternionCaseList_Builder<TemplateArgumentList<Scalars...>, NTTemplateArgumentList<bool, Packings...>> {
+template <class... Scalars, mathter::eQuaternionLayout... Layouts, bool... Packings>
+struct QuaternionCaseList_Builder<TemplateArgumentList<Scalars...>, NTTemplateArgumentList<mathter::eQuaternionLayout, Layouts...>, NTTemplateArgumentList<bool, Packings...>> {
+	template <class Scalar, mathter::eQuaternionLayout Layout>
+	static auto ExpandPackings() -> std::tuple<QuaternionCase<Scalar, Layout, Packings>...>;
 	template <class Scalar>
-	static auto ExpandPackings() -> std::tuple<QuaternionCase<Scalar, Packings>...>;
-	static auto ExpandScalars() -> decltype(std::tuple_cat(ExpandPackings<Scalars>()...));
+	static auto ExpandLayouts() -> decltype(std::tuple_cat(ExpandPackings<Scalar, Layouts>()...));
+	static auto ExpandScalars() -> decltype(std::tuple_cat(ExpandLayouts<Scalars>()...));
 
 	using Cases = decltype(ExpandScalars());
 };
 
 
-template <class ScalarOptions, class PackingOptions>
-using QuaternionCaseList = typename QuaternionCaseList_Builder<ScalarOptions, PackingOptions>::Cases;
+template <class ScalarOptions, class LayoutOptions, class PackingOptions>
+using QuaternionCaseList = typename QuaternionCaseList_Builder<ScalarOptions, LayoutOptions, PackingOptions>::Cases;
 
 
 //------------------------------------------------------------------------------

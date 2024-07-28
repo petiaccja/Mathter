@@ -53,8 +53,8 @@ constexpr auto is_matrix_v = is_matrix<T>::value;
 template <class>
 struct is_quaternion : std::false_type {};
 
-template <class T, bool Packed>
-struct is_quaternion<Quaternion<T, Packed>> : std::true_type {};
+template <class T, eQuaternionLayout Layout, bool Packed>
+struct is_quaternion<Quaternion<T, Layout, Packed>> : std::true_type {};
 
 template <class T>
 constexpr auto is_quaternion_v = is_quaternion<T>::value;
@@ -95,8 +95,8 @@ struct scalar_type<Matrix<T, Rows, Columns, Order, Layout, Packed>> {
 	using type = T;
 };
 
-template <class T, bool Packed>
-struct scalar_type<Quaternion<T, Packed>> {
+template <class T, eQuaternionLayout Layout, bool Packed>
+struct scalar_type<Quaternion<T, Layout, Packed>> {
 	using type = T;
 };
 
@@ -212,6 +212,11 @@ struct layout<Matrix<T, Rows, Columns, Order, Layout, Packed>> {
 	static constexpr auto value = Layout;
 };
 
+template <class T, eQuaternionLayout Layout, bool Packed>
+struct layout<Quaternion<T, Layout, Packed>> {
+	static constexpr auto value = Layout;
+};
+
 template <class T>
 constexpr auto layout_v = layout<T>::value;
 
@@ -238,8 +243,8 @@ struct is_packed<Matrix<T, Rows, Columns, Order, Layout, Packed>> {
 	static constexpr auto value = Packed;
 };
 
-template <class T, bool Packed>
-struct is_packed<Quaternion<T, Packed>> {
+template <class T, eQuaternionLayout Layout, bool Packed>
+struct is_packed<Quaternion<T, Layout, Packed>> {
 	static constexpr auto value = Packed;
 };
 

@@ -29,7 +29,7 @@ target_sources(Mathter
 		#"Quaternion/QuaternionArithmetic.hpp"
 		#"Quaternion/QuaternionCompare.hpp"
 		#"Quaternion/QuaternionFunction.hpp"
-		#"Quaternion/QuaternionImpl.hpp"
+		"Quaternion/Quaternion.hpp"
 		#"Quaternion/QuaternionLiterals.hpp"
 		#"Quaternion/QuaternionVectorArithmetic.hpp"
 		#"Transforms/IdentityBuilder.hpp"

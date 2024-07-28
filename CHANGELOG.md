@@ -3,10 +3,11 @@
 Changes:
 - Refactored utility folder structure and code (`Common/*`)
 - Refactored vector folder structure and code (`Vector/*`)
+- Refactored vector folder structure and code (`Matrix/*`)
+- Refactored vector folder structure and code (`Quaternion/*`)
 - `Vector`s:
 	- Memory representation:
-		- Removed undefined behavior
-		- Rewored `Swizzle`s
+		- Removed undefined behavior due to swizzle unions
 		- Named accessors (i.e. `.x`) are now `Swizzle`s instead of `T&`
 	- CTAD for `Vector` constructors
 	- Better support for heterogeneous types (i.e. adding vector of `double` plus vector of `float`)
@@ -14,6 +15,23 @@ Changes:
 	- Functions:
 		- `IsNullvector`: removed due to questionable meaning / use-cases
 		- `IsNormalized`: removed due to questionable meaning / use-cases
-		- `DistancePrecise`: new function
 		- `SafeNormalize`: renamed to `NormalizePrecise`
 		- Homogeneous downcast now performs perspective division
+		- Added several new functions
+- `Matrix`es:
+	- Removed submatrices
+		- Added accessors for rows and columns
+	- Better support for heterogeneous types (i.e. adding vector of `double` plus vector of `float`)
+	- Better support and testing for `std::complex`
+	- Matrix cast: TODO
+	- Functions:
+		- Added several new functions
+- `Quaternion`s:
+	- Memory representation:
+		- New Layout template param to specify sijk or ijks
+		- Removed undefined behavior due to swizzle unions
+		- Named accessors (i.e. `.x`) are now `Swizzle`s instead of `T&`
+	- Functions:
+		- Deprecated `ScalarPart` and `VectorPart`:
+			- Migrate to the new .scalar and .vector swizzlers instead
+		- Removed converion operator to Vector<3>: questionable meaning / use-cases (use q.vector instead)
