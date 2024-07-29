@@ -7,6 +7,8 @@
 
 #include "MatrixImpl.hpp"
 
+static_assert(false, "this file still needs to be fixed / revamped");
+
 namespace mathter {
 
 
