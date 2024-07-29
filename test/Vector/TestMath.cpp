@@ -7,6 +7,7 @@
 
 #include "../Cases.hpp"
 
+#include <Mathter/Vector/Comparison.hpp>
 #include <Mathter/Vector/Math.hpp>
 
 #include <catch2/catch_approx.hpp>
@@ -358,6 +359,58 @@ TEMPLATE_LIST_TEST_CASE("Vector - Fill", "[Vector]",
 	REQUIRE(std::all_of(std::begin(value), std::end(value), [](const auto& v) { return v == static_cast<T>(0); }));
 	Fill(value, 5);
 	REQUIRE(std::all_of(std::begin(value), std::end(value), [](const auto& v) { return v == static_cast<T>(5); }));
+}
+
+
+TEMPLATE_LIST_TEST_CASE("Vector - Cross", "[Vector]",
+						decltype(VectorCaseList<ScalarsFloating, PackingsAll>{})) {
+	const auto triangleArea = [](auto a, auto b, auto c) {
+		// Heron's formula
+		const auto s = (a + b + c) / 2;
+		return std::sqrt(s * (s - a) * (s - b) * (s - c));
+	};
+
+
+	SECTION("2D") {
+		using Vec = typename TestType::template Vector<2>;
+		const Vec v(1, 2);
+		const auto result = Cross(v);
+		REQUIRE(Dot(v, result) < 1e-6f);
+		REQUIRE(Length(result) == Catch::Approx(Length(v)));
+
+		// This validates the orientation of the 2D specialized and checks generalized values.
+		const auto ilist = std::initializer_list{ v };
+		const auto generalized = impl::CrossND(ilist.begin(), ilist.end());
+		REQUIRE(generalized[0] == Catch::Approx(result[0]));
+		REQUIRE(generalized[1] == Catch::Approx(result[1]));
+	}
+	SECTION("3D") {
+		using Vec = typename TestType::template Vector<3>;
+		const Vec a(0.2f, 1.0f, 0.3f);
+		const Vec b(-1.0f, 0.05f, 0.2f);
+		const auto result = Cross(a, b);
+		const auto area = 2 * triangleArea(Length(a), Length(b), Length(a - b));
+		REQUIRE((Dot(a, result) < 1e-6f && Dot(b, result) < 1e-6f)); // Check orthogonality.
+		REQUIRE(area == Catch::Approx(Length(result))); // Check magnitude.
+		REQUIRE(result.z > 0.8f); // Check orientation.
+
+		// This validates the orientation of the 2D specialized and checks generalized values.
+		const auto ilist = std::initializer_list{ a, b };
+		const auto generalized = impl::CrossND(ilist.begin(), ilist.end());
+		REQUIRE(generalized[0] == Catch::Approx(result[0]));
+		REQUIRE(generalized[1] == Catch::Approx(result[1]));
+		REQUIRE(generalized[2] == Catch::Approx(result[2]));
+	}
+	SECTION("4D") {
+		using Vec = typename TestType::template Vector<4>;
+
+		const Vec a(0.2f, 1.0f, 0.3f, 0.88f);
+		const Vec b(-1.0f, 0.05f, 0.2f, 0.43f);
+		const Vec c(0.22f, -0.15f, 0.37f, -1.0f);
+		const auto result = Cross(a, b, c);
+
+		REQUIRE((Dot(a, result) < 1e-6f && Dot(b, result) < 1e-6f && Dot(c, result) < 1e-6f)); // Check orthogonality.
+	}
 }
 
 

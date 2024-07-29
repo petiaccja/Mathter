@@ -102,20 +102,42 @@ bool operator!=(const Swizzle<T1, Dim1, Packed1, Indices1...>& lhs, const Swizzl
 
 /// <summary> Exactly compares a single-element swizzle with a scalar. </summary>
 /// <remarks> &lt;The usual warning about floating point numbers&gt; </remarks>
-template <class T1, int Dim1, bool Packed1, class T2, int... Indices1>
-auto operator==(const Swizzle<T1, Dim1, Packed1, Indices1...>& lhs, const T2& rhs)
+template <class T1, int Dim1, bool Packed1, class T2, int Index>
+auto operator==(const Swizzle<T1, Dim1, Packed1, Index>& lhs, const T2& rhs)
 	-> std::enable_if_t<is_scalar_v<std::decay_t<T2>>, bool> {
-	constexpr auto TargetDim1 = target_dimension_v<std::decay_t<decltype(lhs)>>;
-	static_assert(TargetDim1 == 1, "can only compare swizzle of a single element to scalar");
 	return lhs[0] == rhs;
 }
 
 /// <summary> Exactly compares a single-element swizzle with a scalar. </summary>
 /// <remarks> &lt;The usual warning about floating point numbers&gt; </remarks>
-template <class T1, int Dim1, bool Packed1, class T2, int... Indices1>
-auto operator!=(const Swizzle<T1, Dim1, Packed1, Indices1...>& lhs, const T2& rhs)
+template <class T1, int Dim1, bool Packed1, class T2, int Index>
+auto operator!=(const Swizzle<T1, Dim1, Packed1, Index>& lhs, const T2& rhs)
 	-> std::enable_if_t<is_scalar_v<std::decay_t<T2>>, bool> {
-	return !operator==(lhs, rhs);
+	return lhs[0] != rhs;
+}
+
+template <class T1, int Dim1, bool Packed1, class T2, int Index>
+auto operator<(const Swizzle<T1, Dim1, Packed1, Index>& lhs, const T2& rhs)
+	-> std::enable_if_t<is_scalar_v<std::decay_t<T2>>, bool> {
+	return lhs[0] < rhs;
+}
+
+template <class T1, int Dim1, bool Packed1, class T2, int Index>
+auto operator>(const Swizzle<T1, Dim1, Packed1, Index>& lhs, const T2& rhs)
+	-> std::enable_if_t<is_scalar_v<std::decay_t<T2>>, bool> {
+	return lhs[0] > rhs;
+}
+
+template <class T1, int Dim1, bool Packed1, class T2, int Index>
+auto operator<=(const Swizzle<T1, Dim1, Packed1, Index>& lhs, const T2& rhs)
+	-> std::enable_if_t<is_scalar_v<std::decay_t<T2>>, bool> {
+	return lhs[0] <= rhs;
+}
+
+template <class T1, int Dim1, bool Packed1, class T2, int Index>
+auto operator>=(const Swizzle<T1, Dim1, Packed1, Index>& lhs, const T2& rhs)
+	-> std::enable_if_t<is_scalar_v<std::decay_t<T2>>, bool> {
+	return lhs[0] >= rhs;
 }
 
 //--------------------------------------
@@ -124,20 +146,42 @@ auto operator!=(const Swizzle<T1, Dim1, Packed1, Indices1...>& lhs, const T2& rh
 
 /// <summary> Exactly compares a single-element swizzle with a scalar. </summary>
 /// <remarks> &lt;The usual warning about floating point numbers&gt; </remarks>
-template <class T1, class T2, int Dim2, bool Packed2, int... Indices2>
-auto operator==(const T1& lhs, const Swizzle<T2, Dim2, Packed2, Indices2...>& rhs)
+template <class T1, class T2, int Dim2, bool Packed2, int Index>
+auto operator==(const T1& lhs, const Swizzle<T2, Dim2, Packed2, Index>& rhs)
 	-> std::enable_if_t<is_scalar_v<std::decay_t<T1>>, bool> {
-	constexpr auto TargetDim1 = target_dimension_v<std::decay_t<decltype(rhs)>>;
-	static_assert(TargetDim1 == 1, "can only compare swizzle of a single element to scalar");
 	return lhs == rhs[0];
 }
 
 /// <summary> Exactly compares a single-element swizzle with a scalar. </summary>
 /// <remarks> &lt;The usual warning about floating point numbers&gt; </remarks>
-template <class T1, class T2, int Dim2, bool Packed2, int... Indices2>
-auto operator!=(const T1& lhs, const Swizzle<T2, Dim2, Packed2, Indices2...>& rhs)
+template <class T1, class T2, int Dim2, bool Packed2, int Index>
+auto operator!=(const T1& lhs, const Swizzle<T2, Dim2, Packed2, Index>& rhs)
 	-> std::enable_if_t<is_scalar_v<std::decay_t<T1>>, bool> {
-	return !operator==(lhs, rhs);
+	return lhs != rhs[0];
+}
+
+template <class T1, class T2, int Dim2, bool Packed2, int Index>
+auto operator<(const T1& lhs, const Swizzle<T2, Dim2, Packed2, Index>& rhs)
+	-> std::enable_if_t<is_scalar_v<std::decay_t<T1>>, bool> {
+	return lhs < rhs[0];
+}
+
+template <class T1, class T2, int Dim2, bool Packed2, int Index>
+auto operator>(const T1& lhs, const Swizzle<T2, Dim2, Packed2, Index>& rhs)
+	-> std::enable_if_t<is_scalar_v<std::decay_t<T1>>, bool> {
+	return lhs > rhs[0];
+}
+
+template <class T1, class T2, int Dim2, bool Packed2, int Index>
+auto operator<=(const T1& lhs, const Swizzle<T2, Dim2, Packed2, Index>& rhs)
+	-> std::enable_if_t<is_scalar_v<std::decay_t<T1>>, bool> {
+	return lhs <= rhs[0];
+}
+
+template <class T1, class T2, int Dim2, bool Packed2, int Index>
+auto operator>=(const T1& lhs, const Swizzle<T2, Dim2, Packed2, Index>& rhs)
+	-> std::enable_if_t<is_scalar_v<std::decay_t<T1>>, bool> {
+	return lhs >= rhs[0];
 }
 
 } // namespace mathter

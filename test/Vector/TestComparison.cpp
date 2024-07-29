@@ -88,6 +88,10 @@ TEMPLATE_LIST_TEST_CASE("Vector - Compare swizzle x scalar", "[Vector]",
 
 	REQUIRE(lhs == 2);
 	REQUIRE(lhs != 3);
+	REQUIRE(lhs < 3);
+	REQUIRE(lhs <= 3);
+	REQUIRE(lhs > 1);
+	REQUIRE(lhs >= 1);
 }
 
 
@@ -100,4 +104,8 @@ TEMPLATE_LIST_TEST_CASE("Vector - Compare scalar x swiz", "[Vector]",
 
 	REQUIRE(2 == rhs);
 	REQUIRE(3 != rhs);
+	REQUIRE(1 < rhs);
+	REQUIRE(1 <= rhs);
+	REQUIRE(3 > rhs);
+	REQUIRE(3 >= rhs);
 }

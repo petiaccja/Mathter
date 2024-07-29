@@ -35,3 +35,5 @@ Changes:
 		- Deprecated `ScalarPart` and `VectorPart`:
 			- Migrate to the new .scalar and .vector swizzlers instead
 		- Removed converion operator to Vector<3>: questionable meaning / use-cases (use q.vector instead)
+		- Renamed `Conjugate` to `Conj` (in line with STL)
+		- Fixed `Inverse` (q^-1) working only for unit quaternions

@@ -20,7 +20,9 @@
 #include "OperationUtil.hpp"
 #include "Vector.hpp"
 
+#include <array>
 #include <numeric>
+#include <optional>
 
 
 namespace mathter {
@@ -204,92 +206,98 @@ void Fill(Vector<T, Dim, Packed>& lhs, U&& all) {
 }
 
 
-/// <summary> Returns the generalized cross-product in N dimensions. </summary>
-/// <remarks> You must supply N-1 arguments of type Vector&lt;N&gt;.
-/// The function returns the generalized cross product as defined by
-/// https://en.wikipedia.org/wiki/Cross_product#Multilinear_algebra. </remarks>
-template <class T, int Dim, bool Packed, class... Args>
-auto Cross(const Vector<T, Dim, Packed>& head, Args&&... args) -> Vector<T, Dim, Packed>;
+namespace impl {
+
+	template <class IterFirst, class IterLast, class Vec = typename std::iterator_traits<IterFirst>::value_type>
+	auto Cross(IterFirst first, IterLast last) -> std::enable_if_t<is_vector_v<Vec>, Vec>;
+
+} // namespace impl
 
 
 /// <summary> Returns the generalized cross-product in N dimensions. </summary>
 /// <remarks> See https://en.wikipedia.org/wiki/Cross_product#Multilinear_algebra for definition. </remarks>
-template <class T, int Dim, bool Packed>
-auto Cross(const std::array<const Vector<T, Dim, Packed>*, Dim - 1>& args) -> Vector<T, Dim, Packed>;
-
-/// <summary> Returns the 2-dimensional cross product, which is a vector perpendicular to the argument. </summary>
-template <class T, bool Packed>
-Vector<T, 2, Packed> Cross(const Vector<T, 2, Packed>& arg) {
-	return Vector<T, 2, Packed>(-arg.y,
-								arg.x);
-}
-/// <summary> Returns the 2-dimensional cross product, which is a vector perpendicular to the argument. </summary>
-template <class T, bool Packed>
-Vector<T, 2, Packed> Cross(const std::array<const Vector<T, 2, Packed>*, 1>& arg) {
-	return Cross(*(arg[0]));
-}
-
-
-/// <summary> Returns the 3-dimensional cross-product. </summary>
-template <class T, bool Packed>
-Vector<T, 3, Packed> Cross(const Vector<T, 3, Packed>& lhs, const Vector<T, 3, Packed>& rhs) {
-	return lhs.yzx * rhs.zxy - lhs.zxy * rhs.yzx;
-}
-
-
-/// <summary> Returns the 3-dimensional cross-product. </summary>
-template <class T, bool Packed>
-Vector<T, 3, Packed> Cross(const std::array<const Vector<T, 3, Packed>*, 2>& args) {
-	return Cross(*(args[0]), *(args[1]));
+template <class... Vectors, class Vec = common_arithmetic_type_t<std::decay_t<Vectors>...>>
+auto Cross(const Vectors&... vectors) -> std::enable_if_t<(... && is_vector_v<Vectors>), Vec> {
+	static_assert(sizeof...(Vectors) == dimension_v<Vec> - 1, "ND cross product needs exactly N-1 vectors.");
+	const auto container = std::initializer_list<Vec>{ vectors... };
+	return impl::Cross(container.begin(), container.end());
 }
 
 } // namespace mathter
 
 
-/*
+
 // Generalized cross-product unfortunately needs matrix determinant.
-#include "../Matrix/MatrixFunction.hpp"
+#include "../Matrix/Math.hpp"
 
 namespace mathter {
+namespace impl {
 
-template <class T, int Dim, bool Packed>
-auto Cross(const std::array<const Vector<T, Dim, Packed>*, Dim - 1>& args) -> Vector<T, Dim, Packed> {
-	Vector<T, Dim, Packed> result;
-	Matrix<T, Dim - 1, Dim - 1, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, false> detCalc;
+	template <class IterFirst, class IterLast, class Vec = typename std::iterator_traits<IterFirst>::value_type>
+	auto CrossND(IterFirst first, IterLast last) -> std::enable_if_t<is_vector_v<Vec>, Vec> {
+		using Scalar = scalar_type_t<Vec>;
+		constexpr auto Dim = dimension_v<Vec>;
+		Vec result;
+		Matrix<Scalar, Dim - 1, Dim - 1> detCalc;
 
-	// Calculate elements of result on-by-one
-	int sign = 2 * (Dim % 2) - 1;
-	for (int base = 0; base < result.Dimension(); ++base, sign *= -1) {
-		// Fill up sub-matrix the determinant of which yields the coefficient of base-vector.
-		for (int j = 0; j < base; ++j) {
-			for (int i = 0; i < detCalc.RowCount(); ++i) {
-				detCalc(i, j) = (*(args[i]))[j];
-			}
+		std::array<std::optional<std::reference_wrapper<const Vec>>, Dim - 1> vectors;
+		auto [argIt, outIt] = std::tuple(first, vectors.begin());
+		for (; argIt != last && outIt != vectors.end(); ++argIt, ++outIt) {
+			*outIt = std::ref(*argIt);
 		}
-		for (int j = base + 1; j < result.Dimension(); ++j) {
-			for (int i = 0; i < detCalc.RowCount(); ++i) {
-				detCalc(i, j - 1) = (*(args[i]))[j];
-			}
+		if (outIt != vectors.end()) {
+			throw std::invalid_argument("not enough arguments for cross product");
 		}
 
-		T coefficient = T(sign) * Determinant(detCalc);
-		result(base) = coefficient;
+		// Calculate elements of result on-by-one
+		int sign = 2 * (Dim % 2) - 1;
+		for (size_t idx = 0; idx < result.Dimension(); ++idx, sign *= -1) {
+			// Fill up sub-matrix the determinant of which yields the coefficient of base-vector.
+			for (int j = 0; j < idx; ++j) {
+				for (int i = 0; i < detCalc.RowCount(); ++i) {
+					detCalc(i, j) = (*vectors[i]).get()[j];
+				}
+			}
+			for (int j = idx + 1; j < result.Dimension(); ++j) {
+				for (int i = 0; i < detCalc.RowCount(); ++i) {
+					detCalc(i, j - 1) = (*vectors[i]).get()[j];
+				}
+			}
+
+			const Scalar coefficient = static_cast<Scalar>(sign) * Determinant(detCalc);
+			result(idx) = coefficient;
+		}
+
+		return result;
 	}
 
-	return result;
-}
+	template <class IterFirst, class IterLast, class Vec>
+	auto Cross(IterFirst first, IterLast last) -> std::enable_if_t<is_vector_v<Vec>, Vec> {
+		constexpr auto Dim = dimension_v<Vec>;
 
-
-template <class T, int Dim, bool Packed, class... Args>
-auto Cross(const Vector<T, Dim, Packed>& head, Args&&... args) -> Vector<T, Dim, Packed> {
-	static_assert(1 + sizeof...(args) == Dim - 1, "Number of arguments must be (Dimension - 1).");
-
-	std::array<const Vector<T, Dim, Packed>*, Dim - 1> vectors = { &head, &args... };
-	return Cross(vectors);
-}
-
+		if constexpr (dimension_v<Vec> == 2) {
+			if (first == last) {
+				throw std::invalid_argument("not enough arguments for cross product");
+			}
+			return Vec(-first->y, first->x);
+		}
+		if constexpr (dimension_v<Vec> == 3) {
+			if (first == last) {
+				throw std::invalid_argument("not enough arguments for cross product");
+			}
+			const auto& a = *first++;
+			if (first == last) {
+				throw std::invalid_argument("not enough arguments for cross product");
+			}
+			const auto& b = *first++;
+			return Vec(a.yzx * b.zxy - a.zxy * b.yzx);
+		}
+		else {
+			return CrossND(first, last);
+		}
+	}
+} // namespace impl
 } // namespace mathter
-*/
 
 
 #if defined(MATHTER_MINMAX)

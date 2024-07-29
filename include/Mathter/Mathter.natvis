@@ -39,8 +39,8 @@
     </Expand>
   </Type>
   
-    <Type Name="mathter::Quaternion&lt;*&gt;">
-    <DisplayString>[{w} + {i} i + {j} j + {k} k]</DisplayString>
+  <Type Name="mathter::Quaternion&lt;*&gt;">
+    <DisplayString>[{elements.array[scalarIdx]} + {elements.array[vectorIdxI]} i + {elements.array[vectorIdxJ]} j + {elements.array[vectorIdxK]} k]</DisplayString>
   </Type>
 
   <Type Name="mathter::Hyperplane&lt;*&gt;">

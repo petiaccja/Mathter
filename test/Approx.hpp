@@ -3,6 +3,8 @@
 #include <Mathter/Common/TypeTraits.hpp>
 #include <Mathter/Matrix/Comparison.hpp>
 #include <Mathter/Matrix/Matrix.hpp>
+#include <Mathter/Quaternion/Comparison.hpp>
+#include <Mathter/Quaternion/Quaternion.hpp>
 #include <Mathter/Vector/Comparison.hpp>
 #include <Mathter/Vector/Vector.hpp>
 
@@ -43,13 +45,13 @@ bool operator==(const Approx<mathter::Vector<T1, Dim, Packed1>>& lhs, const Appr
 
 
 template <class T1, class T2, int Dim, bool Packed1, bool Packed2>
-bool operator==(mathter::Vector<T1, Dim, Packed1>& lhs, const Approx<mathter::Vector<T2, Dim, Packed2>>& rhs) {
+bool operator==(const mathter::Vector<T1, Dim, Packed1>& lhs, const Approx<mathter::Vector<T2, Dim, Packed2>>& rhs) {
 	return LengthPrecise(lhs - rhs.object) < rhs.tolerance * LengthPrecise(lhs);
 }
 
 
 template <class T1, class T2, int Dim, bool Packed1, bool Packed2>
-bool operator==(const Approx<mathter::Vector<T1, Dim, Packed1>>& lhs, mathter::Vector<T2, Dim, Packed2>& rhs) {
+bool operator==(const Approx<mathter::Vector<T1, Dim, Packed1>>& lhs, const mathter::Vector<T2, Dim, Packed2>& rhs) {
 	return LengthPrecise(lhs.object - rhs) < lhs.tolerance * LengthPrecise(rhs);
 }
 
@@ -86,6 +88,35 @@ template <class T1, mathter::eMatrixOrder Order1, mathter::eMatrixLayout Layout1
 		  int Rows, int Columns>
 bool operator==(const Approx<mathter::Matrix<T1, Rows, Columns, Order1, Layout1, Packed1>>& lhs, const mathter::Matrix<T2, Rows, Columns, Order2, Layout2, Packed2>& rhs) {
 	return NormPrecise(lhs.object - rhs) < lhs.tolerance * NormPrecise(rhs);
+}
+
+
+template <class T, mathter::eQuaternionLayout Layout, bool Packed>
+struct Approx<mathter::Quaternion<T, Layout, Packed>> {
+	Approx(const mathter::Quaternion<T, Layout, Packed>& object, mathter::remove_complex_t<T> tolerance = DefaultTolerance<T>())
+		: object(object), tolerance(tolerance) {}
+
+
+	mathter::Quaternion<T, Layout, Packed> object;
+	mathter::remove_complex_t<T> tolerance;
+};
+
+
+template <class T1, class T2, mathter::eQuaternionLayout Layout1, mathter::eQuaternionLayout Layout2, bool Packed1, bool Packed2>
+bool operator==(const Approx<mathter::Quaternion<T1, Layout1, Packed1>>& lhs, const Approx<mathter::Quaternion<T2, Layout2, Packed2>>& rhs) {
+	return LengthPrecise(lhs.object - rhs.object) < std::min(lhs.tolerance, rhs.tolerance) * LengthPrecise(lhs);
+}
+
+
+template <class T1, class T2, mathter::eQuaternionLayout Layout1, mathter::eQuaternionLayout Layout2, bool Packed1, bool Packed2>
+bool operator==(const mathter::Quaternion<T1, Layout1, Packed1>& lhs, const Approx<mathter::Quaternion<T2, Layout2, Packed2>>& rhs) {
+	return LengthPrecise(lhs - rhs.object) < rhs.tolerance * LengthPrecise(lhs);
+}
+
+
+template <class T1, class T2, mathter::eQuaternionLayout Layout1, mathter::eQuaternionLayout Layout2, bool Packed1, bool Packed2>
+bool operator==(const Approx<mathter::Quaternion<T1, Layout1, Packed1>>& lhs, const mathter::Quaternion<T2, Layout2, Packed2>& rhs) {
+	return LengthPrecise(lhs.object - rhs) < lhs.tolerance * LengthPrecise(rhs);
 }
 
 } // namespace test_util
