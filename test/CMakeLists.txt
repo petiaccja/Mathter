@@ -12,6 +12,8 @@ target_sources(UnitTest
         "Matrix/TestMath.cpp"
         #"TestTransforms.cpp"
         #"TestQuaternion.cpp"
+        "Quaternion/TestArithmetic.cpp"
+        "Quaternion/TestComparison.cpp"
         "Quaternion/TestQuaternion.cpp"
         "Vector/TestArithmetic.cpp"
         "Vector/TestComparison.cpp"
@@ -22,7 +24,7 @@ target_sources(UnitTest
         "Vector/TestVector.cpp"
         #"TestGenerators.hpp"
         #"TestGeometry.cpp"
- "Quaternion/TestQuaternion.cpp")
+)
 
 find_package(Catch2 REQUIRED)
 

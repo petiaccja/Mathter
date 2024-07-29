@@ -15,6 +15,10 @@
 namespace mathter {
 
 
+struct CanonicalArg {};
+constexpr CanonicalArg canonicalArg;
+
+
 /// <summary> Allows you to do quaternion math and represent rotation in a compact way. </summary>
 /// <typeparam name="T"> The scalar type of w, x, y and z. Use a builtin or custom floating or fixed point type. </typeparam>
 /// <typeparam name="Packed"> If true, tightly packs quaternion members and disables padding due to overalignment in arrays.
@@ -58,12 +62,17 @@ public:
 	template <class TOther, bool PackedOther>
 	explicit Quaternion(const Vector<TOther, 4, PackedOther>& vector);
 
+	/// <summary> Convert from 4-dimensional vector. </summary>
+	/// <remarks> The vector must share the layout of the quaternion. Use with care. </remarks>
+	template <class TOther, bool PackedOther>
+	explicit Quaternion(CanonicalArg, const Vector<TOther, 4, PackedOther>& vector);
+
 	/// <summary> Convert from a quaternion of different (or same) type. </summary>
 	template <class TOther, eQuaternionLayout LayoutOther, bool PackedOther>
 	Quaternion(const Quaternion<TOther, LayoutOther, PackedOther>& rhs);
 
 	/// <summary> Set values directly. </summary>
-	explicit Quaternion(const T& scalar, const T& x, const T& y, const T& z);
+	explicit Quaternion(const T& scalar, const T& x = T(0), const T& y = T(0), const T& z = T(0));
 
 	/// <summary> Sets the scalar part (w) and the vector part (xyz). This is not <see cref="AxisAngle"/> rotation. </summary>
 	explicit Quaternion(const T& scalar, const Vector<T, 3, Packed>& vector);
@@ -170,6 +179,13 @@ template <class T, eQuaternionLayout Layout, bool Packed>
 template <class TOther, bool PackedOther>
 Quaternion<T, Layout, Packed>::Quaternion(const Vector<TOther, 4, PackedOther>& vector) {
 	elements = Vector<T, 4, Packed>(vector).elements;
+}
+
+
+template <class T, eQuaternionLayout Layout, bool Packed>
+template <class TOther, bool PackedOther>
+Quaternion<T, Layout, Packed>::Quaternion(CanonicalArg, const Vector<TOther, 4, PackedOther>& vector) {
+	canonical = vector;
 }
 
 

@@ -1,6 +1,6 @@
 // L=============================================================================
 // L This software is distributed under the MIT license.
-// L Copyright 2021 Péter Kardos
+// L Copyright 2024 Péter Kardos
 // L=============================================================================
 
 #pragma warning(disable : 4244)

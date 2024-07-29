@@ -59,8 +59,8 @@ struct Swizzle {
 	Swizzle& operator=(const TOther& value);
 
 
-	template <class TSame, class = std::enable_if_t<std::is_same_v<TSame, T> && sizeof...(Indices) == 1, T>>
-	operator TSame() const;
+	template <class T2, class = std::enable_if_t<std::is_convertible_v<T, T2> && sizeof...(Indices) == 1, T>>
+	operator T2() const;
 
 
 	/// <summary> Do not use. Used in Vector internally.</summary>
@@ -179,9 +179,9 @@ Swizzle<T, Dim, Packed, Indices...>& Swizzle<T, Dim, Packed, Indices...>::operat
 
 
 template <class T, int Dim, bool Packed, int... Indices>
-template <class TSame, class>
-Swizzle<T, Dim, Packed, Indices...>::operator TSame() const {
-	return (*this)[0];
+template <class T2, class>
+Swizzle<T, Dim, Packed, Indices...>::operator T2() const {
+	return static_cast<T2>((*this)[0]);
 }
 
 

@@ -26,7 +26,7 @@ target_sources(Mathter
 		"Matrix/Comparison.hpp"
 		"Matrix/Math.hpp"
 		"Matrix/Matrix.hpp"
-		#"Quaternion/QuaternionArithmetic.hpp"
+		"Quaternion/Arithmetic.hpp"
 		#"Quaternion/QuaternionCompare.hpp"
 		#"Quaternion/QuaternionFunction.hpp"
 		"Quaternion/Quaternion.hpp"

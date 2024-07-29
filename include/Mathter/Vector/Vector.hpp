@@ -142,8 +142,8 @@ public:
 	//--------------------------------------------
 	// Cast operators
 	//--------------------------------------------
-	template <class TSame, class = std::enable_if_t<std::is_same_v<TSame, T> && Dim == 1, T>>
-	operator TSame() const;
+	template <class T2, class = std::enable_if_t<std::is_convertible_v<T, T2> && Dim == 1, T>>
+	operator T2() const;
 
 
 	//--------------------------------------------
@@ -256,9 +256,9 @@ Vector<T, Dim, Packed>::Vector(const std::conditional_t<!std::is_void_v<Batch>, 
 
 
 template <class T, int Dim, bool Packed>
-template <class TSame, class>
-Vector<T, Dim, Packed>::operator TSame() const {
-	return elements.array[0];
+template <class T2, class>
+Vector<T, Dim, Packed>::operator T2() const {
+	return static_cast<T2>(elements.array[0]);
 }
 
 

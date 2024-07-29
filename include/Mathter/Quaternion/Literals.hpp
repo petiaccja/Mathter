@@ -1,11 +1,11 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
 
 #pragma once
 
-#include "QuaternionImpl.hpp"
+#include "Quaternion.hpp"
 
 namespace mathter {
 
