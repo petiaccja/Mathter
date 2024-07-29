@@ -72,10 +72,10 @@ public:
 	Quaternion(const Quaternion<TOther, LayoutOther, PackedOther>& rhs);
 
 	/// <summary> Set values directly. </summary>
-	explicit Quaternion(const T& scalar, const T& x = T(0), const T& y = T(0), const T& z = T(0));
+	Quaternion(const T& scalar, const T& x = T(0), const T& y = T(0), const T& z = T(0));
 
 	/// <summary> Sets the scalar part (w) and the vector part (xyz). This is not <see cref="AxisAngle"/> rotation. </summary>
-	explicit Quaternion(const T& scalar, const Vector<T, 3, Packed>& vector);
+	Quaternion(const T& scalar, const Vector<T, 3, Packed>& vector);
 
 	/// <summary> Sets the scalar part to zero, and the vector part to given argument. </summary>
 	explicit Quaternion(const Vector<T, 3, Packed>& vector);

@@ -14,6 +14,7 @@ target_sources(UnitTest
         #"TestQuaternion.cpp"
         "Quaternion/TestArithmetic.cpp"
         "Quaternion/TestComparison.cpp"
+        "Quaternion/TestLiterals.cpp"
         "Quaternion/TestQuaternion.cpp"
         "Vector/TestArithmetic.cpp"
         "Vector/TestComparison.cpp"
