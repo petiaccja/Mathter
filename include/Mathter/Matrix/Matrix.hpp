@@ -122,6 +122,22 @@ public:
 	/// <summary> Return the matrix's row as a vector. </summary>
 	void Row(size_t rowIdx, const Vector<T, Columns, Packed>& row);
 
+	/// <summary> Extract a submatrix. </summary>
+	/// <typeparam name="ExtractedRows"> Number of rows of the submatrix. </typeparam>
+	/// <typeparam name="ExtractedColumns"> Number of columns of the submatrix. </typeparam>
+	/// <param name="whereRow"> First row to extract. </param>
+	/// <param name="whereCol"> First columns to extract. </param>
+	template <int ExtractedRows, int ExtractedColumns>
+	Matrix<T, ExtractedRows, ExtractedColumns, Order, Layout, Packed> Extract(int whereRow, int whereCol) const;
+
+	/// <summary> Insert a submatrix. </summary>
+	/// <typeparam name="ExtractedRows"> Number of rows of the submatrix. </typeparam>
+	/// <typeparam name="ExtractedColumns"> Number of columns of the submatrix. </typeparam>
+	/// <param name="whereRow"> First row to extract. </param>
+	/// <param name="whereCol"> First columns to extract. </param>
+	template <int InsertedRows, int InsertedColumns>
+	void Insert(int whereRow, int whereCol, const Matrix<T, InsertedRows, InsertedColumns, Order, Layout, Packed>& submatrix);
+
 	/// <summary> Convert a row or column matrix to a vector. </summary>
 	template <class TOther, bool PackedOther, class = std::enable_if_t<isVector>>
 	operator Vector<TOther, vectorDim, PackedOther>() const;
@@ -139,7 +155,7 @@ protected:
 // While Vector does not have a constructor from a Matrix, the deduction guide seems to work
 // on all compilers.
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-Vector(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) -> Vector<T, m.vectorDim, Packed>;
+Vector(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) -> Vector<T, Matrix<T, Rows, Columns, Order, Layout, Packed>::vectorDim, Packed>;
 
 
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
@@ -312,6 +328,34 @@ template <int i, int j, class Head, class... Args>
 void Matrix<T, Rows, Columns, Order, Layout, Packed>::Assign(Head head, Args... args) {
 	(*this)(i, j) = (T)head;
 	Assign<((j != Columns - 1) ? i : (i + 1)), ((j + 1) % Columns)>(args...);
+}
+
+
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+template <int ExtractedRows, int ExtractedColumns>
+Matrix<T, ExtractedRows, ExtractedColumns, Order, Layout, Packed> Matrix<T, Rows, Columns, Order, Layout, Packed>::Extract(int whereRow, int whereCol) const {
+	assert(ExtractedRows + whereRow <= Rows);
+	assert(ExtractedColumns + whereCol <= Columns);
+	Matrix<T, ExtractedRows, ExtractedColumns, Order, Layout, Packed> submatrix;
+	for (size_t row = 0; row < ExtractedRows; ++row) {
+		for (size_t column = 0; column < ExtractedColumns; ++column) {
+			submatrix(row, column) = (*this)(row + whereRow, column + whereCol);
+		}
+	}
+	return submatrix;
+}
+
+
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+template <int InsertedRows, int InsertedColumns>
+void Matrix<T, Rows, Columns, Order, Layout, Packed>::Insert(int whereRow, int whereCol, const Matrix<T, InsertedRows, InsertedColumns, Order, Layout, Packed>& submatrix) {
+	assert(InsertedRows + whereRow <= Rows);
+	assert(InsertedColumns + whereCol <= Columns);
+	for (size_t row = 0; row < InsertedRows; ++row) {
+		for (size_t column = 0; column < InsertedColumns; ++column) {
+			(*this)(row + whereRow, column + whereCol) = submatrix(row, column);
+		}
+	}
 }
 
 

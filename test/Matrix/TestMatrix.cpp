@@ -185,6 +185,71 @@ TEMPLATE_LIST_TEST_CASE("Matrix - Modify row/column", "[Matrix]",
 }
 
 
+TEMPLATE_LIST_TEST_CASE("Matrix - Extract submatrix", "[Matrix]",
+						decltype(MatrixCaseList<ScalarsAll, OrdersAll, LayoutsAll, PackingsAll>{})) {
+	using Mat = typename TestType::template Matrix<4, 4>;
+	using Scalar = scalar_type_t<Mat>;
+
+	const Mat m = {
+		1, 2, 3, 4,
+		5, 6, 7, 8,
+		9, 10, 11, 12,
+		13, 14, 15, 16
+	};
+
+	const auto submatrix = m.Extract<2, 3>(1, 1);
+
+	REQUIRE(submatrix(0, 0) == static_cast<Scalar>(6));
+	REQUIRE(submatrix(0, 1) == static_cast<Scalar>(7));
+	REQUIRE(submatrix(0, 2) == static_cast<Scalar>(8));
+	REQUIRE(submatrix(1, 0) == static_cast<Scalar>(10));
+	REQUIRE(submatrix(1, 1) == static_cast<Scalar>(11));
+	REQUIRE(submatrix(1, 2) == static_cast<Scalar>(12));
+}
+
+
+TEMPLATE_LIST_TEST_CASE("Matrix - Insert submatrix", "[Matrix]",
+						decltype(MatrixCaseList<ScalarsAll, OrdersAll, LayoutsAll, PackingsAll>{})) {
+	using Mat = typename TestType::template Matrix<4, 4>;
+	using Sub = typename TestType::template Matrix<2, 3>;
+	using Scalar = scalar_type_t<Mat>;
+
+	Mat m = {
+		1, 2, 3, 4,
+		5, 0, 0, 0,
+		9, 0, 0, 0,
+		13, 14, 15, 16
+	};
+
+	const Sub submatrix = {
+		6, 7, 8,
+		10, 11, 12
+	};
+
+	m.Insert(1, 1, submatrix);
+
+	REQUIRE(m(0, 0) == static_cast<Scalar>(1));
+	REQUIRE(m(0, 1) == static_cast<Scalar>(2));
+	REQUIRE(m(0, 2) == static_cast<Scalar>(3));
+	REQUIRE(m(0, 3) == static_cast<Scalar>(4));
+
+	REQUIRE(m(1, 0) == static_cast<Scalar>(5));
+	REQUIRE(m(1, 1) == static_cast<Scalar>(6));
+	REQUIRE(m(1, 2) == static_cast<Scalar>(7));
+	REQUIRE(m(1, 3) == static_cast<Scalar>(8));
+
+	REQUIRE(m(2, 0) == static_cast<Scalar>(9));
+	REQUIRE(m(2, 1) == static_cast<Scalar>(10));
+	REQUIRE(m(2, 2) == static_cast<Scalar>(11));
+	REQUIRE(m(2, 3) == static_cast<Scalar>(12));
+
+	REQUIRE(m(3, 0) == static_cast<Scalar>(13));
+	REQUIRE(m(3, 1) == static_cast<Scalar>(14));
+	REQUIRE(m(3, 2) == static_cast<Scalar>(15));
+	REQUIRE(m(3, 3) == static_cast<Scalar>(16));
+}
+
+
 TEMPLATE_LIST_TEST_CASE("Matrix - Convert to vector", "[Matrix]",
 						decltype(MatrixCaseList<ScalarsAll, OrdersAll, LayoutsAll, PackingsAll>{})) {
 	SECTION("Row") {
