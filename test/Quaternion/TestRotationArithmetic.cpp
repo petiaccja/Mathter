@@ -7,6 +7,7 @@
 
 #include "../Approx.hpp"
 #include "../Cases.hpp"
+#include "../Rotation.hpp"
 
 #include <Mathter/Quaternion/RotationArithmetic.hpp>
 
@@ -17,14 +18,6 @@
 using namespace mathter;
 using namespace test_util;
 
-
-template <class T, bool Packed>
-Vector<T, 3, Packed> Rotate(const Vector<T, 3, Packed>& vector, const Vector<T, 3, Packed>& axis, T angle) {
-	const auto basisS = Cross(axis, vector);
-	const auto basisC = Cross(basisS, axis);
-	const auto basisAxis = axis * Dot(axis, vector);
-	return basisAxis + basisS * std::sin(angle) + basisC * std::cos(angle);
-}
 
 
 //------------------------------------------------------------------------------

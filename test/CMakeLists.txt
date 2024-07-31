@@ -18,6 +18,9 @@ target_sources(UnitTest
         "Transforms/TestIdentityBuilder.cpp"
         "Transforms/TestScaleBuilder.cpp"
         "Transforms/TestZeroBuilder.cpp"
+        "Transforms/TestTranslationBuilder.cpp"
+        "Transforms/TestRotation2DBuilder.cpp"
+        "Transforms/TestRotation3DBuilder.cpp"
         "Vector/TestArithmetic.cpp"
         "Vector/TestComparison.cpp"
         "Vector/TestConcat.cpp"
@@ -27,7 +30,8 @@ target_sources(UnitTest
         "Vector/TestVector.cpp"
         #"TestGenerators.hpp"
         #"TestGeometry.cpp"
- "Transforms/TestTranslationBuilder.cpp" "Transforms/TestRotation2DBuilder.cpp")
+        "TestUtils/TestRotation.cpp"
+)
 
 find_package(Catch2 REQUIRED)
 

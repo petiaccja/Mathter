@@ -57,13 +57,17 @@ public:
 
 	Matrix() = default;
 
-	/// <summary> Copies and convert the element of <paramref name="rhs"/>. </summary>
-	///	<remarks> <paramref name="rhs"/> must have the same multiplication order. </remarks>
+	/// <summary> Copies and converts the element of <paramref name="rhs"/>. </summary>
 	template <class T2, eMatrixLayout Layout2, bool Packed2>
 	Matrix(const Matrix<T2, Rows, Columns, Order, Layout2, Packed2>& rhs);
 
-	template <class... Args, class = std::enable_if_t<(... && is_scalar_v<std::decay_t<Args>>)&&sizeof...(Args) == size_t(Rows* Columns), int>>
-	Matrix(Args&&... args);
+	/// <summary> Copies and converts the element of <paramref name="rhs"/>. </summary>
+	template <class T2, eMatrixLayout Layout2, bool Packed2>
+	Matrix(const Matrix<T2, Columns, Rows, opposite_order_v<Order>, Layout2, Packed2>& rhs);
+
+	/// <summary> Creates a matrix from its elements. </summary>
+	template <class... Scalars, class = std::enable_if_t<(... && std::is_convertible_v<std::decay_t<Scalars>, T>)&&sizeof...(Scalars) == size_t(Rows* Columns), int>>
+	Matrix(Scalars&&... elements);
 
 	/// <summary> Constructs a row or column matrix from a vector. </summary>
 	/// <remarks> This can only be used for row or column matrices. </remarks>
@@ -177,9 +181,27 @@ Matrix<T, Rows, Columns, Order, Layout, Packed>::Matrix(const Matrix<TOther, Row
 
 
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-template <class... Args, class>
-Matrix<T, Rows, Columns, Order, Layout, Packed>::Matrix(Args&&... args) {
-	Assign<0, 0>(std::forward<Args>(args)...);
+template <class T2, eMatrixLayout LayoutOther, bool Packed2>
+Matrix<T, Rows, Columns, Order, Layout, Packed>::Matrix(const Matrix<T2, Columns, Rows, opposite_order_v<Order>, LayoutOther, Packed2>& rhs) {
+	if constexpr (Layout != LayoutOther) {
+		for (size_t i = 0; i < stripeCount; ++i) {
+			stripes[i] = Stripe(rhs.stripes[i]);
+		}
+	}
+	else {
+		for (size_t i = 0; i < RowCount(); ++i) {
+			for (size_t j = 0; j < ColumnCount(); ++j) {
+				(*this)(i, j) = rhs(j, i);
+			}
+		}
+	}
+}
+
+
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+template <class... Scalars, class>
+Matrix<T, Rows, Columns, Order, Layout, Packed>::Matrix(Scalars&&... elements) {
+	Assign<0, 0>(std::forward<Scalars>(elements)...);
 }
 
 

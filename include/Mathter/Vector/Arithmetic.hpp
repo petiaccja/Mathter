@@ -72,7 +72,13 @@ auto AvoidDivByZero(Vec&& vec, const Fun& fun) {
 		static_assert(sizeof...(Indices1) == sizeof...(Indices2), "swizzles must have the same size");                         \
 		const auto lhsv = Vector(lhs);                                                                                         \
 		const auto rhsv = Vector(rhs);                                                                                         \
-		return DoBinaryOp(lhsv, AvoidDivByZero(rhsv, FUNCTOR{}), FUNCTOR{});                                                   \
+		const auto result = DoBinaryOp(lhsv, AvoidDivByZero(rhsv, FUNCTOR{}), FUNCTOR{});                                      \
+		if constexpr (dimension_v<std::decay_t<decltype(result)>> == 1) {                                                      \
+			return result[0];                                                                                                  \
+		}                                                                                                                      \
+		else {                                                                                                                 \
+			return result;                                                                                                     \
+		}                                                                                                                      \
 	}
 
 
@@ -81,7 +87,13 @@ auto AvoidDivByZero(Vec&& vec, const Fun& fun) {
 	auto operator OP(const Swizzle<T1, Dim1, Packed1, Indices1...>& lhs, const T2& rhs) {                              \
 		const auto lhsv = Vector(lhs);                                                                                 \
 		const auto rhsv = Vector<T2, sizeof...(Indices1), Packed1>(rhs);                                               \
-		return DoBinaryOp(lhsv, rhsv, FUNCTOR{});                                                                      \
+		const auto result = DoBinaryOp(lhsv, rhsv, FUNCTOR{});                                                         \
+		if constexpr (dimension_v<std::decay_t<decltype(result)>> == 1) {                                              \
+			return result[0];                                                                                          \
+		}                                                                                                              \
+		else {                                                                                                         \
+			return result;                                                                                             \
+		}                                                                                                              \
 	}
 
 
@@ -90,7 +102,13 @@ auto AvoidDivByZero(Vec&& vec, const Fun& fun) {
 	auto operator OP(const T1& lhs, const Swizzle<T2, Dim2, Packed2, Indices2...>& rhs) {                              \
 		const auto lhsv = Vector<T1, sizeof...(Indices2), Packed2>(lhs);                                               \
 		const auto rhsv = Vector(rhs);                                                                                 \
-		return DoBinaryOp(lhsv, AvoidDivByZero(rhsv, FUNCTOR{}), FUNCTOR{});                                           \
+		const auto result = DoBinaryOp(lhsv, AvoidDivByZero(rhsv, FUNCTOR{}), FUNCTOR{});                              \
+		if constexpr (dimension_v<std::decay_t<decltype(result)>> == 1) {                                              \
+			return result[0];                                                                                          \
+		}                                                                                                              \
+		else {                                                                                                         \
+			return result;                                                                                             \
+		}                                                                                                              \
 	}
 
 
