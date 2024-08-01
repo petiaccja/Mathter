@@ -158,7 +158,7 @@ namespace impl {
 	void MatrixToQuaternion(Quaternion<TQ, LayoutQ, PackedQ>& q,
 							const Matrix<TM, RowsM, ColumnsM, OrderM, LayoutM, PackedM>& m) {
 		auto elem = [&m](int i, int j) -> const auto& {
-			return OrderM == eMatrixOrder::PRECEDE_VECTOR ? mat(i, j) : mat(j, i);
+			return OrderM == eMatrixOrder::PRECEDE_VECTOR ? m(i, j) : m(j, i);
 		};
 		const auto s = std::sqrt(TM(1) + elem(0, 0) + elem(1, 1) + elem(2, 2)) * TM(0.5);
 		const auto div = TM(1) / (TM(4) * s);

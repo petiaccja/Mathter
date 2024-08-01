@@ -215,7 +215,7 @@ namespace impl {
 
 		template <class U, eQuaternionLayout Layout, bool QPacked>
 		operator Quaternion<U, Layout, QPacked>() const {
-			return RotationQuatAxisAngle<U, Layout, QPacked>(axis, angle);
+			return RotationQuaternionAxisAngle<U, Layout, QPacked>(axis, angle);
 		}
 
 	private:

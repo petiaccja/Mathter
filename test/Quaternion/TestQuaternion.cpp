@@ -9,6 +9,7 @@
 #include "../Cases.hpp"
 
 #include <Mathter/Quaternion/Quaternion.hpp>
+#include <Mathter/Transforms/Rotation3DBuilder.hpp>
 
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_template_test_macros.hpp>
@@ -106,9 +107,42 @@ TEMPLATE_LIST_TEST_CASE("Quaternion - Construct from rotation matrix", "[Quatern
 						decltype(BinaryCaseList<QuaternionCaseList<ScalarsFloating, QuatLayoutsAll, PackingsAll>,
 												MatrixCaseList<ScalarsFloating, OrdersAll, LayoutsAll, PackingsAll>>{})) {
 	using Quat = typename TestType::Lhs::Quat;
-	using Mat = typename TestType::Rhs::template Matrix<3, 3>;
+	using Vec = Vector<scalar_type_t<Quat>, 3, is_packed_v<Quat>>;
 
-	SKIP("Must overhaul transform builders first.");
+	const auto builder = RotationAxisAngle(Normalize(Vec(1, 2, 3)), scalar_type_t<Quat>(0.7854626));
+
+	SECTION("3x3") {
+		using Mat = typename TestType::Rhs::template Matrix<3, 3>;
+		const Mat m = builder;
+		const Quat result(m);
+		const Quat expected = builder;
+		REQUIRE(result == test_util::Approx(expected, 2e-6f));
+	}
+	SECTION("4x3") {
+		using Mat = typename TestType::Rhs::template Matrix<4, 3>;
+		if constexpr (order_v<Mat> == eMatrixOrder::FOLLOW_VECTOR) {
+			const Mat m = builder;
+			const Quat result(m);
+			const Quat expected = builder;
+			REQUIRE(result == test_util::Approx(expected, 2e-6f));
+		}
+	}
+	SECTION("3x4") {
+		using Mat = typename TestType::Rhs::template Matrix<3, 4>;
+		if constexpr (order_v<Mat> == eMatrixOrder::PRECEDE_VECTOR) {
+			const Mat m = builder;
+			const Quat result(m);
+			const Quat expected = builder;
+			REQUIRE(result == test_util::Approx(expected, 2e-6f));
+		}
+	}
+	SECTION("4x4") {
+		using Mat = typename TestType::Rhs::template Matrix<4, 4>;
+		const Mat m = builder;
+		const Quat result(m);
+		const Quat expected = builder;
+		REQUIRE(result == test_util::Approx(expected, 2e-6f));
+	}
 }
 
 
@@ -116,13 +150,46 @@ TEMPLATE_LIST_TEST_CASE("Quaternion - Convert to rotation matrix", "[Quaternion]
 						decltype(BinaryCaseList<QuaternionCaseList<ScalarsFloating, QuatLayoutsAll, PackingsAll>,
 												MatrixCaseList<ScalarsFloating, OrdersAll, LayoutsAll, PackingsAll>>{})) {
 	using Quat = typename TestType::Lhs::Quat;
-	using Mat = typename TestType::Rhs::template Matrix<3, 3>;
+	using Vec = Vector<scalar_type_t<Quat>, 3, is_packed_v<Quat>>;
 
-	SKIP("Must overhaul transform builders first.");
+	const auto builder = RotationAxisAngle(Normalize(Vec(1, 2, 3)), scalar_type_t<Quat>(0.7854626));
+
+	SECTION("3x3") {
+		using Mat = typename TestType::Rhs::template Matrix<3, 3>;
+		const Quat q = builder;
+		const Mat result(q);
+		const Mat expected = builder;
+		REQUIRE(result == test_util::Approx(expected, 2e-6f));
+	}
+	SECTION("4x3") {
+		using Mat = typename TestType::Rhs::template Matrix<4, 3>;
+		if constexpr (order_v<Mat> == eMatrixOrder::FOLLOW_VECTOR) {
+			const Quat q = builder;
+			const Mat result(q);
+			const Mat expected = builder;
+			REQUIRE(result == test_util::Approx(expected, 2e-6f));
+		}
+	}
+	SECTION("3x4") {
+		using Mat = typename TestType::Rhs::template Matrix<3, 4>;
+		if constexpr (order_v<Mat> == eMatrixOrder::PRECEDE_VECTOR) {
+			const Quat q = builder;
+			const Mat result(q);
+			const Mat expected = builder;
+			REQUIRE(result == test_util::Approx(expected, 2e-6f));
+		}
+	}
+	SECTION("4x4") {
+		using Mat = typename TestType::Rhs::template Matrix<4, 4>;
+		const Quat q = builder;
+		const Mat result(q);
+		const Mat expected = builder;
+		REQUIRE(result == test_util::Approx(expected, 2e-6f));
+	}
 }
 
 
-TEMPLATE_LIST_TEST_CASE("Quaternion - Convert to rotation matrix", "[Quaternion]",
+TEMPLATE_LIST_TEST_CASE("Quaternion - Convert to vector", "[Quaternion]",
 						decltype(BinaryCaseList<QuaternionCaseList<ScalarsFloating, QuatLayoutsAll, PackingsAll>,
 												VectorCaseList<ScalarsFloating, PackingsAll>>{})) {
 	using Quat = typename TestType::Lhs::Quat;

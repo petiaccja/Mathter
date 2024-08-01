@@ -345,3 +345,18 @@ TEMPLATE_LIST_TEST_CASE("Transform: Rotation 3D -- Axis-angle matrix", "[Transfo
 		}
 	}
 }
+
+
+TEMPLATE_LIST_TEST_CASE("Transform: Rotation 3D -- Axis-angle quaternion", "[Transforms]",
+						decltype(QuaternionCaseList<ScalarsFloating, QuatLayoutsAll, PackingsAll>{})) {
+	using Quat = typename TestType::Quat;
+	using Scalar = remove_complex_t<scalar_type_t<Quat>>;
+	using Vec = Vector<Scalar, 3, is_packed_v<Quat>>;
+
+	const Scalar angle = 0.577215664901532;
+	const Vec axis = Normalize(Vec(1, 2, 3));
+	const Vec testPoint = { 4, 2, 3 };
+	const auto builder = RotationAxisAngle(axis, angle);
+
+	TestCaseRotationQuat<Quat>(builder, testPoint, axis, angle);
+}
