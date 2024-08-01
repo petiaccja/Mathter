@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Mathter/Common/TypeTraits.hpp>
+#include <Mathter/IoStream.hpp>
 #include <Mathter/Matrix/Arithmetic.hpp>
 #include <Mathter/Matrix/Comparison.hpp>
 #include <Mathter/Matrix/Math.hpp>
@@ -123,6 +124,12 @@ bool operator==(const mathter::Quaternion<T1, Layout1, Packed1>& lhs, const Appr
 template <class T1, class T2, mathter::eQuaternionLayout Layout1, mathter::eQuaternionLayout Layout2, bool Packed1, bool Packed2>
 bool operator==(const Approx<mathter::Quaternion<T1, Layout1, Packed1>>& lhs, const mathter::Quaternion<T2, Layout2, Packed2>& rhs) {
 	return LengthPrecise(lhs.object - rhs) < lhs.tolerance * LengthPrecise(rhs);
+}
+
+
+template <class Object>
+std::ostream& operator<<(std::ostream& os, Approx<Object> approx) {
+	return os << approx.object;
 }
 
 } // namespace test_util
