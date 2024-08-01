@@ -17,6 +17,7 @@ target_sources(UnitTest
         "Quaternion/TestRotationArithmetic.cpp"
         "Transforms/TestIdentityBuilder.cpp"
         "Transforms/TestOrthographicBuilder.cpp"
+        "Transforms/TestPerspectiveBuilder.cpp"
         "Transforms/TestRotation2DBuilder.cpp"
         "Transforms/TestRotation3DBuilder.cpp"
         "Transforms/TestScaleBuilder.cpp"
