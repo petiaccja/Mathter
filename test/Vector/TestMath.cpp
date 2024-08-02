@@ -5,6 +5,7 @@
 
 #pragma warning(disable : 4244)
 
+#include "../Approx.hpp"
 #include "../Cases.hpp"
 
 #include <Mathter/Vector/Comparison.hpp>
@@ -414,5 +415,48 @@ TEMPLATE_LIST_TEST_CASE("Vector - Cross", "[Vector]",
 }
 
 
-// TODO: Tests for cross product!
-// Can't do until matrices are also fixed.
+TEMPLATE_LIST_TEST_CASE("Vector - Gram-Schmidt", "[Vector]",
+						decltype(VectorCaseList<ScalarsFloatingAndComplex, PackingsAll>{})) {
+
+	SECTION("2D") {
+		// This is the example from the Wikipedia article.
+		using Vec = typename TestType::template Vector<2>;
+
+		const std::array vectors = {
+			Vec(3, 1),
+			Vec(2, 2),
+		};
+		const std::array expected = {
+			Vec(3, 1),
+			Vec(-2.0 / 5, 6.0 / 5),
+		};
+
+		std::array<Vec, 2> result;
+		GramSchmidtOrthogonalize(vectors.begin(), vectors.end(), result.begin());
+		REQUIRE(result[0] == test_util::Approx(expected[0]));
+		REQUIRE(result[1] == test_util::Approx(expected[1]));
+		REQUIRE(std::abs(Dot(result[0], result[1])) < 1e-6f);
+	}
+	SECTION("4D") {
+		// This is the example from the Wikipedia article.
+		using Vec = typename TestType::template Vector<4>;
+
+		const std::array vectors = {
+			Vec(3, 1, 5, 2),
+			Vec(2, 2, -1, 3),
+			Vec(4, -7, -1, -2),
+			Vec(1, 9, -1, -7),
+		};
+
+		std::array<Vec, 4> result;
+		GramSchmidtOrthogonalize(vectors.begin(), vectors.end(), result.begin());
+
+		for (auto it = result.begin(); it != result.end(); ++it) {
+			REQUIRE(LengthPrecise(*it) > 0.1f); // No null vectors created.
+
+			for (auto other = result.begin(); other != it; ++other) {
+				REQUIRE(std::abs(Dot(NormalizePrecise(*it), NormalizePrecise(*other))) < 1e-6f);
+			}
+		}
+	}
+}

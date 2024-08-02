@@ -206,12 +206,10 @@ void Fill(Vector<T, Dim, Packed>& lhs, U&& all) {
 }
 
 
-namespace impl {
-
-	template <class IterFirst, class IterLast, class Vec = typename std::iterator_traits<IterFirst>::value_type>
-	auto Cross(IterFirst first, IterLast last) -> std::enable_if_t<is_vector_v<Vec>, Vec>;
-
-} // namespace impl
+/// <summary> Returns the generalized cross-product in N dimensions. </summary>
+/// <remarks> See https://en.wikipedia.org/wiki/Cross_product#Multilinear_algebra for definition. </remarks>
+template <class IterFirst, class IterLast, class Vec = typename std::iterator_traits<IterFirst>::value_type>
+auto Cross(IterFirst first, IterLast last) -> std::enable_if_t<is_vector_v<Vec>, Vec>;
 
 
 /// <summary> Returns the generalized cross-product in N dimensions. </summary>
@@ -220,7 +218,30 @@ template <class... Vectors, class Vec = common_arithmetic_type_t<std::decay_t<Ve
 auto Cross(const Vectors&... vectors) -> std::enable_if_t<(... && is_vector_v<Vectors>), Vec> {
 	static_assert(sizeof...(Vectors) == dimension_v<Vec> - 1, "ND cross product needs exactly N-1 vectors.");
 	const auto container = std::initializer_list<Vec>{ vectors... };
-	return impl::Cross(container.begin(), container.end());
+	return Cross(container.begin(), container.end());
+}
+
+
+/// <summary> Uses the Gram-Schmidt process to orthogonalize a list of vectors. </summary>eparam>
+/// <param name="first"> Iterator to the first vector in the list. </param>
+/// <param name="last"> Iterator to the last vector in the list. </param>
+/// <param name="out"> Output iterator to write out the orthogonalized list. </param>
+/// <remarks> The vectors are orthogonalized, but they are not normalized. You can do that in a separate step. </remarks>
+template <class IterFirst, class IterLast, class IterOut, class Vec = typename std::iterator_traits<IterFirst>::value_type>
+auto GramSchmidtOrthogonalize(IterFirst first, IterLast last, IterOut out) -> std::enable_if_t<is_vector_v<Vec>, void> {
+	constexpr auto proj = [](const Vec& u, const Vec& v) {
+		const auto uScaled = NormalizePrecise(u);
+		return Dot(v, uScaled) / Dot(u, uScaled) * u;
+	};
+
+	for (auto [vIt, uIt] = std::tuple(first, out); vIt != last; ++vIt, ++uIt) {
+		const auto& vk = *vIt;
+		auto uk = vk;
+		for (auto uPrevIt = out; uPrevIt != uIt; ++uPrevIt) {
+			uk = uk - proj(*uPrevIt, uk);
+		}
+		*uIt = uk;
+	}
 }
 
 } // namespace mathter
@@ -271,32 +292,35 @@ namespace impl {
 		return result;
 	}
 
-	template <class IterFirst, class IterLast, class Vec>
-	auto Cross(IterFirst first, IterLast last) -> std::enable_if_t<is_vector_v<Vec>, Vec> {
-		constexpr auto Dim = dimension_v<Vec>;
-
-		if constexpr (dimension_v<Vec> == 2) {
-			if (first == last) {
-				throw std::invalid_argument("not enough arguments for cross product");
-			}
-			return Vec(-first->y, first->x);
-		}
-		if constexpr (dimension_v<Vec> == 3) {
-			if (first == last) {
-				throw std::invalid_argument("not enough arguments for cross product");
-			}
-			const auto& a = *first++;
-			if (first == last) {
-				throw std::invalid_argument("not enough arguments for cross product");
-			}
-			const auto& b = *first++;
-			return Vec(a.yzx * b.zxy - a.zxy * b.yzx);
-		}
-		else {
-			return CrossND(first, last);
-		}
-	}
 } // namespace impl
+
+
+template <class IterFirst, class IterLast, class Vec>
+auto Cross(IterFirst first, IterLast last) -> std::enable_if_t<is_vector_v<Vec>, Vec> {
+	constexpr auto Dim = dimension_v<Vec>;
+
+	if constexpr (dimension_v<Vec> == 2) {
+		if (first == last) {
+			throw std::invalid_argument("not enough arguments for cross product");
+		}
+		return Vec(-first->y, first->x);
+	}
+	if constexpr (dimension_v<Vec> == 3) {
+		if (first == last) {
+			throw std::invalid_argument("not enough arguments for cross product");
+		}
+		const auto& a = *first++;
+		if (first == last) {
+			throw std::invalid_argument("not enough arguments for cross product");
+		}
+		const auto& b = *first++;
+		return Vec(a.yzx * b.zxy - a.zxy * b.yzx);
+	}
+	else {
+		return impl::CrossND(first, last);
+	}
+}
+
 } // namespace mathter
 
 
