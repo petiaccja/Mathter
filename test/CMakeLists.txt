@@ -23,6 +23,7 @@ target_sources(UnitTest
         "Transforms/TestScaleBuilder.cpp"
         "Transforms/TestShearBuilder.cpp"
         "Transforms/TestTranslationBuilder.cpp"
+        "Transforms/TestViewBuilder.cpp"
         "Transforms/TestZeroBuilder.cpp"
         "Vector/TestArithmetic.cpp"
         "Vector/TestComparison.cpp"

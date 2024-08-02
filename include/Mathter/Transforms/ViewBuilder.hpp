@@ -1,12 +1,16 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
-// L Copyright 2021 Péter Kardos
+// L Copyright 2024 Péter Kardos
 // L=============================================================================
 
 #pragma once
 
-#include "../Matrix/MatrixImpl.hpp"
-#include "../Vector.hpp"
+#include "../Matrix/Matrix.hpp"
+#include "../Vector/Math.hpp"
+#include "../Vector/Vector.hpp"
+#include "IdentityBuilder.hpp"
+
+#include <algorithm>
 
 
 namespace mathter {
@@ -19,7 +23,6 @@ class ViewBuilder {
 public:
 	ViewBuilder(const VectorT& eye, const VectorT& target, const std::array<VectorT, size_t(Dim - 2)>& bases, const std::array<bool, Dim>& flipAxes)
 		: eye(eye), target(target), bases(bases), flipAxes(flipAxes) {}
-	ViewBuilder& operator=(const ViewBuilder&) = delete;
 
 	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
 	operator Matrix<U, Dim + 1, Dim + 1, Order, Layout, MPacked>() const {
@@ -45,58 +48,45 @@ public:
 
 private:
 	template <class U, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
-	void Set(Matrix<U, Rows, Columns, Order, Layout, MPacked>& matrix) const {
-		VectorT columns[Dim];
-		std::array<const VectorT*, Dim - 1> crossTable = {};
-		for (int i = 0; i < (int)bases.size(); ++i) {
-			crossTable[i] = &bases[i];
-		}
-		crossTable.back() = &columns[Dim - 1];
-		auto elem = [&matrix](int i, int j) -> U& {
-			return Order == eMatrixOrder::FOLLOW_VECTOR ? matrix(i, j) : matrix(j, i);
-		};
+	void Set(Matrix<U, Rows, Columns, Order, Layout, MPacked>& m) const {
+		Matrix<U, Dim, Dim, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR, MPacked> rotation;
 
-		// calculate columns of the rotation matrix
-		int j = Dim - 1;
-		columns[j] = Normalize(eye - target); // right-handed: camera look towards -Z
-		do {
-			--j;
+		std::decay_t<decltype(rotation.stripes)> extendedBases;
+		auto& columns = rotation.stripes;
 
-			columns[Dim - j - 2] = Normalize(Cross(crossTable));
+		// Arrange vectors like [side, look, bases...]
+		const auto lookAxis = eye - target;
+		extendedBases[Dim - 1] = lookAxis;
+		std::copy(bases.begin(), bases.end(), extendedBases.begin() + 1);
+		const auto sideAxis = Cross(extendedBases.begin() + 1, extendedBases.end());
+		std::rotate(extendedBases.begin() + 1, extendedBases.end() - 1, extendedBases.end());
+		extendedBases[0] = sideAxis;
 
-			// shift bases
-			for (int s = 0; s < j; ++s) {
-				crossTable[s] = crossTable[s + 1];
-			}
-			crossTable[j] = &columns[Dim - j - 2];
-		} while (j > 0);
+		// Do Gram-Schmidt orthogonalization.
+		GramSchmidtOrthogonalize(extendedBases.begin(), extendedBases.end(), rotation.stripes.begin());
 
-		// flip columns
-		for (int i = 0; i < Dim; ++i) {
-			if (flipAxes[i]) {
-				columns[i] *= -T(1);
-			}
+		// Normalize columns.
+		std::for_each(columns.begin(), columns.end(), [](auto& v) {
+			v = NormalizePrecise(v);
+		});
+
+		// Reorder columns to [side, bases... look]
+		std::rotate(columns.begin() + 1, columns.begin() + 2, columns.end());
+
+		// Flip axes
+		for (size_t i = 0; i < Dim; ++i) {
+			columns[i] = flipAxes[i] ? -columns[i] : columns[i];
 		}
 
-		// copy columns to matrix
-		for (int i = 0; i < Dim; ++i) {
-			for (int j = 0; j < Dim; ++j) {
-				elem(i, j) = columns[j][i];
-			}
-		}
+		const auto translation = -eye * rotation;
 
-		// calculate translation of the matrix
-		for (int j = 0; j < Dim; ++j) {
-			elem(Dim, j) = -Dot(eye, columns[j]);
+		m = Identity();
+		m.Insert(0, 0, Matrix<U, Dim, Dim, Order, Layout, MPacked>(rotation));
+		if constexpr (Order == eMatrixOrder::FOLLOW_VECTOR) {
+			m.Insert(Dim, 0, Matrix<U, 1, Dim, Order, Layout, MPacked>(translation));
 		}
-
-		// clear additional elements
-		constexpr int AuxDim = Rows < Columns ? Rows : Columns;
-		if (AuxDim > Dim) {
-			for (int i = 0; i < Dim; ++i) {
-				elem(i, AuxDim - 1) = 0;
-			}
-			elem(Dim, AuxDim - 1) = 1;
+		else {
+			m.Insert(0, Dim, Matrix<U, Dim, 1, Order, Layout, MPacked>(translation));
 		}
 	}
 
