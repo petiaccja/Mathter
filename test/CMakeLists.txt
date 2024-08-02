@@ -3,7 +3,9 @@ add_executable(UnitTest ${sources} ${headers})
 target_sources(UnitTest
     PRIVATE
         "main.cpp"
-        #"TestIntersection.cpp"
+        "Geometry/TestHyperplane.cpp"
+        "Geometry/TestLine.cpp"
+        "Geometry/TestLineSegment.cpp"
         "Matrix/TestMatrix.cpp"
         "Matrix/TestArithmetic.cpp"
         "Matrix/TestComparison.cpp"
@@ -31,8 +33,6 @@ target_sources(UnitTest
         "Vector/TestSIMDUtil.cpp"
         "Vector/TestSwizzle.cpp"
         "Vector/TestVector.cpp"
-        #"TestGenerators.hpp"
-        #"TestGeometry.cpp"
         "TestUtils/TestRotation.cpp"
         "TestUtility.cpp"
 )
