@@ -34,6 +34,7 @@ target_sources(UnitTest
         #"TestGenerators.hpp"
         #"TestGeometry.cpp"
         "TestUtils/TestRotation.cpp"
+        "TestUtility.cpp"
 )
 
 find_package(Catch2 REQUIRED)
