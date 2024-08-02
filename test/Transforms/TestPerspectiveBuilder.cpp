@@ -19,14 +19,6 @@ using namespace test_util;
 using namespace std::complex_literals;
 
 
-template <class Mat, class Builder, class Vec>
-void TestCaseOrthographicMatrix(const Builder& builder, const Vec& testPoint, const Vec& expectedPoint) {
-	const Mat m = builder;
-	const auto result = ApplyTransform(m, testPoint);
-	REQUIRE(result == test_util::Approx(expectedPoint, 2e-6f));
-}
-
-
 TEMPLATE_LIST_TEST_CASE("Transform: Perspective 3D / generic", "[Transforms]",
 						decltype(MatrixCaseList<ScalarsFloating, OrdersAll, LayoutsAll, PackingsAll>{})) {
 	using ExampleMat = typename TestType::template Matrix<1, 1>;
