@@ -3,6 +3,7 @@ add_executable(UnitTest ${sources} ${headers})
 target_sources(UnitTest
     PRIVATE
         "main.cpp"
+        "Geometry/TestBezierCurve.cpp"
         "Geometry/TestHyperplane.cpp"
         "Geometry/TestLine.cpp"
         "Geometry/TestLineSegment.cpp"

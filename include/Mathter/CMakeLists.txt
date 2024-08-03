@@ -21,6 +21,7 @@ target_sources(Mathter
 		#"Decompositions/DecomposeLU.hpp"
 		#"Decompositions/DecomposeQR.hpp"
 		#"Decompositions/DecomposeSVD.hpp"
+		"Geometry/BezierCurve.hpp"
 		"Geometry/Hyperplane.hpp"
 		"Geometry/Line.hpp"
 		"Geometry/LineSegment.hpp"
