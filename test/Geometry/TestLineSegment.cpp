@@ -55,6 +55,26 @@ TEMPLATE_LIST_TEST_CASE("LineSegment: Construct from endpoints", "[LineSegment]"
 }
 
 
+TEMPLATE_LIST_TEST_CASE("LineSegment: converting ctor", "[LineSegment]",
+						decltype(BinaryCaseList<ScalarCaseList<ScalarsFloating>,
+												ScalarCaseList<ScalarsFloating>>{})) {
+	using ScalarLhs = typename TestType::Lhs::Scalar;
+	using ScalarRhs = typename TestType::Rhs::Scalar;
+	using VecLhs = Vector<ScalarLhs, 3>;
+	using LineLhs = LineSegment<ScalarLhs, 3>;
+	using LineRhs = LineSegment<ScalarRhs, 3>;
+
+	const auto point1 = VecLhs(1, 2, 3);
+	const auto point2 = VecLhs(4, 2, 6);
+
+	const auto original = LineLhs(point1, point2);
+	const auto converted = LineRhs(original);
+
+	REQUIRE(original.point1 == test_util::Approx(converted.point1));
+	REQUIRE(original.point2 == test_util::Approx(converted.point2));
+}
+
+
 TEMPLATE_LIST_TEST_CASE("LineSegment: Interpolation", "[LineSegment]",
 						decltype(ScalarCaseList<ScalarsFloating>{})) {
 	using Scalar = typename TestType::Scalar;

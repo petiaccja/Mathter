@@ -6,6 +6,7 @@ target_sources(UnitTest
         "Geometry/TestHyperplane.cpp"
         "Geometry/TestLine.cpp"
         "Geometry/TestLineSegment.cpp"
+        "Geometry/TestRay.cpp"
         "Matrix/TestMatrix.cpp"
         "Matrix/TestArithmetic.cpp"
         "Matrix/TestComparison.cpp"

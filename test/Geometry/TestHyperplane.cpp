@@ -57,6 +57,26 @@ TEMPLATE_LIST_TEST_CASE("Hyperplane: construct from normal & scalar", "[Hyperpla
 }
 
 
+TEMPLATE_LIST_TEST_CASE("Hyperplane: converting ctor", "[Hyperplane]",
+						decltype(BinaryCaseList<ScalarCaseList<ScalarsFloating>,
+												ScalarCaseList<ScalarsFloating>>{})) {
+	using ScalarLhs = typename TestType::Lhs::Scalar;
+	using ScalarRhs = typename TestType::Rhs::Scalar;
+	using VecLhs = Vector<ScalarLhs, 3>;
+	using PlaneLhs = Hyperplane<ScalarLhs, 3>;
+	using PlaneRhs = Hyperplane<ScalarRhs, 3>;
+
+	const auto normal = Normalize(VecLhs(4, 2, 6));
+	const VecLhs base = { 1, 2, 3 };
+
+	const auto original = PlaneLhs(base, normal);
+	const auto converted = PlaneRhs(original);
+
+	REQUIRE(original.normal == test_util::Approx(converted.normal));
+	REQUIRE(original.scalar == Catch::Approx(converted.scalar));
+}
+
+
 TEMPLATE_LIST_TEST_CASE("Hyperplane: convert to line", "[Hyperplane]",
 						decltype(ScalarCaseList<ScalarsFloating>{})) {
 	using Scalar = typename TestType::Scalar;

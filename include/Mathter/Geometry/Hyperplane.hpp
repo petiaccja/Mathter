@@ -20,6 +20,10 @@ public:
 	/// <summary> Does not initialize the object. </summary>
 	Hyperplane() = default;
 
+	/// <summary> Converts from a hyperplane with different scalar type. </summary>
+	template <class TOther>
+	Hyperplane(const Hyperplane<TOther, Dim>& other) : normal(other.normal), scalar(other.scalar) {}
+
 	/// <summary> Construct a plane through a point and a vector normal to the plane. </summary>
 	Hyperplane(const Vec& base, const Vec& normal) : normal(normal) {
 		assert(std::abs(T(1) - Length(normal)) < 0.0001f);
@@ -64,7 +68,7 @@ public:
 		return Dot(point, normal) - scalar;
 	}
 
-private:
+public:
 	Vec normal;
 	T scalar;
 };

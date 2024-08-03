@@ -23,6 +23,10 @@ public:
 	/// <summary> Does not zero-initialize members. </summary>
 	Line() = default;
 
+	/// <summary> Converts from a line with different scalar type. </summary>
+	template <class TOther>
+	Line(const Line<TOther, Dim>& other) : direction(other.direction), base(other.base) {}
+
 	/// <summary> Construct a line through <paramref name="base"/> in given <paramref name="direction"/>. </summary>
 	/// <param name="base"> Any point in 3D space. </param>
 	/// <param name="direction"> Must be normalized. </param>

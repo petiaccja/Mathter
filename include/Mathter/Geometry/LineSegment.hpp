@@ -9,8 +9,6 @@
 #include "../Vector/Vector.hpp"
 #include "Line.hpp"
 
-#include <cmath>
-
 
 namespace mathter {
 
@@ -21,6 +19,10 @@ class LineSegment {
 public:
 	/// <summary> Does not initialize the object. </summary>
 	LineSegment() = default;
+
+	/// <summary> Converts from a line segment with different scalar type. </summary>
+	template <class TOther>
+	LineSegment(const LineSegment<TOther, Dim>& other) : point1(other.point1), point2(other.point2) {}
 
 	/// <summary> Construct a line segment a starting point, a direction and a length. </summary>
 	LineSegment(const Vec& base, const Vec& direction, T length)

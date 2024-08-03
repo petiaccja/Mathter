@@ -52,6 +52,26 @@ TEMPLATE_LIST_TEST_CASE("Line: construct from points", "[Line]",
 }
 
 
+TEMPLATE_LIST_TEST_CASE("Line: converting ctor", "[Line]",
+						decltype(BinaryCaseList<ScalarCaseList<ScalarsFloating>,
+												ScalarCaseList<ScalarsFloating>>{})) {
+	using ScalarLhs = typename TestType::Lhs::Scalar;
+	using ScalarRhs = typename TestType::Rhs::Scalar;
+	using VecLhs = Vector<ScalarLhs, 3>;
+	using LineLhs = Line<ScalarLhs, 3>;
+	using LineRhs = Line<ScalarRhs, 3>;
+
+	const VecLhs base = { 1, 2, 3 };
+	const auto direction = Normalize(VecLhs(4, 2, 6));
+
+	const auto original = LineLhs(base, direction);
+	const auto converted = LineRhs(original);
+
+	REQUIRE(original.base == test_util::Approx(converted.base));
+	REQUIRE(original.direction == test_util::Approx(converted.direction));
+}
+
+
 TEMPLATE_LIST_TEST_CASE("Line: PointAt", "[Line]",
 						decltype(ScalarCaseList<ScalarsFloating>{})) {
 	using Scalar = typename TestType::Scalar;
