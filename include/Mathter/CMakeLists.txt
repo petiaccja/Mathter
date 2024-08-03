@@ -25,6 +25,7 @@ target_sources(Mathter
 		"Geometry/Line.hpp"
 		"Geometry/LineSegment.hpp"
 		"Geometry/Ray.hpp"
+		"Geometry/Triangle.hpp"
 		"Matrix/Arithmetic.hpp"
 		#"Matrix/MatrixCast.hpp"
 		"Matrix/Comparison.hpp"
