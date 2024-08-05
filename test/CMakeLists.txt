@@ -22,6 +22,7 @@ target_sources(UnitTest
         "Transforms/TestIdentityBuilder.cpp"
         "Transforms/TestOrthographicBuilder.cpp"
         "Transforms/TestPerspectiveBuilder.cpp"
+        "Transforms/TestRandomBuilder.cpp"
         "Transforms/TestRotation2DBuilder.cpp"
         "Transforms/TestRotation3DBuilder.cpp"
         "Transforms/TestScaleBuilder.cpp"

@@ -41,6 +41,7 @@ target_sources(Mathter
 		"Transforms/IdentityBuilder.hpp"
 		"Transforms/OrthographicBuilder.hpp"
 		"Transforms/PerspectiveBuilder.hpp"
+		"Transforms/RandomBuilder.hpp"
 		"Transforms/Rotation2DBuilder.hpp"
 		"Transforms/Rotation3DBuilder.hpp"
 		"Transforms/ScaleBuilder.hpp"
