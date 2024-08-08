@@ -47,7 +47,7 @@ namespace impl {
 		using M = Matrix<T, Rows1, Columns2, Order, eMatrixLayout::ROW_MAJOR, Packed1 && Packed2>;
 
 		const auto calcElement = [&lhs, &rhs](size_t rowIdx, size_t colIdx) {
-			return Dot(lhs.Row(rowIdx), rhs.Column(colIdx));
+			return Sum(lhs.Row(rowIdx) * rhs.Column(colIdx));
 		};
 
 		const auto calcRow = [&calcElement](size_t rowIdx) {
@@ -158,7 +158,7 @@ namespace impl {
 	auto Multiply(const Vector<T1, Match, Packed1>& lhs,
 				  const Matrix<T2, Match, Columns2, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR, Packed2>& rhs) {
 		return ::mathter::LoopUnroll<Columns2>([lhs, rhs](auto... elementIdx) {
-			return Vector(Dot(lhs, rhs.Column(elementIdx))...);
+			return Vector(Sum(lhs * rhs.Column(elementIdx))...);
 		});
 	}
 
@@ -178,7 +178,7 @@ namespace impl {
 	auto Multiply(const Matrix<T1, Rows1, Match, eMatrixOrder::PRECEDE_VECTOR, eMatrixLayout::ROW_MAJOR, Packed1>& lhs,
 				  const Vector<T2, Match, Packed2>& rhs) {
 		return ::mathter::LoopUnroll<Rows1>([lhs, rhs](auto... elementIdx) {
-			return Vector(Dot(lhs.Row(elementIdx), rhs)...);
+			return Vector(Sum(lhs.Row(elementIdx) * rhs)...);
 		});
 	}
 

@@ -153,7 +153,7 @@ T Determinant(const Matrix<T, 2, 2, Order, Layout, Packed>& m) {
 	return m(0, 0) * m(1, 1) - m(1, 0) * m(0, 1);
 }
 
-/// <summary> Returns the determinant of a 3x3matrix. </summary>
+/// <summary> Returns the determinant of a 3x3 matrix. </summary>
 template <class T, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 T Determinant(const Matrix<T, 3, 3, Order, Layout, Packed>& m) {
 	const Vector r0_zyx = m.stripes[0].zyx;
@@ -162,12 +162,12 @@ T Determinant(const Matrix<T, 3, 3, Order, Layout, Packed>& m) {
 	const Vector r2_yxz = m.stripes[2].yxz;
 	const Vector r2_xzy = m.stripes[2].xzy;
 
-	T det = Dot(r0_zyx, r1_xzy * r2_yxz - r1_yxz * r2_xzy);
+	T det = Sum(r0_zyx * (r1_xzy * r2_yxz - r1_yxz * r2_xzy));
 
 	return det;
 }
 
-/// <summary> Returns the determinant of a 4x4matrix. </summary>
+/// <summary> Returns the determinant of a 4x4 matrix. </summary>
 template <class T, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 T Determinant(const Matrix<T, 4, 4, Order, Layout, Packed>& m) {
 	const Vector<T, 4, Packed> evenPair = { 1, -1, -1, 1 };
@@ -203,11 +203,11 @@ T Determinant(const Matrix<T, 4, 4, Order, Layout, Packed>& m) {
 	const T r0_w = r0.w;
 	const T r0_z = r0.z;
 
-	const T det = Dot(evenPair, r0_yyxx * r1_wzwz * r2_zwzw * r3_xxyy)
-				  + Dot(oddPair, r0_yxyx * r1_wwxy * r2_xyww * r3_zzzz)
-				  + Dot(evenPair, r0_yxyx * r1_zzxy * r2_xyzz * r3_wwww)
-				  + (r0_w * Dot(r1_zyx, r2_yxz * r3_xzy - r2_xzy * r3_yxz))
-				  + (r0_z * Dot(r1_wyx, r2_xwy * r3_yxw - r2_yxw * r3_xwy));
+	const T det = Sum(evenPair * (r0_yyxx * r1_wzwz * r2_zwzw * r3_xxyy))
+				  + Sum(oddPair * (r0_yxyx * r1_wwxy * r2_xyww * r3_zzzz))
+				  + Sum(evenPair * (r0_yxyx * r1_zzxy * r2_xyzz * r3_wwww))
+				  + (r0_w * Sum(r1_zyx * (r2_yxz * r3_xzy - r2_xzy * r3_yxz)))
+				  + (r0_z * Sum(r1_wyx * (r2_xwy * r3_yxw - r2_yxw * r3_xwy)));
 
 	return det;
 }
@@ -327,7 +327,7 @@ auto Inverse(const Matrix<T, 3, 3, Order, Layout, Packed>& m) {
 		Vector{ c0[2], c1[2], c2[2] },
 	};
 
-	const T det = Dot(r0_zyx, r1_xzy * r2_yxz - r1_yxz * r2_xzy);
+	const T det = Sum(r0_zyx * (r1_xzy * r2_yxz - r1_yxz * r2_xzy));
 	return result / det;
 }
 
@@ -411,11 +411,11 @@ auto Inverse(const Matrix<T, 4, 4, Order, Layout, Packed>& m) {
 	const T r0_w = r0.w;
 	const T r0_z = r0.z;
 
-	const T det = Dot(evenPair, r0_yyxx * r1_wzwz * r2_zwzw * r3_xxyy)
-				  + Dot(oddPair, r0_yxyx * r1_wwxy * r2_xyww * r3_zzzz)
-				  + Dot(evenPair, r0_yxyx * r1_zzxy * r2_xyzz * r3_wwww)
-				  + (r0_w * Dot(r1_zyx, r2_yxz * r3_xzy - r2_xzy * r3_yxz))
-				  + (r0_z * Dot(r1_wyx, r2_xwy * r3_yxw - r2_yxw * r3_xwy));
+	const T det = Sum(evenPair * (r0_yyxx * r1_wzwz * r2_zwzw * r3_xxyy))
+				  + Sum(oddPair * (r0_yxyx * r1_wwxy * r2_xyww * r3_zzzz))
+				  + Sum(evenPair * (r0_yxyx * r1_zzxy * r2_xyzz * r3_wwww))
+				  + (r0_w * Sum(r1_zyx * (r2_yxz * r3_xzy - r2_xzy * r3_yxz)))
+				  + (r0_z * Sum(r1_wyx * (r2_xwy * r3_yxw - r2_yxw * r3_xwy)));
 
 	return result / det;
 }
