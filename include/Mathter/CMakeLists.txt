@@ -19,7 +19,7 @@ target_sources(Mathter
 		"Common/Types.hpp"
 		"Common/TypeTraits.hpp"
 		#"Decompositions/DecomposeLU.hpp"
-		#"Decompositions/DecomposeQR.hpp"
+		"Decompositions/DecomposeQR.hpp"
 		#"Decompositions/DecomposeSVD.hpp"
 		"Geometry/BezierCurve.hpp"
 		"Geometry/Hyperplane.hpp"
