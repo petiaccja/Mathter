@@ -11,8 +11,9 @@ target_sources(UnitTest
         "Geometry/TestLineSegment.cpp"
         "Geometry/TestRay.cpp"
         "Geometry/TestTriangle.cpp"
-        "Matrix/TestMatrix.cpp"
+        "Matrix/TestAlgorithm.cpp"
         "Matrix/TestArithmetic.cpp"
+        "Matrix/TestMatrix.cpp"
         "Matrix/TestComparison.cpp"
         "Matrix/TestMath.cpp"
         "Quaternion/TestArithmetic.cpp"
@@ -41,7 +42,7 @@ target_sources(UnitTest
         "Vector/TestVector.cpp"
         "TestUtils/TestRotation.cpp"
         "TestUtility.cpp"
- "Matrix/TestAlgorithm.cpp")
+)
 
 find_package(Catch2 REQUIRED)
 
