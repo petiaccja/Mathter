@@ -325,7 +325,7 @@ void Matrix<T, Rows, Columns, Order, Layout, Packed>::Row(size_t rowIdx, const V
 		stripes[rowIdx] = row;
 	}
 	else {
-		for (size_t i = 0; i < RowCount(); ++i) {
+		for (size_t i = 0; i < ColumnCount(); ++i) {
 			(*this)(rowIdx, i) = row(i);
 		}
 	}

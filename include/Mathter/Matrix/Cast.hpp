@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include "../Common/LoopUtil.hpp"
 #include "Matrix.hpp"
 
 
@@ -29,9 +30,38 @@ using flip_layout_and_order_t = typename flip_layout_and_order<Mat>::type;
 /// <remarks> This essentially transposes the matrix, but leaves the stripes the same.
 ///		Should be optimized out by compilers. </remarks>
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-static auto FlipLayoutAndOrder(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) {
+auto FlipLayoutAndOrder(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) {
 	return flip_layout_and_order_t<std::decay_t<decltype(m)>>(m);
 }
 
+
+/// <summary> Flip  the order of the matrix. </summary>
+/// <typeparam name="PreserveTransform"> If true, transposes the matrix to preserve transform,
+///		if false, preserves stripes and is essentially a noop. </typeparam>
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed, bool PreserveTransform>
+auto FlipOrder(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m, std::integral_constant<bool, PreserveTransform>) {
+	using Mat = Matrix<T, Columns, Rows, opposite_order_v<Order>, Layout, Packed>;
+	if constexpr (PreserveTransform) {
+		return Mat(m);
+	}
+	else {
+		return LoopUnroll<Mat::stripeCount>([&m](auto... indices) { return Mat(stripeArg, m.stripes[indices]...); });
+	}
+}
+
+
+/// <summary> Flip  the order of the matrix. </summary>
+/// <typeparam name="PreserveTransform"> If true, transposes the matrix to preserve transform,
+///		if false, preserves stripes and is essentially a noop. </typeparam>
+template <eMatrixOrder DesiredOrder, class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed, bool PreserveTransform>
+auto SetOrder(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m, std::integral_constant<bool, PreserveTransform>) {
+	using Mat = Matrix<T, Columns, Rows, DesiredOrder, Layout, Packed>;
+	if constexpr (PreserveTransform) {
+		return Mat(m);
+	}
+	else {
+		return LoopUnroll<Mat::stripeCount>([&m](auto... indices) { return Mat(stripeArg, m.stripes[indices]...); });
+	}
+}
 
 } // namespace mathter

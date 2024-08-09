@@ -7,270 +7,266 @@
 
 #include "../Common/Range.hpp"
 #include "../Common/Types.hpp"
+#include "../Matrix/Algorithm.hpp"
 #include "../Matrix/Matrix.hpp"
+#include "../Transforms/IdentityBuilder.hpp"
+#include "../Transforms/ZeroBuilder.hpp"
 
 
 namespace mathter {
 
 
-/// <summary> A utility class that can do common operations with the LU decomposition,
-///		i.e. solving equation systems. </summary>
+/// <summary> The LU decomposition of a matrix. </summary>
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-class DecompositionLU {
-	using MatrixT = Matrix<T, Dim, Dim, Order, Layout, Packed>;
+struct DecompositionLU {
+	using Mat = Matrix<T, Dim, Dim, Order, Layout, Packed>;
 
-	template <class T2, int Dim2, eMatrixOrder Order2, eMatrixLayout Layout2, bool Packed2>
-	friend class DecompositionLUP;
+	Mat L;
+	Mat U;
 
-private:
-	static Vector<T, Dim, Packed> Solve(const MatrixT& L, const MatrixT& U, const Vector<T, Dim, Packed>& b);
+	/// <summary> Solve multiple linear systems of equations at the same time. </summary>
+	template <class T2, int Rows2, int Columns2, eMatrixLayout Layout2, bool Packed2>
+	auto Solve(const Matrix<T2, Rows2, Columns2, Order, Layout2, Packed2>& b) const;
 
-public:
-	/// <summary> Solves the equation system Ax=b, that is LUx=b. </summary>
-	/// <remarks> If the equation is singular or the LU decomposition fails, garbage is returned. </remarks>
-	/// <param name="b"> The right hand side vector. </summary>
-	/// <returns> The solution x. </returns>
-	Vector<T, Dim, Packed> Solve(const Vector<T, Dim, Packed>& b) const {
-		return Solve(L, U, b);
-	}
+	/// <summary> Solve a linear systems of equations. </summary>
+	template <class T2, bool Packed2>
+	auto Solve(const Vector<T2, Dim, Packed2>& b) const;
 
-	bool Solvable() const {
-		T prod = L(0, 0);
-		T sum = std::abs(prod);
-		for (int i = 1; i < Dim; ++i) {
-			prod *= L(i, i);
-			sum += std::abs(L(i, i));
-		}
-		sum /= Dim;
-		return std::abs(prod) / sum > T(1e-6);
-	}
-
-	/// <param name="L"> Lower triangular matrix, LU=P'A. </param>
-	MatrixT L;
-	/// <param name="U"> Upper triangular matrix, LU=P'A. </param>
-	MatrixT U;
+	/// <summary> Compute the inverse or the pseudoinverse of the matrix. </summary>
+	auto Inverse() const -> Matrix<T, Dim, Dim, Order, Layout, Packed>;
 };
 
 
-/// <summary> A utility class that can do common operations with the LUP decomposition,
-///		i.e. solving equation systems. </summary>
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-class DecompositionLUP {
-	using MatrixT = Matrix<T, Dim, Dim, Order, Layout, Packed>;
+DecompositionLU(const Matrix<T, Dim, Dim, Order, Layout, Packed>&,
+				const Matrix<T, Dim, Dim, Order, Layout, Packed>&) -> DecompositionLU<T, Dim, Order, Layout, Packed>;
 
-public:
-	/// <summary> Solves the equation system Ax=b, that is LUx=Pb. </summary>
-	/// <remarks> If the equation is singular garbage is returned. </remarks>
-	/// <param name="b"> The right hand side vector. </param>
-	/// <returns> The solution x. </returns>
-	Vector<T, Dim, Packed> Solve(const Vector<T, Dim, Packed>& b) const;
 
-	bool Solvable() {
-		T prod = L(0, 0);
-		T sum = std::abs(prod);
-		for (int i = 1; i < Dim; ++i) {
-			prod *= L(i, i);
-			sum += std::abs(L(i, i));
-		}
-		sum /= Dim;
-		return std::abs(prod) / sum > T(1e-6);
+template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+template <class T2, int Rows2, int Columns2, eMatrixLayout Layout2, bool Packed2>
+auto DecompositionLU<T, Dim, Order, Layout, Packed>::Solve(const Matrix<T2, Rows2, Columns2, Order, Layout2, Packed2>& b) const {
+	if constexpr (Order == eMatrixOrder::PRECEDE_VECTOR) {
+		static_assert(Rows2 == Dim, "Incorrect shape for system of equations right-hand side.");
+		const auto Ux = SolveLowerTriangular(L, b);
+		const auto x = SolveUpperTriangular(U, Ux);
+		return x;
 	}
+	else {
+		static_assert(Columns2 == Dim, "Incorrect shape for system of equations right-hand side.");
+		const auto xL = SolveUpperTriangular(U, b);
+		const auto x = SolveLowerTriangular(L, xL);
+		return x;
+	}
+}
 
-	/// <param name="L"> Lower triangular matrix, LU=P'A. </param>
-	MatrixT L;
-	/// <param name="U"> Upper triangular matrix, LU=P'A. </param>
-	MatrixT U;
-	/// <param name="P"> Row permutations. LU=P'A, where P' is a matrix whose i-th row's P[i]-th element is one. </param>
-	Vector<int, Dim, false> P;
+
+template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+template <class T2, bool Packed2>
+auto DecompositionLU<T, Dim, Order, Layout, Packed>::Solve(const Vector<T2, Dim, Packed2>& b) const {
+	using Vec = Vector<T2, Dim, Packed2>;
+	constexpr auto vecMatRows = Order == eMatrixOrder::PRECEDE_VECTOR ? Dim : 1;
+	constexpr auto vecMatCols = Order == eMatrixOrder::PRECEDE_VECTOR ? 1 : Dim;
+	using VecMat = Matrix<T2, vecMatRows, vecMatCols, Order, Layout, Packed2>;
+	return Vec(Solve(VecMat(b)));
+}
+
+
+template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+auto mathter::DecompositionLU<T, Dim, Order, Layout, Packed>::Inverse() const -> Matrix<T, Dim, Dim, Order, Layout, Packed> {
+	return Solve(Mat(Identity()));
+}
+
+
+/// <summary> The LUP decomposition of a matrix. </summary>
+template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+struct DecompositionLUP {
+	using Mat = Matrix<T, Dim, Dim, Order, Layout, Packed>;
+	using Perm = Vector<uint32_t, Dim, Packed>;
+
+	Mat L;
+	Mat U;
+	Perm P;
+
+	/// <summary> Solve multiple linear systems of equations at the same time. </summary>
+	template <class T2, int Rows2, int Columns2, eMatrixLayout Layout2, bool Packed2>
+	auto Solve(const Matrix<T2, Rows2, Columns2, Order, Layout2, Packed2>& b) const;
+
+	/// <summary> Solve a linear systems of equations. </summary>
+	template <class T2, bool Packed2>
+	auto Solve(const Vector<T2, Dim, Packed2>& b) const;
+
+	/// <summary> Compute the inverse or the pseudoinverse of the matrix. </summary>
+	auto Inverse() const -> Matrix<T, Dim, Dim, Order, Layout, Packed>;
+
+	/// <summary> Expand the permutation vector to an orthonormal matrix. </summary>
+	Mat ExpandPermutation() const;
+
+	/// <summary> Expand the permutation vector to an orthonormal matrix. </summary>
+	static Mat ExpandPermutation(Perm P);
+
+	/// <summary> Applies the inverse permutation on the rows/columns of a matrix. </summary>
+	/// <remarks> This can be used to permute x after solving L*U*P^-1*x = b. </remarks>
+	template <class T2, int Rows2, int Columns2, eMatrixLayout Layout2, bool Packed2>
+	auto InversePermute(const Matrix<T2, Rows2, Columns2, Order, Layout2, Packed2>& b) const;
+
+	/// <summary> Applies the permutation on the rows/columns of a matrix. </summary>
+	template <class T2, int Rows2, int Columns2, eMatrixLayout Layout2, bool Packed2>
+	auto Permute(const Matrix<T2, Rows2, Columns2, Order, Layout2, Packed2>& b) const;
 };
+
+
+template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed, class Int>
+DecompositionLUP(const Matrix<T, Dim, Dim, Order, Layout, Packed>&,
+				 const Matrix<T, Dim, Dim, Order, Layout, Packed>&,
+				 const Vector<Int, Dim, Packed>&) -> DecompositionLUP<T, Dim, Order, Layout, Packed>;
+
+
+template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+template <class T2, int Rows2, int Columns2, eMatrixLayout Layout2, bool Packed2>
+auto DecompositionLUP<T, Dim, Order, Layout, Packed>::Solve(const Matrix<T2, Rows2, Columns2, Order, Layout2, Packed2>& b) const {
+	if constexpr (Order == eMatrixOrder::PRECEDE_VECTOR) {
+		return DecompositionLU{ L, U }.Solve(Permute(b));
+	}
+	else {
+		return InversePermute(DecompositionLU{ L, U }.Solve(b));
+	}
+}
+
+
+template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+template <class T2, bool Packed2>
+auto mathter::DecompositionLUP<T, Dim, Order, Layout, Packed>::Solve(const Vector<T2, Dim, Packed2>& b) const {
+	using Vec = Vector<T2, Dim, Packed2>;
+	constexpr auto vecMatRows = Order == eMatrixOrder::PRECEDE_VECTOR ? Dim : 1;
+	constexpr auto vecMatCols = Order == eMatrixOrder::PRECEDE_VECTOR ? 1 : Dim;
+	using VecMat = Matrix<T2, vecMatRows, vecMatCols, Order, Layout, Packed2>;
+	return Vec(Solve(VecMat(b)));
+}
+
+
+template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+auto mathter::DecompositionLUP<T, Dim, Order, Layout, Packed>::Inverse() const -> Matrix<T, Dim, Dim, Order, Layout, Packed> {
+	return Solve(Mat(Identity()));
+}
+
+
+template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+auto DecompositionLUP<T, Dim, Order, Layout, Packed>::ExpandPermutation() const -> Mat {
+	return ExpandPermutation(P);
+}
+
+
+template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+auto DecompositionLUP<T, Dim, Order, Layout, Packed>::ExpandPermutation(Perm P) -> Mat {
+	Mat PM = Zero();
+	for (size_t i = 0; i < Dim; ++i) {
+		PM(i, P[i]) = static_cast<T>(1);
+	}
+	return PM;
+}
+
+
+template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+template <class T2, int Rows2, int Columns2, eMatrixLayout Layout2, bool Packed2>
+auto DecompositionLUP<T, Dim, Order, Layout, Packed>::InversePermute(const Matrix<T2, Rows2, Columns2, Order, Layout2, Packed2>& b) const {
+	std::decay_t<decltype(b)> PinvB;
+	for (size_t i = 0; i < Dim; ++i) {
+		if constexpr (Order == eMatrixOrder::PRECEDE_VECTOR) {
+			static_assert(Rows2 == Dim, "Incorrect shape for matrix to permute.");
+			PinvB.Row(P[i], b.Row(i));
+		}
+		else {
+			static_assert(Columns2 == Dim, "Incorrect shape for matrix to permute.");
+			PinvB.Column(P[i], b.Column(i));
+		}
+	}
+	return PinvB;
+}
+
+
+template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+template <class T2, int Rows2, int Columns2, eMatrixLayout Layout2, bool Packed2>
+auto DecompositionLUP<T, Dim, Order, Layout, Packed>::Permute(const Matrix<T2, Rows2, Columns2, Order, Layout2, Packed2>& b) const {
+	std::decay_t<decltype(b)> PinvB;
+	for (size_t i = 0; i < Dim; ++i) {
+		if constexpr (Order == eMatrixOrder::PRECEDE_VECTOR) {
+			static_assert(Rows2 == Dim, "Incorrect shape for matrix to permute.");
+			PinvB.Row(i, b.Row(P[i]));
+		}
+		else {
+			static_assert(Columns2 == Dim, "Incorrect shape for matrix to permute.");
+			PinvB.Column(i, b.Column(P[i]));
+		}
+	}
+	return PinvB;
+}
 
 
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 auto DecomposeLU(const Matrix<T, Dim, Dim, Order, Layout, Packed>& m) {
-	// From: https://www.gamedev.net/resources/_/technical/math-and-physics/matrix-inversion-using-lu-decomposition-r3637
-	Matrix<T, Dim, Dim, Order, Layout, Packed> L;
-	Matrix<T, Dim, Dim, Order, Layout, Packed> U;
+	using Mat = std::decay_t<decltype(m)>;
 
-	const auto& A = m;
-	constexpr int n = Dim;
+	Mat L = Identity();
+	Mat U = m;
+	Mat check = m;
 
-	for (int i = 0; i < n; ++i) {
-		for (int j = i + 1; j < n; ++j) {
-			L(i, j) = 0;
-		}
-		for (int j = 0; j <= i; ++j) {
-			U(i, j) = i == j;
-		}
-	}
+	for (size_t zeroedColIdx = 0; zeroedColIdx < Dim - 1; ++zeroedColIdx) {
+		const auto pivotRow = U.Row(zeroedColIdx);
+		const auto pivot = pivotRow(zeroedColIdx);
 
-	// Crout's algorithm
-	for (int i = 0; i < n; ++i) {
-		L(i, 0) = A(i, 0);
-	}
-	for (int j = 1; j < n; ++j) {
-		U(0, j) = A(0, j) / L(0, 0);
-	}
-
-	for (int j = 1; j < n - 1; ++j) {
-		for (int i = j; i < n; ++i) {
-			float Lij;
-			Lij = A(i, j);
-			for (int k = 0; k <= j - 1; ++k) {
-				Lij -= L(i, k) * U(k, j);
-			}
-			L(i, j) = Lij;
-		}
-		for (int k = j; k < n; ++k) {
-			float Ujk;
-			Ujk = A(j, k);
-			for (int i = 0; i <= j - 1; ++i) {
-				Ujk -= L(j, i) * U(i, k);
-			}
-			Ujk /= L(j, j);
-			U(j, k) = Ujk;
+		for (size_t zeroedRowIdx = zeroedColIdx + 1; zeroedRowIdx < Dim; ++zeroedRowIdx) {
+			const auto target = U(zeroedRowIdx, zeroedColIdx);
+			const auto scale = target / pivot;
+			U.Row(zeroedRowIdx, U.Row(zeroedRowIdx) - pivotRow * scale);
+			U(zeroedRowIdx, zeroedColIdx) = static_cast<T>(0); // Just to be sure that it is exactly zero.
+			L(zeroedRowIdx, zeroedColIdx) = scale;
+			check = L * U;
 		}
 	}
 
-	L(n - 1, n - 1) = A(n - 1, n - 1);
-	for (int k = 0; k < n - 1; ++k) {
-		L(n - 1, n - 1) -= L(n - 1, k) * U(k, n - 1);
-	}
-
-	return DecompositionLU<T, Dim, Order, Layout, Packed>{ L, U };
-}
-
-/// <summary> Implements LU decomposition with partial pivoting. </summary>
-/// <remarks> Handles singular matrices as well. </remarks>
-/// <param name="L"> Lower triangular matrix, LU=P'A. </param>
-/// <param name="U"> Upper triangular matrix, LU=P'A. </param>
-/// <param name="P"> Row permutations. LU=P'A, where P' is a matrix whose i-th row's P[i]-th element is one. </param>
-/// <param name="parity"> The parity of the permutation described by P. Odd: 1, Even: -1. </param>
-template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-auto DecomposeLUP(const Matrix<T, Dim, Dim, Order, Layout, Packed>& m, int& parity) {
-	static_assert(!std::is_integral_v<T>, "Integer matrices cannot be decomposed.");
-
-	Matrix<T, Dim, Dim, Order, Layout, Packed> L;
-	Matrix<T, Dim, Dim, Order, Layout, Packed> U;
-	Vector<int, Dim, Packed> P;
-	U = m;
-
-	int n = m.RowCount();
-	parity = 1;
-
-	for (int i : impl::Range(0, n)) {
-		P(i) = i;
-	}
-
-	for (int j : impl::Range(0, n)) {
-		// find largest pivot elements
-		remove_complex_t<T> p(0);
-		int largest;
-		for (int i : impl::Range(j, n)) {
-			if (std::abs(U(i, j)) > std::abs(p)) {
-				largest = i;
-				p = std::abs(U(i, j));
-			}
-		}
-
-		// if pivot is zero TODO
-		if (p == 0) {
-			continue;
-		}
-
-		// swap rows to move pivot to top row
-		std::swap(P(j), P(largest));
-		parity *= (j != largest ? -1 : 1);
-		for (int i : impl::Range(0, n)) {
-			std::swap(U(j, i), U(largest, i));
-		}
-
-		// do some magic
-		for (int i : impl::Range(j + 1, n)) {
-			U(i, j) = U(i, j) / U(j, j);
-			for (int k : impl::Range(j + 1, n)) {
-				U(i, k) = U(i, k) - U(i, j) * U(j, k);
-			}
-		}
-	}
-
-	// copy elements to L
-	for (int j : impl::Range(0, n)) {
-		for (int i : impl::Range(j + 1, n)) {
-			L(i, j) = U(i, j);
-			U(i, j) = T(0);
-			L(j, i) = T(0);
-		}
-	}
-	for (int i : impl::Range(n)) {
-		L(i, i) = 1;
-	}
-
-	return DecompositionLUP<T, Dim, Order, Layout, Packed>{ L, U, P };
+	return DecompositionLU{ L, U };
 }
 
 
-/// <summary> Implements LU decomposition with partial pivoting. </summary>
-/// <remarks> Handles singular matrices as well. </remarks>
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 auto DecomposeLUP(const Matrix<T, Dim, Dim, Order, Layout, Packed>& m) {
-	int ignore;
-	return DecomposeLUP(m, ignore);
-}
+	using Mat = std::decay_t<decltype(m)>;
+	using Perm = Vector<uint32_t, Dim, Packed>;
+	using Real = remove_complex_t<T>;
 
+	Mat L = Identity();
+	Mat U = m;
+	Perm P;
+	std::iota(P.begin(), P.end(), uint32_t(0));
 
-template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-Vector<T, Dim, Packed> DecompositionLU<T, Dim, Order, Layout, Packed>::Solve(const MatrixT& L, const MatrixT& U, const Vector<T, Dim, Packed>& b) {
-	// Augmented matrix for gaussian elimination.
-	Matrix<T, Dim, Dim + 1, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, Packed> E;
+	for (size_t zeroedColIdx = 0; zeroedColIdx < Dim - 1; ++zeroedColIdx) {
+		const auto zeroedColAbs = Abs(U.Column(zeroedColIdx));
+		const auto pivotRowIt = std::max_element(zeroedColAbs.begin() + zeroedColIdx, zeroedColAbs.end());
+		const auto pivotRowIdx = pivotRowIt - zeroedColAbs.begin();
+		const auto pivotRow = U.Row(pivotRowIdx);
+		const auto pivot = pivotRow(zeroedColIdx);
 
-	// Solve Ld = b.
-	for (size_t column = 0; column < Dim; ++column) {
-		E.Column(column, L.Column(column));
-	}
-	E.Column(Dim, b);
+		if (pivot != static_cast<Real>(0)) {
+			// Swap pivot row and the current row.
+			U.Row(pivotRowIdx, U.Row(zeroedColIdx));
+			U.Row(zeroedColIdx, pivotRow);
+			std::swap(P[pivotRowIdx], P[zeroedColIdx]);
+			for (size_t i = 0; i < zeroedColIdx; ++i) {
+				std::swap(L(pivotRowIdx, i), L(zeroedColIdx, i));
+			}
 
-	for (int i = 0; i < Dim - 1; ++i) {
-		for (int i2 = i + 1; i2 < Dim; ++i2) {
-			E.stripes[i] /= E(i, i);
-			T coeff = E(i2, i);
-			E.stripes[i2] -= E.stripes[i] * coeff;
+			// Zero out column as usual business.
+			for (size_t zeroedRowIdx = zeroedColIdx + 1; zeroedRowIdx < Dim; ++zeroedRowIdx) {
+				const auto target = U(zeroedRowIdx, zeroedColIdx);
+				const auto scale = target / pivot;
+				U.Row(zeroedRowIdx, U.Row(zeroedRowIdx) - pivotRow * scale);
+				U(zeroedRowIdx, zeroedColIdx) = static_cast<T>(0); // Just to be sure that it is exactly zero.
+				L(zeroedRowIdx, zeroedColIdx) = scale;
+			}
 		}
 	}
-	E(Dim - 1, Dim) /= E(Dim - 1, Dim - 1);
 
-	// Solve Ux = d.
-	// d is already in the last column of E.
-	for (size_t column = 0; column < Dim; ++column) {
-		E.Column(column, U.Column(column));
-	}
-
-	for (int i = Dim - 1; i > 0; --i) {
-		for (int i2 = i - 1; i2 >= 0; --i2) {
-			E.stripes[i] /= E(i, i);
-			T coeff = E(i2, i);
-			E.stripes[i2] -= E.stripes[i] * coeff;
-		}
-	}
-	E(0, Dim) /= E(0, 0);
-	// x is now the last column of E
-
-	return E.Column(Dim);
+	return DecompositionLUP{ L, U, P };
 }
-
-
-template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-Vector<T, Dim, Packed> DecompositionLUP<T, Dim, Order, Layout, Packed>::Solve(const Vector<T, Dim, Packed>& b) const {
-	// Permute b
-	Vector<T, Dim, Packed> bp;
-	for (int i : impl::Range(0, P.Dimension())) {
-		bp(i) = b(P(i));
-	}
-
-	// Solve
-	auto x = DecompositionLU<T, Dim, Order, Layout, Packed>::Solve(L, U, bp);
-
-	return x;
-}
-
 
 } // namespace mathter

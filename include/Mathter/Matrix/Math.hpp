@@ -426,18 +426,7 @@ template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packe
 Matrix<T, Dim, Dim, Order, Layout, Packed> Inverse(const Matrix<T, Dim, Dim, Order, Layout, Packed>& m) {
 	static_assert(!std::is_integral_v<T>, "Integer matrices cannot be inverted.");
 
-	Matrix<T, Dim, Dim, Order, Layout, Packed> ret;
-
-	const auto LUP = DecomposeLUP(m);
-
-	for (int col = 0; col < Dim; ++col) {
-		Vector<T, Dim, Packed> b(static_cast<T>(0));
-		b(col) = 1;
-		const auto x = LUP.Solve(b);
-		ret.Column(col, x);
-	}
-
-	return ret;
+	return DecomposeLUP(m).Inverse();
 }
 
 } // namespace mathter

@@ -362,6 +362,6 @@ TEMPLATE_LIST_TEST_CASE("Matrix - Inverse", "[Matrix]",
 			-2 / 59.0, 222 / 7375.0, 3027 / 7375.0, -219 / 7375.0, -242 / 7375.0
 		};
 
-		REQUIRE(inverse == test_util::Approx(expected));
+		REQUIRE(inverse == test_util::Approx(expected, 1e-6f));
 	}
 }

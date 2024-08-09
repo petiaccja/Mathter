@@ -3,6 +3,7 @@ add_executable(UnitTest ${sources} ${headers})
 target_sources(UnitTest
     PRIVATE
         "main.cpp"
+        "Decompositions/TestLU.cpp"
         "Decompositions/TestQR.cpp"
         "Geometry/TestBezierCurve.cpp"
         "Geometry/TestHyperplane.cpp"
@@ -40,7 +41,7 @@ target_sources(UnitTest
         "Vector/TestVector.cpp"
         "TestUtils/TestRotation.cpp"
         "TestUtility.cpp"
-)
+ "Matrix/TestAlgorithm.cpp")
 
 find_package(Catch2 REQUIRED)
 

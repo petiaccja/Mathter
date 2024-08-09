@@ -8,6 +8,7 @@
 #include "../ApplyTransform.hpp"
 #include "../Approx.hpp"
 #include "../Cases.hpp"
+#include "../MatrixUtil.hpp"
 
 #include <Mathter/Decompositions/DecomposeQR.hpp>
 #include <Mathter/Matrix/Arithmetic.hpp>
@@ -36,14 +37,7 @@ static void VerifyDecomposition(const MatA& A, const MatQ& Q, const MatR& R) {
 	REQUIRE(QtQ == test_util::Approx(decltype(QtQ)(Identity()), tolerance));
 	REQUIRE(Q * R == test_util::Approx(A, tolerance));
 
-	auto triangularity = R;
-	for (size_t col = 0; col < column_count_v<MatR>; ++col) {
-		for (size_t row = 0; row <= col; ++row) {
-			triangularity(row, col) = Real(0);
-		}
-	}
-
-	REQUIRE(NormPrecise(triangularity) < tolerance * NormPrecise(R));
+	REQUIRE(NormPrecise(ZeroUpperTriangle(R)) < tolerance * NormPrecise(R));
 }
 
 

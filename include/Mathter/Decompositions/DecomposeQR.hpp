@@ -90,7 +90,11 @@ auto DecompositionQR<T, Rows, Columns, Order, Layout, Packed>::Solve(const Vecto
 
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 auto DecompositionQR<T, Rows, Columns, Order, Layout, Packed>::Inverse() const -> Matrix<T, Columns, Rows, Order, Layout, Packed> {
-	return SolveUpperTriangular(R, MatR(Identity())) * ConjTranspose(Q);
+	const auto ordR = SetOrder<eMatrixOrder::PRECEDE_VECTOR>(R, std::false_type{});
+	const auto ordI = SetOrder<eMatrixOrder::PRECEDE_VECTOR>(MatR(Identity()), std::false_type{});
+	const auto Rinv = SetOrder<Order>(SolveUpperTriangular(ordR, ordI), std::false_type{});
+	const auto Qinv = ConjTranspose(Q);
+	return Rinv * Qinv;
 }
 
 
@@ -99,7 +103,6 @@ template <class T2, int Columns2, eMatrixOrder Order2, eMatrixLayout Layout2, bo
 auto DecompositionQR<T, Rows, Columns, Order, Layout, Packed>::SolveUnordered(const Matrix<T2, Rows, Columns2, Order2, Layout2, Packed2>& b) const {
 	return SolveUpperTriangular(R, ConjTranspose(Q) * b);
 }
-
 
 
 /// <summary> The thin LQ decomposition of a matrix. </summary>
