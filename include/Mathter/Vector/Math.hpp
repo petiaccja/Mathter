@@ -115,10 +115,37 @@ T Sum(const Vector<T, Dim, Packed>& v) {
 }
 
 
+/// <summary> Returns the compensated sum of the element of the vector. </summary>
+template <class T, int Dim, bool Packed>
+std::tuple<T, T> SumCompensated(const Vector<T, Dim, Packed>& v) {
+	auto sum = T(0);
+	auto compensation = T(0);
+	for (const auto& element : v) {
+		const auto t = sum + element;
+		if (std::abs(sum) > std::abs(element)) {
+			compensation += (sum - t) + element;
+		}
+		else {
+			compensation += (element - t) + sum;
+		}
+		sum = t;
+	}
+	std::tie(sum, compensation) = impl::Fast2Sum(sum, compensation);
+	return { sum, compensation };
+}
+
+
 /// <summary> Calculates the scalar product (dot product) of the two arguments. </summary>
 template <class T1, class T2, int Dim, bool Packed1, bool Packed2>
 auto Dot(const Vector<T1, Dim, Packed1>& lhs, const Vector<T2, Dim, Packed2>& rhs) {
 	return Sum(lhs * Conj(rhs));
+}
+
+
+/// <summary> Calculates the compensated scalar product (dot product) of the two arguments. </summary>
+template <class T1, class T2, int Dim, bool Packed1, bool Packed2>
+auto DotCompensated(const Vector<T1, Dim, Packed1>& lhs, const Vector<T2, Dim, Packed2>& rhs) {
+	return SumCompensated(lhs * Conj(rhs));
 }
 
 

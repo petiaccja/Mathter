@@ -177,6 +177,22 @@ TEMPLATE_LIST_TEST_CASE("Vector - Sum", "[Vector]",
 }
 
 
+TEST_CASE("Vector - SumCompensated", "[Vector]") {
+	const auto value = Vector(1.0f, 1e-12f, 1e-12f, 1e-12f, 1e-12f, 1.0f, 1e-12f);
+	const auto [sum, compensation] = SumCompensated(value);
+	REQUIRE(sum == 2.0f);
+	REQUIRE(compensation == 5e-12f);
+}
+
+
+TEST_CASE("Vector - DotCompensated", "[Vector]") {
+	const auto value = Vector(1.0f, 1e-6f, 1e-6f, 1e-6f, 1e-6f, 1.0f, 1e-6f);
+	const auto [sum, compensation] = DotCompensated(value, value);
+	REQUIRE(sum == 2.0f);
+	REQUIRE(compensation == 5e-12f);
+}
+
+
 TEMPLATE_LIST_TEST_CASE("Vector - Dot (real)", "[Vector]",
 						decltype(BinaryCaseList<VectorCaseList<ScalarsFloatAndInt32, PackingsAll>,
 												VectorCaseList<ScalarsFloatAndInt32, PackingsAll>>{})) {
