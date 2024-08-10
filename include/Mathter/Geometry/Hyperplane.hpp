@@ -36,13 +36,13 @@ public:
 	}
 
 	/// <summary> Convert a 2D line to a 2D hyperplane, as they are the same objects. </summary>
-	Hyperplane(const Line<T, 2>& line)
+	explicit Hyperplane(const Line<T, 2>& line)
 		: normal(Cross(line.Direction())), scalar(Dot(normal, line.Base())) {
 		static_assert(Dim == 2, "Plane dimension must be two, which is a line.");
 	}
 
 	/// <summary> Convert a 2D hyperplane to a 2D line, as they are the same objects. </summary>
-	operator Line<T, 2>() const {
+	explicit operator Line<T, 2>() const {
 		static_assert(Dim == 2, "Plane dimension must be two, which is a line.");
 		return Line<T, 2>(Base(), Cross(normal));
 	}
@@ -63,8 +63,7 @@ public:
 	}
 
 	/// <summary> Return the distance of a point from the hyperplane. </summary>
-	template <bool Packed>
-	T Distance(const Vector<T, Dim, Packed>& point) const {
+	T Distance(const Vector<T, Dim>& point) const {
 		return Dot(point, normal) - scalar;
 	}
 
@@ -72,5 +71,13 @@ public:
 	Vec normal;
 	T scalar;
 };
+
+
+template <class T>
+Hyperplane(const Line<T, 2>&) -> Hyperplane<T, 2>;
+
+
+template <class T>
+Line(const Hyperplane<T, 2>&) -> Line<T, 2>;
 
 } // namespace mathter

@@ -7,6 +7,7 @@ target_sources(UnitTest
         "Decompositions/TestQR.cpp"
         "Geometry/TestBezierCurve.cpp"
         "Geometry/TestHyperplane.cpp"
+        "Geometry/TestIntersection.cpp"
         "Geometry/TestLine.cpp"
         "Geometry/TestLineSegment.cpp"
         "Geometry/TestRay.cpp"
