@@ -47,7 +47,7 @@ template <class T, bool Packed>
 struct VectorStorage<T, 2, Packed> {
 	static constexpr int Dim = 2;
 
-	VectorStorage() : elements{} {}
+	VectorStorage() {}
 
 	union {
 		Elements<T, Dim, Packed> elements;
@@ -60,7 +60,7 @@ template <class T, bool Packed>
 struct VectorStorage<T, 3, Packed> {
 	static constexpr int Dim = 3;
 
-	VectorStorage() : elements{} {}
+	VectorStorage() {}
 
 	union {
 		Elements<T, Dim, Packed> elements;
@@ -73,7 +73,7 @@ template <class T, bool Packed>
 struct VectorStorage<T, 4, Packed> {
 	static constexpr int Dim = 4;
 
-	VectorStorage() : elements{} {}
+	VectorStorage() {}
 
 	union {
 		Elements<T, Dim, Packed> elements;
