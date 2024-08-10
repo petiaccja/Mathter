@@ -23,7 +23,7 @@ target_sources(Mathter
 		# Decompositions
 		"Decompositions/DecomposeLU.hpp"
 		"Decompositions/DecomposeQR.hpp"
-		"Decompositions/DecomposeSVD.hpp"
+		# SVD will be updated separately: "Decompositions/DecomposeSVD.hpp"
 		# Geometry
 		"Geometry/BezierCurve.hpp"
 		"Geometry/Hyperplane.hpp"
