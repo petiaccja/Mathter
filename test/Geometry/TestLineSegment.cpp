@@ -89,3 +89,20 @@ TEMPLATE_LIST_TEST_CASE("LineSegment: Interpolation", "[LineSegment]",
 	REQUIRE(lineSegment.Interpol(Scalar(1.0 / 3.0)) == test_util::Approx(Vec(3, 5, 9)));
 	REQUIRE(lineSegment.End() == test_util::Approx(point2));
 }
+
+
+TEMPLATE_LIST_TEST_CASE("LineSegment: InterpolOf", "[LineSegment]",
+						decltype(ScalarCaseList<ScalarsFloating>{})) {
+	using Scalar = typename TestType::Scalar;
+	using Vec = Vector<Scalar, 3>;
+
+	const Vec point1 = { 1, 2, 3 };
+	const auto direction = Normalize(Vec(2, 3, 6));
+	const Vec point2 = point1 + direction * Scalar(21);
+	const auto perpendicular = Normalize(Cross(direction, Vec(0, 0, 1)));
+
+	const LineSegment<Scalar, 3> lineSegment(point1, point2);
+
+	REQUIRE(lineSegment.InterpolOf(point1 + direction * 6) == Catch::Approx(6.0 / 21.0));
+	REQUIRE(lineSegment.InterpolOf(point1 + direction * 6 + perpendicular * 2) == Catch::Approx(6.0 / 21.0));
+}

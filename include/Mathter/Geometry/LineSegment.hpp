@@ -57,6 +57,16 @@ public:
 		return t * point2 + (T(1) - t) * point1;
 	}
 
+	/// <summary> Calculates the interpolation paramter that gives <paramref name="point"/>. </summary>
+	/// <remarks> If the point if not actually on the line, it returns the interpolation
+	///		parameter to get the closest point to it. </remarks>
+	T InterpolOf(const Vec& point) const {
+		const auto offset = point - point1;
+		const auto direction = point2 - point1;
+		const auto length = LengthPrecise(direction);
+		return Dot(offset, direction / length) / length;
+	}
+
 	/// <summary> Returns a line colinear to the line segment. </summary>
 	Line<T, Dim> Line() const {
 		return mathter::Line<T, Dim>{ point1, Direction() };
