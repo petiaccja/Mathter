@@ -3,8 +3,9 @@
 Changes:
 - Refactored utility folder structure and code (`Common/*`)
 - Refactored vector folder structure and code (`Vector/*`)
-- Refactored vector folder structure and code (`Matrix/*`)
-- Refactored vector folder structure and code (`Quaternion/*`)
+- Refactored matrix folder structure and code (`Matrix/*`)
+- Refactored quaternion folder structure and code (`Quaternion/*`)
+- Refactored geometry header and code (`Geometry/*`)
 - `Vector`s:
 	- Memory representation:
 		- Removed undefined behavior due to swizzle unions
@@ -20,10 +21,12 @@ Changes:
 		- Added several new functions
 - `Matrix`es:
 	- Removed submatrices
-		- Added accessors for rows and columns
-	- Better support for heterogeneous types (i.e. adding vector of `double` plus vector of `float`)
+	- Added accessors for rows and columns
+	- Better support for heterogeneous types (i.e. adding matrix of `double` plus matrix of `float`)
 	- Better support and testing for `std::complex`
-	- Matrix cast: TODO
+	- Matrix casts:
+		- Constructors now handle more casts
+		- Casts are now utility functions mainly for internal use
 	- Functions:
 		- Added several new functions
 - `Quaternion`s:
@@ -31,9 +34,27 @@ Changes:
 		- New Layout template param to specify sijk or ijks
 		- Removed undefined behavior due to swizzle unions
 		- Named accessors (i.e. `.x`) are now `Swizzle`s instead of `T&`
+	- Better support for heterogeneous types (i.e. adding quaternion of `double` plus quaternion of `float`)
 	- Functions:
 		- Deprecated `ScalarPart` and `VectorPart`:
 			- Migrate to the new .scalar and .vector swizzlers instead
 		- Removed converion operator to Vector<3>: questionable meaning / use-cases (use q.vector instead)
 		- Renamed `Conjugate` to `Conj` (in line with STL)
 		- Fixed `Inverse` (q^-1) working only for unit quaternions
+- Transforms:
+	- Minimal changes to interface
+	- New transforms:
+		- Random, general shear
+	- Now also applicable to vectors: zero, random
+- Geometry:
+	- Complete overhaul of intersections
+		- All intersections now return `std::optional<Vector>` for the intersection point
+	- Only small changes to objects
+- Decompositions:
+	- QR: 
+		- Added LQ to support wide matrices
+	- SVD: unchanged
+	- LU/LUP: unchanged
+	- All decompositions have a uniform interface:
+		- Solve: solve system of equations / least squares if applicable
+		- Inverse: compute matrix inverse / pseudoinverse if applicable
