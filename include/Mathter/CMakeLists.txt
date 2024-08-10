@@ -4,13 +4,15 @@ target_sources(Mathter
 	INTERFACE FILE_SET natvis TYPE HEADERS BASE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/.." FILES
 		"Mathter.natvis"
 	INTERFACE FILE_SET headers TYPE HEADERS BASE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/.." FILES
+		# Master headers
 		"Geometry.hpp"
-		#"IoStream.hpp"
+		"IoStream.hpp"
 		"Matrix.hpp"
 		"Quaternion.hpp"
+		"Transforms.hpp"
 		"Utility.hpp"
 		"Vector.hpp"
-		"Common/Approx.hpp"
+		# Common
 		"Common/DeterministicInitializer.hpp"
 		"Common/Functional.hpp"
 		"Common/LoopUtil.hpp"
@@ -18,9 +20,11 @@ target_sources(Mathter
 		"Common/Range.hpp"
 		"Common/Types.hpp"
 		"Common/TypeTraits.hpp"
+		# Decompositions
 		"Decompositions/DecomposeLU.hpp"
 		"Decompositions/DecomposeQR.hpp"
-		#"Decompositions/DecomposeSVD.hpp"
+		"Decompositions/DecomposeSVD.hpp"
+		# Geometry
 		"Geometry/BezierCurve.hpp"
 		"Geometry/Hyperplane.hpp"
 		"Geometry/Intersection.hpp"
@@ -28,18 +32,21 @@ target_sources(Mathter
 		"Geometry/LineSegment.hpp"
 		"Geometry/Ray.hpp"
 		"Geometry/Triangle.hpp"
+		# Matrix
+		"Matrix/Algorithm.hpp"
 		"Matrix/Arithmetic.hpp"
 		"Matrix/Cast.hpp"
-		"Matrix/Algorithm.hpp"
 		"Matrix/Comparison.hpp"
 		"Matrix/Math.hpp"
 		"Matrix/Matrix.hpp"
+		# Quaternion
 		"Quaternion/Arithmetic.hpp"
 		"Quaternion/Comparison.hpp"
+		"Quaternion/Literals.hpp"
 		"Quaternion/Math.hpp"
 		"Quaternion/Quaternion.hpp"
-		"Quaternion/Literals.hpp"
 		"Quaternion/RotationArithmetic.hpp"
+		# Transforms
 		"Transforms/IdentityBuilder.hpp"
 		"Transforms/OrthographicBuilder.hpp"
 		"Transforms/PerspectiveBuilder.hpp"
@@ -51,10 +58,7 @@ target_sources(Mathter
 		"Transforms/TranslationBuilder.hpp"
 		"Transforms/ViewBuilder.hpp"
 		"Transforms/ZeroBuilder.hpp"
-		"Vector/SwizzleInc/Swizzle1.hpp.inc"
-		"Vector/SwizzleInc/Swizzle2.hpp.inc"
-		"Vector/SwizzleInc/Swizzle3.hpp.inc"
-		"Vector/SwizzleInc/Swizzle4.hpp.inc"
+		# Vector
 		"Vector/Arithmetic.hpp"
 		"Vector/Comparison.hpp"
 		"Vector/Concat.hpp"

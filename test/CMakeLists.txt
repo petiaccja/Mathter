@@ -14,15 +14,18 @@ target_sources(UnitTest
         "Geometry/TestTriangle.cpp"
         "Matrix/TestAlgorithm.cpp"
         "Matrix/TestArithmetic.cpp"
-        "Matrix/TestMatrix.cpp"
         "Matrix/TestComparison.cpp"
         "Matrix/TestMath.cpp"
+        "Matrix/TestMatrix.cpp"
         "Quaternion/TestArithmetic.cpp"
         "Quaternion/TestComparison.cpp"
         "Quaternion/TestLiterals.cpp"
         "Quaternion/TestMath.cpp"
         "Quaternion/TestQuaternion.cpp"
         "Quaternion/TestRotationArithmetic.cpp"
+        "TestMasterHeaders.cpp"
+        "TestUtility.cpp"
+        "TestUtils/TestRotation.cpp"
         "Transforms/TestIdentityBuilder.cpp"
         "Transforms/TestOrthographicBuilder.cpp"
         "Transforms/TestPerspectiveBuilder.cpp"
@@ -41,8 +44,6 @@ target_sources(UnitTest
         "Vector/TestSIMDUtil.cpp"
         "Vector/TestSwizzle.cpp"
         "Vector/TestVector.cpp"
-        "TestUtils/TestRotation.cpp"
-        "TestUtility.cpp"
 )
 
 find_package(Catch2 REQUIRED)
