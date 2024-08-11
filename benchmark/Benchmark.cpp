@@ -43,8 +43,8 @@ void PrintCases() {
 	auto maxFun = [](const auto& a, const auto& b) { return std::max(a, b); };
 	std::array colSizes = {
 		std::transform_reduce(names.begin(), names.end(), std::size(headerName), maxFun, sizeFun),
-		std::transform_reduce(names.begin(), names.end(), std::size(headerLatency), maxFun, sizeFun),
-		std::transform_reduce(names.begin(), names.end(), std::size(headerThroughput), maxFun, sizeFun),
+		std::transform_reduce(latencies.begin(), latencies.end(), std::size(headerLatency), maxFun, sizeFun),
+		std::transform_reduce(throughputs.begin(), throughputs.end(), std::size(headerThroughput), maxFun, sizeFun),
 	};
 
 	auto makeLine = [&](char fill, char column) {
