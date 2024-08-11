@@ -1,4 +1,6 @@
-﻿#pragma once
+#pragma once
+
+#include <Mathter/Common/LoopUtil.hpp>
 
 #include <algorithm>
 #include <catch2/catch_test_macros.hpp>
@@ -19,8 +21,10 @@
 
 #ifdef _MSC_VER
 #define MATHTER_NOINLINE __declspec(noinline)
+#define MATHTER_FORCEINLINE __forceinline
 #else
 #define MATHTER_NOINLINE __attribute__((noinline))
+#define MATHTER_FORCEINLINE __attribute__((always_inline))
 #endif
 
 
@@ -29,8 +33,8 @@ namespace impl {
 
 struct BenchmarkRecord {
 	std::string name;
-	float latency;
-	float throughput;
+	double latency;
+	double throughput;
 };
 
 
@@ -60,21 +64,9 @@ void DoNotOptimizeAway(T&& value) {
 }
 
 
-template <size_t... Indices, class Func>
-void Unroll(Func func, std::index_sequence<Indices...>) {
-	(..., func(Indices));
-}
-
-
-template <size_t Count, class Func>
-void Unroll(Func func) {
-	Unroll(func, std::make_index_sequence<Count>{});
-}
-
-
 template <class DoSample>
-MATHTER_NOINLINE int64_t BestSample(DoSample&& doSample, int64_t samples) {
-	int64_t bestTime = std::numeric_limits<int64_t>::max();
+MATHTER_NOINLINE double BestSample(DoSample&& doSample, int64_t samples) {
+	double bestTime = std::numeric_limits<double>::max();
 	for (size_t i = 0; i < samples; ++i) {
 		bestTime = std::min(bestTime, doSample());
 	}
@@ -82,61 +74,57 @@ MATHTER_NOINLINE int64_t BestSample(DoSample&& doSample, int64_t samples) {
 }
 
 
-template <class Operation, class Feed, class... Init, size_t N>
-float Latency(int64_t samples, int64_t repeat, Operation&& operation, Feed&& feed, const std::array<std::tuple<Init...>, N>& init) {
-	static constexpr size_t unrollCount = 16;
+template <class Fixture, class FirstArg, class... Args>
+double LatencySample(int64_t repeat, Fixture&& fixture, FirstArg&& arg, Args&&... args) {
+	const auto startTime = ReadTSC();
 
-	auto doSample = [&]() {
-		auto result = operation(init[0]);
-		const auto seed = init[1 % N];
+	auto [result, count] = fixture.Latency(std::forward<FirstArg>(arg), args...);
+	for (int64_t i = 0; i < repeat; ++i) {
+		auto [result_, count_] = fixture.Latency(std::move(result), args...);
+		result = std::move(result_);
+		count += count_;
+	}
+	DoNotOptimizeAway(result);
 
-		const auto startTime = ReadTSC();
-		for (int64_t i = 0; i < repeat; ++i) {
-			Unroll<unrollCount>([&](size_t) {
-				result = operation(feed(result, seed));
-			});
-		}
-		DoNotOptimizeAway(result);
-
-		const auto endTime = ReadTSC();
-		return endTime - startTime;
-	};
-
-	return BestSample(doSample, samples) / float(repeat * unrollCount);
+	const auto endTime = ReadTSC();
+	return (endTime - startTime) / double(count);
 }
 
 
-template <class Operation, class Feed, class... Init, size_t N>
-float Throughput(int64_t samples, int64_t repeat, Operation&& operation, Feed&& feed, const std::array<std::tuple<Init...>, N>& init) {
-	static constexpr size_t unrollCount = 16;
+template <class Fixture, class FirstArg, class... Args>
+double ThroughputSample(int64_t repeat, Fixture&& fixture, FirstArg&& arg, Args&&... args) {
+	const auto startTime = ReadTSC();
 
-	auto doSample = [&]() {
-		size_t index = 0;
-		std::array<decltype(operation(init[0])), unrollCount> results;
-		std::fill(results.begin(), results.end(), operation(init[0]));
-		const auto seed = init[1 % N];
+	auto [result, count] = fixture.Throughput(std::forward<FirstArg>(arg), args...);
 
-		const auto startTime = ReadTSC();
+	for (int64_t i = 0; i < repeat; ++i) {
+		auto [result_, count_] = fixture.Throughput(result[i % result.size()], args...);
+		count += count_;
+		result = result_;
+	}
+	DoNotOptimizeAway(result);
 
-		for (int64_t i = 0; i < repeat; ++i) {
-			Unroll<results.size()>([&](size_t unrollIdx) {
-				results[unrollIdx] = operation(feed(results[unrollIdx], seed));
-			});
-		}
-		DoNotOptimizeAway(results);
-
-		const auto endTime = ReadTSC();
-		return endTime - startTime;
-	};
-
-	return BestSample(doSample, samples) / float(repeat * unrollCount);
+	const auto endTime = ReadTSC();
+	return (endTime - startTime) / double(count);
 }
 
 
-template <class Operation, class Feed, class... Init, size_t N>
-void BenchmarkCase(std::string_view name, int64_t samples, int64_t repeat, Operation&& operation, Feed&& feed, const std::array<std::tuple<Init...>, N>& init) {
-	const auto latency = Latency(samples, repeat, operation, feed, init);
-	const auto throughput = Throughput(samples, repeat, operation, feed, init);
+template <class Fixture, class FirstArg, class... Args>
+double Latency(int64_t samples, int64_t repeat, Fixture&& fixture, FirstArg&& arg, Args&&... args) {
+	return BestSample([&]() { return LatencySample(repeat, fixture, arg, args...); }, samples);
+}
+
+
+template <class Fixture, class FirstArg, class... Args>
+double Throughput(int64_t samples, int64_t repeat, Fixture&& fixture, FirstArg&& arg, Args&&... args) {
+	return BestSample([&]() { return ThroughputSample(repeat, fixture, arg, args...); }, samples);
+}
+
+
+template <class Fixture, class Arg, class... Args>
+void BenchmarkCase(std::string_view name, int64_t samples, int64_t repeat, Fixture&& fixture, Arg&& arg, Args&&... args) {
+	const auto latency = Latency(samples, repeat, fixture, arg, args...);
+	const auto throughput = Throughput(samples, repeat, fixture, arg, args...);
 	std::lock_guard lk{ g_mutex };
 	g_records.push_back(BenchmarkRecord{ std::string(name), latency, throughput });
 }
@@ -145,7 +133,46 @@ void BenchmarkCase(std::string_view name, int64_t samples, int64_t repeat, Opera
 } // namespace impl
 
 
-#define BENCHMARK_CASE(NAME, TAG, SAMPLES, REPEAT, OPERATION, FEED, INIT)    \
-	TEST_CASE(NAME, TAG) {                                                   \
-		::impl::BenchmarkCase(NAME, SAMPLES, REPEAT, OPERATION, FEED, INIT); \
+template <class Lhs, class Rhs, class Op, size_t Count, size_t Index = 0>
+MATHTER_FORCEINLINE static auto DependentUnroll(const Lhs& lhs,
+												const std::array<Rhs, Count>& rhs,
+												Op op,
+												std::integral_constant<size_t, Index> = std::integral_constant<size_t, 0>{}) {
+	if constexpr (Index < Count) {
+		return DependentUnroll(op(lhs, rhs[Index]), rhs, op, std::integral_constant<size_t, Index + 1>{});
+	}
+	else {
+		return lhs;
+	}
+}
+
+
+template <class Out, class Lhs, class Rhs, class Op, size_t Count, size_t Index = 0>
+MATHTER_FORCEINLINE static auto IndependentUnroll(std::array<Out, Count>& out,
+												  const Lhs& lhs,
+												  const std::array<Rhs, Count>& rhs,
+												  Op op,
+												  std::integral_constant<size_t, Index> = std::integral_constant<size_t, 0>{}) {
+	if constexpr (Index < Count) {
+		out[Index] = op(lhs, rhs[Index]);
+		IndependentUnroll(out, lhs, rhs, op, std::integral_constant<size_t, Index + 1>{});
+	}
+}
+
+
+template <class Lhs, class Rhs, class Op, size_t Count, size_t Index = 0>
+MATHTER_FORCEINLINE static auto IndependentUnroll(const Lhs& lhs,
+												  const std::array<Rhs, Count>& rhs,
+												  Op op,
+												  std::integral_constant<size_t, Index> = std::integral_constant<size_t, 0>{}) {
+	using R = std::invoke_result_t<Op, Lhs, Rhs>;
+	std::array<R, Count> out;
+	IndependentUnroll(out, lhs, rhs, op, std::integral_constant<size_t, Index + 1>{});
+	return out;
+}
+
+
+#define BENCHMARK_CASE(NAME, TAG, SAMPLES, REPEAT, FIXTURE, ARG1, ...)            \
+	TEST_CASE(NAME, TAG) {                                                        \
+		::impl::BenchmarkCase(NAME, SAMPLES, REPEAT, FIXTURE, ARG1, __VA_ARGS__); \
 	}

@@ -1,4 +1,4 @@
-﻿add_executable(Benchmark ${sources} ${headers})
+add_executable(Benchmark ${sources} ${headers})
 
 target_sources(Benchmark
     PRIVATE
@@ -10,8 +10,8 @@ target_sources(Benchmark
 target_sources(Benchmark
     PRIVATE
         "main.cpp"
-        "BenchmarkVectorArithmetic.cpp"
-        "BenchmarkMatrixArithmetic.cpp"
+        "Matrix/BenchmarkArithmetic.cpp"
+        "Vector/BenchmarkArithmetic.cpp"
 )       
 
 find_package(Catch2 REQUIRED)
