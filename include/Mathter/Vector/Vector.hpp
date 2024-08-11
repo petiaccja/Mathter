@@ -6,6 +6,7 @@
 #pragma once
 
 #include "../Common/DeterministicInitializer.hpp"
+#include "../Common/LoopUtil.hpp"
 #include "../Common/TypeTraits.hpp"
 #include "SIMDUtil.hpp"
 #include "Swizzle.hpp"
@@ -133,7 +134,7 @@ public:
 	/// <summary> Initializes the vector by concatenating given scalar, vector or swizzle arguments. </summary>
 	/// <remarks> Sum of the dimension of arguments must equal vector dimension.
 	///		Types of arguments may differ from vector's underlying type, in which case cast is forced without a warning. </remarks>
-	template <class... Parts, std::enable_if_t<(sizeof...(Parts) > 1), int> = 0>
+	template <class... Parts, class = std::enable_if_t<(sizeof...(Parts) > 1)>>
 	Vector(const Parts&... parts);
 
 	/// <summary> Construct the vector using the SIMD batch type as content. </summary>
@@ -188,7 +189,9 @@ public:
 
 private:
 	void ZeroPadding() {
-		std::fill(end(), elements.array.end(), static_cast<T>(0));
+		::mathter::LoopUnroll<GetStorageSize<T, Dim, Packed>() - Dim>([this](auto... indices) {
+			(..., (elements.array[Dim + indices] = static_cast<T>(0)));
+		});
 	}
 };
 
@@ -311,24 +314,33 @@ Vector<T, Dim, Packed>::Vector(const Swizzle<TOther, DimOther, PackedOther, Indi
 }
 
 
-template <class T, int Dim, bool Packed>
-template <class... Parts, std::enable_if_t<(sizeof...(Parts) > 1), int>>
-Vector<T, Dim, Packed>::Vector(const Parts&... parts) {
-	auto it = begin();
-	const auto copy = [this, &it](const auto& arg) {
-		assert(it != end());
-		using Arg = std::decay_t<decltype(arg)>;
-		if constexpr (is_swizzle_v<Arg> || is_vector_v<Arg>) {
-			for (int i = 0; i < dimension_v<Arg>; ++i) {
-				*it++ = static_cast<T>(arg[i]);
-			}
+namespace impl {
+
+	template <size_t Offset, class T, int Dim, bool Packed, class Part, class... Parts>
+	void Assign(Elements<T, Dim, Packed>& elements, const Part& part, const Parts&... parts) {
+		constexpr auto partDim = size_t(dimension_v<std::decay_t<Part>>);
+		if constexpr (partDim > 1) {
+			::mathter::LoopUnroll<partDim>([&elements, &part](auto... indices) {
+				(..., (elements.array[Offset + indices] = static_cast<T>(part[indices])));
+			});
 		}
 		else {
-			*it++ = static_cast<T>(arg);
+			elements.array[Offset] = static_cast<T>(part);
 		}
-	};
-	(..., copy(parts));
-	assert(it == end());
+		if constexpr (sizeof...(Parts) > 0) {
+			Assign<Offset + partDim>(elements, parts...);
+		}
+	}
+
+} // namespace impl
+
+
+template <class T, int Dim, bool Packed>
+template <class... Parts, class>
+Vector<T, Dim, Packed>::Vector(const Parts&... parts) {
+	constexpr int totalDim = (... + dimension_v<Parts>);
+	static_assert(totalDim == Dim);
+	impl::Assign<0>(elements, parts...);
 	ZeroPadding();
 }
 

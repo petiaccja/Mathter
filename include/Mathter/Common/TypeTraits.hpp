@@ -109,7 +109,9 @@ using scalar_type_t = typename scalar_type<T>::type;
 //--------------------------------------
 
 template <class T>
-struct dimension {};
+struct dimension {
+	static constexpr int value = 1;
+};
 
 template <class T, int Dim, bool Packed>
 struct dimension<Vector<T, Dim, Packed>> {
@@ -120,6 +122,17 @@ template <class T, int Dim, bool Packed, int... Indices>
 struct dimension<Swizzle<T, Dim, Packed, Indices...>> {
 	static constexpr int value = sizeof...(Indices);
 };
+
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+struct dimension<Matrix<T, Rows, Columns, Order, Layout, Packed>> {
+	template <int Rows_, int Columns_>
+	static constexpr int Get() {
+		static_assert(Rows_ == 1 || Columns_ == 1, "Must be a row or column matrix to determine dimension.");
+		return Rows_ == 1 ? Columns_ : Rows_;
+	}
+	static constexpr int value = Get<Rows, Columns>();
+};
+
 
 template <class T>
 constexpr auto dimension_v = dimension<T>::value;
