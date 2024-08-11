@@ -38,8 +38,8 @@ T LengthPrecise(const Quaternion<T, Layout, Packed>& q) {
 
 /// <summary> Returns the unit quaternion of the same direction. Does not change this object. </summary>
 template <class T, eQuaternionLayout Layout, bool Packed>
-Quaternion<T, Packed> Normalize(const Quaternion<T, Layout, Packed>& q) {
-	return Quaternion<T, Packed>{ Normalize(Vector(q)) };
+Quaternion<T, Layout, Packed> Normalize(const Quaternion<T, Layout, Packed>& q) {
+	return Quaternion<T, Layout, Packed>{ Normalize(Vector(q)) };
 }
 
 
@@ -62,7 +62,7 @@ template <class T, eQuaternionLayout Layout, bool Packed>
 Quaternion<T, Layout, Packed> Conj(const Quaternion<T, Layout, Packed>& q) {
 	constexpr auto one = static_cast<T>(1);
 	const Vector sign = { one, -one, -one, -one };
-	return { canonicalArg, q.canonical * sign };
+	return Quaternion<T, Layout, Packed>{ canonicalArg, q.canonical * sign };
 }
 
 

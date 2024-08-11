@@ -30,7 +30,7 @@ Approx(T&&, Args&&...) -> Approx<std::decay_t<T>>;
 
 template <class T>
 constexpr auto DefaultTolerance() {
-	return static_cast<remove_complex_t<T>>(10) * std::numeric_limits<mathter::remove_complex_t<std::decay_t<T>>>::epsilon();
+	return static_cast<mathter::remove_complex_t<T>>(10) * std::numeric_limits<mathter::remove_complex_t<std::decay_t<T>>>::epsilon();
 }
 
 

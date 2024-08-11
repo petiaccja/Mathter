@@ -197,7 +197,7 @@ TEMPLATE_LIST_TEST_CASE("Matrix - Extract submatrix", "[Matrix]",
 		13, 14, 15, 16
 	};
 
-	const auto submatrix = m.Extract<2, 3>(1, 1);
+	const auto submatrix = m.template Extract<2, 3>(1, 1);
 
 	REQUIRE(submatrix(0, 0) == static_cast<Scalar>(6));
 	REQUIRE(submatrix(0, 1) == static_cast<Scalar>(7));

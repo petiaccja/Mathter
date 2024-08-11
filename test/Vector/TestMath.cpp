@@ -396,8 +396,8 @@ TEMPLATE_LIST_TEST_CASE("Vector - Cross", "[Vector]",
 		REQUIRE(Length(result) == Catch::Approx(Length(v)));
 
 		// This validates the orientation of the 2D specialized and checks generalized values.
-		const auto ilist = std::initializer_list{ v };
-		const auto generalized = impl::CrossND(ilist.begin(), ilist.end());
+		const auto vectors = std::array{ v };
+		const auto generalized = impl::CrossND(vectors.begin(), vectors.end());
 		REQUIRE(generalized[0] == Catch::Approx(result[0]));
 		REQUIRE(generalized[1] == Catch::Approx(result[1]));
 	}
@@ -412,8 +412,8 @@ TEMPLATE_LIST_TEST_CASE("Vector - Cross", "[Vector]",
 		REQUIRE(result.z > 0.8f); // Check orientation.
 
 		// This validates the orientation of the 2D specialized and checks generalized values.
-		const auto ilist = std::initializer_list{ a, b };
-		const auto generalized = impl::CrossND(ilist.begin(), ilist.end());
+		const auto vectors = std::array{ a, b };
+		const auto generalized = impl::CrossND(vectors.begin(), vectors.end());
 		REQUIRE(generalized[0] == Catch::Approx(result[0]));
 		REQUIRE(generalized[1] == Catch::Approx(result[1]));
 		REQUIRE(generalized[2] == Catch::Approx(result[2]));

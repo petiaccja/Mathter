@@ -6,7 +6,11 @@
 #pragma once
 
 #include "../Common/TypeTraits.hpp"
+#include "SIMDUtil.hpp"
 #include "Vector.hpp"
+
+#include <cstddef>
+#include <type_traits>
 
 
 
@@ -34,6 +38,30 @@ Batch FillMasked(Batch batch, Element value) {
 }
 
 
+template <int Dim, bool Packed, class Fun, class... Args>
+struct is_batched_invocable {
+	using ScalarResult = std::invoke_result_t<Fun, Args...>;
+	using BatchResult = MakeBatch<ScalarResult, Dim, Packed>;
+
+	template <class... Batches>
+	static constexpr auto Get(std::nullptr_t)
+		-> std::enable_if_t<std::is_invocable_v<Fun, Batches...>, bool> {
+		return false;
+	}
+
+	template <class...>
+	static constexpr auto Get(...) {
+		return false;
+	}
+
+	static constexpr bool value = Get<MakeBatch<Args, Dim, Packed>...>(nullptr);
+};
+
+
+template <int Dim, bool Packed, class Fun, class... Args>
+inline constexpr auto is_batched_invocable_v = is_batched_invocable<Dim, Packed, Fun, Args...>::value;
+
+
 template <class T, int Dim, bool Packed, class Fun, size_t... Indices>
 auto DoUnaryOpScalar(const Vector<T, Dim, Packed>& arg, Fun&& fun, std::index_sequence<Indices...>) {
 	using R = std::invoke_result_t<Fun, T>;
@@ -44,8 +72,7 @@ auto DoUnaryOpScalar(const Vector<T, Dim, Packed>& arg, Fun&& fun, std::index_se
 template <class T, int Dim, bool Packed, class Fun>
 auto DoUnaryOp(const Vector<T, Dim, Packed>& arg, Fun&& fun) {
 	using R = std::invoke_result_t<Fun, T>;
-	using BatchT = typename Vector<T, Dim, Packed>::Batch;
-	if constexpr (arg.isBatched && std::is_invocable_v<Fun, BatchT>) {
+	if constexpr (is_batched_invocable_v<Dim, Packed, Fun, T>) {
 		const auto batch = fun(arg.elements.Load());
 		return Vector<R, Dim, Packed>(batch);
 	}
@@ -67,9 +94,7 @@ template <class T1, class T2, int Dim, bool Packed1, bool Packed2, class Fun>
 auto DoBinaryOp(const Vector<T1, Dim, Packed1>& lhs, const Vector<T2, Dim, Packed2>& rhs, Fun&& fun) {
 	using T = std::invoke_result_t<Fun, T1, T2>;
 	constexpr auto Packed = Packed1 && Packed2;
-	using BatchT1 = typename Vector<T1, Dim, Packed1>::Batch;
-	using BatchT2 = typename Vector<T2, Dim, Packed2>::Batch;
-	if constexpr (IsBatched<T, Dim, Packed1>() && std::is_invocable_v<Fun, BatchT1, BatchT2>) {
+	if constexpr (is_batched_invocable_v<Dim, Packed, Fun, T1, T2>) {
 		return Vector<T, Dim, Packed>{ fun(lhs.elements.Load(), rhs.elements.Load()) };
 	}
 	else {
@@ -90,10 +115,7 @@ template <class T1, class T2, class T3, int Dim, bool Packed1, bool Packed2, boo
 auto DoTernaryOp(const Vector<T1, Dim, Packed1>& a, const Vector<T2, Dim, Packed2>& b, const Vector<T3, Dim, Packed3>& c, Fun&& fun) {
 	using T = std::invoke_result_t<Fun, T1, T2, T3>;
 	constexpr auto Packed = Packed1 && Packed2 && Packed3;
-	using BatchT1 = typename Vector<T1, Dim, Packed>::Batch;
-	using BatchT2 = typename Vector<T2, Dim, Packed>::Batch;
-	using BatchT3 = typename Vector<T3, Dim, Packed>::Batch;
-	if constexpr (IsBatched<T, Dim, Packed>() && std::is_invocable_v<Fun, BatchT1, BatchT2, BatchT3>) {
+	if constexpr (is_batched_invocable_v<Dim, Packed, Fun, T1, T2, T3>) {
 		return Vector<T, Dim, Packed>{ fun(a.elements.Load(), b.elements.Load(), c.elements.Load()) };
 	}
 	else {

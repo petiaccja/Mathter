@@ -54,13 +54,13 @@ namespace quat_literals {
 
 
 	inline auto operator"" _il(unsigned long long int arg) {
-		return Quaternion<long double>(0.0l, long double(arg), 0.0l, 0.0l);
+		return Quaternion<long double>(0.0l, static_cast<long double>(arg), 0.0l, 0.0l);
 	}
 	inline auto operator"" _jl(unsigned long long int arg) {
-		return Quaternion<long double>(0.0l, 0.0l, long double(arg), 0.0l);
+		return Quaternion<long double>(0.0l, 0.0l, static_cast<long double>(arg), 0.0l);
 	}
 	inline auto operator"" _kl(unsigned long long int arg) {
-		return Quaternion<long double>(0.0l, 0.0l, 0.0l, long double(arg));
+		return Quaternion<long double>(0.0l, 0.0l, 0.0l, static_cast<long double>(arg));
 	}
 
 	inline auto operator"" _il(long double arg) {

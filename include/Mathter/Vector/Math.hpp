@@ -46,7 +46,7 @@ auto Max(const Vector<T1, Dim, Packed1>& lhs, const Vector<T2, Dim, Packed2>& rh
 template <class T, int Dim, bool Packed>
 T Min(const Vector<T, Dim, Packed>& v) {
 #if MATHTER_ENABLE_SIMD
-	if constexpr (v.isBatched) {
+	if constexpr (std::decay_t<decltype(v)>::isBatched) {
 		const auto value = v.elements.Load();
 		constexpr auto filler = std::numeric_limits<remove_complex_t<T>>::max();
 		const auto filled = FillMasked<Dim>(value, filler);
@@ -104,7 +104,7 @@ auto Conj(const Vector<T, Dim, Packed>& v) {
 template <class T, int Dim, bool Packed>
 T Sum(const Vector<T, Dim, Packed>& v) {
 #if MATHTER_ENABLE_SIMD
-	if constexpr (v.isBatched) {
+	if constexpr (Vector<T, Dim, Packed>::isBatched) {
 		const auto value = v.elements.Load();
 		constexpr auto filler = T(0);
 		const auto filled = FillMasked<Dim>(value, filler);

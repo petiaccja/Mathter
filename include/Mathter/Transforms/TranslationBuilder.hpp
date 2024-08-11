@@ -62,6 +62,9 @@ namespace impl {
 		std::array<T, Dim> translation;
 	};
 
+	template <class T, size_t N>
+	TranslationBuilder(const std::array<T, N>&) -> TranslationBuilder<T, int(N)>;
+
 } // namespace impl
 
 

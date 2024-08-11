@@ -12,6 +12,7 @@
 
 #include <array>
 #include <cassert>
+#include <type_traits>
 
 
 namespace mathter {
@@ -44,7 +45,7 @@ class Matrix : public MatrixStorage<T, Rows, Columns, Order, Layout, Packed> {
 
 public:
 	using MatrixStorage<T, Rows, Columns, Order, Layout, Packed>::stripes;
-	using MatrixStorage<T, Rows, Columns, Order, Layout, Packed>::Stripe;
+	using typename MatrixStorage<T, Rows, Columns, Order, Layout, Packed>::Stripe;
 	using MatrixStorage<T, Rows, Columns, Order, Layout, Packed>::stripeDim;
 	using MatrixStorage<T, Rows, Columns, Order, Layout, Packed>::stripeCount;
 	static constexpr bool isVector = std::min(Rows, Columns) == 1;
@@ -66,12 +67,12 @@ public:
 	Matrix(const Matrix<T2, Columns, Rows, opposite_order_v<Order>, Layout2, Packed2>& rhs);
 
 	/// <summary> Creates a matrix from its elements. </summary>
-	template <class... Scalars, class = std::enable_if_t<(... && std::is_convertible_v<std::decay_t<Scalars>, T>)&&sizeof...(Scalars) == size_t(Rows* Columns), int>>
+	template <class... Scalars, class = std::enable_if_t<(... && std::is_convertible_v<std::decay_t<Scalars>, T>) && sizeof...(Scalars) == size_t(Rows* Columns), int>>
 	Matrix(Scalars&&... elements);
 
 	/// <summary> Constructs a row or column matrix from a vector. </summary>
 	/// <remarks> This can only be used for row or column matrices. </remarks>
-	template <class TOther, bool PackedOther, class = std::enable_if_t<isVector>>
+	template <class TOther, bool PackedOther, class = std::enable_if_t<isVector && sizeof(TOther) != 0>>
 	Matrix(const Vector<TOther, vectorDim, PackedOther>& v);
 
 	/// <summary> Used by internal methods. </summary>
@@ -107,12 +108,12 @@ public:
 	const T& operator()(size_t row, size_t col) const;
 
 	/// <summary> Returns the <paramref name="idx"/>-th element of a row or column matrix. </summary>
-	template <class TAlias = std::enable_if_t<isVector, T>>
-	TAlias& operator()(size_t idx);
+	template <class TAlias = T>
+	std::enable_if_t<isVector && std::is_same_v<T, TAlias>, TAlias>& operator()(size_t idx);
 
 	/// <summary> Returns the <paramref name="idx"/>-th element of a row or column matrix. </summary>
-	template <class TAlias = std::enable_if_t<isVector, T>>
-	const TAlias& operator()(size_t idx) const;
+	template <class TAlias = T>
+	const std::enable_if_t<isVector && std::is_same_v<T, TAlias>, TAlias>& operator()(size_t idx) const;
 
 	/// <summary> Return the matrix's column as a vector. </summary>
 	auto Column(size_t colIdx) const;
@@ -143,7 +144,7 @@ public:
 	void Insert(int whereRow, int whereCol, const Matrix<T, InsertedRows, InsertedColumns, Order, Layout, Packed>& submatrix);
 
 	/// <summary> Convert a row or column matrix to a vector. </summary>
-	template <class TOther, bool PackedOther, class = std::enable_if_t<isVector>>
+	template <class TOther, bool PackedOther, class = std::enable_if_t<isVector && std::is_convertible_v<T, TOther>>>
 	operator Vector<TOther, vectorDim, PackedOther>() const;
 
 protected:
@@ -260,18 +261,20 @@ const T& Matrix<T, Rows, Columns, Order, Layout, Packed>::operator()(size_t row,
 
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 template <class TAlias>
-TAlias& Matrix<T, Rows, Columns, Order, Layout, Packed>::operator()(size_t idx) {
+auto Matrix<T, Rows, Columns, Order, Layout, Packed>::operator()(size_t idx)
+	-> std::enable_if_t<isVector && std::is_same_v<T, TAlias>, TAlias>& {
 	assert(idx < vectorDim);
-	const auto [i, j] = RowCount() == 1 ? std::tuple(0, idx) : std::tuple(idx, 0);
+	const auto [i, j] = RowCount() == 1 ? std::tuple(size_t(0), idx) : std::tuple(idx, size_t(0));
 	return (*this)(i, j);
 }
 
 
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 template <class TAlias>
-const TAlias& Matrix<T, Rows, Columns, Order, Layout, Packed>::operator()(size_t idx) const {
+auto Matrix<T, Rows, Columns, Order, Layout, Packed>::operator()(size_t idx) const
+	-> const std::enable_if_t<isVector && std::is_same_v<T, TAlias>, TAlias>& {
 	assert(idx < vectorDim);
-	const auto [i, j] = RowCount() == 1 ? std::tuple(0, idx) : std::tuple(idx, 0);
+	const auto [i, j] = RowCount() == 1 ? std::tuple(size_t(0), idx) : std::tuple(idx, size_t(0));
 	return (*this)(i, j);
 }
 
@@ -334,7 +337,7 @@ void Matrix<T, Rows, Columns, Order, Layout, Packed>::Row(size_t rowIdx, const V
 
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 template <class TOther, bool PackedOther, class>
-Matrix<T, Rows, Columns, Order, Layout, Packed>::operator Vector<TOther, Matrix::vectorDim, PackedOther>() const {
+Matrix<T, Rows, Columns, Order, Layout, Packed>::operator Vector<TOther, vectorDim, PackedOther>() const {
 	using Vec = Vector<TOther, vectorDim, PackedOther>;
 	if constexpr (Rows == 1) {
 		return Vec(Row(0));

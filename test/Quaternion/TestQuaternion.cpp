@@ -4,6 +4,7 @@
 // L=============================================================================
 
 #pragma warning(disable : 4244)
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 
 #include "../Approx.hpp"
 #include "../Cases.hpp"

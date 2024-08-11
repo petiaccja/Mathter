@@ -33,27 +33,23 @@ constexpr int IsBatched() {
 
 
 namespace impl {
-	template <class T, int Dim, bool Packed>
+	template <class T, int Dim, bool Packed, bool>
 	struct MakeBatchHelper {
-		static auto GetType() {
-			if constexpr (IsBatched<T, Dim, Packed>()) {
-#if MATHTER_ENABLE_SIMD
-				using B = typename xsimd::make_sized_batch<T, GetBatchSize(Dim, Packed)>::type;
-				return static_cast<B*>(nullptr);
-#else
-				return static_cast<void*>(nullptr);
-#endif
-			}
-			else {
-				return static_cast<void*>(nullptr);
-			}
-		}
+		using type = void;
 	};
+
+#if MATHTER_ENABLE_SIMD
+	template <class T, int Dim, bool Packed>
+	struct MakeBatchHelper<T, Dim, Packed, true> {
+		using type = typename xsimd::make_sized_batch<T, GetBatchSize(Dim, Packed)>::type;
+	};
+#endif
+
 } // namespace impl
 
 
 template <class T, int Dim, bool Packed>
-using MakeBatch = std::decay_t<std::remove_pointer_t<decltype(impl::MakeBatchHelper<T, Dim, Packed>::GetType())>>;
+using MakeBatch = typename impl::MakeBatchHelper<T, Dim, Packed, IsBatched<T, Dim, Packed>()>::type;
 
 
 template <class T, int Dim, bool Packed>

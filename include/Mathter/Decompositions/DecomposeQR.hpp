@@ -230,7 +230,7 @@ auto DecomposeQR(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) {
 		}
 	}
 
-	return DecompositionQR{ ConjTranspose(QT).Extract<Rows, Columns>(0, 0), R.Extract<Columns, Columns>(0, 0) };
+	return DecompositionQR{ ConjTranspose(QT).template Extract<Rows, Columns>(0, 0), R.template Extract<Columns, Columns>(0, 0) };
 }
 
 

@@ -268,7 +268,7 @@ Vector<T, Dim, Packed>::operator T2() const {
 template <class T, int Dim, bool Packed>
 template <class T2, bool Packed2>
 Vector<T, Dim, Packed>::Vector(const Vector<T2, Dim + 1, Packed2>& rhs) : Vector(rhs.data()) {
-	const auto divisor = *--rhs.cend();
+	const auto divisor = rhs[Dim];
 	if constexpr (isBatched) {
 		elements.Store(elements.Load() / divisor);
 	}

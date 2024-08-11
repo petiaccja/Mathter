@@ -408,7 +408,7 @@ auto operator+(const Matrix<T, Rows, Columns, Order, Layout, Packed>& mat) {
 
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 auto operator-(const Matrix<T, Rows, Columns, Order, Layout, Packed>& mat) {
-	return LoopUnroll<mat.stripeCount>([&mat](auto... stripeIdx) {
+	return ::mathter::LoopUnroll<std::decay_t<decltype(mat)>::stripeCount>([&mat](auto... stripeIdx) {
 		return Matrix<T, Rows, Columns, Order, Layout, Packed>(stripeArg, -mat.stripes[stripeIdx]...);
 	});
 }

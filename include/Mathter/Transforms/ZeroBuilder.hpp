@@ -23,7 +23,7 @@ namespace impl {
 		operator Matrix<T, Rows, Columns, Order, Layout, Packed>() const {
 			using Mat = Matrix<T, Rows, Columns, Order, Layout, Packed>;
 			return ::mathter::LoopUnroll<Mat::stripeCount>([](auto... indices) {
-				return Mat(stripeArg, Vector<T, Mat::stripeDim, Packed>((indices, T(0)))...);
+				return Mat(stripeArg, Vector<T, Mat::stripeDim, Packed>((static_cast<void>(indices), T(0)))...);
 			});
 		}
 

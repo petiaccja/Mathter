@@ -66,6 +66,9 @@ namespace impl {
 		std::array<T, Dim> scale;
 	};
 
+	template <class T, size_t N>
+	ScaleBuilder(const std::array<T, N>&) -> ScaleBuilder<T, int(N)>;
+
 } // namespace impl
 
 
