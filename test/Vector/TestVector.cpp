@@ -27,13 +27,14 @@ TEMPLATE_LIST_TEST_CASE("Vector - Default initializer", "[Vector]",
 	alignas(alignof(Vec)) std::array<uint8_t, sizeof(Vec)> memoryRegion;
 
 	std::fill(memoryRegion.begin(), memoryRegion.end(), uint8_t(0xCC));
+	const auto expected = memoryRegion;
 
 
 	const auto ptr = reinterpret_cast<Vec*>(memoryRegion.data());
 	new (ptr) Vec;
 
 #ifdef NDEBUG
-	REQUIRE(std::all_of(memoryRegion.begin(), memoryRegion.end(), [](const auto& v) { return v == 0xCC; }));
+	REQUIRE(memoryRegion == expected);
 #else
 	REQUIRE(std::all_of(ptr->begin(), ptr->end(), [](const auto& v) { return std::isnan(std::real(v)); }));
 #endif
