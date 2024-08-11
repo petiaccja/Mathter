@@ -30,7 +30,7 @@ public:
 	Ray(const Ray<TOther, Dim>& other) : Ray(other.base, other.direction) {}
 
 	/// <summary> Returns a line colinear to the ray. </summary>
-	Line<T, Dim> Line() const {
+	mathter::Line<T, Dim> Line() const {
 		return static_cast<mathter::Line<T, Dim>>(*this);
 	}
 };

@@ -68,7 +68,7 @@ public:
 	}
 
 	/// <summary> Returns a line colinear to the line segment. </summary>
-	Line<T, Dim> Line() const {
+	mathter::Line<T, Dim> Line() const {
 		return mathter::Line<T, Dim>{ point1, Direction() };
 	}
 
