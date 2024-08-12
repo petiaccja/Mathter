@@ -170,8 +170,8 @@ struct imag {
 #endif
 				return std::imag(arg);
 #ifdef MATHTER_ENABLE_SIMD
-#endif
 			}
+#endif
 		}
 		else {
 			return static_cast<T>(0);
