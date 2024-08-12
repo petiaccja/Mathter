@@ -31,7 +31,7 @@ struct Swizzle {
 	using SourceBatch = MakeBatch<T, Dim, Packed>;
 	using TargetBatch = MakeBatch<T, sizeof...(Indices), Packed>;
 
-	alignas(GetStorageAlignment<T, Dim, Packed>()) SourceStorage elements;
+	alignas(GetStorageAlignment<T, Dim, Packed>()) SourceStorage array;
 
 
 	/// <summary> Returns the nth element of the swizzled vector. Example: v.zxy[2] returns y. </summary>
@@ -136,28 +136,28 @@ namespace impl {
 template <class T, int Dim, bool Packed, int... Indices>
 T& Swizzle<T, Dim, Packed, Indices...>::operator[](int idx) {
 	assert(idx < Dim);
-	return elements[GetSourceIndex(idx)];
+	return array[GetSourceIndex(idx)];
 }
 
 
 template <class T, int Dim, bool Packed, int... Indices>
 const T& Swizzle<T, Dim, Packed, Indices...>::operator[](int idx) const {
 	assert(idx < Dim);
-	return elements[GetSourceIndex(idx)];
+	return array[GetSourceIndex(idx)];
 }
 
 
 template <class T, int Dim, bool Packed, int... Indices>
 T& Swizzle<T, Dim, Packed, Indices...>::operator()(int idx) {
 	assert(idx < Dim);
-	return elements[GetSourceIndex(idx)];
+	return array[GetSourceIndex(idx)];
 }
 
 
 template <class T, int Dim, bool Packed, int... Indices>
 const T& Swizzle<T, Dim, Packed, Indices...>::operator()(int idx) const {
 	assert(idx < Dim);
-	return elements[GetSourceIndex(idx)];
+	return array[GetSourceIndex(idx)];
 }
 
 
@@ -169,7 +169,7 @@ Swizzle<T, Dim, Packed, Indices...>& Swizzle<T, Dim, Packed, Indices...>::operat
 	const auto rhsLin = rhs.Linearize();
 	auto lhsLin = TargetStorage{};
 	std::copy(rhsLin.begin(), rhsLin.end(), lhsLin.begin());
-	elements = Blend(elements, Delinearize(lhsLin));
+	array = Blend(array, Delinearize(lhsLin));
 	return *this;
 }
 
@@ -178,7 +178,7 @@ template <class T, int Dim, bool Packed, int... Indices>
 template <class TOther, std::enable_if_t<is_scalar_v<TOther> && sizeof...(Indices) == 1, int>>
 Swizzle<T, Dim, Packed, Indices...>& Swizzle<T, Dim, Packed, Indices...>::operator=(const TOther& value) {
 	static_assert(sizeof...(Indices) == 1);
-	(..., (elements[Indices] = value)); // This expands to a single assignment if sizeof...(Indices) == 1.
+	(..., (array[Indices] = value)); // This expands to a single assignment if sizeof...(Indices) == 1.
 	return *this;
 }
 
@@ -199,7 +199,7 @@ typename Swizzle<T, Dim, Packed, Indices...>::TargetStorage Swizzle<T, Dim, Pack
 		using Integer = make_sized_integer_t<sizeof(remove_complex_t<T>), false>;
 		using SourceIntBatch = xsimd::batch<Integer, typename SourceBatch::arch_type>;
 
-		const auto sourceBatch = SourceBatch::load_aligned(elements.data());
+		const auto sourceBatch = SourceBatch::load_aligned(array.data());
 		const auto mask = xsimd::make_batch_constant<SourceIntBatch, impl::LinearizationGenerator<Indices...>>();
 		const auto linearizedBatch = xsimd::swizzle(sourceBatch, mask);
 
@@ -211,7 +211,7 @@ typename Swizzle<T, Dim, Packed, Indices...>::TargetStorage Swizzle<T, Dim, Pack
 		return result;
 	}
 #endif
-	return TargetStorage{ elements[Indices]... };
+	return TargetStorage{ array[Indices]... };
 }
 
 
@@ -281,7 +281,7 @@ Swizzle<T, Dim, Packed, Indices...>& Swizzle<T, Dim, Packed, Indices...>::operat
 
 	auto lhsLin = TargetStorage{};
 	std::copy(rhs.begin(), rhs.end(), lhsLin.begin());
-	elements = Blend(elements, Delinearize(lhsLin));
+	array = Blend(array, Delinearize(lhsLin));
 	return *this;
 }
 

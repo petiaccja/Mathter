@@ -90,11 +90,11 @@ namespace check_standard_layout {
 	static_assert(std::is_standard_layout_v<decltype(Storage::elements)>);
 	static_assert(std::is_standard_layout_v<decltype(Storage::x)>);
 	static_assert(std::is_standard_layout_v<decltype(Storage::xxxx)>);
-	static_assert(std::is_same_v<decltype(decltype(Storage::elements)::array), decltype(decltype(Storage::x)::elements)>);
-	static_assert(std::is_same_v<decltype(decltype(Storage::elements)::array), decltype(decltype(Storage::xxxx)::elements)>);
+	static_assert(std::is_same_v<decltype(decltype(Storage::elements)::array), decltype(decltype(Storage::x)::array)>);
+	static_assert(std::is_same_v<decltype(decltype(Storage::elements)::array), decltype(decltype(Storage::xxxx)::array)>);
 	static_assert(offsetof(decltype(Storage::elements), array) == 0);
-	static_assert(offsetof(decltype(Storage::x), elements) == 0);
-	static_assert(offsetof(decltype(Storage::xxxx), elements) == 0);
+	static_assert(offsetof(decltype(Storage::x), array) == 0);
+	static_assert(offsetof(decltype(Storage::xxxx), array) == 0);
 
 } // namespace check_standard_layout
 

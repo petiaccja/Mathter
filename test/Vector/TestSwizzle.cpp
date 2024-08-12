@@ -67,9 +67,9 @@ TEMPLATE_LIST_TEST_CASE("Swizzle - assign swizzle", "[Swizzle]",
 
 	dst = src;
 
-	REQUIRE(dst.elements[0] == scalar_type_t<SwizDst>(0));
-	REQUIRE(dst.elements[1] == scalar_type_t<SwizDst>(3));
-	REQUIRE(dst.elements[2] == scalar_type_t<SwizDst>(1));
+	REQUIRE(dst.array[0] == scalar_type_t<SwizDst>(0));
+	REQUIRE(dst.array[1] == scalar_type_t<SwizDst>(3));
+	REQUIRE(dst.array[2] == scalar_type_t<SwizDst>(1));
 }
 
 
@@ -85,9 +85,9 @@ TEMPLATE_LIST_TEST_CASE("Swizzle - assign vector", "[Swizzle]",
 
 	dst = src;
 
-	REQUIRE(dst.elements[0] == scalar_type_t<SwizDst>(0));
-	REQUIRE(dst.elements[1] == scalar_type_t<SwizDst>(3));
-	REQUIRE(dst.elements[2] == scalar_type_t<SwizDst>(1));
+	REQUIRE(dst.array[0] == scalar_type_t<SwizDst>(0));
+	REQUIRE(dst.array[1] == scalar_type_t<SwizDst>(3));
+	REQUIRE(dst.array[2] == scalar_type_t<SwizDst>(1));
 }
 
 
@@ -100,9 +100,9 @@ TEMPLATE_LIST_TEST_CASE("Swizzle - <1>: assign scalar", "[Swizzle]",
 
 	dst = 5;
 
-	REQUIRE(dst.elements[0] == scalar_type_t<SwizDst>(0));
-	REQUIRE(dst.elements[1] == scalar_type_t<SwizDst>(5));
-	REQUIRE(dst.elements[2] == scalar_type_t<SwizDst>(0));
+	REQUIRE(dst.array[0] == scalar_type_t<SwizDst>(0));
+	REQUIRE(dst.array[1] == scalar_type_t<SwizDst>(5));
+	REQUIRE(dst.array[2] == scalar_type_t<SwizDst>(0));
 }
 
 
