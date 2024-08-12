@@ -6,7 +6,7 @@
 #pragma once
 
 
-#include "../Common/LoopUtil.hpp"
+#include "../Common/OptimizationUtil.hpp"
 #include "../Matrix/Matrix.hpp"
 #include "../Quaternion/Quaternion.hpp"
 #include "../Vector/Vector.hpp"

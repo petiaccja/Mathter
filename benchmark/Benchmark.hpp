@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Mathter/Common/LoopUtil.hpp>
+#include <Mathter/Common/OptimizationUtil.hpp>
 
 #include <algorithm>
 #include <catch2/catch_test_macros.hpp>
@@ -17,14 +17,6 @@
 #else
 #include <chrono>
 #define MATHTER_TSC_USES_CHRONO
-#endif
-
-#ifdef _MSC_VER
-#define MATHTER_NOINLINE __declspec(noinline)
-#define MATHTER_FORCEINLINE __forceinline
-#else
-#define MATHTER_NOINLINE __attribute__((noinline))
-#define MATHTER_FORCEINLINE __attribute__((always_inline))
 #endif
 
 

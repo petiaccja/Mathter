@@ -6,7 +6,7 @@
 #pragma once
 
 #include "../Common/DeterministicInitializer.hpp"
-#include "../Common/LoopUtil.hpp"
+#include "../Common/OptimizationUtil.hpp"
 #include "../Common/TypeTraits.hpp"
 #include "SIMDUtil.hpp"
 #include "Swizzle.hpp"
