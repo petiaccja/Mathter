@@ -57,7 +57,8 @@ public:
 	}
 
 public:
-	Vec direction, base;
+	Vec direction;
+	Vec base;
 };
 
 } // namespace mathter

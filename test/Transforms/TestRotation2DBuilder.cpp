@@ -32,7 +32,6 @@ TEMPLATE_LIST_TEST_CASE("Transform: Rotation 2D", "[Transforms]",
 		using M22 = typename TestType::template Matrix<2, 2>;
 
 		const M22 value = Rotation(angle);
-		const bool v = ApplyTransform(value, testVector) == test_util::Approx(expectedVector, 2e-6f);
 		REQUIRE(ApplyTransform(value, testVector) == test_util::Approx(expectedVector, 2e-6f));
 	}
 	SECTION("Homogeneous") {

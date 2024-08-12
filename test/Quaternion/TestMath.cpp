@@ -56,15 +56,15 @@ TEMPLATE_LIST_TEST_CASE("Quaternion - LengthPrecise", "[Quaternion]",
 	using Quat = typename TestType::Quat;
 
 	SECTION("Underflow") {
-		const Quat q(2e-30, 5e-30, 14e-30, 0);
+		const Quat q(2e-30f, 5e-30f, 14e-30f, 0.0f);
 		REQUIRE(LengthPrecise(q) == Catch::Approx(15e-30));
 	}
 	SECTION("Overflow") {
-		const Quat q(2e+20, 5e+20, 14e+20, 0);
+		const Quat q(2e+20f, 5e+20f, 14e+20f, 0.0f);
 		REQUIRE(LengthPrecise(q) == Catch::Approx(15e+20));
 	}
 	SECTION("Zero") {
-		const Quat q(0, 0, 0, 0);
+		const Quat q(0.0f, 0.0f, 0.0f, 0.0f);
 		REQUIRE(LengthPrecise(q) == Catch::Approx(0));
 	}
 }
@@ -75,15 +75,15 @@ TEMPLATE_LIST_TEST_CASE("Quaternion - Abs", "[Quaternion]",
 	using Quat = typename TestType::Quat;
 
 	SECTION("Underflow") {
-		const Quat q(2e-30, 5e-30, 14e-30, 0);
+		const Quat q(2e-30f, 5e-30f, 14e-30f, 0.0f);
 		REQUIRE(Abs(q) == Catch::Approx(15e-30));
 	}
 	SECTION("Overflow") {
-		const Quat q(2e+20, 5e+20, 14e+20, 0);
+		const Quat q(2e+20f, 5e+20f, 14e+20f, 0.0f);
 		REQUIRE(Abs(q) == Catch::Approx(15e+20));
 	}
 	SECTION("Zero") {
-		const Quat q(0, 0, 0, 0);
+		const Quat q(0.0f, 0.0f, 0.0f, 0.0f);
 		REQUIRE(Abs(q) == Catch::Approx(0));
 	}
 }

@@ -67,13 +67,13 @@ public:
 	Matrix(const Matrix<T2, Columns, Rows, opposite_order_v<Order>, Layout2, Packed2>& rhs);
 
 	/// <summary> Creates a matrix from its elements. </summary>
-	template <class... Scalars, class = std::enable_if_t<(... && std::is_convertible_v<std::decay_t<Scalars>, T>) && sizeof...(Scalars) == size_t(Rows* Columns), int>>
+	template <class... Scalars, class = std::enable_if_t<(sizeof...(Scalars) == size_t(Rows * Columns)) && (... && std::is_convertible_v<std::decay_t<Scalars>, T>), int>>
 	Matrix(Scalars&&... elements);
 
 	/// <summary> Constructs a row or column matrix from a vector. </summary>
 	/// <remarks> This can only be used for row or column matrices. </remarks>
 	template <class TOther, bool PackedOther, class = std::enable_if_t<isVector && sizeof(TOther) != 0>>
-	Matrix(const Vector<TOther, vectorDim, PackedOther>& v);
+	explicit Matrix(const Vector<TOther, vectorDim, PackedOther>& v);
 
 	/// <summary> Used by internal methods. </summary>
 	template <class... Stripes>
@@ -145,14 +145,16 @@ public:
 
 	/// <summary> Convert a row or column matrix to a vector. </summary>
 	template <class TOther, bool PackedOther, class = std::enable_if_t<isVector && std::is_convertible_v<T, TOther>>>
-	operator Vector<TOther, vectorDim, PackedOther>() const;
+	explicit operator Vector<TOther, vectorDim, PackedOther>() const;
 
 protected:
 	template <int i, int j, class Head, class... Args>
 	void Assign(Head head, Args... args);
 
 	template <int, int>
-	void Assign() {}
+	void Assign() {
+		// Overload to terminate recursion when assign is called with zero arguments.
+	}
 };
 
 
@@ -351,7 +353,7 @@ Matrix<T, Rows, Columns, Order, Layout, Packed>::operator Vector<TOther, Matrix:
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 template <int i, int j, class Head, class... Args>
 void Matrix<T, Rows, Columns, Order, Layout, Packed>::Assign(Head head, Args... args) {
-	(*this)(i, j) = (T)head;
+	(*this)(i, j) = static_cast<T>(head);
 	Assign<((j != Columns - 1) ? i : (i + 1)), ((j + 1) % Columns)>(args...);
 }
 

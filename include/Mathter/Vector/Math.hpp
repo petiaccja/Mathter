@@ -301,12 +301,12 @@ namespace impl {
 		int sign = 2 * (Dim % 2) - 1;
 		for (size_t idx = 0; idx < result.Dimension(); ++idx, sign *= -1) {
 			// Fill up sub-matrix the determinant of which yields the coefficient of base-vector.
-			for (int j = 0; j < idx; ++j) {
-				for (int i = 0; i < detCalc.RowCount(); ++i) {
+			for (size_t j = 0; j < idx; ++j) {
+				for (size_t i = 0; i < detCalc.RowCount(); ++i) {
 					detCalc(i, j) = (*vectors[i]).get()[j];
 				}
 			}
-			for (int j = idx + 1; j < result.Dimension(); ++j) {
+			for (size_t j = idx + 1; j < result.Dimension(); ++j) {
 				for (int i = 0; i < detCalc.RowCount(); ++i) {
 					detCalc(i, j - 1) = (*vectors[i]).get()[j];
 				}
@@ -326,13 +326,13 @@ template <class IterFirst, class IterLast, class Vec>
 auto Cross(IterFirst first, IterLast last) -> std::enable_if_t<is_vector_v<Vec>, Vec> {
 	constexpr auto Dim = dimension_v<Vec>;
 
-	if constexpr (dimension_v<Vec> == 2) {
+	if constexpr (Dim == 2) {
 		if (first == last) {
 			throw std::invalid_argument("not enough arguments for cross product");
 		}
 		return Vec(-first->y, first->x);
 	}
-	if constexpr (dimension_v<Vec> == 3) {
+	if constexpr (Dim == 3) {
 		if (first == last) {
 			throw std::invalid_argument("not enough arguments for cross product");
 		}

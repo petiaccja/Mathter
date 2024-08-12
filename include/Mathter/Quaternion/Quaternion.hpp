@@ -105,12 +105,10 @@ public:
 	//-----------------------------------------------
 
 	/// <summary> Returns the scalar part (w) of (w + xi + yj + zk). </summary>
-	/// <remarks> Deprecated: use q.scalar instead. </remarks>
-	[[deprecated]] T ScalarPart() const;
+	[[deprecated("use .scalar")]] T ScalarPart() const;
 
 	/// <summary> Returns the vector part (x, y, z) of (w + xi + yj + zk). </summary>
-	/// <remarks> Deprecated: use q.vector instead. </remarks>
-	[[deprecated]] Vector<T, 3, Packed> VectorPart() const;
+	[[deprecated("use .vector")]] Vector<T, 3, Packed> VectorPart() const;
 
 	/// <summary> Returns the angle of the rotation represented by quaternion. </summary>
 	/// <remarks> Only valid for unit quaternions. </remarks>

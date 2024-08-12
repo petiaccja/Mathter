@@ -20,7 +20,7 @@ namespace impl {
 	template <class T, int Dim>
 	class TranslationBuilder {
 	public:
-		TranslationBuilder(const std::array<T, Dim>& translation) : translation(translation) {}
+		explicit TranslationBuilder(const std::array<T, Dim>& translation) : translation(translation) {}
 
 		template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
 		operator Matrix<U, Dim + 1, Dim + 1, Order, Layout, MPacked>() const {
@@ -48,13 +48,13 @@ namespace impl {
 		void Set(Matrix<U, Rows, Columns, Order, Layout, MPacked>& m) const {
 			m = Identity();
 			if constexpr (Order == eMatrixOrder::FOLLOW_VECTOR) {
-				for (int i = 0; i < translation.size(); ++i) {
-					m(Rows - 1, i) = U(translation[i]);
+				for (size_t i = 0; i < translation.size(); ++i) {
+					m(Rows - 1, i) = static_cast<U>(translation[i]);
 				}
 			}
 			else {
-				for (int i = 0; i < translation.size(); ++i) {
-					m(i, Columns - 1) = U(translation[i]);
+				for (size_t i = 0; i < translation.size(); ++i) {
+					m(i, Columns - 1) = static_cast<U>(translation[i]);
 				}
 			}
 		}

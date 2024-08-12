@@ -61,8 +61,10 @@ namespace impl {
 			}
 		}
 
-		Vector<T, Dim, Packed> minBounds, maxBounds;
-		T projNearPlane, projFarPlane;
+		Vector<T, Dim, Packed> minBounds;
+		Vector<T, Dim, Packed> maxBounds;
+		T projNearPlane;
+		T projFarPlane;
 	};
 
 } // namespace impl

@@ -79,9 +79,10 @@ namespace impl {
 template <class T1, class T2, int Dim>
 auto Intersect(const Hyperplane<T1, Dim>& plane, const Line<T2, Dim>& line)
 	-> std::optional<Vector<common_arithmetic_type_t<T1, T2>, Dim, false>> {
+	using T = common_arithmetic_type_t<T1, T2>;
 	const auto t = impl::IntersectHyperplaneLine(plane, line);
 	if (t) {
-		return line.PointAt(*t);
+		return Line<T, Dim>(line).PointAt(*t);
 	}
 	else {
 		return std::nullopt;
@@ -107,9 +108,10 @@ auto Intersect(const Line<T1, Dim>& line, const Hyperplane<T2, Dim>& plane)
 template <class T1, class T2, int Dim>
 auto Intersect(const Hyperplane<T1, Dim>& plane, const LineSegment<T2, Dim>& lineSegment)
 	-> std::optional<Vector<common_arithmetic_type_t<T1, T2>, Dim, false>> {
+	using T = common_arithmetic_type_t<T1, T2>;
 	const auto t = impl::IntersectHyperplaneLine(plane, lineSegment.Line());
 	if (0 <= t && t < Distance(lineSegment.point1, lineSegment.point2)) {
-		return lineSegment.Line().PointAt(*t);
+		return Line<T, Dim>(lineSegment.Line()).PointAt(*t);
 	}
 	return std::nullopt;
 }
@@ -133,9 +135,10 @@ auto Intersect(const LineSegment<T1, Dim>& lineSegment, const Hyperplane<T2, Dim
 template <class T1, class T2, int Dim>
 auto Intersect(const Hyperplane<T1, Dim>& plane, const Ray<T2, Dim>& ray)
 	-> std::optional<Vector<common_arithmetic_type_t<T1, T2>, Dim, false>> {
+	using T = common_arithmetic_type_t<T1, T2>;
 	const auto t = impl::IntersectHyperplaneLine(plane, ray.Line());
 	if (0 <= t) {
-		return ray.Line().PointAt(*t);
+		return Line<T, Dim>(ray.Line()).PointAt(*t);
 	}
 	return std::nullopt;
 }
@@ -173,10 +176,8 @@ template <class T1, class T2>
 auto Intersect(const LineSegment<T1, 2>& lhs, const LineSegment<T2, 2>& rhs)
 	-> std::optional<Vector<common_arithmetic_type_t<T1, T2>, 2, false>> {
 	const auto intersection = Intersect(lhs.Line(), rhs.Line());
-	if (intersection) {
-		if (impl::IsWithin(lhs, *intersection) && impl::IsWithin(rhs, *intersection)) {
-			return intersection;
-		}
+	if (intersection && impl::IsWithin(lhs, *intersection) && impl::IsWithin(rhs, *intersection)) {
+		return intersection;
 	}
 	return std::nullopt;
 }
@@ -246,7 +247,7 @@ auto Intersect(const Ray<T1, 3>& ray, const Triangle<T2, 3>& triangle)
 	if (t < epsilon) {
 		return std::nullopt;
 	}
-	const auto point = ray.PointAt(t);
+	const auto point = Ray<T, 3>(ray).PointAt(t);
 	return point;
 }
 

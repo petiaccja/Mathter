@@ -22,12 +22,11 @@ public:
 
 	/// <summary> Converts from a hyperplane with different scalar type. </summary>
 	template <class TOther>
-	Hyperplane(const Hyperplane<TOther, Dim>& other) : normal(other.normal), scalar(other.scalar) {}
+	Hyperplane(const Hyperplane<TOther, Dim>& other) : normal(other.normal), scalar(static_cast<T>(other.scalar)) {}
 
 	/// <summary> Construct a plane through a point and a vector normal to the plane. </summary>
-	Hyperplane(const Vec& base, const Vec& normal) : normal(normal) {
+	Hyperplane(const Vec& base, const Vec& normal) : normal(normal), scalar(Dot(normal, base)) {
 		assert(std::abs(T(1) - Length(normal)) < 0.0001f);
-		scalar = Dot(normal, base);
 	}
 
 	/// <summary> Construct a plane by its algebraic equation. </summary>

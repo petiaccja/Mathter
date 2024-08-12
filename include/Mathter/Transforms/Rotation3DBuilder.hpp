@@ -195,27 +195,27 @@ namespace impl {
 
 		template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
 		operator Matrix<U, 4, 4, Order, Layout, MPacked>() const {
-			return RotationMatrixAxisAngle<U, 4, 4, Order, Layout, MPacked>(axis, angle);
+			return RotationMatrixAxisAngle<U, 4, 4, Order, Layout, MPacked>(axis, U(angle));
 		}
 
 		template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
 		operator Matrix<U, 3, 3, Order, Layout, MPacked>() const {
-			return RotationMatrixAxisAngle<U, 3, 3, Order, Layout, MPacked>(axis, angle);
+			return RotationMatrixAxisAngle<U, 3, 3, Order, Layout, MPacked>(axis, U(angle));
 		}
 
 		template <class U, eMatrixLayout Layout, bool MPacked>
 		operator Matrix<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, MPacked>() const {
-			return RotationMatrixAxisAngle<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, MPacked>(axis, angle);
+			return RotationMatrixAxisAngle<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, MPacked>(axis, U(angle));
 		}
 
 		template <class U, eMatrixLayout Layout, bool MPacked>
 		operator Matrix<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, MPacked>() const {
-			return RotationMatrixAxisAngle<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, MPacked>(axis, angle);
+			return RotationMatrixAxisAngle<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, MPacked>(axis, U(angle));
 		}
 
 		template <class U, eQuaternionLayout Layout, bool QPacked>
 		operator Quaternion<U, Layout, QPacked>() const {
-			return RotationQuaternionAxisAngle<U, Layout, QPacked>(axis, angle);
+			return RotationQuaternionAxisAngle<U, Layout, QPacked>(axis, U(angle));
 		}
 
 	private:

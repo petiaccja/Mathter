@@ -30,11 +30,11 @@ public:
 	}
 
 	/// <summary> Construct from array of control points. </summary>
-	BezierCurve(const std::array<Vec, Order + 1>& controlPoints) : controlPoints(controlPoints) {}
+	explicit BezierCurve(const std::array<Vec, Order + 1>& controlPoints) : controlPoints(controlPoints) {}
 
 	/// <summary> Construct from control points. </summary>
 	template <class... Vectors, class = std::enable_if_t<sizeof...(Vectors) == Order + 1>>
-	BezierCurve(const Vectors&... controlPoints) : controlPoints{ controlPoints... } {}
+	explicit BezierCurve(const Vectors&... controlPoints) : controlPoints{ controlPoints... } {}
 
 	/// <summary> Interpolates the Bezier curve. </summary>
 	Vec operator()(const T& t) const {

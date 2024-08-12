@@ -102,7 +102,6 @@ TEMPLATE_LIST_TEST_CASE("LU decomposition: complex", "[LU]",
 TEMPLATE_LIST_TEST_CASE("LU decomposition: zero matrix", "[LU]",
 						decltype(MatrixCaseList<ScalarsFloatingAndComplex, OrdersAll, LayoutsAll, PackingsAll>{})) {
 	using Mat = typename TestType::template Matrix<3, 3>;
-	using T = scalar_type_t<Mat>;
 
 	const Mat m = Zero();
 

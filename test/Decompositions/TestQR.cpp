@@ -259,7 +259,6 @@ TEMPLATE_LIST_TEST_CASE("QR decomposition: compute complex pseudoinverse", "[QR]
 TEMPLATE_LIST_TEST_CASE("QR decomposition: solve system of equations", "[QR]",
 						decltype(MatrixCaseList<ScalarsFloating, OrdersPrecede, LayoutsAll, PackingsAll>{})) {
 	using Mat = typename TestType::template Matrix<3, 3>;
-	using Scalar = scalar_type_t<Mat>;
 	using Vec = Vector<double, 3, false>;
 	using namespace std::complex_literals;
 
@@ -322,7 +321,6 @@ TEMPLATE_LIST_TEST_CASE("QR decomposition: solve multiple systems of equations",
 TEMPLATE_LIST_TEST_CASE("QR decomposition: solve least squares problem", "[QR]",
 						decltype(MatrixCaseList<ScalarsFloating, OrdersPrecede, LayoutsAll, PackingsAll>{})) {
 	using Mat = typename TestType::template Matrix<4, 3>;
-	using Scalar = scalar_type_t<Mat>;
 	using Vec = Vector<double, 4, false>;
 	using namespace std::complex_literals;
 
@@ -368,8 +366,8 @@ TEMPLATE_LIST_TEST_CASE("QR decomposition: QR/LQ selection", "[QR]",
 		};
 		const auto mt = FlipLayoutAndOrder(m);
 
-		const auto dec = DecomposeQRorLQ(m);
-		const auto decT = DecomposeQRorLQ(mt);
+		REQUIRE_NOTHROW(DecomposeQRorLQ(m));
+		REQUIRE_NOTHROW(DecomposeQRorLQ(mt));
 	}
 	SECTION("Square") {
 		using Mat = typename TestType::template Matrix<3, 3>;

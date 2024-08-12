@@ -317,7 +317,6 @@ TEMPLATE_LIST_TEST_CASE("Transform: Rotation 3D -- Axis-angle matrix", "[Transfo
 	using ExampleMat = typename TestType::template Matrix<1, 1>;
 	using Scalar = remove_complex_t<scalar_type_t<ExampleMat>>;
 	using Vec = Vector<Scalar, 3, is_packed_v<ExampleMat>>;
-	using Quat = Quaternion<Scalar>;
 
 	const Scalar angle = 0.577215664901532;
 	const Vec axis = Normalize(Vec(1, 2, 3));

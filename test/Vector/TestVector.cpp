@@ -36,6 +36,7 @@ TEMPLATE_LIST_TEST_CASE("Vector - Default initializer", "[Vector]",
 #ifdef NDEBUG
 	REQUIRE(memoryRegion == expected);
 #else
+	static_cast<void>(expected); // Avoiding [[maybe_unused]] in case it's not used for the release builds either.
 	REQUIRE(std::all_of(ptr->begin(), ptr->end(), [](const auto& v) { return std::isnan(std::real(v)); }));
 #endif
 }
@@ -51,9 +52,9 @@ TEMPLATE_LIST_TEST_CASE("Vector - Ctor: conversion", "[Vector]",
 	VecLhs lhs(1, 2, 3);
 	VecRhs rhs(lhs);
 
-	REQUIRE(lhs[0] == scalar_type_t<VecLhs>(1));
-	REQUIRE(lhs[1] == scalar_type_t<VecLhs>(2));
-	REQUIRE(lhs[2] == scalar_type_t<VecLhs>(3));
+	REQUIRE(rhs[0] == scalar_type_t<VecRhs>(1));
+	REQUIRE(rhs[1] == scalar_type_t<VecRhs>(2));
+	REQUIRE(rhs[2] == scalar_type_t<VecRhs>(3));
 }
 
 

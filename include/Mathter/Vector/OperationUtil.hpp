@@ -20,7 +20,7 @@ template <int NumNonMasked, class Batch, class Element>
 Batch FillMasked(Batch batch, Element value) {
 #ifdef MATHTER_ENABLE_SIMD
 	struct MaskGenerator {
-		static constexpr bool get(unsigned idx, unsigned size) noexcept {
+		static constexpr bool get(unsigned idx, [[maybe_unused]] unsigned size) noexcept {
 			return idx < NumNonMasked;
 		}
 	};

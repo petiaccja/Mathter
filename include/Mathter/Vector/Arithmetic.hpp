@@ -16,7 +16,7 @@ namespace mathter {
 
 
 template <class Vec, class Fun>
-auto AvoidDivByZero(Vec&& vec, const Fun& fun) {
+auto AvoidDivByZero(const Vec& vec, const Fun&) {
 	using VecDecay = std::decay_t<Vec>;
 	if constexpr (VecDecay::isBatched && std::is_same_v<std::decay_t<Fun>, std::divides<void>>) {
 		return VecDecay(FillMasked<dimension_v<VecDecay>>(vec.elements.Load(), static_cast<scalar_type_t<VecDecay>>(1)));

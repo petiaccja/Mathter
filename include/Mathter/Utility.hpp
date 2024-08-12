@@ -7,6 +7,8 @@
 
 #include "Common/TypeTraits.hpp"
 #include "Common/Types.hpp"
+#include "Vector/Math.hpp"
+#include "Vector/Vector.hpp"
 
 #include <algorithm>
 #include <type_traits>
@@ -39,7 +41,7 @@ public:
 template <class Scalar>
 auto Rad2Deg(Scalar rad) {
 	using Real = remove_complex_t<Scalar>;
-	using ComputeT = std::conditional_t<std::is_floating_point<Real>::value, Real, long double>;
+	using ComputeT = std::conditional_t<std::is_floating_point_v<Real>, Real, long double>;
 	return rad / Constants<ComputeT>::Pi * ComputeT(180);
 }
 
@@ -47,7 +49,7 @@ auto Rad2Deg(Scalar rad) {
 template <class Scalar>
 auto Deg2Rad(Scalar deg) {
 	using Real = remove_complex_t<Scalar>;
-	using ComputeT = std::conditional_t<std::is_floating_point<Real>::value, Real, long double>;
+	using ComputeT = std::conditional_t<std::is_floating_point_v<Real>, Real, long double>;
 	return deg / ComputeT(180) * Constants<ComputeT>::Pi;
 }
 
@@ -74,15 +76,6 @@ Scalar Saturate(Scalar arg) {
 template <class T, int Dim, bool Packed>
 Vector<T, Dim, Packed> Saturate(const Vector<T, Dim, Packed>& arg);
 
-
-} // namespace mathter
-
-
-#include "Vector/Math.hpp"
-#include "Vector/Vector.hpp"
-
-// Implementations of vector clamp functions.
-namespace mathter {
 
 template <class T, int Dim, bool Packed>
 Vector<T, Dim, Packed> Clamp(const Vector<T, Dim, Packed>& arg, T lower, T upper) {

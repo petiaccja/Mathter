@@ -62,7 +62,7 @@ TEMPLATE_LIST_TEST_CASE("Matrix - Construct row/column", "[Matrix]",
 		using Mat = typename TestType::template Matrix<1, 3>;
 		using Scalar = scalar_type_t<Mat>;
 
-		Mat m = Vector<Scalar, 3>{ 1, 2, 3 };
+		const auto m = Mat(Vector<Scalar, 3>{ 1, 2, 3 });
 		const auto& c = m;
 
 		REQUIRE(m(0, 0) == static_cast<Scalar>(1));
@@ -79,7 +79,7 @@ TEMPLATE_LIST_TEST_CASE("Matrix - Construct row/column", "[Matrix]",
 		using Mat = typename TestType::template Matrix<3, 1>;
 		using Scalar = scalar_type_t<Mat>;
 
-		Mat m = Vector<Scalar, 3>{ 1, 2, 3 };
+		const auto m = Mat(Vector<Scalar, 3>{ 1, 2, 3 });
 		const auto& c = m;
 
 		REQUIRE(m(0, 0) == static_cast<Scalar>(1));
@@ -257,7 +257,7 @@ TEMPLATE_LIST_TEST_CASE("Matrix - Convert to vector", "[Matrix]",
 		using Scalar = scalar_type_t<Mat>;
 
 		const Mat m = { 1, 2, 3 };
-		const Vector v = m;
+		const auto v = Vector(m);
 
 		REQUIRE(v[0] == static_cast<Scalar>(1));
 		REQUIRE(v[1] == static_cast<Scalar>(2));
@@ -268,7 +268,7 @@ TEMPLATE_LIST_TEST_CASE("Matrix - Convert to vector", "[Matrix]",
 		using Scalar = scalar_type_t<Mat>;
 
 		const Mat m = { 1, 2, 3 };
-		const Vector v = m;
+		const auto v = Vector(m);
 
 		REQUIRE(v[0] == static_cast<Scalar>(1));
 		REQUIRE(v[1] == static_cast<Scalar>(2));

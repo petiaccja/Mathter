@@ -98,7 +98,7 @@ TEST_CASE("Quaternion - Literals (long double)", "[Quaternion]") {
 	using namespace quat_literals;
 
 	SECTION("Real") {
-		const Quaternion q = 1.0l;
+		const Quaternion q = 1.0L;
 		static_assert(std::is_same_v<scalar_type_t<std::decay_t<decltype(q)>>, long double>);
 		REQUIRE(q.s == 1);
 		REQUIRE(q.i == 0);

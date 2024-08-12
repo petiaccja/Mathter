@@ -20,7 +20,7 @@ namespace impl {
 	template <class T, int Dim>
 	class ScaleBuilder {
 	public:
-		ScaleBuilder(const std::array<T, Dim>& scale) : scale(scale) {}
+		explicit ScaleBuilder(const std::array<T, Dim>& scale) : scale(scale) {}
 
 		template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
 		operator Matrix<U, Dim + 1, Dim + 1, Order, Layout, MPacked>() const {
@@ -56,10 +56,10 @@ namespace impl {
 			m = Zero();
 			size_t i;
 			for (i = 0; i < scale.size(); ++i) {
-				m(i, i) = std::move(scale[i]);
+				m(i, i) = static_cast<U>(scale[i]);
 			}
 			for (; i < std::min(Rows, Columns); ++i) {
-				m(i, i) = T(1);
+				m(i, i) = static_cast<U>(1);
 			}
 		}
 

@@ -321,7 +321,6 @@ TEMPLATE_LIST_TEST_CASE("Matrix - Inverse", "[Matrix]",
 			2 / 3.0, -5 / 9.0, 2 / 9.0,
 			-1 / 3.0, 13 / 9.0, -7 / 9.0
 		};
-		const bool good = inverse == test_util::Approx(expected);
 		REQUIRE(inverse == test_util::Approx(expected));
 	}
 	SECTION("4x4") {

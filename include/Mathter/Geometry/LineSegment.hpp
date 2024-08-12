@@ -73,7 +73,8 @@ public:
 	}
 
 public:
-	Vec point1, point2;
+	Vec point1;
+	Vec point2;
 };
 
 } // namespace mathter

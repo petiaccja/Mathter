@@ -148,7 +148,6 @@ TEMPLATE_LIST_TEST_CASE("Transform: View 2D", "[Transforms]",
 
 	const auto eye = map(Vec(0, 10));
 	const auto target = map(Vec(0, 3));
-	const auto up = map(Vec(0, 0.5f));
 
 
 	const std::array testPoints = {

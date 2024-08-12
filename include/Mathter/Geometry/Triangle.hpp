@@ -26,7 +26,7 @@ public:
 		: corners{ a, b, c } {}
 
 	/// <summary> Construct a triangle from its corners. </summary>
-	Triangle(const std::array<Vec, 3>& corners)
+	explicit Triangle(const std::array<Vec, 3>& corners)
 		: corners{ corners } {}
 
 	/// <summary> Convert from a triangle with different scalar type. </summary>
