@@ -66,8 +66,8 @@ template <>
 struct max<void> {
 	template <class T1, class T2>
 	constexpr auto operator()(T1&& lhs, T2&& rhs) const
-		-> decltype(std::forward<T1>(lhs) + std::forward<T2>(rhs)) {
-		using T = std::remove_reference_t<decltype(std::forward<T1>(lhs) + std::forward<T2>(rhs))>;
+		-> common_arithmetic_type_t<T1, T2> {
+		using T = common_arithmetic_type_t<T1, T2>;
 		return max<T>{}(static_cast<T>(lhs), static_cast<T>(rhs));
 	}
 };
@@ -94,8 +94,8 @@ template <>
 struct min<void> {
 	template <class T1, class T2>
 	constexpr auto operator()(T1&& lhs, T2&& rhs) const
-		-> decltype(std::forward<T1>(lhs) + std::forward<T2>(rhs)) {
-		using T = std::remove_reference_t<decltype(std::forward<T1>(lhs) + std::forward<T2>(rhs))>;
+		-> common_arithmetic_type_t<T1, T2> {
+		using T = common_arithmetic_type_t<T1, T2>;
 		return min<T>{}(static_cast<T>(lhs), static_cast<T>(rhs));
 	}
 };
