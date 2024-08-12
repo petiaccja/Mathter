@@ -80,7 +80,12 @@ private:
 };
 
 
-static_assert(std::is_standard_layout_v<Swizzle<float, 3, false, 1, 2>>);
+namespace check_standard_layout {
+
+	// This is extremely important to allow safe access to unions of Swizzles.
+	static_assert(std::is_standard_layout_v<Swizzle<float, 3, false, 1, 2>>);
+
+} // namespace check_standard_layout
 
 
 namespace impl {

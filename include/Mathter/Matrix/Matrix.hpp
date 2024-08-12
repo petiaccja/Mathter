@@ -77,7 +77,7 @@ public:
 
 	/// <summary> Used by internal methods. </summary>
 	template <class... Stripes>
-	Matrix(StripeArgType, Stripes... stripes)
+	Matrix(StripeArgType, Stripes&&... stripes)
 		: MatrixStorage<T, Rows, Columns, Order, Layout, Packed>{ std::forward<Stripes>(stripes)... } {}
 
 

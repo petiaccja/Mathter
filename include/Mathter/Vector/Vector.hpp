@@ -83,6 +83,22 @@ struct VectorStorage<T, 4, Packed> {
 };
 
 
+namespace check_standard_layout {
+
+	// This is extremely important to allow safe access to unions of Swizzles.
+	using Storage = VectorStorage<float, 3, false>;
+	static_assert(std::is_standard_layout_v<decltype(Storage::elements)>);
+	static_assert(std::is_standard_layout_v<decltype(Storage::x)>);
+	static_assert(std::is_standard_layout_v<decltype(Storage::xxxx)>);
+	static_assert(std::is_same_v<decltype(decltype(Storage::elements)::array), decltype(decltype(Storage::x)::elements)>);
+	static_assert(std::is_same_v<decltype(decltype(Storage::elements)::array), decltype(decltype(Storage::xxxx)::elements)>);
+	static_assert(offsetof(decltype(Storage::elements), array) == 0);
+	static_assert(offsetof(decltype(Storage::x), elements) == 0);
+	static_assert(offsetof(decltype(Storage::xxxx), elements) == 0);
+
+} // namespace check_standard_layout
+
+
 /// <summary> Represents a vector in N-dimensional space. </summary>
 /// <typeparam name="T"> The scalar type on which the vector is based.
 ///	You can use builtin floating point or integer types. User-defined types and std::complex
