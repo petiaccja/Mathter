@@ -4,7 +4,12 @@
 // L=============================================================================
 
 #pragma warning(disable : 4244)
+#if defined(__clang__)
+#pragma clang diagnostic ignored "-Wno-deprecated-declarations"
+#elif defined(__GNUC__)
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
 
 #include "../Approx.hpp"
 #include "../Cases.hpp"

@@ -337,7 +337,7 @@ void Matrix<T, Rows, Columns, Order, Layout, Packed>::Row(size_t rowIdx, const V
 
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 template <class TOther, bool PackedOther, class>
-Matrix<T, Rows, Columns, Order, Layout, Packed>::operator Vector<TOther, Matrix<T, Rows, Columns, Order, Layout, Packed>::vectorDim, PackedOther>() const {
+Matrix<T, Rows, Columns, Order, Layout, Packed>::operator Vector<TOther, Matrix::vectorDim, PackedOther>() const {
 	using Vec = Vector<TOther, vectorDim, PackedOther>;
 	if constexpr (Rows == 1) {
 		return Vec(Row(0));
