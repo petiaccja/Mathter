@@ -38,15 +38,17 @@ Batch FillMasked(Batch batch, Element value) {
 }
 
 
-template <int Dim, bool Packed, class Fun, class... Args>
+template <class Fun, class... Vectors>
 struct is_batched_invocable {
-	using ScalarResult = std::invoke_result_t<Fun, Args...>;
-	using BatchResult = MakeBatch<ScalarResult, Dim, Packed>;
+	using Scalar = std::invoke_result_t<Fun, scalar_type_t<Vectors>...>;
+	static constexpr auto Dim = (..., dimension_v<Vectors>);
+	static constexpr auto Packed = (... && is_packed_v<Vectors>);
+	using Batch = typename Vector<Scalar, Dim, Packed>::Batch;
 
 	template <class... Batches>
 	static constexpr auto Get(std::nullptr_t)
-		-> std::enable_if_t<std::is_invocable_v<Fun, Batches...>, bool> {
-		return false;
+		-> std::enable_if_t<std::is_convertible_v<std::invoke_result_t<Fun, Batches...>, Batch>, bool> {
+		return true;
 	}
 
 	template <class...>
@@ -54,12 +56,17 @@ struct is_batched_invocable {
 		return false;
 	}
 
-	static constexpr bool value = Get<MakeBatch<Args, Dim, Packed>...>(nullptr);
+	static constexpr bool value = Get<typename Vectors::Batch...>(nullptr);
 };
 
 
-template <int Dim, bool Packed, class Fun, class... Args>
-inline constexpr auto is_batched_invocable_v = is_batched_invocable<Dim, Packed, Fun, Args...>::value;
+template <class Fun, class... Vectors>
+inline constexpr auto is_batched_invocable_v = is_batched_invocable<Fun, Vectors...>::value;
+
+
+#if defined(MATHTER_ENABLE_SIMD) && _M_AMD64
+static_assert(is_batched_invocable_v<std::plus<>, Vector<float, 4, false>, Vector<float, 4, false>>);
+#endif
 
 
 template <class T, int Dim, bool Packed, class Fun, size_t... Indices>
@@ -72,7 +79,7 @@ auto DoUnaryOpScalar(const Vector<T, Dim, Packed>& arg, Fun&& fun, std::index_se
 template <class T, int Dim, bool Packed, class Fun>
 auto DoUnaryOp(const Vector<T, Dim, Packed>& arg, Fun&& fun) {
 	using R = std::invoke_result_t<Fun, T>;
-	if constexpr (is_batched_invocable_v<Dim, Packed, Fun, T>) {
+	if constexpr (is_batched_invocable_v<Fun, std::decay_t<decltype(arg)>>) {
 		const auto batch = fun(arg.elements.Load());
 		return Vector<R, Dim, Packed>(batch);
 	}
@@ -94,7 +101,7 @@ template <class T1, class T2, int Dim, bool Packed1, bool Packed2, class Fun>
 auto DoBinaryOp(const Vector<T1, Dim, Packed1>& lhs, const Vector<T2, Dim, Packed2>& rhs, Fun&& fun) {
 	using T = std::invoke_result_t<Fun, T1, T2>;
 	constexpr auto Packed = Packed1 && Packed2;
-	if constexpr (is_batched_invocable_v<Dim, Packed, Fun, T1, T2>) {
+	if constexpr (is_batched_invocable_v<Fun, std::decay_t<decltype(lhs)>, std::decay_t<decltype(rhs)>>) {
 		return Vector<T, Dim, Packed>{ fun(lhs.elements.Load(), rhs.elements.Load()) };
 	}
 	else {
@@ -115,7 +122,7 @@ template <class T1, class T2, class T3, int Dim, bool Packed1, bool Packed2, boo
 auto DoTernaryOp(const Vector<T1, Dim, Packed1>& a, const Vector<T2, Dim, Packed2>& b, const Vector<T3, Dim, Packed3>& c, Fun&& fun) {
 	using T = std::invoke_result_t<Fun, T1, T2, T3>;
 	constexpr auto Packed = Packed1 && Packed2 && Packed3;
-	if constexpr (is_batched_invocable_v<Dim, Packed, Fun, T1, T2, T3>) {
+	if constexpr (is_batched_invocable_v<Fun, std::decay_t<decltype(a)>, std::decay_t<decltype(b)>, std::decay_t<decltype(c)>>) {
 		return Vector<T, Dim, Packed>{ fun(a.elements.Load(), b.elements.Load(), c.elements.Load()) };
 	}
 	else {
