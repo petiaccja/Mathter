@@ -1,70 +1,73 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
 
 #pragma once
 
-#include "../Matrix/MatrixImpl.hpp"
+#include "../Matrix/Matrix.hpp"
 #include "../Vector.hpp"
 #include "IdentityBuilder.hpp"
 
 
 namespace mathter {
 
+namespace impl {
 
-template <class T, int Dim, bool Packed>
-class OrthographicBuilder {
-	static_assert(!std::is_integral_v<T>);
-	using VectorT = Vector<T, Dim, Packed>;
-
-public:
-	OrthographicBuilder(const VectorT& minBounds, const VectorT& maxBounds, T projNearPlane, T projFarPlane)
-		: minBounds(minBounds), maxBounds(maxBounds), projNearPlane(projNearPlane), projFarPlane(projFarPlane) {}
-	OrthographicBuilder& operator=(const OrthographicBuilder&) = delete;
-
-	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
-	operator Matrix<U, Dim + 1, Dim + 1, Order, Layout, MPacked>() const {
-		Matrix<U, Dim + 1, Dim + 1, Order, Layout, MPacked> m;
-		Set(m);
-		return m;
-	}
-
-	template <class U, eMatrixLayout Layout, bool MPacked>
-	operator Matrix<U, Dim, Dim + 1, eMatrixOrder::PRECEDE_VECTOR, Layout, MPacked>() const {
-		Matrix<U, Dim, Dim + 1, eMatrixOrder::PRECEDE_VECTOR, Layout, MPacked> m;
-		Set(m);
-		return m;
-	}
-
-	template <class U, eMatrixLayout Layout, bool MPacked>
-	operator Matrix<U, Dim + 1, Dim, eMatrixOrder::FOLLOW_VECTOR, Layout, MPacked>() const {
-		Matrix<U, Dim + 1, Dim, eMatrixOrder::FOLLOW_VECTOR, Layout, MPacked> m;
-		Set(m);
-		return m;
-	}
-
-private:
-	template <class U, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
-	void Set(Matrix<U, Rows, Columns, Order, Layout, MPacked>& m) const {
+	template <class T, int Dim, bool Packed>
+	class OrthographicBuilder {
+		static_assert(!std::is_integral_v<T>);
 		using VectorT = Vector<T, Dim, Packed>;
 
-		VectorT volumeSize = maxBounds - minBounds;
-		VectorT scale = T(2) / volumeSize;
-		scale[scale.Dimension() - 1] *= T(0.5) * (projFarPlane - projNearPlane);
-		VectorT offset = -(maxBounds + minBounds) / T(2) * scale;
-		offset[offset.Dimension() - 1] += (projFarPlane + projNearPlane) / 2;
+	public:
+		OrthographicBuilder(const VectorT& minBounds, const VectorT& maxBounds, T projNearPlane, T projFarPlane)
+			: minBounds(minBounds), maxBounds(maxBounds), projNearPlane(projNearPlane), projFarPlane(projFarPlane) {}
+		OrthographicBuilder& operator=(const OrthographicBuilder&) = delete;
 
-		m = Identity();
-		for (int i = 0; i < scale.Dimension(); ++i) {
-			m(i, i) = scale(i);
-			(Order == eMatrixOrder::FOLLOW_VECTOR ? m(scale.Dimension(), i) : m(i, scale.Dimension())) = offset(i);
+		template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
+		operator Matrix<U, Dim + 1, Dim + 1, Order, Layout, MPacked>() const {
+			Matrix<U, Dim + 1, Dim + 1, Order, Layout, MPacked> m;
+			Set(m);
+			return m;
 		}
-	}
 
-	const Vector<T, Dim, Packed> minBounds, maxBounds;
-	T projNearPlane, projFarPlane;
-};
+		template <class U, eMatrixLayout Layout, bool MPacked>
+		operator Matrix<U, Dim, Dim + 1, eMatrixOrder::PRECEDE_VECTOR, Layout, MPacked>() const {
+			Matrix<U, Dim, Dim + 1, eMatrixOrder::PRECEDE_VECTOR, Layout, MPacked> m;
+			Set(m);
+			return m;
+		}
+
+		template <class U, eMatrixLayout Layout, bool MPacked>
+		operator Matrix<U, Dim + 1, Dim, eMatrixOrder::FOLLOW_VECTOR, Layout, MPacked>() const {
+			Matrix<U, Dim + 1, Dim, eMatrixOrder::FOLLOW_VECTOR, Layout, MPacked> m;
+			Set(m);
+			return m;
+		}
+
+	private:
+		template <class U, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
+		void Set(Matrix<U, Rows, Columns, Order, Layout, MPacked>& m) const {
+			const auto volumeSize = maxBounds - minBounds;
+			auto scale = T(2) / volumeSize;
+			scale[scale.Dimension() - 1] *= T(0.5) * (projFarPlane - projNearPlane);
+			auto offset = -(maxBounds + minBounds) / T(2) * scale;
+			offset[offset.Dimension() - 1] += (projFarPlane + projNearPlane) / T(2);
+
+			m = Identity();
+			for (int i = 0; i < scale.Dimension(); ++i) {
+				m(i, i) = scale(i);
+				(Order == eMatrixOrder::FOLLOW_VECTOR ? m(scale.Dimension(), i) : m(i, scale.Dimension())) = offset(i);
+			}
+		}
+
+		Vector<T, Dim, Packed> minBounds;
+		Vector<T, Dim, Packed> maxBounds;
+		T projNearPlane;
+		T projFarPlane;
+	};
+
+} // namespace impl
 
 
 /// <summary> Creates an orthographics projection matrix. The volume before projection
@@ -78,10 +81,10 @@ template <class T, int Dim, bool Packed>
 auto Orthographic(const Vector<T, Dim, Packed>& minBounds, const Vector<T, Dim, Packed>& maxBounds, T projNearPlane, T projFarPlane) {
 	if constexpr (std::is_integral_v<T>) {
 		using VectorT = Vector<float, Dim, false>;
-		return OrthographicBuilder(VectorT(minBounds), VectorT(maxBounds), float(projNearPlane), float(projFarPlane));
+		return impl::OrthographicBuilder(VectorT(minBounds), VectorT(maxBounds), float(projNearPlane), float(projFarPlane));
 	}
 	else {
-		return OrthographicBuilder(minBounds, maxBounds, projNearPlane, projFarPlane);
+		return impl::OrthographicBuilder(minBounds, maxBounds, projNearPlane, projFarPlane);
 	}
 }
 

@@ -1,121 +1,229 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
 
 #pragma once
 
-#include "../Matrix/MatrixFunction.hpp"
-#include "../Matrix/MatrixImpl.hpp"
-#include "../Quaternion/QuaternionImpl.hpp"
+#include "../Matrix/Math.hpp"
+#include "../Matrix/Matrix.hpp"
+#include "../Quaternion/Quaternion.hpp"
 #include "../Vector.hpp"
 #include "IdentityBuilder.hpp"
 
+#include <array>
+#include <cmath>
 #include <stdexcept>
 
 
 namespace mathter {
 
+namespace impl {
 
-template <class T>
-class Rotation3DAxisBuilder {
-public:
-	Rotation3DAxisBuilder(const T& angle, int axis) : angle(angle), axis(axis) {}
-	Rotation3DAxisBuilder& operator=(const Rotation3DAxisBuilder&) = delete;
+	template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed, class A>
+	Matrix<T, Rows, Columns, Order, Layout, Packed> RotationMatrixSingleAxis(A angle, int axis) {
+		assert(0 <= axis && axis < 3);
 
-	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
-	operator Matrix<U, 4, 4, Order, Layout, MPacked>() const {
-		Matrix<U, 4, 4, Order, Layout, MPacked> m;
-		Set(m);
-		return m;
-	}
+		Matrix<T, Rows, Columns, Order, Layout, Packed> m = Identity();
 
-	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
-	operator Matrix<U, 3, 3, Order, Layout, MPacked>() const {
-		Matrix<U, 3, 3, Order, Layout, MPacked> m;
-		Set(m);
-		return m;
-	}
-
-	template <class U, eMatrixLayout Layout, bool MPacked>
-	operator Matrix<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, MPacked>() const {
-		Matrix<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, MPacked> m;
-		Set(m);
-		return m;
-	}
-
-	template <class U, eMatrixLayout Layout, bool MPacked>
-	operator Matrix<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, MPacked>() const {
-		Matrix<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, MPacked> m;
-		Set(m);
-		return m;
-	}
-
-	template <class U, bool QPacked>
-	operator Quaternion<U, QPacked>() const;
-
-private:
-	template <class U, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
-	void Set(Matrix<U, Rows, Columns, Order, Layout, MPacked>& m) const {
-		T C = cos(angle);
-		T S = sin(angle);
-
-		auto elem = [&m](int i, int j) -> U& {
+		// Indices according to follow vector order
+		auto elem = [&m](int i, int j) -> auto& {
 			return Order == eMatrixOrder::FOLLOW_VECTOR ? m(i, j) : m(j, i);
 		};
 
-		assert(0 <= axis && axis < 3);
-
-		// Indices according to follow vector order
+		const auto c = static_cast<T>(std::cos(angle));
+		const auto s = static_cast<T>(std::sin(angle));
 		if (axis == 0) {
 			// Rotate around X
-			elem(0, 0) = U(1);
-			elem(0, 1) = U(0);
-			elem(0, 2) = U(0);
-			elem(1, 0) = U(0);
-			elem(1, 1) = U(C);
-			elem(1, 2) = U(S);
-			elem(2, 0) = U(0);
-			elem(2, 1) = U(-S);
-			elem(2, 2) = U(C);
+			elem(1, 1) = c;
+			elem(1, 2) = s;
+			elem(2, 1) = -s;
+			elem(2, 2) = c;
 		}
 		else if (axis == 1) {
 			// Rotate around Y
-			elem(0, 0) = U(C);
-			elem(0, 1) = U(0);
-			elem(0, 2) = U(-S);
-			elem(1, 0) = U(0);
-			elem(1, 1) = U(1);
-			elem(1, 2) = U(0);
-			elem(2, 0) = U(S);
-			elem(2, 1) = U(0);
-			elem(2, 2) = U(C);
+			elem(0, 0) = c;
+			elem(0, 2) = -s;
+			elem(2, 0) = s;
+			elem(2, 2) = c;
 		}
 		else {
 			// Rotate around Z
-			elem(0, 0) = U(C);
-			elem(0, 1) = U(S);
-			elem(0, 2) = U(0);
-			elem(1, 0) = U(-S);
-			elem(1, 1) = U(C);
-			elem(1, 2) = U(0);
-			elem(2, 0) = U(0);
-			elem(2, 1) = U(0);
-			elem(2, 2) = U(1);
+			elem(0, 0) = c;
+			elem(0, 1) = s;
+			elem(1, 0) = -s;
+			elem(1, 1) = c;
 		}
 
-		// Rest
-		for (int j = 0; j < m.ColumnCount(); ++j) {
-			for (int i = (j < 3 ? 3 : 0); i < m.RowCount(); ++i) {
-				m(i, j) = U(j == i);
-			}
-		}
+		return m;
 	}
 
-	const float angle;
-	const int axis;
-};
 
+	template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+	Matrix<T, Rows, Columns, Order, Layout, Packed> RotationMatrixAxisAngle(const Vector<T, 3, Packed>& axis, T angle) {
+		using M33 = Matrix<T, 3, 3, eMatrixOrder::PRECEDE_VECTOR, Layout, Packed>;
+		using M31 = Matrix<T, 3, 1, eMatrixOrder::PRECEDE_VECTOR, Layout, Packed>;
+		using M13 = Matrix<T, 1, 3, eMatrixOrder::PRECEDE_VECTOR, Layout, Packed>;
+
+		const auto c = std::cos(angle);
+		const auto s = std::sin(angle);
+
+		const M31 u(axis);
+		const M13 uT(axis);
+		const M33 cross = {
+			T(0), -axis.z, axis.y,
+			axis.z, T(0), -axis.x,
+			-axis.y, axis.x, T(0)
+		};
+
+		const auto r = c * M33(Identity()) + s * cross + (T(1) - c) * u * uT;
+		Matrix<T, Rows, Columns, Order, Layout, Packed> m = Identity();
+		m.Insert(0, 0, Matrix<T, 3, 3, Order, Layout, Packed>(r));
+		return m;
+	}
+
+
+	template <class T, eQuaternionLayout Layout, bool Packed>
+	Quaternion<T, Layout, Packed> RotationQuaternionAxisAngle(const Vector<T, 3, Packed>& axis, const T& angle) {
+		const auto c = std::cos(angle / T(2));
+		const auto s = std::sin(angle / T(2));
+
+		return Quaternion<T, Layout, Packed>(c, s * axis);
+	}
+
+	template <class T>
+	class Rotation3DAxisBuilder {
+	public:
+		Rotation3DAxisBuilder(const T& angle, int axis) : angle(angle), axis(axis) {}
+		Rotation3DAxisBuilder& operator=(const Rotation3DAxisBuilder&) = delete;
+
+		template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
+		operator Matrix<U, 4, 4, Order, Layout, MPacked>() const {
+			return RotationMatrixSingleAxis<U, 4, 4, Order, Layout, MPacked>(U(angle), axis);
+		}
+
+		template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
+		operator Matrix<U, 3, 3, Order, Layout, MPacked>() const {
+			return RotationMatrixSingleAxis<U, 3, 3, Order, Layout, MPacked>(U(angle), axis);
+		}
+
+		template <class U, eMatrixLayout Layout, bool MPacked>
+		operator Matrix<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, MPacked>() const {
+			return RotationMatrixSingleAxis<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, MPacked>(U(angle), axis);
+		}
+
+		template <class U, eMatrixLayout Layout, bool MPacked>
+		operator Matrix<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, MPacked>() const {
+			return RotationMatrixSingleAxis<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, MPacked>(U(angle), axis);
+		}
+
+		template <class U, eQuaternionLayout Layout, bool QPacked>
+		operator Quaternion<U, Layout, QPacked>() const {
+			Vector<U, 3, QPacked> vec = Zero();
+			vec[axis] = U(1);
+			return RotationQuaternionAxisAngle<U, Layout, QPacked>(vec, U(angle));
+		}
+
+	private:
+		T angle;
+		int axis;
+	};
+
+
+	template <class T>
+	class Rotation3DTriAxisBuilder {
+	public:
+		Rotation3DTriAxisBuilder(const std::array<T, 3>& angles, std::array<int, 3> axes) : angles(angles), axes(axes) {}
+		Rotation3DTriAxisBuilder& operator=(const Rotation3DTriAxisBuilder&) = delete;
+
+		template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
+		operator Matrix<U, 4, 4, Order, Layout, MPacked>() const {
+			return Make<U, 4, 4, Order, Layout, MPacked>();
+		}
+
+		template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
+		operator Matrix<U, 3, 3, Order, Layout, MPacked>() const {
+			return Make<U, 3, 3, Order, Layout, MPacked>();
+		}
+
+		template <class U, eMatrixLayout Layout, bool MPacked>
+		operator Matrix<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, MPacked>() const {
+			return Make<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, MPacked>();
+		}
+
+		template <class U, eMatrixLayout Layout, bool MPacked>
+		operator Matrix<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, MPacked>() const {
+			return Make<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, MPacked>();
+		}
+
+		template <class U, eQuaternionLayout Layout, bool QPacked>
+		operator Quaternion<U, Layout, QPacked>() const {
+			Vector<U, 3, QPacked> vec0 = Zero();
+			vec0[axes[0]] = U(1);
+			Vector<U, 3, QPacked> vec1 = Zero();
+			vec1[axes[1]] = U(1);
+			Vector<U, 3, QPacked> vec2 = Zero();
+			vec2[axes[2]] = U(1);
+			const auto r0 = RotationQuaternionAxisAngle<U, Layout, QPacked>(vec0, U(angles[0]));
+			const auto r1 = RotationQuaternionAxisAngle<U, Layout, QPacked>(vec1, U(angles[1]));
+			const auto r2 = RotationQuaternionAxisAngle<U, Layout, QPacked>(vec2, U(angles[2]));
+			return r2 * r1 * r0;
+		}
+
+	private:
+		template <class U, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
+		auto Make() const {
+			const auto r0 = RotationMatrixSingleAxis<U, 3, 3, Order, Layout, MPacked>(U(angles[0]), axes[0]);
+			const auto r1 = RotationMatrixSingleAxis<U, 3, 3, Order, Layout, MPacked>(U(angles[1]), axes[1]);
+			const auto r2 = RotationMatrixSingleAxis<U, 3, 3, Order, Layout, MPacked>(U(angles[2]), axes[2]);
+			const auto r = Order == eMatrixOrder::FOLLOW_VECTOR ? r0 * r1 * r2 : r2 * r1 * r0;
+			Matrix<U, Rows, Columns, Order, Layout, MPacked> m = Identity();
+			m.Insert(0, 0, r);
+			return m;
+		}
+
+		std::array<T, 3> angles;
+		std::array<int, 3> axes;
+	};
+
+
+	template <class T, bool Packed>
+	class Rotation3DAxisAngleBuilder {
+	public:
+		Rotation3DAxisAngleBuilder(const Vector<T, 3, Packed>& axis, T angle) : axis(axis), angle(angle) {}
+		Rotation3DAxisAngleBuilder& operator=(const Rotation3DAxisAngleBuilder&) = delete;
+
+		template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
+		operator Matrix<U, 4, 4, Order, Layout, MPacked>() const {
+			return RotationMatrixAxisAngle<U, 4, 4, Order, Layout, MPacked>(axis, U(angle));
+		}
+
+		template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
+		operator Matrix<U, 3, 3, Order, Layout, MPacked>() const {
+			return RotationMatrixAxisAngle<U, 3, 3, Order, Layout, MPacked>(axis, U(angle));
+		}
+
+		template <class U, eMatrixLayout Layout, bool MPacked>
+		operator Matrix<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, MPacked>() const {
+			return RotationMatrixAxisAngle<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, MPacked>(axis, U(angle));
+		}
+
+		template <class U, eMatrixLayout Layout, bool MPacked>
+		operator Matrix<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, MPacked>() const {
+			return RotationMatrixAxisAngle<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, MPacked>(axis, U(angle));
+		}
+
+		template <class U, eQuaternionLayout Layout, bool QPacked>
+		operator Quaternion<U, Layout, QPacked>() const {
+			return RotationQuaternionAxisAngle<U, Layout, QPacked>(axis, U(angle));
+		}
+
+	private:
+		const Vector<T, 3, Packed> axis;
+		const T angle;
+	};
+
+} // namespace impl
 
 
 /// <summary> Rotates around coordinate axis. </summary>
@@ -125,8 +233,9 @@ private:
 ///		coordinate systems (left-handed according to left-hand rule).
 template <class T>
 auto RotationAxis(T angle, int axis) {
-	return Rotation3DAxisBuilder(angle, axis);
+	return impl::Rotation3DAxisBuilder(angle, axis);
 }
+
 
 /// <summary> Rotates around coordinate axis. </summary>
 /// <typeparam name="Axis"> 0 for X, 1 for Y, 2 for Z and so on... </typeparam>
@@ -135,7 +244,7 @@ auto RotationAxis(T angle, int axis) {
 ///		coordinate systems (left-handed according to left-hand rule).
 template <int Axis, class T>
 auto RotationAxis(T angle) {
-	return Rotation3DAxisBuilder(angle, Axis);
+	return RotationAxis(angle, Axis);
 }
 
 
@@ -146,12 +255,14 @@ auto RotationX(T angle) {
 	return RotationAxis<0>(angle);
 }
 
+
 /// <summary> Rotates around the Y axis according to the right (left) hand rule in right (left) handed systems. </summary>
 /// <param name="angle"> Angle of rotation in radians. </param>
 template <class T>
 auto RotationY(T angle) {
 	return RotationAxis<1>(angle);
 }
+
 
 /// <summary> Rotates around the Z axis according to the right (left) hand rule in right (left) handed systems. </summary>
 /// <param name="angle"> Angle of rotation in radians. </param>
@@ -161,76 +272,14 @@ auto RotationZ(T angle) {
 }
 
 
-
-template <class T>
-class Rotation3DTriAxisBuilder {
-public:
-	Rotation3DTriAxisBuilder(const std::array<T, 3>& angles, std::array<int, 3> axes) : angles(angles), axes(axes) {}
-	Rotation3DTriAxisBuilder& operator=(const Rotation3DTriAxisBuilder&) = delete;
-
-	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
-	operator Matrix<U, 4, 4, Order, Layout, MPacked>() const {
-		Matrix<U, 4, 4, Order, Layout, MPacked> m;
-		Set(m);
-		return m;
-	}
-
-	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
-	operator Matrix<U, 3, 3, Order, Layout, MPacked>() const {
-		Matrix<U, 3, 3, Order, Layout, MPacked> m;
-		Set(m);
-		return m;
-	}
-
-	template <class U, eMatrixLayout Layout, bool MPacked>
-	operator Matrix<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, MPacked>() const {
-		Matrix<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, MPacked> m;
-		Set(m);
-		return m;
-	}
-
-	template <class U, eMatrixLayout Layout, bool MPacked>
-	operator Matrix<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, MPacked>() const {
-		Matrix<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, MPacked> m;
-		Set(m);
-		return m;
-	}
-
-	template <class U, bool QPacked>
-	operator Quaternion<U, QPacked>() const;
-
-private:
-	template <class U, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
-	void Set(Matrix<U, Rows, Columns, Order, Layout, MPacked>& m) const {
-		using MatT = Matrix<U, 3, 3, Order, Layout, MPacked>;
-		if constexpr (Order == eMatrixOrder::FOLLOW_VECTOR) {
-			m.template Submatrix<3, 3>(0, 0) = MatT(RotationAxis(angles[0], axes[0])) * MatT(RotationAxis(angles[1], axes[1])) * MatT(RotationAxis(angles[2], axes[2]));
-		}
-		else {
-			m.template Submatrix<3, 3>(0, 0) = MatT(RotationAxis(angles[2], axes[2])) * MatT(RotationAxis(angles[1], axes[1])) * MatT(RotationAxis(angles[0], axes[0]));
-		}
-
-		// Rest
-		for (int j = 0; j < m.ColumnCount(); ++j) {
-			for (int i = (j < 3 ? 3 : 0); i < m.RowCount(); ++i) {
-				m(i, j) = U(j == i);
-			}
-		}
-	}
-
-	const std::array<T, 3> angles;
-	const std::array<int, 3> axes;
-};
-
-
-
 /// <summary> Rotates around three axes in succession. </summary>
 /// <remarks> Axes: 0 for X, 1 for Y and 2 for Z.
 ///		Angles in radians. Each rotation according to the right (and left) hand rule in right (and left) handed systems. </remarks>
 template <int FirstAxis, int SecondAxis, int ThirdAxis, class T>
 auto RotationAxis3(T angle0, T angle1, T angle2) {
-	return Rotation3DTriAxisBuilder(std::array<T, 3>{ angle0, angle1, angle2 }, std::array<int, 3>{ FirstAxis, SecondAxis, ThirdAxis });
+	return impl::Rotation3DTriAxisBuilder(std::array<T, 3>{ angle0, angle1, angle2 }, std::array<int, 3>{ FirstAxis, SecondAxis, ThirdAxis });
 }
+
 
 /// <summary> Rotation matrix from Euler angles. Rotations are Z-X-Z. </summary>
 /// <param name="z1"> Angle of the first rotation around Z in radians. </param>
@@ -241,6 +290,7 @@ template <class T>
 auto RotationEuler(T z1, T x2, T z3) {
 	return RotationAxis3<2, 0, 2>(z1, x2, z3);
 }
+
 
 /// <summary> Rotation matrix from roll-pitch-yaw angles. Rotations are X-Y-Z. </summary>
 /// <param name="z1"> Angle of the first rotation around X in radians. </param>
@@ -253,139 +303,14 @@ auto RotationRPY(T x1, T y2, T z3) {
 }
 
 
-
-template <class T, bool Packed>
-class Rotation3DAxisAngleBuilder {
-public:
-	Rotation3DAxisAngleBuilder(const Vector<T, 3, Packed>& axis, T angle) : axis(axis), angle(angle) {}
-	Rotation3DAxisAngleBuilder& operator=(const Rotation3DAxisAngleBuilder&) = delete;
-
-	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
-	operator Matrix<U, 4, 4, Order, Layout, MPacked>() const {
-		Matrix<U, 4, 4, Order, Layout, MPacked> m;
-		Set(m);
-		return m;
-	}
-
-	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
-	operator Matrix<U, 3, 3, Order, Layout, MPacked>() const {
-		Matrix<U, 3, 3, Order, Layout, MPacked> m;
-		Set(m);
-		return m;
-	}
-
-	template <class U, eMatrixLayout Layout, bool MPacked>
-	operator Matrix<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, MPacked>() const {
-		Matrix<U, 3, 4, eMatrixOrder::PRECEDE_VECTOR, Layout, MPacked> m;
-		Set(m);
-		return m;
-	}
-
-	template <class U, eMatrixLayout Layout, bool MPacked>
-	operator Matrix<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, MPacked>() const {
-		Matrix<U, 4, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, MPacked> m;
-		Set(m);
-		return m;
-	}
-
-	template <class U, bool QPacked>
-	operator Quaternion<U, QPacked>() const;
-
-private:
-	template <class U, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
-	void Set(Matrix<U, Rows, Columns, Order, Layout, MPacked>& m) const {
-		assert(IsNormalized(axis));
-
-		T C = cos(angle);
-		T S = sin(angle);
-
-		// 3x3 rotation sub-matrix
-		using RotMat = Matrix<U, 3, 3, eMatrixOrder::FOLLOW_VECTOR, Layout, Packed>;
-		Matrix<U, 3, 1, eMatrixOrder::FOLLOW_VECTOR, Layout, Packed> u(axis(0), axis(1), axis(2));
-		RotMat cross = {
-			U(0), -u(2), u(1),
-			u(2), U(0), -u(0),
-			-u(1), u(0), U(0)
-		};
-		RotMat rot = C * RotMat(Identity()) + S * cross + (1 - C) * (u * Transpose(u));
-
-
-		// Elements
-		auto elem = [&m](int i, int j) -> U& {
-			return Order == eMatrixOrder::PRECEDE_VECTOR ? m(i, j) : m(j, i);
-		};
-		for (int j = 0; j < 3; ++j) {
-			for (int i = 0; i < 3; ++i) {
-				elem(i, j) = rot(i, j);
-			}
-		}
-
-		// Rest
-		for (int j = 0; j < m.Width(); ++j) {
-			for (int i = (j < 3 ? 3 : 0); i < m.Height(); ++i) {
-				m(i, j) = U(j == i);
-			}
-		}
-	}
-
-	const Vector<T, 3, Packed> axis;
-	const T angle;
-};
-
 /// <summary> Rotates around an arbitrary axis. </summary>
 /// <param name="axis"> Axis of rotation, must be normalized. </param>
 /// <param name="angle"> Angle of rotation in radians. </param>
 /// <remarks> Right-hand (left-hand) rule is followed in right-handed (left-handed) systems. </remarks>
 template <class T, bool Vpacked, class U>
 auto RotationAxisAngle(const Vector<T, 3, Vpacked>& axis, U angle) {
-	return Rotation3DAxisAngleBuilder(axis, T(angle));
+	assert(std::abs(T(1) - Length(axis)) < T(0.05) && "The axis must be normalized.");
+	return impl::Rotation3DAxisAngleBuilder(axis, T(angle));
 }
-
-
-/// <summary> Determines if the matrix is a proper rotation matrix. </summary>
-/// <remarks> Proper rotation matrices are orthogonal and have a determinant of +1. </remarks>
-template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-bool IsRotationMatrix3D(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) {
-	static_assert(Rows == 3 || Rows == 4);
-	static_assert(Columns == 3 || Columns == 4);
-	Vector<T, 3> rows[3] = {
-		{ m(0, 0), m(0, 1), m(0, 2) },
-		{ m(1, 0), m(1, 1), m(1, 2) },
-		{ m(2, 0), m(2, 1), m(2, 2) },
-	};
-	return (std::abs(Dot(rows[0], rows[1])) + std::abs(Dot(rows[0], rows[2])) + std::abs(Dot(rows[1], rows[2]))) < T(0.0005) // rows are orthogonal to each other
-		   && IsNormalized(rows[0]) && IsNormalized(rows[1]) && IsNormalized(rows[2]) // all rows are normalized
-		   && Determinant(Matrix<T, 3, 3, Order, Layout, Packed>(m.template Submatrix<3, 3>(0, 0))) > 0; // not an improper rotation
-}
-
-
-template <class T>
-template <class U, bool QPacked>
-Rotation3DAxisBuilder<T>::operator Quaternion<U, QPacked>() const {
-	using QuatT = Quaternion<U, QPacked>;
-	switch (axis) {
-		case 0: return QuatT(RotationAxisAngle(Vector<U, 3, QPacked>(1, 0, 0), angle));
-		case 1: return QuatT(RotationAxisAngle(Vector<U, 3, QPacked>(0, 1, 0), angle));
-		case 2: return QuatT(RotationAxisAngle(Vector<U, 3, QPacked>(0, 0, 1), angle));
-	}
-	assert(false);
-	throw std::invalid_argument("Axis must be 0, 1, or 2.");
-}
-
-template <class T>
-template <class U, bool QPacked>
-Rotation3DTriAxisBuilder<T>::operator Quaternion<U, QPacked>() const {
-	using QuatT = Quaternion<U, QPacked>;
-	return QuatT(RotationAxis(angles[2], axes[2])) * QuatT(RotationAxis(angles[1], axes[1])) * QuatT(RotationAxis(angles[0], axes[0]));
-}
-
-template <class T, bool Packed>
-template <class U, bool QPacked>
-Rotation3DAxisAngleBuilder<T, Packed>::operator Quaternion<U, QPacked>() const {
-	auto halfAngle = U(angle) * U(0.5);
-	return Quaternion(std::cos(halfAngle), Vector<U, 3, QPacked>(axis) * std::sin(halfAngle));
-}
-
-
 
 } // namespace mathter

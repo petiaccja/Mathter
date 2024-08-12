@@ -6,27 +6,20 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
-  build:
+  sonarcloud:
     runs-on: ubuntu-latest
     env:
-      SONAR_SCANNER_VERSION: 4.4.0.2170
-      SONAR_SERVER_URL: "https://sonarcloud.io"
       BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory # Directory where build-wrapper output will be placed
-      os: "ubuntu-latest"
-      build_profile: "clang20d"
-      conan_preset: "clang-20-debug"
+      build_profile: "clang17d"
+      conan_preset: "clang-17-debug"
 
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - uses: seanmiddleditch/gha-setup-ninja@v4
-      - uses: seanmiddleditch/gha-setup-vsdevenv@master
 
       - run: pip install conan
-
-      - name: Install sonar-scanner and build-wrapper
-        uses: SonarSource/sonarcloud-github-c-cpp@v2
   
       - name: Install native compilers
         run: |
@@ -45,6 +38,9 @@ jobs:
             sudo update-alternatives --remove-all clang || true
             sudo update-alternatives --remove-all clang++ || true
             sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-17 10 --slave /usr/bin/clang++ clang++ /usr/bin/clang++-17
+
+      - name: Install sonar-scanner and build-wrapper
+        uses: SonarSource/sonarcloud-github-c-cpp@v2
   
       - name: Cache conan packages
         id: cache-conan
@@ -83,4 +79,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          sonar-scanner --define sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}"
+          sonar-scanner --define sonar.cfamily.compile-commands="${{ env.BUILD_WRAPPER_OUT_DIR }}/compile_commands.json"

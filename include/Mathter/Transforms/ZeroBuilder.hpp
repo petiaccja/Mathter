@@ -1,4 +1,4 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
@@ -6,38 +6,44 @@
 #pragma once
 
 
-#include "../Matrix/MatrixImpl.hpp"
+#include "../Common/LoopUtil.hpp"
+#include "../Matrix/Matrix.hpp"
+#include "../Quaternion/Quaternion.hpp"
+#include "../Vector/Vector.hpp"
 #include "ZeroBuilder.hpp"
 
 
 namespace mathter {
 
+namespace impl {
 
-class ZeroBuilder {
-public:
-	ZeroBuilder() = default;
-	ZeroBuilder& operator=(const ZeroBuilder&) = delete;
-
-	template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-	operator Matrix<T, Rows, Columns, Order, Layout, Packed>() const {
-		Matrix<T, Rows, Columns, Order, Layout, Packed> m;
-		Set(m);
-		return m;
-	}
-
-private:
-	template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-	void Set(Matrix<T, Rows, Columns, Order, Layout, Packed>& m) const {
-		for (auto& stripe : m.stripes) {
-			Fill(stripe, T(0));
+	class ZeroBuilder {
+	public:
+		template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+		operator Matrix<T, Rows, Columns, Order, Layout, Packed>() const {
+			using Mat = Matrix<T, Rows, Columns, Order, Layout, Packed>;
+			return ::mathter::LoopUnroll<Mat::stripeCount>([](auto... indices) {
+				return Mat(stripeArg, Vector<T, Mat::stripeDim, Packed>((static_cast<void>(indices), T(0)))...);
+			});
 		}
-	}
-};
+
+		template <class T, int Dim, bool Packed>
+		operator Vector<T, Dim, Packed>() const {
+			return Vector<T, Dim, Packed>(T(0));
+		}
+
+		template <class T, eQuaternionLayout Layout, bool Packed>
+		operator Quaternion<T, Layout, Packed>() const {
+			return Quaternion<T, Layout, Packed>(T(0), T(0), T(0), T(0));
+		}
+	};
+
+} // namespace impl
 
 
-/// <summary> Creates a matrix with all elements zero. </summary>
+/// <summary> Creates a matrix/vector/quaternion with all elements zero. </summary>
 inline auto Zero() {
-	return ZeroBuilder{};
+	return impl::ZeroBuilder{};
 }
 
 

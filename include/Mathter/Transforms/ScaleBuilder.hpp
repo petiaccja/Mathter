@@ -5,84 +5,97 @@
 
 #pragma once
 
-#include "../Matrix/MatrixImpl.hpp"
-#include "../Vector.hpp"
-#include "IdentityBuilder.hpp"
+#include "../Matrix/Matrix.hpp"
+#include "../Vector/Vector.hpp"
+#include "ZeroBuilder.hpp"
+
+#include <array>
+#include <utility>
 
 
 namespace mathter {
 
+namespace impl {
 
-template <class T, int Dim, bool Packed>
-class ScaleBuilder {
-public:
-	ScaleBuilder(const Vector<T, Dim, Packed>& scale) : scale(scale) {}
-	ScaleBuilder& operator=(const ScaleBuilder&) = delete;
+	template <class T, int Dim>
+	class ScaleBuilder {
+	public:
+		explicit ScaleBuilder(const std::array<T, Dim>& scale) : scale(scale) {}
 
-	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
-	operator Matrix<U, Dim + 1, Dim + 1, Order, Layout, MPacked>() const {
-		Matrix<U, Dim + 1, Dim + 1, Order, Layout, MPacked> m;
-		Set(m);
-		return m;
-	}
-
-	template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
-	operator Matrix<U, Dim, Dim, Order, Layout, MPacked>() const {
-		Matrix<U, Dim, Dim, Order, Layout, MPacked> m;
-		Set(m);
-		return m;
-	}
-
-	template <class U, eMatrixLayout Layout, bool MPacked>
-	operator Matrix<U, Dim, Dim + 1, eMatrixOrder::PRECEDE_VECTOR, Layout, MPacked>() const {
-		Matrix<U, Dim, Dim + 1, eMatrixOrder::PRECEDE_VECTOR, Layout, MPacked> m;
-		Set(m);
-		return m;
-	}
-
-	template <class U, eMatrixLayout Layout, bool MPacked>
-	operator Matrix<U, Dim + 1, Dim, eMatrixOrder::FOLLOW_VECTOR, Layout, MPacked>() const {
-		Matrix<U, Dim + 1, Dim, eMatrixOrder::FOLLOW_VECTOR, Layout, MPacked> m;
-		Set(m);
-		return m;
-	}
-
-
-private:
-	template <class U, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
-	void Set(Matrix<U, Rows, Columns, Order, Layout, MPacked>& m) const {
-		m = Identity();
-		int i;
-		for (i = 0; i < scale.Dimension(); ++i) {
-			m(i, i) = std::move(scale(i));
+		template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
+		operator Matrix<U, Dim + 1, Dim + 1, Order, Layout, MPacked>() const {
+			Matrix<U, Dim + 1, Dim + 1, Order, Layout, MPacked> m;
+			Set(m);
+			return m;
 		}
-		for (; i < std::min(Rows, Columns); ++i) {
-			m(i, i) = T(1);
-		}
-	}
 
-	const Vector<T, Dim, Packed> scale;
-};
+		template <class U, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
+		operator Matrix<U, Dim, Dim, Order, Layout, MPacked>() const {
+			Matrix<U, Dim, Dim, Order, Layout, MPacked> m;
+			Set(m);
+			return m;
+		}
+
+		template <class U, eMatrixLayout Layout, bool MPacked>
+		operator Matrix<U, Dim, Dim + 1, eMatrixOrder::PRECEDE_VECTOR, Layout, MPacked>() const {
+			Matrix<U, Dim, Dim + 1, eMatrixOrder::PRECEDE_VECTOR, Layout, MPacked> m;
+			Set(m);
+			return m;
+		}
+
+		template <class U, eMatrixLayout Layout, bool MPacked>
+		operator Matrix<U, Dim + 1, Dim, eMatrixOrder::FOLLOW_VECTOR, Layout, MPacked>() const {
+			Matrix<U, Dim + 1, Dim, eMatrixOrder::FOLLOW_VECTOR, Layout, MPacked> m;
+			Set(m);
+			return m;
+		}
+
+	private:
+		template <class U, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool MPacked>
+		void Set(Matrix<U, Rows, Columns, Order, Layout, MPacked>& m) const {
+			m = Zero();
+			size_t i;
+			for (i = 0; i < scale.size(); ++i) {
+				m(i, i) = static_cast<U>(scale[i]);
+			}
+			for (; i < std::min(Rows, Columns); ++i) {
+				m(i, i) = static_cast<U>(1);
+			}
+		}
+
+		std::array<T, Dim> scale;
+	};
+
+	template <class T, size_t N>
+	ScaleBuilder(const std::array<T, N>&) -> ScaleBuilder<T, int(N)>;
+
+} // namespace impl
 
 
 /// <summary> Creates a scaling matrix. </summary>
 /// <param name="scale"> A vector containing the scales of respective axes. </summary>
-/// <remarks> The vector's dimension must be less than or equal to the matrix dimension. </remarks>
-template <class Vt, int Vdim, bool Vpacked>
-auto Scale(const Vector<Vt, Vdim, Vpacked>& scale) {
-	return ScaleBuilder{ scale };
+template <class T, int Dim, bool Packed>
+auto Scale(const Vector<T, Dim, Packed>& scale) {
+	std::array<T, Dim> arr;
+	std::copy(scale.begin(), scale.end(), arr.begin());
+	return impl::ScaleBuilder{ arr };
 }
 
 
 /// <summary> Creates a scaling matrix. </summary>
 /// <param name="scales"> A list of scalars corresponding to scaling on respective axes. </summary>
-/// <remarks> The number of arguments must be less than or equal to the matrix dimension. </remarks>
-template <class... Args, std::enable_if_t<(... && is_scalar_v<std::decay_t<Args>>), int> = 0>
-auto Scale(Args&&... scales) {
-	using PromotedT = decltype((0 + ... + scales));
-	return ScaleBuilder{ Vector<PromotedT, sizeof...(scales)>(scales...) };
+template <class... Scales, std::enable_if_t<(... && is_scalar_v<std::decay_t<Scales>>), int> = 0>
+auto Scale(const Scales&... scales) {
+	using T = common_arithmetic_type_t<std::decay_t<Scales>...>;
+	return impl::ScaleBuilder{ std::array{ static_cast<T>(scales)... } };
 }
 
 
+/// <summary> Creates a scaling matrix. </summary>
+/// <param name="scale"> An array containing the scales of respective axes. </summary>
+template <class T, int Dim>
+auto Scale(const std::array<T, Dim>& scale) {
+	return impl::ScaleBuilder{ scale };
+}
 
 } // namespace mathter

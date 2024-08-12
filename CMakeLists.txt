@@ -1,4 +1,4 @@
-﻿cmake_minimum_required(VERSION 3.24.0)
+cmake_minimum_required(VERSION 3.24.0)
 
 # Project version
 if (NOT DEFINED MATHTER_VERSION)
@@ -15,7 +15,7 @@ option(MATHTER_ENABLE_SIMD "Enables hand-rolled vectorization. Requires the XSim
 set(MATHTER_INIT_MODE "DEFAULT" CACHE STRING "Set default initialization of Mathter types.")
 set_property(CACHE MATHTER_INIT_MODE PROPERTY STRINGS DEFAULT NULL INVALID UNINITIALIZED)
 option(MATHTER_BUILD_TESTS "Include or exclude tests from the generated project." ON)
-option(MATHTER_BUILD_BENCHMARKS "Include or exclude bechmarks from the generated project." ON)
+option(MATHTER_BUILD_BENCHMARKS "Include or exclude bechmarks from the generated project." OFF)
 option(ENABLE_LLVM_COV "Adds compiler flags to generate LLVM source-based code coverage. Only works with Clang." OFF)
 set(MATHTER_CMAKE_INSTALL_DIR "lib/cmake/${PROJECT_NAME}" CACHE STRING "Subdirectory to install CMake package config files.")
 
@@ -26,6 +26,8 @@ if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
 		add_compile_options("-fprofile-instr-generate" "-fcoverage-mapping" "-mllvm" "-enable-name-compression=false")
 		add_link_options("-fprofile-instr-generate" "-fcoverage-mapping")
 	endif()
+elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "MSVC")
+	add_compile_options("/bigobj")
 endif()
 
 # Output directories

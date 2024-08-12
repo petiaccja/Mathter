@@ -53,8 +53,8 @@ constexpr auto is_matrix_v = is_matrix<T>::value;
 template <class>
 struct is_quaternion : std::false_type {};
 
-template <class T, bool Packed>
-struct is_quaternion<Quaternion<T, Packed>> : std::true_type {};
+template <class T, eQuaternionLayout Layout, bool Packed>
+struct is_quaternion<Quaternion<T, Layout, Packed>> : std::true_type {};
 
 template <class T>
 constexpr auto is_quaternion_v = is_quaternion<T>::value;
@@ -95,8 +95,8 @@ struct scalar_type<Matrix<T, Rows, Columns, Order, Layout, Packed>> {
 	using type = T;
 };
 
-template <class T, bool Packed>
-struct scalar_type<Quaternion<T, Packed>> {
+template <class T, eQuaternionLayout Layout, bool Packed>
+struct scalar_type<Quaternion<T, Layout, Packed>> {
 	using type = T;
 };
 
@@ -109,15 +109,61 @@ using scalar_type_t = typename scalar_type<T>::type;
 //--------------------------------------
 
 template <class T>
-struct dimension {};
+struct dimension {
+	static constexpr int value = 1;
+};
 
 template <class T, int Dim, bool Packed>
 struct dimension<Vector<T, Dim, Packed>> {
-	static constexpr auto value = Dim;
+	static constexpr int value = Dim;
 };
+
+template <class T, int Dim, bool Packed, int... Indices>
+struct dimension<Swizzle<T, Dim, Packed, Indices...>> {
+	static constexpr int value = sizeof...(Indices);
+};
+
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+struct dimension<Matrix<T, Rows, Columns, Order, Layout, Packed>> {
+	template <int Rows_, int Columns_>
+	static constexpr int Get() {
+		static_assert(Rows_ == 1 || Columns_ == 1, "Must be a row or column matrix to determine dimension.");
+		return Rows_ == 1 ? Columns_ : Rows_;
+	}
+	static constexpr int value = Get<Rows, Columns>();
+};
+
 
 template <class T>
 constexpr auto dimension_v = dimension<T>::value;
+
+
+template <class T>
+struct source_dimension {};
+
+
+template <class T, int Dim, bool Packed, int... Indices>
+struct source_dimension<Swizzle<T, Dim, Packed, Indices...>> {
+	static constexpr int value = Dim;
+};
+
+
+template <class T>
+constexpr auto source_dimension_v = source_dimension<T>::value;
+
+
+template <class T>
+struct target_dimension {};
+
+
+template <class T, int Dim, bool Packed, int... Indices>
+struct target_dimension<Swizzle<T, Dim, Packed, Indices...>> {
+	static constexpr int value = sizeof...(Indices);
+};
+
+
+template <class T>
+constexpr auto target_dimension_v = target_dimension<T>::value;
 
 
 //--------------------------------------
@@ -179,6 +225,11 @@ struct layout<Matrix<T, Rows, Columns, Order, Layout, Packed>> {
 	static constexpr auto value = Layout;
 };
 
+template <class T, eQuaternionLayout Layout, bool Packed>
+struct layout<Quaternion<T, Layout, Packed>> {
+	static constexpr auto value = Layout;
+};
+
 template <class T>
 constexpr auto layout_v = layout<T>::value;
 
@@ -205,8 +256,8 @@ struct is_packed<Matrix<T, Rows, Columns, Order, Layout, Packed>> {
 	static constexpr auto value = Packed;
 };
 
-template <class T, bool Packed>
-struct is_packed<Quaternion<T, Packed>> {
+template <class T, eQuaternionLayout Layout, bool Packed>
+struct is_packed<Quaternion<T, Layout, Packed>> {
 	static constexpr auto value = Packed;
 };
 
@@ -252,6 +303,16 @@ struct remove_complex<std::complex<T>> {
 
 template <class T>
 using remove_complex_t = typename remove_complex<T>::type;
+
+
+template <class T>
+struct is_complex : std::false_type {};
+
+template <class T>
+struct is_complex<std::complex<T>> : std::true_type {};
+
+template <class T>
+inline constexpr bool is_complex_v = is_complex<T>::value;
 
 
 //------------------------------------------------------------------------------

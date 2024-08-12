@@ -1,4 +1,4 @@
-﻿// L=============================================================================
+// L=============================================================================
 // L This software is distributed under the MIT license.
 // L Copyright 2021 Péter Kardos
 // L=============================================================================
@@ -24,6 +24,7 @@ enum class eMatrixOrder {
 	FOLLOW_VECTOR,
 };
 
+
 /// <summary> Determines the memory layout of matrices. </summary>
 /// <remarks>
 /// <para> For ROW_MAJOR layout, the matrix's first row comes first in memory, followed immediately by
@@ -38,6 +39,13 @@ enum class eMatrixLayout {
 	COLUMN_MAJOR,
 };
 
+
+/// <summary> Determined the memory layout quaternions. </summary>
+/// <remarks>
+enum class eQuaternionLayout {
+	SCALAR_FIRST,
+	VECTOR_FIRST,
+};
 
 
 //------------------------------------------------------------------------------
@@ -54,21 +62,15 @@ constexpr int DYNAMIC = -1;
 //------------------------------------------------------------------------------
 
 template <class T, int Dim, bool Packed>
-struct VectorData;
-
-template <class T, int Dim, bool Packed>
 class Vector;
 
 template <class T, int Dim, bool Packed, int... Indices>
-class Swizzle;
+struct Swizzle;
 
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 class Matrix;
 
-template <class MatrixT, int SRows, int SColumns>
-class SubmatrixHelper;
-
-template <class T, bool Packed>
+template <class T, eQuaternionLayout Layout, bool Packed>
 class Quaternion;
 
 
