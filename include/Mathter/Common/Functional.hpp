@@ -17,7 +17,10 @@ template <class T = void>
 struct fma {
 	constexpr T operator()(const T& a, const T& b, const T& c) const {
 		if constexpr (std::is_floating_point_v<T>) {
+#if defined(FP_FAST_FMA) && defined(FP_FAST_FMAF) && defined(FP_FAST_FMAL)
 			return std::fma(a, b, c);
+#endif
+			return a * b + c;
 		}
 #ifdef MATHTER_ENABLE_SIMD
 		else if constexpr (xsimd::is_batch<T>::value) {
