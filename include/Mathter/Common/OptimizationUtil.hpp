@@ -8,13 +8,13 @@ namespace mathter {
 
 
 #ifdef _MSC_VER
-#define MATHTER_NOINLINE __declspec(noinline)
-#define MATHTER_FORCEINLINE __forceinline
-#define MATHTER_FLATTEN [[msvc::flatten]]
+#define MATHTER_NOINLINE [[msvc::noinline]]
+#define MATHTER_FORCEINLINE [[msvc::forceinline]]
+#define MATHTER_FLATTEN_BLOCK [[msvc::flatten]]
 #else
-#define MATHTER_NOINLINE __attribute__((noinline))
-#define MATHTER_FORCEINLINE __attribute__((always_inline))
-#define MATHTER_FLATTEN __attribute__((flatten))
+#define MATHTER_NOINLINE [[gnu::noinline]]
+#define MATHTER_FORCEINLINE [[gnu::always_inline]]
+#define MATHTER_FLATTEN_FUNCTION [[gnu::flatten]]
 #endif
 
 
@@ -35,7 +35,7 @@ MATHTER_FORCEINLINE auto LoopUnroll(Func&& func, Args&&... args) {
 
 
 template <ptrdiff_t First, ptrdiff_t Last, ptrdiff_t Step, ptrdiff_t Limit, class Fun, class... Args>
-void ForUnrolled(std::integral_constant<ptrdiff_t, First>,
+MATHTER_FORCEINLINE void ForUnrolled(std::integral_constant<ptrdiff_t, First>,
 				 std::integral_constant<ptrdiff_t, Last> last,
 				 std::integral_constant<ptrdiff_t, Step> step,
 				 std::integral_constant<ptrdiff_t, Limit> limit,
@@ -57,7 +57,7 @@ void ForUnrolled(std::integral_constant<ptrdiff_t, First>,
 
 
 template <ptrdiff_t First, ptrdiff_t Last, ptrdiff_t Step, ptrdiff_t Limit, class Fun, class... Args>
-auto ForUnrolled(Fun&& fun, Args&&... args) -> std::enable_if_t<!std::is_convertible_v<Fun, std::integral_constant<ptrdiff_t, First>>> {
+MATHTER_FORCEINLINE auto ForUnrolled(Fun&& fun, Args&&... args) -> std::enable_if_t<!std::is_convertible_v<Fun, std::integral_constant<ptrdiff_t, First>>> {
 	ForUnrolled(std::integral_constant<ptrdiff_t, First>{},
 				std::integral_constant<ptrdiff_t, Last>{},
 				std::integral_constant<ptrdiff_t, Step>{},
