@@ -11,6 +11,8 @@ target_sources(Benchmark
     PRIVATE
         "main.cpp"
         "Matrix/BenchmarkArithmetic.cpp"
+        "Scalar/BenchmarkArithmetic.cpp"
+        "Scalar/BenchmarkMath.cpp"
         "Vector/BenchmarkArithmetic.cpp"
 )       
 

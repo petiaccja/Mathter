@@ -1,5 +1,5 @@
 #include "../Benchmark.hpp"
-#include "../Utility.hpp"
+#include "../Fixtures.hpp"
 
 #include <Mathter/Matrix.hpp>
 #include <Mathter/Transforms/RandomBuilder.hpp>
@@ -34,19 +34,6 @@ std::array<Mat, Count> MakeInput() {
 	return r;
 };
 
-template <class Op>
-struct ArithmeticBinaryFixture {
-	template <class Lhs, class Rhs, size_t Count>
-	MATHTER_FORCEINLINE auto Latency(const Lhs& lhs, const std::array<Rhs, Count>& rhs) const {
-		return std::tuple(DependentUnroll(lhs, rhs, Op{}), Count);
-	}
-
-	template <class Lhs, class Rhs, size_t Count>
-	MATHTER_FORCEINLINE auto Throughput(const Lhs& lhs, const std::array<Rhs, Count>& rhs) const {
-		return std::tuple(IndependentUnroll(lhs, rhs, Op{}), Count);
-	}
-};
-
 
 static constexpr auto benchmarkCaseLayout_r = eMatrixLayout::ROW_MAJOR;
 static constexpr auto benchmarkCaseLayout_c = eMatrixLayout::COLUMN_MAJOR;
@@ -54,12 +41,13 @@ static constexpr auto benchmarkCaseLayout_c = eMatrixLayout::COLUMN_MAJOR;
 
 #define MATRIX_BINOP_BENCHMARK_CASE(TYPE, ROWS, MATCH, COLS, LAYOUT_L, LAYOUT_R, PACKED, OP, OPTEXT)                                  \
 	BENCHMARK_CASE(#TYPE "." #ROWS #MATCH #LAYOUT_L " " OPTEXT " " #TYPE "." #MATCH #COLS #LAYOUT_R " (P=" #PACKED ")",               \
-				   "[Matrix]",                                                                                                        \
+				   "[Matrix][Arithmetic]",                                                                                            \
 				   50,                                                                                                                \
 				   64,                                                                                                                \
-				   ArithmeticBinaryFixture<OP>{},                                                                                     \
+				   GenericBinaryFixture{ OP{} },                                                                                      \
 				   MakeInput<Matrix<TYPE, ROWS, MATCH, eMatrixOrder::FOLLOW_VECTOR, benchmarkCaseLayout_##LAYOUT_L, PACKED>, 1>()[0], \
-				   MakeInput<Matrix<TYPE, MATCH, COLS, eMatrixOrder::FOLLOW_VECTOR, benchmarkCaseLayout_##LAYOUT_R, PACKED>, 16>());
+				   MakeInput<Matrix<TYPE, ROWS, MATCH, eMatrixOrder::FOLLOW_VECTOR, benchmarkCaseLayout_##LAYOUT_L, PACKED>, 4>(),    \
+				   MakeInput<Matrix<TYPE, MATCH, COLS, eMatrixOrder::FOLLOW_VECTOR, benchmarkCaseLayout_##LAYOUT_R, PACKED>, 64>());
 
 
 MATRIX_BINOP_BENCHMARK_CASE(float, 2, 2, 2, r, r, false, std::multiplies<>, "*");

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <functional>
 #include <utility>
 
 
@@ -34,13 +35,19 @@ MATHTER_FORCEINLINE auto LoopUnroll(Func&& func, Args&&... args) {
 }
 
 
+template <class Fun, size_t... Indices>
+MATHTER_FORCEINLINE decltype(auto) Apply(Fun&& fun, std::integer_sequence<size_t, Indices...>) {
+	return std::invoke(std::forward<Fun>(fun), Indices...);
+}
+
+
 template <ptrdiff_t First, ptrdiff_t Last, ptrdiff_t Step, ptrdiff_t Limit, class Fun, class... Args>
 MATHTER_FORCEINLINE void ForUnrolled(std::integral_constant<ptrdiff_t, First>,
-				 std::integral_constant<ptrdiff_t, Last> last,
-				 std::integral_constant<ptrdiff_t, Step> step,
-				 std::integral_constant<ptrdiff_t, Limit> limit,
-				 Fun&& fun,
-				 Args&&... args) {
+									 std::integral_constant<ptrdiff_t, Last> last,
+									 std::integral_constant<ptrdiff_t, Step> step,
+									 std::integral_constant<ptrdiff_t, Limit> limit,
+									 Fun&& fun,
+									 Args&&... args) {
 	constexpr auto Count = Last - First / Step;
 	if constexpr (Count <= Limit) {
 		if constexpr (0 < Step ? First < Last : First > Last) {

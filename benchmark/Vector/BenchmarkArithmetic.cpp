@@ -1,5 +1,5 @@
 #include "../Benchmark.hpp"
-#include "../Utility.hpp"
+#include "../Fixtures.hpp"
 
 #include <Mathter/Transforms/RandomBuilder.hpp>
 #include <Mathter/Vector.hpp>
@@ -34,28 +34,15 @@ std::array<Vec, Count> MakeInput() {
 	return r;
 };
 
-template <class Op>
-struct ArithmeticBinaryFixture {
-	template <class Lhs, class Rhs, size_t Count>
-	MATHTER_FORCEINLINE auto Latency(const Lhs& lhs, const std::array<Rhs, Count>& rhs) const {
-		return std::tuple(DependentUnroll(lhs, rhs, Op{}), Count);
-	}
-
-	template <class Lhs, class Rhs, size_t Count>
-	MATHTER_FORCEINLINE auto Throughput(const Lhs& lhs, const std::array<Rhs, Count>& rhs) const {
-		return std::tuple(IndependentUnroll(lhs, rhs, Op{}), Count);
-	}
-};
-
-
 #define VECTOR_BINOP_BENCHMARK_CASE(TYPE, DIM, PACKED, OP, OPTEXT)                  \
 	BENCHMARK_CASE(#TYPE "." #DIM " " OPTEXT " " #TYPE "." #DIM " (P=" #PACKED ")", \
-				   "[Vector]",                                                      \
+				   "[Vector][Arithmetic]",                                          \
 				   50,                                                              \
 				   64,                                                              \
-				   ArithmeticBinaryFixture<OP>{},                                   \
+				   GenericBinaryFixture{ OP{} },                                    \
 				   MakeInput<Vector<TYPE, DIM, PACKED>, 1>()[0],                    \
-				   MakeInput<Vector<TYPE, DIM, PACKED>, 16>());
+				   MakeInput<Vector<TYPE, DIM, PACKED>, 4>(),                       \
+				   MakeInput<Vector<TYPE, DIM, PACKED>, 64>());
 
 
 VECTOR_BINOP_BENCHMARK_CASE(float, 2, false, std::plus<>, "+");
