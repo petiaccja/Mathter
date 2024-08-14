@@ -140,9 +140,10 @@ auto NormPrecise(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) {
 /// <summary> Returns the trace (sum of diagonal elements) of the matrix. </summary>
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 T Trace(const Matrix<T, Dim, Dim, Order, Layout, Packed>& m) {
-	const auto diagonal = LoopUnroll<Dim>([&m](auto... i) {
-		return Vector(m(i, i)...);
-	});
+	Vector<T, Dim, Packed> diagonal;
+	for (size_t i = 0; i < Dim; ++i) {
+		diagonal[i] = m(i, i);
+	}
 	return Sum(diagonal);
 }
 

@@ -19,22 +19,6 @@ namespace mathter {
 #endif
 
 
-namespace impl {
-
-	template <size_t... Indices, class Func, class... Args>
-	MATHTER_FORCEINLINE auto LoopUnrollHelper(std::index_sequence<Indices...>, Func&& func, Args&&... args) {
-		return func(std::forward<Args>(args)..., Indices...);
-	}
-
-} // namespace impl
-
-
-template <size_t Iterations, class Func, class... Args>
-MATHTER_FORCEINLINE auto LoopUnroll(Func&& func, Args&&... args) {
-	return impl::LoopUnrollHelper(std::make_index_sequence<Iterations>{}, std::forward<Func>(func), std::forward<Args>(args)...);
-}
-
-
 template <class Fun, size_t... Indices>
 MATHTER_FORCEINLINE decltype(auto) Apply(Fun&& fun, std::integer_sequence<size_t, Indices...>) {
 	return std::invoke(std::forward<Fun>(fun), Indices...);

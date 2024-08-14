@@ -9,11 +9,15 @@ target_sources(Benchmark
 
 target_sources(Benchmark
     PRIVATE
-        "main.cpp"
         "Matrix/BenchmarkArithmetic.cpp"
         "Scalar/BenchmarkArithmetic.cpp"
         "Scalar/BenchmarkMath.cpp"
         "Vector/BenchmarkArithmetic.cpp"
+)   
+
+target_sources(Benchmark
+    PRIVATE
+        "z_MSVC_Repro/Matrix2x2Multiply.cpp"
 )       
 
 find_package(Catch2 REQUIRED)

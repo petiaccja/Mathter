@@ -124,53 +124,33 @@ MATHTER_NOINLINE void BenchmarkCase(std::string_view name, int64_t samples, int6
 } // namespace impl
 
 
-template <size_t Index, class Op, size_t Count, class Lhs, class... Args>
-MATHTER_FORCEINLINE static auto DependentUnroll(std::integral_constant<size_t, Index>,
-												Op op,
-												const Lhs& lhs,
-												const std::array<Args, Count>&... args) {
-	if constexpr (Index < Count) {
-		const auto result = op(lhs, args[Index]...);
-		return DependentUnroll(std::integral_constant<size_t, Index + 1>{}, op, result, args...);
-	}
-	else {
-		return lhs;
-	}
-}
-
-
 template <class Op, size_t Count, class Lhs, class... Args>
-MATHTER_FORCEINLINE static auto DependentUnroll(Op op,
-												const Lhs& lhs,
-												const std::array<Args, Count>&... args) {
-	return DependentUnroll(std::integral_constant<size_t, 0>{}, op, lhs, args...);
-}
-
-
-template <size_t Index, class Op, size_t Lanes, size_t Count, class Lhs, class... Args>
-MATHTER_FORCEINLINE static auto IndependentUnroll(std::integral_constant<size_t, Index>,
-												  Op op,
-												  const std::array<Lhs, Lanes>& lhs,
-												  const std::array<Args, Count>&... args) {
-	if constexpr (Index + Lanes < Count) {
-		using Result = std::invoke_result_t<Op, Lhs, Args...>;
-		std::array<Result, Lanes> result;
-		mathter::ForUnrolled<0, Lanes, 1, Lanes>([&](auto laneIdx) {
-			result[laneIdx] = op(lhs[laneIdx], args[Index + laneIdx]...);
-		});
-		return IndependentUnroll(std::integral_constant<size_t, Index + Lanes>{}, op, result, args...);
+MATHTER_FORCEINLINE static auto DependentLoop(Op op,
+											  const Lhs& lhs,
+											  const std::array<Args, Count>&... args) {
+	auto result = op(lhs, args[0]...);
+	for (size_t i = 1; i < Count; ++i) {
+		result = op(result, args[0]...);
 	}
-	else {
-		return lhs;
-	}
+	return result;
 }
 
 
 template <class Op, size_t Lanes, size_t Count, class Lhs, class... Args>
-MATHTER_FORCEINLINE static auto IndependentUnroll(Op op,
-												  const std::array<Lhs, Lanes>& lhs,
-												  const std::array<Args, Count>&... args) {
-	return IndependentUnroll(std::integral_constant<size_t, 0>{}, op, lhs, args...);
+MATHTER_FORCEINLINE static auto IndependentLoop(Op op,
+												const std::array<Lhs, Lanes>& lhs,
+												const std::array<Args, Count>&... args) {
+	using Result = std::invoke_result_t<Op, Lhs, Args...>;
+	std::array<Result, Lanes> result;
+	for (size_t lane = 0; lane < Lanes; ++lane) {
+		result[lane] = op(lhs[lane], args[lane]...);
+	}
+	for (size_t i = Lanes; i < Count; i += Lanes) {
+		for (size_t lane = 0; lane < Lanes; ++lane) {
+			result[lane] = op(lhs[lane], args[i + lane]...);
+		}
+	}
+	return result;
 }
 
 
