@@ -17,8 +17,8 @@ namespace {
 				   50,                                                \
 				   64,                                                \
 				   GenericUnaryFixture{ OP },                         \
-				   MakeInput<TYPE, 1>(MIN, MAX)[0],                   \
-				   MakeInput<TYPE, 8>(MIN, MAX),                      \
+				   MakeRandomInput<TYPE, 1>(MIN, MAX)[0],             \
+				   MakeRandomInput<TYPE, 8>(MIN, MAX),                \
 				   std::array<std::monostate, 64>());
 
 

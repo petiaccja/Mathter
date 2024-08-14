@@ -12,8 +12,8 @@ using namespace mathter;
 
 
 template <class Scalar, int Count>
-std::array<Scalar, Count> MakeInput(remove_complex_t<Scalar> min = remove_complex_t<Scalar>(0.9f),
-									remove_complex_t<Scalar> max = remove_complex_t<Scalar>(0.98f)) {
+std::array<Scalar, Count> MakeRandomInput(remove_complex_t<Scalar> min = remove_complex_t<Scalar>(0.9f),
+										  remove_complex_t<Scalar> max = remove_complex_t<Scalar>(0.98f)) {
 	using Real = remove_complex_t<Scalar>;
 	using namespace std::complex_literals;
 
@@ -30,6 +30,16 @@ std::array<Scalar, Count> MakeInput(remove_complex_t<Scalar> min = remove_comple
 		else {
 			v = rng(rne);
 		}
+	}
+	return r;
+};
+
+
+template <class Scalar, int Count>
+std::array<Scalar, Count> MakeConstantInput(Scalar value) {
+	std::array<Scalar, Count> r;
+	for (auto& v : r) {
+		v = value;
 	}
 	return r;
 };

@@ -10,11 +10,11 @@ namespace mathter {
 
 #ifdef _MSC_VER
 #define MATHTER_NOINLINE [[msvc::noinline]]
-#define MATHTER_FORCEINLINE [[msvc::forceinline]]
+#define MATHTER_FORCEINLINE [[msvc::forceinline]] inline
 #define MATHTER_FLATTEN_BLOCK [[msvc::flatten]]
 #else
 #define MATHTER_NOINLINE [[gnu::noinline]]
-#define MATHTER_FORCEINLINE [[gnu::always_inline]]
+#define MATHTER_FORCEINLINE [[gnu::always_inline]] inline
 #define MATHTER_FLATTEN_FUNCTION [[gnu::flatten]]
 #endif
 

@@ -113,7 +113,7 @@ double Throughput(int64_t samples, int64_t repeat, Fixture&& fixture, FirstArg&&
 
 
 template <class Fixture, class ArgLatency, class ArgThroughput, class... Args>
-void BenchmarkCase(std::string_view name, int64_t samples, int64_t repeat, Fixture&& fixture, ArgLatency&& argLatency, ArgThroughput&& argThroutput, Args&&... args) {
+MATHTER_NOINLINE void BenchmarkCase(std::string_view name, int64_t samples, int64_t repeat, Fixture&& fixture, ArgLatency&& argLatency, ArgThroughput&& argThroutput, Args&&... args) {
 	const auto latency = Latency(samples, repeat, fixture, argLatency, args...);
 	const auto throughput = Throughput(samples, repeat, fixture, argThroutput, args...);
 	std::lock_guard lk{ g_mutex };
