@@ -147,7 +147,7 @@ MATHTER_FORCEINLINE static auto IndependentLoop(Op op,
 	}
 	for (size_t i = Lanes; i < Count; i += Lanes) {
 		for (size_t lane = 0; lane < Lanes; ++lane) {
-			result[lane] = op(lhs[lane], args[i + lane]...);
+			result[lane] = op(result[lane], args[i + lane]...);
 		}
 	}
 	return result;
