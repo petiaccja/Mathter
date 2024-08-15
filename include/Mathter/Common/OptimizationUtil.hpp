@@ -32,7 +32,7 @@ MATHTER_FORCEINLINE void ForUnrolled(std::integral_constant<ptrdiff_t, First>,
 									 std::integral_constant<ptrdiff_t, Limit> limit,
 									 Fun&& fun,
 									 Args&&... args) {
-	constexpr auto Count = Last - First / Step;
+	constexpr auto Count = (Last - First) / Step;
 	if constexpr (Count <= Limit) {
 		if constexpr (0 < Step ? First < Last : First > Last) {
 			fun(First, args...);
