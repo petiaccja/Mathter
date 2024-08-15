@@ -16,7 +16,7 @@ namespace {
 				   64,                                     \
 				   GenericBinaryFixture{ OP },             \
 				   MakeConstantInput<TYPE, 1>(TYPE(1))[0], \
-				   MakeConstantInput<TYPE, 16>(TYPE(1)),    \
+				   MakeConstantInput<TYPE, 16>(TYPE(1)),   \
 				   MakeConstantInput<TYPE, 256>(TYPE(1)));
 
 

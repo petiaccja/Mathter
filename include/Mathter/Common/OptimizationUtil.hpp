@@ -36,7 +36,7 @@ MATHTER_FORCEINLINE void ForUnrolled(std::integral_constant<ptrdiff_t, First>,
 	if constexpr (Count <= Limit) {
 		if constexpr (0 < Step ? First < Last : First > Last) {
 			fun(First, args...);
-			ForUnrolled(std::integral_constant<ptrdiff_t, First + Step>{}, last, step, limit, std::move(fun), std::forward<Args>(args)...);
+			ForUnrolled(std::integral_constant<ptrdiff_t, First + Step>{}, last, step, limit, std::forward<Fun>(fun), std::forward<Args>(args)...);
 		}
 	}
 	else {
