@@ -130,7 +130,7 @@ MATHTER_FORCEINLINE static auto DependentLoop(Op op,
 											  const std::array<Args, Count>&... args) {
 	auto result = op(lhs, args[0]...);
 	for (size_t i = 1; i < Count; ++i) {
-		result = op(result, args[0]...);
+		result = op(result, args[i]...);
 	}
 	return result;
 }
