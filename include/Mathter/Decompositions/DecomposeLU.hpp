@@ -5,12 +5,13 @@
 
 #pragma once
 
-#include "../Common/Range.hpp"
 #include "../Common/Types.hpp"
 #include "../Matrix/Algorithm.hpp"
 #include "../Matrix/Matrix.hpp"
 #include "../Transforms/IdentityBuilder.hpp"
 #include "../Transforms/ZeroBuilder.hpp"
+
+#include <numeric>
 
 
 namespace mathter {

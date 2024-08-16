@@ -7,7 +7,6 @@
 
 #include "../Common/Types.hpp"
 #include "../Matrix/Matrix.hpp"
-#include "../Vector/Math.hpp"
 #include "../Vector/Swizzle.hpp"
 #include "../Vector/Vector.hpp"
 
@@ -109,14 +108,6 @@ public:
 
 	/// <summary> Returns the vector part (x, y, z) of (w + xi + yj + zk). </summary>
 	[[deprecated("use .vector")]] Vector<T, 3, Packed> VectorPart() const;
-
-	/// <summary> Returns the angle of the rotation represented by quaternion. </summary>
-	/// <remarks> Only valid for unit quaternions. </remarks>
-	T Angle() const;
-
-	/// <summary> Returns the axis of rotation represented by quaternion. </summary>
-	/// <remarks> Only valid for unit quaternions. Returns (1,0,0) for near 180 degree rotations. </remarks>
-	Vector<T, 3, Packed> Axis() const;
 };
 
 
@@ -252,18 +243,6 @@ T Quaternion<T, Layout, Packed>::ScalarPart() const {
 template <class T, eQuaternionLayout Layout, bool Packed>
 Vector<T, 3, Packed> Quaternion<T, Layout, Packed>::VectorPart() const {
 	return vector;
-}
-
-
-template <class T, eQuaternionLayout Layout, bool Packed>
-T Quaternion<T, Layout, Packed>::Angle() const {
-	return T(2) * std::atan2(Length(Vector(vector)), T(s));
-}
-
-
-template <class T, eQuaternionLayout Layout, bool Packed>
-Vector<T, 3, Packed> Quaternion<T, Layout, Packed>::Axis() const {
-	return NormalizePrecise(Vector(vector));
 }
 
 } // namespace mathter

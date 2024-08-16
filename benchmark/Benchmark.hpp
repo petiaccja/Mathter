@@ -7,6 +7,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <mutex>
+#include <variant>
 #include <vector>
 
 #if defined(_MSC_VER) && (defined(_M_X64) || defined(_M_X86))

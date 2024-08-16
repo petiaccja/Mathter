@@ -11,6 +11,22 @@
 
 namespace mathter {
 
+/// <summary> Returns the angle of the rotation represented by quaternion. </summary>
+/// <remarks> Only valid for unit quaternions. </remarks>
+template <class T, eQuaternionLayout Layout, bool Packed>
+T Angle(const Quaternion<T, Layout, Packed>& quat) {
+	return T(2) * std::atan2(Length(Vector(quat.vector)), T(quat.scalar));
+}
+
+
+/// <summary> Returns the axis of rotation represented by quaternion. </summary>
+/// <remarks> Only valid for unit quaternions. Returns (1,0,0) for near 180 degree rotations. </remarks>
+template <class T, eQuaternionLayout Layout, bool Packed>
+Vector<T, 3, Packed> Axis(const Quaternion<T, Layout, Packed>& quat) {
+	return NormalizePrecise(Vector(quat.vector));
+}
+
+
 /// <summary> Returns the square of the absolute value. </summary>
 /// <remarks> Just like complex numbers, it's the square of the length of the vector formed by the coefficients.
 ///			This is much faster than <see cref="Length">. </remarks>

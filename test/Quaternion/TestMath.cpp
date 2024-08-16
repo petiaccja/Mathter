@@ -33,6 +33,58 @@ auto ExpSeries(const Quaternion<T, Layout, Packed>& q) {
 }
 
 
+TEMPLATE_LIST_TEST_CASE("Quaternion - Axis & angle", "[Quaternion]",
+						decltype(QuaternionCaseList<ScalarsFloating, QuatLayoutsAll, PackingsAll>{})) {
+	using Quat = typename TestType::Quat;
+	using Scalar = scalar_type_t<Quat>;
+
+	SECTION("Proper (0<=theta<=pi") {
+		const auto theta = Scalar(1.2);
+		const auto axis = Normalize(Vector<Scalar, 3, is_packed_v<Quat>>(1, 2, 3));
+		const auto scalar = std::cos(theta / 2);
+		const auto vector = std::sin(theta / 2) * axis;
+
+		const Quat q(scalar, vector);
+
+		REQUIRE(Angle(q) == Catch::Approx(theta));
+		REQUIRE((Axis(q) == test_util::Approx(axis)));
+	}
+	SECTION("Proper (-pi<=theta<=0") {
+		const auto theta = Scalar(-1.2);
+		const auto axis = Normalize(Vector<Scalar, 3, is_packed_v<Quat>>(1, 2, 3));
+		const auto scalar = std::cos(theta / 2);
+		const auto vector = std::sin(theta / 2) * axis;
+
+		const Quat q(scalar, vector);
+
+		REQUIRE(Angle(q) == Catch::Approx(-theta));
+		REQUIRE((Axis(q) == test_util::Approx(-axis)));
+	}
+	SECTION("Improper (pi<=theta") {
+		const auto theta = Scalar(-5.0);
+		const auto axis = Normalize(Vector<Scalar, 3, is_packed_v<Quat>>(1, 2, 3));
+		const auto scalar = std::cos(theta / 2);
+		const auto vector = std::sin(theta / 2) * axis;
+
+		const Quat q(scalar, vector);
+
+		REQUIRE(Angle(q) == Catch::Approx(-theta));
+		REQUIRE((Axis(q) == test_util::Approx(-axis)));
+	}
+	SECTION("Improper (theta<=-pi") {
+		const auto theta = Scalar(5.0);
+		const auto axis = Normalize(Vector<Scalar, 3, is_packed_v<Quat>>(1, 2, 3));
+		const auto scalar = std::cos(theta / 2);
+		const auto vector = std::sin(theta / 2) * axis;
+
+		const Quat q(scalar, vector);
+
+		REQUIRE(Angle(q) == Catch::Approx(theta));
+		REQUIRE((Axis(q) == test_util::Approx(axis)));
+	}
+}
+
+
 TEMPLATE_LIST_TEST_CASE("Quaternion - LengthSquared", "[Quaternion]",
 						decltype(QuaternionCaseList<ScalarsFloating, QuatLayoutsAll, PackingsAll>{})) {
 	using Quat = typename TestType::Quat;

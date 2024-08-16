@@ -5,7 +5,6 @@
 
 #pragma once
 
-#include "../Decompositions/DecomposeLU.hpp"
 #include "../Vector/Math.hpp"
 #include "Arithmetic.hpp"
 #include "Matrix.hpp"
@@ -421,6 +420,11 @@ auto Inverse(const Matrix<T, 4, 4, Order, Layout, Packed>& m) {
 	return result / det;
 }
 
+} // namespace mathter
+
+#include "../Decompositions/DecomposeLU.hpp"
+
+namespace mathter {
 
 /// <summary> Returns the inverse of the matrix. </summary>
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>

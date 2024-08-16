@@ -226,9 +226,9 @@ Mat strtomat(const char* str, const char** end) {
 template <class T, eQuaternionLayout Layout, bool Packed>
 std::ostream& operator<<(std::ostream& os, const Quaternion<T, Layout, Packed>& q) {
 	os << "["
-	   << q.Angle() * T(180.0) / T(3.1415926535897932384626)
+	   << Angle(q) * T(180.0) / T(3.1415926535897932384626)
 	   << " deg @ "
-	   << q.Axis()
+	   << Axis(q)
 	   << "]";
 	return os;
 }
