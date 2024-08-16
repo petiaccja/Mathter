@@ -121,33 +121,43 @@ MATHTER_NOINLINE void BenchmarkCase(std::string_view name, int64_t samples, int6
 }
 
 
+template <class Op, class Lhs, class... Args>
+MATHTER_FORCEINLINE decltype(auto) InvokeWithoutMonostate(Op&& op, Lhs&& lhs, Args&&... args) {
+	if constexpr ((... && std::is_same_v<std::decay_t<Args>, std::monostate>)) {
+		return op(std::forward<Lhs>(lhs));
+	}
+	else {
+		return op(std::forward<Lhs>(lhs), std::forward<Args>(args)...);
+	}
+}
+
 } // namespace impl
 
 
 template <class Op, size_t Count, class Lhs, class... Args>
-MATHTER_FORCEINLINE static auto DependentLoop(Op op,
+MATHTER_FORCEINLINE static auto DependentLoop(Op&& op,
 											  const Lhs& lhs,
 											  const std::array<Args, Count>&... args) {
-	auto result = op(lhs, args[0]...);
+	auto result = ::impl::InvokeWithoutMonostate(op, lhs, args[0]...);
 	for (size_t i = 1; i < Count; ++i) {
-		result = op(result, args[i]...);
+		result = ::impl::InvokeWithoutMonostate(op, result, args[i]...);
 	}
 	return result;
 }
 
 
 template <class Op, size_t Lanes, size_t Count, class Lhs, class... Args>
-MATHTER_FORCEINLINE static auto IndependentLoop(Op op,
+MATHTER_FORCEINLINE static auto IndependentLoop(Op&& op,
 												const std::array<Lhs, Lanes>& lhs,
 												const std::array<Args, Count>&... args) {
-	using Result = std::invoke_result_t<Op, Lhs, Args...>;
+	using Result = decltype(::impl::InvokeWithoutMonostate(op, lhs[0], args[0]...));
 	std::array<Result, Lanes> result;
 	for (size_t lane = 0; lane < Lanes; ++lane) {
-		result[lane] = op(lhs[lane], args[lane]...);
+		result[lane] = ::impl::InvokeWithoutMonostate(op, lhs[lane], args[lane]...);
 	}
 	for (size_t i = Lanes; i < Count; i += Lanes) {
 		for (size_t lane = 0; lane < Lanes; ++lane) {
-			result[lane] = op(result[lane], args[i + lane]...);
+			result[lane] = ::impl::InvokeWithoutMonostate(op, result[lane], args[i + lane]...);
 		}
 	}
 	return result;

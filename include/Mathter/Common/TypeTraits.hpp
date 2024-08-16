@@ -82,7 +82,9 @@ constexpr auto is_scalar_v = is_scalar<T>::value;
 //--------------------------------------
 
 template <class T>
-struct scalar_type {};
+struct scalar_type {
+	using type = T;
+};
 
 template <class T, int Dim, bool Packed>
 struct scalar_type<Vector<T, Dim, Packed>> {

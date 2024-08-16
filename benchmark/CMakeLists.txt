@@ -10,9 +10,11 @@ target_sources(Benchmark
 target_sources(Benchmark
     PRIVATE
         "Matrix/BenchmarkArithmetic.cpp"
+        "Matrix/BenchmarkMath.cpp"
         "Scalar/BenchmarkArithmetic.cpp"
         "Scalar/BenchmarkMath.cpp"
         "Vector/BenchmarkArithmetic.cpp"
+        "Vector/BenchmarkMath.cpp"
 )   
 
 target_sources(Benchmark

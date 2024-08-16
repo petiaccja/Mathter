@@ -1,5 +1,6 @@
 #include "../Benchmark.hpp"
 #include "../Fixtures.hpp"
+#include "../Input.hpp"
 
 #include <Mathter/Transforms/RandomBuilder.hpp>
 #include <Mathter/Vector.hpp>
@@ -39,10 +40,10 @@ std::array<Vec, Count> MakeInput() {
 				   "[Vector][Arithmetic]",                                          \
 				   50,                                                              \
 				   64,                                                              \
-				   GenericBinaryFixture{ OP{} },                                    \
-				   MakeInput<Vector<TYPE, DIM, PACKED>, 1>()[0],                    \
-				   MakeInput<Vector<TYPE, DIM, PACKED>, 4>(),                       \
-				   MakeInput<Vector<TYPE, DIM, PACKED>, 64>());
+				   GenericNAryFixture{ OP{} },                                      \
+				   MakeRandomInput<Vector<TYPE, DIM, PACKED>, 1>()[0],              \
+				   MakeRandomInput<Vector<TYPE, DIM, PACKED>, 4>(),                 \
+				   MakeRandomInput<Vector<TYPE, DIM, PACKED>, 64>());
 
 
 VECTOR_BINOP_BENCHMARK_CASE(float, 2, false, std::plus<>, "+");

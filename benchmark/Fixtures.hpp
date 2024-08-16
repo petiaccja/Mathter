@@ -4,22 +4,22 @@
 
 
 template <class Op>
-struct GenericBinaryFixture {
-	template <class Lhs, class Rhs, size_t Count>
-	MATHTER_FORCEINLINE auto Latency(const Lhs& lhs, const std::array<Rhs, Count>& rhs) const {
-		return std::tuple(DependentLoop(op, lhs, rhs), Count);
+struct GenericNAryFixture {
+	template <class Lhs, class... Args, size_t Count>
+	MATHTER_FORCEINLINE auto Latency(const Lhs& lhs, const std::array<Args, Count>&... args) const {
+		return std::tuple(DependentLoop(op, lhs, args...), Count);
 	}
 
-	template <class Lhs, class Rhs, size_t Lanes, size_t Count>
-	MATHTER_FORCEINLINE auto Throughput(const std::array<Lhs, Lanes>& lhs, const std::array<Rhs, Count>& rhs) const {
-		return std::tuple(IndependentLoop(op, lhs, rhs), Count);
+	template <class Lhs, class... Args, size_t Lanes, size_t Count>
+	MATHTER_FORCEINLINE auto Throughput(const std::array<Lhs, Lanes>& lhs, const std::array<Args, Count>&... args) const {
+		return std::tuple(IndependentLoop(op, lhs, args...), Count);
 	}
 
 	Op op;
 };
 
 template <class Op>
-GenericBinaryFixture(const Op&) -> GenericBinaryFixture<Op>;
+GenericNAryFixture(const Op&) -> GenericNAryFixture<Op>;
 
 
 template <class Op>

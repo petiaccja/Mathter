@@ -1,6 +1,6 @@
 #include "../Benchmark.hpp"
 #include "../Fixtures.hpp"
-#include "Input.hpp"
+#include "../Input.hpp"
 
 #include <Mathter/Common/TypeTraits.hpp>
 

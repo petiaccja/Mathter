@@ -1,6 +1,6 @@
 #include "../Benchmark.hpp"
 #include "../Fixtures.hpp"
-#include "Input.hpp"
+#include "../Input.hpp"
 
 #include <Mathter/Common/TypeTraits.hpp>
 
@@ -14,7 +14,7 @@ namespace {
 				   "[Scalar][Arithmetic]",                 \
 				   50,                                     \
 				   64,                                     \
-				   GenericBinaryFixture{ OP },             \
+				   GenericNAryFixture{ OP },               \
 				   MakeConstantInput<TYPE, 1>(TYPE(1))[0], \
 				   MakeConstantInput<TYPE, 16>(TYPE(1)),   \
 				   MakeConstantInput<TYPE, 256>(TYPE(1)));

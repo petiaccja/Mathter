@@ -104,7 +104,7 @@ namespace msvc_repro_matrix2x2 {
 				   "[MSVC Repro]",
 				   50,
 				   64,
-				   GenericBinaryFixture{ std::multiplies<>{} },
+				   GenericNAryFixture{ std::multiplies<>{} },
 				   MakeInput<1>()[0],
 				   MakeInput<4>(),
 				   MakeInput<64>());
@@ -114,7 +114,7 @@ namespace msvc_repro_matrix2x2 {
 				   "[MSVC Repro]",
 				   50,
 				   64,
-				   GenericBinaryFixture{ [](const auto& lhs, const auto& rhs) { return Unrolled(lhs, rhs); } },
+				   GenericNAryFixture{ [](const auto& lhs, const auto& rhs) { return Unrolled(lhs, rhs); } },
 				   MakeInput<1>()[0],
 				   MakeInput<4>(),
 				   MakeInput<64>());
