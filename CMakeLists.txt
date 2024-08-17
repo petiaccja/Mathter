@@ -18,6 +18,7 @@ option(MATHTER_BUILD_TESTS "Include or exclude tests from the generated project.
 option(MATHTER_BUILD_BENCHMARKS "Include or exclude bechmarks from the generated project." OFF)
 option(ENABLE_LLVM_COV "Adds compiler flags to generate LLVM source-based code coverage. Only works with Clang." OFF)
 set(MATHTER_CMAKE_INSTALL_DIR "lib/cmake/${PROJECT_NAME}" CACHE STRING "Subdirectory to install CMake package config files.")
+set(MATHTER_TARGET_ARCH "" CACHE STRING "CPU architecture flag to pass to the compiler, for example AVX2 for MSVC or native for GCC.")
 
 # Global compiler flags
 if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
@@ -26,8 +27,18 @@ if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
 		add_compile_options("-fprofile-instr-generate" "-fcoverage-mapping" "-mllvm" "-enable-name-compression=false")
 		add_link_options("-fprofile-instr-generate" "-fcoverage-mapping")
 	endif()
+	if (MATHTER_TARGET_ARCH)
+		add_compile_options("-march=${MATHTER_TARGET_ARCH}")
+	endif()
+elseif ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")
+	if (MATHTER_TARGET_ARCH)
+		add_compile_options("-march=${MATHTER_TARGET_ARCH}")
+	endif()
 elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "MSVC")
 	add_compile_options("/bigobj")
+	if (MATHTER_TARGET_ARCH)
+		add_compile_options("/arch:${MATHTER_TARGET_ARCH}")
+	endif()
 endif()
 
 # Output directories
