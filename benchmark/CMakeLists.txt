@@ -5,6 +5,8 @@ target_sources(Benchmark
         "main.cpp"
         "Benchmark.hpp"
         "Benchmark.cpp"
+        "Fixtures.hpp"
+        "Input.hpp"
 ) 
 
 target_sources(Benchmark
