@@ -32,6 +32,16 @@ struct MulVecOp {
 };
 
 
+struct OuterProductOp {
+	template <class MatLhs, class MatRhs>
+	auto operator()(const MatLhs& lhs, const MatRhs& rhs) const {
+		const auto result = lhs * rhs;
+		const auto idx = size_t(std::real(result(0, 0)) < 0) / column_count_v<MatLhs>;
+		return MatLhs(result.Column(idx));
+	}
+};
+
+
 #define MATRIX_BINOP_BENCHMARK_CASE(TYPE, ROWS, MATCH, COLS, LAYOUT_L, LAYOUT_R, PACKED, OP, OPTEXT)                                        \
 	BENCHMARK_CASE(#TYPE "." #ROWS #MATCH #LAYOUT_L " " OPTEXT " " #TYPE "." #MATCH #COLS #LAYOUT_R " (P=" #PACKED ")",                     \
 				   "[Matrix][Arithmetic]",                                                                                                  \
@@ -81,6 +91,34 @@ MATRIX_BINOP_BENCHMARK_CASE(double, 4, 4, 4, c, c, false, std::multiplies<>, "*"
 MATRIX_BINOP_BENCHMARK_CASE(double, 2, 2, 2, c, c, true, std::multiplies<>, "*");
 MATRIX_BINOP_BENCHMARK_CASE(double, 3, 3, 3, c, c, true, std::multiplies<>, "*");
 MATRIX_BINOP_BENCHMARK_CASE(double, 4, 4, 4, c, c, true, std::multiplies<>, "*");
+
+MATRIX_BINOP_BENCHMARK_CASE(float, 2, 1, 2, r, r, false, OuterProductOp, "*");
+MATRIX_BINOP_BENCHMARK_CASE(float, 3, 1, 3, r, r, false, OuterProductOp, "*");
+MATRIX_BINOP_BENCHMARK_CASE(float, 4, 1, 4, r, r, false, OuterProductOp, "*");
+MATRIX_BINOP_BENCHMARK_CASE(float, 2, 1, 2, r, r, true, OuterProductOp, "*");
+MATRIX_BINOP_BENCHMARK_CASE(float, 3, 1, 3, r, r, true, OuterProductOp, "*");
+MATRIX_BINOP_BENCHMARK_CASE(float, 4, 1, 4, r, r, true, OuterProductOp, "*");
+
+MATRIX_BINOP_BENCHMARK_CASE(float, 2, 1, 2, c, c, false, OuterProductOp, "*");
+MATRIX_BINOP_BENCHMARK_CASE(float, 3, 1, 3, c, c, false, OuterProductOp, "*");
+MATRIX_BINOP_BENCHMARK_CASE(float, 4, 1, 4, c, c, false, OuterProductOp, "*");
+MATRIX_BINOP_BENCHMARK_CASE(float, 2, 1, 2, c, c, true, OuterProductOp, "*");
+MATRIX_BINOP_BENCHMARK_CASE(float, 3, 1, 3, c, c, true, OuterProductOp, "*");
+MATRIX_BINOP_BENCHMARK_CASE(float, 4, 1, 4, c, c, true, OuterProductOp, "*");
+
+MATRIX_BINOP_BENCHMARK_CASE(double, 3, 1, 3, r, r, false, OuterProductOp, "*");
+MATRIX_BINOP_BENCHMARK_CASE(double, 2, 1, 2, r, r, false, OuterProductOp, "*");
+MATRIX_BINOP_BENCHMARK_CASE(double, 4, 1, 4, r, r, false, OuterProductOp, "*");
+MATRIX_BINOP_BENCHMARK_CASE(double, 2, 1, 2, r, r, true, OuterProductOp, "*");
+MATRIX_BINOP_BENCHMARK_CASE(double, 3, 1, 3, r, r, true, OuterProductOp, "*");
+MATRIX_BINOP_BENCHMARK_CASE(double, 4, 1, 4, r, r, true, OuterProductOp, "*");
+
+MATRIX_BINOP_BENCHMARK_CASE(double, 3, 1, 3, c, c, false, OuterProductOp, "*");
+MATRIX_BINOP_BENCHMARK_CASE(double, 2, 1, 2, c, c, false, OuterProductOp, "*");
+MATRIX_BINOP_BENCHMARK_CASE(double, 4, 1, 4, c, c, false, OuterProductOp, "*");
+MATRIX_BINOP_BENCHMARK_CASE(double, 2, 1, 2, c, c, true, OuterProductOp, "*");
+MATRIX_BINOP_BENCHMARK_CASE(double, 3, 1, 3, c, c, true, OuterProductOp, "*");
+MATRIX_BINOP_BENCHMARK_CASE(double, 4, 1, 4, c, c, true, OuterProductOp, "*");
 
 MATRIX_BINOP_BENCHMARK_CASE(float, 2, 2, 2, c, c, false, std::plus<>, "+");
 MATRIX_BINOP_BENCHMARK_CASE(float, 3, 3, 3, c, c, false, std::plus<>, "+");

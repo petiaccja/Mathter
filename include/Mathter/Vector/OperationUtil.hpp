@@ -38,6 +38,28 @@ Batch FillMasked(Batch batch, Element value) {
 }
 
 
+template <int NumNonMasked, class Batch>
+Batch FillMaskedWithFirst(Batch batch) {
+#ifdef MATHTER_ENABLE_SIMD
+	using Scalar = xsimd::scalar_type_t<Batch>;
+	using Real = remove_complex_t<Scalar>;
+	using Uint = make_sized_integer_t<sizeof(Real), false>;
+	struct Generator {
+		static constexpr Uint get(unsigned idx, [[maybe_unused]] unsigned size) noexcept {
+			return idx < NumNonMasked ? Uint(idx) : Uint(0);
+		}
+	};
+
+	using UintBatch = xsimd::batch<Uint, typename Batch::arch_type>;
+
+	const auto mask = xsimd::make_batch_constant<UintBatch, Generator>();
+	return xsimd::swizzle(batch, mask);
+#else
+	return batch;
+#endif
+}
+
+
 template <class Fun, class... Vectors>
 struct is_invocable_batched {
 	using Scalar = std::invoke_result_t<Fun, scalar_type_t<Vectors>...>;
