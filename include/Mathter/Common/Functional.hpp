@@ -17,7 +17,10 @@ template <class T = void>
 struct fma {
 	constexpr T operator()(const T& a, const T& b, const T& c) const {
 		if constexpr (std::is_floating_point_v<T>) {
+#if defined(FP_FAST_FMA) && defined(FP_FAST_FMAF) && defined(FP_FAST_FMAL)
 			return std::fma(a, b, c);
+#endif
+			return a * b + c;
 		}
 #ifdef MATHTER_ENABLE_SIMD
 		else if constexpr (xsimd::is_batch<T>::value) {
@@ -38,7 +41,9 @@ struct fma<void> {
 		-> decltype(std::forward<T1>(a) * std::forward<T2>(b) + std::forward<T3>(c)) {
 		using T = std::remove_reference_t<decltype(std::forward<T1>(a) * std::forward<T2>(b) + std::forward<T3>(c))>;
 		if constexpr (std::is_convertible_v<T1, T> && std::is_convertible_v<T2, T> && std::is_convertible_v<T3, T>) {
-			return fma<T>{}(a, b, c);
+			return fma<T>{}(static_cast<T>(std::forward<T1>(a)),
+							static_cast<T>(std::forward<T2>(b)),
+							static_cast<T>(std::forward<T3>(c)));
 		}
 		return a * b + c;
 	}
@@ -66,9 +71,9 @@ template <>
 struct max<void> {
 	template <class T1, class T2>
 	constexpr auto operator()(T1&& lhs, T2&& rhs) const
-		-> decltype(std::forward<T1>(lhs) + std::forward<T2>(rhs)) {
-		using T = std::remove_reference_t<decltype(std::forward<T1>(lhs) + std::forward<T2>(rhs))>;
-		return max<T>{}(static_cast<T>(lhs), static_cast<T>(rhs));
+		-> common_arithmetic_type_t<std::decay_t<T1>, std::decay_t<T2>> {
+		using T = common_arithmetic_type_t<std::decay_t<T1>, std::decay_t<T2>>;
+		return max<T>{}(static_cast<T>(std::forward<T1>(lhs)), static_cast<T>(std::forward<T2>(rhs)));
 	}
 };
 
@@ -94,9 +99,9 @@ template <>
 struct min<void> {
 	template <class T1, class T2>
 	constexpr auto operator()(T1&& lhs, T2&& rhs) const
-		-> decltype(std::forward<T1>(lhs) + std::forward<T2>(rhs)) {
-		using T = std::remove_reference_t<decltype(std::forward<T1>(lhs) + std::forward<T2>(rhs))>;
-		return min<T>{}(static_cast<T>(lhs), static_cast<T>(rhs));
+		-> common_arithmetic_type_t<std::decay_t<T1>, std::decay_t<T2>> {
+		using T = common_arithmetic_type_t<std::decay_t<T1>, std::decay_t<T2>>;
+		return min<T>{}(static_cast<T>(std::forward<T1>(lhs)), static_cast<T>(std::forward<T2>(rhs)));
 	}
 };
 

@@ -1,4 +1,4 @@
-﻿## Non visual studio files
+## Non visual studio files
 AsmList/*
 
 ## Ignore CLion files
@@ -230,3 +230,5 @@ CMakeUserPresets.json
 .vscode/
 
 .cache/
+
+compile_commands.json

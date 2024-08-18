@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "../Common/LoopUtil.hpp"
+#include "../Common/OptimizationUtil.hpp"
 #include "Matrix.hpp"
 
 
@@ -45,7 +45,9 @@ auto FlipOrder(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m, std::in
 		return Mat(m);
 	}
 	else {
-		return LoopUnroll<Mat::stripeCount>([&m](auto... indices) { return Mat(stripeArg, m.stripes[indices]...); });
+		Mat out;
+		out.stripes = m.stripes;
+		return out;
 	}
 }
 
@@ -60,7 +62,9 @@ auto SetOrder(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m, std::int
 		return Mat(m);
 	}
 	else {
-		return LoopUnroll<Mat::stripeCount>([&m](auto... indices) { return Mat(stripeArg, m.stripes[indices]...); });
+		Mat out;
+		out.stripes = m.stripes;
+		return out;
 	}
 }
 

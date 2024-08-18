@@ -6,7 +6,7 @@
 #pragma once
 
 #include "../Common/DeterministicInitializer.hpp"
-#include "../Common/LoopUtil.hpp"
+#include "../Common/OptimizationUtil.hpp"
 #include "../Common/TypeTraits.hpp"
 #include "SIMDUtil.hpp"
 #include "Swizzle.hpp"
@@ -205,9 +205,9 @@ public:
 
 private:
 	void ZeroPadding() {
-		::mathter::LoopUnroll<GetStorageSize<T, Dim, Packed>() - Dim>([this](auto... indices) {
-			(..., (elements.array[Dim + indices] = static_cast<T>(0)));
-		});
+		for (size_t i = Dim; i < elements.array.size(); ++i) {
+			elements.array[i] = static_cast<T>(0);
+		}
 	}
 };
 
@@ -336,9 +336,9 @@ namespace impl {
 	void Assign(Elements<T, Dim, Packed>& elements, const Part& part, const Parts&... parts) {
 		constexpr auto partDim = size_t(dimension_v<std::decay_t<Part>>);
 		if constexpr (partDim > 1) {
-			::mathter::LoopUnroll<partDim>([&elements, &part](auto... indices) {
-				(..., (elements.array[Offset + indices] = static_cast<T>(part[indices])));
-			});
+			for (size_t i = 0; i < partDim; ++i) {
+				elements.array[Offset + i] = static_cast<T>(part[i]);
+			}
 		}
 		else {
 			elements.array[Offset] = static_cast<T>(part);

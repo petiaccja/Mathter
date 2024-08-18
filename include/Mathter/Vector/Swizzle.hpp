@@ -35,16 +35,16 @@ struct Swizzle {
 
 
 	/// <summary> Returns the nth element of the swizzled vector. Example: v.zxy[2] returns y. </summary>
-	T& operator[](int idx);
+	T& operator[](size_t idx);
 
 	/// <summary> Returns the nth element of the swizzled vector. Example: v.zxy[2] returns y. </summary>
-	const T& operator[](int idx) const;
+	const T& operator[](size_t idx) const;
 
 	/// <summary> Returns the nth element of the swizzled vector. Example: v.zxy(2) returns y. </summary>
-	T& operator()(int idx);
+	T& operator()(size_t idx);
 
 	/// <summary> Returns the nth element of the swizzled vector. Example: v.zxy(2) returns y. </summary>
-	const T& operator()(int idx) const;
+	const T& operator()(size_t idx) const;
 
 	/// <summary> Assigns the swizzled elements of the other to the un-swizzled slots of this. </summary>
 	template <class TOther, int DimOther, bool PackedOther, int... IndicesOther>
@@ -68,8 +68,8 @@ struct Swizzle {
 	TargetStorage Linearize() const;
 
 private:
-	static constexpr int GetSourceIndex(int idx) {
-		constexpr std::array table = { Indices... };
+	static constexpr size_t GetSourceIndex(size_t idx) {
+		constexpr std::array table = { static_cast<size_t>(Indices)... };
 		return table[idx];
 	}
 
@@ -134,28 +134,28 @@ namespace impl {
 
 
 template <class T, int Dim, bool Packed, int... Indices>
-T& Swizzle<T, Dim, Packed, Indices...>::operator[](int idx) {
+T& Swizzle<T, Dim, Packed, Indices...>::operator[](size_t idx) {
 	assert(idx < Dim);
 	return array[GetSourceIndex(idx)];
 }
 
 
 template <class T, int Dim, bool Packed, int... Indices>
-const T& Swizzle<T, Dim, Packed, Indices...>::operator[](int idx) const {
+const T& Swizzle<T, Dim, Packed, Indices...>::operator[](size_t idx) const {
 	assert(idx < Dim);
 	return array[GetSourceIndex(idx)];
 }
 
 
 template <class T, int Dim, bool Packed, int... Indices>
-T& Swizzle<T, Dim, Packed, Indices...>::operator()(int idx) {
+T& Swizzle<T, Dim, Packed, Indices...>::operator()(size_t idx) {
 	assert(idx < Dim);
 	return array[GetSourceIndex(idx)];
 }
 
 
 template <class T, int Dim, bool Packed, int... Indices>
-const T& Swizzle<T, Dim, Packed, Indices...>::operator()(int idx) const {
+const T& Swizzle<T, Dim, Packed, Indices...>::operator()(size_t idx) const {
 	assert(idx < Dim);
 	return array[GetSourceIndex(idx)];
 }

@@ -254,6 +254,10 @@ TEMPLATE_LIST_TEST_CASE("Vector - LengthPrecise (real)", "[Vector]",
 		const Vec value = { 0, 0, 0 };
 		REQUIRE(LengthPrecise(value) == 0);
 	}
+	SECTION("Infinity") {
+		const Vec value = { std::numeric_limits<scalar_type_t<Vec>>::infinity(), 0.0f, 0.0f };
+		REQUIRE(LengthPrecise(value) == std::numeric_limits<scalar_type_t<Vec>>::infinity());
+	}
 }
 
 
@@ -274,6 +278,10 @@ TEMPLATE_LIST_TEST_CASE("Vector - LengthPrecise (complex)", "[Vector]",
 	SECTION("Zero") {
 		const Vec value = { 0, 0, 0 };
 		REQUIRE(LengthPrecise(value) == 0);
+	}
+	SECTION("Infinity") {
+		const Vec value = { std::numeric_limits<remove_complex_t<scalar_type_t<Vec>>>::infinity(), 0.0f, 0.0f };
+		REQUIRE(LengthPrecise(value) == std::numeric_limits<remove_complex_t<scalar_type_t<Vec>>>::infinity());
 	}
 }
 

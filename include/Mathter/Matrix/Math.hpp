@@ -5,7 +5,6 @@
 
 #pragma once
 
-#include "../Decompositions/DecomposeLU.hpp"
 #include "../Vector/Math.hpp"
 #include "Arithmetic.hpp"
 #include "Matrix.hpp"
@@ -33,6 +32,25 @@ T Max(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) {
 		maxElement = std::max(maxElement, Max(m.stripes[stripe]));
 	}
 	return maxElement;
+}
+
+
+/// <summary> Computes a divisor that scales the matrix so that its largest element is close to 1. </summary>
+/// <remarks> This is similar to dividing by the infinity norm, but it's much faster and
+///		less accurate for complex numbers. </summary>
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+auto ScaleElements(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) {
+	static_assert(!std::is_integral_v<T>, "No need to scale integer matrices.");
+
+	if constexpr (is_complex_v<T>) {
+		// Doing a regular Max-Abs would need a std::hypot for every single element -- super expensive.
+		const auto re = Real(m);
+		const auto im = Imag(m);
+		return std::max(Max(Abs(re)), Max(Abs(im)));
+	}
+	else {
+		return Max(Abs(m));
+	}
 }
 
 
@@ -140,9 +158,10 @@ auto NormPrecise(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) {
 /// <summary> Returns the trace (sum of diagonal elements) of the matrix. </summary>
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 T Trace(const Matrix<T, Dim, Dim, Order, Layout, Packed>& m) {
-	const auto diagonal = LoopUnroll<Dim>([&m](auto... i) {
-		return Vector(m(i, i)...);
-	});
+	Vector<T, Dim, Packed> diagonal;
+	for (size_t i = 0; i < Dim; ++i) {
+		diagonal[i] = m(i, i);
+	}
 	return Sum(diagonal);
 }
 
@@ -420,6 +439,11 @@ auto Inverse(const Matrix<T, 4, 4, Order, Layout, Packed>& m) {
 	return result / det;
 }
 
+} // namespace mathter
+
+#include "../Decompositions/DecomposeLU.hpp"
+
+namespace mathter {
 
 /// <summary> Returns the inverse of the matrix. </summary>
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>

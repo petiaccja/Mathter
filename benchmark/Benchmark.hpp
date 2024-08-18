@@ -1,13 +1,13 @@
 #pragma once
 
-#include <Mathter/Common/LoopUtil.hpp>
+#include <Mathter/Common/OptimizationUtil.hpp>
 
 #include <algorithm>
 #include <catch2/catch_test_macros.hpp>
 #include <cstddef>
 #include <cstdint>
 #include <mutex>
-#include <tuple>
+#include <variant>
 #include <vector>
 
 #if defined(_MSC_VER) && (defined(_M_X64) || defined(_M_X86))
@@ -17,14 +17,6 @@
 #else
 #include <chrono>
 #define MATHTER_TSC_USES_CHRONO
-#endif
-
-#ifdef _MSC_VER
-#define MATHTER_NOINLINE __declspec(noinline)
-#define MATHTER_FORCEINLINE __forceinline
-#else
-#define MATHTER_NOINLINE __attribute__((noinline))
-#define MATHTER_FORCEINLINE __attribute__((always_inline))
 #endif
 
 
@@ -95,14 +87,14 @@ template <class Fixture, class FirstArg, class... Args>
 double ThroughputSample(int64_t repeat, Fixture&& fixture, FirstArg&& arg, Args&&... args) {
 	const auto startTime = ReadTSC();
 
-	auto [result, count] = fixture.Throughput(std::forward<FirstArg>(arg), args...);
+	auto [lanes, count] = fixture.Throughput(std::forward<FirstArg>(arg), args...);
 
 	for (int64_t i = 0; i < repeat; ++i) {
-		auto [result_, count_] = fixture.Throughput(result[i % result.size()], args...);
+		auto [lanes_, count_] = fixture.Throughput(lanes, args...);
 		count += count_;
-		result = result_;
+		lanes = lanes_;
 	}
-	DoNotOptimizeAway(result);
+	DoNotOptimizeAway(lanes);
 
 	const auto endTime = ReadTSC();
 	return (endTime - startTime) / double(count);
@@ -121,58 +113,59 @@ double Throughput(int64_t samples, int64_t repeat, Fixture&& fixture, FirstArg&&
 }
 
 
-template <class Fixture, class Arg, class... Args>
-void BenchmarkCase(std::string_view name, int64_t samples, int64_t repeat, Fixture&& fixture, Arg&& arg, Args&&... args) {
-	const auto latency = Latency(samples, repeat, fixture, arg, args...);
-	const auto throughput = Throughput(samples, repeat, fixture, arg, args...);
+template <class Fixture, class ArgLatency, class ArgThroughput, class... Args>
+MATHTER_NOINLINE void BenchmarkCase(std::string_view name, int64_t samples, int64_t repeat, Fixture&& fixture, ArgLatency&& argLatency, ArgThroughput&& argThroutput, Args&&... args) {
+	const auto latency = Latency(samples, repeat, fixture, argLatency, args...);
+	const auto throughput = Throughput(samples, repeat, fixture, argThroutput, args...);
 	std::lock_guard lk{ g_mutex };
 	g_records.push_back(BenchmarkRecord{ std::string(name), latency, throughput });
 }
 
 
+template <class Op, class Lhs, class... Args>
+MATHTER_FORCEINLINE decltype(auto) InvokeWithoutMonostate(Op&& op, Lhs&& lhs, Args&&... args) {
+	if constexpr ((... && std::is_same_v<std::decay_t<Args>, std::monostate>)) {
+		return op(std::forward<Lhs>(lhs));
+	}
+	else {
+		return op(std::forward<Lhs>(lhs), std::forward<Args>(args)...);
+	}
+}
+
 } // namespace impl
 
 
-template <class Lhs, class Rhs, class Op, size_t Count, size_t Index = 0>
-MATHTER_FORCEINLINE static auto DependentUnroll(const Lhs& lhs,
-												const std::array<Rhs, Count>& rhs,
-												Op op,
-												std::integral_constant<size_t, Index> = std::integral_constant<size_t, 0>{}) {
-	if constexpr (Index < Count) {
-		return DependentUnroll(op(lhs, rhs[Index]), rhs, op, std::integral_constant<size_t, Index + 1>{});
+template <class Op, size_t Count, class Lhs, class... Args>
+MATHTER_FORCEINLINE static auto DependentLoop(Op&& op,
+											  const Lhs& lhs,
+											  const std::array<Args, Count>&... args) {
+	auto result = ::impl::InvokeWithoutMonostate(op, lhs, args[0]...);
+	for (size_t i = 1; i < Count; ++i) {
+		result = ::impl::InvokeWithoutMonostate(op, result, args[i]...);
 	}
-	else {
-		return lhs;
-	}
+	return result;
 }
 
 
-template <class Out, class Lhs, class Rhs, class Op, size_t Count, size_t Index = 0>
-MATHTER_FORCEINLINE static auto IndependentUnroll(std::array<Out, Count>& out,
-												  const Lhs& lhs,
-												  const std::array<Rhs, Count>& rhs,
-												  Op op,
-												  std::integral_constant<size_t, Index> = std::integral_constant<size_t, 0>{}) {
-	if constexpr (Index < Count) {
-		out[Index] = op(lhs, rhs[Index]);
-		IndependentUnroll(out, lhs, rhs, op, std::integral_constant<size_t, Index + 1>{});
+template <class Op, size_t Lanes, size_t Count, class Lhs, class... Args>
+MATHTER_FORCEINLINE static auto IndependentLoop(Op&& op,
+												const std::array<Lhs, Lanes>& lhs,
+												const std::array<Args, Count>&... args) {
+	using Result = decltype(::impl::InvokeWithoutMonostate(op, lhs[0], args[0]...));
+	std::array<Result, Lanes> result;
+	for (size_t lane = 0; lane < Lanes; ++lane) {
+		result[lane] = ::impl::InvokeWithoutMonostate(op, lhs[lane], args[lane]...);
 	}
+	for (size_t i = Lanes; i < Count; i += Lanes) {
+		for (size_t lane = 0; lane < Lanes; ++lane) {
+			result[lane] = ::impl::InvokeWithoutMonostate(op, result[lane], args[i + lane]...);
+		}
+	}
+	return result;
 }
 
 
-template <class Lhs, class Rhs, class Op, size_t Count, size_t Index = 0>
-MATHTER_FORCEINLINE static auto IndependentUnroll(const Lhs& lhs,
-												  const std::array<Rhs, Count>& rhs,
-												  Op op,
-												  std::integral_constant<size_t, Index> = std::integral_constant<size_t, 0>{}) {
-	using R = std::invoke_result_t<Op, Lhs, Rhs>;
-	std::array<R, Count> out;
-	IndependentUnroll(out, lhs, rhs, op, std::integral_constant<size_t, Index + 1>{});
-	return out;
-}
-
-
-#define BENCHMARK_CASE(NAME, TAG, SAMPLES, REPEAT, FIXTURE, ARG1, ...)            \
-	TEST_CASE(NAME, TAG) {                                                        \
-		::impl::BenchmarkCase(NAME, SAMPLES, REPEAT, FIXTURE, ARG1, __VA_ARGS__); \
+#define BENCHMARK_CASE(NAME, TAG, SAMPLES, REPEAT, FIXTURE, ARG1_LATENCY, ARG1_THROUGHPUT, ...)            \
+	TEST_CASE(NAME, TAG) {                                                                                 \
+		::impl::BenchmarkCase(NAME, SAMPLES, REPEAT, FIXTURE, ARG1_LATENCY, ARG1_THROUGHPUT, __VA_ARGS__); \
 	}

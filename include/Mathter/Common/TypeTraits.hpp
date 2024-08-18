@@ -13,6 +13,10 @@
 #include <functional>
 #include <type_traits>
 
+#ifdef MATHTER_ENABLE_SIMD
+#include <xsimd/xsimd.hpp>
+#endif
+
 
 namespace mathter {
 
@@ -78,7 +82,9 @@ constexpr auto is_scalar_v = is_scalar<T>::value;
 //--------------------------------------
 
 template <class T>
-struct scalar_type {};
+struct scalar_type {
+	using type = T;
+};
 
 template <class T, int Dim, bool Packed>
 struct scalar_type<Vector<T, Dim, Packed>> {
@@ -357,6 +363,19 @@ namespace impl {
 
 template <class... T>
 struct common_arithmetic_type : std::enable_if<impl::common_arithmetic_type<T...>::valid, typename impl::common_arithmetic_type<T...>::type> {};
+
+#ifdef MATHTER_ENABLE_SIMD
+namespace impl {
+	template <class Batch>
+	struct common_arithmetic_type_xsimd : std::enable_if<!std::is_void_v<Batch>, Batch> {};
+} // namespace impl
+
+template <class... Ts, class... As>
+struct common_arithmetic_type<xsimd::batch<Ts, As>...>
+	: impl::common_arithmetic_type_xsimd<
+		  xsimd::make_sized_batch_t<typename common_arithmetic_type<Ts...>::type,
+									(... + xsimd::batch<Ts, As>::size) / sizeof...(Ts)>> {};
+#endif
 
 
 template <class... T>

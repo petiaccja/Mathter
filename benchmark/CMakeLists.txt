@@ -5,13 +5,23 @@ target_sources(Benchmark
         "main.cpp"
         "Benchmark.hpp"
         "Benchmark.cpp"
+        "Fixtures.hpp"
+        "Input.hpp"
 ) 
 
 target_sources(Benchmark
     PRIVATE
-        "main.cpp"
         "Matrix/BenchmarkArithmetic.cpp"
+        "Matrix/BenchmarkMath.cpp"
+        "Scalar/BenchmarkArithmetic.cpp"
+        "Scalar/BenchmarkMath.cpp"
         "Vector/BenchmarkArithmetic.cpp"
+        "Vector/BenchmarkMath.cpp"
+)   
+
+target_sources(Benchmark
+    PRIVATE
+        "z_MSVC_Repro/Matrix2x2Multiply.cpp"
 )       
 
 find_package(Catch2 REQUIRED)

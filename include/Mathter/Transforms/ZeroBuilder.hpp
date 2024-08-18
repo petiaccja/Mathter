@@ -6,7 +6,7 @@
 #pragma once
 
 
-#include "../Common/LoopUtil.hpp"
+#include "../Common/OptimizationUtil.hpp"
 #include "../Matrix/Matrix.hpp"
 #include "../Quaternion/Quaternion.hpp"
 #include "../Vector/Vector.hpp"
@@ -22,9 +22,11 @@ namespace impl {
 		template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 		operator Matrix<T, Rows, Columns, Order, Layout, Packed>() const {
 			using Mat = Matrix<T, Rows, Columns, Order, Layout, Packed>;
-			return ::mathter::LoopUnroll<Mat::stripeCount>([](auto... indices) {
-				return Mat(stripeArg, Vector<T, Mat::stripeDim, Packed>((static_cast<void>(indices), T(0)))...);
-			});
+			Mat m;
+			for (auto& stripe : m.stripes) {
+				stripe = Vector<T, Mat::stripeDim, Packed>(static_cast<T>(0));
+			}
+			return m;
 		}
 
 		template <class T, int Dim, bool Packed>

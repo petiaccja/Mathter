@@ -15,20 +15,43 @@
 namespace mathter {
 
 
-template <class Vec, class Fun>
-auto AvoidDivByZero(const Vec& vec, const Fun&) {
-	using VecDecay = std::decay_t<Vec>;
-	if constexpr (VecDecay::isBatched && std::is_same_v<std::decay_t<Fun>, std::divides<void>>) {
-		return VecDecay(FillMasked<dimension_v<VecDecay>>(vec.elements.Load(), static_cast<scalar_type_t<VecDecay>>(1)));
+template <class T, int NumValid>
+struct divides_safe {
+	T operator()(const T& lhs, const T& rhs) const {
+#ifdef MATHTER_ENABLE_SIMD
+		if constexpr (xsimd::is_batch<T>::value) {
+			const auto filled = FillMaskedWithFirst<NumValid>(rhs);
+			const auto result = lhs / filled;
+			return FillMasked<NumValid>(result, static_cast<xsimd::scalar_type_t<T>>(0));
+		}
+#endif
+		return lhs / rhs;
 	}
-	return vec;
-}
+};
+
+
+template <int NumValid>
+struct divides_safe<void, NumValid> {
+	template <typename T1, typename T2>
+	auto
+	operator()(T1&& lhs, T2&& rhs) const noexcept(noexcept(std::divides<>{}(lhs, rhs)))
+		-> std::invoke_result_t<std::divides<>, T1, T2> {
+#ifdef MATHTER_ENABLE_SIMD
+		if constexpr (xsimd::is_batch<T2>::value) {
+			const auto filled = FillMaskedWithFirst<NumValid>(rhs);
+			const auto result = lhs / filled;
+			return FillMasked<NumValid>(result, static_cast<xsimd::scalar_type_t<std::decay_t<decltype(result)>>>(0));
+		}
+#endif
+		return std::forward<T1>(lhs) / std::forward<T2>(rhs);
+	}
+};
 
 
 #define MATHTER_ARITHMETIC_VEC_x_VEC(OP, FUNCTOR)                                                \
 	template <class T1, class T2, int Dim, bool Packed1, bool Packed2>                           \
 	auto operator OP(const Vector<T1, Dim, Packed1>& lhs, const Vector<T2, Dim, Packed2>& rhs) { \
-		return DoBinaryOp(lhs, AvoidDivByZero(rhs, FUNCTOR{}), FUNCTOR{});                       \
+		return DoBinaryOp(lhs, rhs, FUNCTOR{});                                                  \
 	}
 
 
@@ -44,7 +67,7 @@ auto AvoidDivByZero(const Vec& vec, const Fun&) {
 	template <class T1, class T2, int Dim2, bool Packed2, std::enable_if_t<is_scalar_v<T1>, int> = 0> \
 	auto operator OP(const T1& lhs, const Vector<T2, Dim2, Packed2>& rhs) {                           \
 		const auto lhsv = Vector<T1, Dim2, Packed2>(lhs);                                             \
-		return DoBinaryOp(lhsv, AvoidDivByZero(rhs, FUNCTOR{}), FUNCTOR{});                           \
+		return DoBinaryOp(lhsv, rhs, FUNCTOR{});                                                      \
 	}
 
 
@@ -53,7 +76,7 @@ auto AvoidDivByZero(const Vec& vec, const Fun&) {
 	auto operator OP(const Vector<T1, Dim1, Packed1>& lhs, const Swizzle<T2, Dim2, Packed2, Indices2...>& rhs) { \
 		static_assert(Dim1 == sizeof...(Indices2), "vector and swizzle must have the same size");                \
 		const auto rhsv = Vector(rhs);                                                                           \
-		return DoBinaryOp(lhs, AvoidDivByZero(rhsv, FUNCTOR{}), FUNCTOR{});                                      \
+		return DoBinaryOp(lhs, rhsv, FUNCTOR{});                                                                 \
 	}
 
 
@@ -62,7 +85,7 @@ auto AvoidDivByZero(const Vec& vec, const Fun&) {
 	auto operator OP(const Swizzle<T1, Dim1, Packed1, Indices1...>& lhs, const Vector<T2, Dim2, Packed2>& rhs) { \
 		static_assert(Dim2 == sizeof...(Indices1), "vector and swizzle must have the same size");                \
 		const auto lhsv = Vector(lhs);                                                                           \
-		return DoBinaryOp(lhsv, AvoidDivByZero(rhs, FUNCTOR{}), FUNCTOR{});                                      \
+		return DoBinaryOp(lhsv, rhs, FUNCTOR{});                                                                 \
 	}
 
 
@@ -72,7 +95,7 @@ auto AvoidDivByZero(const Vec& vec, const Fun&) {
 		static_assert(sizeof...(Indices1) == sizeof...(Indices2), "swizzles must have the same size");                         \
 		const auto lhsv = Vector(lhs);                                                                                         \
 		const auto rhsv = Vector(rhs);                                                                                         \
-		const auto result = DoBinaryOp(lhsv, AvoidDivByZero(rhsv, FUNCTOR{}), FUNCTOR{});                                      \
+		const auto result = DoBinaryOp(lhsv, rhsv, FUNCTOR{});                                                                 \
 		if constexpr (dimension_v<std::decay_t<decltype(result)>> == 1) {                                                      \
 			return result[0];                                                                                                  \
 		}                                                                                                                      \
@@ -102,7 +125,7 @@ auto AvoidDivByZero(const Vec& vec, const Fun&) {
 	auto operator OP(const T1& lhs, const Swizzle<T2, Dim2, Packed2, Indices2...>& rhs) {                              \
 		const auto lhsv = Vector<T1, sizeof...(Indices2), Packed2>(lhs);                                               \
 		const auto rhsv = Vector(rhs);                                                                                 \
-		const auto result = DoBinaryOp(lhsv, AvoidDivByZero(rhsv, FUNCTOR{}), FUNCTOR{});                              \
+		const auto result = DoBinaryOp(lhsv, rhsv, FUNCTOR{});                                                         \
 		if constexpr (dimension_v<std::decay_t<decltype(result)>> == 1) {                                              \
 			return result[0];                                                                                          \
 		}                                                                                                              \
@@ -113,7 +136,7 @@ auto AvoidDivByZero(const Vec& vec, const Fun&) {
 
 
 MATHTER_ARITHMETIC_VEC_x_VEC(*, std::multiplies);
-MATHTER_ARITHMETIC_VEC_x_VEC(/, std::divides);
+MATHTER_ARITHMETIC_VEC_x_VEC(/, decltype(divides_safe<void, Dim>{}));
 MATHTER_ARITHMETIC_VEC_x_VEC(+, std::plus);
 MATHTER_ARITHMETIC_VEC_x_VEC(-, std::minus);
 
@@ -123,22 +146,22 @@ MATHTER_ARITHMETIC_VEC_x_SCALAR(+, std::plus);
 MATHTER_ARITHMETIC_VEC_x_SCALAR(-, std::minus);
 
 MATHTER_ARITHMETIC_SCALAR_x_VEC(*, std::multiplies);
-MATHTER_ARITHMETIC_SCALAR_x_VEC(/, std::divides);
+MATHTER_ARITHMETIC_SCALAR_x_VEC(/, decltype(divides_safe<void, Dim2>{}));
 MATHTER_ARITHMETIC_SCALAR_x_VEC(+, std::plus);
 MATHTER_ARITHMETIC_SCALAR_x_VEC(-, std::minus);
 
 MATHTER_ARITHMETIC_VEC_x_SWIZZLE(*, std::multiplies);
-MATHTER_ARITHMETIC_VEC_x_SWIZZLE(/, std::divides);
+MATHTER_ARITHMETIC_VEC_x_SWIZZLE(/, decltype(divides_safe<void, Dim1>{}));
 MATHTER_ARITHMETIC_VEC_x_SWIZZLE(+, std::plus);
 MATHTER_ARITHMETIC_VEC_x_SWIZZLE(-, std::minus);
 
 MATHTER_ARITHMETIC_SWIZZLE_x_VEC(*, std::multiplies);
-MATHTER_ARITHMETIC_SWIZZLE_x_VEC(/, std::divides);
+MATHTER_ARITHMETIC_SWIZZLE_x_VEC(/, decltype(divides_safe<void, Dim2>{}));
 MATHTER_ARITHMETIC_SWIZZLE_x_VEC(+, std::plus);
 MATHTER_ARITHMETIC_SWIZZLE_x_VEC(-, std::minus);
 
 MATHTER_ARITHMETIC_SWIZZLE_x_SWIZZLE(*, std::multiplies);
-MATHTER_ARITHMETIC_SWIZZLE_x_SWIZZLE(/, std::divides);
+MATHTER_ARITHMETIC_SWIZZLE_x_SWIZZLE(/, decltype(divides_safe<void, sizeof...(Indices2)>{}));
 MATHTER_ARITHMETIC_SWIZZLE_x_SWIZZLE(+, std::plus);
 MATHTER_ARITHMETIC_SWIZZLE_x_SWIZZLE(-, std::minus);
 
@@ -148,7 +171,7 @@ MATHTER_ARITHMETIC_SWIZZLE_x_SCALAR(+, std::plus);
 MATHTER_ARITHMETIC_SWIZZLE_x_SCALAR(-, std::minus);
 
 MATHTER_ARITHMETIC_SCALAR_x_SWIZZLE(*, std::multiplies);
-MATHTER_ARITHMETIC_SCALAR_x_SWIZZLE(/, std::divides);
+MATHTER_ARITHMETIC_SCALAR_x_SWIZZLE(/, decltype(divides_safe<void, sizeof...(Indices2)>{}));
 MATHTER_ARITHMETIC_SCALAR_x_SWIZZLE(+, std::plus);
 MATHTER_ARITHMETIC_SCALAR_x_SWIZZLE(-, std::minus);
 

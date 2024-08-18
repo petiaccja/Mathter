@@ -48,8 +48,7 @@ T Min(const Vector<T, Dim, Packed>& v) {
 #if MATHTER_ENABLE_SIMD
 	if constexpr (std::decay_t<decltype(v)>::isBatched) {
 		const auto value = v.elements.Load();
-		constexpr auto filler = std::numeric_limits<remove_complex_t<T>>::max();
-		const auto filled = FillMasked<Dim>(value, filler);
+		const auto filled = FillMaskedWithFirst<Dim>(value);
 		return xsimd::reduce_min(filled);
 	}
 #endif
@@ -63,8 +62,7 @@ T Max(const Vector<T, Dim, Packed>& v) {
 #if MATHTER_ENABLE_SIMD
 	if constexpr (IsBatched<T, Dim, Packed>()) {
 		const auto value = v.elements.Load();
-		constexpr auto filler = std::numeric_limits<remove_complex_t<T>>::lowest();
-		const auto filled = FillMasked<Dim>(value, filler);
+		const auto filled = FillMaskedWithFirst<Dim>(value);
 		return xsimd::reduce_max(filled);
 	}
 #endif
@@ -106,8 +104,7 @@ T Sum(const Vector<T, Dim, Packed>& v) {
 #if MATHTER_ENABLE_SIMD
 	if constexpr (Vector<T, Dim, Packed>::isBatched) {
 		const auto value = v.elements.Load();
-		constexpr auto filler = T(0);
-		const auto filled = FillMasked<Dim>(value, filler);
+		const auto filled = FillMasked<Dim>(value, static_cast<T>(0));
 		return xsimd::reduce_add(filled);
 	}
 #endif
@@ -167,16 +164,11 @@ auto Length(const Vector<T, Dim, Packed>& v) {
 /// <remarks> Avoids overflow and underflow, so it's more expensive. </remarks>
 template <class T, int Dim, bool Packed>
 auto LengthPrecise(const Vector<T, Dim, Packed>& v) {
-	const auto maxElement = Max(Abs(v));
-	using Base = remove_complex_t<T>;
-	if (maxElement == std::numeric_limits<Base>::infinity()) {
-		return std::numeric_limits<Base>::infinity();
-	}
-	if (maxElement == T(0)) {
-		return static_cast<Base>(0);
-	}
+	auto maxElement = Max(Abs(v));
+	using Real = remove_complex_t<T>;
+	maxElement = std::clamp(maxElement, std::numeric_limits<Real>::min(), std::numeric_limits<Real>::max());
 	const auto scaled = v / maxElement;
-	return static_cast<Base>(Length(scaled) * maxElement);
+	return Length(scaled) * maxElement;
 }
 
 
@@ -210,9 +202,12 @@ Vector<T, Dim, Packed> Normalize(const Vector<T, Dim, Packed>& v) {
 /// <remarks> Unlike the regular <see cref="Normalize"/>, this does can handle null vectors and under/overflow. </remarks>
 template <class T, int Dim, bool Packed>
 Vector<T, Dim, Packed> NormalizePrecise(const Vector<T, Dim, Packed>& v, const Vector<T, Dim, Packed>& degenerate) {
+	using Real = remove_complex_t<T>;
 	const auto length = LengthPrecise(v);
-	const auto zero = static_cast<std::decay_t<decltype(length)>>(0);
-	return length != zero ? v / length : degenerate;
+	if (length == static_cast<Real>(0)) {
+		return degenerate;
+	}
+	return v / length;
 }
 
 

@@ -5,9 +5,10 @@
 
 #pragma once
 
-#include "../Common/LoopUtil.hpp"
+#include "../Common/OptimizationUtil.hpp"
 #include "../Vector/Arithmetic.hpp"
 #include "../Vector/Math.hpp"
+#include "Cast.hpp"
 #include "Matrix.hpp"
 
 namespace mathter {
@@ -20,21 +21,19 @@ namespace impl {
 	auto Multiply(const Matrix<T1, Rows1, Match, Order, eMatrixLayout::ROW_MAJOR, Packed1>& lhs,
 				  const Matrix<T2, Match, Columns2, Order, eMatrixLayout::ROW_MAJOR, Packed2>& rhs) {
 		using T = common_arithmetic_type_t<T1, T2>;
-		using M = Matrix<T, Rows1, Columns2, Order, eMatrixLayout::ROW_MAJOR, Packed1 && Packed2>;
+		constexpr auto Packed = Packed1 && Packed2;
+		using Mat = Matrix<T, Rows1, Columns2, Order, eMatrixLayout::ROW_MAJOR, Packed>;
+		using Vec = Vector<T, Columns2, Packed>;
 
-		const auto calcPartialRow = [&lhs, &rhs](size_t rowIdx, size_t runIdx) {
-			return lhs(rowIdx, runIdx) * rhs.Row(runIdx);
-		};
+		Mat m;
+		for (size_t rowIdx = 0; rowIdx < Rows1; ++rowIdx) {
+			m.Row(rowIdx, lhs(rowIdx, 0) * rhs.Row(0));
+			for (size_t runIdx = 1; runIdx < Match; ++runIdx) {
+				m.Row(rowIdx, MultiplyAdd(Vec(lhs(rowIdx, runIdx)), rhs.Row(runIdx), m.Row(rowIdx)));
+			}
+		}
 
-		const auto calcRow = [&calcPartialRow](size_t rowIdx) {
-			return ::mathter::LoopUnroll<Match>([rowIdx, &calcPartialRow](auto... runIdx) {
-				return (... + calcPartialRow(rowIdx, runIdx));
-			});
-		};
-
-		return ::mathter::LoopUnroll<Rows1>([&calcRow](auto... rowIdx) {
-			return M(stripeArg, calcRow(rowIdx)...);
-		});
+		return m;
 	}
 
 
@@ -44,21 +43,15 @@ namespace impl {
 	auto Multiply(const Matrix<T1, Rows1, Match, Order, eMatrixLayout::ROW_MAJOR, Packed1>& lhs,
 				  const Matrix<T2, Match, Columns2, Order, eMatrixLayout::COLUMN_MAJOR, Packed2>& rhs) {
 		using T = common_arithmetic_type_t<T1, T2>;
-		using M = Matrix<T, Rows1, Columns2, Order, eMatrixLayout::ROW_MAJOR, Packed1 && Packed2>;
+		using Mat = Matrix<T, Rows1, Columns2, Order, eMatrixLayout::ROW_MAJOR, Packed1 && Packed2>;
 
-		const auto calcElement = [&lhs, &rhs](size_t rowIdx, size_t colIdx) {
-			return Sum(lhs.Row(rowIdx) * rhs.Column(colIdx));
-		};
-
-		const auto calcRow = [&calcElement](size_t rowIdx) {
-			return ::mathter::LoopUnroll<Columns2>([rowIdx, &calcElement](auto... runIdx) {
-				return Vector(calcElement(rowIdx, runIdx)...);
-			});
-		};
-
-		return ::mathter::LoopUnroll<Rows1>([&calcRow](auto... rowIdx) {
-			return M(stripeArg, calcRow(rowIdx)...);
-		});
+		Mat m;
+		for (size_t rowIdx = 0; rowIdx < Rows1; ++rowIdx) {
+			for (size_t colIdx = 0; colIdx < Columns2; ++colIdx) {
+				m(rowIdx, colIdx) = Sum(lhs.Row(rowIdx) * rhs.Column(colIdx));
+			}
+		}
+		return m;
 	}
 
 
@@ -68,21 +61,18 @@ namespace impl {
 	auto Multiply(const Matrix<T1, Rows1, Match, Order, eMatrixLayout::COLUMN_MAJOR, Packed1>& lhs,
 				  const Matrix<T2, Match, Columns2, Order, Layout2, Packed2>& rhs) {
 		using T = common_arithmetic_type_t<T1, T2>;
-		using M = Matrix<T, Rows1, Columns2, Order, eMatrixLayout::COLUMN_MAJOR, Packed1 && Packed2>;
+		constexpr auto Packed = Packed1 && Packed2;
+		using Mat = Matrix<T, Rows1, Columns2, Order, eMatrixLayout::COLUMN_MAJOR, Packed>;
+		using Vec = Vector<T, Rows1, Packed>;
 
-		const auto calcPartialColumn = [&lhs, &rhs](size_t colIdx, size_t runIdx) {
-			return lhs.Column(runIdx) * rhs(runIdx, colIdx);
-		};
-
-		const auto calcColumn = [&calcPartialColumn](size_t colIdx) {
-			return ::mathter::LoopUnroll<Match>([colIdx, &calcPartialColumn](auto... runIdx) {
-				return (... + calcPartialColumn(colIdx, runIdx));
-			});
-		};
-
-		return ::mathter::LoopUnroll<Columns2>([&calcColumn](auto... colIdx) {
-			return M(stripeArg, calcColumn(colIdx)...);
-		});
+		Mat m;
+		for (size_t colIdx = 0; colIdx < Columns2; ++colIdx) {
+			m.Column(colIdx, lhs.Column(0) * rhs(0, colIdx));
+			for (size_t runIdx = 1; runIdx < Match; ++runIdx) {
+				m.Column(colIdx, MultiplyAdd(lhs.Column(runIdx), Vec(rhs(runIdx, colIdx)), m.Column(colIdx)));
+			}
+		}
+		return m;
 	}
 
 
@@ -94,20 +84,18 @@ namespace impl {
 					 const Matrix<T2, Rows, Columns, Order, Layout2, Packed2>& rhs,
 					 Func&& func) {
 		using T = std::invoke_result_t<Func, T1, T2>;
-		using M = Matrix<T, Rows, Columns, Order, Layout1, Packed1 && Packed2>;
+		using Mat = Matrix<T, Rows, Columns, Order, Layout1, Packed1 && Packed2>;
 
-		const auto calcStripe = [&lhs, &rhs, &func](size_t stripeIdx) {
+		Mat m;
+		for (size_t stripeIdx = 0; stripeIdx < Mat::stripeCount; ++stripeIdx) {
 			if constexpr (Layout1 == eMatrixLayout::ROW_MAJOR) {
-				return func(lhs.Row(stripeIdx), rhs.Row(stripeIdx));
+				m.Row(stripeIdx, func(lhs.Row(stripeIdx), rhs.Row(stripeIdx)));
 			}
 			else {
-				return func(lhs.Column(stripeIdx), rhs.Column(stripeIdx));
+				m.Column(stripeIdx, func(lhs.Column(stripeIdx), rhs.Column(stripeIdx)));
 			}
-		};
-
-		return ::mathter::LoopUnroll<M::stripeCount>([&calcStripe](auto... stripeIdx) {
-			return M(stripeArg, calcStripe(stripeIdx)...);
-		});
+		}
+		return m;
 	}
 
 
@@ -119,11 +107,13 @@ namespace impl {
 				const T2& rhs,
 				Func&& func) {
 		using T = std::invoke_result_t<Func, T1, T2>;
-		using M = Matrix<T, Rows1, Columns1, Order1, Layout1, Packed1>;
+		using Mat = Matrix<T, Rows1, Columns1, Order1, Layout1, Packed1>;
 
-		return ::mathter::LoopUnroll<M::stripeCount>([&lhs, &rhs, &func](auto... stripeIdx) {
-			return M(stripeArg, func(lhs.stripes[stripeIdx], rhs)...);
-		});
+		Mat m;
+		for (size_t stripeIdx = 0; stripeIdx < Mat::stripeCount; ++stripeIdx) {
+			m.stripes[stripeIdx] = func(lhs.stripes[stripeIdx], rhs);
+		}
+		return m;
 	}
 
 
@@ -135,11 +125,13 @@ namespace impl {
 				const Matrix<T2, Rows2, Columns2, Order2, Layout2, Packed2>& rhs,
 				Func&& func) {
 		using T = std::invoke_result_t<Func, T1, T2>;
-		using M = Matrix<T, Rows2, Columns2, Order2, Layout2, Packed2>;
+		using Mat = Matrix<T, Rows2, Columns2, Order2, Layout2, Packed2>;
 
-		return ::mathter::LoopUnroll<M::stripeCount>([&lhs, &rhs, &func](auto... stripeIdx) {
-			return M(stripeArg, func(lhs, rhs.stripes[stripeIdx])...);
-		});
+		Mat m;
+		for (size_t stripeIdx = 0; stripeIdx < Mat::stripeCount; ++stripeIdx) {
+			m.stripes[stripeIdx] = func(lhs, rhs.stripes[stripeIdx]);
+		}
+		return m;
 	}
 
 	template <class T1, bool Packed1,
@@ -147,9 +139,12 @@ namespace impl {
 			  int Match>
 	auto Multiply(const Vector<T1, Match, Packed1>& lhs,
 				  const Matrix<T2, Match, Columns2, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, Packed2>& rhs) {
-		return ::mathter::LoopUnroll<Match>([lhs, rhs](auto... runIdx) {
-			return (... + (lhs(runIdx) * rhs.Row(runIdx)));
-		});
+		auto v = lhs(0) * rhs.Row(0);
+		using Vec = std::decay_t<decltype(v)>;
+		for (size_t runIdx = 1; runIdx < Match; ++runIdx) {
+			v = MultiplyAdd(Vec(lhs(runIdx)), rhs.Row(runIdx), v);
+		}
+		return v;
 	}
 
 	template <class T1, bool Packed1,
@@ -157,9 +152,12 @@ namespace impl {
 			  int Match>
 	auto Multiply(const Vector<T1, Match, Packed1>& lhs,
 				  const Matrix<T2, Match, Columns2, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR, Packed2>& rhs) {
-		return ::mathter::LoopUnroll<Columns2>([lhs, rhs](auto... elementIdx) {
-			return Vector(Sum(lhs * rhs.Column(elementIdx))...);
-		});
+		using Vec = Vector<common_arithmetic_type_t<T1, T2>, Columns2, Packed1 && Packed2>;
+		Vec v;
+		for (size_t elementIdx = 0; elementIdx < Columns2; ++elementIdx) {
+			v[elementIdx] = Sum(lhs * rhs.Column(elementIdx));
+		}
+		return v;
 	}
 
 	template <class T1, int Rows1, bool Packed1,
@@ -167,9 +165,7 @@ namespace impl {
 			  int Match>
 	auto Multiply(const Matrix<T1, Rows1, Match, eMatrixOrder::PRECEDE_VECTOR, eMatrixLayout::COLUMN_MAJOR, Packed1>& lhs,
 				  const Vector<T2, Match, Packed2>& rhs) {
-		return ::mathter::LoopUnroll<Match>([lhs, rhs](auto... runIdx) {
-			return (... + (lhs.Column(runIdx) * rhs(runIdx)));
-		});
+		return Multiply(rhs, FlipLayoutAndOrder(lhs));
 	}
 
 	template <class T1, int Rows1, bool Packed1,
@@ -177,9 +173,7 @@ namespace impl {
 			  int Match>
 	auto Multiply(const Matrix<T1, Rows1, Match, eMatrixOrder::PRECEDE_VECTOR, eMatrixLayout::ROW_MAJOR, Packed1>& lhs,
 				  const Vector<T2, Match, Packed2>& rhs) {
-		return ::mathter::LoopUnroll<Rows1>([lhs, rhs](auto... elementIdx) {
-			return Vector(Sum(lhs.Row(elementIdx) * rhs)...);
-		});
+		return Multiply(rhs, FlipLayoutAndOrder(lhs));
 	}
 
 } // namespace impl
@@ -402,15 +396,19 @@ auto& operator*=(Vector<T1, Match - 1, Packed1>& lhs,
 //------------------------------------------------------------------------------
 
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-auto operator+(const Matrix<T, Rows, Columns, Order, Layout, Packed>& mat) {
-	return mat;
+auto operator+(const Matrix<T, Rows, Columns, Order, Layout, Packed>& arg) {
+	return arg;
 }
 
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-auto operator-(const Matrix<T, Rows, Columns, Order, Layout, Packed>& mat) {
-	return ::mathter::LoopUnroll<std::decay_t<decltype(mat)>::stripeCount>([&mat](auto... stripeIdx) {
-		return Matrix<T, Rows, Columns, Order, Layout, Packed>(stripeArg, -mat.stripes[stripeIdx]...);
-	});
+auto operator-(const Matrix<T, Rows, Columns, Order, Layout, Packed>& arg) {
+	using Mat = std::decay_t<decltype(arg)>;
+
+	Mat m;
+	for (size_t i = 0; i < Mat::stripeCount; ++i) {
+		m.stripes[i] = -arg.stripes[i];
+	}
+	return m;
 }
 
 } // namespace mathter
