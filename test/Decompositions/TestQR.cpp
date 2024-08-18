@@ -66,8 +66,8 @@ TEMPLATE_LIST_TEST_CASE("QR decomposition: square matrix", "[QR]",
 
 	SECTION("QR") {
 		const auto [Q, R] = DecomposeQR(m);
-		REQUIRE(Abs(Q) == test_util::Approx(qExpected));
-		REQUIRE(Abs(R) == test_util::Approx(rExpected));
+		REQUIRE(Abs(Q) == test_util::Approx(Abs(qExpected)));
+		REQUIRE(Abs(R) == test_util::Approx(Abs(rExpected)));
 		VerifyDecomposition(m, Q, R);
 	}
 	SECTION("LQ") {

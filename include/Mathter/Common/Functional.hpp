@@ -41,7 +41,9 @@ struct fma<void> {
 		-> decltype(std::forward<T1>(a) * std::forward<T2>(b) + std::forward<T3>(c)) {
 		using T = std::remove_reference_t<decltype(std::forward<T1>(a) * std::forward<T2>(b) + std::forward<T3>(c))>;
 		if constexpr (std::is_convertible_v<T1, T> && std::is_convertible_v<T2, T> && std::is_convertible_v<T3, T>) {
-			return fma<T>{}(a, b, c);
+			return fma<T>{}(static_cast<T>(std::forward<T1>(a)),
+							static_cast<T>(std::forward<T2>(b)),
+							static_cast<T>(std::forward<T3>(c)));
 		}
 		return a * b + c;
 	}
@@ -71,7 +73,7 @@ struct max<void> {
 	constexpr auto operator()(T1&& lhs, T2&& rhs) const
 		-> common_arithmetic_type_t<std::decay_t<T1>, std::decay_t<T2>> {
 		using T = common_arithmetic_type_t<std::decay_t<T1>, std::decay_t<T2>>;
-		return max<T>{}(static_cast<T>(lhs), static_cast<T>(rhs));
+		return max<T>{}(static_cast<T>(std::forward<T1>(lhs)), static_cast<T>(std::forward<T2>(rhs)));
 	}
 };
 
@@ -99,7 +101,7 @@ struct min<void> {
 	constexpr auto operator()(T1&& lhs, T2&& rhs) const
 		-> common_arithmetic_type_t<std::decay_t<T1>, std::decay_t<T2>> {
 		using T = common_arithmetic_type_t<std::decay_t<T1>, std::decay_t<T2>>;
-		return min<T>{}(static_cast<T>(lhs), static_cast<T>(rhs));
+		return min<T>{}(static_cast<T>(std::forward<T1>(lhs)), static_cast<T>(std::forward<T2>(rhs)));
 	}
 };
 
