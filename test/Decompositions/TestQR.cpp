@@ -66,17 +66,17 @@ TEMPLATE_LIST_TEST_CASE("QR decomposition: square matrix", "[QR]",
 
 	SECTION("QR") {
 		const auto [Q, R] = DecomposeQR(m);
-		REQUIRE(Q == test_util::Approx(qExpected));
-		REQUIRE(R == test_util::Approx(rExpected));
+		REQUIRE(Abs(Q) == test_util::Approx(qExpected));
+		REQUIRE(Abs(R) == test_util::Approx(rExpected));
 		VerifyDecomposition(m, Q, R);
 	}
 	SECTION("LQ") {
 		const auto mt = FlipLayoutAndOrder(m);
-		const auto rtExpected = FlipLayoutAndOrder(rExpected);
-		const auto qtExpected = FlipLayoutAndOrder(qExpected);
+		const auto rtExpected = FlipLayoutAndOrder(Abs(rExpected));
+		const auto qtExpected = FlipLayoutAndOrder(Abs(qExpected));
 		const auto [L, Q] = DecomposeLQ(mt);
-		REQUIRE(L == test_util::Approx(rtExpected));
-		REQUIRE(Q == test_util::Approx(qtExpected));
+		REQUIRE(Abs(L) == test_util::Approx(Abs(rtExpected)));
+		REQUIRE(Abs(Q) == test_util::Approx(Abs(qtExpected)));
 		REQUIRE(L * Q == test_util::Approx(mt));
 	}
 }

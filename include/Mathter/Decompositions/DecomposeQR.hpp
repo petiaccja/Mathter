@@ -182,17 +182,27 @@ namespace impl {
 
 		auto x = r.Column(k);
 		std::fill_n(x.begin(), k, static_cast<T>(0));
-		const auto norm = LengthPrecise(x);
-		const auto mag = std::abs(x[k]);
-		const auto sign = mag != Real(0) ? -(x[k] / mag) : T(1);
-		const auto alpha = sign * norm;
+		const auto normSqX = LengthSquared(x);
+		const auto pivot = x[k];
+		const auto mag = std::abs(pivot);
+		const auto sign = mag != Real(0) ? -(pivot / mag) : T(1);
+		const auto alpha = sign * std::sqrt(normSqX);
 
 		auto u = x;
 		u[k] += alpha;
 
-		const auto v = NormalizePrecise(u);
+		const auto rePivot = std::real(pivot);
+		const auto imPivot = std::imag(pivot);
+		const auto reAlpha = std::real(alpha);
+		const auto imAlpha = std::imag(alpha);
+		const auto correction = (Real(2) * rePivot + reAlpha) * reAlpha + (Real(2) * imPivot + imAlpha) * imAlpha;
+		const auto normSqU = std::max(Real(0), normSqX + correction);
 
-		return v;
+		if (normSqU != static_cast<Real>(0)) {
+			return u / std::sqrt(normSqU);
+		}
+		u[k] = static_cast<T>(1);
+		return u;
 	}
 
 } // namespace impl
@@ -209,8 +219,9 @@ auto DecomposeQR(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) {
 	using RowMat = Matrix<T, 1, Rows, Order, Layout, Packed>;
 	using Real = remove_complex_t<T>;
 
+	const auto scaler = std::max(std::numeric_limits<Real>::min(), ScaleElements(m));
 	Matrix<T, Rows, Rows, Order, Layout, Packed> QT = Identity();
-	Matrix<T, Rows, Columns, Order, Layout, Packed> R = m;
+	Matrix<T, Rows, Columns, Order, Layout, Packed> R = m / scaler;
 
 	// Using Householder reflections.
 	// Algorithm from Wikipedia's page: https://en.wikipedia.org/wiki/QR_decomposition#Using_Householder_reflections
@@ -230,7 +241,7 @@ auto DecomposeQR(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) {
 		}
 	}
 
-	return DecompositionQR{ ConjTranspose(QT).template Extract<Rows, Columns>(0, 0), R.template Extract<Columns, Columns>(0, 0) };
+	return DecompositionQR{ ConjTranspose(QT).template Extract<Rows, Columns>(0, 0), scaler * R.template Extract<Columns, Columns>(0, 0) };
 }
 
 

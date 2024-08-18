@@ -35,6 +35,25 @@ T Max(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) {
 }
 
 
+/// <summary> Computes a divisor that scales the matrix so that its largest element is close to 1. </summary>
+/// <remarks> This is similar to dividing by the infinity norm, but it's much faster and
+///		less accurate for complex numbers. </summary>
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+auto ScaleElements(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) {
+	static_assert(!std::is_integral_v<T>, "No need to scale integer matrices.");
+
+	if constexpr (is_complex_v<T>) {
+		// Doing a regular Max-Abs would need a std::hypot for every single element -- super expensive.
+		const auto re = Real(m);
+		const auto im = Imag(m);
+		return std::max(Max(Abs(re)), Max(Abs(im)));
+	}
+	else {
+		return Max(Abs(m));
+	}
+}
+
+
 /// <summary> Returns the sum of the elements of the matrix. </summary>
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 T Sum(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) {
