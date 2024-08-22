@@ -182,27 +182,24 @@ namespace impl {
 
 		auto x = r.Column(k);
 		std::fill_n(x.begin(), k, static_cast<T>(0));
-		const auto normSqX = LengthSquared(x);
+		const auto normX = LengthPrecise(x);
 		const auto pivot = x[k];
 		const auto mag = std::abs(pivot);
 		const auto sign = mag != Real(0) ? -(pivot / mag) : T(1);
-		const auto alpha = sign * std::sqrt(normSqX);
+		const auto alpha = sign * normX;
 
 		auto u = x;
-		u[k] += alpha;
+		u[k] -= alpha;
 
-		const auto rePivot = std::real(pivot);
-		const auto imPivot = std::imag(pivot);
-		const auto reAlpha = std::real(alpha);
-		const auto imAlpha = std::imag(alpha);
-		const auto correction = (Real(2) * rePivot + reAlpha) * reAlpha + (Real(2) * imPivot + imAlpha) * imAlpha;
-		const auto normSqU = std::max(Real(0), normSqX + correction);
+		const auto normU = LengthPrecise(u);
 
-		if (normSqU != static_cast<Real>(0)) {
-			return u / std::sqrt(normSqU);
+		if (normU != static_cast<Real>(0)) {
+			return u / normU;
 		}
-		u[k] = static_cast<T>(1);
-		return u;
+		else {
+			u[k] = static_cast<T>(1);
+			return u;
+		}
 	}
 
 } // namespace impl
@@ -225,7 +222,7 @@ auto DecomposeQR(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) {
 
 	// Using Householder reflections.
 	// Algorithm from Wikipedia's page: https://en.wikipedia.org/wiki/QR_decomposition#Using_Householder_reflections
-	// and Hingham's book "Accuracy and Stability of Numerical Algorithms"
+	// and Higham's book "Accuracy and Stability of Numerical Algorithms"
 	for (size_t k = 0; k < m.ColumnCount(); ++k) {
 		const auto v = impl::HouseholderReflection(R, k);
 		const auto vm = ColumnMat(v);

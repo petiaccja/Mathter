@@ -5,10 +5,12 @@
 
 #pragma warning(disable : 4244)
 
-#include "../TestGenerators.hpp"
+#include "../Approx.hpp"
+#include "../Cases.hpp"
 
-#include <Mathter/Common/Approx.hpp>
-#include <Mathter/Matrix.hpp>
+#include <Mathter/Decompositions/DecomposeSVD.hpp>
+#include <Mathter/Transforms/Rotation2DBuilder.hpp>
+#include <Mathter/Transforms/ScaleBuilder.hpp>
 
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_template_test_macros.hpp>
@@ -18,12 +20,8 @@
 #include <complex>
 
 
-
 using namespace mathter;
-using Catch::Approx;
-
-
-using TypeListFloating = TestTypeList<TypesFloating, PackedAll, OrdersAll, LayoutsAll>;
+using namespace test_util;
 
 
 template <class T, class Out = T>
@@ -47,8 +45,23 @@ auto ExpandSVD2x2(const mathter::impl::DecompositionSVD2x2<T>& svd) {
 }
 
 
+template <class T>
+auto ExpandDiagSymm2x2(std::tuple<T, T> v) {
+	using M22 = Matrix<T, 2, 2>;
+	const auto [cv, sv] = v;
+	return M22{ cv, -sv, sv, cv };
+}
+
+
+template <class T>
+auto ExpandDiagSymm2x2(T a11, T aoff, T a22) {
+	using M22 = Matrix<T, 2, 2>;
+	return M22{ a11, aoff, aoff, a22 };
+}
+
+
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed, class Out = T>
-auto ExpandSVD(const DecompositionSVD_V2<T, Rows, Columns, Order, Layout, Packed>& svd) {
+auto ExpandSVD(const DecompositionSVD<T, Rows, Columns, Order, Layout, Packed>& svd) {
 	using MPP = Matrix<T, svd.PDim, svd.PDim, Order, Layout, Packed>;
 	return std::tuple{ svd.U, MPP(Scale(svd.S)), svd.V };
 }
@@ -131,220 +144,12 @@ void VerifySVD(MatA A, MatU U, MatS S, MatV V, scalar_type_t<MatA> tolerance) {
 	INFO("U =   " << U);
 	INFO("S =   " << S);
 	INFO("V =   " << V);
-	INFO("USV = " << USV);
-	INFO("UTU = " << UTU);
-	INFO("VTV = " << VTV);
 
 	REQUIRE_THAT(Determinant(U), Catch::Matchers::WithinAbs(1.0f, tolerance) || Catch::Matchers::WithinAbs(-1.0f, tolerance));
 	REQUIRE_THAT(Determinant(V), Catch::Matchers::WithinAbs(1.0f, tolerance) || Catch::Matchers::WithinAbs(-1.0f, tolerance));
-	REQUIRE(NormPrecise(UTU - decltype(UTU)(Identity())) < tolerance);
-	REQUIRE(NormPrecise(VTV - decltype(VTV)(Identity())) < tolerance);
-	REQUIRE(NormPrecise(A - USV) < tolerance);
-}
-
-
-TEMPLATE_LIST_TEST_CASE("Matrix - LU decomposition", "[Matrix]", TypeListFloating) {
-	SECTION(TestType::Name()) {
-		using M = typename TestType::template Matrix<3, 3>;
-		M A = {
-			3, -0.1, -0.2,
-			0.1, 7, -0.3,
-			0.3, -0.2, 10
-		};
-
-		auto [L, U] = DecomposeLU(A);
-
-		for (int i = 0; i < A.RowCount(); ++i) {
-			for (int j = 0; j < i - 1; ++j) {
-				REQUIRE(U(i, j) == Approx(0.0));
-				REQUIRE(L(j, i) == Approx(0.0));
-			}
-		}
-
-		auto Mprod = L * U;
-		REQUIRE(ApproxVec(A) == Mprod);
-	}
-}
-
-
-TEMPLATE_LIST_TEST_CASE("Matrix - LU solve", "[Matrix]", TypeListFloating) {
-	SECTION(TestType::Name()) {
-		using M = typename TestType::template Matrix<3, 3>;
-		using V = typename TestType::template Vector<3>;
-		M A = {
-			3, -0.1f, -0.2f,
-			0.1f, 7, -0.3f,
-			0.3f, -0.2f, 10
-		};
-		V b = { 7.85, -19.3, 71.4 };
-		V x;
-		V xexp = { 3, -2.5, 7 };
-
-		x = DecomposeLU(A).Solve(b);
-		REQUIRE(ApproxVec(x) == xexp);
-	}
-}
-
-
-TEMPLATE_LIST_TEST_CASE("Matrix - LUP decomposition", "[Matrix]", TypeListFloating) {
-	SECTION(TestType::Name()) {
-		using M = typename TestType::template Matrix<3, 3>;
-
-		M A = {
-			3, -0.1f, -0.2f,
-			0.3f, -0.2f, 10,
-			0.1f, 7, -0.3f
-		};
-
-		auto [L, U, P] = DecomposeLUP(A);
-
-		for (int i = 0; i < A.RowCount(); ++i) {
-			for (int j = 0; j < i - 1; ++j) {
-				REQUIRE(U(i, j) == Approx(0.0f));
-				REQUIRE(L(j, i) == Approx(0.0f));
-			}
-		}
-
-		M Pm = Zero();
-		for (int i : P) {
-			Pm(i, P(i)) = 1.0f;
-		}
-
-		auto Mprod = Transpose(Pm) * L * U;
-		REQUIRE(ApproxVec(A) == Mprod);
-	}
-}
-
-
-TEMPLATE_LIST_TEST_CASE("Matrix - LUP solve", "[Matrix]", TypeListFloating) {
-	SECTION(TestType::Name()) {
-		using M = typename TestType::template Matrix<4, 4>;
-		using V = typename TestType::template Vector<4>;
-
-		M A = {
-			1, 3, 4, 6,
-			3, 6, 2, 6,
-			9, 2, 6, 7,
-			6, 2, 7, 5
-		};
-		V b = { 3, 4, 2, 8 };
-		V x;
-		V xexp = { -94.f / 497, 895.f / 497, 1000.f / 497, -850.f / 497 };
-
-		x = DecomposeLUP(A).Solve(b);
-
-		REQUIRE(ApproxVec(x) == xexp);
-	}
-}
-
-
-TEST_CASE("Matrix - LUP decomposition singular", "[Matrix]") {
-	Matrix<float, 3, 3> A = {
-		1, 0, 0,
-		0, 0, 1,
-		0, -1, 0
-	};
-
-	auto [L, U, P] = DecomposeLUP(A);
-
-	for (int i = 0; i < A.RowCount(); ++i) {
-		for (int j = 0; j < i - 1; ++j) {
-			REQUIRE(U(i, j) == Approx(0.0f));
-			REQUIRE(L(j, i) == Approx(0.0f));
-		}
-	}
-
-	Matrix<float, 3, 3> Pm = Zero();
-	for (int i : P) {
-		Pm(i, P(i)) = 1.0f;
-	}
-
-	auto Mprod = Transpose(Pm) * L * U;
-	REQUIRE(ApproxVec(A) == Mprod);
-}
-
-
-TEMPLATE_LIST_TEST_CASE("Matrix - QR decomposition", "[Matrix]", TypeListFloating) {
-	SECTION(TestType::Name()) {
-		using M33 = typename TestType::template Matrix<3, 3>;
-		using M54 = typename TestType::template Matrix<5, 4>;
-		using M45 = typename TestType::template Matrix<4, 5>;
-
-		// example from wikipedia SVD article
-		M54 A1 = Transpose(M45{
-			1, 0, 0, 1,
-			2, 0, 0, 3,
-			0, 0, 0, 0,
-			0, 0, 0, 0,
-			2, 0, 0, 0 });
-		auto [Q1, R1] = DecomposeQR(A1);
-		M54 A1assembled = Q1 * R1;
-		REQUIRE(ApproxVec(A1assembled) == A1);
-
-
-		// the same matrix as the LU
-		M33 A2 = {
-			3, -0.1f, -0.2f,
-			0.1f, 7, -0.3f,
-			0.3f, -0.2f, 10
-		};
-
-		auto [Q2, R2] = DecomposeQR(A2);
-
-		M33 A2assembled = Q2 * R2;
-		REQUIRE(ApproxVec(A2assembled) == A2);
-	}
-}
-
-
-TEMPLATE_LIST_TEST_CASE("Matrix - SVD", "[Matrix]", TypeListFloating) {
-	SECTION(TestType::Name()) {
-		using M33 = typename TestType::template Matrix<3, 3>;
-		using M54 = typename TestType::template Matrix<5, 4>;
-		using M45 = typename TestType::template Matrix<4, 5>;
-
-		// example from wikipedia SVD article
-		M54 A1 = Transpose(M45{
-			1, 0, 0, 1, 2,
-			0, 0, 3, 0, 0,
-			0, 0, 0, 0, 0,
-			0, 2, 0, 0, 0 });
-
-		auto [U1, S1, V1] = DecomposeSVD(A1);
-		auto A1assembled = U1 * S1 * V1;
-		REQUIRE(ApproxVec(A1) == A1assembled);
-
-		auto [U1T, S1T, V1T] = DecomposeSVD(Transpose(A1));
-		auto A1Tassembled = U1T * S1T * V1T;
-		REQUIRE(ApproxVec(A1Tassembled) == Transpose(A1));
-
-		// The same matrix as the LU
-		M33 A2 = {
-			3, -0.1f, -0.2f,
-			0.1f, 7, -0.3f,
-			0.3f, -0.2f, 10
-		};
-
-		auto [U2, S2, V2] = DecomposeSVD(A2);
-		auto A2assembled = U2 * S2 * V2;
-		REQUIRE(ApproxVec(A2assembled) == A2);
-	}
-}
-
-
-TEST_CASE("Matrix - SVD Identity", "[Matrix]") {
-	Matrix<float, 2, 2> m = Identity();
-
-	auto svd = DecomposeSVD(m);
-	REQUIRE(svd.U == ApproxVec(Matrix<float, 2, 2>(Identity())));
-	REQUIRE(svd.S == ApproxVec(Matrix<float, 2, 2>(Identity())));
-	REQUIRE(svd.V == ApproxVec(Matrix<float, 2, 2>(Identity())));
-
-	Matrix<float, 4, 4> m4 = Identity();
-	auto svd4 = DecomposeSVD(m4);
-	REQUIRE(svd4.U == ApproxVec(Matrix<float, 4, 4>(Identity())));
-	REQUIRE(svd4.S == ApproxVec(Matrix<float, 4, 4>(Identity())));
-	REQUIRE(svd4.V == ApproxVec(Matrix<float, 4, 4>(Identity())));
+	REQUIRE(UTU == test_util::Approx(decltype(UTU)(Identity()), tolerance));
+	REQUIRE(VTV == test_util::Approx(decltype(VTV)(Identity()), tolerance));
+	REQUIRE(A == test_util::Approx(USV, tolerance));
 }
 
 
@@ -382,7 +187,7 @@ TEST_CASE("Matrix - RQ 2x2", "[Matrix]") {
 		};
 		const auto rq = mathter::impl::DecomposeRQ2x2(A);
 		const auto [R, Q] = ExpandRQ2x2(rq);
-		REQUIRE(Determinant(Q) == Approx(1));
+		REQUIRE(Determinant(Q) == Catch::Approx(1));
 		REQUIRE(NormPrecise(A - R * Q) < 1e-6f * NormPrecise(A));
 	}
 	SECTION("Upper single") {
@@ -392,7 +197,7 @@ TEST_CASE("Matrix - RQ 2x2", "[Matrix]") {
 		};
 		const auto rq = mathter::impl::DecomposeRQ2x2(A);
 		const auto [R, Q] = ExpandRQ2x2(rq);
-		REQUIRE(Determinant(Q) == Approx(1));
+		REQUIRE(Determinant(Q) == Catch::Approx(1));
 		REQUIRE(NormPrecise(A - R * Q) < 1e-6f * NormPrecise(A));
 	}
 	SECTION("Tiny lower singular") {
@@ -402,7 +207,7 @@ TEST_CASE("Matrix - RQ 2x2", "[Matrix]") {
 		};
 		const auto rq = mathter::impl::DecomposeRQ2x2(A);
 		const auto [R, Q] = ExpandRQ2x2(rq);
-		REQUIRE(Determinant(Q) == Approx(1));
+		REQUIRE(Determinant(Q) == Catch::Approx(1));
 		REQUIRE(NormPrecise(A - R * Q) < 1e-6f * NormPrecise(A));
 	}
 	SECTION("Tiny lower diminished") {
@@ -412,7 +217,7 @@ TEST_CASE("Matrix - RQ 2x2", "[Matrix]") {
 		};
 		const auto rq = mathter::impl::DecomposeRQ2x2(A);
 		const auto [R, Q] = ExpandRQ2x2(rq);
-		REQUIRE(Determinant(Q) == Approx(1));
+		REQUIRE(Determinant(Q) == Catch::Approx(1));
 		REQUIRE(NormPrecise(A - R * Q) < 1e-6f * NormPrecise(A));
 	}
 	SECTION("r11 cancellation") {
@@ -422,7 +227,7 @@ TEST_CASE("Matrix - RQ 2x2", "[Matrix]") {
 		};
 		const auto rq = mathter::impl::DecomposeRQ2x2(A);
 		const auto [R, Q] = ExpandRQ2x2(rq);
-		REQUIRE(Determinant(Q) == Approx(1));
+		REQUIRE(Determinant(Q) == Catch::Approx(1));
 		REQUIRE(NormPrecise(A - R * Q) < 1e-6f * NormPrecise(A));
 	}
 }
@@ -444,7 +249,7 @@ TEST_CASE("Matrix - RQ 2x2 hammer", "[Matrix]") {
 					INFO("A = " << A);
 					INFO("R = " << R);
 					INFO("Q = " << Q);
-					REQUIRE(Determinant(Q) == Approx(1));
+					REQUIRE(Determinant(Q) == Catch::Approx(1));
 					REQUIRE(NormPrecise(A - R * Q) < 1e-6f * NormPrecise(A));
 				}
 			}
@@ -453,7 +258,7 @@ TEST_CASE("Matrix - RQ 2x2 hammer", "[Matrix]") {
 }
 
 
-TEST_CASE("Matrix - SVD 2x2", "[Matrix]") {
+TEST_CASE("Matrix - SVD 2x2 (2-sided core)", "[Matrix]") {
 	using M22 = Matrix<float, 2, 2>;
 
 	SECTION("Zero") {
@@ -553,7 +358,7 @@ TEST_CASE("Matrix - SVD 2x2", "[Matrix]") {
 }
 
 
-TEST_CASE("Matrix - SVD 2x2 general hammer", "[Matrix]") {
+TEST_CASE("Matrix - SVD 2x2 general hammer (2-sided core)", "[Matrix]") {
 	using M22 = Matrix<float, 2, 2>;
 
 	for (auto a11Exp : hammerExponents) {
@@ -572,7 +377,7 @@ TEST_CASE("Matrix - SVD 2x2 general hammer", "[Matrix]") {
 }
 
 
-TEST_CASE("Matrix - SVD 2x2 edge case hammer", "[Matrix]") {
+TEST_CASE("Matrix - SVD 2x2 edge case hammer (2-sided core)", "[Matrix]") {
 	using M22 = Matrix<float, 2, 2>;
 	using M22d = Matrix<float, 2, 2>;
 
@@ -583,7 +388,7 @@ TEST_CASE("Matrix - SVD 2x2 edge case hammer", "[Matrix]") {
 				const M22d Sref = Scale(1.0f, s22);
 				const M22d Vref = Rotation(v);
 				const auto Aref = Uref * Sref * Vref;
-				const auto A = matrix_representation_cast<M22>(Aref);
+				const auto A = M22(Aref);
 
 				const auto svd = mathter::impl::DecomposeSVD2x2(A);
 				const auto [U, S, V] = ExpandSVD2x2(svd);
@@ -594,21 +399,6 @@ TEST_CASE("Matrix - SVD 2x2 edge case hammer", "[Matrix]") {
 }
 
 
-template <class T>
-auto ExpandDiagSymm2x2(std::tuple<T, T> v) {
-	using M22 = Matrix<T, 2, 2>;
-	const auto [cv, sv] = v;
-	return M22{ cv, -sv, sv, cv };
-}
-
-
-template <class T>
-auto ExpandDiagSymm2x2(T a11, T aoff, T a22) {
-	using M22 = Matrix<T, 2, 2>;
-	return M22{ a11, aoff, aoff, a22 };
-}
-
-
 TEST_CASE("Matrix - Diagonalize symmetric 2x2", "[Matrix]") {
 	SECTION("General") {
 		const auto a11 = 1.0f;
@@ -616,7 +406,7 @@ TEST_CASE("Matrix - Diagonalize symmetric 2x2", "[Matrix]") {
 		const auto a22 = 0.9f;
 
 		const auto A = ExpandDiagSymm2x2(a11, aoff, a22);
-		const auto V = ExpandDiagSymm2x2(mathter::impl::SymmetrizeGivensRotation(a11, aoff, a22));
+		const auto V = ExpandDiagSymm2x2(mathter::impl::DiagonalizeSymmetric2x2(a11, aoff, a22));
 		const auto D = Transpose(V) * A * V;
 		INFO("A = " << A);
 		INFO("V = " << V);
@@ -631,7 +421,7 @@ TEST_CASE("Matrix - Diagonalize symmetric 2x2", "[Matrix]") {
 		const auto a22 = 0.999999f;
 
 		const auto A = ExpandDiagSymm2x2(a11, aoff, a22);
-		const auto V = ExpandDiagSymm2x2(mathter::impl::SymmetrizeGivensRotation(a11, aoff, a22));
+		const auto V = ExpandDiagSymm2x2(mathter::impl::DiagonalizeSymmetric2x2(a11, aoff, a22));
 		const auto D = Transpose(V) * A * V;
 		INFO("A = " << A);
 		INFO("V = " << V);
@@ -646,7 +436,7 @@ TEST_CASE("Matrix - Diagonalize symmetric 2x2", "[Matrix]") {
 		const auto a22 = 1.0f;
 
 		const auto A = ExpandDiagSymm2x2(a11, aoff, a22);
-		const auto V = ExpandDiagSymm2x2(mathter::impl::SymmetrizeGivensRotation(a11, aoff, a22));
+		const auto V = ExpandDiagSymm2x2(mathter::impl::DiagonalizeSymmetric2x2(a11, aoff, a22));
 		const auto D = Transpose(V) * A * V;
 		INFO("A = " << A);
 		INFO("V = " << V);
@@ -661,7 +451,7 @@ TEST_CASE("Matrix - Diagonalize symmetric 2x2", "[Matrix]") {
 		const auto a22 = 1.0f;
 
 		const auto A = ExpandDiagSymm2x2(a11, aoff, a22);
-		const auto V = ExpandDiagSymm2x2(mathter::impl::SymmetrizeGivensRotation(a11, aoff, a22));
+		const auto V = ExpandDiagSymm2x2(mathter::impl::DiagonalizeSymmetric2x2(a11, aoff, a22));
 		const auto D = Transpose(V) * A * V;
 		INFO("A = " << A);
 		INFO("V = " << V);
@@ -676,7 +466,7 @@ TEST_CASE("Matrix - Diagonalize symmetric 2x2", "[Matrix]") {
 		const auto a22 = 1e-21f;
 
 		const auto A = ExpandDiagSymm2x2(a11, aoff, a22);
-		const auto V = ExpandDiagSymm2x2(mathter::impl::SymmetrizeGivensRotation(a11, aoff, a22));
+		const auto V = ExpandDiagSymm2x2(mathter::impl::DiagonalizeSymmetric2x2(a11, aoff, a22));
 		const auto D = Transpose(V) * A * V;
 		INFO("A = " << A);
 		INFO("V = " << V);
@@ -688,23 +478,24 @@ TEST_CASE("Matrix - Diagonalize symmetric 2x2", "[Matrix]") {
 }
 
 
-TEST_CASE("Matrix - SVD Jacobi 1-sided", "[Matrix]") {
-	using M22 = Matrix<float, 2, 2, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR>;
+TEST_CASE("Matrix - SVD 2x2 DEBUG (1-sided)", "[Matrix]") {
+	using M22 = Matrix<float, 2, 2, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, false>;
 
 	const M22 A = {
-		0.99995f, 0.01f, 0, 0
+		-1, -1, 0, 1e-22
 	};
 	const auto [Uref, Sref, Vref] = ExpandSVD2x2(mathter::impl::DecomposeSVD2x2(A));
 	INFO("U_ref = " << Uref);
 	INFO("S_ref = " << Sref);
 	INFO("V_ref = " << Vref);
 	const auto svd = mathter::impl::DecomposeSVDJacobiOneSided(A);
+	const auto svdRef = mathter::impl::DecomposeSVDJacobiTwoSided(A);
 	const auto [U, S, V] = ExpandSVD(svd);
 	VerifySVD(A, U, S, V, 1e-6f);
 }
 
 
-TEST_CASE("Matrix - SVD Jacobi 1-sided general hammer", "[Matrix]") {
+TEST_CASE("Matrix - SVD 2x2 general hammer (1-sided)", "[Matrix]") {
 	using M22 = Matrix<float, 2, 2, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR>;
 
 	for (auto a11Exp : hammerExponents) {
@@ -714,16 +505,15 @@ TEST_CASE("Matrix - SVD Jacobi 1-sided general hammer", "[Matrix]") {
 					GenFromExp<float>(a11Exp), GenFromExp<float>(a12Exp),
 					0.0f, GenFromExp<float>(a22Exp)
 				};
-				const auto svd = mathter::impl::DecomposeSVDJacobiOneSided(A);
-				const auto [U, S, V] = ExpandSVD(svd);
-				VerifySVD(A, U, S, V, 1e-6f);
+				const auto [U, S, V] = mathter::impl::DecomposeSVDJacobiOneSided(A);
+				VerifySVD(A, U, M22(Scale(S)), V, 1e-6f);
 			}
 		}
 	}
 }
 
 
-TEST_CASE("Matrix - SVD Jacobi 1-sided edge case hammer", "[Matrix]") {
+TEST_CASE("Matrix - SVD 2x2 case hammer (1-sided)", "[Matrix]") {
 	using M22 = Matrix<float, 2, 2, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR>;
 	using M22d = Matrix<float, 2, 2, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR>;
 
@@ -734,12 +524,34 @@ TEST_CASE("Matrix - SVD Jacobi 1-sided edge case hammer", "[Matrix]") {
 				const M22d Sref = Scale(1.0f, s22);
 				const M22d Vref = Rotation(v);
 				const auto Aref = Uref * Sref * Vref;
-				const auto A = matrix_representation_cast<M22>(Aref);
+				const auto A = M22(Aref);
 
-				const auto svd = mathter::impl::DecomposeSVDJacobiOneSided(A);
-				const auto [U, S, V] = ExpandSVD(svd);
-				VerifySVD(A, U, S, V, 1e-6f);
+				const auto [U, S, V] = mathter::impl::DecomposeSVDJacobiOneSided(A);
+				VerifySVD(A, U, M22(Scale(S)), V, 1e-6f);
 			}
 		}
+	}
+}
+
+
+TEMPLATE_LIST_TEST_CASE("Matrix - SVD square matrix", "[Matrix]",
+						decltype(MatrixCaseList<ScalarsFloating, OrdersAll, LayoutsAll, PackingsAll>{})) {
+	using Mat = Matrix<float, 4, 4>;
+
+
+	const Mat A = {
+		1, 3, 4, -1,
+		3, -1, -3, 2,
+		4, -2, -1, 0,
+		2, -4, 1, 3
+	};
+
+	SECTION("1-sided algorithm") {
+		const auto [U, S, V] = DecomposeSVD(A, SVDAlgorithmOneSided);
+		VerifySVD(A, U, Mat(Scale(S)), V, 1e-6f);
+	}
+	SECTION("2-sided algorithm") {
+		const auto [U, S, V] = DecomposeSVD(A, SVDAlgorithmTwoSided);
+		VerifySVD(A, U, Mat(Scale(S)), V, 1e-6f);
 	}
 }
