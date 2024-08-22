@@ -7,40 +7,36 @@
 
 #include "DecomposeQR.hpp"
 
-#include <Mathter/Matrix/MatrixCast.hpp>
+#include <Mathter/Matrix/Matrix.hpp>
+#include <Mathter/Transforms/IdentityBuilder.hpp>
 
 #include <algorithm>
+#include <array>
 
 
 namespace mathter {
 
 
-/// <summary> A utility class that can do common operations with the singular value decomposition,
-///		i.e. solving equation systems. </summary>
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-class DecompositionSVD {
-	template <int Rows_, int Columns_>
-	using MatrixT = Matrix<T, Rows_, Columns_, Order, Layout, Packed>;
-
-	static constexpr int Sdim = std::min(Rows, Columns);
-	static constexpr int Udim = Rows;
-	static constexpr int Vdim = Columns;
-
-public:
-	MatrixT<Udim, Sdim> U;
-	MatrixT<Sdim, Sdim> S;
-	MatrixT<Sdim, Vdim> V;
-};
-
-
-template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-struct DecompositionSVD_V2 {
+struct DecompositionSVD {
 	static constexpr int PDim = std::min(Rows, Columns);
 
 	Matrix<T, Rows, PDim, Order, Layout, Packed> U;
-	Vector<T, PDim> S;
+	Vector<T, PDim, Packed> S;
 	Matrix<T, PDim, Columns, Order, Layout, Packed> V;
 };
+
+
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed, class = std::enable_if_t<(Rows >= Columns)>>
+DecompositionSVD(const Matrix<T, Rows, Columns, Order, Layout, Packed>&,
+				 const Vector<T, Columns, Packed>&,
+				 const Matrix<T, Columns, Columns, Order, Layout, Packed>&) -> DecompositionSVD<T, Rows, Columns, Order, Layout, Packed>;
+
+
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed, class = std::enable_if_t<(Rows < Columns)>>
+DecompositionSVD(const Matrix<T, Rows, Rows, Order, Layout, Packed>&,
+				 const Vector<T, Rows, Packed>&,
+				 const Matrix<T, Rows, Columns, Order, Layout, Packed>&) -> DecompositionSVD<T, Rows, Columns, Order, Layout, Packed>;
 
 
 namespace impl {
@@ -82,6 +78,37 @@ namespace impl {
 		T cv;
 		T sv;
 	};
+
+
+	/// <summary> Find the Givens rotation with the smallest angle. </summary>
+	/// <remarks> The 2x2 SVD and the symmatric diagonalizer both have 4 solutions, offset by
+	///		90 degrees. The one of the 4 that has the smallest rotation angle (i.e. largest cosine)
+	///		may be the fastest to converge on Jacobi iterations because it applies the least modification
+	///		to the rows/columns updated by the Givens rotation while still zeroing out the
+	///		required elements. </remarks>
+	template <class T>
+	std::tuple<T, T> GetMinimalRotation(T cv, T sv) {
+		if (std::abs(cv) < std::abs(sv)) {
+			std::tie(cv, sv) = std::tuple(-sv, cv); // Rotate by 90 degrees to make cv bigger in absolute value.
+		}
+		if (cv < static_cast<T>(0)) {
+			std::tie(cv, sv) = std::tuple(-cv, -sv); // Rotate by 180 degrees to make cv positive.
+		}
+		return { cv, sv };
+	}
+
+
+	/// <summary> Recompute the sine so that cv^2 + sv^2 = 1 holds precisely. </summary>
+	template <class T>
+	std::tuple<T, T> NormalizeRotation(T cv, T sv) {
+		// Assuming that cv^2 + sv^2 = 1 - epsilon, where epsilon << 1.
+		// Instead of doing the full 1 / sqrt(cv^2 + sv^2), uses a second-order
+		// series expansion of 1 / sqrt(1 - epsilon), since epsilon should be super small.
+		const auto epsilon = T(1) - cv * cv - sv * sv;
+		const auto invNorm = T(0.375) * epsilon * epsilon + T(0.5) * epsilon + T(1); // Accumulate smallest first!
+		return { cv * invNorm, sv * invNorm };
+	}
+
 
 	template <class T, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 	DecompositionRQ2x2<T> DecomposeRQ2x2(const Matrix<T, 2, 2, Order, Layout, Packed>& A) {
@@ -149,8 +176,10 @@ namespace impl {
 		const auto p1 = std::hypot(zabs, T(2) * g);
 		const auto pab = std::sqrt((zabs + p1) / p1);
 
-		const auto cv = p1 != 0 ? std::clamp(-pab * rsqrt2, -T(1), T(1)) : T(1);
-		const auto sv = p1 != 0 ? std::clamp(zsign * sqrt2 * g / (p1 * pab), -T(1), T(1)) : T(0);
+		auto cv = p1 != 0 ? std::clamp(-pab * rsqrt2, -T(1), T(1)) : T(1);
+		auto sv = p1 != 0 ? std::clamp(zsign * sqrt2 * g / (p1 * pab), -T(1), T(1)) : T(0);
+		std::tie(cv, sv) = GetMinimalRotation(cv, sv);
+		std::tie(cv, sv) = NormalizeRotation(cv, sv);
 
 		// Compute US = RV^T using the computed cv and sv.
 		const auto us11 = cv * a11 - sv * a12;
@@ -175,6 +204,66 @@ namespace impl {
 	}
 
 
+	template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+	void GivensRotateRight(Matrix<T, Rows, Columns, Order, Layout, Packed>& m, int p, int q, T cv, T sv) {
+		const auto colP = m.Column(p) * cv + m.Column(q) * sv;
+		const auto colQ = m.Column(q) * cv - m.Column(p) * sv;
+		m.Column(p, colP);
+		m.Column(q, colQ);
+	}
+
+
+	template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+	void GivensRotateLeft(Matrix<T, Rows, Columns, Order, Layout, Packed>& m, int p, int q, T cv, T sv) {
+		const auto rowP = m.Row(p) * cv - m.Row(q) * sv;
+		const auto rowQ = m.Row(q) * cv + m.Row(p) * sv;
+		m.Row(p, rowP);
+		m.Row(q, rowQ);
+	}
+
+
+	template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+	auto DecomposeSVDJacobiTwoSided(const Matrix<T, Rows, Columns, Order, Layout, Packed>& A) {
+		using MatSquare = Matrix<T, Rows, Columns, Order, Layout, Packed>;
+		using MatTall = Matrix<T, Rows, Rows, Order, Layout, Packed>;
+		constexpr auto tolerance = T(1) * std::numeric_limits<T>::epsilon();
+
+		const auto scaler = ScaleElements(A);
+		MatTall U = Identity();
+		MatSquare X = A / scaler;
+		MatSquare V = Identity();
+
+		T maxErrorPrev = std::numeric_limits<T>::max();
+		T maxError = std::nextafter(maxErrorPrev, T(0));
+		while (maxError < maxErrorPrev) {
+			maxErrorPrev = maxError;
+			maxError = T(0);
+			for (int p = 0; p < Columns; ++p) {
+				for (int q = p + 1; q < Columns; ++q) {
+					const auto [xpp, xpq, xqp, xqq] = std::tie(X(p, p), X(p, q), X(q, p), X(q, q));
+					const auto error = std::max(std::abs(xpq), std::abs(xqp));
+					if (error > tolerance) {
+						maxError = std::max(maxError, error);
+						const auto svd2x2 = DecomposeSVD2x2(Matrix<T, 2, 2>{ xpp, xpq, xqp, xqq });
+
+						GivensRotateRight(U, p, q, svd2x2.cu, svd2x2.su);
+						GivensRotateLeft(X, p, q, svd2x2.cu, -svd2x2.su);
+						GivensRotateRight(X, p, q, svd2x2.cv, -svd2x2.sv);
+						GivensRotateLeft(V, p, q, svd2x2.cv, svd2x2.sv);
+					}
+				}
+			}
+		}
+
+		Vector<T, Columns, Packed> S;
+		for (size_t i = 0; i < Columns; ++i) {
+			S(i) = X(i, i);
+		}
+
+		return DecompositionSVD{ U, S * scaler, V };
+	}
+
+
 	template <class T>
 	std::tuple<T, T> DiagonalizeSymmetric2x2(const T& a11, const T& aoff, const T& a22) {
 		constexpr auto sqrt2 = T(1.4142135623730950488016887242096980785696718753769480731766797379);
@@ -186,34 +275,25 @@ namespace impl {
 		auto cv = p1 != T(0) ? -pab * rsqrt2 : T(1);
 		auto sv = p1 != T(0) ? -std::copysign(sqrt2, z) * aoff / (p1 * pab) : T(0);
 
-		// Pick the solution with the smallest rotation angle.
-		// I'm not sure if this works.
-		// if (sv < T(0)) {
-		//	 std::swap(cv, sv);
-		// }
-		// if (cv > sv) {
-		// 	 std::swap(cv, sv);
-		//   cv = -cv;
-		// }
+		std::tie(cv, sv) = GetMinimalRotation(cv, sv);
+		std::tie(cv, sv) = NormalizeRotation(cv, sv);
+
+
+		const Matrix<T, 2, 2> AtA = { a11, aoff, aoff, a22 };
+		const Matrix<T, 2, 2> G = { cv, -sv, sv, cv };
+		const auto check = ConjTranspose(G) * AtA * (G);
+
 
 		return { cv, sv };
 	}
 
 
-	template <class T, int Rows, int Columns, eMatrixOrder Order, bool Packed>
-	std::tuple<T, T, T> TransposeMultiplyPartial(const Matrix<T, Rows, Columns, Order, eMatrixLayout::COLUMN_MAJOR, Packed>& m, int p, int q) {
-		const auto ata11 = Dot(m.stripes[p], m.stripes[p]);
-		const auto ataoff = Dot(m.stripes[p], m.stripes[q]);
-		const auto ata22 = Dot(m.stripes[q], m.stripes[q]);
+	template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+	std::tuple<T, T, T> TransposeMultiplyPartial(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m, int p, int q) {
+		const auto ata11 = Dot(m.Column(p), m.Column(p));
+		const auto ataoff = Dot(m.Column(p), m.Column(q));
+		const auto ata22 = Dot(m.Column(q), m.Column(q));
 		return { ata11, ataoff, ata22 };
-	}
-
-
-	template <class T, int Rows, int Columns, eMatrixOrder Order, bool Packed>
-	void GivensRotate(Matrix<T, Rows, Columns, Order, eMatrixLayout::COLUMN_MAJOR, Packed>& m, int p, int q, T cv, T sv) {
-		auto stripeP = m.stripes[p] * cv + m.stripes[q] * sv;
-		auto stripeQ = m.stripes[q] * cv - m.stripes[p] * sv;
-		std::tie(m.stripes[p], m.stripes[q]) = std::tuple(std::move(stripeP), std::move(stripeQ));
 	}
 
 
@@ -221,183 +301,97 @@ namespace impl {
 	// This means division by zero when calculating U's rows, plus U's rows may not be properly orthogonal
 	// due to poor precision when a singular value is really small.
 	// Until this is fixed, there is the two-sided variant.
-	template <class T, int Dim, eMatrixOrder Order, bool Packed>
-	auto DecomposeSVDJacobiOneSided(const Matrix<T, Dim, Dim, Order, eMatrixLayout::COLUMN_MAJOR, Packed>& A) {
-		using MyDecomposition = DecompositionSVD_V2<T, Dim, Dim, Order, eMatrixLayout::COLUMN_MAJOR, Packed>;
+	template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+	auto DecomposeSVDJacobiOneSided(const Matrix<T, Rows, Columns, Order, Layout, Packed>& A) {
+		using MatSquare = Matrix<T, Rows, Columns, Order, Layout, Packed>;
+		using MatTall = Matrix<T, Rows, Rows, Order, Layout, Packed>;
 		constexpr auto tolerance = T(4) * std::numeric_limits<T>::epsilon();
 
-		const auto scale = Max(Abs(A));
-		auto X = A / scale;
-		std::decay_t<decltype(A)> V = Identity();
+		const auto scaler = ScaleElements(A);
+		MatTall X = A / scaler;
+		MatSquare V = Identity();
 
 		T maxErrorPrev = std::numeric_limits<T>::max();
 		T maxError = std::nextafter(maxErrorPrev, T(0));
 		while (maxError < maxErrorPrev) {
 			maxErrorPrev = maxError;
 			maxError = T(0);
-			for (int p = 0; p < Dim; ++p) {
-				for (int q = p + 1; q < Dim; ++q) {
+			for (int p = 0; p < Columns; ++p) {
+				for (int q = p + 1; q < Columns; ++q) {
 					const auto [ata11, ataoff, ata22] = TransposeMultiplyPartial(X, p, q);
-					const auto pqError = std::abs(ataoff);
-					if (pqError > tolerance) {
-						maxError = std::max(maxError, pqError);
-						const auto [cv, sv] = DiagonalizeSymmetric2x2(ata11, ataoff, ata22);
-						GivensRotate(X, p, q, cv, sv);
-						GivensRotate(V, p, q, cv, -sv);
-					}
-				}
-			}
-		}
-
-		auto XT = Transpose(X);
-		Vector<T, Dim, Packed> S;
-		for (int i = 0; i < Dim; ++i) {
-			auto& row = XT.stripes[i];
-			const auto s = Length(row);
-			S(i) = s;
-			if (s != T(0)) {
-				row /= s;
-			}
-		}
-		for (int i = 0; i < Dim; ++i) {
-			if (S(i) == T(0)) {
-				const auto& row = XT.stripes[i];
-				const auto diagonal = std::sqrt(T(1) - LengthSquared(row));
-				XT(i, i) = diagonal;
-			}
-		}
-		const auto U = Transpose(XT);
-
-		return MyDecomposition{ U, S * scale, V };
-	}
-
-
-
-	template <class T, int Dim, eMatrixOrder Order, bool Packed>
-	auto DecomposeSVDJacobiTwoSided(const Matrix<T, Dim, Dim, Order, eMatrixLayout::COLUMN_MAJOR, Packed>& A) {
-		using MyDecomposition = DecompositionSVD_V2<T, Dim, Dim, Order, eMatrixLayout::COLUMN_MAJOR, Packed>;
-		using Mat = std::decay_t<decltype(A)>;
-		constexpr auto tolerance = T(4) * std::numeric_limits<T>::epsilon();
-
-		const auto scale = Max(Abs(A));
-		Mat U;
-		Mat X = A / scale;
-		Mat V;
-
-		T maxErrorPrev = std::numeric_limits<T>::max();
-		T maxError = std::nextafter(maxErrorPrev, T(0));
-		while (maxError < maxErrorPrev) {
-			maxErrorPrev = maxError;
-			maxError = T(0);
-			for (int p = 0; p < Dim; ++p) {
-				for (int q = p + 1; q < Dim; ++q) {
-					const auto [xpp, xpq, xqp, xqq] = std::tie(X(p, p), X(p, q), x(q, p), x(q, q));
-					const auto error = std::max(std::abs(xpq), std::abs(xqp));
-					if (error > tolerance) {
+					const auto error = std::abs(ataoff);
+					if (error != T(0)) {
 						maxError = std::max(maxError, error);
-						const auto svd2x2 = DecomposeSVD2x2({xpp, xpq, xqp, xqq});
-						GivensRotate(X, p, q, cv, sv);
-						GivensRotate(V, p, q, cv, -sv);
+						const auto [cv, sv] = DiagonalizeSymmetric2x2(ata11, ataoff, ata22); // There is some bug in this.
+
+						GivensRotateRight(X, p, q, cv, sv);
+
+						const auto [_ignore1, postError, _ignore2] = TransposeMultiplyPartial(X, p, q);
+
+						GivensRotateLeft(V, p, q, cv, -sv);
 					}
 				}
 			}
 		}
-	}
 
-
-	template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-	auto DecomposeSVD(Matrix<T, Rows, Columns, Order, Layout, Packed> m, std::true_type) {
-		using Mat22 = Matrix<T, 2, 2>;
-		using Vec4 = Vector<T, 4>;
-
-		Matrix<T, Rows, Columns, Order, eMatrixLayout::COLUMN_MAJOR, false> B;
-		Matrix<T, Rows, Columns, Order, eMatrixLayout::COLUMN_MAJOR, false> U;
-		Matrix<T, Columns, Columns, Order, eMatrixLayout::COLUMN_MAJOR, false> V;
-
-		// Precondition with QR if needed
-		if (Rows > Columns) {
-			auto [Q, R] = DecomposeQR(m);
-			B = R;
-			U = Q.template Submatrix<Rows, Columns>(0, 0);
-			V = Identity();
+		std::array<std::pair<T, size_t>, Columns> sortedS;
+		for (size_t i = 0; i < Columns; ++i) {
+			sortedS[i] = { Length(X.Column(i)), i };
 		}
-		else {
-			B = m;
-			U = Identity();
-			V = Identity();
+		std::sort(sortedS.begin(), sortedS.end(), [](const auto& lhs, const auto& rhs) { return lhs.first > rhs.first; });
+
+		MatTall sortedX;
+		MatSquare sortedV;
+
+		for (size_t i = 0; i < Columns; ++i) {
+			const auto from = sortedS[i].second;
+			sortedX.Column(i, X.Column(from));
+			sortedV.Row(i, V.Row(from));
 		}
 
-		T tolerance = T(1e-6);
+		const auto [Q, R] = DecomposeQR(sortedX);
+		const auto chk = Q * R;
+		const auto diff = Q * R - X;
 
-		T N = NormSquared(B);
-		T s;
-
-		do {
-			s = 0;
-
-			for (int i = 0; i < m.ColumnCount(); ++i) {
-				for (int j = i + 1; j < m.ColumnCount(); ++j) {
-					s += B(i, j) * B(i, j) + B(j, i) * B(j, i);
-
-					const Mat22 Bsub = {
-						B(i, i), B(i, j),
-						B(j, i), B(j, j)
-					};
-					const auto svd2x2 = DecomposeSVD2x2(Bsub);
-
-					// Apply givens rotations given by 2x2 SVD to working matrices
-					// B = R(c1,s1)*B*R(c2,-s2)
-					const Vec4 givensCoeffs = { svd2x2.cu, -svd2x2.su, svd2x2.su, svd2x2.cu };
-					for (int col = 0; col < B.ColumnCount(); ++col) {
-						const Vec4 bElems = { B(i, col), B(j, col), B(i, col), B(j, col) };
-						const auto product = bElems * givensCoeffs;
-						B(i, col) = product(0) + product(1);
-						B(j, col) = product(2) + product(3);
-					}
-					auto coli = B.stripes[i];
-					B.stripes[i] = svd2x2.cv * coli + svd2x2.sv * B.stripes[j];
-					B.stripes[j] = -svd2x2.sv * coli + svd2x2.cv * B.stripes[j];
-
-					// U = U*R(c1,s1);
-					coli = U.stripes[i];
-					U.stripes[i] = svd2x2.cu * coli + -svd2x2.su * U.stripes[j];
-					U.stripes[j] = svd2x2.su * coli + svd2x2.cu * U.stripes[j];
-
-					// V = V*R(c2,s2);
-					auto coliv = V.stripes[i];
-					V.stripes[i] = svd2x2.cv * coliv + svd2x2.sv * V.stripes[j];
-					V.stripes[j] = -svd2x2.sv * coliv + svd2x2.cv * V.stripes[j];
-				}
-			}
-		} while (s > tolerance * N);
-
-		Matrix<T, Columns, Columns, Order, Layout, Packed> Sout;
-		Sout = Zero();
-		for (int i = 0; i < B.ColumnCount(); ++i) {
-			Sout(i, i) = B(i, i);
+		Vector<T, Columns, Packed> S;
+		for (size_t i = 0; i < Columns; ++i) {
+			S(i) = R(i, i);
 		}
 
-		return DecompositionSVD<T, Rows, Columns, Order, Layout, Packed>{ U, Sout, Transpose(V) };
+		return DecompositionSVD{ Q, S * scaler, sortedV };
 	}
-
-	template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-	auto DecomposeSVD(Matrix<T, Rows, Columns, Order, Layout, Packed> m, std::false_type) {
-		auto [U, S, V] = DecomposeSVD(Transpose(m), std::true_type{});
-		return DecompositionSVD<T, Rows, Columns, Order, Layout, Packed>{ Transpose(V), S, Transpose(U) };
-	}
-
 
 } // namespace impl
+
+
+enum class eSVDAlgorithm {
+	JACOBI_ONE_SIDED,
+	JACOBI_TWO_SIDED,
+};
+
+
+inline constexpr auto SVDAlgorithmOneSided = std::integral_constant<eSVDAlgorithm, eSVDAlgorithm::JACOBI_ONE_SIDED>{};
+inline constexpr auto SVDAlgorithmTwoSided = std::integral_constant<eSVDAlgorithm, eSVDAlgorithm::JACOBI_TWO_SIDED>{};
 
 
 /// <summary> Calculates the thin SVD of the matrix. </summary>
 /// <remarks> For wide matrices, V is wide while U and S square.
 ///		For tall matrices, U is tall while S and V square. </remarks>
-template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-auto DecomposeSVD(Matrix<T, Rows, Columns, Order, Layout, Packed> m) {
-	return impl::DecomposeSVD(m, std::integral_constant<bool, (Rows >= Columns)>());
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed, eSVDAlgorithm Algorithm = eSVDAlgorithm::JACOBI_TWO_SIDED>
+auto DecomposeSVD(Matrix<T, Rows, Columns, Order, Layout, Packed> m,
+				  std::integral_constant<eSVDAlgorithm, Algorithm> algorithm = {}) {
+	if constexpr (Rows >= Columns) {
+		if constexpr (Algorithm == eSVDAlgorithm::JACOBI_ONE_SIDED) {
+			return impl::DecomposeSVDJacobiOneSided(m);
+		}
+		else {
+			return impl::DecomposeSVDJacobiTwoSided(m);
+		}
+	}
+	else {
+		const auto [VT, S, UT] = DecomposeSVD(FlipLayoutAndOrder(m), algorithm);
+		return DecompositionSVD{ FlipLayoutAndOrder(UT), S, FlipLayoutAndOrder(VT) };
+	}
 }
-
-
 
 } // namespace mathter

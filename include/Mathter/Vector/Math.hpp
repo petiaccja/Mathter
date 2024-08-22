@@ -127,7 +127,7 @@ std::tuple<T, T> SumCompensated(const Vector<T, Dim, Packed>& v) {
 		}
 		sum = t;
 	}
-	std::tie(sum, compensation) = impl::Fast2Sum(sum, compensation);
+	std::tie(sum, compensation) = Fast2Sum(sum, compensation);
 	return { sum, compensation };
 }
 
