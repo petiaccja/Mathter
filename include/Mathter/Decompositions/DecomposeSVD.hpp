@@ -19,33 +19,34 @@ namespace mathter {
 
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 struct DecompositionSVD {
+	using Real = remove_complex_t<T>;
 	static constexpr int PDim = std::min(Rows, Columns);
 
 	Matrix<T, Rows, PDim, Order, Layout, Packed> U;
-	Vector<T, PDim, Packed> S;
+	Vector<Real, PDim, Packed> S;
 	Matrix<T, PDim, Columns, Order, Layout, Packed> V;
 };
 
 
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed, class = std::enable_if_t<(Rows >= Columns)>>
 DecompositionSVD(const Matrix<T, Rows, Columns, Order, Layout, Packed>&,
-				 const Vector<T, Columns, Packed>&,
+				 const Vector<remove_complex_t<T>, Columns, Packed>&,
 				 const Matrix<T, Columns, Columns, Order, Layout, Packed>&) -> DecompositionSVD<T, Rows, Columns, Order, Layout, Packed>;
 
 
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed, class = std::enable_if_t<(Rows < Columns)>>
 DecompositionSVD(const Matrix<T, Rows, Rows, Order, Layout, Packed>&,
-				 const Vector<T, Rows, Packed>&,
+				 const Vector<remove_complex_t<T>, Rows, Packed>&,
 				 const Matrix<T, Rows, Columns, Order, Layout, Packed>&) -> DecompositionSVD<T, Rows, Columns, Order, Layout, Packed>;
 
 
 namespace impl {
 
 	template <class T, class... Rest>
-	T MaximumAbsolute(T first, T second, Rest... rest) {
+	auto ScaleElements(T first, T second, Rest... rest) -> remove_complex_t<T> {
 		const auto partial = std::max(std::abs(first), std::abs(second));
 		if constexpr (sizeof...(Rest) != 0) {
-			return MaximumAbsolute(partial, rest...);
+			return ScaleElements(partial, rest...);
 		}
 		return partial;
 	}
@@ -88,10 +89,11 @@ namespace impl {
 	///		required elements. </remarks>
 	template <class T>
 	std::tuple<T, T> GetMinimalRotation(T cv, T sv) {
+		using Real = remove_complex_t<T>;
 		if (std::abs(cv) < std::abs(sv)) {
-			std::tie(cv, sv) = std::tuple(-sv, cv); // Rotate by 90 degrees to make cv bigger in absolute value.
+			std::tie(cv, sv) = std::tuple(-conj{}(sv), conj{}(cv)); // Rotate by 90 degrees to make cv bigger in absolute value.
 		}
-		if (cv < static_cast<T>(0)) {
+		if (std::real(cv) < static_cast<Real>(0)) {
 			std::tie(cv, sv) = std::tuple(-cv, -sv); // Rotate by 180 degrees to make cv positive.
 		}
 		return { cv, sv };
@@ -101,17 +103,22 @@ namespace impl {
 	/// <summary> Recompute the sine so that cv^2 + sv^2 = 1 holds precisely. </summary>
 	template <class T>
 	std::tuple<T, T> NormalizeRotation(T cv, T sv) {
+		using Real = remove_complex_t<T>;
 		// Assuming that cv^2 + sv^2 = 1 - epsilon, where epsilon << 1.
 		// Instead of doing the full 1 / sqrt(cv^2 + sv^2), uses a second-order
 		// series expansion of 1 / sqrt(1 - epsilon), since epsilon should be super small.
-		const auto epsilon = T(1) - cv * cv - sv * sv;
-		const auto invNorm = T(0.375) * epsilon * epsilon + T(0.5) * epsilon + T(1); // Accumulate smallest first!
+		const auto cvMag = std::abs(cv);
+		const auto svMag = std::abs(sv);
+		const auto epsilon = std::fma(-cvMag, cvMag, Real(1)) - svMag * svMag;
+		const auto invNorm = Real(0.375) * epsilon * epsilon + Real(0.5) * epsilon + T(1); // Accumulate smallest first!
 		return { cv * invNorm, sv * invNorm };
 	}
 
 
 	template <class T, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 	DecompositionRQ2x2<T> DecomposeRQ2x2(const Matrix<T, 2, 2, Order, Layout, Packed>& A) {
+		using Real = remove_complex_t<T>;
+
 		const auto a11 = A(0, 0);
 		const auto a12 = A(0, 1);
 		const auto a21 = A(1, 0);
@@ -123,8 +130,8 @@ namespace impl {
 		}
 
 		// Rescale matrix elements to avoid underflow and overflow.
-		const auto scaleNum = MaximumAbsolute(a11, a12, std::numeric_limits<T>::min()); // Avoid NaN.
-		const auto scaleDiv = MaximumAbsolute(a21, a22); // a21 is never zero. See if statement above.
+		const auto scaleNum = ScaleElements(a11, a12, T(std::numeric_limits<Real>::min())); // Avoid NaN.
+		const auto scaleDiv = ScaleElements(a21, a22); // a21 is never zero. See if statement above.
 		const auto a11s = a11 / scaleNum;
 		const auto a12s = a12 / scaleNum;
 		const auto a21s = a21 / scaleDiv;
@@ -160,7 +167,7 @@ namespace impl {
 		const auto a22 = rq.r22;
 
 		// Rescale matrix elements to avoid underflow and overflow.
-		const auto scaler = MaximumAbsolute(a11, a12, a22);
+		const auto scaler = ScaleElements(a11, a12, a22);
 		if (scaler == T(0)) {
 			return { T(1), T(0), T(0), T(0), T(1), T(0) };
 		}
@@ -207,7 +214,7 @@ namespace impl {
 	template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 	void GivensRotateRight(Matrix<T, Rows, Columns, Order, Layout, Packed>& m, int p, int q, T cv, T sv) {
 		const auto colP = m.Column(p) * cv + m.Column(q) * sv;
-		const auto colQ = m.Column(q) * cv - m.Column(p) * sv;
+		const auto colQ = m.Column(q) * conj{}(cv)-m.Column(p) * conj{}(sv);
 		m.Column(p, colP);
 		m.Column(q, colQ);
 	}
@@ -215,8 +222,8 @@ namespace impl {
 
 	template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 	void GivensRotateLeft(Matrix<T, Rows, Columns, Order, Layout, Packed>& m, int p, int q, T cv, T sv) {
-		const auto rowP = m.Row(p) * cv - m.Row(q) * sv;
-		const auto rowQ = m.Row(q) * cv + m.Row(p) * sv;
+		const auto rowP = m.Row(p) * cv - m.Row(q) * conj{}(sv);
+		const auto rowQ = m.Row(q) * conj{}(cv) + m.Row(p) * sv;
 		m.Row(p, rowP);
 		m.Row(q, rowQ);
 	}
@@ -224,20 +231,21 @@ namespace impl {
 
 	template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 	auto DecomposeSVDJacobiTwoSided(const Matrix<T, Rows, Columns, Order, Layout, Packed>& A) {
+		using Real = remove_complex_t<T>;
 		using MatSquare = Matrix<T, Rows, Columns, Order, Layout, Packed>;
 		using MatTall = Matrix<T, Rows, Rows, Order, Layout, Packed>;
-		constexpr auto tolerance = T(1) * std::numeric_limits<T>::epsilon();
+		constexpr auto tolerance = Real(1) * std::numeric_limits<Real>::epsilon();
 
 		const auto scaler = ScaleElements(A);
 		MatTall U = Identity();
 		MatSquare X = A / scaler;
 		MatSquare V = Identity();
 
-		T maxErrorPrev = std::numeric_limits<T>::max();
-		T maxError = std::nextafter(maxErrorPrev, T(0));
+		auto maxErrorPrev = std::numeric_limits<Real>::max();
+		auto maxError = std::nextafter(maxErrorPrev, Real(0));
 		while (maxError < maxErrorPrev) {
 			maxErrorPrev = maxError;
-			maxError = T(0);
+			maxError = Real(0);
 			for (int p = 0; p < Columns; ++p) {
 				for (int q = p + 1; q < Columns; ++q) {
 					const auto [xpp, xpq, xqp, xqq] = std::tie(X(p, p), X(p, q), X(q, p), X(q, q));
@@ -255,9 +263,9 @@ namespace impl {
 			}
 		}
 
-		Vector<T, Columns, Packed> S;
+		Vector<Real, Columns, Packed> S;
 		for (size_t i = 0; i < Columns; ++i) {
-			S(i) = X(i, i);
+			S(i) = std::real(X(i, i));
 		}
 
 		return DecompositionSVD{ U, S * scaler, V };
@@ -265,64 +273,93 @@ namespace impl {
 
 
 	template <class T>
-	std::tuple<T, T> DiagonalizeSymmetric2x2(const T& a11, const T& aoff, const T& a22) {
-		constexpr auto sqrt2 = T(1.4142135623730950488016887242096980785696718753769480731766797379);
-		constexpr auto rsqrt2 = T(0.7071067811865475244008443621048490392848359376884740365883398689);
+	std::tuple<T, T> DiagonalizeSymmetric2x2(const remove_complex_t<T>& a11, const T& aoff, const remove_complex_t<T>& a22) {
+		using Real = remove_complex_t<T>;
 
-		const auto z = a11 - a22;
-		const auto p1 = std::hypot(z, T(2) * aoff);
-		const auto pab = std::sqrt((std::abs(z) + p1) / p1);
-		auto cv = p1 != T(0) ? -pab * rsqrt2 : T(1);
-		auto sv = p1 != T(0) ? -std::copysign(sqrt2, z) * aoff / (p1 * pab) : T(0);
+		auto [cv, sv] = std::tuple{ T(1), T(0) };
+		if (aoff == T(0)) {
+			return { cv, sv };
+		}
 
+		const auto z = a22 - a11;
+		const auto d = std::hypot(z, Real(2) * std::real(aoff), Real(2) * std::imag(aoff));
+		const auto Lma11 = Real(0.5) * (z + std::copysign(d, z));
+
+		const auto aoffMagApprox = std::max(std::abs(std::real(aoff)), std::abs(std::imag(aoff)));
+		const auto Lma11Mag = std::abs(Lma11);
+
+		if (aoffMagApprox > Lma11Mag) {
+			std::tie(cv, sv) = std::tuple{ T(1), Lma11 / aoff };
+		}
+		else {
+			std::tie(cv, sv) = std::tuple{ aoff / Lma11, T(1) };
+		}
+
+		const auto scale = std::sqrt((std::real(cv) * std::real(cv)
+									  + std::imag(cv) * std::imag(cv))
+									 + (std::real(sv) * std::real(sv)
+										+ std::imag(sv) * std::imag(sv)));
+
+		std::tie(cv, sv) = std::tuple(cv / scale, sv / scale);
 		std::tie(cv, sv) = GetMinimalRotation(cv, sv);
-		std::tie(cv, sv) = NormalizeRotation(cv, sv);
 
+		// const auto L = (a11 + a22 - std::sqrt((a11 - a22) * (a11 - a22) + Real(4) * aoff * conj{}(aoff))) / Real(2);
 
-		const Matrix<T, 2, 2> AtA = { a11, aoff, aoff, a22 };
-		const Matrix<T, 2, 2> G = { cv, -sv, sv, cv };
-		const auto check = ConjTranspose(G) * AtA * (G);
+		// cv = T(1);
+		// sv = cv * (L - a11) / aoff;
 
+		// const auto scale = std::hypot(std::abs(cv), std::abs(sv));
+
+		// cv /= scale;
+		// sv /= scale;
+
+		// const auto z = a11 - a22;
+		// const auto d = hypot_complex(z, T(2) * aoff);
+		// const auto Lma11 = T(0.5) * (-z + copysign_complex(d, -z));
+		// const auto q = hypot_complex(aoff, Lma11);
+		// auto cv = q != T(0) ? aoff / q : T(1);
+		// auto sv = q != T(0) ? (Lma11) / q : T(0);
+
+		// std::tie(cv, sv) = GetMinimalRotation(cv, sv);
+		// std::tie(cv, sv) = NormalizeRotation(cv, sv);
 
 		return { cv, sv };
 	}
 
 
 	template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-	std::tuple<T, T, T> TransposeMultiplyPartial(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m, int p, int q) {
-		const auto ata11 = Dot(m.Column(p), m.Column(p));
-		const auto ataoff = Dot(m.Column(p), m.Column(q));
-		const auto ata22 = Dot(m.Column(q), m.Column(q));
-		return { ata11, ataoff, ata22 };
+	std::tuple<remove_complex_t<T>, T, remove_complex_t<T>> TransposeMultiplyPartial(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m, int p, int q) {
+		const auto ata11 = Sum(Conj(m.Column(p)) * m.Column(p));
+		const auto ataoff = Sum(Conj(m.Column(p)) * m.Column(q));
+		const auto ata22 = Sum(Conj(m.Column(q)) * m.Column(q));
+		return { std::real(ata11), ataoff, std::real(ata22) };
 	}
 
 
-	// I'm not sure how to solve the separation of U and S from X_{inf} when there are zero singular values in S.
-	// This means division by zero when calculating U's rows, plus U's rows may not be properly orthogonal
-	// due to poor precision when a singular value is really small.
-	// Until this is fixed, there is the two-sided variant.
 	template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 	auto DecomposeSVDJacobiOneSided(const Matrix<T, Rows, Columns, Order, Layout, Packed>& A) {
+		using Real = remove_complex_t<T>;
+
 		using MatSquare = Matrix<T, Rows, Columns, Order, Layout, Packed>;
 		using MatTall = Matrix<T, Rows, Rows, Order, Layout, Packed>;
-		constexpr auto tolerance = T(4) * std::numeric_limits<T>::epsilon();
 
 		const auto scaler = ScaleElements(A);
 		MatTall X = A / scaler;
 		MatSquare V = Identity();
 
-		T maxErrorPrev = std::numeric_limits<T>::max();
-		T maxError = std::nextafter(maxErrorPrev, T(0));
+		auto maxErrorPrev = std::numeric_limits<Real>::max();
+		auto maxError = std::nextafter(maxErrorPrev, Real(0));
 		while (maxError < maxErrorPrev) {
 			maxErrorPrev = maxError;
-			maxError = T(0);
+			maxError = Real(0);
 			for (int p = 0; p < Columns; ++p) {
 				for (int q = p + 1; q < Columns; ++q) {
 					const auto [ata11, ataoff, ata22] = TransposeMultiplyPartial(X, p, q);
+					const auto chk = ConjTranspose(X) * X;
 					const auto error = std::abs(ataoff);
 					if (error != T(0)) {
 						maxError = std::max(maxError, error);
-						const auto [cv, sv] = DiagonalizeSymmetric2x2(ata11, ataoff, ata22); // There is some bug in this.
+						const auto [cv, sv] = DiagonalizeSymmetric2x2(ata11, ataoff, ata22);
 
 						GivensRotateRight(X, p, q, cv, sv);
 
@@ -334,31 +371,54 @@ namespace impl {
 			}
 		}
 
-		std::array<std::pair<T, size_t>, Columns> sortedS;
+		// Sort the singular values in decreasing order.
+		std::array<std::pair<Real, size_t>, Columns> sortedS;
 		for (size_t i = 0; i < Columns; ++i) {
 			sortedS[i] = { Length(X.Column(i)), i };
 		}
 		std::sort(sortedS.begin(), sortedS.end(), [](const auto& lhs, const auto& rhs) { return lhs.first > rhs.first; });
 
+		Vector<Real, Columns, Packed> S;
+		for (size_t i = 0; i < Columns; ++i) {
+			S(i) = sortedS[i].first;
+		}
+
+
+		/// Sort the rows/columns of X and V to match that of the sorted singular values.
 		MatTall sortedX;
 		MatSquare sortedV;
-
 		for (size_t i = 0; i < Columns; ++i) {
 			const auto from = sortedS[i].second;
 			sortedX.Column(i, X.Column(from));
 			sortedV.Row(i, V.Row(from));
 		}
+		X = sortedX;
+		V = sortedV;
 
-		const auto [Q, R] = DecomposeQR(sortedX);
-		const auto chk = Q * R;
-		const auto diff = Q * R - sortedX;
-
-		Vector<T, Columns, Packed> S;
+		// Normalize the columns of X using the singular values.
+		const auto normalizationThreshold = S(0) * std::sqrt(std::numeric_limits<Real>::epsilon());
+		size_t numOverThreshold = 0;
 		for (size_t i = 0; i < Columns; ++i) {
-			S(i) = R(i, i);
+			const auto scale = S(i);
+			if (scale != Real(0)) {
+				X.Column(i, X.Column(i) / scale);
+			}
+			numOverThreshold += static_cast<size_t>(scale >= normalizationThreshold);
 		}
 
-		return DecompositionSVD{ Q, S * scaler, sortedV };
+		// Do a QR decomposition if the singular values have a wide range, as the
+		// columns associated with the smallest (or zero) singular values may not be orthogonal
+		// to the rest due to numerical errors. The QR decomposition will orthogonalize them.
+		if (numOverThreshold != Columns) {
+			const auto [Q, R] = DecomposeQR(X);
+			for (size_t i = 0; i < Columns; ++i) {
+				S(i) = std::copysign(S(i), std::real(R(i, i)));
+			}
+			return DecompositionSVD{ Q, S * scaler, V };
+		}
+		else {
+			return DecompositionSVD{ X, S * scaler, V };
+		}
 	}
 
 } // namespace impl

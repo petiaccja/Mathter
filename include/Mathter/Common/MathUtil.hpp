@@ -5,8 +5,8 @@
 
 #pragma once
 
-#include <cmath>
 #include <tuple>
+
 
 namespace mathter {
 
