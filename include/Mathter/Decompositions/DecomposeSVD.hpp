@@ -42,13 +42,20 @@ DecompositionSVD(const Matrix<T, Rows, Rows, Order, Layout, Packed>&,
 
 namespace impl {
 
-	template <class T, class... Rest>
-	auto ScaleElements(T first, T second, Rest... rest) -> remove_complex_t<T> {
-		const auto partial = std::max(std::abs(first), std::abs(second));
-		if constexpr (sizeof...(Rest) != 0) {
-			return ScaleElements(partial, rest...);
+	template <class T1, class... Ts>
+	auto ScaleElements(T1 first, Ts... rest) {
+		if constexpr (is_complex_v<T1> || (... || is_complex_v<Ts>)) {
+			return std::max(ScaleElements(std::real(first), std::real(rest)...),
+							ScaleElements(std::imag(first), std::imag(rest)...));
 		}
-		return partial;
+		else {
+			if constexpr (sizeof...(rest) == 0) {
+				return std::abs(first);
+			}
+			else {
+				return std::max(std::abs(first), ScaleElements(rest...));
+			}
+		}
 	}
 
 	/// <summary> The RQ decomposition of a 2x2 matrix. </summary>
@@ -112,6 +119,39 @@ namespace impl {
 		const auto epsilon = std::fma(-cvMag, cvMag, Real(1)) - svMag * svMag;
 		const auto invNorm = Real(0.375) * epsilon * epsilon + Real(0.5) * epsilon + T(1); // Accumulate smallest first!
 		return { cv * invNorm, sv * invNorm };
+	}
+
+
+	template <class T>
+	std::tuple<T, T> DiagonalizeHermitian2x2(const remove_complex_t<T>& a11, const T& aoff, const remove_complex_t<T>& a22) {
+		using Real = remove_complex_t<T>;
+
+		auto [cv, sv] = std::tuple{ T(1), T(0) };
+		if (aoff == T(0)) {
+			return { cv, sv };
+		}
+
+		const auto z = a22 - a11;
+		const auto d = std::hypot(z, Real(2) * std::real(aoff), Real(2) * std::imag(aoff));
+		const auto Lma11 = Real(0.5) * (z + std::copysign(d, z));
+
+		const auto aoffMagApprox = ScaleElements(aoff);
+		const auto Lma11Mag = std::abs(Lma11);
+
+		std::tie(cv, sv) = aoffMagApprox > Lma11Mag ?
+							   std::tuple{ T(1), Lma11 / aoff } :
+							   std::tuple{ aoff / Lma11, T(1) };
+
+
+		const auto scale = std::sqrt((std::real(cv) * std::real(cv)
+									  + std::imag(cv) * std::imag(cv))
+									 + (std::real(sv) * std::real(sv)
+										+ std::imag(sv) * std::imag(sv)));
+
+		std::tie(cv, sv) = std::tuple(cv / scale, sv / scale);
+		std::tie(cv, sv) = GetMinimalRotation(cv, sv);
+
+		return { cv, sv };
 	}
 
 
@@ -272,61 +312,6 @@ namespace impl {
 	}
 
 
-	template <class T>
-	std::tuple<T, T> DiagonalizeSymmetric2x2(const remove_complex_t<T>& a11, const T& aoff, const remove_complex_t<T>& a22) {
-		using Real = remove_complex_t<T>;
-
-		auto [cv, sv] = std::tuple{ T(1), T(0) };
-		if (aoff == T(0)) {
-			return { cv, sv };
-		}
-
-		const auto z = a22 - a11;
-		const auto d = std::hypot(z, Real(2) * std::real(aoff), Real(2) * std::imag(aoff));
-		const auto Lma11 = Real(0.5) * (z + std::copysign(d, z));
-
-		const auto aoffMagApprox = std::max(std::abs(std::real(aoff)), std::abs(std::imag(aoff)));
-		const auto Lma11Mag = std::abs(Lma11);
-
-		if (aoffMagApprox > Lma11Mag) {
-			std::tie(cv, sv) = std::tuple{ T(1), Lma11 / aoff };
-		}
-		else {
-			std::tie(cv, sv) = std::tuple{ aoff / Lma11, T(1) };
-		}
-
-		const auto scale = std::sqrt((std::real(cv) * std::real(cv)
-									  + std::imag(cv) * std::imag(cv))
-									 + (std::real(sv) * std::real(sv)
-										+ std::imag(sv) * std::imag(sv)));
-
-		std::tie(cv, sv) = std::tuple(cv / scale, sv / scale);
-		std::tie(cv, sv) = GetMinimalRotation(cv, sv);
-
-		// const auto L = (a11 + a22 - std::sqrt((a11 - a22) * (a11 - a22) + Real(4) * aoff * conj{}(aoff))) / Real(2);
-
-		// cv = T(1);
-		// sv = cv * (L - a11) / aoff;
-
-		// const auto scale = std::hypot(std::abs(cv), std::abs(sv));
-
-		// cv /= scale;
-		// sv /= scale;
-
-		// const auto z = a11 - a22;
-		// const auto d = hypot_complex(z, T(2) * aoff);
-		// const auto Lma11 = T(0.5) * (-z + copysign_complex(d, -z));
-		// const auto q = hypot_complex(aoff, Lma11);
-		// auto cv = q != T(0) ? aoff / q : T(1);
-		// auto sv = q != T(0) ? (Lma11) / q : T(0);
-
-		// std::tie(cv, sv) = GetMinimalRotation(cv, sv);
-		// std::tie(cv, sv) = NormalizeRotation(cv, sv);
-
-		return { cv, sv };
-	}
-
-
 	template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 	std::tuple<remove_complex_t<T>, T, remove_complex_t<T>> TransposeMultiplyPartial(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m, int p, int q) {
 		const auto ata11 = Sum(Conj(m.Column(p)) * m.Column(p));
@@ -359,7 +344,7 @@ namespace impl {
 					const auto error = std::abs(ataoff);
 					if (error != T(0)) {
 						maxError = std::max(maxError, error);
-						const auto [cv, sv] = DiagonalizeSymmetric2x2(ata11, ataoff, ata22);
+						const auto [cv, sv] = DiagonalizeHermitian2x2(ata11, ataoff, ata22);
 
 						GivensRotateRight(X, p, q, cv, sv);
 
