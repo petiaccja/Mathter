@@ -7,7 +7,7 @@ This document takes a practical approach. The theory and proofs for the existenc
 
 The first step is to compute a rotation matrix $V$ that diagonalizes $A$:
 $$
-V^TAA^TV = D,\\
+VA^TAV^T = D,\\
 D\text{ is a diagonal matrix, and}\\
 V\text{ is a rotation matrix}.
 $$
@@ -32,10 +32,10 @@ Note:
 - $c_v$ and $s_v$ refer to $cos(v)$ and $sin(v)$, where $v$ is the rotation angle of $V$. This solution does not use any trigonometry, hence the treatment of the elements as simple variables.
 - $V$ is a rotation matrix (SO(2)) with a determinant of $+1$. Alternatively, $V$ could also be a non-special orthogonal matrix (O(2)) with a determinant of $\pm1$, which allows the negation of the singular values.
 
-After performing the matrix multiplications, the elements of $V^TAA^TV$ are as follows:
+After performing the matrix multiplications, the elements of $VA^TAV^T$ are as follows:
 $$
 \begin{equation}
-D = V^TAA^TV = 
+D = VA^TAV^T = 
 \begin{bmatrix}
 d_{11}(a_{ij}, c_v, s_v) & d_{12}(a_{ij}, c_v, s_v)\\
 d_{21}(a_{ij}, c_v, s_v) & d_{22}(a_{ij}, c_v, s_v)
