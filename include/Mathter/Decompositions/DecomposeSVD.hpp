@@ -81,8 +81,8 @@ namespace impl {
 	struct DecompositionSVD2x2 {
 		T cu;
 		T su;
-		T s11;
-		T s22;
+		remove_complex_t<T> s11;
+		remove_complex_t<T> s22;
 		T cv;
 		T sv;
 	};
@@ -143,10 +143,7 @@ namespace impl {
 							   std::tuple{ aoff / Lma11, T(1) };
 
 
-		const auto scale = std::sqrt((std::real(cv) * std::real(cv)
-									  + std::imag(cv) * std::imag(cv))
-									 + (std::real(sv) * std::real(sv)
-										+ std::imag(sv) * std::imag(sv)));
+		const auto scale = std::sqrt(std::norm(cv) + std::norm(sv));
 
 		std::tie(cv, sv) = std::tuple(cv / scale, sv / scale);
 		std::tie(cv, sv) = GetMinimalRotation(cv, sv);
@@ -155,10 +152,28 @@ namespace impl {
 	}
 
 
-	template <class T, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-	DecompositionRQ2x2<T> DecomposeRQ2x2(const Matrix<T, 2, 2, Order, Layout, Packed>& A) {
+	template <class T>
+	std::tuple<T, T> DiagonalizeTriangular2x2(const T& r11, const T& r12, const T& r22) {
 		using Real = remove_complex_t<T>;
 
+		const auto zr = (std::real(r22) + std::real(r11)) * (std::real(r22) - std::real(r11));
+		const auto zi = (std::imag(r22) + std::imag(r11)) * (std::imag(r22) - std::imag(r11));
+		const auto [zh, zl] = Fast2Sum(zr, zi);
+		const auto z = zh + std::norm(r12) + zl;
+		const auto d = std::sqrt(Real(4) * std::norm(r11) * std::norm(r12) + z * z);
+		const auto u = (z + std::copysign(d, z)) / (Real(2) * r12 * conj()(r11));
+		if (std::isfinite(std::real(u)) && std::isfinite(std::imag(u))) {
+			const auto scale = std::hypot(Real(1), std::real(u), std::imag(u));
+			return { T(Real(1) / scale), u / scale };
+		}
+		else {
+			return { T(1), T(0) };
+		}
+	}
+
+
+	template <class T, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+	DecompositionRQ2x2<T> DecomposeRQ2x2(const Matrix<T, 2, 2, Order, Layout, Packed>& A) {
 		const auto a11 = A(0, 0);
 		const auto a12 = A(0, 1);
 		const auto a21 = A(1, 0);
@@ -170,21 +185,21 @@ namespace impl {
 		}
 
 		// Rescale matrix elements to avoid underflow and overflow.
-		const auto scaleNum = ScaleElements(a11, a12, T(std::numeric_limits<Real>::min())); // Avoid NaN.
-		const auto scaleDiv = ScaleElements(a21, a22); // a21 is never zero. See if statement above.
-		const auto a11s = a11 / scaleNum;
-		const auto a12s = a12 / scaleNum;
+		const auto scaleA21 = ScaleElements(a21);
+		const auto scaleA22 = ScaleElements(a22);
+		const auto scaleDiv = ScaleElements(scaleA21, scaleA22); // a21 is never zero. See if statement above.
 		const auto a21s = a21 / scaleDiv;
 		const auto a22s = a22 / scaleDiv;
 
 		// Compute the cosine and sine of Q and the values of R.
-		const auto divisor = std::sqrt(a21s * a21s + a22s * a22s);
+		const auto divisor = std::sqrt(std::norm(a21s) + std::norm(a22s));
 
-		const auto cq = a22s / divisor;
+		const auto cq = conj()(a22s / divisor);
 		const auto sq = a21s / divisor;
-		const auto r11 = scaleNum * ((a11s * a22s - a12s * a21s) / divisor);
-		const auto r12 = scaleNum * ((a11s * a21s + a12s * a22s) / divisor);
-		const auto r22 = scaleDiv * divisor;
+
+		const auto r11 = a11 * conj()(cq) - a12 * sq;
+		const auto r12 = a11 * conj()(sq) + a12 * cq;
+		const auto r22 = scaleDiv * (scaleA21 > scaleA22 ? a21s / sq : a22s / conj{}(cq));
 
 		return { r11, r12, r22, cq, sq };
 	}
@@ -192,62 +207,110 @@ namespace impl {
 
 	template <class T, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 	DecompositionSVD2x2<T> DecomposeSVD2x2(const Matrix<T, 2, 2, Order, Layout, Packed>& A) {
-		// The algorithm is not trivial, see the description and derivation in the docs.
+		if constexpr (true) {
+			using Real = remove_complex_t<T>;
 
-		// C++17 does not have the math constants yet.
-		constexpr auto sqrt2 = T(1.4142135623730950488016887242096980785696718753769480731766797379);
-		constexpr auto rsqrt2 = T(0.7071067811865475244008443621048490392848359376884740365883398689);
+			const auto scale = mathter::ScaleElements(A);
+			if (scale == Real(0)) {
+				return { T(1), T(0), Real(0), Real(0), T(1), T(0) };
+			}
+			const auto As = A / scale;
 
-		// RQ preconditioning.
-		const auto rq = DecomposeRQ2x2(A);
+			// RQ preconditioning.
+			const auto rq = DecomposeRQ2x2(As);
 
-		// Get the elements of the upper triangular R matrix.
-		const auto a11 = rq.r11;
-		const auto a12 = rq.r12;
-		const auto a22 = rq.r22;
+			// Get the elements of the upper triangular R matrix.
+			const auto r11 = rq.r11;
+			const auto r12 = rq.r12;
+			const auto r22 = rq.r22;
 
-		// Rescale matrix elements to avoid underflow and overflow.
-		const auto scaler = ScaleElements(a11, a12, a22);
-		if (scaler == T(0)) {
-			return { T(1), T(0), T(0), T(0), T(1), T(0) };
+			// Compute V1: A = U * S * V1^T * Q
+			const auto [cv1, sv1] = DiagonalizeTriangular2x2(rq.r11, rq.r12, rq.r22);
+
+			// Multiply V1^T and Q to undo the RQ decomposition.
+			auto cv = conj()(cv1) * rq.cq + sv1 * rq.sq;
+			auto sv = -conj()(sv1) * rq.cq + cv1 * rq.sq;
+			std::tie(cv, sv) = GetMinimalRotation(cv, sv);
+
+			// Compute U * S by multiply A with the inverse of V.
+			const Matrix<T, 2, 2, Order, Layout, Packed> V = { cv, sv, -conj()(sv), conj()(cv) };
+			const auto US = As * V;
+
+			// Compute the singular values, i.e. the diagonal of matrix S.
+			const auto detUS = Determinant(US);
+			const auto s11 = Length(US.Column(0));
+			const auto s22 = Length(US.Column(1));
+			const auto sign = detUS != T(0) ? detUS / std::abs(detUS) : T(1);
+			const auto s22signed = sign * s22;
+
+			// Compute the cosine and sine of the rotation matrix U.
+			const auto [cu, su] = s11 > s22 ?
+									  std::tuple{ US(0, 0) / s11, US(1, 0) / s11 } :
+									  std::tuple{ conj()(US(1, 1)) / s22signed, -conj()(US(0, 1)) / s22signed };
+
+			return { cu, su, scale * s11, scale * std::real(sign) * s22, cv, sv };
 		}
-		const auto a11s = a11 / scaler;
-		const auto a12s = a12 / scaler;
-		const auto a22s = a22 / scaler;
+		else if constexpr (!is_complex_v<T>) {
+			// The algorithm is not trivial, see the description and derivation in the docs.
 
-		// Compute the cosine and sine of the rotation matrix V in R = USV.
-		const auto z = (a11s - a22s) * (a11s + a22s) - a12s * a12s;
-		const auto g = a11s * a12s;
-		const auto zabs = std::abs(z);
-		const auto zsign = std::copysign(T(1), z);
-		const auto p1 = std::hypot(zabs, T(2) * g);
-		const auto pab = std::sqrt((zabs + p1) / p1);
+			// C++17 does not have the math constants yet.
+			constexpr auto sqrt2 = T(1.4142135623730950488016887242096980785696718753769480731766797379);
+			constexpr auto rsqrt2 = T(0.7071067811865475244008443621048490392848359376884740365883398689);
 
-		auto cv = p1 != 0 ? std::clamp(-pab * rsqrt2, -T(1), T(1)) : T(1);
-		auto sv = p1 != 0 ? std::clamp(zsign * sqrt2 * g / (p1 * pab), -T(1), T(1)) : T(0);
-		std::tie(cv, sv) = GetMinimalRotation(cv, sv);
-		std::tie(cv, sv) = NormalizeRotation(cv, sv);
+			// RQ preconditioning.
+			const auto rq = DecomposeRQ2x2(A);
 
-		// Compute US = RV^T using the computed cv and sv.
-		const auto us11 = cv * a11 - sv * a12;
-		const auto us12 = sv * a11 + cv * a12;
-		const auto us21 = -sv * a22;
-		const auto us22 = cv * a22;
+			// Get the elements of the upper triangular R matrix.
+			const auto a11 = rq.r11;
+			const auto a12 = rq.r12;
+			const auto a22 = rq.r22;
 
-		// Compute the singular values, i.e. the diagonal of matrix S.
-		const auto detUs = us11 * us22 - us12 * us21; // det(S) must match det(US), as det(U) == 1.
-		const auto s11 = std::hypot(us11, us21);
-		const auto s22abs = std::hypot(us12, us22);
-		const auto s22 = std::copysign(s22abs, detUs);
+			// Rescale matrix elements to avoid underflow and overflow.
+			const auto scaler = ScaleElements(a11, a12, a22);
+			if (scaler == T(0)) {
+				return { T(1), T(0), T(0), T(0), T(1), T(0) };
+			}
+			const auto a11s = a11 / scaler;
+			const auto a12s = a12 / scaler;
+			const auto a22s = a22 / scaler;
 
-		// Compute the cosine and sine of the rotation matrix U.
-		const auto [cu, su] = s11 > s22abs ? std::tuple{ us11 / s11, us21 / s11 } : std::tuple{ us22 / s22, -us12 / s22 };
+			// Compute the cosine and sine of the rotation matrix V in R = USV.
+			const auto z = (a11s - a22s) * (a11s + a22s) - a12s * a12s;
+			const auto g = a11s * a12s;
+			const auto zabs = std::abs(z);
+			const auto zsign = std::copysign(T(1), z);
+			const auto p1 = std::hypot(zabs, T(2) * g);
+			const auto pab = std::sqrt((zabs + p1) / p1);
 
-		// Multiply V and Q to undo the RQ decomposition.
-		const auto cvq = cv * rq.cq - sv * rq.sq;
-		const auto svq = sv * rq.cq + cv * rq.sq;
+			auto cv = p1 != 0 ? std::clamp(-pab * rsqrt2, -T(1), T(1)) : T(1);
+			auto sv = p1 != 0 ? std::clamp(zsign * sqrt2 * g / (p1 * pab), -T(1), T(1)) : T(0);
+			std::tie(cv, sv) = GetMinimalRotation(cv, sv);
+			std::tie(cv, sv) = NormalizeRotation(cv, sv);
 
-		return { cu, su, s11, s22, cvq, svq };
+			// Compute US = RV^T using the computed cv and sv.
+			const auto us11 = cv * a11 - sv * a12;
+			const auto us12 = sv * a11 + cv * a12;
+			const auto us21 = -sv * a22;
+			const auto us22 = cv * a22;
+
+			// Compute the singular values, i.e. the diagonal of matrix S.
+			const auto detUs = us11 * us22 - us12 * us21; // det(S) must match det(US), as det(U) == 1.
+			const auto s11 = std::hypot(us11, us21);
+			const auto s22abs = std::hypot(us12, us22);
+			const auto s22 = std::copysign(s22abs, detUs);
+
+			// Compute the cosine and sine of the rotation matrix U.
+			const auto [cu, su] = s11 > s22abs ? std::tuple{ us11 / s11, us21 / s11 } : std::tuple{ us22 / s22, -us12 / s22 };
+
+			// Multiply V and Q to undo the RQ decomposition.
+			const auto cvq = cv * rq.cq - sv * rq.sq;
+			const auto svq = sv * rq.cq + cv * rq.sq;
+
+			return { cu, su, s11, s22, cvq, svq };
+		}
+		else {
+			return { T(1), T(0), T(1), T(1), T(1), T(0) };
+		}
 	}
 
 

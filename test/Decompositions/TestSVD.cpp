@@ -141,6 +141,8 @@ void VerifySVD(MatA A, MatU U, MatS S, MatV V, Tol tolerance) {
 	INFO("S =   " << std::setprecision(12) << S);
 	INFO("V =   " << std::setprecision(12) << V);
 
+	const auto err = NormPrecise(A - USV) / NormPrecise(A);
+
 	REQUIRE_THAT(std::abs(detU), Catch::Matchers::WithinAbs(1.0f, tolerance));
 	REQUIRE_THAT(std::abs(detV), Catch::Matchers::WithinAbs(1.0f, tolerance));
 	REQUIRE(UTU == test_util::Approx(decltype(UTU)(Identity()), tolerance));
@@ -233,7 +235,6 @@ TEST_CASE("SVD - 2x2 diagonalize Hermitian (complex)", "[SVD]") {
 	using M22 = Matrix<std::complex<float>, 2, 2>;
 
 	SECTION("General") {
-		// NOTE: matrix A is supposed to be Hermitian or something, not simply symmetric!
 		const M22 A = {
 			1.0f + 0.2if, 0.7f - 0.5if,
 			-0.6f + 0.3if, 0.9f + 0.7if
@@ -255,7 +256,7 @@ TEST_CASE("SVD - 2x2 diagonalize Hermitian (complex)", "[SVD]") {
 }
 
 
-TEST_CASE("SVD - 2x2 RQ", "[SVD]") {
+TEST_CASE("SVD - 2x2 RQ (real)", "[SVD]") {
 	using M22 = Matrix<float, 2, 2>;
 
 	SECTION("Zero") {
@@ -335,7 +336,7 @@ TEST_CASE("SVD - 2x2 RQ", "[SVD]") {
 }
 
 
-TEST_CASE("SVD - 2x2 RQ hammer", "[SVD]") {
+TEST_CASE("SVD - 2x2 RQ hammer (real)", "[SVD]") {
 	using M22 = Matrix<float, 2, 2>;
 
 	for (auto a11Exp : hammerExponents) {
@@ -360,7 +361,25 @@ TEST_CASE("SVD - 2x2 RQ hammer", "[SVD]") {
 }
 
 
-TEST_CASE("SVD - 2x2 explicit special cases (2-sided core)", "[SVD]") {
+TEST_CASE("SVD - 2x2 RQ (complex)", "[SVD]") {
+	using M22 = Matrix<std::complex<float>, 2, 2>;
+	using namespace std::complex_literals;
+
+	SECTION("General") {
+		const M22 A = {
+			1.f + 0.7if, 0.5f + 1.2if,
+			2.f - 0.2if, -1.1f - 1.0if
+		};
+		const auto rq = mathter::impl::DecomposeRQ2x2(A);
+		const auto [R, Q] = ExpandRQ2x2(rq);
+		const auto RQ = R * Q;
+		REQUIRE(std::abs(Determinant(Q)) == Catch::Approx(1));
+		REQUIRE(NormPrecise(A - RQ) < 1e-6f * NormPrecise(A));
+	}
+}
+
+
+TEST_CASE("SVD - 2x2 special cases (2-sided core) (real)", "[SVD]") {
 	using M22 = Matrix<float, 2, 2>;
 
 	SECTION("Zero") {
@@ -452,6 +471,22 @@ TEST_CASE("SVD - 2x2 explicit special cases (2-sided core)", "[SVD]") {
 		const M22 A = {
 			1.0f, 0.0f,
 			0.0f, 1.0f
+		};
+		const auto svd = mathter::impl::DecomposeSVD2x2(A);
+		const auto [U, S, V] = ExpandSVD2x2(svd);
+		VerifySVD(A, U, S, V, 1e-6f);
+	}
+}
+
+
+TEST_CASE("SVD - 2x2 special cases (2-sided core) (complex)", "[SVD]") {
+	using M22 = Matrix<std::complex<float>, 2, 2>;
+	using namespace std::complex_literals;
+
+	SECTION("General") {
+		const M22 A = {
+			1.f + 0.7if, 0.5f + 1.2if,
+			2.f - 0.2if, -1.1f - 1.0if
 		};
 		const auto svd = mathter::impl::DecomposeSVD2x2(A);
 		const auto [U, S, V] = ExpandSVD2x2(svd);
@@ -590,15 +625,11 @@ TEST_CASE("SVD - 2x2 DEBUG (1-sided)", "[SVD]") {
 	using M22 = Matrix<float, 2, 2, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR>;
 
 	const M22 A = {
-		-0.10000000149, 0.031622774899, 0, -0.00999999977648
+		1.0f, 1e-06f, -1.00001e-07f, 1e-06f
 	};
-	const auto [Uref, Sref, Vref] = ExpandSVD2x2(mathter::impl::DecomposeSVD2x2(A));
-	INFO("U_ref = " << Uref);
-	INFO("S_ref = " << Sref);
-	INFO("V_ref = " << Vref);
-	const auto [U, S, V] = mathter::impl::DecomposeSVDJacobiOneSided(A);
-	const auto svdRef = mathter::impl::DecomposeSVDJacobiTwoSided(A);
-	const auto diff = A - U * M22(Scale(S)) * V;
+	const auto [U, S, V] = ExpandSVD2x2(mathter::impl::DecomposeSVD2x2(A));
+	const auto [Uref, Sref, Vref] = mathter::impl::DecomposeSVDJacobiOneSided(A);
+	const auto diff = A - U * S * V;
 	const auto rel = NormPrecise(diff) / NormPrecise(A);
-	VerifySVD(A, U, M22(Scale(S)), V, 1e-6f);
+	VerifySVD(A, U, S, V, 1e-6f);
 }
