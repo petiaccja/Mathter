@@ -313,7 +313,6 @@ namespace impl {
 		const auto det = Determinant(US);
 		const auto detScaled = det / ScaleElements(det, std::numeric_limits<Real>::min());
 		const auto sign = detScaled != T(0) ? detScaled / std::abs(detScaled) : T(1);
-		const auto chkSign = std::abs(sign);
 		const auto s22signed = s22 / sign;
 		const auto [cu, su] = s11 > s22 ?
 								  std::tuple{ US(0, 0) / s11, US(1, 0) / s11 } :
@@ -421,7 +420,6 @@ namespace impl {
 			for (int p = 0; p < Columns; ++p) {
 				for (int q = p + 1; q < Columns; ++q) {
 					const auto [ata11, ataoff, ata22] = TransposeMultiplyPartial(X, p, q);
-					const auto chk = ConjTranspose(X) * X;
 					const auto error = std::abs(ataoff);
 					if (error != T(0)) {
 						maxError = std::max(maxError, error);
