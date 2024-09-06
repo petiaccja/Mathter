@@ -5,6 +5,7 @@ target_sources(UnitTest
         "main.cpp"
         "Decompositions/TestLU.cpp"
         "Decompositions/TestQR.cpp"
+        "Decompositions/TestSVD.cpp"
         "Geometry/TestBezierCurve.cpp"
         "Geometry/TestHyperplane.cpp"
         "Geometry/TestIntersection.cpp"

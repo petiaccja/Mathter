@@ -232,3 +232,5 @@ CMakeUserPresets.json
 .cache/
 
 compile_commands.json
+
+.runsettings

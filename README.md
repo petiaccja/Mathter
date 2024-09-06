@@ -1,4 +1,4 @@
-﻿Mathter
+Mathter
 ===
 
 ![Language](https://img.shields.io/badge/Language-C++17-blue)
@@ -103,7 +103,7 @@ Features
   - Translation
   - Camera look-at
 - Matrix decompositions & systems of linear equations
-  - LU, LUP, QR, SVD (SVD currently in the works)
+  - LU & LUP, QR & LQ, SVD
   - Each have solvers for:
     - Systems of equations
     - Matrix inverse
