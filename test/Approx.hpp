@@ -127,6 +127,35 @@ bool operator==(const Approx<mathter::Quaternion<T1, Layout1, Packed1>>& lhs, co
 }
 
 
+template <class T>
+struct Approx<std::complex<T>> {
+	Approx(const std::complex<T>& object, T tolerance = DefaultTolerance<T>())
+		: object(object), tolerance(tolerance) {}
+
+
+	std::complex<T> object;
+	T tolerance;
+};
+
+
+template <class T1, class T2>
+bool operator==(const Approx<std::complex<T1>>& lhs, const Approx<std::complex<T2>>& rhs) {
+	return std::abs(lhs.object - rhs.object) < std::min(lhs.tolerance, rhs.tolerance) * std::abs(lhs);
+}
+
+
+template <class T1, class T2>
+bool operator==(const std::complex<T1>& lhs, const Approx<std::complex<T2>>& rhs) {
+	return std::abs(lhs - rhs.object) < rhs.tolerance * std::abs(lhs);
+}
+
+
+template <class T1, class T2>
+bool operator==(const Approx<std::complex<T1>>& lhs, const std::complex<T2>& rhs) {
+	return std::abs(lhs.object - rhs) < lhs.tolerance * std::abs(rhs);
+}
+
+
 template <class Object>
 std::ostream& operator<<(std::ostream& os, Approx<Object> approx) {
 	return os << approx.object;

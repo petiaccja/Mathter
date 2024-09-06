@@ -26,10 +26,19 @@ using namespace test_util;
 
 
 template <class T>
-auto ExpandUnitary2x2(std::tuple<T, T> v) {
+auto RandomPolar() {
+	thread_local std::mt19937_64 rne(2367542837423); // Fixed seed.
+	thread_local std::uniform_real_distribution<T> rng;
+	const auto arg = rng(rne);
+	return std::polar(T(1), arg);
+};
+
+
+template <class T>
+auto ExpandUnitary2x2(std::tuple<T, T> v, T det = T(1)) {
 	using M22 = Matrix<T, 2, 2>;
 	const auto [cv, sv] = v;
-	return M22{ cv, -conj{}(sv), sv, conj{}(cv) };
+	return M22{ cv, det * -conj{}(sv), sv, det * conj{}(cv) };
 }
 
 
@@ -54,7 +63,7 @@ template <class T, class Out = T>
 auto ExpandSVD2x2(const mathter::impl::DecompositionSVD2x2<T>& svd) {
 	using M22 = Matrix<Out, 2, 2>;
 	return std::tuple{
-		ExpandUnitary2x2(std::tuple(svd.cu, svd.su)),
+		ExpandUnitary2x2(std::tuple(svd.cu, svd.su), svd.det),
 		M22{ svd.s11, 0.0f, 0.0f, svd.s22 },
 		ExpandUnitary2x2(std::tuple(svd.cv, svd.sv)),
 	};
@@ -256,6 +265,115 @@ TEST_CASE("SVD - 2x2 diagonalize Hermitian (complex)", "[SVD]") {
 }
 
 
+TEST_CASE("SVD - 2x2 diagonalize triangular (real)", "[SVD]") {
+	using namespace std::complex_literals;
+	using M22 = Matrix<float, 2, 2>;
+
+	SECTION("General") {
+		const M22 R = {
+			1.0f, 0.7f,
+			0.0f, 0.9f
+		};
+
+		const auto [cv, sv] = mathter::impl::DiagonalizeTriangular2x2(R(0, 0), R(0, 1), R(1, 1));
+		const auto V = ExpandUnitary2x2(std::tuple(cv, sv));
+		const auto D = ConjTranspose(V) * ConjTranspose(R) * R * V;
+
+		INFO("A = " << R);
+		INFO("V = " << V);
+		INFO("D = " << D);
+		REQUIRE(std::abs(D(0, 1)) < 1e-6f * NormPrecise(R));
+		REQUIRE(std::abs(D(1, 0)) < 1e-6f * NormPrecise(R));
+		REQUIRE(std::abs(Determinant(D) - Determinant(ConjTranspose(R) * R)) < 1e-6f * NormPrecise(R));
+	}
+}
+
+
+TEST_CASE("SVD - 2x2 diagonalize triangular (complex)", "[SVD]") {
+	using namespace std::complex_literals;
+	using M22 = Matrix<std::complex<float>, 2, 2>;
+
+	SECTION("General") {
+		const M22 R = {
+			-0.328000009f - 0.814000010if, 0.0219999850f + 0.155999988if,
+			0.00000000f, 1.25000000f - 9.22101506e-09if
+		};
+
+		const auto [cv, sv] = mathter::impl::DiagonalizeTriangular2x2(R(0, 0), R(0, 1), R(1, 1));
+		const auto V = ExpandUnitary2x2(std::tuple(cv, sv));
+		const auto D = ConjTranspose(V) * ConjTranspose(R) * R * V;
+
+		INFO("A = " << R);
+		INFO("V = " << V);
+		INFO("D = " << D);
+		REQUIRE(std::abs(D(0, 1)) < 1e-6f * NormPrecise(R));
+		REQUIRE(std::abs(D(1, 0)) < 1e-6f * NormPrecise(R));
+		REQUIRE(std::abs(Determinant(D) - Determinant(ConjTranspose(R) * R)) < 1e-6f * NormPrecise(R));
+	}
+}
+
+
+TEST_CASE("SVD - 2x2 get minimal rotation", "[SVD]") {
+	using namespace std::complex_literals;
+	using M22 = Matrix<std::complex<float>, 2, 2>;
+
+	constexpr auto larger = 2.0f;
+	constexpr auto smaller = 1.0f;
+	const auto norm = std::hypot(larger, smaller);
+	const M22 D = { 6.5f, 0.0f, 0.0f, 4.3f };
+
+	SECTION("Already minimal") {
+		const std::complex<float> cv = larger / norm;
+		const std::complex<float> sv = std::polar(smaller, 0.78452f) / norm;
+
+		const auto [cv1, sv1] = impl::GetMinimalRotation(cv, sv);
+		REQUIRE(cv1 == test_util::Approx(cv));
+		REQUIRE(sv1 == test_util::Approx(sv));
+	}
+	SECTION("Must flip") {
+		const std::complex<float> cv = std::polar(smaller, 0.78452f) / norm;
+		const std::complex<float> sv = larger / norm;
+		const auto V = ExpandUnitary2x2(std::tuple(cv, sv));
+		const auto AtA = V * D * ConjTranspose(V);
+
+		const auto [cv1, sv1] = impl::GetMinimalRotation(cv, sv);
+		const auto V1 = ExpandUnitary2x2(std::tuple(cv1, sv1));
+		auto D1 = D;
+		std::swap(D1(0, 0), D1(1, 1));
+
+		REQUIRE(cv1 == test_util::Approx(sv));
+		REQUIRE(ConjTranspose(V1) * AtA * V1 == test_util::Approx(D1));
+	}
+	SECTION("Must make real") {
+		const std::complex<float> cv = std::polar(larger, 0.78452f) / norm;
+		const std::complex<float> sv = smaller / norm;
+		const auto V = ExpandUnitary2x2(std::tuple(cv, sv));
+		const auto AtA = V * D * ConjTranspose(V);
+
+		const auto [cv1, sv1] = impl::GetMinimalRotation(cv, sv);
+		const auto V1 = ExpandUnitary2x2(std::tuple(cv1, sv1));
+		const auto D1 = D;
+
+		REQUIRE(cv1 == test_util::Approx(std::complex(std::abs(cv))));
+		REQUIRE(ConjTranspose(V1) * AtA * V1 == test_util::Approx(D1));
+	}
+	SECTION("Must flip & make real") {
+		const std::complex<float> cv = std::polar(smaller, 0.78452f) / norm;
+		const std::complex<float> sv = std::polar(larger, 0.86456f) / norm;
+		const auto V = ExpandUnitary2x2(std::tuple(cv, sv));
+		const auto AtA = V * D * ConjTranspose(V);
+
+		const auto [cv1, sv1] = impl::GetMinimalRotation(cv, sv);
+		const auto V1 = ExpandUnitary2x2(std::tuple(cv1, sv1));
+		auto D1 = D;
+		std::swap(D1(0, 0), D1(1, 1));
+
+		REQUIRE(std::abs(std::imag(cv1)) < 1e-6f);
+		REQUIRE(ConjTranspose(V1) * AtA * V1 == test_util::Approx(D1));
+	}
+}
+
+
 TEST_CASE("SVD - 2x2 RQ (real)", "[SVD]") {
 	using M22 = Matrix<float, 2, 2>;
 
@@ -375,6 +493,32 @@ TEST_CASE("SVD - 2x2 RQ (complex)", "[SVD]") {
 		const auto RQ = R * Q;
 		REQUIRE(std::abs(Determinant(Q)) == Catch::Approx(1));
 		REQUIRE(NormPrecise(A - RQ) < 1e-6f * NormPrecise(A));
+	}
+}
+
+
+TEST_CASE("SVD - 2x2 RQ hammer (complex)", "[SVD]") {
+	using M22 = Matrix<std::complex<float>, 2, 2>;
+
+	for (auto a11Exp : hammerExponents) {
+		for (auto a12Exp : hammerExponents) {
+			for (auto a21Exp : hammerExponents) {
+				for (auto a22Exp : hammerExponents) {
+					const M22 A = {
+						GenFromExp<float>(a11Exp) * RandomPolar<float>(), GenFromExp<float>(a12Exp) * RandomPolar<float>(),
+						GenFromExp<float>(a21Exp) * RandomPolar<float>(), GenFromExp<float>(a22Exp) * RandomPolar<float>()
+					};
+					const auto rq = mathter::impl::DecomposeRQ2x2(A);
+					const auto [R, Q] = ExpandRQ2x2(rq);
+					INFO("A = " << A);
+					INFO("R = " << R);
+					INFO("Q = " << Q);
+					REQUIRE(std::real(Determinant(Q)) == Catch::Approx(1));
+					REQUIRE(std::imag(Determinant(Q)) == Catch::Approx(0));
+					REQUIRE(NormPrecise(A - R * Q) < 1e-6f * NormPrecise(A));
+				}
+			}
+		}
 	}
 }
 
@@ -514,7 +658,7 @@ TEST_CASE("SVD - 2x2 general hammer (2-sided core)", "[SVD]") {
 }
 
 
-TEST_CASE("SVD - 2x2 edge case hammer (2-sided core)", "[SVD]") {
+TEST_CASE("SVD - 2x2 edge case hammer (2-sided core) (real)", "[SVD]") {
 	using M22 = Matrix<float, 2, 2>;
 	using M22d = Matrix<float, 2, 2>;
 
@@ -524,6 +668,41 @@ TEST_CASE("SVD - 2x2 edge case hammer (2-sided core)", "[SVD]") {
 				const M22d Uref = Rotation(u);
 				const M22d Sref = Scale(1.0f, s22);
 				const M22d Vref = Rotation(v);
+				const auto Aref = Uref * Sref * Vref;
+				const auto A = M22(Aref);
+
+				const auto svd = mathter::impl::DecomposeSVD2x2(A);
+				const auto [U, S, V] = ExpandSVD2x2(svd);
+				VerifySVD(A, U, S, V, 1e-6f);
+			}
+		}
+	}
+}
+
+
+TEST_CASE("SVD - 2x2 edge case hammer (2-sided core) (complex)", "[SVD]") {
+	using M22 = Matrix<std::complex<float>, 2, 2>;
+	using M22d = Matrix<std::complex<float>, 2, 2>;
+
+	for (auto u : hammerAngleU) {
+		for (auto s22 : hammerMagS22) {
+			for (auto v : hammerAngleV) {
+				M22d Uref = Rotation(u);
+				const M22d Sref = Scale(1.0f, s22);
+				M22d Vref = Rotation(v);
+
+				const auto Ushift = RandomPolar<float>();
+				Uref.Column(0, Uref.Column(0) * Ushift);
+				Uref.Column(1, Uref.Column(1) * std::conj(Ushift));
+				Uref.Column(1, Uref.Column(1) * RandomPolar<float>());
+
+				const auto Vshift = RandomPolar<float>();
+				Vref.Column(0, Vref.Column(0) * Vshift);
+				Vref.Column(1, Vref.Column(1) * std::conj(Vshift));
+
+				const auto chkU = ConjTranspose(Uref) * Uref;
+				const auto chkV = ConjTranspose(Vref) * Vref;
+
 				const auto Aref = Uref * Sref * Vref;
 				const auto A = M22(Aref);
 
@@ -614,22 +793,29 @@ TEMPLATE_LIST_TEST_CASE("Matrix - SVD square matrix (complex)", "[SVD]",
 		VerifySVD(A, U, Mat(Scale(S)), V, 1e-6f);
 	}
 	SECTION("2-sided algorithm") {
-		// const auto [U, S, V] = DecomposeSVD(A, SVDAlgorithmTwoSided);
-		// VerifySVD(A, U, Mat(Scale(S)), V, 1e-6f);
+		const auto [U, S, V] = DecomposeSVD(A, SVDAlgorithmTwoSided);
+		VerifySVD(A, U, Mat(Scale(S)), V, 1e-6f);
 	}
 }
 
 
-TEST_CASE("SVD - 2x2 DEBUG (1-sided)", "[SVD]") {
+TEST_CASE("SVD - 2x2 DEBUG", "[SVD]") {
 	// using M22 = Matrix<float, 2, 2, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, false>;
-	using M22 = Matrix<float, 2, 2, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR>;
+	using M22 = Matrix<std::complex<float>, 2, 2, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR>;
+	using namespace std::complex_literals;
+
 
 	const M22 A = {
-		1.0f, 1e-06f, -1.00001e-07f, 1e-06f
+		0.954584956169f + 0.297938793898if, 0.0f,
+		0.0f, 0.0f
 	};
 	const auto [U, S, V] = ExpandSVD2x2(mathter::impl::DecomposeSVD2x2(A));
 	const auto [Uref, Sref, Vref] = mathter::impl::DecomposeSVDJacobiOneSided(A);
 	const auto diff = A - U * S * V;
 	const auto rel = NormPrecise(diff) / NormPrecise(A);
+	const auto det = Determinant(V);
+	const auto detRef = Determinant(Vref);
+	const auto arg = std::arg(V(0, 1));
+	const auto argRef = std::arg(Vref(0, 1));
 	VerifySVD(A, U, S, V, 1e-6f);
 }

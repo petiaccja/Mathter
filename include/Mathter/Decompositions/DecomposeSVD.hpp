@@ -85,6 +85,7 @@ namespace impl {
 		remove_complex_t<T> s22;
 		T cv;
 		T sv;
+		T det; // Multiply either s22 or the 2nd column of U by det, depending on whether you want proper rotations or positive singular values.
 	};
 
 
@@ -96,13 +97,21 @@ namespace impl {
 	///		required elements. </remarks>
 	template <class T>
 	std::tuple<T, T> GetMinimalRotation(T cv, T sv) {
-		using Real = remove_complex_t<T>;
-		if (std::abs(cv) < std::abs(sv)) {
-			std::tie(cv, sv) = std::tuple(-conj{}(sv), conj{}(cv)); // Rotate by 90 degrees to make cv bigger in absolute value.
+		// Rotate V by Q = [0, -1; 1, 0] as in V' = V*Q.
+		// This merely flips the eigenvalues in V^T * A^T * A * V, but leaves the off-diagonals zero.
+		auto cvMag = std::abs(cv);
+		auto svMag = std::abs(sv);
+		if (cvMag < svMag) {
+			std::tie(cv, sv) = std::tuple(-conj()(sv), conj()(cv));
+			std::swap(cvMag, svMag);
 		}
-		if (std::real(cv) < static_cast<Real>(0)) {
-			std::tie(cv, sv) = std::tuple(-cv, -sv); // Rotate by 180 degrees to make cv positive.
-		}
+
+		// Rotate V by Q = [q, 0; 0, conj(q)] as in V' = V*Q.
+		// For reals, this flips the sign of cv to be positive.
+		// For complexes, this rotates cv in the complex plane such that it's purely a positive real.
+		const auto q = conj()(cv / cvMag);
+		std::tie(cv, sv) = std::tuple(q * cv, q * sv); // Make cv positive real.
+
 		return { cv, sv };
 	}
 
@@ -162,9 +171,14 @@ namespace impl {
 		const auto z = zh + std::norm(r12) + zl;
 		const auto d = std::sqrt(Real(4) * std::norm(r11) * std::norm(r12) + z * z);
 		const auto u = (z + std::copysign(d, z)) / (Real(2) * r12 * conj()(r11));
+		const auto v = (-z - std::copysign(d, z)) / (Real(2) * r11 * conj()(r12));
 		if (std::isfinite(std::real(u)) && std::isfinite(std::imag(u))) {
 			const auto scale = std::hypot(Real(1), std::real(u), std::imag(u));
-			return { T(Real(1) / scale), u / scale };
+			const auto [cv1, sv1] = std::tuple{ T(Real(1) / scale), u / scale };
+			const auto [cv2, sv2] = std::tuple{ v / scale, T(Real(1) / scale) };
+			// return { T(Real(1) / scale), u / scale };
+			return { cv1, sv1 };
+			// return { cv2, sv2 };
 		}
 		else {
 			return { T(1), T(0) };
@@ -212,43 +226,53 @@ namespace impl {
 
 			const auto scale = mathter::ScaleElements(A);
 			if (scale == Real(0)) {
-				return { T(1), T(0), Real(0), Real(0), T(1), T(0) };
+				return { T(1), T(0), Real(0), Real(0), T(1), T(0), T(1) };
 			}
 			const auto As = A / scale;
 
 			// RQ preconditioning.
 			const auto rq = DecomposeRQ2x2(As);
 
-			// Get the elements of the upper triangular R matrix.
-			const auto r11 = rq.r11;
-			const auto r12 = rq.r12;
-			const auto r22 = rq.r22;
-
 			// Compute V1: A = U * S * V1^T * Q
 			const auto [cv1, sv1] = DiagonalizeTriangular2x2(rq.r11, rq.r12, rq.r22);
 
 			// Multiply V1^T and Q to undo the RQ decomposition.
-			auto cv = conj()(cv1) * rq.cq + sv1 * rq.sq;
-			auto sv = -conj()(sv1) * rq.cq + cv1 * rq.sq;
+			auto cv = conj()(rq.cq) * cv1 + conj()(rq.sq) * sv1;
+			auto sv = -rq.sq * cv1 + rq.cq * sv1;
 			std::tie(cv, sv) = GetMinimalRotation(cv, sv);
 
 			// Compute U * S by multiply A with the inverse of V.
-			const Matrix<T, 2, 2, Order, Layout, Packed> V = { cv, sv, -conj()(sv), conj()(cv) };
+			const Matrix<T, 2, 2, Order, Layout, Packed> V = { cv, -conj()(sv), sv, conj()(cv) };
 			const auto US = As * V;
 
 			// Compute the singular values, i.e. the diagonal of matrix S.
-			const auto detUS = Determinant(US);
 			const auto s11 = Length(US.Column(0));
 			const auto s22 = Length(US.Column(1));
-			const auto sign = detUS != T(0) ? detUS / std::abs(detUS) : T(1);
-			const auto s22signed = sign * s22;
+			const auto det = Determinant(US);
+			const auto detScaled = det / ScaleElements(det, std::numeric_limits<Real>::min());
+			const auto sign = detScaled != T(0) ? detScaled / std::abs(detScaled) : T(1);
+			const auto chkSign = std::abs(sign);
+			const auto s22signed = s22 / sign;
 
 			// Compute the cosine and sine of the rotation matrix U.
 			const auto [cu, su] = s11 > s22 ?
 									  std::tuple{ US(0, 0) / s11, US(1, 0) / s11 } :
 									  std::tuple{ conj()(US(1, 1)) / s22signed, -conj()(US(0, 1)) / s22signed };
 
-			return { cu, su, scale * s11, scale * std::real(sign) * s22, cv, sv };
+			// DEBUG
+			const T q = [] { if constexpr (is_complex_v<T>) { return std::polar(Real(1.0), Real(0.8)); } else { return Real(1.0); } }();
+			const Matrix<T, 2, 2, Order, Layout, Packed> rotate = { q, T(0), T(0), conj()(q) };
+			// const Matrix<T, 2, 2, Order, Layout, Packed> rotate = { T(0), T(-1), T(1), T(0) };
+			const Matrix<T, 2, 2, Order, Layout, Packed> V1 = { cv1, -conj()(sv1), sv1, conj()(cv1) };
+			const Matrix<T, 2, 2, Order, Layout, Packed> R = { rq.r11, rq.r12, T(0), rq.r22 };
+			const auto Vr = V * rotate;
+			const auto chkOrtho = Dot(US.Column(0), US.Column(1));
+			const auto chkDiagA = ConjTranspose(V) * ConjTranspose(A) * A * V;
+			const auto chkDiagARotate1 = ConjTranspose(rotate) * chkDiagA * rotate;
+			const auto chkDiagARotate2 = ConjTranspose(Vr) * ConjTranspose(A) * A * Vr;
+			const auto chkDiagR = ConjTranspose(V1) * ConjTranspose(R) * R * V1;
+
+			return { cu, su, scale * s11, scale * s22, conj()(cv), -sv, sign };
 		}
 		else if constexpr (!is_complex_v<T>) {
 			// The algorithm is not trivial, see the description and derivation in the docs.
@@ -268,7 +292,7 @@ namespace impl {
 			// Rescale matrix elements to avoid underflow and overflow.
 			const auto scaler = ScaleElements(a11, a12, a22);
 			if (scaler == T(0)) {
-				return { T(1), T(0), T(0), T(0), T(1), T(0) };
+				return { T(1), T(0), T(0), T(0), T(1), T(0), T(1) };
 			}
 			const auto a11s = a11 / scaler;
 			const auto a12s = a12 / scaler;
@@ -306,27 +330,27 @@ namespace impl {
 			const auto cvq = cv * rq.cq - sv * rq.sq;
 			const auto svq = sv * rq.cq + cv * rq.sq;
 
-			return { cu, su, s11, s22, cvq, svq };
+			return { cu, su, s11, s22, cvq, svq, T(1) };
 		}
 		else {
-			return { T(1), T(0), T(1), T(1), T(1), T(0) };
+			return { T(1), T(0), T(1), T(1), T(1), T(0), T(1) };
 		}
 	}
 
 
 	template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-	void GivensRotateRight(Matrix<T, Rows, Columns, Order, Layout, Packed>& m, int p, int q, T cv, T sv) {
+	void GivensRotateRight(Matrix<T, Rows, Columns, Order, Layout, Packed>& m, int p, int q, T cv, T sv, T det = T(1)) {
 		const auto colP = m.Column(p) * cv + m.Column(q) * sv;
-		const auto colQ = m.Column(q) * conj{}(cv)-m.Column(p) * conj{}(sv);
+		const auto colQ = det * (m.Column(q) * conj{}(cv)-m.Column(p) * conj{}(sv));
 		m.Column(p, colP);
 		m.Column(q, colQ);
 	}
 
 
 	template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-	void GivensRotateLeft(Matrix<T, Rows, Columns, Order, Layout, Packed>& m, int p, int q, T cv, T sv) {
-		const auto rowP = m.Row(p) * cv - m.Row(q) * conj{}(sv);
-		const auto rowQ = m.Row(q) * conj{}(cv) + m.Row(p) * sv;
+	void GivensRotateLeft(Matrix<T, Rows, Columns, Order, Layout, Packed>& m, int p, int q, T cv, T sv, T det = T(1)) {
+		const auto rowP = m.Row(p) * cv - det * m.Row(q) * conj{}(sv);
+		const auto rowQ = det * m.Row(q) * conj{}(cv) + m.Row(p) * sv;
 		m.Row(p, rowP);
 		m.Row(q, rowQ);
 	}
@@ -351,15 +375,20 @@ namespace impl {
 			maxError = Real(0);
 			for (int p = 0; p < Columns; ++p) {
 				for (int q = p + 1; q < Columns; ++q) {
-					const auto [xpp, xpq, xqp, xqq] = std::tie(X(p, p), X(p, q), X(q, p), X(q, q));
+					const auto [xpp, xpq, xqp, xqq] = std::tuple(X(p, p), X(p, q), X(q, p), X(q, q));
 					const auto error = std::max(std::abs(xpq), std::abs(xqp));
 					if (error > tolerance) {
 						maxError = std::max(maxError, error);
 						const auto svd2x2 = DecomposeSVD2x2(Matrix<T, 2, 2>{ xpp, xpq, xqp, xqq });
 
-						GivensRotateRight(U, p, q, svd2x2.cu, svd2x2.su);
-						GivensRotateLeft(X, p, q, svd2x2.cu, -svd2x2.su);
-						GivensRotateRight(X, p, q, svd2x2.cv, -svd2x2.sv);
+						const Matrix<T, 2, 2> Um = { svd2x2.cu, svd2x2.det * -conj()(svd2x2.su), svd2x2.su, svd2x2.det * conj()(svd2x2.cu) };
+						const Matrix<T, 2, 2> Sm = { svd2x2.s11, T(0), T(0), svd2x2.s22 };
+						const Matrix<T, 2, 2> Vm = { svd2x2.cv, -conj()(svd2x2.sv), svd2x2.sv, conj()(svd2x2.cv) };
+						const auto chk = Um * Sm * Vm;
+
+						GivensRotateRight(U, p, q, svd2x2.cu, svd2x2.su, svd2x2.det);
+						GivensRotateLeft(X, p, q, conj()(svd2x2.cu), -conj()(svd2x2.det) * svd2x2.su, conj()(svd2x2.det));
+						GivensRotateRight(X, p, q, conj()(svd2x2.cv), -svd2x2.sv);
 						GivensRotateLeft(V, p, q, svd2x2.cv, svd2x2.sv);
 					}
 				}
