@@ -17,10 +17,12 @@
 namespace mathter {
 
 
+/// <summary> The singular value decomposition of a matrix. </summary>
+/// <remarks> This is a thin/compact SVD. </remarks>
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 struct DecompositionSVD {
 	using Real = remove_complex_t<T>;
-	static constexpr int PDim = std::min(Rows, Columns);
+	static constexpr auto PDim = std::min(Rows, Columns);
 
 	Matrix<T, Rows, PDim, Order, Layout, Packed> U;
 	Vector<Real, PDim, Packed> S;
@@ -42,6 +44,7 @@ DecompositionSVD(const Matrix<T, Rows, Rows, Order, Layout, Packed>&,
 
 namespace impl {
 
+	/// <summary> Find a suitable divisor that scales the input numbers to be roughly 1.0 in magnitude. </summary>
 	template <class T1, class... Ts>
 	auto ScaleElements(T1 first, Ts... rest) {
 		if constexpr (is_complex_v<T1> || (... || is_complex_v<Ts>)) {
@@ -61,7 +64,7 @@ namespace impl {
 	/// <summary> The RQ decomposition of a 2x2 matrix. </summary>
 	/// <remarks>
 	///	Decomposes A such that A = RQ, where R is upper triangular and Q is a rotation matrix.
-	///	The layout is R = {{r11, r12}, {0, r22}} and Q = {{c, -s}, {s, c}}.
+	///	The layout is R = {{r11, r12}, {0, r22}} and Q = {{c, -s*}, {s, c*}}.
 	/// </remarks>
 	template <class T>
 	struct DecompositionRQ2x2 {
@@ -72,10 +75,12 @@ namespace impl {
 		T sq;
 	};
 
-	/// <summary> The SVD if a 2x2 matrix. </summary>
+	/// <summary> The SVD of a 2x2 matrix. </summary>
 	/// <remarks>
 	/// Decomposes A such that A = USV, where U is a rotation matrix, S is diagonal, and V is also a rotation matrix.
-	///	The layout is U = {{cu, -su}, {su, cu}}, S = {{s11, 0}, {0, s22}}, and V = {{cv, -sv}, {sv, cv}}.
+	///	The layout is U = {{cu, -su*}, {su, cu*}}, S = {{s11, 0}, {0, s22}}, and V = {{cv, -sv*}, {sv, cv*}}.
+	///	The determinant must be used to multiply either the second column of U or s22. For the real case,
+	///	det is essentially a plus or minus, for the complex case, it's an arbitrary complex number of unit length.
 	/// </remarks>
 	template <class T>
 	struct DecompositionSVD2x2 {
@@ -89,14 +94,13 @@ namespace impl {
 	};
 
 
-	/// <summary> Find the Givens rotation with the smallest angle. </summary>
-	/// <remarks> The 2x2 SVD and the symmatric diagonalizer both have 4 solutions, offset by
-	///		90 degrees. The one of the 4 that has the smallest rotation angle (i.e. largest cosine)
-	///		may be the fastest to converge on Jacobi iterations because it applies the least modification
-	///		to the rows/columns updated by the Givens rotation while still zeroing out the
-	///		required elements. </remarks>
+	/// <summary> Modifies a diagonalizing rotation such that its angle is minimal. </summary>
+	/// <remarks> There are multiple rotation matrices V that diagonalize a Hermitian matrix V.
+	///		Given one such rotation matrix, this method returns the one that has the smallest
+	///		angle of rotation. Minimal angle rotations are required to ensure the convergence
+	///		of the both 1- and 2-sided Jacobi SVD algorithms. </remarks>
 	template <class T>
-	std::tuple<T, T> GetMinimalRotation(T cv, T sv) {
+	std::tuple<T, T> MinimizeDiagonalizingRotation(T cv, T sv) {
 		// Rotate V by Q = [0, -1; 1, 0] as in V' = V*Q.
 		// This merely flips the eigenvalues in V^T * A^T * A * V, but leaves the off-diagonals zero.
 		auto cvMag = std::abs(cv);
@@ -116,21 +120,11 @@ namespace impl {
 	}
 
 
-	/// <summary> Recompute the sine so that cv^2 + sv^2 = 1 holds precisely. </summary>
-	template <class T>
-	std::tuple<T, T> NormalizeRotation(T cv, T sv) {
-		using Real = remove_complex_t<T>;
-		// Assuming that cv^2 + sv^2 = 1 - epsilon, where epsilon << 1.
-		// Instead of doing the full 1 / sqrt(cv^2 + sv^2), uses a second-order
-		// series expansion of 1 / sqrt(1 - epsilon), since epsilon should be super small.
-		const auto cvMag = std::abs(cv);
-		const auto svMag = std::abs(sv);
-		const auto epsilon = std::fma(-cvMag, cvMag, Real(1)) - svMag * svMag;
-		const auto invNorm = Real(0.375) * epsilon * epsilon + Real(0.5) * epsilon + T(1); // Accumulate smallest first!
-		return { cv * invNorm, sv * invNorm };
-	}
-
-
+	/// <summary> Diagonalizes a Hermitian (real or complex) matrix. </summary>
+	/// <returns> The cosine & sine (i.e. left column) of the diagonalizing rotation matrix. </returns>
+	/// <remarks> The returned unitary matrix V diagonalizes the Hermitian
+	///		input matrix H such that V^T * H * V = D is diagonal. In the complex case
+	///		^T means conjugate transpose. </remarks>
 	template <class T>
 	std::tuple<T, T> DiagonalizeHermitian2x2(const remove_complex_t<T>& a11, const T& aoff, const remove_complex_t<T>& a22) {
 		using Real = remove_complex_t<T>;
@@ -155,12 +149,16 @@ namespace impl {
 		const auto scale = std::sqrt(std::norm(cv) + std::norm(sv));
 
 		std::tie(cv, sv) = std::tuple(cv / scale, sv / scale);
-		std::tie(cv, sv) = GetMinimalRotation(cv, sv);
 
 		return { cv, sv };
 	}
 
 
+	/// <summary> Diagonalizes an upper triangular matrix. </summary>
+	/// <returns> The cosine & sine (i.e. left column) of the diagonalizing rotation matrix. </returns>
+	/// <remarks> The returned unitary matrix V diagonalizes the upper triangular
+	///		input matrix R such that V^T * R^T * R * V = D is diagonal. In the complex case
+	///		^T means conjugate transpose. </remarks>
 	template <class T>
 	std::tuple<T, T> DiagonalizeTriangular2x2(const T& r11, const T& r12, const T& r22) {
 		using Real = remove_complex_t<T>;
@@ -171,14 +169,10 @@ namespace impl {
 		const auto z = zh + std::norm(r12) + zl;
 		const auto d = std::sqrt(Real(4) * std::norm(r11) * std::norm(r12) + z * z);
 		const auto u = (z + std::copysign(d, z)) / (Real(2) * r12 * conj()(r11));
-		const auto v = (-z - std::copysign(d, z)) / (Real(2) * r11 * conj()(r12));
 		if (std::isfinite(std::real(u)) && std::isfinite(std::imag(u))) {
 			const auto scale = std::hypot(Real(1), std::real(u), std::imag(u));
 			const auto [cv1, sv1] = std::tuple{ T(Real(1) / scale), u / scale };
-			const auto [cv2, sv2] = std::tuple{ v / scale, T(Real(1) / scale) };
-			// return { T(Real(1) / scale), u / scale };
 			return { cv1, sv1 };
-			// return { cv2, sv2 };
 		}
 		else {
 			return { T(1), T(0) };
@@ -186,6 +180,7 @@ namespace impl {
 	}
 
 
+	/// <summary> Computes the RQ of a 2x2 matrix. </summary>
 	template <class T, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 	DecompositionRQ2x2<T> DecomposeRQ2x2(const Matrix<T, 2, 2, Order, Layout, Packed>& A) {
 		const auto a11 = A(0, 0);
@@ -219,122 +214,53 @@ namespace impl {
 	}
 
 
+	/// <summary> Computes the singular value decomposition of a 2x2 matrix. </summary>
+	///	<remarks> This uses an explicit algorithm and is meant to be used as the kernel
+	///		of the 2-sided Jacobi SVD algorithm. </remarks>
 	template <class T, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 	DecompositionSVD2x2<T> DecomposeSVD2x2(const Matrix<T, 2, 2, Order, Layout, Packed>& A) {
-		if constexpr (true) {
-			using Real = remove_complex_t<T>;
+		using Real = remove_complex_t<T>;
 
-			const auto scale = mathter::ScaleElements(A);
-			if (scale == Real(0)) {
-				return { T(1), T(0), Real(0), Real(0), T(1), T(0), T(1) };
-			}
-			const auto As = A / scale;
-
-			// RQ preconditioning.
-			const auto rq = DecomposeRQ2x2(As);
-
-			// Compute V1: A = U * S * V1^T * Q
-			const auto [cv1, sv1] = DiagonalizeTriangular2x2(rq.r11, rq.r12, rq.r22);
-
-			// Multiply V1^T and Q to undo the RQ decomposition.
-			auto cv = conj()(rq.cq) * cv1 + conj()(rq.sq) * sv1;
-			auto sv = -rq.sq * cv1 + rq.cq * sv1;
-			std::tie(cv, sv) = GetMinimalRotation(cv, sv);
-
-			// Compute U * S by multiply A with the inverse of V.
-			const Matrix<T, 2, 2, Order, Layout, Packed> V = { cv, -conj()(sv), sv, conj()(cv) };
-			const auto US = As * V;
-
-			// Compute the singular values, i.e. the diagonal of matrix S.
-			const auto s11 = Length(US.Column(0));
-			const auto s22 = Length(US.Column(1));
-			const auto det = Determinant(US);
-			const auto detScaled = det / ScaleElements(det, std::numeric_limits<Real>::min());
-			const auto sign = detScaled != T(0) ? detScaled / std::abs(detScaled) : T(1);
-			const auto chkSign = std::abs(sign);
-			const auto s22signed = s22 / sign;
-
-			// Compute the cosine and sine of the rotation matrix U.
-			const auto [cu, su] = s11 > s22 ?
-									  std::tuple{ US(0, 0) / s11, US(1, 0) / s11 } :
-									  std::tuple{ conj()(US(1, 1)) / s22signed, -conj()(US(0, 1)) / s22signed };
-
-			// DEBUG
-			const T q = [] { if constexpr (is_complex_v<T>) { return std::polar(Real(1.0), Real(0.8)); } else { return Real(1.0); } }();
-			const Matrix<T, 2, 2, Order, Layout, Packed> rotate = { q, T(0), T(0), conj()(q) };
-			// const Matrix<T, 2, 2, Order, Layout, Packed> rotate = { T(0), T(-1), T(1), T(0) };
-			const Matrix<T, 2, 2, Order, Layout, Packed> V1 = { cv1, -conj()(sv1), sv1, conj()(cv1) };
-			const Matrix<T, 2, 2, Order, Layout, Packed> R = { rq.r11, rq.r12, T(0), rq.r22 };
-			const auto Vr = V * rotate;
-			const auto chkOrtho = Dot(US.Column(0), US.Column(1));
-			const auto chkDiagA = ConjTranspose(V) * ConjTranspose(A) * A * V;
-			const auto chkDiagARotate1 = ConjTranspose(rotate) * chkDiagA * rotate;
-			const auto chkDiagARotate2 = ConjTranspose(Vr) * ConjTranspose(A) * A * Vr;
-			const auto chkDiagR = ConjTranspose(V1) * ConjTranspose(R) * R * V1;
-
-			return { cu, su, scale * s11, scale * s22, conj()(cv), -sv, sign };
+		// Scale A such that its elements are near 1.0.
+		// This avoids overflow for the diagonalization and computation of U as well.
+		// The RQ decompositions does its own scaling slightly differently, may wanna get rid of that.
+		const auto scale = mathter::ScaleElements(A);
+		if (scale == Real(0)) {
+			return { T(1), T(0), Real(0), Real(0), T(1), T(0), T(1) };
 		}
-		else if constexpr (!is_complex_v<T>) {
-			// The algorithm is not trivial, see the description and derivation in the docs.
+		const auto As = A / scale;
 
-			// C++17 does not have the math constants yet.
-			constexpr auto sqrt2 = T(1.4142135623730950488016887242096980785696718753769480731766797379);
-			constexpr auto rsqrt2 = T(0.7071067811865475244008443621048490392848359376884740365883398689);
+		// RQ preconditioning. This should help preserve floating point accuracy
+		// by removing terms from the diagonalization step (see below).
+		const auto rq = DecomposeRQ2x2(As);
 
-			// RQ preconditioning.
-			const auto rq = DecomposeRQ2x2(A);
+		// Compute V1: A = U * S * V1^T * Q
+		const auto [cv1, sv1] = DiagonalizeTriangular2x2(rq.r11, rq.r12, rq.r22);
 
-			// Get the elements of the upper triangular R matrix.
-			const auto a11 = rq.r11;
-			const auto a12 = rq.r12;
-			const auto a22 = rq.r22;
+		// Compute V = Q^T * V1 to "undo" the RQ decomposition.
+		auto cv = conj()(rq.cq) * cv1 + conj()(rq.sq) * sv1;
+		auto sv = -rq.sq * cv1 + rq.cq * sv1;
+		std::tie(cv, sv) = MinimizeDiagonalizingRotation(cv, sv);
 
-			// Rescale matrix elements to avoid underflow and overflow.
-			const auto scaler = ScaleElements(a11, a12, a22);
-			if (scaler == T(0)) {
-				return { T(1), T(0), T(0), T(0), T(1), T(0), T(1) };
-			}
-			const auto a11s = a11 / scaler;
-			const auto a12s = a12 / scaler;
-			const auto a22s = a22 / scaler;
+		// Compute U * S = A * V.
+		const Matrix<T, 2, 2, Order, Layout, Packed> V = { cv, -conj()(sv), sv, conj()(cv) };
+		const auto US = As * V;
 
-			// Compute the cosine and sine of the rotation matrix V in R = USV.
-			const auto z = (a11s - a22s) * (a11s + a22s) - a12s * a12s;
-			const auto g = a11s * a12s;
-			const auto zabs = std::abs(z);
-			const auto zsign = std::copysign(T(1), z);
-			const auto p1 = std::hypot(zabs, T(2) * g);
-			const auto pab = std::sqrt((zabs + p1) / p1);
+		// Compute the singular values, i.e. the diagonal of matrix S.
+		const auto s11 = Length(US.Column(0));
+		const auto s22 = Length(US.Column(1));
 
-			auto cv = p1 != 0 ? std::clamp(-pab * rsqrt2, -T(1), T(1)) : T(1);
-			auto sv = p1 != 0 ? std::clamp(zsign * sqrt2 * g / (p1 * pab), -T(1), T(1)) : T(0);
-			std::tie(cv, sv) = GetMinimalRotation(cv, sv);
-			std::tie(cv, sv) = NormalizeRotation(cv, sv);
+		// Compute the cosine and sine of the rotation matrix U.
+		const auto det = Determinant(US);
+		const auto detScaled = det / ScaleElements(det, std::numeric_limits<Real>::min());
+		const auto sign = detScaled != T(0) ? detScaled / std::abs(detScaled) : T(1);
+		const auto chkSign = std::abs(sign);
+		const auto s22signed = s22 / sign;
+		const auto [cu, su] = s11 > s22 ?
+								  std::tuple{ US(0, 0) / s11, US(1, 0) / s11 } :
+								  std::tuple{ conj()(US(1, 1)) / s22signed, -conj()(US(0, 1)) / s22signed };
 
-			// Compute US = RV^T using the computed cv and sv.
-			const auto us11 = cv * a11 - sv * a12;
-			const auto us12 = sv * a11 + cv * a12;
-			const auto us21 = -sv * a22;
-			const auto us22 = cv * a22;
-
-			// Compute the singular values, i.e. the diagonal of matrix S.
-			const auto detUs = us11 * us22 - us12 * us21; // det(S) must match det(US), as det(U) == 1.
-			const auto s11 = std::hypot(us11, us21);
-			const auto s22abs = std::hypot(us12, us22);
-			const auto s22 = std::copysign(s22abs, detUs);
-
-			// Compute the cosine and sine of the rotation matrix U.
-			const auto [cu, su] = s11 > s22abs ? std::tuple{ us11 / s11, us21 / s11 } : std::tuple{ us22 / s22, -us12 / s22 };
-
-			// Multiply V and Q to undo the RQ decomposition.
-			const auto cvq = cv * rq.cq - sv * rq.sq;
-			const auto svq = sv * rq.cq + cv * rq.sq;
-
-			return { cu, su, s11, s22, cvq, svq, T(1) };
-		}
-		else {
-			return { T(1), T(0), T(1), T(1), T(1), T(0), T(1) };
-		}
+		return { cu, su, scale * s11, scale * s22, conj()(cv), -sv, sign };
 	}
 
 
@@ -436,12 +362,10 @@ namespace impl {
 					const auto error = std::abs(ataoff);
 					if (error != T(0)) {
 						maxError = std::max(maxError, error);
-						const auto [cv, sv] = DiagonalizeHermitian2x2(ata11, ataoff, ata22);
+						const auto [cv0, sv0] = DiagonalizeHermitian2x2(ata11, ataoff, ata22);
+						const auto [cv, sv] = MinimizeDiagonalizingRotation(cv0, sv0);
 
 						GivensRotateRight(X, p, q, cv, sv);
-
-						const auto [_ignore1, postError, _ignore2] = TransposeMultiplyPartial(X, p, q);
-
 						GivensRotateLeft(V, p, q, cv, -sv);
 					}
 				}
@@ -486,6 +410,7 @@ namespace impl {
 		// Do a QR decomposition if the singular values have a wide range, as the
 		// columns associated with the smallest (or zero) singular values may not be orthogonal
 		// to the rest due to numerical errors. The QR decomposition will orthogonalize them.
+		// NOTE: worth examining doing a polar decomposition A = UP instead.
 		if (numOverThreshold != Columns) {
 			const auto [Q, R] = DecomposeQR(X);
 			for (size_t i = 0; i < Columns; ++i) {

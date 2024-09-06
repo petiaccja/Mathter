@@ -313,7 +313,7 @@ TEST_CASE("SVD - 2x2 diagonalize triangular (complex)", "[SVD]") {
 }
 
 
-TEST_CASE("SVD - 2x2 get minimal rotation", "[SVD]") {
+TEST_CASE("SVD - 2x2 minimize diagonalizing rotation", "[SVD]") {
 	using namespace std::complex_literals;
 	using M22 = Matrix<std::complex<float>, 2, 2>;
 
@@ -326,7 +326,7 @@ TEST_CASE("SVD - 2x2 get minimal rotation", "[SVD]") {
 		const std::complex<float> cv = larger / norm;
 		const std::complex<float> sv = std::polar(smaller, 0.78452f) / norm;
 
-		const auto [cv1, sv1] = impl::GetMinimalRotation(cv, sv);
+		const auto [cv1, sv1] = impl::MinimizeDiagonalizingRotation(cv, sv);
 		REQUIRE(cv1 == test_util::Approx(cv));
 		REQUIRE(sv1 == test_util::Approx(sv));
 	}
@@ -336,7 +336,7 @@ TEST_CASE("SVD - 2x2 get minimal rotation", "[SVD]") {
 		const auto V = ExpandUnitary2x2(std::tuple(cv, sv));
 		const auto AtA = V * D * ConjTranspose(V);
 
-		const auto [cv1, sv1] = impl::GetMinimalRotation(cv, sv);
+		const auto [cv1, sv1] = impl::MinimizeDiagonalizingRotation(cv, sv);
 		const auto V1 = ExpandUnitary2x2(std::tuple(cv1, sv1));
 		auto D1 = D;
 		std::swap(D1(0, 0), D1(1, 1));
@@ -350,7 +350,7 @@ TEST_CASE("SVD - 2x2 get minimal rotation", "[SVD]") {
 		const auto V = ExpandUnitary2x2(std::tuple(cv, sv));
 		const auto AtA = V * D * ConjTranspose(V);
 
-		const auto [cv1, sv1] = impl::GetMinimalRotation(cv, sv);
+		const auto [cv1, sv1] = impl::MinimizeDiagonalizingRotation(cv, sv);
 		const auto V1 = ExpandUnitary2x2(std::tuple(cv1, sv1));
 		const auto D1 = D;
 
@@ -363,7 +363,7 @@ TEST_CASE("SVD - 2x2 get minimal rotation", "[SVD]") {
 		const auto V = ExpandUnitary2x2(std::tuple(cv, sv));
 		const auto AtA = V * D * ConjTranspose(V);
 
-		const auto [cv1, sv1] = impl::GetMinimalRotation(cv, sv);
+		const auto [cv1, sv1] = impl::MinimizeDiagonalizingRotation(cv, sv);
 		const auto V1 = ExpandUnitary2x2(std::tuple(cv1, sv1));
 		auto D1 = D;
 		std::swap(D1(0, 0), D1(1, 1));
@@ -796,26 +796,4 @@ TEMPLATE_LIST_TEST_CASE("Matrix - SVD square matrix (complex)", "[SVD]",
 		const auto [U, S, V] = DecomposeSVD(A, SVDAlgorithmTwoSided);
 		VerifySVD(A, U, Mat(Scale(S)), V, 1e-6f);
 	}
-}
-
-
-TEST_CASE("SVD - 2x2 DEBUG", "[SVD]") {
-	// using M22 = Matrix<float, 2, 2, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR, false>;
-	using M22 = Matrix<std::complex<float>, 2, 2, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::ROW_MAJOR>;
-	using namespace std::complex_literals;
-
-
-	const M22 A = {
-		0.954584956169f + 0.297938793898if, 0.0f,
-		0.0f, 0.0f
-	};
-	const auto [U, S, V] = ExpandSVD2x2(mathter::impl::DecomposeSVD2x2(A));
-	const auto [Uref, Sref, Vref] = mathter::impl::DecomposeSVDJacobiOneSided(A);
-	const auto diff = A - U * S * V;
-	const auto rel = NormPrecise(diff) / NormPrecise(A);
-	const auto det = Determinant(V);
-	const auto detRef = Determinant(Vref);
-	const auto arg = std::arg(V(0, 1));
-	const auto argRef = std::arg(Vref(0, 1));
-	VerifySVD(A, U, S, V, 1e-6f);
 }
