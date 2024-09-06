@@ -27,6 +27,20 @@ struct DecompositionSVD {
 	Matrix<T, Rows, PDim, Order, Layout, Packed> U;
 	Vector<Real, PDim, Packed> S;
 	Matrix<T, PDim, Columns, Order, Layout, Packed> V;
+
+	/// <summary> Solve multiple linear systems of equations at the same time. </summary>
+	/// <remarks> For overdetermined systems, it returns the least squares solution. </remarks>
+	template <class T2, int Rows2, int Columns2, eMatrixLayout Layout2, bool Packed2>
+	auto Solve(const Matrix<T2, Rows2, Columns2, Order, Layout2, Packed2>& b) const;
+
+	/// <summary> Solve a linear systems of equations. </summary>
+	/// <remarks> For overdetermined systems, it returns the least squares solution. </remarks>
+	template <class T2, bool Packed2>
+	auto Solve(const Vector<T2, std::max(Rows, Columns), Packed2>& b) const;
+
+	/// <summary> Compute the inverse or the pseudoinverse of the matrix. </summary>
+	/// <remarks> For non-square matrices, the pseudoinverse is computed instead. </remarks>
+	auto Inverse() const -> Matrix<T, Columns, Rows, Order, Layout, Packed>;
 };
 
 
@@ -40,6 +54,51 @@ template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layo
 DecompositionSVD(const Matrix<T, Rows, Rows, Order, Layout, Packed>&,
 				 const Vector<remove_complex_t<T>, Rows, Packed>&,
 				 const Matrix<T, Rows, Columns, Order, Layout, Packed>&) -> DecompositionSVD<T, Rows, Columns, Order, Layout, Packed>;
+
+
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+template <class T2, int Rows2, int Columns2, eMatrixLayout Layout2, bool Packed2>
+auto DecompositionSVD<T, Rows, Columns, Order, Layout, Packed>::Solve(const Matrix<T2, Rows2, Columns2, Order, Layout2, Packed2>& b) const {
+	if constexpr (Order == eMatrixOrder::PRECEDE_VECTOR) {
+		static_assert(Rows == Rows2);
+		auto X = ConjTranspose(U) * b;
+		for (size_t row = 0; row < Columns; ++row) {
+			X.Row(row, X.Row(row) / S(row));
+		}
+		return ConjTranspose(V) * X;
+	}
+	else {
+		static_assert(Columns == Columns2);
+		auto X = b * ConjTranspose(V);
+		for (size_t col = 0; col < Rows; ++col) {
+			X.Column(col, X.Column(col) / S(col));
+		}
+		return X * ConjTranspose(U);
+	}
+}
+
+
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+template <class T2, bool Packed2>
+auto DecompositionSVD<T, Rows, Columns, Order, Layout, Packed>::Solve(const Vector<T2, std::max(Rows, Columns), Packed2>& b) const {
+	if constexpr (Order == eMatrixOrder::PRECEDE_VECTOR) {
+		return Vector(Solve(Matrix<T2, Rows, 1, Order, Layout, Packed>(b)));
+	}
+	else {
+		return Vector(Solve(Matrix<T2, 1, Columns, Order, Layout, Packed>(b)));
+	}
+}
+
+
+template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+auto DecompositionSVD<T, Rows, Columns, Order, Layout, Packed>::Inverse() const -> Matrix<T, Columns, Rows, Order, Layout, Packed> {
+	auto Xi = ConjTranspose(V);
+	for (size_t i = 0; i < S.Dimension(); ++i) {
+		Xi.Column(i, Xi.Column(i) / S(i));
+	}
+	const auto Ui = ConjTranspose(U);
+	return Xi * Ui;
+}
 
 
 namespace impl {
@@ -284,33 +343,35 @@ namespace impl {
 
 	template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 	auto DecomposeSVDJacobiTwoSided(const Matrix<T, Rows, Columns, Order, Layout, Packed>& A) {
+		static_assert(Rows >= Columns);
+
 		using Real = remove_complex_t<T>;
-		using MatSquare = Matrix<T, Rows, Columns, Order, Layout, Packed>;
-		using MatTall = Matrix<T, Rows, Rows, Order, Layout, Packed>;
-		constexpr auto tolerance = Real(1) * std::numeric_limits<Real>::epsilon();
+		using MatExt = Matrix<T, Rows, Rows, Order, Layout, Packed>;
+		constexpr auto tolerance = Real(1e-1f) * std::numeric_limits<Real>::epsilon();
 
 		const auto scaler = ScaleElements(A);
-		MatTall U = Identity();
-		MatSquare X = A / scaler;
-		MatSquare V = Identity();
+		MatExt U = Identity();
+		MatExt X;
+		MatExt V = Identity();
+		X.Insert(0, 0, A / scaler);
+		for (size_t col = Columns; col < Rows; ++col) {
+			for (size_t row = 0; row < Rows; ++row) {
+				X(row, col) = T(0);
+			}
+		}
 
 		auto maxErrorPrev = std::numeric_limits<Real>::max();
 		auto maxError = std::nextafter(maxErrorPrev, Real(0));
 		while (maxError < maxErrorPrev) {
 			maxErrorPrev = maxError;
 			maxError = Real(0);
-			for (int p = 0; p < Columns; ++p) {
-				for (int q = p + 1; q < Columns; ++q) {
+			for (int p = 0; p < Rows; ++p) {
+				for (int q = p + 1; q < Rows; ++q) {
 					const auto [xpp, xpq, xqp, xqq] = std::tuple(X(p, p), X(p, q), X(q, p), X(q, q));
-					const auto error = std::max(std::abs(xpq), std::abs(xqp));
+					const auto error = ScaleElements(xpq, xqp);
 					if (error > tolerance) {
 						maxError = std::max(maxError, error);
 						const auto svd2x2 = DecomposeSVD2x2(Matrix<T, 2, 2>{ xpp, xpq, xqp, xqq });
-
-						const Matrix<T, 2, 2> Um = { svd2x2.cu, svd2x2.det * -conj()(svd2x2.su), svd2x2.su, svd2x2.det * conj()(svd2x2.cu) };
-						const Matrix<T, 2, 2> Sm = { svd2x2.s11, T(0), T(0), svd2x2.s22 };
-						const Matrix<T, 2, 2> Vm = { svd2x2.cv, -conj()(svd2x2.sv), svd2x2.sv, conj()(svd2x2.cv) };
-						const auto chk = Um * Sm * Vm;
 
 						GivensRotateRight(U, p, q, svd2x2.cu, svd2x2.su, svd2x2.det);
 						GivensRotateLeft(X, p, q, conj()(svd2x2.cu), -conj()(svd2x2.det) * svd2x2.su, conj()(svd2x2.det));
@@ -326,7 +387,7 @@ namespace impl {
 			S(i) = std::real(X(i, i));
 		}
 
-		return DecompositionSVD{ U, S * scaler, V };
+		return DecompositionSVD{ U.template Extract<Rows, Columns>(0, 0), S * scaler, V.template Extract<Columns, Columns>(0, 0) };
 	}
 
 
@@ -341,10 +402,12 @@ namespace impl {
 
 	template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 	auto DecomposeSVDJacobiOneSided(const Matrix<T, Rows, Columns, Order, Layout, Packed>& A) {
+		static_assert(Rows >= Columns);
+
 		using Real = remove_complex_t<T>;
 
-		using MatSquare = Matrix<T, Rows, Columns, Order, Layout, Packed>;
-		using MatTall = Matrix<T, Rows, Rows, Order, Layout, Packed>;
+		using MatSquare = Matrix<T, Columns, Columns, Order, Layout, Packed>;
+		using MatTall = Matrix<T, Rows, Columns, Order, Layout, Packed>;
 
 		const auto scaler = ScaleElements(A);
 		MatTall X = A / scaler;

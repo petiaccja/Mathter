@@ -9,6 +9,7 @@
 #include "../Approx.hpp"
 #include "../Cases.hpp"
 #include "../MatrixUtil.hpp"
+#include "../Verifyers.hpp"
 
 #include <Mathter/Decompositions/DecomposeQR.hpp>
 #include <Mathter/Matrix/Arithmetic.hpp>
@@ -28,13 +29,7 @@ static void VerifyDecomposition(const MatA& A, const MatQ& Q, const MatR& R) {
 
 	constexpr auto tolerance = Real(15) * std::numeric_limits<Real>::epsilon();
 
-	if constexpr (row_count_v<MatQ> == column_count_v<MatQ>) {
-		const auto detQ = Determinant(Q);
-		REQUIRE(std::abs(detQ) == Catch::Approx(1.0));
-	}
-
-	const auto QtQ = ConjTranspose(Q) * Q;
-	REQUIRE(QtQ == test_util::Approx(decltype(QtQ)(Identity()), tolerance));
+	VerifyUnitary(Q, tolerance);
 	REQUIRE(Q * R == test_util::Approx(A, tolerance));
 
 	REQUIRE(NormPrecise(ZeroUpperTriangle(R)) < tolerance * NormPrecise(R));
@@ -207,19 +202,13 @@ TEMPLATE_LIST_TEST_CASE("QR decomposition: compute real pseudoinverse", "[QR]",
 	SECTION("QR") {
 		const auto QR = DecomposeQR(m);
 		const auto pseudoinverse = QR.Inverse();
-		static_assert(row_count_v<std::decay_t<decltype(pseudoinverse)>> == 3);
-		static_assert(column_count_v<std::decay_t<decltype(pseudoinverse)>> == 4);
-		// The Moore-Penrose conditions
-		REQUIRE(m * pseudoinverse * m == test_util::Approx(m));
-		REQUIRE(pseudoinverse * m * pseudoinverse == test_util::Approx(pseudoinverse));
-		REQUIRE(ConjTranspose(m * pseudoinverse) == test_util::Approx(m * pseudoinverse));
-		REQUIRE(ConjTranspose(pseudoinverse * m) == test_util::Approx(pseudoinverse * m));
+		VerifyPseudoinverse(m, pseudoinverse, 1e-6f);
 	}
 	SECTION("LQ") {
 		const auto mt = FlipLayoutAndOrder(m);
 		const auto LQ = DecomposeLQ(mt);
 		const auto pseudoinverse = LQ.Inverse();
-		REQUIRE(mt * pseudoinverse * mt == test_util::Approx(mt));
+		VerifyPseudoinverse(mt, pseudoinverse, 1e-6f);
 	}
 }
 
@@ -239,19 +228,13 @@ TEMPLATE_LIST_TEST_CASE("QR decomposition: compute complex pseudoinverse", "[QR]
 	SECTION("QR") {
 		const auto QR = DecomposeQR(m);
 		const auto pseudoinverse = QR.Inverse();
-		static_assert(row_count_v<std::decay_t<decltype(pseudoinverse)>> == 3);
-		static_assert(column_count_v<std::decay_t<decltype(pseudoinverse)>> == 4);
-		// The Moore-Penrose conditions
-		REQUIRE(m * pseudoinverse * m == test_util::Approx(m));
-		REQUIRE(pseudoinverse * m * pseudoinverse == test_util::Approx(pseudoinverse));
-		REQUIRE(ConjTranspose(m * pseudoinverse) == test_util::Approx(m * pseudoinverse));
-		REQUIRE(ConjTranspose(pseudoinverse * m) == test_util::Approx(pseudoinverse * m));
+		VerifyPseudoinverse(m, pseudoinverse, 1e-6f);
 	}
 	SECTION("LQ") {
 		const auto mt = FlipLayoutAndOrder(m);
 		const auto LQ = DecomposeLQ(mt);
 		const auto pseudoinverse = LQ.Inverse();
-		REQUIRE(mt * pseudoinverse * mt == test_util::Approx(mt));
+		VerifyPseudoinverse(mt, pseudoinverse, 1e-6f);
 	}
 }
 

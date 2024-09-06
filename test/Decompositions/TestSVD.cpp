@@ -7,6 +7,7 @@
 
 #include "../Approx.hpp"
 #include "../Cases.hpp"
+#include "../Verifyers.hpp"
 
 #include <Mathter/Decompositions/DecomposeSVD.hpp>
 #include <Mathter/Transforms/Rotation2DBuilder.hpp>
@@ -140,22 +141,15 @@ auto GenFromExp(T exponent) {
 template <class MatA, class MatU, class MatS, class MatV, class Tol>
 void VerifySVD(MatA A, MatU U, MatS S, MatV V, Tol tolerance) {
 	const auto USV = U * S * V;
-	const auto UTU = ConjTranspose(U) * U;
-	const auto VTV = ConjTranspose(V) * V;
-	const auto detU = Determinant(U);
-	const auto detV = Determinant(V);
 
 	INFO("A =   " << std::setprecision(12) << A);
 	INFO("U =   " << std::setprecision(12) << U);
 	INFO("S =   " << std::setprecision(12) << S);
 	INFO("V =   " << std::setprecision(12) << V);
 
-	const auto err = NormPrecise(A - USV) / NormPrecise(A);
-
-	REQUIRE_THAT(std::abs(detU), Catch::Matchers::WithinAbs(1.0f, tolerance));
-	REQUIRE_THAT(std::abs(detV), Catch::Matchers::WithinAbs(1.0f, tolerance));
-	REQUIRE(UTU == test_util::Approx(decltype(UTU)(Identity()), tolerance));
-	REQUIRE(VTV == test_util::Approx(decltype(VTV)(Identity()), tolerance));
+	VerifyUnitary(U, tolerance);
+	VerifyUnitary(V, tolerance);
+	[[maybe_unused]] const auto maxError = Max(Abs(A - USV));
 	REQUIRE(A == test_util::Approx(USV, tolerance));
 }
 
@@ -700,9 +694,6 @@ TEST_CASE("SVD - 2x2 edge case hammer (2-sided core) (complex)", "[SVD]") {
 				Vref.Column(0, Vref.Column(0) * Vshift);
 				Vref.Column(1, Vref.Column(1) * std::conj(Vshift));
 
-				const auto chkU = ConjTranspose(Uref) * Uref;
-				const auto chkV = ConjTranspose(Vref) * Vref;
-
 				const auto Aref = Uref * Sref * Vref;
 				const auto A = M22(Aref);
 
@@ -777,7 +768,7 @@ TEMPLATE_LIST_TEST_CASE("SVD - square matrix (real)", "[SVD]",
 }
 
 
-TEMPLATE_LIST_TEST_CASE("Matrix - SVD square matrix (complex)", "[SVD]",
+TEMPLATE_LIST_TEST_CASE("SVD - square matrix (complex)", "[SVD]",
 						decltype(MatrixCaseList<ScalarsComplex, OrdersAll, LayoutsAll, PackingsAll>{})) {
 	using Mat = typename TestType::template Matrix<3, 3>;
 	using namespace std::complex_literals;
@@ -795,5 +786,258 @@ TEMPLATE_LIST_TEST_CASE("Matrix - SVD square matrix (complex)", "[SVD]",
 	SECTION("2-sided algorithm") {
 		const auto [U, S, V] = DecomposeSVD(A, SVDAlgorithmTwoSided);
 		VerifySVD(A, U, Mat(Scale(S)), V, 1e-6f);
+	}
+}
+
+
+TEMPLATE_LIST_TEST_CASE("SVD - wide & tall matrix (real)", "[SVD]",
+						decltype(MatrixCaseList<ScalarsFloating, OrdersAll, LayoutsAll, PackingsAll>{})) {
+	using Mat = typename TestType::template Matrix<3, 4>;
+	using MatSqare = typename TestType::template Matrix<3, 3>;
+
+	const Mat A = {
+		1, 3, 4, -1,
+		3, -1, -3, 2,
+		4, -2, -1, 0
+	};
+
+	SECTION("Wide") {
+		SECTION("1-sided algorithm") {
+			const auto [U, S, V] = DecomposeSVD(A, SVDAlgorithmOneSided);
+			VerifySVD(A, U, MatSqare(Scale(S)), V, 1e-6f);
+		}
+		SECTION("2-sided algorithm") {
+			const auto [U, S, V] = DecomposeSVD(A, SVDAlgorithmTwoSided);
+			VerifySVD(A, U, MatSqare(Scale(S)), V, 1e-6f);
+		}
+	}
+	SECTION("Tall") {
+		const auto At = Transpose(A);
+		SECTION("1-sided algorithm") {
+			const auto [U, S, V] = DecomposeSVD(At, SVDAlgorithmOneSided);
+			VerifySVD(At, U, MatSqare(Scale(S)), V, 1e-6f);
+		}
+		SECTION("2-sided algorithm") {
+			const auto [U, S, V] = DecomposeSVD(At, SVDAlgorithmTwoSided);
+			VerifySVD(At, U, MatSqare(Scale(S)), V, 1e-6f);
+		}
+	}
+}
+
+
+TEMPLATE_LIST_TEST_CASE("SVD - wide & tall matrix (complex)", "[SVD]",
+						decltype(MatrixCaseList<ScalarsComplex, OrdersAll, LayoutsAll, PackingsAll>{})) {
+	using Mat = typename TestType::template Matrix<3, 4>;
+	using MatSqare = typename TestType::template Matrix<3, 3>;
+	using namespace std::complex_literals;
+
+	const Mat A = {
+		1.f + 0.7if, 0.5f + 1.2if, -1.3f - 0.9if, 0.4f + 1.1if,
+		2.f - 0.2if, -1.1f - 1.0if, -0.7f + 0.6if, -0.7f + 0.6if,
+		-1.f + 0.3if, 0.3f + 1.2if, 0.3f - 0.1if, 0.5f - 0.5if
+	};
+
+	SECTION("Wide") {
+		SECTION("1-sided algorithm") {
+			const auto [U, S, V] = DecomposeSVD(A, SVDAlgorithmOneSided);
+			VerifySVD(A, U, MatSqare(Scale(S)), V, 1e-6f);
+		}
+		SECTION("2-sided algorithm") {
+			const auto [U, S, V] = DecomposeSVD(A, SVDAlgorithmTwoSided);
+			VerifySVD(A, U, MatSqare(Scale(S)), V, 1e-6f);
+		}
+	}
+	SECTION("Tall") {
+		const auto At = Transpose(A);
+		SECTION("1-sided algorithm") {
+			const auto [U, S, V] = DecomposeSVD(At, SVDAlgorithmOneSided);
+			VerifySVD(At, U, MatSqare(Scale(S)), V, 1e-6f);
+		}
+		SECTION("2-sided algorithm") {
+			const auto [U, S, V] = DecomposeSVD(At, SVDAlgorithmTwoSided);
+			VerifySVD(At, U, MatSqare(Scale(S)), V, 1e-6f);
+		}
+	}
+}
+
+
+TEMPLATE_LIST_TEST_CASE("SVD: compute real inverse", "[SVD]",
+						decltype(MatrixCaseList<ScalarsFloating, OrdersAll, LayoutsAll, PackingsAll>{})) {
+	using Mat = typename TestType::template Matrix<3, 3>;
+	using namespace std::complex_literals;
+
+	const Mat m = {
+		0.89f, 1.94f, -2.33f,
+		1.74f, -0.89f, -1.11f,
+		2.55f, 1.38f, 0.62f
+	};
+
+	const auto svd = DecomposeSVD(m);
+	const auto inverse = svd.Inverse();
+	REQUIRE(m * inverse == test_util::Approx(Mat(Identity())));
+}
+
+
+TEMPLATE_LIST_TEST_CASE("SVD: compute complex inverse", "[SVD]",
+						decltype(MatrixCaseList<ScalarsComplex, OrdersAll, LayoutsAll, PackingsAll>{})) {
+	using Mat = typename TestType::template Matrix<3, 3>;
+	using namespace std::complex_literals;
+
+	const Mat m = {
+		1.f + 0.7if, 0.5f + 1.2if, -1.3f - 0.9if,
+		2.f - 0.2if, -1.1f - 1.0if, -0.7f + 0.6if,
+		-1.f + 0.3if, 0.3f + 1.2if, 0.3f - 0.1if
+	};
+
+	const auto svd = DecomposeSVD(m);
+	const auto inverse = svd.Inverse();
+	REQUIRE(m * inverse == test_util::Approx(Mat(Identity())));
+}
+
+
+TEMPLATE_LIST_TEST_CASE("SVD: compute real pseudoinverse", "[SVD]",
+						decltype(MatrixCaseList<ScalarsFloating, OrdersAll, LayoutsAll, PackingsAll>{})) {
+	using Mat = typename TestType::template Matrix<4, 3>;
+	using namespace std::complex_literals;
+
+	const Mat m = {
+		0.89f, 1.94f, -2.33f,
+		1.74f, -0.89f, -1.11f,
+		2.55f, 1.38f, 0.62f,
+		0.77f, -0.98f, 0.13f
+	};
+
+	SECTION("Tall") {
+		const auto svd = DecomposeSVD(m);
+		const auto pseudoinverse = svd.Inverse();
+		VerifyPseudoinverse(m, pseudoinverse, 1e-6f);
+	}
+	SECTION("Wide") {
+		const auto mt = FlipLayoutAndOrder(m);
+		const auto svd = DecomposeSVD(mt);
+		const auto pseudoinverse = svd.Inverse();
+		VerifyPseudoinverse(mt, pseudoinverse, 1e-6f);
+	}
+}
+
+
+TEMPLATE_LIST_TEST_CASE("SVD: compute complex pseudoinverse", "[SVD]",
+						decltype(MatrixCaseList<ScalarsComplex, OrdersAll, LayoutsAll, PackingsAll>{})) {
+	using Mat = typename TestType::template Matrix<4, 3>;
+	using namespace std::complex_literals;
+
+	const Mat m = {
+		1.f + 0.7if, 0.5f + 1.2if, -1.3f - 0.9if,
+		2.f - 0.2if, -1.1f - 1.0if, -0.7f + 0.6if,
+		-1.f + 0.3if, 0.3f + 1.2if, 0.3f - 0.1if,
+		-0.4f + 1.3f, 0.6f - 0.2f, -0.9f + 0.7f
+	};
+
+	SECTION("Tall") {
+		const auto svd = DecomposeSVD(m);
+		const auto pseudoinverse = svd.Inverse();
+		VerifyPseudoinverse(m, pseudoinverse, 1e-6f);
+	}
+	SECTION("Wide") {
+		const auto mt = FlipLayoutAndOrder(m);
+		const auto svd = DecomposeSVD(mt);
+		const auto pseudoinverse = svd.Inverse();
+		VerifyPseudoinverse(mt, pseudoinverse, 1e-6f);
+	}
+}
+
+
+TEMPLATE_LIST_TEST_CASE("SVD: solve system of equations", "[SVD]",
+						decltype(MatrixCaseList<ScalarsFloating, OrdersPrecede, LayoutsAll, PackingsAll>{})) {
+	using Mat = typename TestType::template Matrix<3, 3>;
+	using Vec = Vector<double, 3, false>;
+	using namespace std::complex_literals;
+
+	const Mat m = {
+		0.89f, 1.94f, -2.33f,
+		1.74f, -0.89f, -1.11f,
+		2.55f, 1.38f, 0.62f
+	};
+
+	const Vec b = { 4, 6, 8 };
+
+	SECTION("Precede") {
+		const auto svd = DecomposeSVD(m);
+		const auto x = svd.Solve(b);
+		REQUIRE(m * x == test_util::Approx(b, 1e-6f));
+	}
+	SECTION("Follow") {
+		const auto mt = FlipLayoutAndOrder(m);
+		const auto svd = DecomposeSVD(mt);
+		const auto x = svd.Solve(b);
+		REQUIRE(x * mt == test_util::Approx(b, 1e-6f));
+	}
+}
+
+
+TEMPLATE_LIST_TEST_CASE("SVD: solve multiple systems of equations", "[SVD]",
+						decltype(MatrixCaseList<ScalarsFloating, OrdersPrecede, LayoutsAll, PackingsAll>{})) {
+	using Mat = typename TestType::template Matrix<3, 3>;
+	using MatB = typename TestType::template Matrix<3, 2>;
+	using namespace std::complex_literals;
+
+	const Mat m = {
+		0.89f, 1.94f, -2.33f,
+		1.74f, -0.89f, -1.11f,
+		2.55f, 1.38f, 0.62f
+	};
+
+	const MatB b = {
+		4, 5,
+		6, 7,
+		8, 9
+	};
+
+	SECTION("Precede") {
+		const auto svd = DecomposeSVD(m);
+		const auto x = svd.Solve(b);
+		REQUIRE(m * x.Column(0) == test_util::Approx(b.Column(0), 1e-6f));
+		REQUIRE(m * x.Column(1) == test_util::Approx(b.Column(1), 1e-6f));
+	}
+	SECTION("Follow") {
+		const auto mt = FlipLayoutAndOrder(m);
+		const auto svd = DecomposeSVD(mt);
+		const auto x = svd.Solve(FlipLayoutAndOrder(b));
+		REQUIRE(x.Row(0) * mt == test_util::Approx(b.Column(0), 1e-6f));
+		REQUIRE(x.Row(1) * mt == test_util::Approx(b.Column(1), 1e-6f));
+	}
+}
+
+
+TEMPLATE_LIST_TEST_CASE("SVD: solve least squares problem", "[SVD]",
+						decltype(MatrixCaseList<ScalarsFloating, OrdersPrecede, LayoutsAll, PackingsAll>{})) {
+	using Mat = typename TestType::template Matrix<4, 3>;
+	using Vec = Vector<double, 4, false>;
+	using namespace std::complex_literals;
+
+	const Mat m = {
+		0.89f, 1.94f, -2.33f,
+		1.74f, -0.89f, -1.11f,
+		2.55f, 1.38f, 0.62f,
+		0.77f, -0.98f, 0.13f
+	};
+
+	const Vec b = { 4, 6, 8, 10 };
+
+	SECTION("Precede") {
+		const auto svd = DecomposeSVD(m);
+		const auto x = svd.Solve(b);
+		// A reference solution is calculated using the pseudinverse.
+		const auto pseudoinverse = svd.Inverse();
+		const auto xRef = pseudoinverse * b;
+		REQUIRE(x == test_util::Approx(xRef, 1e-6f));
+	}
+	SECTION("Follow") {
+		const auto mt = FlipLayoutAndOrder(m);
+		const auto svd = DecomposeSVD(mt);
+		const auto x = svd.Solve(b);
+		const auto pseudoinverse = svd.Inverse();
+		const auto xRef = b * pseudoinverse;
+		REQUIRE(x == test_util::Approx(xRef, 1e-6f));
 	}
 }
