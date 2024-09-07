@@ -209,7 +209,6 @@ auto DecomposeLU(const Matrix<T, Dim, Dim, Order, Layout, Packed>& m) {
 
 	Mat L = Identity();
 	Mat U = m;
-	Mat check = m;
 
 	for (size_t zeroedColIdx = 0; zeroedColIdx < Dim - 1; ++zeroedColIdx) {
 		const auto pivotRow = U.Row(zeroedColIdx);
@@ -221,7 +220,6 @@ auto DecomposeLU(const Matrix<T, Dim, Dim, Order, Layout, Packed>& m) {
 			U.Row(zeroedRowIdx, U.Row(zeroedRowIdx) - pivotRow * scale);
 			U(zeroedRowIdx, zeroedColIdx) = static_cast<T>(0); // Just to be sure that it is exactly zero.
 			L(zeroedRowIdx, zeroedColIdx) = scale;
-			check = L * U;
 		}
 	}
 
