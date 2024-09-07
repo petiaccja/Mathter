@@ -132,24 +132,33 @@ Installation
 - Set `MATHTER_ENABLE_SIMD:BOOL` according to whether you have [XSimd](https://github.com/xtensor-stack/xsimd) installed
 
 
-Building the tests
+Building & running Mathter
 ---
 
-To build Mathter and run tests, you'll need [conan (version 2)](https://docs.conan.io/2/installation.html):
+Mathter is header-only and doesn't have to be built, unless you want to:
+- Use it via CMake-based packaging
+- Run the tests
+- Run the benchmarks
+
+### Steps
+
+Mathter uses a very standard [conan 2.0](https://docs.conan.io/2/installation.html) + CMake workflow.
+
+I assume you already know how to install CMake. In case you're not familiar with conan, you can install it via `pip`:
 
 ```
 pip install conan
 ```
 
-You then have to create a `conan` profile:
+Conan needs you to create a profile. You can either create one yourself, potentially using the command below, or you can use one of the profiles Mathter uses on the CI. The CI profiles can be found in `.github/build_profiles`, and they work just as well locally.
 
 ```
 conan profile detect
 ```
 
-It's recommended to verify and edit your conan profile as needed.
+If you used profile detection, be sure to check and edit the profile as needed. You can find its path by typing `conan profile path default`.
 
-You then have to install the dependencies using `conan`, configure with `CMake`, and build:
+Once you are set up, the following three commands install the dependencies of Mathter, configure the CMake project, and build the binaries:
 
 ```
 conan install . --build=missing -pr:h=default -pr:b=default
@@ -157,12 +166,23 @@ cmake . --preset conan-debug
 cmake --build build/debug
 ```
 
-Instead of the `default` profile, you can also use the profiles in `.github/build_profiles`.
+For additional help, you can always look at the CI workflows for exact commands to build.
 
-Once the build is finished, you can run `./bin/UnitTest`, which is a [Catch2](https://github.com/catchorg/Catch2) application.
+### Running the tests
 
-If in doubt, you can always look at the CI workflows for an example of building and running the tests.
+The test suite is compiled into `<build-folder>/bin/UnitTest`. The tests use the Catch2 framework, you can check its documentation for more information.
 
+You may want to run the tests in two cases:
+- You're developing or patching Mathter. The test suite helps you verify if your code works properly.
+- You're on an exotic architecture and want to make sure the results are correct. This can be the case when your environment does not properly support IEEE-754 floats.
+
+### Running the benchmarks
+
+The benchmark suite is compiled into `<build-folder>/bin/Benchmark`.
+
+The benchmarks attempt to measure clock-cycle accurate latency and throughput timings for many common operations in Mathter. While there are some anomalies due to the difficulty of such microbenchmarking, the benchmarks give an insight into how fast Mathter is on your hardware and compiler.
+
+When configuring CMake, you can set the `MATHTER_TARGET_ARCH=<arch>` flag to generate code tuned for a specific CPU. The value is passed straight to the compiler, so you have to check the compilers' documentations for the options. As an example, you can use `native` for GCC and Clang, or `AVX2` for MSVC.
 
 License
 ---
