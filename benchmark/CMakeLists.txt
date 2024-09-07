@@ -11,6 +11,7 @@ target_sources(Benchmark
 
 target_sources(Benchmark
     PRIVATE
+        "Decompositions/BenchmarkDecompositions.cpp"
         "Matrix/BenchmarkArithmetic.cpp"
         "Matrix/BenchmarkMath.cpp"
         "Scalar/BenchmarkArithmetic.cpp"
