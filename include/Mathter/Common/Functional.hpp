@@ -224,4 +224,30 @@ struct conj<void> {
 	}
 };
 
+
+template <class T = void>
+struct sqrt {
+	constexpr auto operator()(const T& arg) const {
+#ifdef MATHTER_ENABLE_SIMD
+		if constexpr (xsimd::is_batch<T>::value) {
+			return xsimd::sqrt(arg);
+		}
+		else {
+#endif
+			return std::sqrt(arg);
+#ifdef MATHTER_ENABLE_SIMD
+		}
+#endif
+	}
+};
+
+
+template <>
+struct sqrt<void> {
+	template <class T>
+	constexpr auto operator()(T&& arg) const {
+		return sqrt<std::decay_t<T>>{}(std::forward<T>(arg));
+	}
+};
+
 } // namespace mathter

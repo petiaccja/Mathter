@@ -209,7 +209,6 @@ auto DecomposeLU(const Matrix<T, Dim, Dim, Order, Layout, Packed>& m) {
 
 	Mat L = Identity();
 	Mat U = m;
-	Mat check = m;
 
 	for (size_t zeroedColIdx = 0; zeroedColIdx < Dim - 1; ++zeroedColIdx) {
 		const auto pivotRow = U.Row(zeroedColIdx);
@@ -221,7 +220,6 @@ auto DecomposeLU(const Matrix<T, Dim, Dim, Order, Layout, Packed>& m) {
 			U.Row(zeroedRowIdx, U.Row(zeroedRowIdx) - pivotRow * scale);
 			U(zeroedRowIdx, zeroedColIdx) = static_cast<T>(0); // Just to be sure that it is exactly zero.
 			L(zeroedRowIdx, zeroedColIdx) = scale;
-			check = L * U;
 		}
 	}
 
@@ -231,12 +229,13 @@ auto DecomposeLU(const Matrix<T, Dim, Dim, Order, Layout, Packed>& m) {
 
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 auto DecomposeLUP(const Matrix<T, Dim, Dim, Order, Layout, Packed>& m) {
-	using Mat = std::decay_t<decltype(m)>;
+	using MatResult = Matrix<T, Dim, Dim, Order, Layout, Packed>;
+	using MatWorking = Matrix<T, Dim, Dim, Order, eMatrixLayout::ROW_MAJOR, Packed>;
 	using Perm = Vector<uint32_t, Dim, Packed>;
 	using Real = remove_complex_t<T>;
 
-	Mat L = Identity();
-	Mat U = m;
+	MatResult L = Identity();
+	MatWorking U = m;
 	Perm P;
 	std::iota(P.begin(), P.end(), uint32_t(0));
 
@@ -267,7 +266,7 @@ auto DecomposeLUP(const Matrix<T, Dim, Dim, Order, Layout, Packed>& m) {
 		}
 	}
 
-	return DecompositionLUP{ L, U, P };
+	return DecompositionLUP{ L, MatResult(U), P };
 }
 
 } // namespace mathter

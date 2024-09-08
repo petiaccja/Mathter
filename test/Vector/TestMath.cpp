@@ -167,6 +167,19 @@ TEMPLATE_LIST_TEST_CASE("Vector - Conj (complex)", "[Vector]",
 }
 
 
+TEMPLATE_LIST_TEST_CASE("Vector - Sqrt", "[Vector]",
+						decltype(VectorCaseList<ScalarsFloatingAndComplex, PackingsAll>{})) {
+	using namespace std::complex_literals;
+	using Vec = typename TestType::template Vector<3>;
+
+	const Vec value = { 1.0f, 4.0f, 9.0f };
+	const auto result = Sqrt(value);
+	REQUIRE(result[0] == scalar_type_t<Vec>(1.0f));
+	REQUIRE(result[1] == scalar_type_t<Vec>(2.0f));
+	REQUIRE(result[2] == scalar_type_t<Vec>(3.0f));
+}
+
+
 TEMPLATE_LIST_TEST_CASE("Vector - Sum", "[Vector]",
 						decltype(VectorCaseList<ScalarsAll, PackingsAll>{})) {
 	using namespace std::complex_literals;
