@@ -224,10 +224,9 @@ namespace impl {
 
 		const auto zr = (std::real(r22) + std::real(r11)) * (std::real(r22) - std::real(r11));
 		const auto zi = (std::imag(r22) + std::imag(r11)) * (std::imag(r22) - std::imag(r11));
-		const auto [zh, zl] = Fast2Sum(zr, zi);
-		const auto z = zh + std::norm(r12) + zl;
+		const auto z = zr + zi + std::norm(r12);
 		const auto d = std::sqrt(Real(4) * std::norm(r11) * std::norm(r12) + z * z);
-		const auto u = (z + std::copysign(d, z)) / (Real(2) * r12 * conj()(r11));
+		const auto u = (Real(0.5) * (z + std::copysign(d, z))) / (r12 * conj()(r11));
 		if (std::isfinite(std::real(u)) && std::isfinite(std::imag(u))) {
 			const auto scale = std::hypot(Real(1), std::real(u), std::imag(u));
 			const auto [cv1, sv1] = std::tuple{ T(Real(1) / scale), u / scale };
@@ -273,6 +272,40 @@ namespace impl {
 	}
 
 
+	/// <summary> Separates U and S of and SVD. </summary>
+	template <class T, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
+	auto DecomposeScaledOrthogonal2x2(const Matrix<T, 2, 2, Order, Layout, Packed>& US) {
+		// This code is rather simple but looks complicated due to vectorization and branch avoidance.
+		// The general idea is that the element of US largest in absolute value is used as an anchor.
+		// The anchor's column is used to calculate cu and su. The anchor and its diagonal opposite
+		// is used to calculate the sign.
+		// You can get the original formula by writing an if statement with 4 cases
+		// depending on the anchor. You can then find non-conditional formulas for
+		// cu, su, sign, and sii depending on each case.
+		const auto mu = Vector(US(0, 0), US(1, 0), US(0, 1), US(1, 1)); // cu, su, -su*, cu*
+		const auto smu = Max(Abs(Real(mu)), Abs(Imag(mu)));
+		const auto maxIt = std::max_element(smu.begin(), smu.end());
+		const auto maxIdx = size_t(maxIt - smu.begin());
+
+		const auto normMu = Real(mu) * Real(mu) + Imag(mu) * Imag(mu);
+		const auto sii = Sqrt(normMu.xxzz + normMu.yyww);
+		const auto cuSuBase = mu / sii;
+
+		const auto cuIdx = (maxIdx & 0b10u) ^ (maxIdx >> 1u);
+		const auto suIdx = (maxIdx | 0b01u) ^ (maxIdx >> 1u);
+		const auto signDenIdx = maxIdx;
+		const auto signNumIdx = maxIdx ^ 0b11u;
+		const bool negSign = maxIdx == 1u || maxIdx == 2u;
+		const auto signBase = mu[signNumIdx] / conj()(mu[signDenIdx]);
+		const auto sign = Normalize(negSign ? -signBase : signBase);
+		const auto cu = maxIdx <= 1 ? cuSuBase[cuIdx] : conj()(cuSuBase[cuIdx]) * sign;
+		const auto su = maxIdx <= 1 ? cuSuBase[suIdx] : -conj()(cuSuBase[suIdx]) * sign;
+		const auto s00 = sii[0];
+		const auto s11 = sii[2];
+		return std::tuple{ cu, su, sign, s00, s11 };
+	}
+
+
 	/// <summary> Computes the singular value decomposition of a 2x2 matrix. </summary>
 	///	<remarks> This uses an explicit algorithm and is meant to be used as the kernel
 	///		of the 2-sided Jacobi SVD algorithm. </remarks>
@@ -305,18 +338,8 @@ namespace impl {
 		const Matrix<T, 2, 2, Order, Layout, Packed> V = { cv, -conj()(sv), sv, conj()(cv) };
 		const auto US = As * V;
 
-		// Compute the singular values, i.e. the diagonal of matrix S.
-		const auto s11 = Length(US.Column(0));
-		const auto s22 = Length(US.Column(1));
-
-		// Compute the cosine and sine of the rotation matrix U.
-		const auto det = Determinant(US);
-		const auto detScaled = det / ScaleElements(det, std::numeric_limits<Real>::min());
-		const auto sign = detScaled != T(0) ? detScaled / std::abs(detScaled) : T(1);
-		const auto s22signed = s22 / sign;
-		const auto [cu, su] = s11 > s22 ?
-								  std::tuple{ US(0, 0) / s11, US(1, 0) / s11 } :
-								  std::tuple{ conj()(US(1, 1)) / s22signed, -conj()(US(0, 1)) / s22signed };
+		// Extract the singular values and the unitary matrix U.
+		const auto [cu, su, sign, s11, s22] = DecomposeScaledOrthogonal2x2(US);
 
 		return { cu, su, scale * s11, scale * s22, conj()(cv), -sv, sign };
 	}
@@ -345,13 +368,17 @@ namespace impl {
 		static_assert(Rows >= Columns);
 
 		using Real = remove_complex_t<T>;
-		using MatExt = Matrix<T, Rows, Rows, Order, Layout, Packed>;
+		using MatWorkingU = Matrix<T, Rows, Rows, Order, eMatrixLayout::COLUMN_MAJOR, Packed>;
+		using MatWorkingX = Matrix<T, Rows, Rows, Order, Layout, Packed>;
+		using MatWorkingV = Matrix<T, Rows, Rows, Order, eMatrixLayout::ROW_MAJOR, Packed>;
+		using MatTall = Matrix<T, Rows, Columns, Order, Layout, Packed>;
+		using MatSquare = Matrix<T, Columns, Columns, Order, Layout, Packed>;
 		constexpr auto tolerance = Real(1e-1f) * std::numeric_limits<Real>::epsilon();
 
 		const auto scaler = ScaleElements(A);
-		MatExt U = Identity();
-		MatExt X;
-		MatExt V = Identity();
+		MatWorkingU U = Identity();
+		MatWorkingX X;
+		MatWorkingV V = Identity();
 		X.Insert(0, 0, A / scaler);
 		for (size_t col = Columns; col < Rows; ++col) {
 			for (size_t row = 0; row < Rows; ++row) {
@@ -386,7 +413,11 @@ namespace impl {
 			S(i) = std::real(X(i, i));
 		}
 
-		return DecompositionSVD{ U.template Extract<Rows, Columns>(0, 0), S * scaler, V.template Extract<Columns, Columns>(0, 0) };
+		return DecompositionSVD{
+			MatTall(U.template Extract<Rows, Columns>(0, 0)),
+			S * scaler,
+			MatSquare(V.template Extract<Columns, Columns>(0, 0)),
+		};
 	}
 
 
@@ -405,12 +436,14 @@ namespace impl {
 
 		using Real = remove_complex_t<T>;
 
-		using MatSquare = Matrix<T, Columns, Columns, Order, Layout, Packed>;
-		using MatTall = Matrix<T, Rows, Columns, Order, Layout, Packed>;
+		using MatX = Matrix<T, Rows, Columns, Order, Layout, Packed>;
+		using MatV = Matrix<T, Columns, Columns, Order, Layout, Packed>;
+		using MatWorkingX = Matrix<T, Rows, Columns, Order, eMatrixLayout::COLUMN_MAJOR, Packed>;
+		using MatWorkingV = Matrix<T, Columns, Columns, Order, eMatrixLayout::ROW_MAJOR, Packed>;
 
 		const auto scaler = ScaleElements(A);
-		MatTall X = A / scaler;
-		MatSquare V = Identity();
+		MatWorkingX X = A / scaler;
+		MatWorkingV V = Identity();
 
 		auto maxErrorPrev = std::numeric_limits<Real>::max();
 		auto maxError = std::nextafter(maxErrorPrev, Real(0));
@@ -447,8 +480,8 @@ namespace impl {
 
 
 		/// Sort the rows/columns of X and V to match that of the sorted singular values.
-		MatTall sortedX;
-		MatSquare sortedV;
+		MatWorkingX sortedX;
+		MatWorkingV sortedV;
 		for (size_t i = 0; i < Columns; ++i) {
 			const auto from = sortedS[i].second;
 			sortedX.Column(i, X.Column(from));
@@ -477,10 +510,10 @@ namespace impl {
 			for (size_t i = 0; i < Columns; ++i) {
 				S(i) = std::copysign(S(i), std::real(R(i, i)));
 			}
-			return DecompositionSVD{ Q, S * scaler, V };
+			return DecompositionSVD{ MatX(Q), S * scaler, MatV(V) };
 		}
 		else {
-			return DecompositionSVD{ X, S * scaler, V };
+			return DecompositionSVD{ MatX(X), S * scaler, MatV(V) };
 		}
 	}
 

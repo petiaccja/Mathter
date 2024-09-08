@@ -98,6 +98,13 @@ auto Conj(const Vector<T, Dim, Packed>& v) {
 }
 
 
+/// <summary> Returns the elementwise square root of the vector. </summary>
+template <class T, int Dim, bool Packed>
+auto Sqrt(const Vector<T, Dim, Packed>& v) {
+	return DoUnaryOp(v, sqrt{});
+}
+
+
 /// <summary> Returns the sum of the element of the vector. </summary>
 template <class T, int Dim, bool Packed>
 T Sum(const Vector<T, Dim, Packed>& v) {
