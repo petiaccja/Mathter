@@ -70,6 +70,25 @@ T Max(const Vector<T, Dim, Packed>& v) {
 }
 
 
+/// <summary> Computes a divisor that scales the vector so that its largest element is close to 1. </summary>
+/// <remarks> This is similar to dividing by the infinity norm, but it's much faster and
+///		less accurate for complex numbers. </summary>
+template <class T, int Dim, bool Packed>
+auto ScaleElements(const Vector<T, Dim, Packed>& v) {
+	static_assert(!std::is_integral_v<T>, "No need to scale integer vectors.");
+
+	if constexpr (is_complex_v<T>) {
+		// Doing a regular Max-Abs would need a std::hypot for every single element -- super expensive.
+		const auto re = Real(v);
+		const auto im = Imag(v);
+		return Max(Max(Abs(re), Abs(im)));
+	}
+	else {
+		return Max(Abs(v));
+	}
+}
+
+
 /// <summary> Returns the elementwise absolute value of the vector. </summary>
 template <class T, int Dim, bool Packed>
 auto Abs(const Vector<T, Dim, Packed>& v) {
@@ -171,11 +190,11 @@ auto Length(const Vector<T, Dim, Packed>& v) {
 /// <remarks> Avoids overflow and underflow, so it's more expensive. </remarks>
 template <class T, int Dim, bool Packed>
 auto LengthPrecise(const Vector<T, Dim, Packed>& v) {
-	auto maxElement = Max(Abs(v));
 	using Real = remove_complex_t<T>;
-	maxElement = std::clamp(maxElement, std::numeric_limits<Real>::min(), std::numeric_limits<Real>::max());
-	const auto scaled = v / maxElement;
-	return Length(scaled) * maxElement;
+	auto scale = ScaleElements(v);
+	scale = std::clamp(scale, std::numeric_limits<Real>::min(), std::numeric_limits<Real>::max());
+	const auto scaled = v / scale;
+	return Length(scaled) * scale;
 }
 
 
@@ -209,12 +228,11 @@ Vector<T, Dim, Packed> Normalize(const Vector<T, Dim, Packed>& v) {
 /// <remarks> Unlike the regular <see cref="Normalize"/>, this does can handle null vectors and under/overflow. </remarks>
 template <class T, int Dim, bool Packed>
 Vector<T, Dim, Packed> NormalizePrecise(const Vector<T, Dim, Packed>& v, const Vector<T, Dim, Packed>& degenerate) {
+	auto scale = ScaleElements(v);
 	using Real = remove_complex_t<T>;
-	const auto length = LengthPrecise(v);
-	if (length == static_cast<Real>(0)) {
-		return degenerate;
-	}
-	return v / length;
+	const auto scaled = v / scale;
+	const auto length = Length(scaled);
+	return std::isfinite(length) && length != Real(0) ? scaled / length : degenerate;
 }
 
 

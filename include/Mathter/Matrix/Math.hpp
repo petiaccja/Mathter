@@ -42,15 +42,11 @@ template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layo
 auto ScaleElements(const Matrix<T, Rows, Columns, Order, Layout, Packed>& m) {
 	static_assert(!std::is_integral_v<T>, "No need to scale integer matrices.");
 
-	if constexpr (is_complex_v<T>) {
-		// Doing a regular Max-Abs would need a std::hypot for every single element -- super expensive.
-		const auto re = Real(m);
-		const auto im = Imag(m);
-		return std::max(Max(Abs(re)), Max(Abs(im)));
+	remove_complex_t<T> scale(0);
+	for (size_t stripe = 0; stripe < m.stripes.size(); ++stripe) {
+		scale = std::max(scale, ScaleElements(m.stripes[stripe]));
 	}
-	else {
-		return Max(Abs(m));
-	}
+	return scale;
 }
 
 
