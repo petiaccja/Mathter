@@ -448,7 +448,7 @@ TEST_CASE("SVD - 2x2 RQ (real)", "[SVD]") {
 }
 
 
-TEST_CASE("SVD - 2x2 RQ hammer (real)", "[SVD]") {
+TEST_CASE("SVD - 2x2 RQ hammer (real)", "[SVD][Heavy]") {
 	using M22 = Matrix<float, 2, 2>;
 
 	for (auto a11Exp : hammerExponents) {
@@ -491,7 +491,7 @@ TEST_CASE("SVD - 2x2 RQ (complex)", "[SVD]") {
 }
 
 
-TEST_CASE("SVD - 2x2 RQ hammer (complex)", "[SVD]") {
+TEST_CASE("SVD - 2x2 RQ hammer (complex)", "[SVD][Heavy]") {
 	using M22 = Matrix<std::complex<float>, 2, 2>;
 
 	for (auto a11Exp : hammerExponents) {
@@ -633,7 +633,7 @@ TEST_CASE("SVD - 2x2 special cases (2-sided core) (complex)", "[SVD]") {
 }
 
 
-TEST_CASE("SVD - 2x2 general hammer (2-sided core)", "[SVD]") {
+TEST_CASE("SVD - 2x2 general hammer (2-sided core)", "[SVD][Heavy]") {
 	using M22 = Matrix<float, 2, 2>;
 
 	for (auto a11Exp : hammerExponents) {
@@ -652,7 +652,7 @@ TEST_CASE("SVD - 2x2 general hammer (2-sided core)", "[SVD]") {
 }
 
 
-TEST_CASE("SVD - 2x2 edge case hammer (2-sided core) (real)", "[SVD]") {
+TEST_CASE("SVD - 2x2 edge case hammer (2-sided core) (real)", "[SVD][Heavy]") {
 	using M22 = Matrix<float, 2, 2>;
 	using M22d = Matrix<float, 2, 2>;
 
@@ -674,7 +674,7 @@ TEST_CASE("SVD - 2x2 edge case hammer (2-sided core) (real)", "[SVD]") {
 }
 
 
-TEST_CASE("SVD - 2x2 edge case hammer (2-sided core) (complex)", "[SVD]") {
+TEST_CASE("SVD - 2x2 edge case hammer (2-sided core) (complex)", "[SVD][Heavy]") {
 	using M22 = Matrix<std::complex<float>, 2, 2>;
 	using M22d = Matrix<std::complex<float>, 2, 2>;
 
@@ -706,7 +706,7 @@ TEST_CASE("SVD - 2x2 edge case hammer (2-sided core) (complex)", "[SVD]") {
 }
 
 
-TEST_CASE("SVD - 2x2 general hammer (1-sided)", "[SVD]") {
+TEST_CASE("SVD - 2x2 general hammer (1-sided)", "[SVD][Heavy]") {
 	using M22 = Matrix<float, 2, 2, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR>;
 
 	for (auto a11Exp : hammerExponents) {
@@ -724,7 +724,7 @@ TEST_CASE("SVD - 2x2 general hammer (1-sided)", "[SVD]") {
 }
 
 
-TEST_CASE("SVD - 2x2 case hammer (1-sided)", "[SVD]") {
+TEST_CASE("SVD - 2x2 case hammer (1-sided)", "[SVD][Heavy]") {
 	using M22 = Matrix<float, 2, 2, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR>;
 	using M22d = Matrix<float, 2, 2, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR>;
 

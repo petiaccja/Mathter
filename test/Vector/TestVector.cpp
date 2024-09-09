@@ -11,12 +11,27 @@
 #include <Mathter/Vector/Comparison.hpp>
 #include <Mathter/Vector/Vector.hpp>
 
-#include <algorithm>
 #include <catch2/catch_template_test_macros.hpp>
+#include <complex>
+#include <cstring>
 #include <new>
 
 using namespace mathter;
 using namespace test_util;
+
+
+[[gnu::noinline, msvc::noinline]] void TestDefaultInit_Init(void* data, size_t size) {
+	std::memset(data, 0xCC, size);
+}
+
+template <class T>
+[[gnu::noinline, msvc::noinline]] void TestDefaultInit_Construct(void* data) {
+	new (data) T;
+}
+
+[[gnu::noinline, msvc::noinline]] void TestDefaultInit_Copy(void* actual, const void* data, size_t size) {
+	std::memcpy(actual, data, size);
+}
 
 
 TEMPLATE_LIST_TEST_CASE("Vector - Default initializer", "[Vector]",
@@ -24,20 +39,31 @@ TEMPLATE_LIST_TEST_CASE("Vector - Default initializer", "[Vector]",
 
 	using Vec = typename TestType::template Vector<3>;
 
-	alignas(alignof(Vec)) std::array<uint8_t, sizeof(Vec)> memoryRegion;
-
-	std::fill(memoryRegion.begin(), memoryRegion.end(), uint8_t(0xCC));
-	const auto expected = memoryRegion;
-
-
-	const auto ptr = reinterpret_cast<Vec*>(memoryRegion.data());
-	new (ptr) Vec;
-
 #ifdef NDEBUG
-	REQUIRE(memoryRegion == expected);
+	{
+		constexpr auto totalSize = sizeof(Vec);
+		constexpr auto validSize = sizeof(scalar_type_t<Vec>) * 3;
+
+		alignas(alignof(Vec)) uint8_t bytes[totalSize];
+		uint8_t expected[totalSize];
+		uint8_t actual[totalSize];
+
+		std::memset(expected, 0xCC, validSize);
+		std::memset(expected + validSize, 0x00, totalSize - validSize);
+
+		TestDefaultInit_Init(bytes, totalSize);
+		TestDefaultInit_Construct<Vec>(bytes);
+		TestDefaultInit_Copy(actual, bytes, totalSize);
+
+		REQUIRE(std::memcmp(actual, expected, totalSize) == 0);
+	}
 #else
-	static_cast<void>(expected); // Avoiding [[maybe_unused]] in case it's not used for the release builds either.
-	REQUIRE(std::all_of(ptr->begin(), ptr->end(), [](const auto& v) { return std::isnan(std::real(v)); }));
+	{
+		const Vec v;
+		for (auto& element : v) {
+			REQUIRE(std::isnan(std::real(element)));
+		}
+	}
 #endif
 }
 

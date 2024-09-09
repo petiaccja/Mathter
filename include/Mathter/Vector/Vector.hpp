@@ -122,7 +122,7 @@ public:
 	//--------------------------------------------
 
 	/// <summary> Constructs the vector. Does NOT zero-initialize elements. </summary>
-	Vector() MATHTER_VECTOR_INITIALIZER(T) {}
+	Vector();
 
 	/// <summary> Constructs the vector by converting elements of <paramref name="other"/>. </summary>
 	template <class T2, bool Packed2>
@@ -255,6 +255,12 @@ template <class... Parts, std::enable_if_t<(sizeof...(Parts) > 1), int> = 0>
 Vector(const Parts&... parts) -> Vector<common_arithmetic_type_t<impl::parts_scalar_type_t<Parts>...>,
 										impl::GetConcatDim<Parts...>(),
 										impl::GetConcatPacking<Parts...>()>;
+
+
+template <class T, int Dim, bool Packed>
+Vector<T, Dim, Packed>::Vector() MATHTER_VECTOR_INITIALIZER(T) {
+	ZeroPadding();
+}
 
 
 template <class T, int Dim, bool Packed>

@@ -24,6 +24,7 @@ target_sources(UnitTest
         "Quaternion/TestMath.cpp"
         "Quaternion/TestQuaternion.cpp"
         "Quaternion/TestRotationArithmetic.cpp"
+        "TestIoStream.cpp"
         "TestMasterHeaders.cpp"
         "TestUtility.cpp"
         "TestUtils/TestRotation.cpp"
