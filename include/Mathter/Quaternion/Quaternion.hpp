@@ -62,7 +62,7 @@ public:
 	explicit Quaternion(const Vector<TOther, 4, PackedOther>& vector);
 
 	/// <summary> Convert from 4-dimensional vector. </summary>
-	/// <remarks> The vector must share the layout of the quaternion. Use with care. </remarks>
+	/// <remarks> The vector must have SIJK layout. Use with care. </remarks>
 	template <class TOther, bool PackedOther>
 	explicit Quaternion(CanonicalArg, const Vector<TOther, 4, PackedOther>& vector);
 
