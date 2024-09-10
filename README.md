@@ -57,7 +57,7 @@ const Vec3 transformed = transform * original; // Compilation error due to matri
 ```
 
 
-For more detailed information about using Mathter, **read the** [**guide**](https://github.com/petiaccja/Mathter/blob/master/docs/Guide.md).
+For more detailed information about using Mathter, **read the** [**guide**](docs/Guide.md).
 
 Features
 ---
