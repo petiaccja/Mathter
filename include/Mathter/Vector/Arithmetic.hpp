@@ -222,6 +222,7 @@ auto operator-(const Swizzle<T1, Dim1, Packed1, Indices1...>& arg) {
 }
 
 
+/// <summary> Compute a * b + c. Uses hardware FMA when available, fallback to MUL & ADD. </summary>
 template <class T1, bool Packed1,
 		  class T2, bool Packed2,
 		  class T3, bool Packed3,
@@ -230,7 +231,41 @@ auto MultiplyAdd(
 	const Vector<T1, Dim, Packed1>& a,
 	const Vector<T2, Dim, Packed2>& b,
 	const Vector<T3, Dim, Packed3>& c) {
+	return DoTernaryOp(a, b, c, ::mathter::madd{});
+}
+
+
+/// <summary> Compute a * b + c. Uses hardware FMA when available, fallback to software FMA. </summary>
+template <class T1, bool Packed1,
+		  class T2, bool Packed2,
+		  class T3, bool Packed3,
+		  int Dim>
+auto FMA(
+	const Vector<T1, Dim, Packed1>& a,
+	const Vector<T2, Dim, Packed2>& b,
+	const Vector<T3, Dim, Packed3>& c) {
 	return DoTernaryOp(a, b, c, ::mathter::fma{});
+}
+
+
+/// <summary> Compute a * b + c * d accurately using Kahan's algorithm. </summary>
+template <class T1, bool Packed1,
+		  class T2, bool Packed2,
+		  class T3, bool Packed3,
+		  class T4, bool Packed4,
+		  int Dim>
+auto FMTA(
+	const Vector<T1, Dim, Packed1>& a,
+	const Vector<T2, Dim, Packed2>& b,
+	const Vector<T3, Dim, Packed3>& c,
+	const Vector<T4, Dim, Packed4>& d) {
+	// Source:
+	//	- https://stackoverflow.com/a/63665011/3220591
+	//	- https://www.johndcook.com/blog/2020/05/31/kahan-determinant/
+	const auto w = d * c;
+	const auto e = FMA(d, c, -w);
+	const auto f = FMA(a, b, w);
+	return f + e;
 }
 
 } // namespace mathter
