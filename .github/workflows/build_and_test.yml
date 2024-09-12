@@ -57,6 +57,9 @@ jobs:
     name: ${{ matrix.build_profile }}
         
     runs-on: ${{matrix.os}}
+
+    env:
+      CMAKE_EXTRA: "-DMATHTER_BUILD_TESTS:BOOL=ON -DMATHTER_BUILD_BENCHMARKS:BOOL=ON -DMATHTER_BUILD_EXAMPLES:BOOL=ON"
     
     steps:
     - uses: actions/checkout@v4
@@ -102,7 +105,7 @@ jobs:
         cmake -E make_directory "${{github.workspace}}/build"
         conan install "${{github.workspace}}" --build=missing -pr $PR -pr:b $PR
         conan cache clean
-        cmake -S "${{github.workspace}}" --preset conan-${{ matrix.conan_preset }}
+        cmake ${{env.CMAKE_EXTRA}} -S "${{github.workspace}}" --preset conan-${{ matrix.conan_preset }}
 
     - name: Build
       run: |
