@@ -16,6 +16,7 @@ set(MATHTER_INIT_MODE "DEFAULT" CACHE STRING "Set default initialization of Math
 set_property(CACHE MATHTER_INIT_MODE PROPERTY STRINGS DEFAULT NULL INVALID UNINITIALIZED)
 option(MATHTER_BUILD_TESTS "Include or exclude tests from the generated project." ON)
 option(MATHTER_BUILD_BENCHMARKS "Include or exclude bechmarks from the generated project." OFF)
+option(MATHTER_BUILD_EXAMPLES "Include or exclude examples from the generated project." OFF)
 option(ENABLE_LLVM_COV "Adds compiler flags to generate LLVM source-based code coverage. Only works with Clang." OFF)
 set(MATHTER_CMAKE_INSTALL_DIR "lib/cmake/${PROJECT_NAME}" CACHE STRING "Subdirectory to install CMake package config files.")
 set(MATHTER_TARGET_ARCH "" CACHE STRING "CPU architecture flag to pass to the compiler, for example AVX2 for MSVC or native for GCC.")
@@ -53,6 +54,9 @@ if (${MATHTER_BUILD_TESTS})
 endif()
 if (${MATHTER_BUILD_BENCHMARKS})
 	add_subdirectory(benchmark)
+endif()
+if (${MATHTER_BUILD_EXAMPLES})
+	add_subdirectory(examples)
 endif()
 
 # Installation
