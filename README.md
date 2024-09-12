@@ -12,6 +12,8 @@ Introduction
 ---
 Mathter is a header-only linear algebra library for game development and scientific applications.
 
+*(Find out more in the [**guide**](docs/Guide.md) or in the examples folder.)*
+
 Why yet another 3D math library?
 - Existing libraries often have fixed conventions & notation, but Mathter is fully configurable:
   - Scalar types: floating point, integer, or complex
@@ -56,8 +58,6 @@ const Vec3 transformed = original * transform;
 const Vec3 transformed = transform * original; // Compilation error due to matrix order.
 ```
 
-
-For more detailed information about using Mathter, **read the** [**guide**](docs/Guide.md).
 
 Features
 ---
