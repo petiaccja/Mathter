@@ -83,7 +83,7 @@ endif()
 
 if (${MATHTER_ENABLE_SIMD})
 	message("Vectorization: ON (using XSimd).")
-	find_package(xsimd REQUIRED)
+	find_package(xsimd 13 REQUIRED)
 	target_link_libraries(Mathter INTERFACE xsimd)
 	target_compile_definitions(Mathter INTERFACE MATHTER_ENABLE_SIMD=1)
 else()
