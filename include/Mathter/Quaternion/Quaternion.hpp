@@ -100,6 +100,16 @@ public:
 
 
 	//-----------------------------------------------
+	// Versor
+	//-----------------------------------------------
+
+	/// <summary> Rotate a vector by this unit quaternion. </summary>
+	/// <remarks> If you get an undefined symbol for this, then the definition is in `RotationArithmetic.hpp`. </remarks>
+	template <class TOther, bool PackedOther>
+	auto operator()(const Vector<TOther, 3, PackedOther>& v) const;
+
+
+	//-----------------------------------------------
 	// Properties
 	//-----------------------------------------------
 

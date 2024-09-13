@@ -44,38 +44,29 @@ TEMPLATE_LIST_TEST_CASE("Quaternion - Multiplication (quat x vector)", "[Quatern
 	const Vec4 vh(v, 1);
 	const auto expected = Rotate(ResultVec3(v), ResultVec3(axis), ResultScalar(theta));
 
+	SECTION("operator()") {
+		const auto result = q(v);
+		static_assert(is_vector_v<std::decay_t<decltype(result)>>);
+		static_assert(dimension_v<std::decay_t<decltype(result)>> == 3);
+		REQUIRE((result == test_util::Approx(expected, 1e-6f)));
+	}
+
+	// These are testing deprecated functionality.
 	SECTION("Quat x Vec3") {
 		const auto result = q * v;
 		static_assert(is_vector_v<std::decay_t<decltype(result)>>);
 		static_assert(dimension_v<std::decay_t<decltype(result)>> == 3);
-		REQUIRE((result == test_util::Approx(expected, 1e-5f)));
+		REQUIRE((result == test_util::Approx(expected, 1e-6f)));
 	}
 	SECTION("Vec3 x Quat") {
 		const auto result = q * v;
 		static_assert(is_vector_v<std::decay_t<decltype(result)>>);
 		static_assert(dimension_v<std::decay_t<decltype(result)>> == 3);
-		REQUIRE((result == test_util::Approx(expected, 1e-5f)));
+		REQUIRE((result == test_util::Approx(expected, 1e-6f)));
 	}
 	SECTION("Vec3 x Quat") {
 		auto copy = v;
 		REQUIRE(&(copy *= q) == &copy);
-		REQUIRE((copy == test_util::Approx(expected, 1e-5f)));
-	}
-	SECTION("Quat x Vec4") {
-		const auto result = q * vh;
-		static_assert(is_vector_v<std::decay_t<decltype(result)>>);
-		static_assert(dimension_v<std::decay_t<decltype(result)>> == 4);
-		REQUIRE((Vector(result.xyz) == test_util::Approx(expected, 1e-5f)));
-	}
-	SECTION("Vec4 x Quat") {
-		const auto result = q * vh;
-		static_assert(is_vector_v<std::decay_t<decltype(result)>>);
-		static_assert(dimension_v<std::decay_t<decltype(result)>> == 4);
-		REQUIRE((Vector(result.xyz) == test_util::Approx(expected, 1e-5f)));
-	}
-	SECTION("Vec4 x Quat") {
-		auto copy = vh;
-		REQUIRE(&(copy *= q) == &copy);
-		REQUIRE((Vector(copy.xyz) == test_util::Approx(expected, 1e-5f)));
+		REQUIRE((copy == test_util::Approx(expected, 1e-6f)));
 	}
 }

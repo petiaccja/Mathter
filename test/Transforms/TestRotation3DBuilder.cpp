@@ -36,7 +36,7 @@ void TestCaseRotationQuat(const Builder& builder, const Vec& testPoint, const Ve
 	const auto expected = test_util::Rotate(testPoint, axis, angle);
 
 	const Quat q = builder;
-	const auto result = q * testPoint;
+	const auto result = q(testPoint);
 	REQUIRE(result == test_util::Approx(expected, 2e-6f));
 }
 
@@ -177,9 +177,9 @@ TEMPLATE_LIST_TEST_CASE("Transform: Rotation 3D -- RPY matrix", "[Transforms]",
 	const Quat r2 = RotationZ(angles[2]);
 
 	const auto p0 = Vec(1, 2, 3);
-	const auto p1 = r0 * p0;
-	const auto p2 = r1 * p1;
-	const auto p3 = r2 * p2;
+	const auto p1 = r0(p0);
+	const auto p2 = r1(p1);
+	const auto p3 = r2(p2);
 
 	SECTION("3x3") {
 		using Mat = typename TestType::template Matrix<3, 3>;
@@ -229,9 +229,9 @@ TEMPLATE_LIST_TEST_CASE("Transform: Rotation 3D -- Euler angles matrix", "[Trans
 	const Quat r2 = RotationZ(angles[2]);
 
 	const auto p0 = Vec(1, 2, 3);
-	const auto p1 = r0 * p0;
-	const auto p2 = r1 * p1;
-	const auto p3 = r2 * p2;
+	const auto p1 = r0(p0);
+	const auto p2 = r1(p1);
+	const auto p3 = r2(p2);
 
 	SECTION("3x3") {
 		using Mat = typename TestType::template Matrix<3, 3>;
@@ -279,11 +279,11 @@ TEMPLATE_LIST_TEST_CASE("Transform: Rotation 3D -- RPY quaternion", "[Transforms
 	const Quat r = RotationRPY(angles[0], angles[1], angles[2]);
 
 	const auto p0 = Vec(1, 2, 3);
-	const auto p1 = r0 * p0;
-	const auto p2 = r1 * p1;
-	const auto p3 = r2 * p2;
+	const auto p1 = r0(p0);
+	const auto p2 = r1(p1);
+	const auto p3 = r2(p2);
 
-	const auto result = r * p0;
+	const auto result = r(p0);
 	REQUIRE(result == test_util::Approx(p3));
 }
 
@@ -303,11 +303,11 @@ TEMPLATE_LIST_TEST_CASE("Transform: Rotation 3D -- Euler angles quaternion", "[T
 	const Quat r = RotationEuler(angles[0], angles[1], angles[2]);
 
 	const auto p0 = Vec(1, 2, 3);
-	const auto p1 = r0 * p0;
-	const auto p2 = r1 * p1;
-	const auto p3 = r2 * p2;
+	const auto p1 = r0(p0);
+	const auto p2 = r1(p1);
+	const auto p3 = r2(p2);
 
-	const auto result = r * p0;
+	const auto result = r(p0);
 	REQUIRE(result == test_util::Approx(p3));
 }
 

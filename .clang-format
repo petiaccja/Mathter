@@ -15,6 +15,7 @@ AlwaysBreakAfterReturnType: None
 AlwaysBreakTemplateDeclarations: 'true'
 BinPackArguments: 'true'
 BinPackParameters: 'true'
+BreakAfterAttributes: Leave
 BreakBeforeBinaryOperators: NonAssignment
 BreakBeforeBraces: Custom
 BraceWrapping:
