@@ -29,7 +29,7 @@ Batch FillMasked(Batch batch, Element value) {
 	}
 	else {
 		const auto fillers = Batch{ value };
-		const auto mask = xsimd::make_batch_bool_constant<Batch, MaskGenerator>();
+		const auto mask = xsimd::make_batch_bool_constant<typename Batch::value_type, typename Batch::arch_type, MaskGenerator>();
 		return xsimd::select(mask, batch, fillers);
 	}
 #else
@@ -52,7 +52,7 @@ Batch FillMaskedWithFirst(Batch batch) {
 
 	using UintBatch = xsimd::batch<Uint, typename Batch::arch_type>;
 
-	const auto mask = xsimd::make_batch_constant<UintBatch, Generator>();
+	const auto mask = xsimd::make_batch_constant<typename UintBatch::value_type, typename UintBatch::arch_type, Generator>();
 	return xsimd::swizzle(batch, mask);
 #else
 	return batch;
