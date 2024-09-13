@@ -32,8 +32,7 @@ auto mathter::Quaternion<T, Layout, Packed>::operator()(const Vector<TOther, 3, 
 template <class T1, eQuaternionLayout Layout1, bool Packed1,
 		  class T2, bool Packed2>
 [[deprecated("use Quaternion::operator()(Vector) instead")]]
-auto
-operator*(const Quaternion<T1, Layout1, Packed1>& q, const Vector<T2, 3, Packed2>& v) {
+auto operator*(const Quaternion<T1, Layout1, Packed1>& q, const Vector<T2, 3, Packed2>& v) {
 	return q(v);
 }
 
@@ -44,8 +43,7 @@ operator*(const Quaternion<T1, Layout1, Packed1>& q, const Vector<T2, 3, Packed2
 template <class T1, bool Packed1,
 		  class T2, eQuaternionLayout Layout2, bool Packed2>
 [[deprecated("use Quaternion::operator()(Vector) instead")]]
-auto
-operator*(const Vector<T1, 3, Packed1>& v, const Quaternion<T2, Layout2, Packed2>& q) {
+auto operator*(const Vector<T1, 3, Packed1>& v, const Quaternion<T2, Layout2, Packed2>& q) {
 	return q(v);
 }
 
@@ -56,8 +54,7 @@ operator*(const Vector<T1, 3, Packed1>& v, const Quaternion<T2, Layout2, Packed2
 template <class T1, bool Packed1,
 		  class T2, eQuaternionLayout Layout2, bool Packed2>
 [[deprecated("use Quaternion::operator()(Vector) instead")]]
-auto&
-operator*=(Vector<T1, 3, Packed1>& v, const Quaternion<T2, Layout2, Packed2>& q) {
+auto& operator*=(Vector<T1, 3, Packed1>& v, const Quaternion<T2, Layout2, Packed2>& q) {
 	return v = q(v);
 }
 
