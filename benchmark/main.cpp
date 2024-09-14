@@ -20,31 +20,50 @@ using namespace std;
 using namespace mathter;
 
 
+void PrintArch(std::string_view name, unsigned supported) {
+	std::cout << name << (supported ? "YES" : "NO") << std::endl;
+}
+
+
+template <class T, int Dim>
+void PrintVectorType(std::string_view name) {
+	std::cout << "  " << name << ": " << (IsBatched<T, Dim, false>() ? "YES" : "NO") << " - " << sizeof(Vector<T, Dim, false>) << " bytes" << std::endl;
+}
+
+
 void DisplayArchitectureInfo() {
 #if MATHTER_ENABLE_SIMD
 	std::cout << "Available on CPU: " << std::endl;
 	const auto architectures = xsimd::available_architectures();
-	std::cout << "  sse2: " << (architectures.sse2 ? "YES" : "NO") << std::endl;
-	std::cout << "  sse3: " << (architectures.sse3 ? "YES" : "NO") << std::endl;
-	std::cout << "  ssse3: " << (architectures.ssse3 ? "YES" : "NO") << std::endl;
-	std::cout << "  sse4_1: " << (architectures.sse4_1 ? "YES" : "NO") << std::endl;
-	std::cout << "  sse4_2: " << (architectures.sse4_2 ? "YES" : "NO") << std::endl;
-	std::cout << "  sse4a: " << (architectures.sse4a ? "YES" : "NO") << std::endl;
-	std::cout << "  fma3_sse: " << (architectures.fma3_sse ? "YES" : "NO") << std::endl;
-	std::cout << "  fma4: " << (architectures.fma4 ? "YES" : "NO") << std::endl;
-	std::cout << "  xop: " << (architectures.xop ? "YES" : "NO") << std::endl;
-	std::cout << "  avx: " << (architectures.avx ? "YES" : "NO") << std::endl;
-	std::cout << "  fma3_avx: " << (architectures.fma3_avx ? "YES" : "NO") << std::endl;
-	std::cout << "  avx2: " << (architectures.avx2 ? "YES" : "NO") << std::endl;
-	std::cout << "  fma3_avx2: " << (architectures.fma3_avx2 ? "YES" : "NO") << std::endl;
-	std::cout << "  avx512f: " << (architectures.avx512f ? "YES" : "NO") << std::endl;
-	std::cout << "  avx512cd: " << (architectures.avx512cd ? "YES" : "NO") << std::endl;
-	std::cout << "  avx512dq: " << (architectures.avx512dq ? "YES" : "NO") << std::endl;
-	std::cout << "  avx512bw: " << (architectures.avx512bw ? "YES" : "NO") << std::endl;
-	std::cout << "  neon: " << (architectures.neon ? "YES" : "NO") << std::endl;
-	std::cout << "  neon64: " << (architectures.neon64 ? "YES" : "NO") << std::endl;
-	std::cout << "  sve: " << (architectures.sve ? "YES" : "NO") << std::endl;
-	std::cout << std::endl;
+
+	PrintArch("sse2", architectures.sse2);
+	PrintArch("sse3", architectures.sse3);
+	PrintArch("ssse3", architectures.ssse3);
+	PrintArch("sse4_1", architectures.sse4_1);
+	PrintArch("sse4_2", architectures.sse4_2);
+	PrintArch("fma3_sse42", architectures.fma3_sse42);
+	PrintArch("fma4", architectures.fma4);
+	PrintArch("avx", architectures.avx);
+	PrintArch("fma3_avx", architectures.fma3_avx);
+	PrintArch("avx2", architectures.avx2);
+	PrintArch("avxvnni", architectures.avxvnni);
+	PrintArch("fma3_avx2", architectures.fma3_avx2);
+	PrintArch("avx512f", architectures.avx512f);
+	PrintArch("avx512cd", architectures.avx512cd);
+	PrintArch("avx512dq", architectures.avx512dq);
+	PrintArch("avx512bw", architectures.avx512bw);
+	PrintArch("avx512er", architectures.avx512er);
+	PrintArch("avx512pf", architectures.avx512pf);
+	PrintArch("avx512ifma", architectures.avx512ifma);
+	PrintArch("avx512vbmi", architectures.avx512vbmi);
+	PrintArch("avx512vnni_bw", architectures.avx512vnni_bw);
+	PrintArch("avx512vnni_vbmi", architectures.avx512vnni_vbmi);
+	PrintArch("neon", architectures.neon);
+	PrintArch("neon64", architectures.neon64);
+	PrintArch("i8mm_neon64", architectures.i8mm_neon64);
+	PrintArch("sve", architectures.sve);
+	PrintArch("rvv", architectures.rvv);
+	PrintArch("wasm", architectures.wasm);
 
 	std::cout << "Enabled in build: " << std::endl;
 	xsimd::all_architectures::for_each([](const auto& arch) {
@@ -63,12 +82,24 @@ int main(int argc, char* argv[]) {
 	DisplayArchitectureInfo();
 
 	std::cout << "SIMD support:" << std::endl;
-	std::cout << "  float.2: " << (IsBatched<float, 2, false>() ? "YES" : "NO") << " - " << sizeof(Vector<float, 2, false>) << " bytes" << std::endl;
-	std::cout << "  float.3: " << (IsBatched<float, 3, false>() ? "YES" : "NO") << " - " << sizeof(Vector<float, 3, false>) << " bytes" << std::endl;
-	std::cout << "  float.4: " << (IsBatched<float, 4, false>() ? "YES" : "NO") << " - " << sizeof(Vector<float, 4, false>) << " bytes" << std::endl;
-	std::cout << "  double.2: " << (IsBatched<double, 2, false>() ? "YES" : "NO") << " - " << sizeof(Vector<double, 2, false>) << " bytes" << std::endl;
-	std::cout << "  double.3: " << (IsBatched<double, 3, false>() ? "YES" : "NO") << " - " << sizeof(Vector<double, 3, false>) << " bytes" << std::endl;
-	std::cout << "  double.4: " << (IsBatched<double, 4, false>() ? "YES" : "NO") << " - " << sizeof(Vector<double, 4, false>) << " bytes" << std::endl;
+	PrintVectorType<float, 2>("float2");
+	PrintVectorType<float, 3>("float3");
+	PrintVectorType<float, 4>("float4");
+	PrintVectorType<double, 2>("double2");
+	PrintVectorType<double, 3>("double3");
+	PrintVectorType<double, 4>("double4");
+	PrintVectorType<std::complex<float>, 2>("c_float2");
+	PrintVectorType<std::complex<float>, 3>("c_float3");
+	PrintVectorType<std::complex<float>, 4>("c_float4");
+	PrintVectorType<std::complex<double>, 2>("c_double2");
+	PrintVectorType<std::complex<double>, 3>("c_double3");
+	PrintVectorType<std::complex<double>, 4>("c_double4");
+	PrintVectorType<int32_t, 2>("i32_2");
+	PrintVectorType<int32_t, 3>("i32_3");
+	PrintVectorType<int32_t, 4>("i32_4");
+	PrintVectorType<int64_t, 2>("i64_2");
+	PrintVectorType<int64_t, 3>("i64_3");
+	PrintVectorType<int64_t, 4>("i64_4");
 	std::cout << std::endl;
 
 	int ret = Catch::Session().run(argc, argv);
