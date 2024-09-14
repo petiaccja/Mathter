@@ -67,6 +67,11 @@ target_sources(Mathter
 		"Vector/SIMDUtil.hpp"
 		"Vector/Swizzle.hpp"
 		"Vector/Vector.hpp"
+		# Swizzles
+		"Vector/SwizzleInc/Swizzle1.hpp.inc"
+		"Vector/SwizzleInc/Swizzle2.hpp.inc"
+		"Vector/SwizzleInc/Swizzle3.hpp.inc"
+		"Vector/SwizzleInc/Swizzle4.hpp.inc"
 )
 
 set_target_properties(Mathter PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON)
