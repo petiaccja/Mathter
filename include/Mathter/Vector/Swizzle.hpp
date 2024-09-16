@@ -200,7 +200,7 @@ typename Swizzle<T, Dim, Packed, Indices...>::TargetStorage Swizzle<T, Dim, Pack
 		using SourceIntBatch = xsimd::batch<Integer, typename SourceBatch::arch_type>;
 
 		const auto sourceBatch = SourceBatch::load_aligned(array.data());
-		const auto mask = xsimd::make_batch_constant<SourceIntBatch, impl::LinearizationGenerator<Indices...>>();
+		const auto mask = xsimd::make_batch_constant<typename SourceIntBatch::value_type, typename SourceIntBatch::arch_type, impl::LinearizationGenerator<Indices...>>();
 		const auto linearizedBatch = xsimd::swizzle(sourceBatch, mask);
 
 		alignas(GetStorageAlignment<T, Dim, Packed>()) SourceStorage linearized;
@@ -226,7 +226,7 @@ auto Swizzle<T, Dim, Packed, Indices...>::Delinearize(const TargetStorage& targe
 		alignas(GetStorageAlignment<T, Dim, Packed>()) SourceStorage targetPadded;
 		std::copy(target.begin(), target.end(), targetPadded.begin());
 		const auto targetBatch = SourceBatch::load_aligned(targetPadded.data());
-		const auto mask = xsimd::make_batch_constant<SourceIntBatch, impl::DelinearizationGenerator<Indices...>>();
+		const auto mask = xsimd::make_batch_constant<typename SourceIntBatch::value_type, typename SourceIntBatch::arch_type, impl::DelinearizationGenerator<Indices...>>();
 		const auto delinearizedBatch = xsimd::swizzle(targetBatch, mask);
 
 		alignas(GetStorageAlignment<T, Dim, Packed>()) SourceStorage delinearized;
@@ -250,7 +250,7 @@ auto Swizzle<T, Dim, Packed, Indices...>::Blend(const SourceStorage& old, const 
 	if constexpr (isSourceBatched && sizeof...(Indices) <= Dim) {
 		const auto oldBatch = SourceBatch::load_unaligned(old.data());
 		const auto freshBatch = SourceBatch::load_unaligned(fresh.data());
-		const auto mask = xsimd::make_batch_bool_constant<SourceBatch, impl::BlendGenerator<Indices...>>();
+		const auto mask = xsimd::make_batch_bool_constant<typename SourceBatch::value_type, typename SourceBatch::arch_type, impl::BlendGenerator<Indices...>>();
 		const auto blendedBatch = xsimd::select(mask, freshBatch, oldBatch);
 
 		alignas(GetStorageAlignment<T, Dim, Packed>()) SourceStorage blended;

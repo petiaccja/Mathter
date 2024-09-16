@@ -1,6 +1,6 @@
-﻿[requires]
-catch2/3.5.3
-xsimd/11.1.0
+[requires]
+catch2/3.7.0
+xsimd/13.0.0
 
 [generators]
 CMakeDeps
