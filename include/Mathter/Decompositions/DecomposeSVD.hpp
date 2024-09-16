@@ -5,10 +5,9 @@
 
 #pragma once
 
+#include "../Matrix/Matrix.hpp"
+#include "../Transforms/IdentityBuilder.hpp"
 #include "DecomposeQR.hpp"
-
-#include <Mathter/Matrix/Matrix.hpp>
-#include <Mathter/Transforms/IdentityBuilder.hpp>
 
 #include <algorithm>
 #include <array>
