@@ -5,6 +5,10 @@
 #include <utility>
 
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunknown-attributes"
+
+
 namespace mathter {
 
 
@@ -58,3 +62,6 @@ MATHTER_FORCEINLINE auto ForUnrolled(Fun&& fun, Args&&... args) -> std::enable_i
 }
 
 } // namespace mathter
+
+
+#pragma GCC diagnostic pop

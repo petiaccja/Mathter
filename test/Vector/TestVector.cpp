@@ -20,6 +20,9 @@ using namespace mathter;
 using namespace test_util;
 
 
+#pragma GCC diagnostic ignored "-Wunknown-attributes"
+
+
 [[gnu::noinline, msvc::noinline]] void TestDefaultInit_Init(void* data, size_t size) {
 	std::memset(data, 0xCC, size);
 }

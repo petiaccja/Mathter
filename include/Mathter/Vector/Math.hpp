@@ -306,7 +306,7 @@ namespace impl {
 		using Scalar = scalar_type_t<Vec>;
 		constexpr auto Dim = dimension_v<Vec>;
 		Vec result;
-		Matrix<Scalar, Dim - 1, Dim - 1> detCalc;
+		Matrix<Scalar, Dim - 1, Dim - 1, eMatrixOrder::FOLLOW_VECTOR, eMatrixLayout::COLUMN_MAJOR, false> detCalc;
 
 		std::array<std::optional<std::reference_wrapper<const Vec>>, Dim - 1> vectors;
 		auto [argIt, outIt] = std::tuple(first, vectors.begin());

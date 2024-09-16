@@ -5,7 +5,6 @@
 
 #pragma once
 
-#include "../Common/OptimizationUtil.hpp"
 #include "Matrix.hpp"
 
 

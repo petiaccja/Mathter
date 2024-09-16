@@ -62,6 +62,7 @@ endif()
 # Installation
 install(TARGETS Mathter EXPORT MathterTargets
 	FILE_SET headers DESTINATION "include"
+	FILE_SET swizzle_headers DESTINATION "include"
 	FILE_SET natvis DESTINATION "include"
 )
 

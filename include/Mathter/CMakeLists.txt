@@ -17,7 +17,6 @@ target_sources(Mathter
 		"Common/Functional.hpp"
 		"Common/OptimizationUtil.hpp"
 		"Common/MathUtil.hpp"
-		"Common/Range.hpp"
 		"Common/Types.hpp"
 		"Common/TypeTraits.hpp"
 		# Decompositions
@@ -67,6 +66,7 @@ target_sources(Mathter
 		"Vector/SIMDUtil.hpp"
 		"Vector/Swizzle.hpp"
 		"Vector/Vector.hpp"
+	INTERFACE FILE_SET swizzle_headers TYPE HEADERS BASE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/.." FILES
 		# Swizzles
 		"Vector/SwizzleInc/Swizzle1.hpp.inc"
 		"Vector/SwizzleInc/Swizzle2.hpp.inc"
@@ -74,7 +74,7 @@ target_sources(Mathter
 		"Vector/SwizzleInc/Swizzle4.hpp.inc"
 )
 
-set_target_properties(Mathter PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON)
+set_target_properties(Mathter PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON INTERFACE_HEADER_SETS_TO_VERIFY headers)
 
 target_compile_features(Mathter INTERFACE cxx_std_17)
 
