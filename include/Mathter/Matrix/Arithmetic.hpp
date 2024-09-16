@@ -5,7 +5,6 @@
 
 #pragma once
 
-#include "../Common/OptimizationUtil.hpp"
 #include "../Vector/Arithmetic.hpp"
 #include "../Vector/Math.hpp"
 #include "Cast.hpp"

@@ -15,6 +15,9 @@
 #include <catch2/catch_template_test_macros.hpp>
 
 
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+
 using namespace mathter;
 using namespace test_util;
 
