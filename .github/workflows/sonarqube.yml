@@ -72,6 +72,7 @@ jobs:
           unzip TemplateCoverage_Linux_x86_64.zip
           chmod +x ./TemplateCoverage_Linux_x86_64/template-coverage
           export RESOURCE_DIR=$(clang++ -print-resource-dir)
+          sed -i 's/-x c++//g' ${{github.workspace}}/build/${{env.conan_preset}}/compile_commands.json
           python3 ./TemplateCoverage_Linux_x86_64/run_on_compile_commands.py -p ${{github.workspace}}/build/${{env.conan_preset}}/compile_commands.json ./TemplateCoverage_Linux_x86_64/template-coverage -- --format=lcov --out-file=${{github.workspace}}/template_coverage.info -extra-arg=-resource-dir=$RESOURCE_DIR
 
       - name: Test & code coverage
