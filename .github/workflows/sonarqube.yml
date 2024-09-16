@@ -66,13 +66,28 @@ jobs:
         run: |
           build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build --preset conan-${{ env.conan_preset }}
 
+      - name: Template coverage
+        run: |
+          wget https://github.com/petiaccja/TemplateCoverage/releases/download/v1.4.0/TemplateCoverage_Linux_x86_64.zip
+          unzip TemplateCoverage_Linux_x86_64.zip
+          chmod +x ./TemplateCoverage_Linux_x86_64/template-coverage
+          export RESOURCE_DIR=$(clang++ -print-resource-dir)
+          python3 ./TemplateCoverage_Linux_x86_64/run_on_compile_commands.py -p ${{github.workspace}}/build/${{env.conan_preset}}/compile_commands.json ./TemplateCoverage_Linux_x86_64/template-coverage -- --format=lcov --out-file=${{github.workspace}}/template_coverage.info -extra-arg=-resource-dir=$RESOURCE_DIR
+
       - name: Test & code coverage
         working-directory: ${{github.workspace}}/build/${{ env.conan_preset }}/bin
         shell: bash
         run: |
           ./UnitTest --reporter junit --out ${{github.workspace}}/tests.xml
           llvm-profdata-17 merge -sparse default.profraw -o coverage.profdata
-          llvm-cov-17 show ./UnitTest -instr-profile=coverage.profdata > ${{github.workspace}}/coverage.txt
+          llvm-cov-17 export -format=lcov -object ./UnitTest -instr-profile=coverage.profdata > ${{github.workspace}}/test_coverage.info
+        
+      - name: Merge coverage reports
+        uses: danielpalme/ReportGenerator-GitHub-Action@5.2.4
+        with:
+          reports: template_coverage.info;test_coverage.info
+          targetdir: coverage
+          reporttypes: SonarQube
   
       - name: Run sonar-scanner
         env:
