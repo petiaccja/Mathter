@@ -20,7 +20,9 @@ using namespace mathter;
 using namespace test_util;
 
 
+#if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic ignored "-Wunknown-attributes"
+#endif
 
 
 [[gnu::noinline, msvc::noinline]] void TestDefaultInit_Init(void* data, size_t size) {

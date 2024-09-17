@@ -15,7 +15,9 @@
 #include <catch2/catch_template_test_macros.hpp>
 
 
+#if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
 
 
 using namespace mathter;
@@ -62,7 +64,7 @@ TEMPLATE_LIST_TEST_CASE("Quaternion - Multiplication (quat x vector)", "[Quatern
 		REQUIRE((result == test_util::Approx(expected, 1e-6f)));
 	}
 	SECTION("Vec3 x Quat") {
-		const auto result = q * v;
+		const auto result = v * q;
 		static_assert(is_vector_v<std::decay_t<decltype(result)>>);
 		static_assert(dimension_v<std::decay_t<decltype(result)>> == 3);
 		REQUIRE((result == test_util::Approx(expected, 1e-6f)));

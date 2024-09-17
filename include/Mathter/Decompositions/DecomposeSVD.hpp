@@ -196,16 +196,12 @@ namespace impl {
 		const auto d = std::hypot(z, Real(2) * std::real(aoff), Real(2) * std::imag(aoff));
 		const auto Lma11 = Real(0.5) * (z + std::copysign(d, z));
 
-		const auto aoffMagApprox = ScaleElements(aoff);
-		const auto Lma11Mag = std::abs(Lma11);
-
-		std::tie(cv, sv) = aoffMagApprox > Lma11Mag ?
-							   std::tuple{ T(1), Lma11 / aoff } :
-							   std::tuple{ aoff / Lma11, T(1) };
-
+		// |Lma11| is always larger than |aoff|. Look at the formulas.
+		// This means that cv will never be infinity in the formula below.
+		assert(std::abs(aoff) < Real(2) * std::abs(Lma11)); // Check this to a constant factor.
+		std::tie(cv, sv) = std::tuple{ aoff / Lma11, T(1) };
 
 		const auto scale = std::sqrt(std::norm(cv) + std::norm(sv));
-
 		std::tie(cv, sv) = std::tuple(cv / scale, sv / scale);
 
 		return { cv, sv };
