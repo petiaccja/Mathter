@@ -5,8 +5,10 @@
 #include <utility>
 
 
+#if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunknown-attributes"
+#endif
 
 
 namespace mathter {
@@ -64,4 +66,6 @@ MATHTER_FORCEINLINE auto ForUnrolled(Fun&& fun, Args&&... args) -> std::enable_i
 } // namespace mathter
 
 
+#if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic pop
+#endif

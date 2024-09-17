@@ -122,6 +122,34 @@ TEMPLATE_LIST_TEST_CASE("Quaternion - LengthPrecise", "[Quaternion]",
 }
 
 
+TEMPLATE_LIST_TEST_CASE("Quaternion - Normalize", "[Quaternion]",
+						decltype(QuaternionCaseList<ScalarsFloating, QuatLayoutsAll, PackingsAll>{})) {
+	using Quat = typename TestType::Quat;
+
+	const Quat q(2, 5, 14, 0);
+	REQUIRE(Normalize(q) == test_util::Approx(Quat(2.f / 15, 5.f / 15, 14.f / 15, 0), 1e-6f));
+}
+
+
+TEMPLATE_LIST_TEST_CASE("Quaternion - NormalizePrecise", "[Quaternion]",
+						decltype(QuaternionCaseList<ScalarsFloating, QuatLayoutsAll, PackingsAll>{})) {
+	using Quat = typename TestType::Quat;
+
+	SECTION("Underflow") {
+		const Quat q(2e-30f, 5e-30f, 14e-30f, 0.0f);
+		REQUIRE(NormalizePrecise(q) == test_util::Approx(Quat(2.f / 15, 5.f / 15, 14.f / 15, 0), 1e-6f));
+	}
+	SECTION("Overflow") {
+		const Quat q(2e+20f, 5e+20f, 14e+20f, 0.0f);
+		REQUIRE(NormalizePrecise(q) == test_util::Approx(Quat(2.f / 15, 5.f / 15, 14.f / 15, 0), 1e-6f));
+	}
+	SECTION("Zero") {
+		const Quat q(0.0f, 0.0f, 0.0f, 0.0f);
+		REQUIRE(NormalizePrecise(q) == test_util::Approx(Quat(1, 0, 0, 0), 1e-6f));
+	}
+}
+
+
 TEMPLATE_LIST_TEST_CASE("Quaternion - Abs", "[Quaternion]",
 						decltype(QuaternionCaseList<ScalarsFloating, QuatLayoutsAll, PackingsAll>{})) {
 	using Quat = typename TestType::Quat;
