@@ -70,6 +70,21 @@ T Max(const Vector<T, Dim, Packed>& v) {
 }
 
 
+/// <summary> Clamps all elements into range [lower, upper]. </summary>
+template <class T, int Dim, bool Packed>
+Vector<T, Dim, Packed> Clamp(const Vector<T, Dim, Packed>& arg, T lower, T upper) {
+	using Vec = Vector<T, Dim, Packed>;
+	return Min(Max(arg, Vec(lower)), Vec(upper));
+}
+
+
+/// <summary> Clamps all elements into range [0, 1]. </summary>
+template <class T, int Dim, bool Packed>
+Vector<T, Dim, Packed> Saturate(const Vector<T, Dim, Packed>& arg) {
+	return Clamp(arg, T(0), T(1));
+}
+
+
 /// <summary> Computes a divisor that scales the vector so that its largest element is close to 1. </summary>
 /// <remarks> This is similar to dividing by the infinity norm, but it's much faster and
 ///		less accurate for complex numbers. </summary>

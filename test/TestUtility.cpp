@@ -68,29 +68,3 @@ TEMPLATE_LIST_TEST_CASE("Utility: Saturate / scalar", "[Utility]",
 		REQUIRE(Saturate(Scalar(0.5)) == Scalar(0.5));
 	}
 }
-
-
-TEMPLATE_LIST_TEST_CASE("Utility: Clamp / vector", "[Utility]",
-						decltype(VectorCaseList<ScalarsFloating, PackingsAll>{})) {
-	using Vec = typename TestType::template Vector<3>;
-	using Scalar = scalar_type_t<Vec>;
-	const Scalar lower(-3);
-	const Scalar upper(3);
-	const Vec value = { -4, 4, 2 };
-	const auto result = Clamp(value, lower, upper);
-	REQUIRE(result[0] == lower);
-	REQUIRE(result[1] == upper);
-	REQUIRE(result[2] == value[2]);
-}
-
-
-TEMPLATE_LIST_TEST_CASE("Utility: Saturate / vector", "[Utility]",
-						decltype(VectorCaseList<ScalarsFloating, PackingsAll>{})) {
-	using Vec = typename TestType::template Vector<3>;
-	using Scalar = scalar_type_t<Vec>;
-	const Vec value = { -1, 2, 0.5f };
-	const auto result = Saturate(value);
-	REQUIRE(result[0] == Scalar(0));
-	REQUIRE(result[1] == Scalar(1));
-	REQUIRE(result[2] == value[2]);
-}
