@@ -12,7 +12,7 @@ Introduction
 ---
 Mathter is a header-only linear algebra library for game development and scientific applications.
 
-*(Find out more in the [**guide**](docs/Guide.md) or in the examples folder.)*
+*Find out more in the [**guide**](docs/Guide.md) or in the examples folder. For information on recent changes, check the [changelog](CHANGELOG.md).*
 
 Why yet another 3D math library?
 - Existing libraries often have fixed conventions & notation, but Mathter is fully configurable:
