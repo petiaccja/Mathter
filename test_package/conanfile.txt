@@ -1,0 +1,9 @@
+[requires]
+xsimd/13.0.0
+
+[generators]
+CMakeDeps
+CMakeToolchain
+
+[layout]
+cmake_layout
