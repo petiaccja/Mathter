@@ -7,6 +7,7 @@
 
 #include "TypeTraits.hpp"
 
+#include <algorithm>
 #include <cmath>
 #include <type_traits>
 #include <algorithm>
