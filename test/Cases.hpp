@@ -4,6 +4,7 @@
 #include <Mathter/Common/Types.hpp>
 
 #include <complex>
+#include <tuple>
 #include <type_traits>
 
 

@@ -154,8 +154,8 @@ template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layo
 template <class T2, int Rows2, eMatrixLayout Layout2, bool Packed2>
 auto DecompositionLQ<T, Rows, Columns, Order, Layout, Packed>::Solve(const Matrix<T2, Rows2, Rows, Order, Layout2, Packed2>& b) const {
 	static_assert(Order == eMatrixOrder::FOLLOW_VECTOR, MATHTER_LQ_SOLVE_ORDER_ERROR);
-	return FlipLayoutAndOrder(DecompositionQR{ FlipLayoutAndOrder(Q), FlipLayoutAndOrder(L) }
-								  .Solve(FlipLayoutAndOrder(b)));
+	const auto qr = DecompositionQR{ FlipLayoutAndOrder(Q), FlipLayoutAndOrder(L) };
+	return FlipLayoutAndOrder(qr.Solve(FlipLayoutAndOrder(b)));
 }
 
 
@@ -163,14 +163,15 @@ template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layo
 template <class T2, bool Packed2>
 auto DecompositionLQ<T, Rows, Columns, Order, Layout, Packed>::Solve(const Vector<T2, Columns, Packed2>& b) const {
 	static_assert(Order == eMatrixOrder::FOLLOW_VECTOR, MATHTER_LQ_SOLVE_ORDER_ERROR);
-	return DecompositionQR{ FlipLayoutAndOrder(Q), FlipLayoutAndOrder(L) }.Solve(b);
+	const auto qr = DecompositionQR{ FlipLayoutAndOrder(Q), FlipLayoutAndOrder(L) };
+	return qr.Solve(b);
 }
 
 
 template <class T, int Rows, int Columns, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 auto DecompositionLQ<T, Rows, Columns, Order, Layout, Packed>::Inverse() const -> Matrix<T, Columns, Rows, Order, Layout, Packed> {
-	return FlipLayoutAndOrder(DecompositionQR{ FlipLayoutAndOrder(Q), FlipLayoutAndOrder(L) }
-								  .Inverse());
+	const auto qr = DecompositionQR{ FlipLayoutAndOrder(Q), FlipLayoutAndOrder(L) };
+	return FlipLayoutAndOrder(qr.Inverse());
 }
 
 

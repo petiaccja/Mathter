@@ -2,6 +2,9 @@
 
 
 #if MATHTER_ENABLE_SIMD
+// clang-format off
+#include <utility> // Include tuple for XSimd.
+// clang-format on
 #include <xsimd/xsimd.hpp>
 #endif
 
