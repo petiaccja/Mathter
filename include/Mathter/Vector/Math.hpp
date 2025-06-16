@@ -376,7 +376,8 @@ auto Cross(IterFirst first, IterLast last) -> std::enable_if_t<is_vector_v<Vec>,
 			throw std::invalid_argument("not enough arguments for cross product");
 		}
 		const auto& b = *first++;
-		return FMTA(Vector(a.yzx), Vector(b.zxy), -Vector(a.zxy), Vector(b.yzx));
+		Vector temp = Vector(a.zxy);
+		return FMTA(Vector(a.yzx), Vector(b.zxy), -temp, Vector(b.yzx));
 	}
 	else {
 		return impl::CrossND(first, last);
