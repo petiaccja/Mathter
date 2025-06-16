@@ -5,6 +5,7 @@
 
 #include <complex>
 #include <type_traits>
+#include <tuple>
 
 
 #define CASE_LIST(X) decltype(X{})

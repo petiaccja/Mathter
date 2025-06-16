@@ -39,8 +39,8 @@ struct DecompositionLU {
 
 
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-DecompositionLU(const Matrix<T, Dim, Dim, Order, Layout, Packed>&,
-				const Matrix<T, Dim, Dim, Order, Layout, Packed>&) -> DecompositionLU<T, Dim, Order, Layout, Packed>;
+DecompositionLU(Matrix<T, Dim, Dim, Order, Layout, Packed>,
+				Matrix<T, Dim, Dim, Order, Layout, Packed>) -> DecompositionLU<T, Dim, Order, Layout, Packed>;
 
 
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
@@ -73,7 +73,7 @@ auto DecompositionLU<T, Dim, Order, Layout, Packed>::Solve(const Vector<T2, Dim,
 
 
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
-auto mathter::DecompositionLU<T, Dim, Order, Layout, Packed>::Inverse() const -> Matrix<T, Dim, Dim, Order, Layout, Packed> {
+auto DecompositionLU<T, Dim, Order, Layout, Packed>::Inverse() const -> Matrix<T, Dim, Dim, Order, Layout, Packed> {
 	return Solve(Mat(Identity()));
 }
 
@@ -117,19 +117,21 @@ struct DecompositionLUP {
 
 
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed, class Int>
-DecompositionLUP(const Matrix<T, Dim, Dim, Order, Layout, Packed>&,
-				 const Matrix<T, Dim, Dim, Order, Layout, Packed>&,
-				 const Vector<Int, Dim, Packed>&) -> DecompositionLUP<T, Dim, Order, Layout, Packed>;
+DecompositionLUP(Matrix<T, Dim, Dim, Order, Layout, Packed>,
+				 Matrix<T, Dim, Dim, Order, Layout, Packed>,
+				 Vector<Int, Dim, Packed>) -> DecompositionLUP<T, Dim, Order, Layout, Packed>;
 
 
 template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packed>
 template <class T2, int Rows2, int Columns2, eMatrixLayout Layout2, bool Packed2>
 auto DecompositionLUP<T, Dim, Order, Layout, Packed>::Solve(const Matrix<T2, Rows2, Columns2, Order, Layout2, Packed2>& b) const {
 	if constexpr (Order == eMatrixOrder::PRECEDE_VECTOR) {
-		return DecompositionLU{ L, U }.Solve(Permute(b));
+		const auto lu = DecompositionLU{ L, U };
+		return lu.Solve(Permute(b));
 	}
 	else {
-		return InversePermute(DecompositionLU{ L, U }.Solve(b));
+		const auto lu = DecompositionLU{ L, U };
+		return InversePermute(lu.Solve(b));
 	}
 }
 

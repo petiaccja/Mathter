@@ -326,7 +326,7 @@ namespace impl {
 		std::array<std::optional<std::reference_wrapper<const Vec>>, Dim - 1> vectors;
 		auto [argIt, outIt] = std::tuple(first, vectors.begin());
 		for (; argIt != last && outIt != vectors.end(); ++argIt, ++outIt) {
-			*outIt = std::ref(*argIt);
+			*outIt = { std::ref(*argIt) };
 		}
 		if (outIt != vectors.end()) {
 			throw std::invalid_argument("not enough arguments for cross product");
@@ -376,7 +376,7 @@ auto Cross(IterFirst first, IterLast last) -> std::enable_if_t<is_vector_v<Vec>,
 			throw std::invalid_argument("not enough arguments for cross product");
 		}
 		const auto& b = *first++;
-		return FMTA(Vector(a.yzx), Vector(b.zxy), -Vector(a.zxy), Vector(b.yzx));
+		return FMTA(Vector(a.yzx), Vector(b.zxy), -std::move(Vector(a.zxy)), Vector(b.yzx)); // std::move due to CTAD bug in Clang 11.
 	}
 	else {
 		return impl::CrossND(first, last);

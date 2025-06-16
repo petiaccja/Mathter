@@ -14,6 +14,7 @@
 
 #include <iostream>
 #include <type_traits>
+#include <vector>
 
 namespace mathter {
 
