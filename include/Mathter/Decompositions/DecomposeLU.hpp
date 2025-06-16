@@ -126,10 +126,12 @@ template <class T, int Dim, eMatrixOrder Order, eMatrixLayout Layout, bool Packe
 template <class T2, int Rows2, int Columns2, eMatrixLayout Layout2, bool Packed2>
 auto DecompositionLUP<T, Dim, Order, Layout, Packed>::Solve(const Matrix<T2, Rows2, Columns2, Order, Layout2, Packed2>& b) const {
 	if constexpr (Order == eMatrixOrder::PRECEDE_VECTOR) {
-		return DecompositionLU{ L, U }.Solve(Permute(b));
+		DecompositionLU dec(L, U);
+		return dec.Solve(Permute(b));
 	}
 	else {
-		return InversePermute(DecompositionLU{ L, U }.Solve(b));
+		DecompositionLU dec(L, U);
+		return InversePermute(dec.Solve(b));
 	}
 }
 
