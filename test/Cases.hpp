@@ -4,8 +4,8 @@
 #include <Mathter/Common/Types.hpp>
 
 #include <complex>
-#include <type_traits>
 #include <tuple>
+#include <type_traits>
 
 
 #define CASE_LIST(X) decltype(X{})
